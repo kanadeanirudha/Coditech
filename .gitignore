@@ -2,10 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Coditech.Project/Admin/AdminCommom/Coditech.Admin.Utilities/bin/Debug/net6.0
-/Coditech.Project/Admin/AdminCommom/Coditech.Admin.Utilities/obj
-/Coditech.Project/Admin/AdminCommom/Coditech.Client/bin/Debug/net6.0
-/Coditech.Project/Admin/AdminCommom/Coditech.Client/obj
 /Coditech.Project/Admin/Coditech.Admin/bin/Debug/net6.0
 /Coditech.Project/Admin/Coditech.Admin/obj
 /Coditech.Project/API/Coditech.API.Organisation/bin/Debug/net6.0
