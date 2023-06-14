@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
 
-namespace Coditech.API.Organisation.Controllers
+namespace Coditech.API.Controllers
 {
     [ApiController]
     public class OrganisationController : BaseController
