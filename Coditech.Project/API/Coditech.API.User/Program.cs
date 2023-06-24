@@ -1,27 +1,11 @@
-using Coditech.API.Data;
-using Coditech.API.Mapper;
-using Coditech.API.Service;
-using Coditech.Common.Logger;
-
-using Microsoft.EntityFrameworkCore;
+using Coditech.API.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddAutoMapper(typeof(MapperConfig));
-builder.Services.AddDbContext<UserDBContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CoditechDatabase"));
-});
-
-// Add Dependency 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+/// <summary>
+/// Registers common services.
+/// </summary>
+builder.RegisterCommonServices();
 
 var app = builder.Build();
 
@@ -32,10 +16,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+/// <summary>
+/// Registers application services with the specified builder.
+/// </summary>
+app.RegisterApplicationServices(builder);
 
 app.Run();

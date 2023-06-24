@@ -3,6 +3,7 @@ using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.AspNetCore.Mvc;
@@ -27,13 +28,13 @@ namespace Coditech.API.Controllers
         /// <param name="model">User Model.</param>
         /// <returns>UserModel</returns>
         [Route("/User/Login")]
-        [HttpPost]
+        [HttpPost,ValidateModel]
         [Produces(typeof(OrganisationModel))]
         public virtual IActionResult Login([FromBody] UserLoginModel model)
         {
             try
             {
-                OrganisationModel user = _userService.Login(model);
+                UserModel user = _userService.Login(model);
                 return HelperUtility.IsNotNull(user) ? CreateOKResponse(user) : null;
 
             }

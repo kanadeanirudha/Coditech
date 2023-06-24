@@ -7,11 +7,11 @@ namespace Coditech.Common.API.Model
     {
         public UserModel()
         {
-            //RoleList = new List<AdminRoleModel>();
-            //ModuleList = new List<UserModuleModel>();
-            //MenuList = new List<UserMenuModel>();
-            //BalanceSheetList = new List<UserBalanceSheetModel>();
-            //AccessibleCentreList = new List<UserAccessibleCentreModel>();
+            RoleList = new List<AdminRoleModel>();
+            ModuleList = new List<UserModuleModel>();
+            MenuList = new List<UserMenuModel>();
+            BalanceSheetList = new List<UserBalanceSheetModel>();
+            AccessibleCentreList = new List<UserAccessibleCentreModel>();
         }
         public int UserMasterId { get; set; }
         public bool IsAdminUser { get; set; }
@@ -36,11 +36,10 @@ namespace Coditech.Common.API.Model
         public string SelectedBalanceSheet { get; set; }
         public int SelectedBalanceId { get; set; }
         public string SelectedCentreCode { get; set; } = string.Empty;
-        //public List<AdminRoleModel> RoleList { get; set; }
-        //public List<UserModuleModel> ModuleList { get; set; }
-        //public List<UserMenuModel> MenuList { get; set; }
-        //public List<UserBalanceSheetModel> BalanceSheetList { get; set; }
-        //public List<UserAccessibleCentreModel> AccessibleCentreList { get; set; }
-        //public List<GeneralTaxGroupMasterModel> TaxGroupMasterList { get; set; }
+        public List<AdminRoleModel> RoleList { get; set; }
+        public List<UserModuleModel> ModuleList { get; set; }
+        public List<UserMenuModel> MenuList { get; set; }
+        public List<UserBalanceSheetModel> BalanceSheetList { get; set; }
+        public List<UserAccessibleCentreModel> AccessibleCentreList { get; set; }
     }
 }

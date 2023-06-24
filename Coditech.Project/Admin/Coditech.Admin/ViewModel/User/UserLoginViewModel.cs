@@ -2,7 +2,7 @@
 
 namespace Coditech.Admin.ViewModel
 {
-    public class UserLoginViewModel
+    public class UserLoginViewModel : BaseViewModel
     {
         [Required]
         public string UserName { get; set; }

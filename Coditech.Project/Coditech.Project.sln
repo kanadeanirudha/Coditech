@@ -31,7 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Common.CacheManage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Common.API", "API\Comman\Coditech.Common.API\Coditech.Common.API.csproj", "{69FC5EDA-88AA-4F67-998D-08D6AA398A8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.API.Organisation", "API\Coditech.API.Organisation\Coditech.API.Organisation.csproj", "{13E4FCBA-8601-41E9-AEA4-104F5FB503BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.API.Organisation", "API\Coditech.API.Organisation\Coditech.API.Organisation.csproj", "{13E4FCBA-8601-41E9-AEA4-104F5FB503BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.API.Data", "API\Comman\Coditech.API.Data\Coditech.API.Data.csproj", "{C9D196C7-C2FF-4CF4-A47F-970A82D3A987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Resources", "Common\Coditech.Resources\Coditech.Resources.csproj", "{A936949E-DB9D-4555-B199-A6143DBEA361}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +83,14 @@ Global
 		{13E4FCBA-8601-41E9-AEA4-104F5FB503BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13E4FCBA-8601-41E9-AEA4-104F5FB503BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13E4FCBA-8601-41E9-AEA4-104F5FB503BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9D196C7-C2FF-4CF4-A47F-970A82D3A987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9D196C7-C2FF-4CF4-A47F-970A82D3A987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9D196C7-C2FF-4CF4-A47F-970A82D3A987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9D196C7-C2FF-4CF4-A47F-970A82D3A987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A936949E-DB9D-4555-B199-A6143DBEA361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A936949E-DB9D-4555-B199-A6143DBEA361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A936949E-DB9D-4555-B199-A6143DBEA361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A936949E-DB9D-4555-B199-A6143DBEA361}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +105,8 @@ Global
 		{63CCBF2E-0084-484D-84FC-AF5A48C5D073} = {1CFB8943-8EC3-4FC3-9340-780FF9B494CF}
 		{E179300E-8EFD-4DE2-BF04-9A69FE479AC7} = {56B5A9D6-463C-47DE-8366-6A5976E51406}
 		{69FC5EDA-88AA-4F67-998D-08D6AA398A8C} = {63CCBF2E-0084-484D-84FC-AF5A48C5D073}
+		{C9D196C7-C2FF-4CF4-A47F-970A82D3A987} = {63CCBF2E-0084-484D-84FC-AF5A48C5D073}
+		{A936949E-DB9D-4555-B199-A6143DBEA361} = {56B5A9D6-463C-47DE-8366-6A5976E51406}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C29948E7-3002-49F1-8F85-8AC9847A8945}

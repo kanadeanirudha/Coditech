@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Admin\AdminCommon\Coditech.Admin.Utilities\Coditech.Admin.Utilities.csproj" />
     <ProjectReference Include="..\..\..\Common\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
     <ProjectReference Include="..\..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
   </ItemGroup>

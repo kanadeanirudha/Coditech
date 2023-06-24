@@ -1,5 +1,8 @@
-﻿using Coditech.Common.API.Model;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
+
+using Microsoft.Extensions.Configuration;
 
 using Newtonsoft.Json;
 
@@ -8,8 +11,10 @@ namespace Coditech.API.Client
     public partial class UserClient : BaseClient, IUserClient
     {
         private System.Lazy<JsonSerializerSettings> _settings;
-        public UserClient()
+        private IConfiguration Configuration;
+        public UserClient(IConfiguration _configuration)
         {
+            Configuration = _configuration;
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
         private JsonSerializerSettings CreateSerializerSettings()
@@ -51,9 +56,8 @@ namespace Coditech.API.Client
         /// <exception cref="CoditechException">A server side error occurred.</exception>
         public virtual async Task<UserModel> LoginAsync(IEnumerable<string> expand, UserLoginModel body, System.Threading.CancellationToken cancellationToken)
         {
-            //string endpoint = "https://localhost:7202";// CoditechAdminSettings.CoditechApiRootUri;
-            //endpoint += "/" + "User/1";
-            string endpoint = "https://localhost:7202/User";
+            string endpoint = this.Configuration.GetSection("appsettings")["CoditechApiRootUri"];
+            endpoint += "/" + "User/Login";
             HttpResponseMessage response_ = null;
             var disposeResponse_ = true;
 
@@ -94,7 +98,7 @@ namespace Coditech.API.Client
                     response_.Dispose();
             }
         }
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {

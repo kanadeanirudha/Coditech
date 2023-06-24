@@ -1,22 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
-    <ProjectReference Include="..\..\Common\Coditech.Common.Helper\Coditech.Common.Helper.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
-    <ProjectReference Include="..\Coditech.API.Organisation\Coditech.API.Organisation.csproj" />
+    <ProjectReference Include="..\..\Common\Coditech.Resources\Coditech.Resources.csproj" />
+    <ProjectReference Include="..\Comman\Coditech.API.Data\Coditech.API.Data.csproj" />
     <ProjectReference Include="..\Comman\Coditech.Common.API\Coditech.Common.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

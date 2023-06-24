@@ -28,3 +28,8 @@
 /.vs
 /Coditech.Project/Admin/AdminCommon/Coditech.Admin.Utilities/bin/Debug/net6.0
 /Coditech.Project/Admin/AdminCommon/Coditech.Admin.Utilities/obj
+/Coditech.Project/API/Comman/Coditech.API.Data/bin/Debug/net6.0
+/Coditech.Project/API/Comman/Coditech.API.Data/obj
+/Coditech.Project/Common/Coditech.Resources/bin/Debug/net6.0
+/Coditech.Project/Common/Coditech.Resources/obj/Debug/net6.0
+/Coditech.Project/Common/Coditech.Resources/obj

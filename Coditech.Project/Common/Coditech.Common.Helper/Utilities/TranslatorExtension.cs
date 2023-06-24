@@ -13,8 +13,17 @@ namespace Coditech.Common.Helper.Utilities
         /// <typeparam name="TEntity">Translate Model to TEntity</typeparam>
         /// <param name="modelBase">BaseModel is extended class</param>
         /// <returns></returns>
-        public static TEntity ToEntity<TEntity>(this BaseModel modelBase)
+        public static TEntity FromModelToEntity<TEntity>(this BaseModel modelBase)
             => TranslatorInstance.Translate<TEntity>(modelBase);
+
+        /// <summary>
+        /// Transalate Entity to Model
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <param name="Entity"></param>
+        /// <returns></returns>
+        public static TModel FromEntityToModel<TModel>(this Object entity)
+            => TranslatorInstance.Translate<TModel>(entity);
 
         ///// <summary>
         ///// Translate Model to Entity
@@ -45,15 +54,7 @@ namespace Coditech.Common.Helper.Utilities
         public static IEnumerable<TEntity> ToEntity<TEntity, TModel>(this IEnumerable<TModel> collection)
             => TranslatorInstance.Translate<TEntity, TModel>(collection);
 
-        /// <summary>
-        /// Transalate Entity to Model
-        /// </summary>
-        /// <typeparam name="TModel"></typeparam>
-        /// <param name="Entity"></param>
-        /// <returns></returns>
-        public static TModel ToModel<TModel>(this Object entity)
-            => TranslatorInstance.Translate<TModel>(entity);
-
+       
         /// <summary>
         /// Transalate Entity to Model
         /// </summary>

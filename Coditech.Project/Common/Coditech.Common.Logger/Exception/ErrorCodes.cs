@@ -20,5 +20,6 @@
         public const Int32 NotPermitted = 7;
         public const Int32 IdLessThanOne = 8;
         public const Int32 ExceptionalError = 9;
+        public const Int32 ContactAdministrator = 10;
     }
 }

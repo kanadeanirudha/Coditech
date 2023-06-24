@@ -9,7 +9,7 @@ namespace Coditech.API.Mapper
     {
         public MapperConfig()
         {
-            CreateMap<GeneralDepartmentMaster,GeneralDepartmentMasterModel>().ReverseMap();
+            CreateMap<GeneralDepartmentMaster,GeneralDepartmentModel>().ReverseMap();
         }
     }
 }

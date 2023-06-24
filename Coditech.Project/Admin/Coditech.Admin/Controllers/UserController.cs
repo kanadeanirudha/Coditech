@@ -29,13 +29,32 @@ namespace Coditech.Admin.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Login(UserLoginViewModel viewModel)
+        public IActionResult Login(UserLoginViewModel userLoginViewModel)
         {
             if (ModelState.IsValid)
             {
-                UserLoginViewModel loginviewModel = _userAgent.Login(viewModel);
+                if (!string.IsNullOrEmpty(userLoginViewModel.UserName) && !string.IsNullOrEmpty(userLoginViewModel.Password))
+                {
+                    userLoginViewModel = _userAgent.Login(userLoginViewModel);
+                    if (!userLoginViewModel.HasError)
+                    {
+                        if (!string.IsNullOrEmpty(Request.Form["ReturnUrl"]))
+                        {
+                            return RedirectToAction(Request.Form["ReturnUrl"].ToString().Split('/')[2]);
+                        }
+                        else
+                        {
+                            //return RedirectToAction<DashboardController>(x => x.Index());
+                        }
+                    }
+                    ModelState.AddModelError("ErrorMessage", userLoginViewModel.ErrorMessage);
+                }
             }
-            return View();
+            else
+            {
+                ModelState.AddModelError("ErrorMessage", "Invalid Email Address or Password");
+            }
+            return View("~/Views/User/Login.cshtml", userLoginViewModel);
         }
     }
 }

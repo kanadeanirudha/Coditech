@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Coditech.Common.Helper\Coditech.Common.Helper.csproj" />
+    <ProjectReference Include="..\..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
   </ItemGroup>
 
 </Project>

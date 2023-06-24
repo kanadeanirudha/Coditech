@@ -34,6 +34,18 @@ namespace Coditech.Common.API
         }
         /// <summary>
         /// Creates an OK response message, and writes given 'data' string directly into response.Content without any handling
+        /// Instead of this method non-generic CreateOKResponse(string data); should be used.
+        /// </summary>
+        /// <typeparam name="T">Old implementation, now we don't need Type generic, but still </typeparam>
+        /// <param name="data">Must be a JSON serialized string, anything else may fail silently or create issue in API client.</param>
+        /// <returns>HttpResponseMessage having content object in StringContent format having UTF-8 encoding and application/json mimetype</returns>
+
+        protected IActionResult CreateOKResponse<T>(string data)
+        {
+            return CreateOKResponse(data);
+        }
+        /// <summary>
+        /// Creates an OK response message, and writes given 'data' string directly into response.Content without any handling
         /// </summary>
         /// <param name="data">Must be a JSON serialized string, anything else may fail silently or create issue in API client.</param>
         /// <returns>HttpResponseMessage having content object in StringContent format having UTF-8 encoding and application/json mimetype</returns>
@@ -45,10 +57,17 @@ namespace Coditech.Common.API
             };
             return response;
         }
+        protected IActionResult CreateCreatedResponse<T>(T data) => new CreatedResult("Created", data);
+
         protected IActionResult CreateUnauthorizedResponse<T>(T data)
         {
             return StatusCode(401, data);
         }
-
+        protected IActionResult CreateInternalServerErrorResponse<T>(T data)
+        {
+            return StatusCode(500, data);
+        }
+        protected IActionResult CreateInternalServerErrorResponse() => StatusCode(500);
+        protected IActionResult CreateNoContentResponse() => NoContent();
     }
 }

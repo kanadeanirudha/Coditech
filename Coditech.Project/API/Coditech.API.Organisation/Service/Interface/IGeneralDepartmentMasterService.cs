@@ -1,11 +1,16 @@
 ﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper.Utilities;
+
+using System.Collections.Specialized;
 
 namespace Coditech.API.Service
 {
     public interface IGeneralDepartmentMasterService
     {
-        GeneralDepartmentMasterModel Insert(GeneralDepartmentMasterModel model);
-        GeneralDepartmentMasterModel Get(short deneralDepartmentMasterId);
-        GeneralDepartmentMasterModel Update(GeneralDepartmentMasterModel model);
+        GeneralDepartmentListModel GetDepartmentList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        GeneralDepartmentModel CreateDepartment(GeneralDepartmentModel model);
+        GeneralDepartmentModel GetDepartment(short deneralDepartmentMasterId);
+        bool UpdateDepartment(GeneralDepartmentModel model);
+        bool DeleteDepartment(ParameterModel parameterModel);
     }
 }

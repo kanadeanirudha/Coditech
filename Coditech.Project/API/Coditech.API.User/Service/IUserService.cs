@@ -4,6 +4,6 @@ namespace Coditech.API.Service
 {
     public interface IUserService
     {
-        OrganisationModel Login(UserLoginModel model);
+        UserModel Login(UserLoginModel model);
     }
 }

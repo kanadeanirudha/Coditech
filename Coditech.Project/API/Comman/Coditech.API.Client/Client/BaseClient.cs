@@ -55,7 +55,7 @@ namespace Coditech.API.Client
                 if (!string.IsNullOrEmpty(_domainName))
                     return _domainName;
 
-                return settings["CoditechApiDomainName"];
+                return settings["ApiDomainName"];
             }
             set { _domainName = value; }
         }
@@ -67,7 +67,7 @@ namespace Coditech.API.Client
                 if (!string.IsNullOrEmpty(_domainKey))
                     return _domainKey;
 
-                return settings["CoditechApiDomainKey"];
+                return settings["ApiDomainKey"];
             }
             set { _domainKey = value; }
         }
