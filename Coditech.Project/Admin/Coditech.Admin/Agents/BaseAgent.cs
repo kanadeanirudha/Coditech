@@ -3,11 +3,6 @@ using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.Helper;
 
-using Microsoft.Net.Http.Headers;
-
-using System.Security.Cryptography;
-using System.Text;
-
 namespace Coditech.Admin.Agents
 {
     public abstract class BaseAgent
@@ -68,19 +63,6 @@ namespace Coditech.Admin.Agents
         //    return obj;
         //}
 
-
-        public static string MD5Hash(string input)
-        {
-            StringBuilder hash = new StringBuilder();
-            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
-            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(input));
-
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                hash.Append(bytes[i].ToString("x2"));
-            }
-            return hash.ToString();
-        }
 
         /// <summary>
         /// Gets an object from session.

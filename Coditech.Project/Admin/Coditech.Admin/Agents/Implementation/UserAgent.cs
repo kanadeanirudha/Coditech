@@ -38,7 +38,7 @@ namespace Coditech.Admin.Agents
             _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Info);
             try
             {
-                userLoginViewModel.Password = MD5Hash(userLoginViewModel.Password);
+               
                 UserModel userModel = _userClient.Login(null, new UserLoginModel()
                 {
                     UserName = userLoginViewModel.UserName,

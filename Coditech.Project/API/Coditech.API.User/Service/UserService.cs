@@ -39,6 +39,7 @@ namespace Coditech.API.Service
             if (IsNull(userLoginModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
+            userLoginModel.Password = MD5Hash(userLoginModel.Password);
             UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password);
 
             if (IsNull(userMasterData))

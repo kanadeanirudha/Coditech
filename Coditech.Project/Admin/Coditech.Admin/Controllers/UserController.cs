@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly IUserAgent _userAgent;
 
@@ -44,7 +44,7 @@ namespace Coditech.Admin.Controllers
                         }
                         else
                         {
-                            //return RedirectToAction<DashboardController>(x => x.Index());
+                            return RedirectToAction("Index", "Dashboard");
                         }
                     }
                     ModelState.AddModelError("ErrorMessage", userLoginViewModel.ErrorMessage);
