@@ -15,6 +15,18 @@ namespace Coditech.Admin.Controllers
             _userAgent = userAgent;
         }
 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public virtual ActionResult Index(string returnUrl)
+        {
+            //if (User.Identity.IsAuthenticated)
+            //    _userAgent.Logout();
+
+            //GetLoginRememberMeCookie();
+            return View("~/Views/Dashboard/Index.cshtml");
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult Login(string returnUrl)

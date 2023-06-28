@@ -162,6 +162,10 @@ namespace Coditech.Admin
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=User}/{action=Login}/{id?}");
+
+                routes.MapRoute(
+                  name: "default",
+                  template: "{controller=Dashboard}/{action=Index}/{id?}");
             });
         }
 
