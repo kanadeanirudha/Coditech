@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Coditech.API.Data;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +17,7 @@ namespace Coditech.API.Data
         private static string CreatedBy = "CreatedBy";
         private static string ModifiedDate = "ModifiedDate";
         private static string ModifiedBy = "ModifiedBy";
+        private static DateTime CurrentDateTime = DateTime.Now;
         public virtual bool IsUserWantToDebugSql { get; set; } = HelperMethods.IsUserWantToDebugSql;
 
         #endregion
@@ -103,6 +106,8 @@ namespace Coditech.API.Data
             {
                 if (Equals(entity, null))
                     throw new ArgumentNullException(nameof(entity));
+                int createdBy = Convert.ToInt32(entity.GetProperty("CreatedBy"));
+                int modifiedBy = Convert.ToInt32(entity.GetProperty("ModifiedBy"));
                 Entities.Add(entity);
                 int _result = SaveChangesToDB(_context, HelperMethods.GetLoginUserId());
             }
@@ -129,8 +134,8 @@ namespace Coditech.API.Data
             {
                 if (Equals(entity, null))
                     throw new ArgumentNullException(nameof(entity));
-                //int createdBy = Convert.ToInt32(entity.GetProperty("CreatedBy"));
-                //int modifiedBy = Convert.ToInt32(entity.GetProperty("ModifiedBy"));
+                int createdBy = Convert.ToInt32(entity.GetProperty("CreatedBy"));
+                int modifiedBy = Convert.ToInt32(entity.GetProperty("ModifiedBy"));
                 Entities.Add(entity);
                 int _result = SaveChangesToDB(_context, loginUserId);
             }
@@ -407,24 +412,24 @@ namespace Coditech.API.Data
             }
         }
 
-        //// Delete entity using filter condition
-        //public virtual bool Delete(string whereClause) => Delete(whereClause, null);
+        // Delete entity using filter condition
+        public virtual bool Delete(string whereClause) => Delete(whereClause, null);
 
-        //// Delete entity using filter condition
-        //public virtual bool Delete(string whereClause, object[] values)
-        //{
-        //    try
-        //    {
-        //        //TO DO : Replace 'Delete()' function with 'DeleteFromQuery' function.
-        //        int count = (!Equals(values, null)) ? Table.Where(whereClause, values).DeleteFromQuery() : Table.Where(whereClause).DeleteFromQuery();
-        //        return count > 0;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        EntityLogging.LogObject(typeof(IEnumerable<T>), whereClause, ex);
-        //        throw;
-        //    }
-        //}
+        // Delete entity using filter condition
+        public virtual bool Delete(string whereClause, object[] values)
+        {
+            try
+            {
+                //TO DO : Replace 'Delete()' function with 'DeleteFromQuery' function.
+                int count = (!Equals(values, null)) ? Table.Where(whereClause, values).DeleteFromQuery() : Table.Where(whereClause).DeleteFromQuery();
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                EntityLogging.LogObject(typeof(IEnumerable<T>), whereClause, ex);
+                throw;
+            }
+        }
 
         #endregion
 
@@ -458,12 +463,12 @@ namespace Coditech.API.Data
                             || navigationProperty.Equals(x.Name, StringComparison.InvariantCultureIgnoreCase))?.Name);
                 }
 
-                //if (!string.IsNullOrEmpty(where))
-                //{
-                //    dbQuery = (!Equals(values, null))
-                //             ? dbQuery.AsNoTracking().Where(where, values)
-                //             : dbQuery.AsNoTracking().Where(where);
-                //}
+                if (!string.IsNullOrEmpty(where))
+                {
+                    dbQuery = (!Equals(values, null))
+                             ? dbQuery.AsNoTracking().Where(where, values)
+                             : dbQuery.AsNoTracking().Where(where);
+                }
 
                 item = dbQuery.AsNoTracking().FirstOrDefault();
             }
@@ -530,19 +535,19 @@ namespace Coditech.API.Data
                 }
                 if (!string.IsNullOrEmpty(where))
                 {
-                    //dbQuery = (!Equals(values, null))
-                    //    ? (string.IsNullOrEmpty(orderBy))
-                    //    ? dbQuery.AsNoTracking().Where(where, values)
-                    //    : dbQuery.AsNoTracking().Where(where, values).OrderBy(orderBy)
-                    //: (string.IsNullOrEmpty(orderBy))
-                    //   ? dbQuery.AsNoTracking().Where(where)
-                    //   : dbQuery.AsNoTracking().Where(where).OrderBy(orderBy);
+                    dbQuery = (!Equals(values, null))
+                        ? (string.IsNullOrEmpty(orderBy))
+                        ? dbQuery.AsNoTracking().Where(where, values)
+                        : dbQuery.AsNoTracking().Where(where, values).OrderBy(orderBy)
+                    : (string.IsNullOrEmpty(orderBy))
+                       ? dbQuery.AsNoTracking().Where(where)
+                       : dbQuery.AsNoTracking().Where(where).OrderBy(orderBy);
                 }
                 else
                 {
-                    //dbQuery = (string.IsNullOrEmpty(orderBy))
-                    //    ? dbQuery
-                    //    : dbQuery.AsNoTracking().OrderBy(orderBy);
+                    dbQuery = (string.IsNullOrEmpty(orderBy))
+                        ? dbQuery
+                        : dbQuery.AsNoTracking().OrderBy(orderBy);
                 }
                 list = dbQuery.AsNoTracking().ToList<T>();
             }
@@ -594,19 +599,19 @@ namespace Coditech.API.Data
 
                 if (!string.IsNullOrEmpty(where))
                 {
-                    //dbQuery = (!Equals(values, null))
-                    //    ? (string.IsNullOrEmpty(orderBy))
-                    //    ? dbQuery.AsNoTracking().Where(where, values)
-                    //    : dbQuery.AsNoTracking().Where(where, values).OrderBy(orderBy)
-                    //: (string.IsNullOrEmpty(orderBy))
-                    //   ? dbQuery.AsNoTracking().Where(where)
-                    //   : dbQuery.AsNoTracking().Where(where).OrderBy(orderBy);
+                    dbQuery = (!Equals(values, null))
+                        ? (string.IsNullOrEmpty(orderBy))
+                        ? dbQuery.AsNoTracking().Where(where, values)
+                        : dbQuery.AsNoTracking().Where(where, values).OrderBy(orderBy)
+                    : (string.IsNullOrEmpty(orderBy))
+                       ? dbQuery.AsNoTracking().Where(where)
+                       : dbQuery.AsNoTracking().Where(where).OrderBy(orderBy);
                 }
                 else
                 {
-                    //dbQuery = (!string.IsNullOrEmpty(orderBy))
-                    //    ? dbQuery.AsNoTracking().OrderBy(orderBy)
-                    //    : dbQuery;
+                    dbQuery = (!string.IsNullOrEmpty(orderBy))
+                        ? dbQuery.AsNoTracking().OrderBy(orderBy)
+                        : dbQuery;
                 }
 
                 list = new PagedList<T>(dbQuery, pageIndex, pageSize, out totalCount);
@@ -653,9 +658,9 @@ namespace Coditech.API.Data
                 //Apply filter condition
                 if (!string.IsNullOrEmpty(where))
                 {
-                    //dbQuery = (!Equals(values, null))
-                    //    ? dbQuery.AsNoTracking().Where(where, values)
-                    //    : dbQuery.AsNoTracking().Where(where);
+                    dbQuery = (!Equals(values, null))
+                        ? dbQuery.AsNoTracking().Where(where, values)
+                        : dbQuery.AsNoTracking().Where(where);
                 }
                 else
                 {
@@ -723,13 +728,13 @@ namespace Coditech.API.Data
 
             foreach (var property in originalEntityEntry.OriginalValues.Properties)
             {
-                //var original = databaseEntity.GetValue<object>(property);
-                //var current = entity.GetProperty(property.Name);
-                //if (!Equals(original, current))
-                //{
-                //    originalEntityEntry.Property(property.Name).CurrentValue = current;
-                //    originalEntityEntry.Property(property.Name).IsModified = true;
-                //}
+                var original = databaseEntity.GetValue<object>(property);
+                var current = entity.GetProperty(property.Name);
+                if (!Equals(original, current))
+                {
+                    originalEntityEntry.Property(property.Name).CurrentValue = current;
+                    originalEntityEntry.Property(property.Name).IsModified = true;
+                }
             }
         }
 
@@ -750,13 +755,13 @@ namespace Coditech.API.Data
 
                 foreach (var property in originalEntityEntry.OriginalValues.Properties)
                 {
-                    //var original = databaseEntity.GetValue<object>(property);
-                    //var current = entity.GetProperty(property.Name);
-                    //if (!Equals(original, current))
-                    //{
-                    //    originalEntityEntry.Property(property.Name).CurrentValue = current;
-                    //    originalEntityEntry.Property(property.Name).IsModified = true;
-                    //}
+                    var original = databaseEntity.GetValue<object>(property);
+                    var current = entity.GetProperty(property.Name);
+                    if (!Equals(original, current))
+                    {
+                        originalEntityEntry.Property(property.Name).CurrentValue = current;
+                        originalEntityEntry.Property(property.Name).IsModified = true;
+                    }
                 }
             }
         }
@@ -780,14 +785,13 @@ namespace Coditech.API.Data
         }
         public void SetDataIntoEntity(EntityEntry dbEntry, int loginUserAccountId, int createdBy = 0, int modifiedBy = 0)
         {
-            //ICoditechTimeZone CoditechTimeZone = CoditechDependencyResolver.GetService<ICoditechTimeZone>();
             if (Equals(dbEntry.State, EntityState.Added))
             {
-                //dbEntry.Entity.SetPropertyValue(CreatedBy, (createdBy > 0) ? createdBy : loginUserAccountId);
-                //dbEntry.Entity.SetPropertyValue(ModifiedBy, (modifiedBy > 0) ? modifiedBy : loginUserAccountId);
+                dbEntry.Entity.SetPropertyValue(CreatedBy, (createdBy > 0) ? createdBy : loginUserAccountId);
+                dbEntry.Entity.SetPropertyValue(ModifiedBy, (modifiedBy > 0) ? modifiedBy : loginUserAccountId);
 
-                //dbEntry.Entity.SetPropertyValue(CreatedDate, CoditechTimeZone.GetEntityDateTime());
-                //dbEntry.Entity.SetPropertyValue(ModifiedDate, CoditechTimeZone.GetEntityDateTime());
+                dbEntry.Entity.SetPropertyValue(CreatedDate, CurrentDateTime);
+                dbEntry.Entity.SetPropertyValue(ModifiedDate, CurrentDateTime);
             }
             else if (Equals(dbEntry.State, EntityState.Modified))
             {
@@ -796,18 +800,18 @@ namespace Coditech.API.Data
                     if (Equals(property.Name, CreatedDate))
                     {
                         var CreatedDateTime = dbEntry.OriginalValues["CreatedDate"];
-                        //dbEntry.Entity.SetPropertyValue(CreatedDate, CreatedDateTime);
+                        dbEntry.Entity.SetPropertyValue(CreatedDate, CreatedDateTime);
                     }
                     if (Equals(property.Name, CreatedBy))
                     {
                         var CreatedByUser = dbEntry.OriginalValues["CreatedBy"];
-                        //dbEntry.Entity.SetPropertyValue(CreatedBy, CreatedByUser);
+                        dbEntry.Entity.SetPropertyValue(CreatedBy, CreatedByUser);
                     }
                 }
             }
 
-            //dbEntry.Entity.SetPropertyValue(ModifiedBy, modifiedBy > 0 ? modifiedBy : loginUserAccountId);
-            //dbEntry.Entity.SetPropertyValue(ModifiedDate, CoditechTimeZone.GetEntityDateTime());
+            dbEntry.Entity.SetPropertyValue(ModifiedBy, modifiedBy > 0 ? modifiedBy : loginUserAccountId);
+            dbEntry.Entity.SetPropertyValue(ModifiedDate, CurrentDateTime);
         }
 
         //Set the Entity Exception message.
