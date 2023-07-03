@@ -1,8 +1,7 @@
-﻿using Coditech.Admin.Utilities;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.Utilities;
 using Coditech.Common.Helper;
-using Coditech.Common.Helper.Utilities;
 
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.FileProviders;
@@ -33,8 +32,8 @@ namespace Coditech.Admin
             // Adds distributed sqlsessioncache and memorycache.
             builder.AddSession();
 
-            //// Adds caching in the application.
-            //builder.RegisterCaching();
+            // Adds caching in the application.
+            builder.RegisterCaching();
 
             // Extensions to scan for AutoMapper classes and register the configuration, mapping, and extensions with the service collection:
             //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -71,8 +70,8 @@ namespace Coditech.Admin
             //Assign value to automapper translator
             ConfigureAutomapperServices();
 
-            //// Adds a middleware type to the application's request pipeline.
-            //app.UseMiddleware<RequestMiddleware>();
+            // Adds a middleware type to the application's request pipeline.
+            app.UseMiddleware<RequestMiddleware>();
 
             // Adds the static file configurations with custom path.
             app.UseStaticFiles(builder);
@@ -162,10 +161,12 @@ namespace Coditech.Admin
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=User}/{action=Login}/{id?}");
-
                 routes.MapRoute(
-                  name: "default",
-                  template: "{controller=Dashboard}/{action=Index}/{id?}");
+                  name: "User-Logout",
+                  template: "{controller=User}/{action=Logout}/{id?}");
+                routes.MapRoute(
+                   name: "Dashboard-Index",
+                   template: "{controller=Dashboard}/{action=Index}/{id?}");
             });
         }
 
@@ -177,74 +178,6 @@ namespace Coditech.Admin
             // Assigned ZnoneTranslator to TranslatorExtension.
             TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<Translator>();
         }
-
-        /// <summary>
-        /// Adds a default implementation of <see cref="IDistributedCache"/> that stores items in memory
-        /// to the <see cref="IServiceCollection" />. Frameworks that require a distributed cache to work
-        /// can safely add this dependency as part of their dependency list to ensure that there is at least
-        /// one implementation available.
-        /// </summary>
-        /// <remarks>
-        /// <see cref="AddDistributedMemoryCache(IServiceCollection)"/> should only be used in single
-        /// server scenarios as this cache stores items in memory and doesn't expand across multiple machines.
-        /// For those scenarios it is recommended to use a proper distributed cache that can expand across
-        /// multiple machines.
-        /// </remarks>
-        /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
-        /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-        public static void AddSession(this WebApplicationBuilder builder)
-        {
-            SessionStateSettings.settings = builder.Configuration.GetSection("SessionState");
-
-            // Sql server session settings.
-            //if (SessionStateSettings.EnableSQLSession)
-            //    builder.Services.AddDistributedSqlServerCache(options =>
-            //    {
-            //        var data = SessionStateSettings.SessionTable;
-            //        options.ConnectionString = SessionStateSettings.SessionConnectionString;
-            //        options.SchemaName = SessionStateSettings.SessionSchema;
-            //        options.TableName = SessionStateSettings.SessionTable;
-            //        options.DefaultSlidingExpiration = TimeSpan.FromMinutes(SessionStateSettings.IdleTimeout);
-            //        options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(SessionStateSettings.DeletionInterval);
-            //    });
-            //else
-                // Distributed MemoryCache session settings.
-                builder.Services.AddDistributedMemoryCache();
-
-            /// <summary>
-            /// Adds services required for application session state.
-            /// </summary>
-            /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
-            /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(Convert.ToInt16(SessionStateSettings.IdleTimeout));
-                options.Cookie.IsEssential = true;
-            });
-        }
-
-        public static void AddCookieBaseAuthentication(this WebApplicationBuilder builder)
-        {
-            var appSetting = builder.Configuration.GetSection("appsettings");
-
-            /// <summary>
-            /// Registers services required by authentication services. <paramref name="defaultScheme"/> specifies the name of the
-            /// scheme to use by default when a specific scheme isn't requested.
-            /// </summary>
-            /// <param name="services">The <see cref="IServiceCollection"/>.</param>
-            /// <param name="defaultScheme">The default scheme used as a fallback for all other schemes.</param>
-            /// <returns>A <see cref="AuthenticationBuilder"/> that can be used to further configure authentication.</returns>
-            /// 
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(Convert.ToDouble(appSetting.GetSection("AuthenticationCookieExpireTimeSpan").Value));
-                options.SlidingExpiration = Convert.ToBoolean(appSetting.GetSection("AuthenticationSlidingExpiration").Value);
-                options.AccessDeniedPath = AdminConstants.LogoutPath;
-                options.LogoutPath = AdminConstants.LogoutPath;
-                options.LoginPath = AdminConstants.LoginPath;
-            });
-        }
+        #endregion
     }
-    #endregion
 }

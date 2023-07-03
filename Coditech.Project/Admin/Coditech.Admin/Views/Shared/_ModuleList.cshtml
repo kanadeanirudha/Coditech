@@ -1,0 +1,56 @@
+﻿@using Coditech.Admin.Utilities;
+@using Coditech.Common.API.Model;
+@model UserModel
+@{
+    Layout = null;
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = controllerName?.ToLower() == "dashboard" ? "Index" : "List";
+}
+
+<li class="has-submenu">
+    <a href="#">
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home align-self-center hori-menu-icon">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            @Model.SelectedModuleName
+        </span>
+    </a>
+    <ul class="submenu">
+        @foreach (UserModuleModel item in Model?.ModuleList)
+        {
+            <li>
+                <a href="/User/GetMenuListByModuleCode?moduleCode=@item.ModuleCode&controllerName=@controllerName&method=@actionName">
+                    <i class="ti ti-minus"></i>@item.ModuleName
+                </a>
+            </li>
+        }
+    </ul><!--end submenu-->
+   @* <ul class="submenu megamenu">
+        <li>
+            <ul>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-alerts.html"><i class="ti ti-minus"></i>Alerts</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-avatar.html"><i class="ti ti-minus"></i>Avatar</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-buttons.html"><i class="ti ti-minus"></i>Buttons</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-badges.html"><i class="ti ti-minus"></i>Badges</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-cards.html"><i class="ti ti-minus"></i>Cards</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-carousels.html"><i class="ti ti-minus"></i>Carousels</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-check-radio.html"><i class="ti ti-minus"></i>Check &amp; Radio</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-dropdowns.html"><i class="ti ti-minus"></i>Dropdowns</a></li>
+            </ul>
+        </li>
+        <li>
+            <ul>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-grids.html"><i class="ti ti-minus"></i>Grids</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-images.html"><i class="ti ti-minus"></i>Images</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-list.html"><i class="ti ti-minus"></i>List</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-modals.html"><i class="ti ti-minus"></i>Modals</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-navs.html"><i class="ti ti-minus"></i>Navs</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-navbar.html"><i class="ti ti-minus"></i>Navbar</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-paginations.html"><i class="ti ti-minus"></i>Paginations</a></li>
+                <li><a href="https://mannatthemes.com/dastone/default/ui-offcanvas.html"><i class="ti ti-minus"></i>Offcanvas</a></li>
+            </ul>
+        </li>
+    </ul>*@
+</li><!--end has-submenu-->

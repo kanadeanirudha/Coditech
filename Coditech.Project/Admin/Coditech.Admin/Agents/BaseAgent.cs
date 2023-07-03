@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.Utilities;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.Helper;
@@ -12,56 +13,84 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <typeparam name="T">The type of API client object.</typeparam>
         /// <returns>An API client object of type T.</returns>
-        protected T GetClient<T>(T obj) where T : IBaseClient
+        protected T GetClient<T>() where T : class
         {
+            var obj = Activator.CreateInstance<T>();
+
             if (!(obj is BaseClient)) return obj;
 
-            (obj as BaseClient).DomainName = System.Configuration.ConfigurationManager.AppSettings["ZnodeApiDomainName"];
-            (obj as BaseClient).DomainKey = System.Configuration.ConfigurationManager.AppSettings["ZnodeApiDomainKey"];
+            (obj as BaseClient).DomainName = System.Configuration.ConfigurationManager.AppSettings["ApiDomainName"];
+            (obj as BaseClient).DomainKey = System.Configuration.ConfigurationManager.AppSettings["ApiDomainKey"];
 
-            if (HttpContextHelper.Current?.User != null && HttpContextHelper.Current.User.Identity.IsAuthenticated)
+            if (HttpContextHelper.Current.User != null && HttpContextHelper.Current.User.Identity.IsAuthenticated)
             {
-                //var model = SessionProxyHelper.GetUserDetails();
-                //if (HelperUtility.IsNotNull(model))
-                //{
-                //    (obj as BaseClient).UserId = model.UserId;
-                //    (obj as BaseClient).RefreshCache = true;
-                //}
+                UserViewModel model = SessionProxyHelper.GetUserDetails();
+                if (HelperUtility.IsNotNull(model))
+                {
+                    (obj as BaseClient).UserId = model.UserId;
+                    (obj as BaseClient).RefreshCache = true;
+                }
             }
+
             return obj;
         }
 
-        ///// <summary>
-        ///// Get API client object with current domain name and key.
-        ///// </summary>
-        ///// <typeparam name="T">The type of API client object.</typeparam>
-        ///// <returns>An API client object of type T.</returns>
-        ///// <summary>
-        ///// Get API client object with current domain name and key.
-        ///// </summary>
-        ///// <typeparam name="T">The type of API client object.</typeparam>
-        ///// <returns>An API client object of type T.</returns>
-        //protected T GetClient<T>() where T : class
-        //{
-        //    var obj = Activator.CreateInstance<T>();
+        /// <summary>
+        /// Get API client object with current domain name and key.
+        /// </summary>
+        /// <typeparam name="T">The type of API client object.</typeparam>
+        /// <returns>An API client object of type T.</returns>
+        protected T GetClient<T>(T obj) where T : IBaseClient
+        {
+            if (!(obj is BaseClient)) return obj;
+            (obj as BaseClient).DomainName = System.Configuration.ConfigurationManager.AppSettings["ApiDomainName"];
+            (obj as BaseClient).DomainKey = System.Configuration.ConfigurationManager.AppSettings["ApiDomainKey"];
 
-        //    if (!(obj is BaseClient)) return obj;
-          
-        //    (obj as BaseClient).DomainName = System.Configuration.ConfigurationManager.AppSettings["ApiDomainName"];
-        //    (obj as BaseClient).DomainKey = System.Configuration.ConfigurationManager.AppSettings["ApiDomainKey"];
+            if (HttpContextHelper.Current.User != null && HttpContextHelper.Current.User.Identity.IsAuthenticated)
+            {
+                var model = SessionProxyHelper.GetUserDetails();
+                if (HelperUtility.IsNotNull(model))
+                {
+                    (obj as BaseClient).UserId = model.UserId;
+                    (obj as BaseClient).RefreshCache = true;
+                }
+            }
+            //TODO Team Hornbills 
+            //ICustomHeaders _headerAgent = GetService<ICustomHeaders>();
 
-        //    if (HttpContextHelper.Current.User != null && HttpContextHelper.Current.User.Identity.IsAuthenticated)
-        //    {
-        //        //var model = SessionProxyHelper.GetUserDetails();
-        //        //if (HelperUtility.IsNotNull(model))
-        //        //{
-        //        //    (obj as BaseClient).UserId = model.UserId;
-        //        //    (obj as BaseClient).RefreshCache = true;
-        //        //}
-        //    }
+            //if (HelperUtility.IsNotNull(_headerAgent))
+            //{
+            //    Dictionary<string, string> headers = _headerAgent.SetCustomHeaderOfClient();
 
-        //    return obj;
-        //}
+            //    int? count = headers?.Count;
+
+            //    if (count > 0)
+            //    {
+            //        for (int i = 0; i < count; i++)
+            //        {
+            //            switch (i.ToString())
+            //            {
+            //                case "0":
+            //                    (obj as BaseClient).Custom1 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
+            //                    break;
+            //                case "1":
+            //                    (obj as BaseClient).Custom2 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
+            //                    break;
+            //                case "2":
+            //                    (obj as BaseClient).Custom3 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
+            //                    break;
+            //                case "3":
+            //                    (obj as BaseClient).Custom4 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
+            //                    break;
+            //                case "4":
+            //                    (obj as BaseClient).Custom5 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
+            //                    break;
+            //            }
+            //        }
+            //    }
+            //}
+            return obj;
+        }
 
 
         /// <summary>

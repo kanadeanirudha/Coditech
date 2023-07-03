@@ -1,5 +1,4 @@
-﻿using Coditech.Admin.Utilities;
-using Coditech.Common.Helper;
+﻿using Coditech.Common.Helper;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
@@ -10,8 +9,6 @@ using Newtonsoft.Json;
 using System.Dynamic;
 
 using static Coditech.Common.Helper.CoditechDependencyResolver;
-
-
 
 namespace Coditech.Admin.Utilities
 {
@@ -30,7 +27,7 @@ namespace Coditech.Admin.Utilities
         public static void SaveDataInSession<T>(string key, T value)
         {
             RemoveDataFromSession(key);
-            HttpContext context = _staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
+            HttpContext context = CoditechDependencyResolver._staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
             //only InProc session mode will support CLR objects, hence no need of object serialization
             //but other modes (SQL or State server or any custom) may not support storing CLR objects, so in those cases serialization would be required
             switch (GetSessionStateMode())
@@ -56,7 +53,7 @@ namespace Coditech.Admin.Utilities
         {
             //only InProc session mode will support CLR objects, hence no need of object deserialization
             //but other modes (SQL or State server or any custom) may not support storing CLR objects, so in those cases deserialization would be required
-            HttpContext context = _staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
+            HttpContext context = CoditechDependencyResolver._staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
             switch (GetSessionStateMode())
             {
                 case SessionStateMode.InProc:
@@ -99,7 +96,7 @@ namespace Coditech.Admin.Utilities
         /// <param name="key">The key of the data to be removed.</param>
         public static void RemoveDataFromSession(string key)
         {
-            HttpContext context = _staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
+            HttpContext context = CoditechDependencyResolver._staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
             switch (GetSessionStateMode())
             {
                 case SessionStateMode.InProc:
@@ -141,6 +138,7 @@ namespace Coditech.Admin.Utilities
         /// <returns>The session state mode (InProc or SQLServer).</returns>
         public static SessionStateMode GetSessionStateMode()
         {
+            //HttpContext context = CoditechDependencyResolver._staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
             return SessionStateSettings.EnableSQLSession ? SessionStateMode.SQLServer : SessionStateMode.InProc;
         }
 
@@ -150,14 +148,14 @@ namespace Coditech.Admin.Utilities
         /// <returns>True if the session object is present, false otherwise.</returns>
         public static bool IsSessionObjectPresent()
         {
-            HttpContext context = _staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
+            HttpContext context = CoditechDependencyResolver._staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
             return !Equals(context?.Session, null);
         }
 
 
         public static void Clear()
         {
-            HttpContext context = _staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
+            HttpContext context = CoditechDependencyResolver._staticServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
             context.Session.Clear();
         }
 

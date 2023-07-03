@@ -1,24 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\API\Comman\Coditech.API.Client\Coditech.API.Client.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
+    <ProjectReference Include="..\..\Common\Coditech.Common.CacheManager\Coditech.Common.CacheManager.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Common.Helper\Coditech.Common.Helper.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Resources\Coditech.Resources.csproj" />
     <ProjectReference Include="..\AdminCommon\Coditech.Admin.Utilities\Coditech.Admin.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MediaFolder\" />
+    <Folder Include="wwwroot\css\assets\images\" />
+    <Folder Include="wwwroot\css\login\" />
+    <Folder Include="wwwroot\js\login\" />
   </ItemGroup>
 
 </Project>

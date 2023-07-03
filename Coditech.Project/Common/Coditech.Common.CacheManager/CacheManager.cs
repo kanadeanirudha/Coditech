@@ -1,7 +1,6 @@
-﻿using System.Runtime.Caching;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Runtime.Caching;
 
 namespace Coditech.Common.CacheManager
 {

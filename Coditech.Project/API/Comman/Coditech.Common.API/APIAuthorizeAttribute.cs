@@ -45,15 +45,14 @@ namespace Coditech.Common.API
             {
                 bool validFlag = true;
                 //If Authorization not required then return true
-                //if (!Convert.ToBoolean(ZnodeApiSettings.ValidateAuthHeader))
-                if (!Convert.ToBoolean(false))
+                if (!Convert.ToBoolean(ApiSettings.ValidateAuthHeader))
                     return validFlag;
 
                 //SkipAuthorization get sets to true when the action has the [AllowAnonymous] attribute, If true then skip authentication.
                 if (SkipAuthorization(actionContext))
                     return validFlag;
 
-                //if (ZnodeApiSettings.EnableTokenBasedAuthorization)
+                //if (ApiSettings.EnableTokenBasedAuthorization)
                 //{
                 //    var headers = actionContext.HttpContext.Request.Headers;
                 //    string? encodedString = headers.ContainsKey("Token") ? headers["Token"].First() : string.Empty;
@@ -116,7 +115,5 @@ namespace Coditech.Common.API
             Httpcode = httpstatus_code;
             HandleUnauthorizedRequest(actionContext);
         }
-
-
     }
 }

@@ -25,6 +25,8 @@ namespace Coditech.API.Client
         private string _domainKey;
         private int _apiRequestTimeout = 0;
         private string _DomainHeader;
+        public int UserId { get; set; }
+        public bool RefreshCache { get; set; }
         public int LoginAs { get; set; }
         private string LoginAsHeader => LoginAs > 0 ? $"LoginAsUserId: {LoginAs}" : string.Empty;
         ///// <summary>

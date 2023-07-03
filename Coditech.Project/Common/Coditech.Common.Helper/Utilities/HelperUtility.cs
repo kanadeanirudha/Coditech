@@ -56,5 +56,28 @@ namespace Coditech.Common.Helper
             }
             return hash.ToString();
         }
+
+        ///// <summary>
+        ///// Replaces the "client_ip" header in current HttpRequest object with the "x-forwarded-for" header value
+        ///// </summary>
+        public static void ReplaceProxyToClientIp()
+        {
+            try
+            {
+                // If a request is coming from a proxy server, "client_ip" header will have "proxy server's ip", in such case, replace it with actual IP received in "x-forwarded-for" header.
+                var fwdIp = HttpContextHelper.Current.Request.Headers["x-forwarded-for"];
+                //to do scrpions
+                //    if (fwdIp != null)
+                //    {
+                //        HttpContextHelper.Current.Features.Get<IServerVariablesFeature>() = fwdIp;
+                //    }
+                //}
+            }
+            catch
+            {
+                // Do not Throw any exception or  add a logs here 
+            }
+
+        }
     }
 }

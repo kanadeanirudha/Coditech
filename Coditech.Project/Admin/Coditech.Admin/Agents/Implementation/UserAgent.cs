@@ -3,8 +3,12 @@ using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 using System.Diagnostics;
 
@@ -26,12 +30,6 @@ namespace Coditech.Admin.Agents
         #endregion
         #region Public Methods
 
-        // This method is used to logout the user.
-        public virtual async Task Logout()
-        {
-            //await HttpContextHelper.Current.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            SessionHelper.Clear();
-        }
         // This method is used to login the user.
         public virtual UserLoginViewModel Login(UserLoginViewModel userLoginViewModel)
         {
@@ -46,7 +44,7 @@ namespace Coditech.Admin.Agents
                 });
                 if (IsNotNull(userModel))
                 {
-                    //SaveInSession<UserModel>(AdminConstants.UserDataSession, userModel);
+                    SaveInSession<UserModel>(AdminConstants.UserDataSession, userModel);
                 }
                 return userLoginViewModel;
             }
@@ -66,6 +64,15 @@ namespace Coditech.Admin.Agents
                 return (UserLoginViewModel)GetViewModelWithErrorMessage(userLoginViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
             }
         }
+
+
+        // This method is used to logout the user.
+        public virtual async Task Logout()
+        {
+            await HttpContextHelper.Current.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            SessionHelper.Clear();
+        }
+
         #endregion
     }
 }
