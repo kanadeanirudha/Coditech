@@ -5,9 +5,9 @@ using Coditech.Common.API.Model;
 
 namespace Coditech.API.Mapper
 {
-    public class MapperConfig : Profile
+    public class AutoMapperConfig : Profile
     {
-        public MapperConfig()
+        public AutoMapperConfig()
         {
             CreateMap<GeneralDepartmentMaster,GeneralDepartmentModel>().ReverseMap();
         }

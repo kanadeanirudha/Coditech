@@ -42,5 +42,19 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["CookieExpiresValue"]);
             }
         }
+        public static string CoditechUserApiRootUri
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechUserApiRootUri"]);
+            }
+        }
+        public static string CoditechOrganisationApiRootUri
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechOrganisationApiRootUri"]);
+            }
+        }
     }
 }

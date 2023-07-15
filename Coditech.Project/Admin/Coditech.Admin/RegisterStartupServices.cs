@@ -1,6 +1,6 @@
 ﻿using Coditech.Admin.Helpers;
-using Coditech.Admin.Utilities;
 using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -36,7 +36,7 @@ namespace Coditech.Admin
             builder.RegisterCaching();
 
             // Extensions to scan for AutoMapper classes and register the configuration, mapping, and extensions with the service collection:
-            //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
             // Adds MVC services to the specified <see cref="IServiceCollection" />.
@@ -161,12 +161,6 @@ namespace Coditech.Admin
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=User}/{action=Login}/{id?}");
-                routes.MapRoute(
-                  name: "User-Logout",
-                  template: "{controller=User}/{action=Logout}/{id?}");
-                routes.MapRoute(
-                   name: "Dashboard-Index",
-                   template: "{controller=Dashboard}/{action=Index}/{id?}");
             });
         }
 
@@ -175,8 +169,8 @@ namespace Coditech.Admin
         /// </summary>
         public static void ConfigureAutomapperServices()
         {
-            // Assigned ZnoneTranslator to TranslatorExtension.
-            TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<Translator>();
+            // Assigned Translator to TranslatorExtension.
+            TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<CoditechTranslator>();
         }
         #endregion
     }

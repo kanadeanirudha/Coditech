@@ -2,7 +2,9 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.Admin.Agents
 {
@@ -134,6 +136,43 @@ namespace Coditech.Admin.Agents
             viewModel.HasError = true;
             viewModel.ErrorMessage = errorMessage;
             return viewModel;
+        }
+
+        protected static SortCollection SortingByCreatedDate(string sortBy = AdminConstants.DESCKey)
+        {
+            SortCollection sortlist = new SortCollection();
+            sortlist.Add(SortKeys.CreatedDate, sortBy);
+            return sortlist;
+        }
+
+        protected static SortCollection SortingByModifiedDate(string sortBy = AdminConstants.DESCKey)
+        {
+            SortCollection sortlist = new SortCollection();
+            sortlist.Add(SortKeys.ModifiedDate, sortBy);
+            return sortlist;
+        }
+
+        protected static SortCollection SortingData(string sort, string sortBy)
+        {
+
+            if (!string.IsNullOrEmpty(sort))
+            {
+                SortCollection sortlist = new SortCollection();
+                sortlist.Add(sort, sortBy);
+                return sortlist;
+            }
+            return null;
+        }
+        protected void SetListPagingData(PageListViewModel pageListViewModel, BaseListModel listModel, DataTableViewModel dataTableModel, int totalRecordCount)
+        {
+            pageListViewModel.Page = Convert.ToInt32(listModel.PageIndex);
+            pageListViewModel.RecordPerPage = Convert.ToInt32(listModel.PageSize);
+            pageListViewModel.TotalPages = Convert.ToInt32(listModel.TotalPages);
+            pageListViewModel.TotalResults = Convert.ToInt32(listModel.TotalResults);
+            pageListViewModel.TotalRecordCount = Convert.ToInt32(totalRecordCount);
+            pageListViewModel.SearchBy = dataTableModel.SearchBy ?? string.Empty;
+            pageListViewModel.SortByColumn = dataTableModel.SortByColumn ?? string.Empty;
+            pageListViewModel.SortBy = dataTableModel.SortBy ?? string.Empty;
         }
     }
 }

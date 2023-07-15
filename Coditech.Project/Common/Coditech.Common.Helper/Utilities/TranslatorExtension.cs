@@ -54,7 +54,7 @@ namespace Coditech.Common.Helper.Utilities
         public static IEnumerable<TEntity> ToEntity<TEntity, TModel>(this IEnumerable<TModel> collection)
             => TranslatorInstance.Translate<TEntity, TModel>(collection);
 
-       
+
         /// <summary>
         /// Transalate Entity to Model
         /// </summary>
@@ -120,5 +120,44 @@ namespace Coditech.Common.Helper.Utilities
         /// <returns>IEnumerable<TDestination></returns>
         public static IEnumerable<TDestination> ToModel<TSource, TDestination>(this IEnumerable<TSource> source, IEnumerable<TDestination> destination)
             => TranslatorInstance.Translate<TSource, TDestination>(source, destination);
+
+        /// <summary>
+        /// Translate Model to ViewModel
+        /// </summary>
+        /// <typeparam name="TDTOModel">Translate Model to ViewModel</typeparam>
+        /// <param name="modelBase">APIBaseModel is extended class</param>
+        /// <returns></returns>
+        public static TDTOModel ToViewModel<TDTOModel>(this BaseModel modelBase)
+            => TranslatorInstance.Translate<TDTOModel>(modelBase);
+
+        /// <summary>
+        /// Translate Model to ViewModel
+        /// </summary>
+        /// <typeparam name="TDTOModel">TDTOModel is a destination model, having contraint TDTOModel is a BaseModel</typeparam>
+        /// <typeparam name="TModel">TModel is source model</typeparam>
+        /// <param name="Model">model is extended class</param>
+        /// <returns></returns>
+        public static TDTOModel ToViewModel<TDTOModel, TModel>(this TModel model) where TDTOModel : BaseModel
+            => TranslatorInstance.Translate<TDTOModel, TModel>(model);
+
+        /// <summary>
+        /// Translate Model collection to View Model
+        /// </summary>
+        /// <typeparam name="TDTOModel">TDTOModel is a destination model</typeparam>
+        /// <param name="collection">collection is extended APIBaseModel class list</param>
+        /// <returns></returns>
+        public static IEnumerable<TDTOModel> ToViewModel<TDTOModel>(this IEnumerable<BaseModel> collection)
+            => TranslatorInstance.Translate<TDTOModel>(collection);
+
+        /// <summary>
+        /// Translate Model collection to View Model
+        /// </summary>
+        /// <typeparam name="TDTOModel"></typeparam>
+        /// <typeparam name="TModel"></typeparam>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        public static IEnumerable<TDTOModel> ToViewModel<TDTOModel, TModel>(this IEnumerable<TModel> collection)
+            => TranslatorInstance.Translate<TDTOModel, TModel>(collection);
+
     }
 }

@@ -21,6 +21,7 @@ namespace Coditech.Admin.Agents
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IUserClient _userClient;
         #endregion
+
         #region Public Constructor
         public UserAgent(ICoditechLogging coditechLogging,IUserClient userClient)
         {

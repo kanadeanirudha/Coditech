@@ -29,7 +29,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDepartmentMaster/GetDepartmentList")]
         [Produces(typeof(GeneralDepartmentListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetDepartmentList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetDepartmentList(ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {

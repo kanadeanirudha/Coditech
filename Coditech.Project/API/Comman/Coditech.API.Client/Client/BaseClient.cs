@@ -13,18 +13,25 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using Coditech.Common.Helper.Utilities;
+using Coditech.Common.API;
+using System.Web;
+using System.Runtime;
 
 namespace Coditech.API.Client
 {
     public abstract class BaseClient
     {
         private static readonly ICoditechLogging _coditechLogging = CoditechDependencyResolver.GetService<ICoditechLogging>();
-
+        public string UriItemSeparator => ApiSettings.CoditechApiUriItemSeparator;
+        public string UriKeyValueSeparator => ApiSettings.CoditechApiUriKeyValueSeparator;
+        public string CommaReplacer => ApiSettings.CoditechCommaReplacer;
         private static IConfigurationSection settings = CoditechDependencyResolver.GetService<IConfiguration>().GetSection("appsettings");
         private string _domainName;
         private string _domainKey;
         private int _apiRequestTimeout = 0;
         private string _DomainHeader;
+        private string _localeId;
         public int UserId { get; set; }
         public bool RefreshCache { get; set; }
         public int LoginAs { get; set; }
@@ -73,6 +80,15 @@ namespace Coditech.API.Client
             }
             set { _domainKey = value; }
         }
+        public string LocaleHeader
+        {
+            get
+            {
+                return "Locale: " + _localeId;
+            }
+
+            set { _localeId = value; }
+        }
 
         //Get the IPAddress of the user.
         private string MinifiedJsonResponseHeader
@@ -100,6 +116,7 @@ namespace Coditech.API.Client
             return new StringBuilder(header).Append(": ").Append(value).ToString();
         }
 
+        #region Public
         /// <summary>
         /// Gets a resource from an endpoint.
         /// </summary>
@@ -317,6 +334,55 @@ namespace Coditech.API.Client
 
         }
 
+        public string BuildEndpointQueryString(IEnumerable<string> expand = null, IEnumerable<FilterTuple> filter = null, IDictionary<string, string> sort = null, int? pageIndex = null, int? pageSize = null, params string[] param) =>
+        string.Concat(BuildExpandQueryString(expand), BuildFilterQueryString(filter), BuildSortQueryString(sort), BuildPageIndexQueryString(pageIndex), BuildPageSizeQueryString(pageSize), CustomEndpoint(param));
+
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        {
+            if (response == null || response.Content == null)
+            {
+                return new ObjectResponseResult<T>(default(T), string.Empty);
+            }
+
+            if (ReadResponseAsString)
+            {
+                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    //var typedBody = JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    var typedBody = JsonConvert.DeserializeObject<T>(responseText);
+                    return new ObjectResponseResult<T>(typedBody, responseText);
+                }
+                catch (JsonException exception)
+                {
+                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+                    throw;
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var jsonTextReader = new JsonTextReader(streamReader))
+                    {
+                        //var serializer = JsonSerializer.Create(JsonSerializerSettings);
+                        var serializer = JsonSerializer.Create();
+                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                        return new ObjectResponseResult<T>(typedBody, string.Empty);
+                    }
+                }
+                catch (JsonException exception)
+                {
+                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+                    throw;
+                }
+            }
+        }
+        public bool ReadResponseAsString { get; set; }
+        #endregion
+        #region private
         private async Task<HttpResponseMessage> GetResultFromResponseAsync(HttpRequestMessage request, ApiStatus status, CancellationToken cancellationToken, string endpoint = "", string methodType = "", string data = "")
         {
             HttpResponseMessage response = new HttpResponseMessage();
@@ -664,13 +730,13 @@ namespace Coditech.API.Client
             _coditechLogging.LogMessage(stringBuilder.ToString(), "BaseClient", TraceLevel.Error);
 
         }
-        
+
         /// <summary>
-         /// Get Request Header Details
-         /// loop through Request Header collection and stores it's key-value pairwise detail in string
-         /// </summary>
-         /// <param name="collection">Request Header Collection</param>
-         /// <returns>string - Reqest Header Value and it's key</returns>
+        /// Get Request Header Details
+        /// loop through Request Header collection and stores it's key-value pairwise detail in string
+        /// </summary>
+        /// <param name="collection">Request Header Collection</param>
+        /// <returns>string - Reqest Header Value and it's key</returns>
         private string GetHeaderDetails(WebHeaderCollection collection)
         {
             string header = "Request Header Details - ";
@@ -818,6 +884,124 @@ namespace Coditech.API.Client
             if (response != null) status.StatusCode = response.StatusCode;
 
         }
+        private string BuildExpandQueryString(IEnumerable<string> expands)
+        {
+            string queryString = "?expand=";
 
+            if (expands != null)
+            {
+                foreach (string e in expands)
+                    queryString += e + UriItemSeparator;
+
+                queryString = queryString.TrimEnd(UriItemSeparator.ToCharArray());
+            }
+
+            return queryString;
+        }
+        private string BuildFilterQueryString(IEnumerable<FilterTuple> filters)
+        {
+            string queryString = "&filter=";
+
+            if (filters != null)
+            {
+                foreach (FilterTuple f in filters)
+                    queryString += $"{f.FilterName}{UriKeyValueSeparator}{f.FilterOperator}{UriKeyValueSeparator}{HttpUtility.UrlEncode(f.FilterValue?.Replace(",", CommaReplacer))}{UriItemSeparator}";
+
+                queryString = queryString.TrimEnd(UriItemSeparator.ToCharArray());
+            }
+
+            return queryString;
+
+        }
+
+        private string BuildSortQueryString(IDictionary<string, string> sorts)
+        {
+            string queryString = "&sort=";
+
+            if (sorts != null)
+            {
+                foreach (KeyValuePair<string, string> s in sorts)
+                    queryString += $"{s.Key}{UriKeyValueSeparator}{s.Value}{UriItemSeparator}";
+
+                queryString = queryString.TrimEnd(UriItemSeparator.ToCharArray());
+            }
+
+            return queryString;
+
+        }
+        private string BuildPageIndexQueryString(int? pageIndex)
+        {
+
+            if (pageIndex.HasValue)
+            {
+                string queryString = "&pageIndex=";
+                queryString += $"{pageIndex.Value}";
+                return queryString;
+            }
+            return string.Empty;
+        }
+
+        private string BuildPageSizeQueryString(int? pageSize)
+        {
+
+            if (pageSize.HasValue)
+            {
+                string queryString = "&pageSize=";
+                queryString += $"{pageSize.Value}";
+                return queryString;
+            }
+            return string.Empty;
+        }
+
+        private string CustomEndpoint(params string[] param)
+        {
+            string endpoint = string.Empty;
+            if (param == null || param.FirstOrDefault() == null)
+                return endpoint;
+            foreach (var parameter in param)
+            {
+                if (parameter.Contains("cache"))
+                {
+                    endpoint += BuildCacheRefreshQueryInString(endpoint);
+                }
+                else if (parameter.Contains("locale"))
+                {
+                    endpoint += BuildLocaleQueryInString(parameter);
+                }
+                else if (parameter.Contains(Convert.ToString(settings["EndpointSplitter"])))
+                {
+                    var stringArray = parameter.Split(Convert.ToString(settings["EndpointSplitter"]));
+                    endpoint += BuildCustomEndpointQueryInString(parameter, stringArray[0], stringArray[1]);
+                }
+                else
+                {
+                    return endpoint;
+                }
+            }
+
+            return endpoint;
+        }
+        private string BuildCacheRefreshQueryInString(string endpoint) => endpoint + "&cache=refresh";
+        private string BuildLocaleQueryInString(string endpoint)
+        => endpoint + "&locale=" + _localeId;
+
+        private string BuildCustomEndpointQueryInString(string endpoint, string key, string value)
+        => endpoint + $"&{key}=" + HttpUtility.UrlEncode(value);
+        #endregion
+
+        #region protected
+        protected struct ObjectResponseResult<T>
+        {
+            public ObjectResponseResult(T responseObject, string responseText)
+            {
+                this.Object = responseObject;
+                this.Text = responseText;
+            }
+
+            public T Object { get; }
+
+            public string Text { get; }
+        }
+        #endregion
     }
 }

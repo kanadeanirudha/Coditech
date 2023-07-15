@@ -2,8 +2,6 @@
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 
-using Microsoft.Extensions.Configuration;
-
 using Newtonsoft.Json;
 
 namespace Coditech.API.Client
@@ -11,10 +9,8 @@ namespace Coditech.API.Client
     public partial class UserClient : BaseClient, IUserClient
     {
         private System.Lazy<JsonSerializerSettings> _settings;
-        private IConfiguration Configuration;
-        public UserClient(IConfiguration _configuration)
+        public UserClient()
         {
-            Configuration = _configuration;
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
         private JsonSerializerSettings CreateSerializerSettings()
@@ -56,7 +52,7 @@ namespace Coditech.API.Client
         /// <exception cref="CoditechException">A server side error occurred.</exception>
         public virtual async Task<UserModel> LoginAsync(IEnumerable<string> expand, UserLoginModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = this.Configuration.GetSection("appsettings")["CoditechApiRootUri"];
+            string endpoint = CoditechAdminSettings.CoditechUserApiRootUri;
             endpoint += "/" + "User/Login";
             HttpResponseMessage response_ = null;
             var disposeResponse_ = true;
@@ -86,7 +82,7 @@ namespace Coditech.API.Client
                 else
                 {
                     string responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    OrganisationModel typedBody = JsonConvert.DeserializeObject<OrganisationModel>(responseData_, JsonSerializerSettings);
+                    UserModel typedBody = JsonConvert.DeserializeObject<UserModel>(responseData_, JsonSerializerSettings);
                     UpdateApiStatus(typedBody, status, response_);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -98,47 +94,47 @@ namespace Coditech.API.Client
                     response_.Dispose();
             }
         }
-        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
-        {
-            if (response == null || response.Content == null)
-            {
-                return new ObjectResponseResult<T>(default(T), string.Empty);
-            }
+        //protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        //{
+        //    if (response == null || response.Content == null)
+        //    {
+        //        return new ObjectResponseResult<T>(default(T), string.Empty);
+        //    }
 
-            if (ReadResponseAsString)
-            {
-                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    var typedBody = JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
-                    return new ObjectResponseResult<T>(typedBody, responseText);
-                }
-                catch (JsonException exception)
-                {
-                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw;
-                }
-            }
-            else
-            {
-                try
-                {
-                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
-                    using (var jsonTextReader = new JsonTextReader(streamReader))
-                    {
-                        var serializer = JsonSerializer.Create(JsonSerializerSettings);
-                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
-                        return new ObjectResponseResult<T>(typedBody, string.Empty);
-                    }
-                }
-                catch (JsonException exception)
-                {
-                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw;
-                }
-            }
-        }
+        //    if (ReadResponseAsString)
+        //    {
+        //        var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        //        try
+        //        {
+        //            var typedBody = JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+        //            return new ObjectResponseResult<T>(typedBody, responseText);
+        //        }
+        //        catch (JsonException exception)
+        //        {
+        //            var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+        //            throw;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+        //            using (var streamReader = new System.IO.StreamReader(responseStream))
+        //            using (var jsonTextReader = new JsonTextReader(streamReader))
+        //            {
+        //                var serializer = JsonSerializer.Create(JsonSerializerSettings);
+        //                var typedBody = serializer.Deserialize<T>(jsonTextReader);
+        //                return new ObjectResponseResult<T>(typedBody, string.Empty);
+        //            }
+        //        }
+        //        catch (JsonException exception)
+        //        {
+        //            var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+        //            throw;
+        //        }
+        //    }
+        //}
 
        
         protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }

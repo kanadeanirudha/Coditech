@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.API.Organisation",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.API.Data", "API\Comman\Coditech.API.Data\Coditech.API.Data.csproj", "{C9D196C7-C2FF-4CF4-A47F-970A82D3A987}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Resources", "Common\Coditech.Resources\Coditech.Resources.csproj", "{A936949E-DB9D-4555-B199-A6143DBEA361}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Resources", "Common\Coditech.Resources\Coditech.Resources.csproj", "{A936949E-DB9D-4555-B199-A6143DBEA361}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
