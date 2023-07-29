@@ -1,4 +1,4 @@
-﻿namespace Coditech.Admin.ViewModel
+﻿namespace Coditech.Common.Helper
 {
     public class PageListViewModel
     {

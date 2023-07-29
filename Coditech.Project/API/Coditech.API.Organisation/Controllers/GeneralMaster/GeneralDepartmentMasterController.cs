@@ -62,7 +62,7 @@ namespace Coditech.API.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DepartmentMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralDepartmentResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralDepartmentResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
@@ -73,23 +73,23 @@ namespace Coditech.API.Controllers
 
         [Route("/GeneralDepartmentMaster/GetDepartment")]
         [HttpGet]
-        [Produces(typeof(GeneralDepartmentModel))]
+        [Produces(typeof(GeneralDepartmentResponse))]
         public IActionResult GetDepartment(short deneralDepartmentMasterId)
         {
             try
             {
                 GeneralDepartmentModel generalDepartmentMasterModel = _generalDepartmentMasterService.GetDepartment(deneralDepartmentMasterId);
-                return IsNotNull(generalDepartmentMasterModel) ? CreateOKResponse(generalDepartmentMasterModel) : NotFound();
+                return IsNotNull(generalDepartmentMasterModel) ? CreateOKResponse(new GeneralDepartmentResponse { GeneralDepartmentModel = generalDepartmentMasterModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DepartmentMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralDepartmentModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralDepartmentResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DepartmentMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralDepartmentModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralDepartmentResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
@@ -106,7 +106,7 @@ namespace Coditech.API.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DepartmentMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralDepartmentResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralDepartmentResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {

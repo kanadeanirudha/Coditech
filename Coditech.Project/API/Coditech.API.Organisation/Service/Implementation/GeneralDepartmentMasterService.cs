@@ -50,9 +50,9 @@ namespace Coditech.API.Service
             if (IsNull(generalDepartmentModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsCodeAlreadyExist(generalDepartmentModel.DepartmentName))
+            if (IsCodeAlreadyExist(generalDepartmentModel.DepartmentShortCode))
             {
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Department name"));
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Short Code"));
             }
 
             GeneralDepartmentMaster generalDepartmentMaster = generalDepartmentModel.FromModelToEntity<GeneralDepartmentMaster>();

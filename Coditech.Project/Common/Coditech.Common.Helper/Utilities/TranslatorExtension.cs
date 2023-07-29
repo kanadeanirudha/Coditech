@@ -159,5 +159,14 @@ namespace Coditech.Common.Helper.Utilities
         public static IEnumerable<TDTOModel> ToViewModel<TDTOModel, TModel>(this IEnumerable<TModel> collection)
             => TranslatorInstance.Translate<TDTOModel, TModel>(collection);
 
+        /// <summary>
+        /// Transalate View Model to Model
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        public static TModel ToModel<TModel>(this BaseViewModel viewModel)
+            => TranslatorInstance.Translate<TModel>(viewModel);
+
     }
 }

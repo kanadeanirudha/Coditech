@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="MediaFolder\" />
-    <Folder Include="wwwroot\css\assets\images\" />
     <Folder Include="wwwroot\css\login\" />
     <Folder Include="wwwroot\js\login\" />
   </ItemGroup>

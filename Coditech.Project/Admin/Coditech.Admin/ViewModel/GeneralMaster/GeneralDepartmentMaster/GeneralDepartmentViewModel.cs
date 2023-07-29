@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Coditech.Common.Helper;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
 {

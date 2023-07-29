@@ -56,5 +56,13 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["CoditechOrganisationApiRootUri"]);
             }
         }
+
+        public static string NotificationMessagesIsFadeOut
+        {
+            get
+            {
+                return Convert.ToString(settings["NotificationMessagesIsFadeOut"]);
+            }
+        }
     }
 }

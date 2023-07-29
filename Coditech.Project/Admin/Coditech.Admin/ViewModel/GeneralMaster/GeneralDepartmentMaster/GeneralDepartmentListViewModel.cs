@@ -1,4 +1,6 @@
-﻿namespace Coditech.Admin.ViewModel
+﻿using Coditech.Common.Helper;
+
+namespace Coditech.Admin.ViewModel
 {
     public class GeneralDepartmentListViewModel : BaseViewModel
     {

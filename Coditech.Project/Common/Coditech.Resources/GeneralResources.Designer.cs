@@ -61,15 +61,6 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Already Exists..
-        /// </summary>
-        public static string AlreadyExists {
-            get {
-                return ResourceManager.GetString("AlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CancelButton {
