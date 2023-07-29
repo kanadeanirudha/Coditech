@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Coditech.Common.Logger
+﻿namespace Coditech.Common.Logger
 {
     public static class CoditechLoggingEnum
     {
@@ -19,7 +13,8 @@ namespace Coditech.Common.Logger
         {
             UserLogin, 
             Organisation,
-            DepartmentMaster
+            DepartmentMaster,
+            CountryMaster
         }
     }
 }
