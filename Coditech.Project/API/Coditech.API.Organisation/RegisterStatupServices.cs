@@ -224,6 +224,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IOrganisationService, OrganisationService>();
             builder.Services.AddScoped<IGeneralDepartmentMasterService, GeneralDepartmentMasterService>();
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
+            builder.Services.AddScoped<IGeneralCountryMasterService, GeneralCountryMasterService>();
         }
         #endregion
     }

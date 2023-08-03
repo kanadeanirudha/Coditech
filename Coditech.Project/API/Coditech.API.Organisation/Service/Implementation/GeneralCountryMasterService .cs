@@ -120,26 +120,7 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
-        //Get Country list.
-        public virtual GeneralCountryListModel GetCountryByCentreCode(string centreCode)
-        {
-            GeneralCountryListModel list = new GeneralCountryListModel();
-            list.GeneralCountryList = (from a in _generalCountryMasterRepository.Table
-                                          join b in _organisationCentrewiseDepartmentRepository.Table
-                                          on a.GeneralCountryMasterId equals b.CountryId
-                                       where (b.CentreCode == centreCode || centreCode == null)
-                                          select new GeneralCountryModel()
-                                          {
-                                              GeneralCountryMasterId = a.GeneralCountryMasterId,
-                                              CountryName = a.CountryName,
-                                              CountryCode = a.CountryCode,
-                                              PrintShortDesc = a.PrintShortDesc
-                                          })?.ToList();
-            return list;
-        }
-
         #region Protected Method
-
         //Check if Country code is already present or not.
         protected virtual bool IsCodeAlreadyExist(string countryName)
          => _generalCountryMasterRepository.Table.Any(x => x.CountryName == countryName);
