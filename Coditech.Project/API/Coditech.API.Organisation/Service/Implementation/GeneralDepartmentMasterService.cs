@@ -31,7 +31,7 @@ namespace Coditech.API.Service
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<GeneralDepartmentModel> objStoredProc = new CoditechViewRepository<GeneralDepartmentModel>();
+            CoditechViewRepository<GeneralDepartmentModel> objStoredProc = new CoditechViewRepository<GeneralDepartmentModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@WhereClause", null/*pageListModel?.SPWhereClause*/, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
@@ -50,7 +50,7 @@ namespace Coditech.API.Service
             if (IsNull(generalDepartmentModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsCodeAlreadyExist(generalDepartmentModel.DepartmentShortCode))
+            if (IsNameAlreadyExist(generalDepartmentModel.DepartmentShortCode))
             {
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Short Code"));
             }
@@ -110,7 +110,7 @@ namespace Coditech.API.Service
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DepartmentID"));
 
-            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>();
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("DepartmentId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
@@ -140,7 +140,7 @@ namespace Coditech.API.Service
         #region Protected Method
 
         //Check if Department code is already present or not.
-        protected virtual bool IsCodeAlreadyExist(string departmentName)
+        protected virtual bool IsNameAlreadyExist(string departmentName)
          => _generalDepartmentMasterRepository.Table.Any(x => x.DepartmentName == departmentName);
         #endregion
     }

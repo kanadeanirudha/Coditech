@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Client\GeneralMaster\GeneralTaxMasterClient .cs" />
+    <Compile Remove="IClient\GeneralMaster\IGeneralTaxMasterClient.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Admin\AdminCommon\Coditech.Admin.Utilities\Coditech.Admin.Utilities.csproj" />
     <ProjectReference Include="..\..\..\Common\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
     <ProjectReference Include="..\..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />

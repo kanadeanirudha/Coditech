@@ -1,6 +1,7 @@
 ﻿using Dapper;
 
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 using System.Data;
 
@@ -13,7 +14,6 @@ namespace Coditech.API.Data
         private readonly CoditechDbContext _context;
         DynamicParameters dynamicParameterList = new DynamicParameters();
         public string ReturnParameter = string.Empty;
-        private string connectionString = "Server=45.35.13.71;Database=RARIndia;User Id=sa;Password=saralsoftservices0098#$; TrustServerCertificate=True";
         #endregion
 
         #region Constructor
@@ -89,8 +89,7 @@ namespace Coditech.API.Data
             totalRowCount = 0;
             try
             {
-                //using IDbConnection db = new SqlConnection(this._context.Database.GetConnectionString());
-                using IDbConnection db = new SqlConnection(connectionString);
+                using IDbConnection db = new SqlConnection(this._context.Database.GetConnectionString());
                 var result = db.Query<T>(sql: "exec " + commandText, param: dynamicParameterList, commandTimeout: storedProcedureTimeOut).ToList();
 
                 if (!Equals(result, null) && indexOutParamater.HasValue)

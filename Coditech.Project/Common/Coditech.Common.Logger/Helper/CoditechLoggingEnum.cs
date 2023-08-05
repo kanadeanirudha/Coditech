@@ -14,7 +14,8 @@
             UserLogin, 
             Organisation,
             DepartmentMaster,
-            CountryMaster
+            CountryMaster,
+            TaxMaster
         }
     }
 }

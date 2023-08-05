@@ -5,9 +5,10 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Collections.Specialized;
 using System.Data;
-using System;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
@@ -17,29 +18,27 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralTaxMaster> _generalTaxMasterRepository;
-        private readonly ICoditechRepository<OrganisationCentrewiseDepartment> _organisationCentrewiseDepartmentRepository;
         public GeneralTaxMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalTaxMasterRepository = new CoditechRepository<GeneralTaxMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _organisationCentrewiseDepartmentRepository = new CoditechRepository<OrganisationCentrewiseDepartment>(_serviceProvider.GetService<Coditech_Entities>());
         }
         
         public virtual GeneralTaxMasterListModel GetTaxMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<GeneralTaxMasterModel> objStoredProc = new CoditechViewRepository<GeneralTaxMasterModel>();
+            CoditechViewRepository<GeneralTaxMasterModel> objStoredProc = new CoditechViewRepository<GeneralTaxMasterModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@WhereClause", null/*pageListModel?.SPWhereClause*/, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralTaxMasterModel> TaxMasterList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetTaxList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralTaxMasterModel> taxMasterList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetTaxList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GeneralTaxMasterListModel listModel = new GeneralTaxMasterListModel();
             
-            listModel.GeneralTaxMasterList = TaxMasterList?.Count > 0 ? TaxMasterList : new List<GeneralTaxMasterModel>();
+            listModel.GeneralTaxMasterList = taxMasterList?.Count > 0 ? taxMasterList : new List<GeneralTaxMasterModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
@@ -49,12 +48,11 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalTaxMasterModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsCodeAlreadyExist(generalTaxMasterModel.TaxName))
+            if (IsNameAlreadyExist(generalTaxMasterModel.TaxName))
             {
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Name"));
             }
             GeneralTaxMaster generalTaxMaster = generalTaxMasterModel.FromModelToEntity<GeneralTaxMaster>();
-            
             
             //Create new Tax Master and return it.
             GeneralTaxMaster taxMasterData = _generalTaxMasterRepository.Insert(generalTaxMaster);
@@ -71,14 +69,14 @@ namespace Coditech.API.Service
         }
 
         //Get Tax Master by GeneralTaxMasterId.
-        public GeneralTaxMasterModel GetTaxMaster(int TaxMasterId)
+        public GeneralTaxMasterModel GetTaxMaster(short TaxMasterId)
         {
             if (TaxMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxMasterId"));
 
             //Get the Tax Master Details based on id.
-            GeneralTaxMaster TaxMasterData = _generalTaxMasterRepository.Table.FirstOrDefault(x => x.GeneralTaxMasterId == TaxMasterId);
-            GeneralTaxMasterModel generalTaxMasterModel = TaxMasterData.FromEntityToModel<GeneralTaxMasterModel>();
+            GeneralTaxMaster taxMasterData = _generalTaxMasterRepository.Table.FirstOrDefault(x => x.GeneralTaxMasterId == TaxMasterId);
+            GeneralTaxMasterModel generalTaxMasterModel = taxMasterData.FromEntityToModel<GeneralTaxMasterModel>();
             return generalTaxMasterModel;
         }
 
@@ -109,18 +107,17 @@ namespace Coditech.API.Service
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxMasterId"));
 
-            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>();
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("TaxMasterId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
             objStoredProc.ExecuteStoredProcedureList("RARIndia_DeleteTaxMaster @TaxMasterId,  @Status OUT", 1, out status);
-
             return status == 1 ? true : false;
         }
 
         #region Protected Method
         //Check if Tax Name is already present or not.
-        protected virtual bool IsCodeAlreadyExist(string taxName)
+        protected virtual bool IsNameAlreadyExist(string taxName)
          => _generalTaxMasterRepository.Table.Any(x => x.TaxName == taxName);
         #endregion
     }
