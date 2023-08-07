@@ -26,7 +26,7 @@ namespace Coditech.API.Controllers
         /// </summary>
         /// <param name="model">Organisation Model.</param>
         /// <returns>OrganisationModel</returns>
-        [Route("/Organisation/Login")]
+        [Route("/Organisation/UpdateOrganisation")]
         [HttpPost]
         [Produces(typeof(OrganisationModel))]
         public IActionResult UpdateOrganisation([FromBody] OrganisationModel model)
