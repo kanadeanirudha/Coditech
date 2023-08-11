@@ -18,7 +18,7 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralTaxGroupMaster> _generalTaxGroupMasterRepository;
-        publicGeneralTaxGroupMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public GeneralTaxGroupMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
