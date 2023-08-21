@@ -2,6 +2,6 @@
 {
     public class GeneralCityListResponse : BaseListResponse
     {
-        public List<GeneralCityModel> GeneralCityList { get; set; }
+        public List<GeneralCityMasterModel> GeneralCityList { get; set; }
     }
 }

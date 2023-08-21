@@ -8,9 +8,9 @@ namespace Coditech.API.Service
     public interface IGeneralCityMasterService
     {
         GeneralCityListModel GetCityList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        GeneralCityModel CreateCity(GeneralCityModel model);
-        GeneralCityModel GetCity(short generalCityMasterId);
-        bool UpdateCity(GeneralCityModel model);
+        GeneralCityMasterModel CreateCity(GeneralCityMasterModel model);
+        GeneralCityMasterModel GetCity(int generalCityMasterId);
+        bool UpdateCity(GeneralCityMasterModel model);
         bool DeleteCity(ParameterModel parameterModel);
     }
 }

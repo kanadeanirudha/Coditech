@@ -27,26 +27,26 @@ namespace Coditech.API.Service
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<GeneralCityModel> objStoredProc = new CoditechViewRepository<GeneralCityModel>(_serviceProvider.GetService<Coditech_Entities>());
+            CoditechViewRepository<GeneralCityMasterModel> objStoredProc = new CoditechViewRepository<GeneralCityMasterModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@WhereClause", null/*pageListModel?.SPWhereClause*/, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralCityModel> cityList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetCityList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralCityMasterModel> cityList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetCityList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GeneralCityListModel listModel = new GeneralCityListModel();
 
-            listModel.GeneralCityList = cityList?.Count > 0 ? cityList : new List<GeneralCityModel>();
+            listModel.GeneralCityList = cityList?.Count > 0 ? cityList : new List<GeneralCityMasterModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
 
         //Create City.
-        public GeneralCityModel CreateCity(GeneralCityModel generalCityModel)
+        public GeneralCityMasterModel CreateCity(GeneralCityMasterModel generalCityModel)
         {
             if (IsNull(generalCityModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalCityModel.CityCode))
+            if (IsNameAlreadyExist(generalCityModel.CityName))
             {
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "City Code"));
             }
@@ -67,19 +67,19 @@ namespace Coditech.API.Service
         }
 
         //Get City by City id.
-        public GeneralCityModel GetCity(int cityId)
+        public GeneralCityMasterModel GetCity(int cityId)
         {
             if (cityId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "CityID"));
 
             //Get the City Details based on id.
-            GeneralCityMaster cityData = _generalCityMasterRepository.Table.FirstOrDefault(x => x.GeneralCityMasterId == CityID);
-            GeneralCityModel generalCityModel = cityData.FromEntityToModel<GeneralCityModel>();
+            GeneralCityMaster cityData = _generalCityMasterRepository.Table.FirstOrDefault(x => x.GeneralCityMasterId == cityId);
+            GeneralCityMasterModel generalCityModel = cityData.FromEntityToModel<GeneralCityMasterModel>();
             return generalCityModel;
         }
 
         //Update City.
-        public virtual bool UpdateCity(GeneralCityModel generalCityModel)
+        public virtual bool UpdateCity(GeneralCityMasterModel generalCityModel)
         {
             if (IsNull(generalCityModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);

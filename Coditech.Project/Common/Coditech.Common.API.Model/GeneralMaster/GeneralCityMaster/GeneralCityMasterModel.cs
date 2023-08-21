@@ -4,10 +4,6 @@ namespace Coditech.Common.API.Model
 {
     public class GeneralCityMasterModel : BaseModel
     {
-        public GeneralCityMasterModel()
-        {
-
-        }
         public int GeneralCityMasterId { get; set; }
         public string CityName { get; set; }
         public string RegionName { get; set; }

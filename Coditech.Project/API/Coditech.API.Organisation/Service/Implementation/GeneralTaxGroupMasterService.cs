@@ -75,7 +75,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxGroupMasterId"));
 
             //Get the Tax Group Master Details based on id.
-            GeneralTaxGroupMaster taxGroupMasterData = _generalTaxGroupMasterRepository.Table.FirstOrDefault(x => x.GeneralTaxGroupMasterId == TaxGroupMasterId);
+            GeneralTaxGroupMaster taxGroupMasterData = _generalTaxGroupMasterRepository.Table.FirstOrDefault(x => x.GeneralTaxGroupMasterId == taxGroupMasterId);
             GeneralTaxGroupMasterModel generalTaxGroupMasterModel = taxGroupMasterData.FromEntityToModel<GeneralTaxGroupMasterModel>();
             return generalTaxGroupMasterModel;
         }
