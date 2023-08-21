@@ -15,7 +15,9 @@
             Organisation,
             DepartmentMaster,
             CountryMaster,
-            TaxMaster
+            TaxMaster,
+            TaxGroupMaster,
+            City
         }
     }
 }
