@@ -18,7 +18,8 @@
             TaxMaster,
             TaxGroupMaster,
             City,
-            Nationality
+            Nationality,
+            Designation
         }
     }
 }
