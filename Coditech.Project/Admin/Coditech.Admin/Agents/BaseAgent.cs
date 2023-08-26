@@ -2,7 +2,7 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
-using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 
@@ -163,7 +163,7 @@ namespace Coditech.Admin.Agents
             }
             return null;
         }
-        protected void SetListPagingData(PageListViewModel pageListViewModel, BaseListModel listModel, DataTableViewModel dataTableModel, int totalRecordCount)
+        protected void SetListPagingData(PageListViewModel pageListViewModel, BaseListResponse listModel, DataTableViewModel dataTableModel, int totalRecordCount)
         {
             pageListViewModel.Page = Convert.ToInt32(listModel.PageIndex);
             pageListViewModel.RecordPerPage = Convert.ToInt32(listModel.PageSize);

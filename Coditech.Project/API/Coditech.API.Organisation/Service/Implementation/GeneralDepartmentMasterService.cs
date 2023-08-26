@@ -37,7 +37,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralDepartmentModel> DepartmentList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetDepartmentList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralDepartmentModel> DepartmentList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetDepartmentList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GeneralDepartmentListModel listModel = new GeneralDepartmentListModel();
 
             listModel.GeneralDepartmentList = DepartmentList?.Count > 0 ? DepartmentList : new List<GeneralDepartmentModel>();
@@ -114,7 +114,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("DepartmentId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("RARIndia_DeleteDepartment @DepartmentId,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteDepartment @DepartmentId,  @Status OUT", 1, out status);
 
             return status == 1 ? true : false;
         }

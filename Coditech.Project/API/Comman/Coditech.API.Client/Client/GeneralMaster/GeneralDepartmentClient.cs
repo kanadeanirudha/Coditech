@@ -64,8 +64,7 @@ namespace Coditech.API.Client
                     }
                     return objectResponse.Object;
                 }
-                else
-                if (status_ == 204)
+                else if (status_ == 204)
                 {
                     return new GeneralDepartmentListResponse();
                 }
@@ -76,7 +75,6 @@ namespace Coditech.API.Client
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
-
             }
             finally
             {

@@ -1,0 +1,15 @@
+﻿@model string
+@{
+    Layout = null;
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+}
+<div class="col-sm-12 col-md-6">
+    <div id="datatable_filter" class="dataTables_filter">
+        <label>
+            Search:
+            <input type="text" class="form-control form-control-sm" value="@Model">
+            <a onclick="CoditechDataTable.LoadList('@controllerName','@actionName')"><i class="fas fa-search" title="Search"></i></a>
+        </label>
+    </div>
+</div>

@@ -36,16 +36,19 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("DepartmentName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("ContryCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("DepartmentCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn, dataTableModel.SortBy);
             GeneralDepartmentListResponse response = _generalDepartmentClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralDepartmentListModel departmentList = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
+            GeneralDepartmentListModel departmentList = new GeneralDepartmentListModel
+            {
+                GeneralDepartmentList = response?.GeneralDepartmentList,
+            };
             GeneralDepartmentListViewModel listViewModel = new GeneralDepartmentListViewModel();
             listViewModel.GeneralDepartmentList = departmentList?.GeneralDepartmentList?.ToViewModel<GeneralDepartmentViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, departmentList, dataTableModel, listViewModel.GeneralDepartmentList.Count);
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralDepartmentList.Count);
 
             return listViewModel;
         }

@@ -14,6 +14,5 @@
         public bool HasError { get; set; }
         public string ErrorMessage { get; set; }
         public PageListViewModel PageListViewModel { get; set; }
-        
     }
 }
