@@ -41,10 +41,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn, dataTableModel.SortBy);
             GeneralDepartmentListResponse response = _generalDepartmentClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralDepartmentListModel departmentList = new GeneralDepartmentListModel
-            {
-                GeneralDepartmentList = response?.GeneralDepartmentList,
-            };
+            GeneralDepartmentListModel departmentList = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
             GeneralDepartmentListViewModel listViewModel = new GeneralDepartmentListViewModel();
             listViewModel.GeneralDepartmentList = departmentList?.GeneralDepartmentList?.ToViewModel<GeneralDepartmentViewModel>().ToList();
 
