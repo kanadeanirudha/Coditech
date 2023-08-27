@@ -20,11 +20,9 @@ namespace Coditech.Admin.Controllers
             _authenticationHelper = authenticationHelper;
         }
 
-        [HttpGet]
-        public ActionResult List(DataTableViewModel dataTableViewModel)
+        public ActionResult List(DataTableViewModel dataTableModel)
         {
-            dataTableViewModel = dataTableViewModel ?? new DataTableViewModel();
-            GeneralDepartmentListViewModel list = _generalDepartmentAgent.GetDepartmentList(dataTableViewModel);
+            GeneralDepartmentListViewModel list = _generalDepartmentAgent.GetDepartmentList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/GeneralMaster/GeneralDepartmentMaster/_List.cshtml", list);

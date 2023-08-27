@@ -25,7 +25,7 @@
                         <a onclick="CoditechDataTable.LoadListPrevious('@controllerName','@actionName')" style="@pointerEventFirstPrevious" aria-controls="datatable" class="page-link">Previous</a>
                     </li>
                     <li class ="paginate_button page-item">
-                        <input id="DataTables_PageIndexId" onchange="RARIndiaDataTable.LoadList('@controllerName','@actionName')" type="number" class="form-control form-control-sm" value="@Model.Page" style="height: 30px; width: 60px; padding: 0px; text-align: center; border-left: 0; border-radius: 0px;" max="@Model.TotalPages" min="1">
+                        <input id="DataTables_PageIndexId" onchange="CoditechDataTable.LoadList('@controllerName','@actionName')" type="number" class="form-control form-control-sm" value="@Model.Page" style="height: 30px; width: 60px; padding: 0px; text-align: center; border-left: 0; border-radius: 0px;" max="@Model.TotalPages" min="1">
                     </li>
                     <li class="paginate_button page-item next">
                         <a onclick="CoditechDataTable.LoadListNext('@controllerName','@actionName')" style="@pointerEventNextLast" aria-controls="datatable" class="page-link">Next</a>

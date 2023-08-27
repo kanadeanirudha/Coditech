@@ -32,6 +32,7 @@ namespace Coditech.Admin.Agents
         public GeneralDepartmentListViewModel GetDepartmentList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
