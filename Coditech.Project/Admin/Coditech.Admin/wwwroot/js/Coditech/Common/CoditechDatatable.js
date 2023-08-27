@@ -63,7 +63,7 @@ function CallListPage(controllerName, methodName, dataTableModel) {
 function BindDataTableModel(PageIndex) {
     $("#notificationDivId").hide();
     let dataTableModel = {
-        SearchBy: $('#DataTables_SearchById').val(),
+        SearchBy: $('#DataTables_SearchById').val().trim(),
         SortByColumn: "",
         SortBy: "",
         PageIndex: PageIndex,

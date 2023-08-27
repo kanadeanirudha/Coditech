@@ -1,7 +1,8 @@
-﻿using Coditech.Common.Exceptions;
+﻿using Coditech.Common.API.Model.Response;
+using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using Coditech.Common.API.Model.Response;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
@@ -13,20 +14,17 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
-using Coditech.Common.Helper.Utilities;
-using Coditech.Common.API;
 using System.Web;
-using System.Runtime;
 
 namespace Coditech.API.Client
 {
     public abstract class BaseClient
     {
         private static readonly ICoditechLogging _coditechLogging = CoditechDependencyResolver.GetService<ICoditechLogging>();
-        public string UriItemSeparator => ApiSettings.CoditechApiUriItemSeparator;
-        public string UriKeyValueSeparator => ApiSettings.CoditechApiUriKeyValueSeparator;
-        public string CommaReplacer => ApiSettings.CoditechCommaReplacer;
         private static IConfigurationSection settings = CoditechDependencyResolver.GetService<IConfiguration>().GetSection("appsettings");
+        public string UriItemSeparator => settings["CoditechApiUriItemSeparator"];
+        public string UriKeyValueSeparator => settings["CoditechApiUriKeyValueSeparator"];
+        public string CommaReplacer => settings["CoditechCommaReplacer"];
         private string _domainName;
         private string _domainKey;
         private int _apiRequestTimeout = 0;

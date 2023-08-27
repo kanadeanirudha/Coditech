@@ -20,18 +20,20 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var item in Model?.GeneralDepartmentList)
+                @if (Model?.GeneralDepartmentList?.Count > 0)
                 {
-                    <tr>
-                        <td tabindex="0" class="sorting_1">@item.DepartmentName</td>
-                        <td>@item.DepartmentShortCode</td>
-                        <td>@item.PrintShortDesc</td>
-                        <td style="text-align:center">
-                            <a href="../@controllerName/Edit?generalDepartmentId=@item.GeneralDepartmentMasterId" title="Update"><i class="fas fa-edit me-2"></i></a>|
-                            <a href="../@controllerName/Delete?departmentIds=@item.GeneralDepartmentMasterId" title="Delete"><i class="fas fa-times-circle me-2"></i></a>
-                        </td>
-                    </tr>
+                    foreach (var item in Model?.GeneralDepartmentList)
+                    {
+                        <tr>
+                            <td tabindex="0" class="sorting_1">@item.DepartmentName</td>
+                            <td>@item.DepartmentShortCode</td>
+                            <td>@item.PrintShortDesc</td>
+                            <td style="text-align:center">
+                                <a href="../@controllerName/Edit?generalDepartmentId=@item.GeneralDepartmentMasterId" title="Update"><i class="fas fa-edit me-2"></i></a>|
+                                <a href="../@controllerName/Delete?departmentIds=@item.GeneralDepartmentMasterId" title="Delete"><i class="fas fa-times-circle me-2"></i></a>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>

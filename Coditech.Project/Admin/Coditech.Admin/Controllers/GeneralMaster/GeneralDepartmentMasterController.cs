@@ -44,7 +44,7 @@ namespace Coditech.Admin.Controllers
                 generalDepartmentViewModel = _generalDepartmentAgent.CreateDepartment(generalDepartmentViewModel);
                 if (!generalDepartmentViewModel.HasError)
                 {
-                    SetNotificationMessage(GeneralResources.RecordCreationSuccessMessage);
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordCreationSuccessMessage));
                     return RedirectToAction<GeneralDepartmentMasterController>(x => x.List(null));
                 }
             }

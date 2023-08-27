@@ -100,6 +100,7 @@
     </div>
     <!-- Top Bar End -->
     <div class="page-wrapper">
+        @Html.Partial("~/Views/Shared/_NotificationMessage.cshtml", @messageData)
         <!-- Page Content-->
         @RenderBody()
         <!-- end page content -->

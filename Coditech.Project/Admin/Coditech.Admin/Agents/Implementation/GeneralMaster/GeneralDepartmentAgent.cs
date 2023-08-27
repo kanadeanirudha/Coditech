@@ -37,7 +37,7 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("DepartmentName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("DepartmentCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("DepartmentShortCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn, dataTableModel.SortBy);

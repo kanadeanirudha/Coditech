@@ -24,20 +24,20 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _generalTaxMasterRepository = new CoditechRepository<GeneralTaxMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
-        
+
         public virtual GeneralTaxMasterListModel GetTaxMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralTaxMasterModel> objStoredProc = new CoditechViewRepository<GeneralTaxMasterModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@WhereClause", null/*pageListModel?.SPWhereClause*/, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<GeneralTaxMasterModel> taxMasterList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetTaxList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GeneralTaxMasterListModel listModel = new GeneralTaxMasterListModel();
-            
+
             listModel.GeneralTaxMasterList = taxMasterList?.Count > 0 ? taxMasterList : new List<GeneralTaxMasterModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
@@ -54,7 +54,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Name"));
             }
             GeneralTaxMaster generalTaxMaster = generalTaxMasterModel.FromModelToEntity<GeneralTaxMaster>();
-            
+
             //Create new Tax Master and return it.
             GeneralTaxMaster taxMasterData = _generalTaxMasterRepository.Insert(generalTaxMaster);
             if (taxMasterData?.GeneralTaxMasterId > 0)
