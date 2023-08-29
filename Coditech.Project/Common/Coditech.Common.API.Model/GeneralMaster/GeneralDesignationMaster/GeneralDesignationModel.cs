@@ -18,3 +18,4 @@ namespace Coditech.Common.API.Model
         public bool IsActive { get; set; }
     }
 }
+

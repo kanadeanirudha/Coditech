@@ -22,7 +22,7 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _generalDesignationMasterRepository = new CoditechRepository<GeneralDesignationMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
-        
+
         public virtual GeneralDesignationListModel GetDesignationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
@@ -35,7 +35,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<GeneralDesignationModel> designationList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetEmployeeDesignationList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GeneralDesignationListModel listModel = new GeneralDesignationListModel();
-            
+
             listModel.GeneralDesignationList = designationList?.Count > 0 ? designationList : new List<GeneralDesignationModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
@@ -120,3 +120,4 @@ namespace Coditech.API.Service
         #endregion
     }
 }
+

@@ -5,3 +5,4 @@
         public List<GeneralDesignationModel> GeneralDesignationList { get; set; }
     }
 }
+

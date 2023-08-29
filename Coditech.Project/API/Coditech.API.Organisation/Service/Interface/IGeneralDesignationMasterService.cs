@@ -13,3 +13,4 @@ namespace Coditech.API.Service
         bool DeleteDesignation(ParameterModel parameterModel);
     }
 }
+
