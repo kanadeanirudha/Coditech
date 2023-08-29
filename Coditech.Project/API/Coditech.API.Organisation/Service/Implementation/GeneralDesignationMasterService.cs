@@ -27,74 +27,74 @@ namespace Coditech.API.Service
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<GeneralDesignationModel> objStoredProc = new CoditechViewRepository<GeneralDesignationModel>(_serviceProvider.GetService<Coditech_Entities>());
+            CoditechViewRepository<GeneralDesignationMasterModel> objStoredProc = new CoditechViewRepository<GeneralDesignationMasterModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@WhereClause", null/*pageListModel?.SPWhereClause*/, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralDesignationModel> designationList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetEmployeeDesignationList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralDesignationMasterModel> designationList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetEmployeeDesignationList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GeneralDesignationListModel listModel = new GeneralDesignationListModel();
 
-            listModel.GeneralDesignationList = designationList?.Count > 0 ? designationList : new List<GeneralDesignationModel>();
+            listModel.GeneralDesignationList = designationList?.Count > 0 ? designationList : new List<GeneralDesignationMasterModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
 
         //Create Designation.
-        public GeneralDesignationModel CreateDesignation(GeneralDesignationModel generalDesignationModel)
+        public GeneralDesignationMasterModel CreateDesignation(GeneralDesignationMasterModel generalDesignationMasterModel)
         {
-            if (IsNull(generalDesignationModel))
+            if (IsNull(generalDesignationMasterModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalDesignationModel.DesignationName))
+            if (IsNameAlreadyExist(generalDesignationMasterModel.DesignationName))
             {
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Designation Name"));
             }
-            GeneralDesignationMaster generalDesignationMaster = generalDesignationModel.FromModelToEntity<GeneralDesignationMaster>();
+            GeneralDesignationMaster generalDesignationMaster = generalDesignationMasterModel.FromModelToEntity<GeneralDesignationMaster>();
 
             //Create new Designation and return it.
             GeneralDesignationMaster designationData = _generalDesignationMasterRepository.Insert(generalDesignationMaster);
             if (designationData?.GeneralDesignationMasterId > 0)
             {
-                generalDesignationModel.GeneralDesignationMasterId = designationData.GeneralDesignationMasterId;
+                generalDesignationMasterModel.GeneralDesignationMasterId = designationData.GeneralDesignationMasterId;
             }
             else
             {
-                generalDesignationModel.HasError = true;
-                generalDesignationModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                generalDesignationMasterModel.HasError = true;
+                generalDesignationMasterModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
-            return generalDesignationModel;
+            return generalDesignationMasterModel;
         }
 
         //Get Designation by GeneralDesignationMasterId.
-        public GeneralDesignationModel GetDesignation(int designationId)
+        public GeneralDesignationMasterModel GetDesignation(int designationId)
         {
             if (designationId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DesignationId"));
 
             //Get the Designation Details based on id.
             GeneralDesignationMaster designationData = _generalDesignationMasterRepository.Table.FirstOrDefault(x => x.GeneralDesignationMasterId == designationId);
-            GeneralDesignationModel generalDesignationModel = designationData.FromEntityToModel<GeneralDesignationModel>();
-            return generalDesignationModel;
+            GeneralDesignationMasterModel generalDesignationMasterModel = designationData.FromEntityToModel<GeneralDesignationMasterModel>();
+            return generalDesignationMasterModel;
         }
 
         //Update Designation.
-        public virtual bool UpdateDesignation(GeneralDesignationModel generalDesignationModel)
+        public virtual bool UpdateDesignation(GeneralDesignationMasterModel generalDesignationMasterModel)
         {
-            if (IsNull(generalDesignationModel))
+            if (IsNull(generalDesignationMasterModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
-            if (generalDesignationModel.GeneralDesignationMasterId < 1)
+            if (generalDesignationMasterModel.GeneralDesignationMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DesignationId"));
 
-            GeneralDesignationMaster generalDesignationMaster = generalDesignationModel.FromModelToEntity<GeneralDesignationMaster>();
+            GeneralDesignationMaster generalDesignationMaster = generalDesignationMasterModel.FromModelToEntity<GeneralDesignationMaster>();
 
             //Update Designation
             bool isDesignationUpdated = _generalDesignationMasterRepository.Update(generalDesignationMaster);
             if (!isDesignationUpdated)
             {
-                generalDesignationModel.HasError = true;
-                generalDesignationModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                generalDesignationMasterModel.HasError = true;
+                generalDesignationMasterModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
             return isDesignationUpdated;
         }

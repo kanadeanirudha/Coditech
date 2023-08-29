@@ -49,12 +49,12 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDesignationMaster/CreateDesignation")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralDesignationResponse))]
-        public IActionResult CreateDesignation([FromBody] GeneralDesignationModel model)
+        public IActionResult CreateDesignation([FromBody] GeneralDesignationMasterModel model)
         {
             try
             {
-                GeneralDesignationModel designation = _generalDesignationMasterService.CreateDesignation(model);
-                return IsNotNull(designation) ? CreateCreatedResponse(new GeneralDesignationResponse { GeneralDesignationModel = designation }) : CreateInternalServerErrorResponse();
+                GeneralDesignationMasterModel designation = _generalDesignationMasterService.CreateDesignation(model);
+                return IsNotNull(designation) ? CreateCreatedResponse(new GeneralDesignationResponse { GeneralDesignationMasterModel = designation }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
@@ -70,35 +70,35 @@ namespace Coditech.API.Controllers
 
         [Route("/GeneralDesignationMaster/GetDesignation")]
         [HttpGet]
-        [Produces(typeof(GeneralDesignationModel))]
+        [Produces(typeof(GeneralDesignationMasterModel))]
         public IActionResult GetDesignation(short generalDesignationMasterId)
         {
             try
             {
-                GeneralDesignationModel generalDesignationModel = _generalDesignationMasterService.GetDesignation(generalDesignationMasterId);
-                return IsNotNull(generalDesignationModel) ? CreateOKResponse(generalDesignationModel) : NotFound();
+                GeneralDesignationMasterModel generalDesignationMasterModel = _generalDesignationMasterService.GetDesignation(generalDesignationMasterId);
+                return IsNotNull(generalDesignationMasterModel) ? CreateOKResponse(generalDesignationMasterModel) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Designation.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralDesignationModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralDesignationMasterModel { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Designation.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralDesignationModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralDesignationMasterModel { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
         [Route("/GeneralDesignationMaster/UpdateDesignation")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralDesignationResponse))]
-        public IActionResult UpdateDesignation([FromBody] GeneralDesignationModel model)
+        public IActionResult UpdateDesignation([FromBody] GeneralDesignationMasterModel model)
         {
             try
             {
                 bool isUpdated = _generalDesignationMasterService.UpdateDesignation(model);
-                return isUpdated ? CreateOKResponse(new GeneralDesignationResponse { GeneralDesignationModel = model }) : CreateInternalServerErrorResponse();
+                return isUpdated ? CreateOKResponse(new GeneralDesignationResponse { GeneralDesignationMasterModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {

@@ -1,7 +1,13 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.Common.API.Model
 {
-    public partial class GeneralDesignationMaster
+    public class GeneralDesignationMasterModel : BaseModel
     {
+        public GeneralDesignationMasterModel()
+        {
+
+        }
         public Int16 EmployeeDesignationMasterId { get; set; }
         public string Description { get; set; }
         public int DesignationLevel { get; set; }
@@ -12,7 +18,3 @@
         public bool IsActive { get; set; }
     }
 }
-
-
-
-

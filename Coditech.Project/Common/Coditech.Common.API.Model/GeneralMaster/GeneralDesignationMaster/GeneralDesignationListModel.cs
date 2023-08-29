@@ -2,10 +2,10 @@
 {
     public class GeneralDesignationListModel : BaseListModel
     {
-        public List<GeneralDesignationModel> GeneralDesignationList { get; set; }
+        public List<GeneralDesignationMasterModel> GeneralDesignationList { get; set; }
         public GeneralDesignationListModel()
         {
-            GeneralDesignationList = new List<GeneralDesignationModel>();
+            GeneralDesignationList = new List<GeneralDesignationMasterModel>();
         }
     }
 }

@@ -20,7 +20,6 @@
             City,
             Nationality,
             Designation
-
         }
     }
 }

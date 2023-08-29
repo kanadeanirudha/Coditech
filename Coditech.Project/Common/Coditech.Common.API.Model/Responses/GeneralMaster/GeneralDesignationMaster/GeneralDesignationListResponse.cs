@@ -2,7 +2,7 @@
 {
     public class GeneralDesignationListResponse : BaseListResponse
     {
-        public List<GeneralDesignationModel> GeneralDesignationList { get; set; }
+        public List<GeneralDesignationMasterModel> GeneralDesignationList { get; set; }
     }
 }
 
