@@ -46,7 +46,7 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalCityModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalCityModel.CityCode))
+            if (IsNameAlreadyExist(generalCityModel.CityName))
             {
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "City Code"));
             }
@@ -67,13 +67,13 @@ namespace Coditech.API.Service
         }
 
         //Get City by City id.
-        public GeneralCityModel GetCity(int cityId)
+        public GeneralCityModel GetCity(short cityId)
         {
             if (cityId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "CityID"));
 
             //Get the City Details based on id.
-            GeneralCityMaster cityData = _generalCityMasterRepository.Table.FirstOrDefault(x => x.GeneralCityMasterId == CityID);
+            GeneralCityMaster cityData = _generalCityMasterRepository.Table.FirstOrDefault(x => x.GeneralCityMasterId == cityId);
             GeneralCityModel generalCityModel = cityData.FromEntityToModel<GeneralCityModel>();
             return generalCityModel;
         }

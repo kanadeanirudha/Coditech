@@ -7,9 +7,9 @@ namespace Coditech.API.Service
     public interface IGeneralDesignationMasterService
     {
         GeneralDesignationListModel GetDesignationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        GeneralDesignationMasterModel CreateDesignation(GeneralDesignationMasterModel model);
-        GeneralDesignationMasterModel GetDesignation(short generalDesignationMasterId);
-        bool UpdateDesignation(GeneralDesignationMasterModel model);
+        GeneralDesignationModel CreateDesignation(GeneralDesignationModel model);
+        GeneralDesignationModel GetDesignation(short generalDesignationMasterId);
+        bool UpdateDesignation(GeneralDesignationModel model);
         bool DeleteDesignation(ParameterModel parameterModel);
     }
 }

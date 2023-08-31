@@ -46,7 +46,7 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalNationalityModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalNationalityModel.NationalityName))
+            if (IsNameAlreadyExist(generalNationalityModel.Description))
             {
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Nationality Name"));
             }
@@ -116,7 +116,7 @@ namespace Coditech.API.Service
         #region Protected Method
         //Check if Nationality Name is already present or not.
         protected virtual bool IsNameAlreadyExist(string nationalityName)
-         => _generalNationalityMasterRepository.Table.Any(x => x.NationalityName == nationalityName);
+         => _generalNationalityMasterRepository.Table.Any(x => x.Description == nationalityName);
         #endregion
     }
 }

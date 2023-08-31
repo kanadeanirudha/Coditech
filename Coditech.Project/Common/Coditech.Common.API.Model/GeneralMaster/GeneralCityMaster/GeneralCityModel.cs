@@ -2,9 +2,9 @@
 
 namespace Coditech.Common.API.Model
 {
-    public class GeneralCityMasterModel : BaseModel
+    public class GeneralCityModel : BaseModel
     {
-        public GeneralCityMasterModel()
+        public GeneralCityModel()
         {
 
         }
