@@ -228,6 +228,8 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralTaxMasterService, GeneralTaxMasterService>();
             builder.Services.AddScoped<IGeneralTaxGroupMasterService, GeneralTaxGroupMasterService>();
             builder.Services.AddScoped<IGeneralCityMasterService, GeneralCityMasterService>();
+            builder.Services.AddScoped<IGeneralNationalityMasterService, GeneralNationalityMasterService>();
+            builder.Services.AddScoped<IGeneralDesignationMasterService, GeneralDesignationMasterService>();
         }
         #endregion
     }

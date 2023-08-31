@@ -48,7 +48,7 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalTaxMasterModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
+            
             if (IsNameAlreadyExist(generalTaxMasterModel.TaxName))
             {
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Name"));

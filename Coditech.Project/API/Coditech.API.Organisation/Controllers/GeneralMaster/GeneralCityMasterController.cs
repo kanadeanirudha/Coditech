@@ -52,11 +52,11 @@ namespace Coditech.API.Controllers
         [Route("/GeneralCityMaster/CreateCity")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralCityResponse))]
-        public IActionResult CreateCity([FromBody] GeneralCityMasterModel model)
+        public IActionResult CreateCity([FromBody] GeneralCityModel model)
         {
             try
             {
-                GeneralCityMasterModel city = _generalCityMasterService.CreateCity(model);
+                GeneralCityModel city = _generalCityMasterService.CreateCity(model);
                 return IsNotNull(city) ? CreateCreatedResponse(new GeneralCityResponse { GeneralCityModel = city }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
@@ -73,30 +73,30 @@ namespace Coditech.API.Controllers
 
         [Route("/GeneralCityMaster/GetCity")]
         [HttpGet]
-        [Produces(typeof(GeneralCityMasterModel))]
-        public IActionResult GetCity(short generalCityMasterId)
+        [Produces(typeof(GeneralCityModel))]
+        public IActionResult GetCity(int generalCityMasterId)
         {
             try
             {
-                GeneralCityMasterModel generalCityModel = _generalCityMasterService.GetCity(generalCityMasterId);
+                GeneralCityModel generalCityModel = _generalCityMasterService.GetCity(generalCityMasterId);
                 return IsNotNull(generalCityModel) ? CreateOKResponse(generalCityModel) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.City.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralCityMasterModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralCityModel { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.City.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralCityMasterModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralCityModel { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
         [Route("/GeneralCityMaster/UpdateCity")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralCityResponse))]
-        public IActionResult UpdateCity([FromBody] GeneralCityMasterModel model)
+        public IActionResult UpdateCity([FromBody] GeneralCityModel model)
         {
             try
             {

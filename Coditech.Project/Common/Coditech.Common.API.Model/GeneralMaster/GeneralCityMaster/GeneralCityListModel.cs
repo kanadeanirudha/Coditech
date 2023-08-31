@@ -2,11 +2,11 @@
 {
     public class GeneralCityListModel : BaseListModel
     {
-        public List<GeneralCityMasterModel> GeneralCityList { get; set; }
+        public List<GeneralCityModel> GeneralCityList { get; set; }
 
         public GeneralCityListModel()
         {
-            GeneralCityList = new List<GeneralCityMasterModel>();
+            GeneralCityList = new List<GeneralCityModel>();
         }
     }
 }

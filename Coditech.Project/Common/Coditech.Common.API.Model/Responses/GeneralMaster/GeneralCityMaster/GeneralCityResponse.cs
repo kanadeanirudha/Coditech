@@ -2,7 +2,7 @@
 {
     public class GeneralCityResponse : BaseResponse
     {
-        public GeneralCityMasterModel GeneralCityModel { get; set; }
+        public GeneralCityModel GeneralCityModel { get; set; }
     }
 }
 

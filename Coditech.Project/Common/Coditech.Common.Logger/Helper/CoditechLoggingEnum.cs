@@ -17,7 +17,9 @@
             CountryMaster,
             TaxMaster,
             TaxGroupMaster,
-            City
+            City,
+            Nationality,
+            Designation
         }
     }
 }
