@@ -11,14 +11,8 @@
         {
             if (datatableColumn.IsSortable)
             {
-                if (Model.SortByColumn == datatableColumn.ColumnCode)
-                {
-                    <th class="sorting sorting_@Model.SortBy" onclick="CoditechDataTable.LoadListSortBy('@controllerName','@actionName','@datatableColumn.ColumnCode','@Model.SortBy')">@datatableColumn.ColumnName</th>
-                }
-                else
-                {
-                    <th class="sorting" onclick="CoditechDataTable.LoadListSortBy('@controllerName','@actionName','@datatableColumn.ColumnCode','@Model.SortBy')">@datatableColumn.ColumnName</th>
-                }
+                string sortBy = Model.SortByColumn == datatableColumn.ColumnCode ? "sorting_" + Model.SortBy : "";
+                <th class="sorting @sortBy" onclick="CoditechDataTable.LoadListSortBy('@controllerName','@actionName','@datatableColumn.ColumnCode','@Model.SortBy')">@datatableColumn.ColumnName</th>
             }
             else
             {
