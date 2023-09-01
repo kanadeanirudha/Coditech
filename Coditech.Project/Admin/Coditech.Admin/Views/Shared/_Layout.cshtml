@@ -24,6 +24,7 @@
     @*<link href="~/css/layout/jquery-jvectormap-2.0.2.css" rel="stylesheet">*@
 
     <!-- App css -->
+    <link href="~/css/layout/site.css" rel="stylesheet" />
     <link href="~/css/layout/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="~/css/layout/icons.min.css" rel="stylesheet" type="text/css"/>
     <link href="~/css/layout/metisMenu.min.css" rel="stylesheet" type="text/css"/>
@@ -34,7 +35,7 @@
 </head>
 
 <body data-layout="horizontal" class="dark-topbar" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="">
-
+    @Html.Partial("~/Views/Shared/_Loader.cshtml")
     <!-- Top Bar Start -->
     <div class="topbar">
         <!-- LOGO -->
@@ -125,6 +126,7 @@
     <script src="~/js/layout/daterangepicker.js"></script>
     <script src="~/js/layout/app.js"></script>
     <!-- coditech script-->
+    <script src="~/js/coditech/common/coditechcommon.js"></script>
     <script src="~/js/coditech/common/coditechdatatable.js"></script>
     <script src="~/js/coditech/common/coditechnotification.js"></script>
 </body>

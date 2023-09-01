@@ -67,7 +67,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalDepartmentAgent.UpdateDepartment(generalDepartmentViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { GeneralDepartmentId = generalDepartmentViewModel.GeneralDepartmentMasterId });
+                return RedirectToAction("Edit", new { generalDepartmentId = generalDepartmentViewModel.GeneralDepartmentMasterId });
             }
             return View(createEdit, generalDepartmentViewModel);
         }
@@ -88,6 +88,7 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<GeneralDepartmentMasterController>(x => x.List(null));
         }
+
         #region Private
 
         #endregion

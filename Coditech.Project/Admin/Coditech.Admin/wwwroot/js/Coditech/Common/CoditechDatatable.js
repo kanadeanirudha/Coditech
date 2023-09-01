@@ -41,6 +41,7 @@
 }
 
 function CallListPage(controllerName, methodName, dataTableModel) {
+    CoditechCommon.ShowLodder();
     $.ajax(
         {
             cache: false,
@@ -53,9 +54,11 @@ function CallListPage(controllerName, methodName, dataTableModel) {
                 $('#DataTablesDivId').html(result);
                 $("#DataTables_PageSizeId").attr("disabled", false);
                 $("#DataTables_SearchById").attr("disabled", false);
+                CoditechCommon.HideLodder();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
+                CoditechCommon.HideLodder();
             }
         });
 }
