@@ -12,5 +12,5 @@ namespace Coditech.API.Service
         bool UpdateOrganisationCentre(OrganisationCentreMasterModel model);
         bool DeleteOrganisationCentre(ParameterModel parameterModel);
     }
-}
+} 
 

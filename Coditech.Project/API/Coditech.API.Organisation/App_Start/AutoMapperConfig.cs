@@ -16,7 +16,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralCityMaster, GeneralCityModel>().ReverseMap();
             CreateMap<GeneralNationalityMaster, GeneralNationalityModel>().ReverseMap();
             CreateMap<GeneralDesignationMaster, GeneralDesignationMasterModel>().ReverseMap();
-            CreateMap<OrganisationCentreMaster, OrganisationCentreMasterModel>().ReverseMap();
+            CreateMap<OrganisationCentreMaster, OrganisationCentreMasterModel>().ReverseMap(); 
         }
     }
 }

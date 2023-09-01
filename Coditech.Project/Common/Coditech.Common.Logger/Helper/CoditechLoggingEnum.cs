@@ -20,7 +20,7 @@
             City,
             Nationality,
             Designation,
-            OrganisationCentre
+            OrganisationCentre 
         }
     }
 }

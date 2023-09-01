@@ -73,4 +73,4 @@ namespace Coditech.Common.API.Model
         [MaxLength(35)]
         public string WaterMark { get; set; }
     }
-}
+} 
