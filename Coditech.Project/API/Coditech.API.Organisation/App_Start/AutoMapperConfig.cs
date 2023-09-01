@@ -14,10 +14,11 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralDepartmentMaster, GeneralDepartmentModel>().ReverseMap();
             CreateMap<GeneralCountryMaster, GeneralCountryModel>().ReverseMap();
             CreateMap<GeneralTaxMaster, GeneralTaxMasterModel>().ReverseMap();
-            CreateMap<GeneralTaxGroupMaster, GeneralTaxGroupMasterModel>().ReverseMap();
+            CreateMap<GeneralTaxGroupMaster, GeneralTaxGroupModel>().ReverseMap();
             CreateMap<GeneralCityMaster, GeneralCityModel>().ReverseMap();
             CreateMap<GeneralNationalityMaster, GeneralNationalityModel>().ReverseMap();
             CreateMap<EmployeeDesignationMaster, GeneralDesignationModel>().ReverseMap();
+            CreateMap<OrganisationCentreMaster, OrganisationCentreModel>().ReverseMap();
         }
     }
 }

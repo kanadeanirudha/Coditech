@@ -8,9 +8,9 @@ namespace Coditech.API.Service
     public interface IGeneralTaxGroupMasterService
     {
         GeneralTaxGroupMasterListModel GetTaxGroupMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        GeneralTaxGroupMasterModel CreateTaxGroupMaster(GeneralTaxGroupMasterModel model);
-        GeneralTaxGroupMasterModel GetTaxGroupMaster(short generalTaxGroupMasterId);
-        bool UpdateTaxGroupMaster(GeneralTaxGroupMasterModel model);
+        GeneralTaxGroupModel CreateTaxGroupMaster(GeneralTaxGroupModel model);
+        GeneralTaxGroupModel GetTaxGroupMaster(short generalTaxGroupMasterId);
+        bool UpdateTaxGroupMaster(GeneralTaxGroupModel model);
         bool DeleteTaxGroupMaster(ParameterModel parameterModel);
     }
 }

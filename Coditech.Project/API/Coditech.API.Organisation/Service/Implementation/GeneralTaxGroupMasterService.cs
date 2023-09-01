@@ -17,85 +17,130 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
+        private readonly ICoditechRepository<GeneralTaxMaster> _generalTaxMasterRepository;
         private readonly ICoditechRepository<GeneralTaxGroupMaster> _generalTaxGroupMasterRepository;
+        private readonly ICoditechRepository<GeneralTaxGroupMasterDetail> _generalTaxGroupMasterDetailRepository;
         public GeneralTaxGroupMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalTaxGroupMasterRepository = new CoditechRepository<GeneralTaxGroupMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalTaxMasterRepository = new CoditechRepository<GeneralTaxMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalTaxGroupMasterDetailRepository = new CoditechRepository<GeneralTaxGroupMasterDetail>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralTaxGroupMasterListModel GetTaxGroupMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<GeneralTaxGroupMasterModel> objStoredProc = new CoditechViewRepository<GeneralTaxGroupMasterModel>(_serviceProvider.GetService<Coditech_Entities>());
+            CoditechViewRepository<GeneralTaxGroupModel> objStoredProc = new CoditechViewRepository<GeneralTaxGroupModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralTaxGroupMasterModel> taxGroupMasterList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetTaxGroupList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralTaxGroupModel> taxGroupMasterList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetTaxGroupList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GeneralTaxGroupMasterListModel listModel = new GeneralTaxGroupMasterListModel();
 
-            listModel.GeneralTaxGroupMasterList = taxGroupMasterList?.Count > 0 ? taxGroupMasterList : new List<GeneralTaxGroupMasterModel>();
+            listModel.GeneralTaxGroupMasterList = taxGroupMasterList?.Count > 0 ? taxGroupMasterList : new List<GeneralTaxGroupModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
 
         //Create Tax Group Master.
-        public GeneralTaxGroupMasterModel CreateTaxGroupMaster(GeneralTaxGroupMasterModel generalTaxGroupMasterModel)
+        public GeneralTaxGroupModel CreateTaxGroupMaster(GeneralTaxGroupModel generalTaxGroupModel)
         {
-            if (IsNull(generalTaxGroupMasterModel))
+            if (IsNull(generalTaxGroupModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalTaxGroupMasterModel.TaxGroupName))
+            if (IsNameAlreadyExist(generalTaxGroupModel.TaxGroupName))
             {
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Group Name"));
             }
-            GeneralTaxGroupMaster generalTaxGroupMaster = generalTaxGroupMasterModel.FromModelToEntity<GeneralTaxGroupMaster>();
+            decimal? taxGroupRate = _generalTaxMasterRepository.Table.Where(x => generalTaxGroupModel.GeneralTaxMasterIds.Contains(x.GeneralTaxMasterId.ToString())).Sum(y => y.TaxRate);
+            GeneralTaxGroupMaster generalTaxGroupMaster = new GeneralTaxGroupMaster()
+            {
+                TaxGroupName = generalTaxGroupModel.TaxGroupName,
+                TaxGroupRate = taxGroupRate
+            };
 
             //Create new Tax Group Master and return it.
             GeneralTaxGroupMaster taxGroupMasterData = _generalTaxGroupMasterRepository.Insert(generalTaxGroupMaster);
             if (taxGroupMasterData?.GeneralTaxGroupMasterId > 0)
             {
-                generalTaxGroupMasterModel.GeneralTaxGroupMasterId = taxGroupMasterData.GeneralTaxGroupMasterId;
+                generalTaxGroupModel.GeneralTaxGroupMasterId = taxGroupMasterData.GeneralTaxGroupMasterId;
+                foreach (string genTaxMasterId in generalTaxGroupModel.GeneralTaxMasterIds)
+                {
+                    GeneralTaxGroupMasterDetail generalTaxGroupMasterDetail = new GeneralTaxGroupMasterDetail()
+                    {
+                        GenTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
+                        GenTaxMasterId = Convert.ToInt16(genTaxMasterId)
+                    };
+                    _generalTaxGroupMasterDetailRepository.Insert(generalTaxGroupMasterDetail);
+                }
             }
             else
             {
-                generalTaxGroupMasterModel.HasError = true;
-                generalTaxGroupMasterModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                generalTaxGroupModel.HasError = true;
+                generalTaxGroupModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
-            return generalTaxGroupMasterModel;
+            return generalTaxGroupModel;
         }
 
         //Get Tax Group Master by GeneralTaxGroupMasterId.
-        public GeneralTaxGroupMasterModel GetTaxGroupMaster(short taxGroupMasterId)
+        public GeneralTaxGroupModel GetTaxGroupMaster(short taxGroupMasterId)
         {
             if (taxGroupMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxGroupMasterId"));
 
             //Get the Tax Group Master Details based on id.
             GeneralTaxGroupMaster taxGroupMasterData = _generalTaxGroupMasterRepository.Table.FirstOrDefault(x => x.GeneralTaxGroupMasterId == taxGroupMasterId);
-            GeneralTaxGroupMasterModel generalTaxGroupMasterModel = taxGroupMasterData.FromEntityToModel<GeneralTaxGroupMasterModel>();
-            return generalTaxGroupMasterModel;
+            GeneralTaxGroupModel generalTaxGroupModel = taxGroupMasterData.FromEntityToModel<GeneralTaxGroupModel>();
+            generalTaxGroupModel.GeneralTaxMasterIds = _generalTaxGroupMasterDetailRepository.Table.Where(x => x.GenTaxGroupMasterId == taxGroupMasterId)?.Select(y => y.GenTaxMasterId.ToString())?.ToList();
+            return generalTaxGroupModel;
         }
 
         //Update TaxGroupMaster.
-        public virtual bool UpdateTaxGroupMaster(GeneralTaxGroupMasterModel generalTaxGroupMasterModel)
+        public virtual bool UpdateTaxGroupMaster(GeneralTaxGroupModel generalTaxGroupModel)
         {
-            if (IsNull(generalTaxGroupMasterModel))
+            if (IsNull(generalTaxGroupModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
-            if (generalTaxGroupMasterModel.GeneralTaxGroupMasterId < 1)
+            if (generalTaxGroupModel.GeneralTaxGroupMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxGroupMasterId"));
 
-            GeneralTaxGroupMaster generalTaxGroupMaster = generalTaxGroupMasterModel.FromModelToEntity<GeneralTaxGroupMaster>();
-            //Update TaxGroupMaster
-            bool isTaxGroupMasterUpdated = _generalTaxGroupMasterRepository.Update(generalTaxGroupMaster);
-            if (!isTaxGroupMasterUpdated)
+            decimal? taxGroupRate = _generalTaxMasterRepository.Table.Where(x => generalTaxGroupModel.GeneralTaxMasterIds.Contains(x.GeneralTaxMasterId.ToString())).Sum(y => y.TaxRate);
+            GeneralTaxGroupMaster generalTaxGroupMaster = new GeneralTaxGroupMaster()
             {
-                generalTaxGroupMasterModel.HasError = true;
-                generalTaxGroupMasterModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                GeneralTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
+                TaxGroupName = generalTaxGroupModel.TaxGroupName,
+                TaxGroupRate = taxGroupRate
+            };
+
+            bool isTaxGroupMasterUpdated = _generalTaxGroupMasterRepository.Update(generalTaxGroupMaster);
+
+            if (isTaxGroupMasterUpdated)
+            {
+                List<GeneralTaxGroupMasterDetail> list = _generalTaxGroupMasterDetailRepository.Table.Where(x => x.GenTaxGroupMasterId == generalTaxGroupModel.GeneralTaxGroupMasterId)?.ToList();
+                if (list?.Count > 0)
+                {
+                    _generalTaxGroupMasterDetailRepository.Delete(list);
+                    List<GeneralTaxGroupMasterDetail> generalTaxGroupMasterDetailList = new List<GeneralTaxGroupMasterDetail>();
+                    foreach (string genTaxMasterId in generalTaxGroupModel.GeneralTaxMasterIds)
+                    {
+                        GeneralTaxGroupMasterDetail generalTaxGroupMasterDetail = new GeneralTaxGroupMasterDetail()
+                        {
+                            GenTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
+                            GenTaxMasterId = Convert.ToInt16(genTaxMasterId)
+                        };
+                        generalTaxGroupMasterDetailList.Add(generalTaxGroupMasterDetail);
+                    }
+                    _generalTaxGroupMasterDetailRepository.Insert(generalTaxGroupMasterDetailList);
+                }
+            }
+            else
+            {
+                generalTaxGroupModel.HasError = true;
+                generalTaxGroupModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
             return isTaxGroupMasterUpdated;
         }

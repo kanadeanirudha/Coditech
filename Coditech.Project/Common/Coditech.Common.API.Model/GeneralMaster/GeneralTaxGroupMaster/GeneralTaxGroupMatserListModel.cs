@@ -2,10 +2,10 @@
 {
     public class GeneralTaxGroupMasterListModel : BaseListModel
     {
-        public List<GeneralTaxGroupMasterModel> GeneralTaxGroupMasterList { get; set; }
+        public List<GeneralTaxGroupModel> GeneralTaxGroupMasterList { get; set; }
         public GeneralTaxGroupMasterListModel()
         {
-            GeneralTaxGroupMasterList = new List<GeneralTaxGroupMasterModel>();
+            GeneralTaxGroupMasterList = new List<GeneralTaxGroupModel>();
         }
     }
 }

@@ -57,7 +57,7 @@ namespace Coditech.API.Controllers
             try
             {
                 GeneralTaxMasterModel taxMaster = _generalTaxMasterService.CreateTaxMaster(model);
-                return IsNotNull(taxMaster) ? CreateCreatedResponse(new GeneralTaxMasterResponse { GeneralTaxMasterModel = taxMaster }) : CreateInternalServerErrorResponse();
+                return IsNotNull(taxMaster) ? CreateCreatedResponse(new GeneralTaxMasterResponse { GeneralTaxModel = taxMaster }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
@@ -101,7 +101,7 @@ namespace Coditech.API.Controllers
             try
             {
                 bool isUpdated = _generalTaxMasterService.UpdateTaxMaster(model);
-                return isUpdated ? CreateOKResponse(new GeneralTaxMasterResponse { GeneralTaxMasterModel = model }) : CreateInternalServerErrorResponse();
+                return isUpdated ? CreateOKResponse(new GeneralTaxMasterResponse { GeneralTaxModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {

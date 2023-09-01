@@ -2,9 +2,9 @@
 
 namespace Coditech.Common.API.Model
 {
-    public class GeneralTaxGroupMasterModel : BaseModel
+    public class GeneralTaxGroupModel : BaseModel
     {
-        public GeneralTaxGroupMasterModel()
+        public GeneralTaxGroupModel()
         {
 
         }

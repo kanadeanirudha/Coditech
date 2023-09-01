@@ -27,7 +27,7 @@ namespace Coditech.API.Controllers
 
         [HttpGet]
         [Route("/GeneralTaxGroupMaster/GetTaxGroupMasterList")]
-        [Produces(typeof(GeneralTaxGroupMasterListResponse))]
+        [Produces(typeof(GeneralTaxGroupListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
         public virtual IActionResult GetTaxGroupMasterList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
@@ -35,83 +35,83 @@ namespace Coditech.API.Controllers
             {
                 GeneralTaxGroupMasterListModel list = _generalTaxGroupMasterService.GetTaxGroupMasterList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
-                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GeneralTaxGroupMasterListResponse>(data) : CreateNoContentResponse();
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GeneralTaxGroupListResponse>(data) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupMasterListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupMasterListResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
         [Route("/GeneralTaxGroupMaster/CreateTaxGroupMaster")]
         [HttpPost, ValidateModel]
-        [Produces(typeof(GeneralTaxGroupMasterResponse))]
-        public IActionResult CreateTaxGroupMaster([FromBody] GeneralTaxGroupMasterModel model)
+        [Produces(typeof(GeneralTaxGroupResponse))]
+        public IActionResult CreateTaxGroupMaster([FromBody] GeneralTaxGroupModel model)
         {
             try
             {
-                GeneralTaxGroupMasterModel taxGroupMaster = _generalTaxGroupMasterService.CreateTaxGroupMaster(model);
-                return IsNotNull(taxGroupMaster) ? CreateCreatedResponse(new GeneralTaxGroupMasterResponse { GeneralTaxGroupMasterModel = taxGroupMaster }) : CreateInternalServerErrorResponse();
+                GeneralTaxGroupModel taxGroupMaster = _generalTaxGroupMasterService.CreateTaxGroupMaster(model);
+                return IsNotNull(taxGroupMaster) ? CreateCreatedResponse(new GeneralTaxGroupResponse { GeneralTaxGroupModel = taxGroupMaster }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupMasterResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupResponse { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupMasterResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
         [Route("/GeneralTaxGroupMaster/GetTaxGroupMaster")]
         [HttpGet]
-        [Produces(typeof(GeneralTaxGroupMasterModel))]
+        [Produces(typeof(GeneralTaxGroupModel))]
         public IActionResult GetTaxGroupMaster(short generalTaxGroupMasterId)
         {
             try
             {
-                GeneralTaxGroupMasterModel generalTaxGroupMasterModel = _generalTaxGroupMasterService.GetTaxGroupMaster(generalTaxGroupMasterId);
-                return IsNotNull(generalTaxGroupMasterModel) ? CreateOKResponse(generalTaxGroupMasterModel) : NotFound();
+                GeneralTaxGroupModel generalTaxGroupModel = _generalTaxGroupMasterService.GetTaxGroupMaster(generalTaxGroupMasterId);
+                return IsNotNull(generalTaxGroupModel) ? CreateOKResponse(generalTaxGroupModel) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupMasterModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupModel { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupMasterModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupModel { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
         [Route("/GeneralTaxGroupMaster/UpdateTaxGroupMaster")]
         [HttpPut, ValidateModel]
-        [Produces(typeof(GeneralTaxGroupMasterResponse))]
-        public IActionResult UpdateTaxGroupMaster([FromBody] GeneralTaxGroupMasterModel model)
+        [Produces(typeof(GeneralTaxGroupResponse))]
+        public IActionResult UpdateTaxGroupMaster([FromBody] GeneralTaxGroupModel model)
         {
             try
             {
                 bool isUpdated = _generalTaxGroupMasterService.UpdateTaxGroupMaster(model);
-                return isUpdated ? CreateOKResponse(new GeneralTaxGroupMasterResponse { GeneralTaxGroupMasterModel = model }) : CreateInternalServerErrorResponse();
+                return isUpdated ? CreateOKResponse(new GeneralTaxGroupResponse { GeneralTaxGroupModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupMasterResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupResponse { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupMasterResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 

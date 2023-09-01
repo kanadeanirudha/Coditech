@@ -2,7 +2,7 @@
 {
     public class GeneralTaxMasterResponse : BaseResponse
     {
-        public GeneralTaxMasterModel GeneralTaxMasterModel { get; set; }
+        public GeneralTaxMasterModel GeneralTaxModel { get; set; }
     }
 }
 
