@@ -19,7 +19,8 @@
             TaxGroupMaster,
             City,
             Nationality,
-            Designation
+            Designation,
+            OrganisationCentre
         }
     }
 }
