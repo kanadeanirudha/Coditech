@@ -1,6 +1,6 @@
 ﻿namespace Coditech.API.Data
 {
-    public partial class GeneralTaxGroupMasterDetail
+    public partial class GeneralTaxGroupMasterDetails
     {
         public short GeneralTaxGroupMasterDetailsId { get; set; }
         public byte GenTaxGroupMasterId { get; set; }

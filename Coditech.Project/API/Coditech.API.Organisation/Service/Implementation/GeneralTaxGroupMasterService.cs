@@ -19,14 +19,14 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralTaxMaster> _generalTaxMasterRepository;
         private readonly ICoditechRepository<GeneralTaxGroupMaster> _generalTaxGroupMasterRepository;
-        private readonly ICoditechRepository<GeneralTaxGroupMasterDetail> _generalTaxGroupMasterDetailRepository;
+        private readonly ICoditechRepository<GeneralTaxGroupMasterDetails> _generalTaxGroupMasterDetailRepository;
         public GeneralTaxGroupMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalTaxGroupMasterRepository = new CoditechRepository<GeneralTaxGroupMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalTaxMasterRepository = new CoditechRepository<GeneralTaxMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _generalTaxGroupMasterDetailRepository = new CoditechRepository<GeneralTaxGroupMasterDetail>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalTaxGroupMasterDetailRepository = new CoditechRepository<GeneralTaxGroupMasterDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralTaxGroupMasterListModel GetTaxGroupMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -70,7 +70,7 @@ namespace Coditech.API.Service
                 generalTaxGroupModel.GeneralTaxGroupMasterId = taxGroupMasterData.GeneralTaxGroupMasterId;
                 foreach (string genTaxMasterId in generalTaxGroupModel.GeneralTaxMasterIds)
                 {
-                    GeneralTaxGroupMasterDetail generalTaxGroupMasterDetail = new GeneralTaxGroupMasterDetail()
+                    GeneralTaxGroupMasterDetails generalTaxGroupMasterDetail = new GeneralTaxGroupMasterDetails()
                     {
                         GenTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
                         GenTaxMasterId = Convert.ToInt16(genTaxMasterId)
@@ -120,14 +120,14 @@ namespace Coditech.API.Service
 
             if (isTaxGroupMasterUpdated)
             {
-                List<GeneralTaxGroupMasterDetail> list = _generalTaxGroupMasterDetailRepository.Table.Where(x => x.GenTaxGroupMasterId == generalTaxGroupModel.GeneralTaxGroupMasterId)?.ToList();
+                List<GeneralTaxGroupMasterDetails> list = _generalTaxGroupMasterDetailRepository.Table.Where(x => x.GenTaxGroupMasterId == generalTaxGroupModel.GeneralTaxGroupMasterId)?.ToList();
                 if (list?.Count > 0)
                 {
                     _generalTaxGroupMasterDetailRepository.Delete(list);
-                    List<GeneralTaxGroupMasterDetail> generalTaxGroupMasterDetailList = new List<GeneralTaxGroupMasterDetail>();
+                    List<GeneralTaxGroupMasterDetails> generalTaxGroupMasterDetailList = new List<GeneralTaxGroupMasterDetails>();
                     foreach (string genTaxMasterId in generalTaxGroupModel.GeneralTaxMasterIds)
                     {
-                        GeneralTaxGroupMasterDetail generalTaxGroupMasterDetail = new GeneralTaxGroupMasterDetail()
+                        GeneralTaxGroupMasterDetails generalTaxGroupMasterDetail = new GeneralTaxGroupMasterDetails()
                         {
                             GenTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
                             GenTaxMasterId = Convert.ToInt16(genTaxMasterId)

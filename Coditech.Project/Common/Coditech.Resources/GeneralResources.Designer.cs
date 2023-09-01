@@ -133,51 +133,6 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
-        /// </summary>
-        public static string ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword {
-            get {
-                return ResourceManager.GetString("ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Action.
-        /// </summary>
-        public static string LabelAction {
-            get {
-                return ResourceManager.GetString("LabelAction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Centre.
-        /// </summary>
-        public static string LabelCentre {
-            get {
-                return ResourceManager.GetString("LabelCentre", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Departments.
-        /// </summary>
-        public static string LabelDepartments {
-            get {
-                return ResourceManager.GetString("LabelDepartments", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is Active.
-        /// </summary>
-        public static string LabelIsActive {
-            get {
-                return ResourceManager.GetString("LabelIsActive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Model can not be null..
         /// </summary>
         public static string ModelNotNull {
@@ -196,38 +151,11 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record created successfully..
-        /// </summary>
-        public static string RecordCreationSuccessMessage {
-            get {
-                return ResourceManager.GetString("RecordCreationSuccessMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Record saved successfully..
-        /// </summary>
-        public static string RecordSavedSuccessMessage {
-            get {
-                return ResourceManager.GetString("RecordSavedSuccessMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string SaveButton {
             get {
                 return ResourceManager.GetString("SaveButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -----Select Centre-----.
-        /// </summary>
-        public static string SelectCentre {
-            get {
-                return ResourceManager.GetString("SelectCentre", resourceCulture);
             }
         }
         

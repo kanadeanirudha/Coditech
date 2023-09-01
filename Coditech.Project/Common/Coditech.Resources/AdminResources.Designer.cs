@@ -70,6 +70,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
+        /// </summary>
+        public static string ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
         public static string LabelAction {
@@ -79,11 +88,29 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string LabelCancel {
+            get {
+                return ResourceManager.GetString("LabelCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Centre.
         /// </summary>
         public static string LabelCentre {
             get {
                 return ResourceManager.GetString("LabelCentre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Department List.
+        /// </summary>
+        public static string LabelDepartmentList {
+            get {
+                return ResourceManager.GetString("LabelDepartmentList", resourceCulture);
             }
         }
         
@@ -102,6 +129,24 @@ namespace Coditech.Resources {
         public static string LabelIsActive {
             get {
                 return ResourceManager.GetString("LabelIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string LabelSave {
+            get {
+                return ResourceManager.GetString("LabelSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -----Select Centre-----.
+        /// </summary>
+        public static string SelectCentre {
+            get {
+                return ResourceManager.GetString("SelectCentre", resourceCulture);
             }
         }
     }
