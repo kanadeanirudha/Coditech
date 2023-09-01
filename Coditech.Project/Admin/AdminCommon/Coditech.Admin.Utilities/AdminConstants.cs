@@ -2,8 +2,8 @@
 {
     public struct AdminConstants
     {
-        public const string DESCKey = "DESC";
-        public const string ASCKey = "ASC";
+        public const string DESCKey = "desc";
+        public const string ASCKey = "asc";
         public const string LoginCookieNameValue = "loginCookie";
         public const string AreaKey = "area";
         public const string Controller = "controller";

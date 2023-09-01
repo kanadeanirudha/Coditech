@@ -152,18 +152,17 @@ namespace Coditech.Admin.Agents
             return sortlist;
         }
 
-        protected static SortCollection SortingData(string sort, string sortBy)
+        protected static SortCollection SortingData(string sortByColumn, string sortBy)
         {
-
-            if (!string.IsNullOrEmpty(sort))
+            if (!string.IsNullOrEmpty(sortByColumn))
             {
                 SortCollection sortlist = new SortCollection();
-                sortlist.Add(sort, sortBy);
+                sortlist.Add(sortByColumn, sortBy);
                 return sortlist;
             }
             return null;
         }
-        protected void SetListPagingData(PageListViewModel pageListViewModel, BaseListResponse listModel, DataTableViewModel dataTableModel, int totalRecordCount)
+        protected void SetListPagingData(PageListViewModel pageListViewModel, BaseListResponse listModel, DataTableViewModel dataTableModel, int totalRecordCount, List<DatatableColumns> datatableColumns, bool IsActionColumn = true)
         {
             pageListViewModel.Page = Convert.ToInt32(listModel.PageIndex);
             pageListViewModel.RecordPerPage = Convert.ToInt32(listModel.PageSize);
@@ -173,6 +172,8 @@ namespace Coditech.Admin.Agents
             pageListViewModel.SearchBy = dataTableModel.SearchBy ?? string.Empty;
             pageListViewModel.SortByColumn = dataTableModel.SortByColumn ?? string.Empty;
             pageListViewModel.SortBy = dataTableModel.SortBy ?? string.Empty;
+            pageListViewModel.DatatableColumnList = datatableColumns;
+            pageListViewModel.IsActionColumn = IsActionColumn;
         }
     }
 }
