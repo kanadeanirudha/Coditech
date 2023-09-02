@@ -32,8 +32,8 @@ namespace Coditech.API.Data
 
         #region Declarations
 
-        public const string LogComponentFilePath = "~/data/default/logs/{yyyy-mm-dd}/Znode_{ComponentName}_Log.log";
-        public const string LogFilePath = "~/data/default/logs/{yyyy-mm-dd}/Znode_Log.log";
+        public const string LogComponentFilePath = "~/data/default/logs/{yyyy-mm-dd}/Coditech_{ComponentName}_Log.log";
+        public const string LogFilePath = "~/data/default/logs/{yyyy-mm-dd}/Coditech_Log.log";
 
         #endregion
 

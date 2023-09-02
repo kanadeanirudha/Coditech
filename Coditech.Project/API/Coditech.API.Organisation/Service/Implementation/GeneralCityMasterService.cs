@@ -48,10 +48,9 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalCityModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalCityModel.CityName))
-            {
+            if (IsCityNameAlreadyExist(generalCityModel.CityName))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "City Code"));
-            }
+
             GeneralCityMaster generalCityMaster = generalCityModel.FromModelToEntity<GeneralCityMaster>();
 
             //Create new City and return it.
@@ -89,6 +88,9 @@ namespace Coditech.API.Service
             if (generalCityModel.GeneralCityMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "CityID"));
 
+            if (IsCityNameAlreadyExist(generalCityModel.CityName, generalCityModel.GeneralCityMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "City Code"));
+
             GeneralCityMaster generalCityMaster = generalCityModel.FromModelToEntity<GeneralCityMaster>();
 
             //Update City
@@ -117,8 +119,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if City code is already present or not.
-        protected virtual bool IsNameAlreadyExist(string cityName)
-         => _generalCityMasterRepository.Table.Any(x => x.CityName == cityName);
+        protected virtual bool IsCityNameAlreadyExist(string cityName, int generalCityMasterId = 0)
+         => _generalCityMasterRepository.Table.Any(x => x.CityName == cityName && (x.GeneralCityMasterId != generalCityMasterId || generalCityMasterId == 0));
         #endregion
     }
 }

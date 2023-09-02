@@ -40,3 +40,13 @@
     padding: 2%;
     width: 150px;
 }
+.required:after {
+    content: ' * ';
+    color: #ea2f25;
+}
+.field-validation-error, .error-msg {
+    color: #CC0000;
+}
+.input-validation-error {
+    border: 1px solid #FC5961 !important;
+}

@@ -48,10 +48,10 @@ namespace Coditech.API.Service
         {
             if (IsNull(organisationCentreModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(organisationCentreModel.CentreCode))
-            {
+
+            if (IsCentreCodeAlreadyExist(organisationCentreModel.CentreCode))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
-            }
+            
             OrganisationCentreMaster organisationCentreMaster = organisationCentreModel.FromModelToEntity<OrganisationCentreMaster>();
 
             //Create new Organisation Centre and return it.
@@ -89,6 +89,9 @@ namespace Coditech.API.Service
             if (organisationCentreModel.OrganisationCentreMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
 
+            if (IsCentreCodeAlreadyExist(organisationCentreModel.CentreCode, organisationCentreModel.OrganisationCentreMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
+
             OrganisationCentreMaster organisationCentreMaster = organisationCentreModel.FromModelToEntity<OrganisationCentreMaster>();
 
             //Update Organisation Centre
@@ -117,8 +120,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Centre code is already present or not.
-        protected virtual bool IsNameAlreadyExist(string centreCode)
-         => _organisationCentreMasterRepository.Table.Any(x => x.CentreCode == centreCode);
+        protected virtual bool IsCentreCodeAlreadyExist(string centreCode, int organisationCentreMasterId = 0)
+         => _organisationCentreMasterRepository.Table.Any(x => x.CentreCode == centreCode && (x.OrganisationCentreMasterId != organisationCentreMasterId || organisationCentreMasterId == 0));
         #endregion
     }
 }

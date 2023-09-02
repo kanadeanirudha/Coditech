@@ -26,7 +26,7 @@ namespace Coditech.API.Service
             _generalDepartmentMasterRepository = new CoditechRepository<GeneralDepartmentMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseDepartmentRepository = new CoditechRepository<OrganisationCentrewiseDepartment>(_serviceProvider.GetService<Coditech_Entities>());
         }
-        
+
         public virtual GeneralDepartmentListModel GetDepartmentList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
@@ -50,10 +50,8 @@ namespace Coditech.API.Service
             if (IsNull(generalDepartmentModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsNameAlreadyExist(generalDepartmentModel.DepartmentShortCode))
-            {
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Short Code"));
-            }
+            if (IsDepartmentCodeAlreadyExist(generalDepartmentModel.DepartmentShortCode))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Department Short Code"));
 
             GeneralDepartmentMaster generalDepartmentMaster = generalDepartmentModel.FromModelToEntity<GeneralDepartmentMaster>();
 
@@ -91,6 +89,9 @@ namespace Coditech.API.Service
 
             if (generalDepartmentModel.GeneralDepartmentMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DepartmentID"));
+
+            if (IsDepartmentCodeAlreadyExist(generalDepartmentModel.DepartmentShortCode, generalDepartmentModel.GeneralDepartmentMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Department Short Code"));
 
             GeneralDepartmentMaster generalDepartmentMaster = generalDepartmentModel.FromModelToEntity<GeneralDepartmentMaster>();
 
@@ -140,8 +141,8 @@ namespace Coditech.API.Service
         #region Protected Method
 
         //Check if Department code is already present or not.
-        protected virtual bool IsNameAlreadyExist(string departmentName)
-         => _generalDepartmentMasterRepository.Table.Any(x => x.DepartmentName == departmentName);
+        protected virtual bool IsDepartmentCodeAlreadyExist(string departmentShortCode, short generalDepartmentMasterId = 0)
+         => _generalDepartmentMasterRepository.Table.Any(x => x.DepartmentShortCode == departmentShortCode && (x.GeneralDepartmentMasterId != generalDepartmentMasterId || generalDepartmentMasterId == 0));
         #endregion
     }
 }

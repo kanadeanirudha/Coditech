@@ -51,10 +51,8 @@ namespace Coditech.API.Service
             if (IsNull(generalCountryModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsCodeAlreadyExist(generalCountryModel.CountryCode))
-            {
+            if (IsCountryCodeAlreadyExist(generalCountryModel.CountryCode))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
-            }
 
             GeneralCountryMaster generalCountryMaster = generalCountryModel.FromModelToEntity<GeneralCountryMaster>();
 
@@ -93,6 +91,9 @@ namespace Coditech.API.Service
             if (generalCountryModel.GeneralCountryMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "CountryID"));
 
+            if (IsCountryCodeAlreadyExist(generalCountryModel.CountryCode, generalCountryModel.GeneralCountryMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
+
             GeneralCountryMaster generalCountryMaster = generalCountryModel.FromModelToEntity<GeneralCountryMaster>();
 
             //Update Country
@@ -122,8 +123,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Country code is already present or not.
-        protected virtual bool IsCodeAlreadyExist(string countryName)
-         => _generalCountryMasterRepository.Table.Any(x => x.CountryName == countryName);
+        protected virtual bool IsCountryCodeAlreadyExist(string countryName, short generalCountryMasterId = 0)
+         => _generalCountryMasterRepository.Table.Any(x => x.CountryName == countryName && (x.GeneralCountryMasterId != generalCountryMasterId || generalCountryMasterId == 0));
         #endregion
     }
 }

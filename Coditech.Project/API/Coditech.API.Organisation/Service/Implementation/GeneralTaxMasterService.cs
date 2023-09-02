@@ -48,11 +48,10 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalTaxMasterModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            
-            if (IsNameAlreadyExist(generalTaxMasterModel.TaxName))
-            {
+
+            if (IsTaxNameAlreadyExist(generalTaxMasterModel.TaxName))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Name"));
-            }
+           
             GeneralTaxMaster generalTaxMaster = generalTaxMasterModel.FromModelToEntity<GeneralTaxMaster>();
 
             //Create new Tax Master and return it.
@@ -89,6 +88,9 @@ namespace Coditech.API.Service
 
             if (generalTaxMasterModel.GeneralTaxMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxMasterId"));
+           
+            if (IsTaxNameAlreadyExist(generalTaxMasterModel.TaxName))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Name"));
 
             GeneralTaxMaster generalTaxMaster = generalTaxMasterModel.FromModelToEntity<GeneralTaxMaster>();
 
@@ -118,8 +120,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Tax Name is already present or not.
-        protected virtual bool IsNameAlreadyExist(string taxName)
-         => _generalTaxMasterRepository.Table.Any(x => x.TaxName == taxName);
+        protected virtual bool IsTaxNameAlreadyExist(string taxName, short generalTaxMasterId = 0)
+         => _generalTaxMasterRepository.Table.Any(x => x.TaxName == taxName && (x.GeneralTaxMasterId != generalTaxMasterId || generalTaxMasterId == 0));
         #endregion
     }
 }

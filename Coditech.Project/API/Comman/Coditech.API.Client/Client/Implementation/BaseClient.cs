@@ -22,9 +22,7 @@ namespace Coditech.API.Client
     {
         private static readonly ICoditechLogging _coditechLogging = CoditechDependencyResolver.GetService<ICoditechLogging>();
         private static IConfigurationSection settings = CoditechDependencyResolver.GetService<IConfiguration>().GetSection("appsettings");
-        public string UriItemSeparator => settings["CoditechApiUriItemSeparator"];
-        public string UriKeyValueSeparator => settings["CoditechApiUriKeyValueSeparator"];
-        public string CommaReplacer => settings["CoditechCommaReplacer"];
+        
         private string _domainName;
         private string _domainKey;
         private int _apiRequestTimeout = 0;
@@ -78,16 +76,7 @@ namespace Coditech.API.Client
             }
             set { _domainKey = value; }
         }
-        public string LocaleHeader
-        {
-            get
-            {
-                return "Locale: " + _localeId;
-            }
-
-            set { _localeId = value; }
-        }
-
+       
         //Get the IPAddress of the user.
         private string MinifiedJsonResponseHeader
         {
@@ -331,9 +320,6 @@ namespace Coditech.API.Client
             return result;
 
         }
-
-        public string BuildEndpointQueryString(IEnumerable<string> expand = null, IEnumerable<FilterTuple> filter = null, IDictionary<string, string> sort = null, int? pageIndex = null, int? pageSize = null, params string[] param) =>
-        string.Concat(BuildExpandQueryString(expand), BuildFilterQueryString(filter), BuildSortQueryString(sort), BuildPageIndexQueryString(pageIndex), BuildPageSizeQueryString(pageSize), CustomEndpoint(param));
 
         protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
         {
@@ -882,109 +868,7 @@ namespace Coditech.API.Client
             if (response != null) status.StatusCode = response.StatusCode;
 
         }
-        private string BuildExpandQueryString(IEnumerable<string> expands)
-        {
-            string queryString = "?expand=";
-
-            if (expands != null)
-            {
-                foreach (string e in expands)
-                    queryString += e + UriItemSeparator;
-
-                queryString = queryString.TrimEnd(UriItemSeparator.ToCharArray());
-            }
-
-            return queryString;
-        }
-        private string BuildFilterQueryString(IEnumerable<FilterTuple> filters)
-        {
-            string queryString = "&filter=";
-
-            if (filters != null)
-            {
-                foreach (FilterTuple f in filters)
-                    queryString += $"{f.FilterName}{UriKeyValueSeparator}{f.FilterOperator}{UriKeyValueSeparator}{HttpUtility.UrlEncode(f.FilterValue?.Replace(",", CommaReplacer))}{UriItemSeparator}";
-
-                queryString = queryString.TrimEnd(UriItemSeparator.ToCharArray());
-            }
-
-            return queryString;
-
-        }
-
-        private string BuildSortQueryString(IDictionary<string, string> sorts)
-        {
-            string queryString = "&sort=";
-
-            if (sorts != null)
-            {
-                foreach (KeyValuePair<string, string> s in sorts)
-                    queryString += $"{s.Key}{UriKeyValueSeparator}{s.Value}{UriItemSeparator}";
-
-                queryString = queryString.TrimEnd(UriItemSeparator.ToCharArray());
-            }
-
-            return queryString;
-
-        }
-        private string BuildPageIndexQueryString(int? pageIndex)
-        {
-
-            if (pageIndex.HasValue)
-            {
-                string queryString = "&pageIndex=";
-                queryString += $"{pageIndex.Value}";
-                return queryString;
-            }
-            return string.Empty;
-        }
-
-        private string BuildPageSizeQueryString(int? pageSize)
-        {
-
-            if (pageSize.HasValue)
-            {
-                string queryString = "&pageSize=";
-                queryString += $"{pageSize.Value}";
-                return queryString;
-            }
-            return string.Empty;
-        }
-
-        private string CustomEndpoint(params string[] param)
-        {
-            string endpoint = string.Empty;
-            if (param == null || param.FirstOrDefault() == null)
-                return endpoint;
-            foreach (var parameter in param)
-            {
-                if (parameter.Contains("cache"))
-                {
-                    endpoint += BuildCacheRefreshQueryInString(endpoint);
-                }
-                else if (parameter.Contains("locale"))
-                {
-                    endpoint += BuildLocaleQueryInString(parameter);
-                }
-                else if (parameter.Contains(Convert.ToString(settings["EndpointSplitter"])))
-                {
-                    var stringArray = parameter.Split(Convert.ToString(settings["EndpointSplitter"]));
-                    endpoint += BuildCustomEndpointQueryInString(parameter, stringArray[0], stringArray[1]);
-                }
-                else
-                {
-                    return endpoint;
-                }
-            }
-
-            return endpoint;
-        }
-        private string BuildCacheRefreshQueryInString(string endpoint) => endpoint + "&cache=refresh";
-        private string BuildLocaleQueryInString(string endpoint)
-        => endpoint + "&locale=" + _localeId;
-
-        private string BuildCustomEndpointQueryInString(string endpoint, string key, string value)
-        => endpoint + $"&{key}=" + HttpUtility.UrlEncode(value);
+        
         #endregion
 
         #region protected
@@ -1044,6 +928,18 @@ namespace Coditech.API.Client
 
             var result = System.Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
+        }
+
+        protected Dictionary<string, IEnumerable<string>> BindHeaders(HttpResponseMessage response)
+        {
+            var headers_ = System.Linq.Enumerable.ToDictionary(response.Headers, h_ => h_.Key, h_ => h_.Value);
+            if (response.Content != null && response.Content.Headers != null)
+            {
+                foreach (var item_ in response.Content.Headers)
+                    headers_[item_.Key] = item_.Value;
+            }
+
+            return headers_;
         }
         #endregion
     }

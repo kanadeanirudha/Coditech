@@ -74,11 +74,11 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDepartmentMaster/GetDepartment")]
         [HttpGet]
         [Produces(typeof(GeneralDepartmentResponse))]
-        public IActionResult GetDepartment(short deneralDepartmentMasterId)
+        public IActionResult GetDepartment(short generalDepartmentId)
         {
             try
             {
-                GeneralDepartmentModel generalDepartmentMasterModel = _generalDepartmentMasterService.GetDepartment(deneralDepartmentMasterId);
+                GeneralDepartmentModel generalDepartmentMasterModel = _generalDepartmentMasterService.GetDepartment(generalDepartmentId);
                 return IsNotNull(generalDepartmentMasterModel) ? CreateOKResponse(new GeneralDepartmentResponse { GeneralDepartmentModel = generalDepartmentMasterModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Client\GeneralMaster\GeneralTaxMasterClient .cs" />
-    <Compile Remove="IClient\GeneralMaster\IGeneralTaxMasterClient.cs" />
+    <Compile Remove="Client\Implementation\GeneralMaster\GeneralTaxMasterClient .cs" />
+    <Compile Remove="Client\Interface\GeneralMaster\IGeneralTaxMasterClient.cs" />
   </ItemGroup>
 
   <ItemGroup>
