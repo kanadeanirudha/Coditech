@@ -20,7 +20,8 @@
             City,
             Nationality,
             Designation,
-            OrganisationCentre 
+            OrganisationCentre,
+            AdminSnPosts
         }
     }
 }

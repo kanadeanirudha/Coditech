@@ -31,6 +31,7 @@ namespace Coditech.API.Data
         #region Admin
         public DbSet<AdminRoleMenuDetail> AdminRoleMenuDetail { get; set; }
         public DbSet<AdminRoleApplicableDetail> AdminRoleApplicableDetail { get; set; }
+        public DbSet<AdminSactionPostDetails> AdminSactionPostDetails { get; set; }
         #endregion
 
         #region User
