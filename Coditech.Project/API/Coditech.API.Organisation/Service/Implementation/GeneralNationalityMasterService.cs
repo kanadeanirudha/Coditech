@@ -48,10 +48,9 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalNationalityModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalNationalityModel.Description))
-            {
+            if (IsNationalityNameAlreadyExist(generalNationalityModel.Description))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Nationality Name"));
-            }
+
             GeneralNationalityMaster generalNationalityMaster = generalNationalityModel.FromModelToEntity<GeneralNationalityMaster>();
 
             //Create new Nationality and return it.
@@ -89,6 +88,9 @@ namespace Coditech.API.Service
             if (generalNationalityModel.GeneralNationalityMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "NationalityId"));
 
+            if (IsNationalityNameAlreadyExist(generalNationalityModel.Description, generalNationalityModel.GeneralNationalityMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Nationality Name"));
+
             GeneralNationalityMaster generalNationalityMaster = generalNationalityModel.FromModelToEntity<GeneralNationalityMaster>();
 
             //Update Nationality
@@ -117,8 +119,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Nationality Name is already present or not.
-        protected virtual bool IsNameAlreadyExist(string nationalityName)
-         => _generalNationalityMasterRepository.Table.Any(x => x.Description == nationalityName);
+        protected virtual bool IsNationalityNameAlreadyExist(string nationalityName, short generalNationalityMasterId = 0)
+         => _generalNationalityMasterRepository.Table.Any(x => x.Description == nationalityName && (x.GeneralNationalityMasterId != generalNationalityMasterId || generalNationalityMasterId == 0));
         #endregion
     }
 }

@@ -89,7 +89,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<GeneralDepartmentMasterController>(x => x.List(null));
         }
 
-        #region Private
+        #region Protected
 
         #endregion
     }

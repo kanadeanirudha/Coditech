@@ -83,10 +83,10 @@ namespace Coditech.Common.API
                 //        SetErrorCodes(Libraries.Common.Exceptions.ErrorCodes.UnAuthorized, "Token is invalid", HttpStatusCode.Unauthorized, actionContext);
                 //    }
                 //}
-                //else if (ZnodeApiSettings.EnableBasicAuthorization)
+                //else if (CoditechApiSettings.EnableBasicAuthorization)
                 //{
                 //    string? authValue = actionContext.HttpContext.Request.Headers["Authorization"].First();
-                //    string[] authHeader = ZnodeTokenHelper.GetAuthHeader(authValue);
+                //    string[] authHeader = CoditechTokenHelper.GetAuthHeader(authValue);
 
                 //    if (!Equals(authHeader, null))
                 //    {

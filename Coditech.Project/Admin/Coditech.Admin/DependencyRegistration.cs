@@ -11,6 +11,7 @@ namespace Coditech.Admin
         public static void RegisterDI(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<CoditechTranslator>();
+
             #region Agent
             builder.Services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();

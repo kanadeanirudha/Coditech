@@ -4,6 +4,7 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
@@ -40,17 +41,17 @@ namespace Coditech.Admin.Agents
                 filters.Add("DepartmentShortCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "DepartmentName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
             GeneralDepartmentListResponse response = _generalDepartmentClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralDepartmentListModel departmentList = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
             GeneralDepartmentListViewModel listViewModel = new GeneralDepartmentListViewModel();
             listViewModel.GeneralDepartmentList = departmentList?.GeneralDepartmentList?.ToViewModel<GeneralDepartmentViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralDepartmentList.Count);
-
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralDepartmentList.Count, BindColumns());
             return listViewModel;
         }
-
+        
         //Create General Department.
         public virtual GeneralDepartmentViewModel CreateDepartment(GeneralDepartmentViewModel generalDepartmentViewModel)
         {
@@ -133,6 +134,31 @@ namespace Coditech.Admin.Agents
                 errorMessage = GeneralResources.ErrorFailedToDelete;
                 return false;
             }
+        }
+        #endregion
+
+        #region protected
+        protected virtual List<DatatableColumns> BindColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Department Name",
+                ColumnCode = "DepartmentName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Department Code",
+                ColumnCode = "DepartmentShortCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Print Short Desc",
+                ColumnCode = "PrintShortDesc",
+            });
+            return datatableColumnList;
         }
         #endregion
     }

@@ -5,8 +5,10 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Collections.Specialized;
 using System.Data;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
@@ -46,10 +48,9 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalDesignationModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalDesignationModel.Description))
-            {
+            if (IsDesignationNameAlreadyExist(generalDesignationModel.Description))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Designation Name"));
-            }
+
             EmployeeDesignationMaster employeeDesignationMaster = generalDesignationModel.FromModelToEntity<EmployeeDesignationMaster>();
 
             //Create new Designation and return it.
@@ -87,6 +88,9 @@ namespace Coditech.API.Service
             if (generalDesignationModel.EmployeeDesignationMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DesignationId"));
 
+            if (IsDesignationNameAlreadyExist(generalDesignationModel.Description, generalDesignationModel.EmployeeDesignationMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Designation Name"));
+
             EmployeeDesignationMaster employeeDesignationMaster = generalDesignationModel.FromModelToEntity<EmployeeDesignationMaster>();
 
             //Update Designation
@@ -115,8 +119,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Designation Name is already present or not.
-        protected virtual bool IsNameAlreadyExist(string designationName)
-         => _employeeDesignationMasterRepository.Table.Any(x => x.Description == designationName);
+        protected virtual bool IsDesignationNameAlreadyExist(string designationName, int employeeDesignationMasterId = 0)
+         => _employeeDesignationMasterRepository.Table.Any(x => x.Description == designationName && (x.EmployeeDesignationMasterId != employeeDesignationMasterId || employeeDesignationMasterId == 0));
         #endregion
     }
 }

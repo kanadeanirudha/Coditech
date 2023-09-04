@@ -11,7 +11,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Department Name")]
         public string DepartmentName { get; set; }
         [Required]
-        [Display(Name = "Short Code")]
+        [Display(Name = "Department Short Code")]
         public string DepartmentShortCode { get; set; }
         [Required]
         [Display(Name = "Print Short Desc")]

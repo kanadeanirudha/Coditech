@@ -25,16 +25,6 @@ namespace Coditech.Common.Helper.Utilities
         public static TModel FromEntityToModel<TModel>(this Object entity)
             => TranslatorInstance.Translate<TModel>(entity);
 
-        ///// <summary>
-        ///// Translate Model to Entity
-        ///// </summary>
-        ///// <typeparam name="TEntity">TEntity is a destination model, having contraint TEntity is a ZnodeEntityBaseModel</typeparam>
-        ///// <typeparam name="TModel">TModel is source model</typeparam>
-        ///// <param name="Model">model is extended class</param>
-        ///// <returns></returns>
-        //public static TEntity ToEntity<TEntity, TModel>(this TModel model) where TEntity : ZnodeEntityBaseModel
-        //    => TranslatorInstance.Translate<TEntity, TModel>(model);
-
         /// <summary>
         /// Translate Model collection to Model Entity
         /// </summary>

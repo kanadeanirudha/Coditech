@@ -5,37 +5,37 @@ namespace Coditech.Admin.Agents
     public interface IGeneralDepartmentAgent
     {
         /// <summary>
-        /// Gets list of General Department.
+        /// Get list of General Department.
         /// </summary>
-        /// <returns>Success</returns>
-        /// <exception cref="CoditechException">A server side error occurred.</exception>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GeneralDepartmentListViewModel</returns>
         GeneralDepartmentListViewModel GetDepartmentList(DataTableViewModel dataTableModel);
         
         /// <summary>
-        /// Create general Department.
+        /// Create Department.
         /// </summary>
         /// <param name="generalDepartmentViewModel">General Department View Model.</param>
         /// <returns>Returns created model.</returns>
         GeneralDepartmentViewModel CreateDepartment(GeneralDepartmentViewModel generalDepartmentViewModel);
 
         /// <summary>
-        /// Get general Department list by general Department id.
+        /// Get Department by generalDepartmentId.
         /// </summary>
-        /// <param name="generalDepartmentId">GeneralDepartment list Id</param>
+        /// <param name="generalDepartmentId">generalDepartmentId</param>
         /// <returns>Returns GeneralDepartmentViewModel.</returns>
         GeneralDepartmentViewModel GetDepartment(int generalDepartmentId);
 
         /// <summary>
-        /// Update general Department.
+        /// Update Department.
         /// </summary>
-        /// <param name="generalDepartmentViewModel">GeneralDepartment view model to update.</param>
-        /// <returns>Returns updated general Department model.</returns>
+        /// <param name="generalDepartmentViewModel">generalDepartmentViewModel.</param>
+        /// <returns>Returns updated GeneralDepartmentViewModel</returns>
         GeneralDepartmentViewModel UpdateDepartment(GeneralDepartmentViewModel generalDepartmentViewModel);
 
         /// <summary>
-        /// Delete general Department.
+        /// Delete Department.
         /// </summary>
-        /// <param name="generalDepartmentId">General Department Id.</param>
+        /// <param name="generalDepartmentId">generalDepartmentId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteDepartment(string generalDepartmentId, out string errorMessage);
     }

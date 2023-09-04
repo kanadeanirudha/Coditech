@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 namespace Coditech.API.Data
 {
-
     public static class HelperMethods
     {
         private static readonly IHttpContextAccessor _httpContextAccessor = CoditechDependencyResolver._staticServiceProvider?.GetService<IHttpContextAccessor>();
@@ -23,17 +22,6 @@ namespace Coditech.API.Data
                 int.TryParse(headers["LoginUserId"], out userId);
 
             return userId;
-        }
-
-        /// <summary>
-        /// Get database connection string
-        /// </summary>
-        public static string ConnectionString
-        {
-            get
-            {
-                return Convert.ToString(settings.GetSection("ConnectionStrings")["ZnodeECommerceDB"]);
-            }
         }
 
         public static bool IsUserWantToDebugSql

@@ -8,6 +8,7 @@ using Coditech.Resources;
 
 using System.Collections.Specialized;
 using System.Data;
+using System.Text.RegularExpressions;
 
 using static Coditech.Common.Helper.HelperUtility;
 
@@ -52,10 +53,9 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalTaxGroupModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsNameAlreadyExist(generalTaxGroupModel.TaxGroupName))
-            {
+            if (IsTaxGroupNameAlreadyExist(generalTaxGroupModel.TaxGroupName))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Group Name"));
-            }
+            
             decimal? taxGroupRate = _generalTaxMasterRepository.Table.Where(x => generalTaxGroupModel.GeneralTaxMasterIds.Contains(x.GeneralTaxMasterId.ToString())).Sum(y => y.TaxRate);
             GeneralTaxGroupMaster generalTaxGroupMaster = new GeneralTaxGroupMaster()
             {
@@ -107,6 +107,9 @@ namespace Coditech.API.Service
 
             if (generalTaxGroupModel.GeneralTaxGroupMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxGroupMasterId"));
+            
+            if (IsTaxGroupNameAlreadyExist(generalTaxGroupModel.TaxGroupName, generalTaxGroupModel.GeneralTaxGroupMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Group Name"));
 
             decimal? taxGroupRate = _generalTaxMasterRepository.Table.Where(x => generalTaxGroupModel.GeneralTaxMasterIds.Contains(x.GeneralTaxMasterId.ToString())).Sum(y => y.TaxRate);
             GeneralTaxGroupMaster generalTaxGroupMaster = new GeneralTaxGroupMaster()
@@ -161,8 +164,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Tax Group Name is already present or not.
-        protected virtual bool IsNameAlreadyExist(string taxGroupName)
-         => _generalTaxGroupMasterRepository.Table.Any(x => x.TaxGroupName == taxGroupName);
+        protected virtual bool IsTaxGroupNameAlreadyExist(string taxGroupName, byte generalTaxGroupMasterId = 0)
+         => _generalTaxGroupMasterRepository.Table.Any(x => x.TaxGroupName == taxGroupName && (x.GeneralTaxGroupMasterId != generalTaxGroupMasterId || generalTaxGroupMasterId == 0));
         #endregion
     }
 }

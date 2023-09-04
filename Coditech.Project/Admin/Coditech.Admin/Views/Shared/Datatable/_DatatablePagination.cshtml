@@ -36,6 +36,8 @@
                 </ul>
             </div>
         </div>
+        @Html.Hidden("DataTables_SortColumn",@Model.SortByColumn)
+        @Html.Hidden("DataTables_SortBy",@Model.SortBy)
     }
     else
     {

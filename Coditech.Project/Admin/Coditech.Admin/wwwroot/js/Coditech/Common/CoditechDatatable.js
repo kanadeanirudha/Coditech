@@ -34,7 +34,10 @@
         CallListPage(controllerName, methodName, dataTableModel);
     },
 
-    LoadListSortBy: function (controllerName, methodName, e) {
+    LoadListSortBy: function (controllerName, methodName, columnName, sortBy) {
+        sortBy = sortBy == "asc" ? "desc" : "asc";
+        $('#DataTables_SortColumn').val(columnName);
+        $('#DataTables_SortBy').val(sortBy);
         var dataTableModel = BindDataTableModel($('#DataTables_PageIndexId').val());
         CallListPage(controllerName, methodName, dataTableModel);
     },
@@ -67,8 +70,8 @@ function BindDataTableModel(PageIndex) {
     $("#notificationDivId").hide();
     let dataTableModel = {
         SearchBy: $('#DataTables_SearchById').val().trim(),
-        SortByColumn: "",
-        SortBy: "",
+        SortByColumn: $('#DataTables_SortColumn').val(),
+        SortBy: $('#DataTables_SortBy').val(),
         PageIndex: PageIndex,
         PageSize: $('#DataTables_PageSizeId').val(),
         SelectedCentreCode: $("#SelectedCentreCode").length > 0 ? $("#SelectedCentreCode").val() : "",
