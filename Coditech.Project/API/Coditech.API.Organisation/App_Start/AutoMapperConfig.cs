@@ -20,6 +20,7 @@ namespace Coditech.API.Mapper
             CreateMap<EmployeeDesignationMaster, GeneralDesignationModel>().ReverseMap();
             CreateMap<OrganisationCentreMaster, OrganisationCentreModel>().ReverseMap();
             CreateMap<AdminSactionPosts, AdminSnPostsModel>().ReverseMap();
+            CreateMap<AdminRoleMaster, AdminRoleMasterModel>().ReverseMap();
         }
     }
 }

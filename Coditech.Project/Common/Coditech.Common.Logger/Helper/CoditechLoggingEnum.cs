@@ -21,7 +21,8 @@
             Nationality,
             Designation,
             OrganisationCentre,
-            AdminSnPosts
+            AdminSnPosts,
+            AdminRoleMaster
         }
     }
 }
