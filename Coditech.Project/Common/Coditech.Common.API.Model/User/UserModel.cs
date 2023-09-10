@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
     public class UserModel : BaseModel
     {
         public UserModel()
         {
-            RoleList = new List<AdminRoleModel>();
+            RoleList = new List<AdminRoleDetailsModel>();
             ModuleList = new List<UserModuleModel>();
             MenuList = new List<UserMenuModel>();
             BalanceSheetList = new List<UserBalanceSheetModel>();
@@ -36,7 +33,7 @@ namespace Coditech.Common.API.Model
         public string SelectedBalanceSheet { get; set; }
         public int SelectedBalanceId { get; set; }
         public string SelectedCentreCode { get; set; } = string.Empty;
-        public List<AdminRoleModel> RoleList { get; set; }
+        public List<AdminRoleDetailsModel> RoleList { get; set; }
         public List<UserModuleModel> ModuleList { get; set; }
         public List<UserMenuModel> MenuList { get; set; }
         public List<UserBalanceSheetModel> BalanceSheetList { get; set; }

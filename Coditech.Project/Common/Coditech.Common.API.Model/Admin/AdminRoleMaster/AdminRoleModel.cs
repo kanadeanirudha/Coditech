@@ -1,16 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
-    public class AdminRoleMasterModel : BaseModel
+    public class AdminRoleModel : BaseModel
     {
-        public AdminRoleMasterModel()
-        {
-
-        }
-        public Int16 AdminRoleMasterId { get; set; }
+        public int AdminRoleMasterId { get; set; }
         public string AdminRoleCode { get; set; }
-        public string SanctPostName { get; set; }
+        public string SanctionPostName { get; set; }
         public bool IsActive { get; set; }
         public string MonitoringLevel { get; set; }
         public bool IsLoginAllowFromOutside { get; set; }

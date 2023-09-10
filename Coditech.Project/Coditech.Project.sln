@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.API.Data", "API\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Resources", "Common\Coditech.Resources\Coditech.Resources.csproj", "{A936949E-DB9D-4555-B199-A6143DBEA361}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Common.Service", "API\Comman\Coditech.Common.Service\Coditech.Common.Service.csproj", "{D7903B41-9CC4-46A1-AB8C-76AE2D840C73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{A936949E-DB9D-4555-B199-A6143DBEA361}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A936949E-DB9D-4555-B199-A6143DBEA361}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A936949E-DB9D-4555-B199-A6143DBEA361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7903B41-9CC4-46A1-AB8C-76AE2D840C73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7903B41-9CC4-46A1-AB8C-76AE2D840C73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7903B41-9CC4-46A1-AB8C-76AE2D840C73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7903B41-9CC4-46A1-AB8C-76AE2D840C73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,6 +113,7 @@ Global
 		{69FC5EDA-88AA-4F67-998D-08D6AA398A8C} = {63CCBF2E-0084-484D-84FC-AF5A48C5D073}
 		{C9D196C7-C2FF-4CF4-A47F-970A82D3A987} = {63CCBF2E-0084-484D-84FC-AF5A48C5D073}
 		{A936949E-DB9D-4555-B199-A6143DBEA361} = {56B5A9D6-463C-47DE-8366-6A5976E51406}
+		{D7903B41-9CC4-46A1-AB8C-76AE2D840C73} = {63CCBF2E-0084-484D-84FC-AF5A48C5D073}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C29948E7-3002-49F1-8F85-8AC9847A8945}

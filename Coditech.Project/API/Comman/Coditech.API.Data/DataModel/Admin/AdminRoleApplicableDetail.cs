@@ -6,7 +6,7 @@ namespace Coditech.API.Data
     {
         [Key]
         public int AdminRoleApplicableDetailId { get; set; }
-        public short AdminRoleMasterId { get; set; }
+        public int AdminRoleMasterId { get; set; }
         public int EmployeeId { get; set; }
         public int DesignationId { get; set; }
         public Nullable<System.DateTime> WorkFromDate { get; set; }

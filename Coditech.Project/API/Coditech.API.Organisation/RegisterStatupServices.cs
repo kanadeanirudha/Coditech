@@ -231,7 +231,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralNationalityMasterService, GeneralNationalityMasterService>();
             builder.Services.AddScoped<IGeneralDesignationMasterService, GeneralDesignationMasterService>();
             builder.Services.AddScoped<IOrganisationCentreMasterService, OrganisationCentreMasterService>();
-            builder.Services.AddScoped<IAdminSnPostsMasterService, AdminSnPostsMasterService> ();
+            builder.Services.AddScoped<IAdminSanctionPostService, AdminSanctionPostService> ();
             builder.Services.AddScoped<IAdminRoleMasterService, AdminRoleMasterService>();
         }
         #endregion

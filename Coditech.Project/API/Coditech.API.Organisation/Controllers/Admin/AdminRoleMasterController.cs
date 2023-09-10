@@ -51,67 +51,67 @@ namespace Coditech.API.Controllers
 
         [Route("/AdminRoleMaster/CreateAdminRoleMaster")]
         [HttpPost, ValidateModel]
-        [Produces(typeof(AdminRoleListResponse))]
-        public IActionResult CreateAdminRoleMaster([FromBody] AdminRoleMasterModel model)
+        [Produces(typeof(AdminRoleResponse))]
+        public virtual IActionResult CreateAdminRoleMaster([FromBody] AdminRoleModel model)
         {
             try
             {
-                AdminRoleMasterModel adminRoleMaster = _adminRoleMasterService.CreateAdminRoleMaster(model);
-                return IsNotNull(adminRoleMaster) ? CreateCreatedResponse(new AdminRoleListResponse { AdminRoleMasterModel = adminRoleMaster }) : CreateInternalServerErrorResponse();
+                AdminRoleModel adminRoleMaster = _adminRoleMasterService.CreateAdminRoleMaster(model);
+                return IsNotNull(adminRoleMaster) ? CreateCreatedResponse(new AdminRoleResponse { AdminRoleModel = adminRoleMaster }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new AdminRoleListResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new AdminRoleResponse { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new AdminRoleListResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new AdminRoleResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
         [Route("/AdminRoleMaster/GetAdminRoleMasterDetailsById")]
         [HttpGet]
-        [Produces(typeof(AdminRoleMasterModel))]
-        public IActionResult GetAdminRoleMasterDetailsById(short adminRoleMasterId)
+        [Produces(typeof(AdminRoleModel))]
+        public virtual IActionResult GetAdminRoleMasterDetailsById(short adminRoleMasterId)
         {
             try
             {
-                AdminRoleMasterModel adminRoleMasterModel = _adminRoleMasterService.GetAdminRoleMasterDetailsById(adminRoleMasterId);
+                AdminRoleModel adminRoleMasterModel = _adminRoleMasterService.GetAdminRoleMasterDetailsById(adminRoleMasterId);
                 return IsNotNull(adminRoleMasterModel) ? CreateOKResponse(adminRoleMasterModel) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new AdminRoleMasterModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new AdminRoleModel { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new AdminRoleMasterModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new AdminRoleModel { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
         [Route("/AdminRoleMaster/UpdateAdminRoleMaster")]
         [HttpPut, ValidateModel]
-        [Produces(typeof(AdminRoleListResponse))]
-        public IActionResult UpdateAdminRoleMaster([FromBody] AdminRoleMasterModel model)
+        [Produces(typeof(AdminRoleResponse))]
+        public virtual IActionResult UpdateAdminRoleMaster([FromBody] AdminRoleModel model)
         {
             try
             {
                 bool isUpdated = _adminRoleMasterService.UpdateAdminRoleMaster(model);
-                return isUpdated ? CreateOKResponse(new AdminRoleListResponse { AdminRoleMasterModel = model }) : CreateInternalServerErrorResponse();
+                return isUpdated ? CreateOKResponse(new AdminRoleResponse { AdminRoleModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new AdminRoleListResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new AdminRoleResponse { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new AdminRoleListResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new AdminRoleResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 

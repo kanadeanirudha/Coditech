@@ -4,6 +4,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -13,7 +14,7 @@ using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
 {
-    public class GeneralDesignationMasterService : IGeneralDesignationMasterService
+    public class GeneralDesignationMasterService : BaseService, IGeneralDesignationMasterService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;

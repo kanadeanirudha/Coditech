@@ -2,7 +2,7 @@
 {
     public class AdminRoleListResponse : BaseListResponse
     {
-        public List<AdminRoleMasterModel> AdminRoleMasterList { get; set; }
+        public List<AdminRoleModel> AdminRoleMasterList { get; set; }
     }
 }
 

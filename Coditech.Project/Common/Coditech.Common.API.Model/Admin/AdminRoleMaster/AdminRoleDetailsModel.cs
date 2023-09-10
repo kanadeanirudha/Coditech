@@ -1,8 +1,8 @@
 ﻿namespace Coditech.Common.API.Model
 {
-    public class AdminRoleModel : BaseModel
+    public class AdminRoleDetailsModel : BaseModel
     {
-        public int AdminRoleMasterID { get; set; }
+        public int AdminRoleMasterId { get; set; }
         public string AdminRoleCode { get; set; }
         public string RoleType { get; set; }
     }

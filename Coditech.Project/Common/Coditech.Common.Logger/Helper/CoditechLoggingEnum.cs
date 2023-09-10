@@ -22,7 +22,8 @@
             Designation,
             OrganisationCentre,
             AdminSnPosts,
-            AdminRoleMaster
+            AdminRoleMaster,
+            AdminSanctionPost
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿namespace Coditech.API.Data
 {
-    public partial class AdminSactionPostDetails
+    public partial class AdminRoleCentreRight
     {
-        public short AdminSactionPostDetailsId { get; set; }
         public int AdminRoleCentreRightId { get; set; }
-        public short AdminRoleMasterId { get; set; }
+        public int AdminRoleMasterId { get; set; }
         public string CentreCode { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }

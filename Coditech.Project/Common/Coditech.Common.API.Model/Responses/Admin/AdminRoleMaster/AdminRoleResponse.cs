@@ -2,7 +2,7 @@
 {
     public class AdminRoleResponse : BaseResponse
     {
-        public AdminRoleMasterModel AdminRoleMasterModel { get; set; }
+        public AdminRoleModel AdminRoleModel { get; set; }
     }
 }
 

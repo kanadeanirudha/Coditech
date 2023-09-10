@@ -4,6 +4,7 @@ using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Data;
@@ -12,7 +13,7 @@ using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
 {
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
@@ -100,9 +101,9 @@ namespace Coditech.API.Service
                     //userModel.SelectedRoleCode = roleList.FirstOrDefault(x => x.RoleType == RARIndiaConstant.Regular). AdminRoleCode;
                     foreach (AdminRoleApplicableDetail item in roleList)
                     {
-                        userModel.RoleList.Add(new AdminRoleModel()
+                        userModel.RoleList.Add(new AdminRoleDetailsModel()
                         {
-                            AdminRoleMasterID = item.AdminRoleMasterId,
+                            AdminRoleMasterId = item.AdminRoleMasterId,
                             RoleType = item.RoleType,
                         });
                     }

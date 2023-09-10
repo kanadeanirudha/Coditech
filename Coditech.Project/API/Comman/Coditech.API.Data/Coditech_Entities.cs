@@ -29,10 +29,11 @@ namespace Coditech.API.Data
         #endregion
 
         #region Admin
-        public DbSet<AdminRoleMenuDetail> AdminRoleMenuDetail { get; set; }
         public DbSet<AdminRoleApplicableDetail> AdminRoleApplicableDetail { get; set; }
-        public DbSet<AdminSactionPostDetails> AdminSactionPostDetails { get; set; }
-        public DbSet<AdminRoleMasterDetails> AdminRoleMasterDetails { get; set; }
+        public DbSet<AdminRoleCentreRight> AdminRoleCentreRight { get; set; }
+        public DbSet<AdminRoleMaster> AdminRoleMaster { get; set; }
+        public DbSet<AdminRoleMenuDetail> AdminRoleMenuDetail { get; set; }
+        public DbSet<AdminSanctionPost> AdminSanctionPost { get; set; }
         #endregion
 
         #region User
