@@ -17,11 +17,13 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IUserAgent, UserAgent>();
             builder.Services.AddScoped<IGeneralDepartmentAgent, GeneralDepartmentAgent>();
+            builder.Services.AddScoped<IGeneralCountryAgent, GeneralCountryAgent>();
             #endregion
 
             #region Client
             builder.Services.AddScoped<IUserClient, UserClient>();
             builder.Services.AddScoped<IGeneralDepartmentClient, GeneralDepartmentClient>();
+            builder.Services.AddScoped<IGeneralCountryClient, GeneralCountryClient>();
             #endregion
         }
     }

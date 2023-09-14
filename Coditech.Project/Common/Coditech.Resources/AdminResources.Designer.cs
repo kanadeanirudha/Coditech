@@ -68,6 +68,17 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralDepartmentMaster", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete country due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralCountryMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
@@ -113,7 +124,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelDepartmentList", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Country List.
+        /// </summary>
+        public static string LabelCountryList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelCountryList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Departments.
         /// </summary>
