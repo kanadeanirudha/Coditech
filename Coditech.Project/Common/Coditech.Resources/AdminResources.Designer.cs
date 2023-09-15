@@ -79,7 +79,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Nationality due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralNationalityMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralNationalityMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
         /// </summary>
@@ -133,6 +144,17 @@ namespace Coditech.Resources {
             get
             {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Nationality List.
+        /// </summary>
+        public static string LabelNationalityList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelNationalityList", resourceCulture);
             }
         }
 

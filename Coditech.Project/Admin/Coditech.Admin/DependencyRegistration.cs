@@ -18,12 +18,14 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IUserAgent, UserAgent>();
             builder.Services.AddScoped<IGeneralDepartmentAgent, GeneralDepartmentAgent>();
             builder.Services.AddScoped<IGeneralCountryAgent, GeneralCountryAgent>();
+            builder.Services.AddScoped<IGeneralNationalityAgent, GeneralNationalityAgent>();
             #endregion
 
             #region Client
             builder.Services.AddScoped<IUserClient, UserClient>();
             builder.Services.AddScoped<IGeneralDepartmentClient, GeneralDepartmentClient>();
             builder.Services.AddScoped<IGeneralCountryClient, GeneralCountryClient>();
+            builder.Services.AddScoped<IGeneralNationalityClient, GeneralNationalityClient>();
             #endregion
         }
     }
