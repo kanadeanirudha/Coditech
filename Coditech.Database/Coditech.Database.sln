@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32929.386
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Coditech.Database", "Coditech.Database\Coditech.Database.sqlproj", "{518FEDF4-A297-48A3-819A-7EDB6D71AB04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{518FEDF4-A297-48A3-819A-7EDB6D71AB04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{518FEDF4-A297-48A3-819A-7EDB6D71AB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{518FEDF4-A297-48A3-819A-7EDB6D71AB04}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{518FEDF4-A297-48A3-819A-7EDB6D71AB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{518FEDF4-A297-48A3-819A-7EDB6D71AB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{518FEDF4-A297-48A3-819A-7EDB6D71AB04}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BCE737DE-BEB3-475E-A94D-2B3347D2F459}
+	EndGlobalSection
+EndGlobal
