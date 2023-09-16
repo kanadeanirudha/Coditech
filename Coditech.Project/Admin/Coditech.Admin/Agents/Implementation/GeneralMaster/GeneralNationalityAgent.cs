@@ -78,7 +78,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get general Nationality by general nationality master id.
-        public virtual GeneralNationalityViewModel GetNationality(int nationalityId)
+        public virtual GeneralNationalityViewModel GetNationality(short nationalityId)
         {
             GeneralNationalityResponse response = _generalNationalityClient.GetNationality(nationalityId);
             return response?.GeneralNationalityModel.ToViewModel<GeneralNationalityViewModel>();

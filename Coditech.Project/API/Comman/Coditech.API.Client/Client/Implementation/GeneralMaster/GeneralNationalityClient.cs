@@ -117,12 +117,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralNationalityResponse GetNationality(int nationalityId)
+        public virtual GeneralNationalityResponse GetNationality(short nationalityId)
         {
             return Task.Run(async () => await GetNationalityAsync(nationalityId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralNationalityResponse> GetNationalityAsync(int nationalityId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GeneralNationalityResponse> GetNationalityAsync(short nationalityId, System.Threading.CancellationToken cancellationToken)
         {
             if (nationalityId <= 0)
                 throw new System.ArgumentNullException("nationalityId");

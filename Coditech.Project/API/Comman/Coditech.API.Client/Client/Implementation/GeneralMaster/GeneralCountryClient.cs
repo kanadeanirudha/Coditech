@@ -117,12 +117,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralCountryResponse GetCountry(int generalCountryId)
+        public virtual GeneralCountryResponse GetCountry(short generalCountryId)
         {
             return Task.Run(async () => await GetCountryAsync(generalCountryId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralCountryResponse> GetCountryAsync(int generalCountryId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GeneralCountryResponse> GetCountryAsync(short generalCountryId, System.Threading.CancellationToken cancellationToken)
         {
             if (generalCountryId <= 0)
                 throw new System.ArgumentNullException("generalCountryId");

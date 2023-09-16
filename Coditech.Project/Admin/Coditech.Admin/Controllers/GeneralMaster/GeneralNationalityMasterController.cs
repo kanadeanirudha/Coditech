@@ -49,7 +49,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(int nationalityId)
+        public virtual ActionResult Edit(short nationalityId)
         {
             GeneralNationalityViewModel generalNationalityViewModel = _generalNationalityAgent.GetNationality(nationalityId);
             return ActionView(createEdit, generalNationalityViewModel);

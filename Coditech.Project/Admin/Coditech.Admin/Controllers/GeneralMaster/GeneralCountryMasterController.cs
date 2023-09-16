@@ -1,8 +1,8 @@
 ﻿using Coditech.Admin.Agents;
-using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Resources;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
@@ -10,13 +10,11 @@ namespace Coditech.Admin.Controllers
     public class GeneralCountryMasterController : BaseController
     {
         private readonly IGeneralCountryAgent _generalCountryAgent;
-        // protected readonly IAuthenticationHelper _authenticationHelper;
         private const string createEdit = "~/Views/GeneralMaster/GeneralCountryMaster/CreateEdit.cshtml";
 
         public GeneralCountryMasterController(IGeneralCountryAgent generalCountryAgent)
         {
             _generalCountryAgent = generalCountryAgent;
-            //_authenticationHelper = authenticationHelper;
         }
 
         public ActionResult List(DataTableViewModel dataTableModel)

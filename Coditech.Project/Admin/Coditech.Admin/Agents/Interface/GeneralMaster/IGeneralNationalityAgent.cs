@@ -23,7 +23,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="nationalityId"> nationalityId</param>
         /// <returns>Returns GeneralNationalityViewModel.</returns>
-        GeneralNationalityViewModel GetNationality(int nationalityId);
+        GeneralNationalityViewModel GetNationality(short nationalityId);
 
         /// <summary>
         /// Update Nationality.

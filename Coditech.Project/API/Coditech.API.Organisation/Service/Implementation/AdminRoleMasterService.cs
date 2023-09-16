@@ -176,7 +176,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("AdminRoleMasterID", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("RARIndia_DeleteAdminRoleMaster @AdminRoleMasterID,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAdminRoleMaster @AdminRoleMasterID,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
 

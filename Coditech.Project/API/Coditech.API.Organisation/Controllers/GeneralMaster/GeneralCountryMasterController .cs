@@ -6,8 +6,11 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+
 using Microsoft.AspNetCore.Mvc;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Controllers
@@ -59,7 +62,7 @@ namespace Coditech.API.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
@@ -70,23 +73,23 @@ namespace Coditech.API.Controllers
 
         [Route("/GeneralCountryMaster/GetCountry")]
         [HttpGet]
-        [Produces(typeof(GeneralCountryModel))]
-        public IActionResult GetCountry(short generalCountryMasterId)
+        [Produces(typeof(GeneralCountryResponse))]
+        public IActionResult GetDepartment(short generalCountryMasterId)
         {
             try
             {
                 GeneralCountryModel generalCountryMasterModel = _generalCountryMasterService.GetCountry(generalCountryMasterId);
-                return IsNotNull(generalCountryMasterModel) ? CreateOKResponse(generalCountryMasterModel) : NotFound();
+                return IsNotNull(generalCountryMasterModel) ? CreateOKResponse(new GeneralCountryResponse { GeneralCountryModel = generalCountryMasterModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralCountryModel { HasError = true, ErrorCode = ex.ErrorCode });
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DepartmentMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralCountryModel { HasError = true, ErrorMessage = ex.Message });
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DepartmentMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
@@ -103,7 +106,7 @@ namespace Coditech.API.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {

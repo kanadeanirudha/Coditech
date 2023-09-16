@@ -14,8 +14,8 @@ namespace Coditech.API.Endpoint
         public string CreateNationalityAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralNationalityMaster/CreateNationality";
 
-        public string GetNationalityAsync(int nationalityId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralNationalityMaster/GetNationality?nationalityId={nationalityId}";
+        public string GetNationalityAsync(short nationalityId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralNationalityMaster/GetNationality?generalNationalityMasterId={nationalityId}";
 
         public string UpdateNationalityAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralNationalityMaster/UpdateNationality";

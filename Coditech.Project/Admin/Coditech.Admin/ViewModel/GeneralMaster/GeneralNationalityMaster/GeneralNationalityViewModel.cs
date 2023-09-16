@@ -5,7 +5,7 @@ namespace Coditech.Admin.ViewModel
 {
     public class GeneralNationalityViewModel : BaseViewModel
     {
-        public int GeneralNationalityMasterId { get; set; }
+        public short GeneralNationalityMasterId { get; set; }
         [Display(Name = "Nationality")]
         [Required]
         public string Description { get; set; }

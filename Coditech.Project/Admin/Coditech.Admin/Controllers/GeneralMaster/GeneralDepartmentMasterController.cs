@@ -1,5 +1,4 @@
 ﻿using Coditech.Admin.Agents;
-using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Resources;
@@ -11,13 +10,11 @@ namespace Coditech.Admin.Controllers
     public class GeneralDepartmentMasterController : BaseController
     {
         private readonly IGeneralDepartmentAgent _generalDepartmentAgent;
-        protected readonly IAuthenticationHelper _authenticationHelper;
         private const string createEdit = "~/Views/GeneralMaster/GeneralDepartmentMaster/CreateEdit.cshtml";
 
-        public GeneralDepartmentMasterController(IGeneralDepartmentAgent generalDepartmentAgent, IAuthenticationHelper authenticationHelper)
+        public GeneralDepartmentMasterController(IGeneralDepartmentAgent generalDepartmentAgent)
         {
             _generalDepartmentAgent = generalDepartmentAgent;
-            _authenticationHelper = authenticationHelper;
         }
 
         public ActionResult List(DataTableViewModel dataTableModel)

@@ -15,8 +15,8 @@ namespace Coditech.API.Endpoint
         public string CreateCountryAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCountryMaster/CreateCountry";
 
-        public string GetCountryAsync(int generalCountryId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCountryMaster/GetCountry?generalCountryId={generalCountryId}";
+        public string GetCountryAsync(short generalCountryId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCountryMaster/GetCountry?generalCountryMasterId={generalCountryId}";
        
         public string UpdateCountryAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCountryMaster/UpdateCountry";

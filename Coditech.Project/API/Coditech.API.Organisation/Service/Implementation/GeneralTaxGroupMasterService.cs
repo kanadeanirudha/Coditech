@@ -40,7 +40,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralTaxGroupModel> taxGroupMasterList = objStoredProc.ExecuteStoredProcedureList("RARIndia_GetTaxGroupList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralTaxGroupModel> taxGroupMasterList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTaxGroupList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GeneralTaxGroupMasterListModel listModel = new GeneralTaxGroupMasterListModel();
 
             listModel.GeneralTaxGroupMasterList = taxGroupMasterList?.Count > 0 ? taxGroupMasterList : new List<GeneralTaxGroupModel>();
@@ -158,7 +158,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("TaxGroupMasterId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("RARIndia_DeleteTaxGroupMaster @TaxGroupMasterId,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteTaxGroupMaster @TaxGroupMasterId,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
 

@@ -25,7 +25,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="nationalityId">nationalityId</param>
         /// <returns>Returns GeneralNationalityResponse.</returns>
-        GeneralNationalityResponse GetNationality(int nationalityId);
+        GeneralNationalityResponse GetNationality(short nationalityId);
 
         /// <summary>
         /// Update Nationality.

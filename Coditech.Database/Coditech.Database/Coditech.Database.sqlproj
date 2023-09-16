@@ -93,5 +93,14 @@
     <Build Include="Storeprocedure\Coditech_GetAdminSanctionPostList.sql" />
     <Build Include="Storeprocedure\Coditech_GetDepartmentList.sql" />
     <Build Include="Function\Split.sql" />
+    <Build Include="Storeprocedure\Coditech_GetCityList.sql" />
+    <Build Include="Storeprocedure\Coditech_DeleteCountry.sql" />
+    <Build Include="Storeprocedure\Coditech_GetCountryList.sql" />
+    <Build Include="Storeprocedure\Coditech_GetEmployeeDesignationList.sql" />
+    <Build Include="Storeprocedure\Coditech_DeleteEmployeeDesignationMaster.sql" />
+    <Build Include="Storeprocedure\Coditech_GetNationalityList.sql" />
+    <Build Include="Storeprocedure\Coditech_DeleteTaxMaster.sql" />
+    <Build Include="Storeprocedure\Coditech_GetOrganisationCentreList.sql" />
+    <Build Include="Storeprocedure\Coditech_GetRegionList.sql" />
   </ItemGroup>
 </Project>

@@ -156,7 +156,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("AdminSanctionPostId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("RARIndia_DeleteAdminSanctionPost @AdminSanctionPostId,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAdminSanctionPost @AdminSanctionPostId,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
 

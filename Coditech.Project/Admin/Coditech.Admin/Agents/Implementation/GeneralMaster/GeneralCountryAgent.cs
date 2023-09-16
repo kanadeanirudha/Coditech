@@ -79,7 +79,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get general Country by general country master id.
-        public virtual GeneralCountryViewModel GetCountry(int generalCountryId)
+        public virtual GeneralCountryViewModel GetCountry(short generalCountryId)
         {
             GeneralCountryResponse response = _generalCountryClient.GetCountry(generalCountryId);
             return response?.GeneralCountryModel.ToViewModel<GeneralCountryViewModel>();

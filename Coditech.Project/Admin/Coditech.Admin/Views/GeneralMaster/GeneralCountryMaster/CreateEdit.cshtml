@@ -34,6 +34,7 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.GeneralCountryMasterId)
+                            @Html.HiddenFor(m => m.DefaultFlag)
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
@@ -49,12 +50,12 @@
                                         @Html.ValidationMessageFor(x => x.CountryCode)
                                     </div>
                                 </div>
-                                <div class="mb-3">
+                                @*<div class="mb-3">
                                     <div class="form-check">
                                         @Html.CheckBoxFor(x => x.DefaultFlag, new { @class = "form-check-input" })
                                         @Html.LabelFor(x => x.DefaultFlag, new { @class = "form-check-label" })
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>

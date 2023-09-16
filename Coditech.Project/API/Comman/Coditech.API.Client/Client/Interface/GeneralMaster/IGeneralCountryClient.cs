@@ -25,7 +25,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="generalCountryId">generalCountryId</param>
         /// <returns>Returns GeneralCountryResponse.</returns>
-        GeneralCountryResponse GetCountry(int generalCountryId);
+        GeneralCountryResponse GetCountry(short generalCountryId);
 
         /// <summary>
         /// Update Country.
