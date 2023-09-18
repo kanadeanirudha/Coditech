@@ -102,5 +102,7 @@
     <Build Include="Storeprocedure\Coditech_DeleteTaxMaster.sql" />
     <Build Include="Storeprocedure\Coditech_GetOrganisationCentreList.sql" />
     <Build Include="Storeprocedure\Coditech_GetRegionList.sql" />
+    <Build Include="Storeprocedure\Coditech_GetTaxGroupList.sql" />
+    <Build Include="Storeprocedure\Coditech_GetTaxList.sql" />
   </ItemGroup>
 </Project>
