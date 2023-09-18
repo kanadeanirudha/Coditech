@@ -61,6 +61,24 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete admin saction post due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAdminSanctionPost {
+            get {
+                return ResourceManager.GetString("ErrorDeleteAdminSanctionPost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete country due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralCountryMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete department due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralDepartmentMaster {
@@ -68,29 +86,16 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralDepartmentMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete country due to associate record..
+        ///   Looks up a localized string similar to Failed to delete nationality due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralCountryMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Nationality due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralNationalityMaster
-        {
-            get
-            {
+        public static string ErrorDeleteGeneralNationalityMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGeneralNationalityMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
         /// </summary>
@@ -128,6 +133,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Country List.
+        /// </summary>
+        public static string LabelCountryList {
+            get {
+                return ResourceManager.GetString("LabelCountryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>
         public static string LabelDepartmentList {
@@ -135,29 +149,7 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelDepartmentList", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Country List.
-        /// </summary>
-        public static string LabelCountryList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelCountryList", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Nationality List.
-        /// </summary>
-        public static string LabelNationalityList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelNationalityList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Departments.
         /// </summary>
@@ -173,6 +165,15 @@ namespace Coditech.Resources {
         public static string LabelIsActive {
             get {
                 return ResourceManager.GetString("LabelIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NationalityList.
+        /// </summary>
+        public static string LabelNationalityList {
+            get {
+                return ResourceManager.GetString("LabelNationalityList", resourceCulture);
             }
         }
         

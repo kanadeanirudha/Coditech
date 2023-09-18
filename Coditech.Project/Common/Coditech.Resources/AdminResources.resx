@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorDeleteAdminSanctionPost" xml:space="preserve">
+    <value>Failed to delete admin saction post due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGeneralCountryMaster" xml:space="preserve">
+    <value>Failed to delete country due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralDepartmentMaster" xml:space="preserve">
     <value>Failed to delete department due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGeneralNationalityMaster" xml:space="preserve">
+    <value>Failed to delete nationality due to associate record.</value>
   </data>
   <data name="ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword" xml:space="preserve">
     <value>This account does not exist. Enter a valid email address or password</value>
@@ -132,6 +141,9 @@
   <data name="LabelCentre" xml:space="preserve">
     <value>Centre</value>
   </data>
+  <data name="LabelCountryList" xml:space="preserve">
+    <value>Country List</value>
+  </data>
   <data name="LabelDepartmentList" xml:space="preserve">
     <value>Department List</value>
   </data>
@@ -140,6 +152,9 @@
   </data>
   <data name="LabelIsActive" xml:space="preserve">
     <value>Is Active</value>
+  </data>
+  <data name="LabelNationalityList" xml:space="preserve">
+    <value>NationalityList</value>
   </data>
   <data name="LabelSave" xml:space="preserve">
     <value>Save</value>
