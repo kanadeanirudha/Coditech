@@ -70,23 +70,23 @@ namespace Coditech.API.Controllers
 
         [Route("/GeneralDesignationMaster/GetDesignation")]
         [HttpGet]
-        [Produces(typeof(GeneralDesignationModel))]
+        [Produces(typeof(GeneralDesignationResponse))]
         public IActionResult GetDesignation(short generalDesignationMasterId)
         {
             try
             {
-                GeneralDesignationModel generalDesignationMasterModel = _generalDesignationMasterService.GetDesignation(generalDesignationMasterId);
-                return IsNotNull(generalDesignationMasterModel) ? CreateOKResponse(generalDesignationMasterModel) : NotFound();
+                GeneralDesignationModel generalDesignationModel = _generalDesignationMasterService.GetDesignation(generalDesignationMasterId);
+                return IsNotNull(generalDesignationModel) ? CreateOKResponse(new GeneralDesignationResponse() { GeneralDesignationModel = generalDesignationModel }) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Designation.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralDesignationModel { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralDesignationResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Designation.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralDesignationModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralDesignationResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
