@@ -24,5 +24,17 @@
             AdminRoleMaster,
             AdminSanctionPost
         }
+        public enum DropdownTypeEnum
+        {
+            City,
+            AccessibleCentre,
+            CentrewiseDepartment,
+            Department,
+            Designation,
+            Organisation,
+            RegionalOffice,
+            Centre,
+            TaxGroup
+        }
     }
 }

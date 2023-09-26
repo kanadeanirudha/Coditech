@@ -1,0 +1,29 @@
+﻿
+
+@* @{
+    ViewData["Title"] = "Dropdown";
+} 
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3"></div>
+        <form method="post">
+            <div class="form-group">
+                <select class="form-control" id="City">
+                    <option>--Select City--</option>
+                </select>
+            </div>
+             <div class="form-group">
+                <select class="form-control" id="State">
+                    <option>--Select State--</option>
+                </select>
+            </div> 
+        </form>
+    </div>
+</div> *@
+ @using Coditech.ViewModel; 
+@using Coditech.DropdownHelper;
+@model DropdownViewModel
+@{
+    CoditechDropdownHelper.GeneralDropdownList(Model);
+}
+@Html.DropDownList(Model.DropdownName, Model.DropdownList, new { @class = "form-control" , @onchange = Model.ChangeEvent }) 

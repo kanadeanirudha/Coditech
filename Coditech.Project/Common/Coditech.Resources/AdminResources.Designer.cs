@@ -97,6 +97,17 @@ namespace Coditech.Resources {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete city due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralCityMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralCityMaster", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Designation due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralDesignationMaster
@@ -151,7 +162,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to City List.
+        /// </summary>
+        public static string LabelCityList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelCityList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>

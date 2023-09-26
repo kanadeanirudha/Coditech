@@ -20,6 +20,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralCountryAgent, GeneralCountryAgent>();
             builder.Services.AddScoped<IGeneralNationalityAgent, GeneralNationalityAgent>();
             builder.Services.AddScoped<IGeneralDesignationAgent, GeneralDesignationAgent>();
+            builder.Services.AddScoped<IGeneralCityAgent, GeneralCityAgent>();
             #endregion
 
             #region Client
@@ -28,6 +29,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralCountryClient, GeneralCountryClient>();
             builder.Services.AddScoped<IGeneralNationalityClient, GeneralNationalityClient>();
             builder.Services.AddScoped<IGeneralDesignationClient, GeneralDesignationClient>();
+            builder.Services.AddScoped<IGeneralCityClient, GeneralCityClient>();
             #endregion
         }
     }
