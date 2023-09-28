@@ -2,6 +2,6 @@
 {
     public class GeneralTaxMasterListResponse : BaseListResponse
     {
-        public List<GeneralTaxMasterModel> GeneralTaxList { get; set; }
+        public List<GeneralTaxMasterModel> GeneralTaxMasterList { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace Coditech.Admin
             CreateMap<GeneralDesignationListModel, GeneralDesignationListViewModel>().ReverseMap();
             CreateMap<GeneralCityModel, GeneralCityViewModel>().ReverseMap();
             CreateMap<GeneralCityListModel, GeneralCityListViewModel>().ReverseMap();
+            CreateMap<GeneralTaxMasterModel, GeneralTaxMasterViewModel>().ReverseMap();
+            CreateMap<GeneralTaxMasterListModel, GeneralTaxMasterListViewModel>().ReverseMap();
         }
     }
 }

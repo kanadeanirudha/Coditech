@@ -69,13 +69,13 @@ namespace Coditech.API.Service
         }
 
         //Get Tax Master by GeneralTaxMasterId.
-        public GeneralTaxMasterModel GetTaxMaster(short TaxMasterId)
+        public GeneralTaxMasterModel GetTaxMaster(short taxMasterId)
         {
-            if (TaxMasterId <= 0)
+            if (taxMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxMasterId"));
 
             //Get the Tax Master Details based on id.
-            GeneralTaxMaster taxMasterData = _generalTaxMasterRepository.Table.FirstOrDefault(x => x.GeneralTaxMasterId == TaxMasterId);
+            GeneralTaxMaster taxMasterData = _generalTaxMasterRepository.Table.FirstOrDefault(x => x.GeneralTaxMasterId == taxMasterId);
             GeneralTaxMasterModel generalTaxMasterModel = taxMasterData.FromEntityToModel<GeneralTaxMasterModel>();
             return generalTaxMasterModel;
         }

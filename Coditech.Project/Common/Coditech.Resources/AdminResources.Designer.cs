@@ -77,7 +77,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete taxmaster due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralTaxMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralTaxMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete department due to associate record..
         /// </summary>
@@ -160,6 +171,17 @@ namespace Coditech.Resources {
         public static string LabelCountryList {
             get {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tax List.
+        /// </summary>
+        public static string LabelTaxList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelTaxList", resourceCulture);
             }
         }
 
