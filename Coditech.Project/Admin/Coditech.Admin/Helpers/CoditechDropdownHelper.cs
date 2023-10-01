@@ -21,17 +21,18 @@ namespace Coditech.Admin.Helpers
             List<SelectListItem> dropdownList = new List<SelectListItem>();
             if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.City.ToString()))
             {
-                //GeneralCityListViewModel list = new GeneralCityMasterBA().GetCityList(new DataTableModel() { PageSize = int.MaxValue });
-                //dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select City-------" });
-                //foreach (var item in list.GeneralCityList)
-                //{
-                //    dropdownList.Add(new SelectListItem()
-                //    {
-                //        Text = string.Concat(item.CityName, " (", item.RegionName, ")"),
-                //        Value = Convert.ToString(item.GeneralCityMasterId),
-                //        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCityMasterId)
-                //    });
-                //}
+                GeneralCityListResponse response = new GeneralCityClient().List(null, null, null, 1, int.MaxValue);
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select City-------" });
+                GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response.GeneralCityList };
+                foreach (var item in list.GeneralCityList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = string.Concat(item.CityName, " (", item.RegionName, ")"),
+                        Value = Convert.ToString(item.GeneralCityMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCityMasterId)
+                    });
+                }
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccessibleCentre.ToString()))
             {
@@ -74,31 +75,33 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Designation.ToString()))
             {
-                //GeneralDesignationListModel list = new GeneralDesignationMasterBA().GetDesignations();
-                //dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Designation-------" });
-                //foreach (var item in list.GeneralDesignationList)
-                //{
-                //    dropdownList.Add(new SelectListItem()
-                //    {
-                //        Text = item.Description,
-                //        Value = item.EmployeeDesignationMasterId.ToString(),
-                //        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmployeeDesignationMasterId)
-                //    });
-                //}
+                GeneralDesignationListResponse response = new GeneralDesignationClient().List(null, null, null, 1, int.MaxValue);
+                GeneralDesignationListModel list = new GeneralDesignationListModel() { GeneralDesignationList = response.GeneralDesignationList };
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Designation-------" });
+                foreach (var item in list.GeneralDesignationList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.Description,
+                        Value = item.EmployeeDesignationMasterId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmployeeDesignationMasterId)
+                    });
+                }
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Department.ToString()))
             {
-                //GeneralDepartmentListViewModel list = new GeneralDepartmentMasterBA().GetDepartmentList(new DataTableModel() { PageSize = int.MaxValue });
-                //dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Department-------" });
-                //foreach (var item in list?.GeneralDepartmentList)
-                //{
-                //    dropdownList.Add(new SelectListItem()
-                //    {
-                //        Text = item.DepartmentName,
-                //        Value = item.GeneralDepartmentMasterId.ToString(),
-                //        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralDepartmentMasterId)
-                //    });
-                //}
+                GeneralDepartmentListResponse response = new GeneralDepartmentClient().List(null, null, null, 1, int.MaxValue);
+                GeneralDepartmentListModel list = new GeneralDepartmentListModel() { GeneralDepartmentList = response.GeneralDepartmentList };
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Department-------" });
+                foreach (var item in list?.GeneralDepartmentList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.DepartmentName,
+                        Value = item.GeneralDepartmentMasterId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralDepartmentMasterId)
+                    });
+                }
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Organisation.ToString()))
             {
