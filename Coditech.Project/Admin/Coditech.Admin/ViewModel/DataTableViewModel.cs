@@ -10,6 +10,6 @@ namespace Coditech.Admin.ViewModel
         public int PageIndex { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public string SelectedCentreCode { get; set; } = string.Empty;
-        public int SelectedDepartmentID { get; set; }
+        public int SelectedDepartmentId { get; set; }
     }
 }

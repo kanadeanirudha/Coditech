@@ -8,6 +8,6 @@
             GeneralDepartmentList = new List<GeneralDepartmentModel>();
         }
 
-        public string SelectedDepartmentID { get; set; }
+        public string SelectedDepartmentId { get; set; }
     }
 }

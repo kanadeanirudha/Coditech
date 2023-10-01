@@ -136,5 +136,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/GeneralDepartmentMaster/GetDepartmentsByCentreCode")]
+        [HttpGet]
+        [Produces(typeof(GeneralDepartmentListResponse))]
+        public IActionResult GetDepartmentsByCentreCode(string centreCode)
+        {
+            try
+            {
+                GeneralDepartmentListModel list = _generalDepartmentMasterService.GetDepartmentsByCentreCode(centreCode);
+                return IsNotNull(list) ? CreateOKResponse(new GeneralDepartmentListResponse { GeneralDepartmentList = list.GeneralDepartmentList }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DepartmentMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralDepartmentListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DepartmentMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralDepartmentListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

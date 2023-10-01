@@ -13,6 +13,9 @@ namespace Coditech.Admin
             builder.Services.AddScoped<CoditechTranslator>();
 
             #region Agent
+            #region Admin
+            builder.Services.AddScoped<IAdminSanctionPostAgent, AdminSanctionPostAgent>();
+            #endregion
             builder.Services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IUserAgent, UserAgent>();
@@ -22,6 +25,9 @@ namespace Coditech.Admin
             #endregion
 
             #region Client
+            #region Admin
+            builder.Services.AddScoped<IAdminSanctionPostClient, AdminSanctionPostClient>();
+            #endregion
             builder.Services.AddScoped<IUserClient, UserClient>();
             builder.Services.AddScoped<IGeneralDepartmentClient, GeneralDepartmentClient>();
             builder.Services.AddScoped<IGeneralCountryClient, GeneralCountryClient>();

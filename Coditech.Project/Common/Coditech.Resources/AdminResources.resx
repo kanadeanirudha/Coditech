@@ -135,6 +135,9 @@
   <data name="LabelAction" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="LabelAdminSanctionPostList" xml:space="preserve">
+    <value>Admin Sanction Post List</value>
+  </data>
   <data name="LabelCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>

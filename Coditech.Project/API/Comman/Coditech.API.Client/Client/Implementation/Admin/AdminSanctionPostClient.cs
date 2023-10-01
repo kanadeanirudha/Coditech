@@ -20,7 +20,7 @@ namespace Coditech.API.Client
         }
         public virtual AdminSanctionPostListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
         public virtual async Task<AdminSanctionPostListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
@@ -122,10 +122,10 @@ namespace Coditech.API.Client
 
         public virtual AdminSanctionPostResponse GetAdminSanctionPost(int adminSanctionPostId)
         {
-            return Task.Run(async () => await GetAdminSanctionPostAsync(adminSanctionPostId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetAdminSanctionPostAsync(adminSanctionPostId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<AdminSanctionPostResponse> GetAdminSanctionPostAsync(int adminSanctionPostId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<AdminSanctionPostResponse> GetAdminSanctionPostAsync(int adminSanctionPostId, CancellationToken cancellationToken)
         {
             if (adminSanctionPostId <= 0)
                 throw new System.ArgumentNullException("adminSanctionPostId");
@@ -172,10 +172,10 @@ namespace Coditech.API.Client
 
         public virtual AdminSanctionPostResponse UpdateAdminSanctionPost(AdminSanctionPostModel body)
         {
-            return Task.Run(async () => await UpdateAdminSanctionPostAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await UpdateAdminSanctionPostAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<AdminSanctionPostResponse> UpdateAdminSanctionPostAsync(AdminSanctionPostModel body, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<AdminSanctionPostResponse> UpdateAdminSanctionPostAsync(AdminSanctionPostModel body, CancellationToken cancellationToken)
         {
             string endpoint = adminSanctionPostEndpoint.UpdateAdminSanctionPostAsync();
             HttpResponseMessage response = null;
@@ -226,10 +226,10 @@ namespace Coditech.API.Client
 
         public virtual TrueFalseResponse DeleteAdminSanctionPost(ParameterModel body)
         {
-            return Task.Run(async () => await DeleteAdminSanctionPostAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await DeleteAdminSanctionPostAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<TrueFalseResponse> DeleteAdminSanctionPostAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<TrueFalseResponse> DeleteAdminSanctionPostAsync(ParameterModel body, CancellationToken cancellationToken)
         {
             string endpoint = adminSanctionPostEndpoint.DeleteAdminSanctionPostAsync();
             HttpResponseMessage response = null;

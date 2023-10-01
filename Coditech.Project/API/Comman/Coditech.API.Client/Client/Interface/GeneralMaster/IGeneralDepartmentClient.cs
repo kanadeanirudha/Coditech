@@ -40,5 +40,11 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteDepartment(ParameterModel body);
+
+        /// <summary>
+        /// Get list of General Department.
+        /// </summary>
+        /// <returns>GeneralDepartmentListResponse</returns>
+        GeneralDepartmentListResponse GetDepartmentsByCentreCode(string centreCode);
     }
 }

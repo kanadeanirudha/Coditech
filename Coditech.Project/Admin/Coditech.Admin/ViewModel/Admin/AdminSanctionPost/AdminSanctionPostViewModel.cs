@@ -17,8 +17,8 @@ namespace Coditech.Admin.ViewModel
         public Int16 DesignationId { get; set; }
         public Int16 DepartmentId { get; set; }
         public string CentreCode { get; set; }
-        public string SactionPostCode { get; set; }
-        public string SactionedPostDescription { get; set; }
+        public string SanctionPostCode { get; set; }
+        public string SanctionedPostDescription { get; set; }
         public Int16 NoOfPost { get; set; } = 1;
 
         [Required(ErrorMessage = "Post Type Required")]

@@ -23,5 +23,11 @@ namespace Coditech.API.Endpoint
 
         public string DeleteDepartmentAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralDepartmentMaster/DeleteDepartment";
+
+        public string GetDepartmentsByCentreCode(string centreCode)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralDepartmentMaster/GetDepartmentsByCentreCode?centreCode={centreCode}";
+            return endpoint;
+        }
     }
 }

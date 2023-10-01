@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="MediaFolder\" />
+    <Folder Include="Views\Shared\Control\" />
     <Folder Include="wwwroot\css\login\" />
     <Folder Include="wwwroot\js\login\" />
   </ItemGroup>

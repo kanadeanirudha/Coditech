@@ -69,13 +69,13 @@ function CallListPage(controllerName, methodName, dataTableModel) {
 function BindDataTableModel(PageIndex) {
     $("#notificationDivId").hide();
     let dataTableModel = {
-        SearchBy: $('#DataTables_SearchById').val().trim(),
+        SearchBy: $('#DataTables_SearchById').val() != undefined ? $('#DataTables_SearchById').val().trim() : "",
         SortByColumn: $('#DataTables_SortColumn').val(),
         SortBy: $('#DataTables_SortBy').val(),
         PageIndex: PageIndex,
         PageSize: $('#DataTables_PageSizeId').val(),
         SelectedCentreCode: $("#SelectedCentreCode").length > 0 ? $("#SelectedCentreCode").val() : "",
-        SelectedDepartmentID: $("#SelectedDepartmentID").length > 0 ? $("#SelectedDepartmentID").val() : 0,
+        SelectedDepartmentId: $("#SelectedDepartmentId").length > 0 ? $("#SelectedDepartmentId").val() : 0,
     }
     $("#DataTables_PageSizeId").attr("disabled", true);
     $("#DataTables_SearchById").attr("disabled", true);

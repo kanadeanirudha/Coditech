@@ -115,6 +115,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Admin Sanction Post List.
+        /// </summary>
+        public static string LabelAdminSanctionPostList {
+            get {
+                return ResourceManager.GetString("LabelAdminSanctionPostList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string LabelCancel {

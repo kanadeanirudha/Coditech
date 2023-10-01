@@ -19,7 +19,15 @@ namespace Coditech.Admin.Controllers
 
         public ActionResult List(DataTableViewModel dataTableModel)
         {
-            AdminSanctionPostListViewModel list = _adminSanctionPostAgent.GetAdminSanctionPostList(dataTableModel);
+            AdminSanctionPostListViewModel list = new AdminSanctionPostListViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
+            {
+                list = _adminSanctionPostAgent.GetAdminSanctionPostList(dataTableModel);
+            }
+
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+            list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
+
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Admin/AdminSanctionPost/_List.cshtml", list);

@@ -12,5 +12,6 @@ namespace Coditech.API.Service
         GeneralDepartmentModel GetDepartment(short deneralDepartmentMasterId);
         bool UpdateDepartment(GeneralDepartmentModel model);
         bool DeleteDepartment(ParameterModel parameterModel);
+        GeneralDepartmentListModel GetDepartmentsByCentreCode(string centreCode);
     }
 }

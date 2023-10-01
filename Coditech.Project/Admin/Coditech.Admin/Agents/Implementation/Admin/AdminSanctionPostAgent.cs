@@ -33,16 +33,18 @@ namespace Coditech.Admin.Agents
 
         public AdminSanctionPostListViewModel GetAdminSanctionPostList(DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = null;
+            FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
                 filters.Add("SanctionedPostDescription", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("SanctionPostCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "AdminSanctionPostName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
+            filters.Add(FilterKeys.SelectedDepartmentId, ProcedureFilterOperators.Equals, Convert.ToString(dataTableModel.SelectedDepartmentId));
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "SanctionedPostDescription" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             AdminSanctionPostListResponse response = _adminSanctionPostClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             AdminSanctionPostListModel departmentList = new AdminSanctionPostListModel { AdminSanctionPostList = response?.AdminSanctionPostList };
@@ -52,7 +54,7 @@ namespace Coditech.Admin.Agents
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AdminSanctionPostList.Count, BindColumns());
             return listViewModel;
         }
-        
+
         //Create AdminSanctionPost.
         public virtual AdminSanctionPostViewModel CreateAdminSanctionPost(AdminSanctionPostViewModel adminSanctionPostViewModel)
         {
@@ -144,20 +146,26 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "AdminSanctionPost Name",
-                ColumnCode = "AdminSanctionPostName",
+                ColumnName = "Role Code",
+                ColumnCode = "SanctionPostCode",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "AdminSanctionPost Code",
-                ColumnCode = "AdminSanctionPostShortCode",
+                ColumnName = "Sactioned Post Description",
+                ColumnCode = "SanctionedPostDescription",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Print Short Desc",
-                ColumnCode = "PrintShortDesc",
+                ColumnName = "No Of Post",
+                ColumnCode = "NoOfPost",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
