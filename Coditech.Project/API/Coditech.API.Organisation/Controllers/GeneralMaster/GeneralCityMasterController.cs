@@ -73,23 +73,23 @@ namespace Coditech.API.Controllers
 
         [Route("/GeneralCityMaster/GetCity")]
         [HttpGet]
-        [Produces(typeof(GeneralCityModel))]
+        [Produces(typeof(GeneralCityResponse))]
         public IActionResult GetCity(int generalCityMasterId)
         {
             try
             {
                 GeneralCityModel generalCityModel = _generalCityMasterService.GetCity(generalCityMasterId);
-                return IsNotNull(generalCityModel) ? CreateOKResponse(generalCityModel) : NotFound();
+                return IsNotNull(generalCityModel) ? CreateOKResponse(new GeneralCityResponse() { GeneralCityModel = generalCityModel }) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.City.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralCityModel { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralCityResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.City.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralCityModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralCityResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
