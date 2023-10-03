@@ -1,0 +1,76 @@
+﻿@model GeneralTaxGroupMasterViewModel
+@{
+    ViewBag.Title = Model.GeneralTaxGroupMasterId > 0 ? "Update Tax Group Master" : "Add Tax Group Master";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+}
+<!-- Page Content-->
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="row">
+                        <div class="col">
+                            @if (Model.GeneralTaxGroupMasterId > 0)
+                            {
+                                <h4 class="page-title"> Update Tax Group Master</h4>
+                            }
+                            else
+                            {
+                                <h4 class="page-title">Create Tax Group Master</h4>
+                            }
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div><!--end page-title-box-->
+            </div><!--end col-->
+        </div><!--end row-->
+        <!-- end page title end breadcrumb -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.GeneralTaxGroupMasterId)
+                            @Html.HiddenFor(m => m.IsOtherState)
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.TaxGroupName, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.TaxGroupName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.TaxGroupName)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.GeneralTaxMasterIds, new { @class = "form-label required" })
+                                        @* @Html.ListBoxFor(x => x.GeneralTaxMasterIds,new SelectList(Model.AllTaxList, "GeneralTaxMasterId", "TaxName"))
+                                        @Html.ValidationMessageFor(x => x.GeneralTaxMasterIds) *@
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('#GeneralTaxMasterIds').multiselect({
+                includeSelectAllOption: true,
+                //selectAllValue: 'multiselect-all',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '100%',
+            });
+        });
+    });
+</script>

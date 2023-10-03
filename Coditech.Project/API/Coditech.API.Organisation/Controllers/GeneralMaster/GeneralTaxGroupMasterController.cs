@@ -73,23 +73,23 @@ namespace Coditech.API.Controllers
 
         [Route("/GeneralTaxGroupMaster/GetTaxGroupMaster")]
         [HttpGet]
-        [Produces(typeof(GeneralTaxGroupModel))]
+        [Produces(typeof(GeneralTaxGroupResponse))]
         public IActionResult GetTaxGroupMaster(short generalTaxGroupMasterId)
         {
             try
             {
                 GeneralTaxGroupModel generalTaxGroupModel = _generalTaxGroupMasterService.GetTaxGroupMaster(generalTaxGroupMasterId);
-                return IsNotNull(generalTaxGroupModel) ? CreateOKResponse(generalTaxGroupModel) : NotFound();
+                return IsNotNull(generalTaxGroupModel) ? CreateOKResponse(new GeneralTaxGroupResponse() { GeneralTaxGroupModel = generalTaxGroupModel }) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupModel { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaxGroupMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralTaxGroupModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralTaxGroupResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 

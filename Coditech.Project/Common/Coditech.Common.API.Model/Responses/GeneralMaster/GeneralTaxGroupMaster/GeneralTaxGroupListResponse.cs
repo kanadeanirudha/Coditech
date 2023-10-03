@@ -2,7 +2,7 @@
 {
     public class GeneralTaxGroupListResponse : BaseListResponse
     {
-        public List<GeneralTaxGroupModel> GeneralTaxGroupList { get; set; }
+        public List<GeneralTaxGroupModel> GeneralTaxGroupMasterList { get; set; }
     }
 }
 

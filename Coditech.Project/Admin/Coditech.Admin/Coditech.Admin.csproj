@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\API\Coditech.API.Organisation\Coditech.API.Organisation.csproj" />
     <ProjectReference Include="..\..\API\Comman\Coditech.API.Client\Coditech.API.Client.csproj" />
+    <ProjectReference Include="..\..\API\Comman\Coditech.API.Data\Coditech.API.Data.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Common.Helper\Coditech.Common.Helper.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
