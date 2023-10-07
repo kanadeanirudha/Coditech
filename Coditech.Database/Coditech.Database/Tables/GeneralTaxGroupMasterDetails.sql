@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[GeneralTaxGroupMasterDetails](
 	[GeneralTaxGroupMasterDetailsId] [smallint] IDENTITY(1,1) NOT NULL,
-	[GenTaxGroupMasterId] [tinyint] NOT NULL,
-	[GenTaxMasterId] [smallint] NOT NULL,
+	[GeneralTaxGroupMasterId] [tinyint] NOT NULL,
+	[GeneralTaxMasterId] [smallint] NOT NULL,
 	[IsOtherState] [bit] NOT NULL,
 	[CreatedBy] [int] NULL,
 	[CreatedDate] [datetime] NULL,
@@ -14,14 +14,14 @@
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[GeneralTaxGroupMasterDetails]  WITH CHECK ADD  CONSTRAINT [FKGeneralTaxGroupMasterDetailsGenTaxGroupMasterId] FOREIGN KEY([GenTaxGroupMasterId])
+ALTER TABLE [dbo].[GeneralTaxGroupMasterDetails]  WITH CHECK ADD  CONSTRAINT [FKGeneralTaxGroupMasterDetailsGeneralTaxGroupMasterId] FOREIGN KEY([GeneralTaxGroupMasterId])
 REFERENCES [dbo].[GeneralTaxGroupMaster] ([GeneralTaxGroupMasterId])
 GO
 
-ALTER TABLE [dbo].[GeneralTaxGroupMasterDetails] CHECK CONSTRAINT [FKGeneralTaxGroupMasterDetailsGenTaxGroupMasterId]
+ALTER TABLE [dbo].[GeneralTaxGroupMasterDetails] CHECK CONSTRAINT [FKGeneralTaxGroupMasterDetailsGeneralTaxGroupMasterId]
 GO
 
-ALTER TABLE [dbo].[GeneralTaxGroupMasterDetails]  WITH CHECK ADD  CONSTRAINT [FKGeneralTaxGroupMasterDetailsGenTaxMasterId] FOREIGN KEY([GenTaxMasterId])
+ALTER TABLE [dbo].[GeneralTaxGroupMasterDetails]  WITH CHECK ADD  CONSTRAINT [FKGeneralTaxGroupMasterDetailsGeneralTaxMasterId] FOREIGN KEY([GeneralTaxMasterId])
 REFERENCES [dbo].[GeneralTaxMaster] ([GeneralTaxMasterId])
 GO
 
