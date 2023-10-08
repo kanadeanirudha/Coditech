@@ -13,15 +13,15 @@ namespace Coditech.API.Endpoint
         }
 
         public string CreateTaxGroupAsync() =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCreateTaxGroupMaster/CreateTaxGroupMaster";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralTaxGroupMaster/CreateTaxGroupMaster";
 
         public string GetTaxGroupAsync(short taxGroupMasterId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCreateTaxGroupMaster/GetTaxGroupMaster?generalTaxGroupMasterId={taxGroupMasterId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralTaxGroupMaster/GetTaxGroupMaster?generalTaxGroupMasterId={taxGroupMasterId}";
 
         public string UpdateTaxGroupAsync() =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCreateTaxGroupMaster/UpdateTaxGroupMaster";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralTaxGroupMaster/UpdateTaxGroupMaster";
 
         public string DeleteTaxGroupAsync() =>
-                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCreateTaxGroupMaster/DeleteTaxGroupMaster";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralTaxGroupMaster/DeleteTaxGroupMaster";
     }
 }

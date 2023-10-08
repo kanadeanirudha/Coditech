@@ -36,7 +36,7 @@ namespace Coditech.Admin.Controllers
 
             GeneralTaxGroupMasterViewModel taxGroupMasterViewModel = new GeneralTaxGroupMasterViewModel();
             BindDropDown(taxGroupMasterViewModel);
-            return View(createEdit, new GeneralTaxGroupMasterViewModel());
+            return View(createEdit, taxGroupMasterViewModel);
         }
 
         [HttpPost]
