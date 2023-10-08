@@ -16,7 +16,7 @@ namespace Coditech.API.Endpoint
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminSanctionPost/CreateAdminSanctionPost";
 
         public string GetAdminSanctionPostAsync(int adminSanctionPostId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminSanctionPost/GetAdminSanctionPost?generalAdminSanctionPostId={adminSanctionPostId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminSanctionPost/GetAdminSanctionPost?adminSanctionPostId={adminSanctionPostId}";
        
         public string UpdateAdminSanctionPostAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminSanctionPost/UpdateAdminSanctionPost";

@@ -175,5 +175,11 @@ namespace Coditech.Admin.Agents
             pageListViewModel.DatatableColumnList = datatableColumns;
             pageListViewModel.IsActionColumn = IsActionColumn;
         }
+
+        protected string SpiltCentreCode(string centreCode)
+        {
+            centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
+            return centreCode;
+        }
     }
 }

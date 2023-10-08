@@ -19,7 +19,7 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<EmployeeDesignationMaster> _employeeDesignationMasterRepository;
-        public GeneralDesignationMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public GeneralDesignationMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;

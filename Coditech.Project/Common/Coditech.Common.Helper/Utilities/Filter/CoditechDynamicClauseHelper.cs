@@ -187,7 +187,7 @@ namespace Coditech.Common.Helper.Utilities
                     if (!Equals(filterKey, "_") && !Equals(filterKey.ToLower(), "usertype"))
                         whereClause = (string.IsNullOrEmpty(whereClause))
                             ? SetQueryParameterForSP(filterKey, filterOperator, filterValue)
-                            : $"{whereClause} {StoredProcedureKeys.AND} {SetQueryParameterForSP(filterKey, filterOperator, filterValue)}";
+                            : $"{whereClause} {StoredProcedureKeys.OR} {SetQueryParameterForSP(filterKey, filterOperator, filterValue)}";
                 }
             }
             return whereClause;

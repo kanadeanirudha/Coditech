@@ -23,7 +23,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<UserModuleMaster> _userModuleMasterRepository;
         private readonly ICoditechRepository<UserMainMenuMaster> _userMainMenuMasterRepository;
         private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
-        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;

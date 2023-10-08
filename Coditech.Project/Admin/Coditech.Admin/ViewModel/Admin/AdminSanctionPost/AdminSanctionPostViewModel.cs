@@ -8,10 +8,10 @@ namespace Coditech.Admin.ViewModel
     public class AdminSanctionPostViewModel : BaseViewModel
     {
         [Required]
-        [Display(Name = "LabelCentre", ResourceType = typeof(GeneralResources))]
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string SelectedCentreCode { get; set; }
         [Required]
-        [Display(Name = "LabelDepartments", ResourceType = typeof(GeneralResources))]
+        [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
         public int AdminSanctionPostId { get; set; }
         public Int16 DesignationId { get; set; }
@@ -19,6 +19,7 @@ namespace Coditech.Admin.ViewModel
         public string CentreCode { get; set; }
         public string SanctionPostCode { get; set; }
         public string SanctionedPostDescription { get; set; }
+        [Required]
         public Int16 NoOfPost { get; set; } = 1;
 
         [Required(ErrorMessage = "Post Type Required")]
@@ -30,10 +31,10 @@ namespace Coditech.Admin.ViewModel
         public string DesignationType { get; set; }
         public bool IsActive { get; set; }
 
-        [Display(Name = "LabelDepartments", ResourceType = typeof(GeneralResources))]
+        [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string DesignationName { get; set; }
         public string DepartmentName { get; set; }
-        [Display(Name = "LabelCentre", ResourceType = typeof(GeneralResources))]
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string CentreName { get; set; }
     }
 }

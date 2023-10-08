@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -98,6 +99,28 @@ namespace Coditech.Admin.Controllers
                 return PartialView(viewName, model);
             }
             return View(viewName, model);
+        }
+
+        protected DataTableViewModel CreateActionDataTable(string centreCode = null, int selectedDepartmentId = 0)
+        {
+            return new DataTableViewModel()
+            {
+                SortByColumn = SortKeys.CreatedDate,
+                SortBy = AdminConstants.DESCKey,
+                SelectedCentreCode = centreCode,
+                SelectedDepartmentId = selectedDepartmentId
+            };
+        }
+
+        protected DataTableViewModel UpdateActionDataTable(string centreCode = null, int selectedDepartmentId = 0)
+        {
+            return new DataTableViewModel()
+            {
+                SortByColumn = SortKeys.ModifiedDate,
+                SortBy = AdminConstants.DESCKey,
+                SelectedCentreCode = centreCode,
+                SelectedDepartmentId = selectedDepartmentId
+            };
         }
     }
 }

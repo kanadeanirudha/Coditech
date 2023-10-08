@@ -60,6 +60,9 @@ namespace Coditech.Admin.Agents
         {
             try
             {
+                adminSanctionPostViewModel.CentreCode = SpiltCentreCode(adminSanctionPostViewModel.SelectedCentreCode);
+                adminSanctionPostViewModel.DepartmentId = Convert.ToInt16(adminSanctionPostViewModel.SelectedDepartmentId);
+                adminSanctionPostViewModel.IsActive = true;
                 AdminSanctionPostResponse response = _adminSanctionPostClient.CreateAdminSanctionPost(adminSanctionPostViewModel.ToModel<AdminSanctionPostModel>());
                 AdminSanctionPostModel adminSanctionPostModel = response?.AdminSanctionPostModel;
                 return IsNotNull(adminSanctionPostModel) ? adminSanctionPostModel.ToViewModel<AdminSanctionPostViewModel>() : new AdminSanctionPostViewModel();

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
+    <ProjectReference Include="..\..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
     <ProjectReference Include="..\Coditech.API.Data\Coditech.API.Data.csproj" />
   </ItemGroup>
 

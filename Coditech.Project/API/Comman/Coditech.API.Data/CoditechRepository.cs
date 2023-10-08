@@ -235,12 +235,13 @@ namespace Coditech.API.Data
                     throw new ArgumentNullException(nameof(entity));
 
                 //Map the Modified property values to the original database entity. To update only those modified values.
-                UpdateEntity(entity);
-
-                var validationContext = new ValidationContext(entity);
-                Validator.ValidateObject(entity, validationContext);
-
-                bool _result = SaveChangesToDB(_context, HelperMethods.GetLoginUserId()) > 0;
+                bool isEntityUpdate = UpdateEntity(entity);
+                if (isEntityUpdate)
+                {
+                    var validationContext = new ValidationContext(entity);
+                    Validator.ValidateObject(entity, validationContext);
+                }
+                bool _result = isEntityUpdate ? SaveChangesToDB(_context, HelperMethods.GetLoginUserId()) > 0 : true;
                 return _result;
             }
             catch (Exception ex)
@@ -265,12 +266,13 @@ namespace Coditech.API.Data
                     throw new ArgumentNullException(nameof(entity));
 
                 //Map the Modified property values to the original database entity. To update only those modified values.
-                UpdateEntity(entity);
-
-                var validationContext = new ValidationContext(entity);
-                Validator.ValidateObject(entity, validationContext);
-
-                bool _result = SaveChangesToDB(_context, loginUserId) > 0;
+                bool isEntityUpdate = UpdateEntity(entity);
+                if (isEntityUpdate)
+                {
+                    var validationContext = new ValidationContext(entity);
+                    Validator.ValidateObject(entity, validationContext);
+                }
+                bool _result = isEntityUpdate ? SaveChangesToDB(_context, loginUserId) > 0 : true;
                 return _result;
             }
             catch (Exception ex)
@@ -288,8 +290,8 @@ namespace Coditech.API.Data
                     throw new ArgumentNullException(nameof(entities));
 
                 //Map the Modified property values to the original database entity. To update only those modified values.
-                UpdateEntities(entities);
-                return SaveChangesToDB(_context, HelperMethods.GetLoginUserId()) > 0;
+                bool isEntityUpdate = UpdateEntities(entities);
+                return isEntityUpdate ? SaveChangesToDB(_context, HelperMethods.GetLoginUserId()) > 0 : true;
 
             }
             catch (Exception ex)
@@ -312,8 +314,8 @@ namespace Coditech.API.Data
                     throw new ArgumentNullException(nameof(entity));
 
                 //Map the Modified property values to the original database entity. To update only those modified values.
-                UpdateEntity(entity);
-                return await _context.SaveChangesAsync() > 0;
+                bool isEntityUpdate = UpdateEntity(entity);
+                return isEntityUpdate ? await _context.SaveChangesAsync() > 0 : true;
             }
             catch (Exception ex)
             {
@@ -714,8 +716,9 @@ namespace Coditech.API.Data
         => typeof(T).GetProperty(GetEntityPrimaryKey<T>()).GetValue(entity, null);
 
         //Set Modified Values for the Entity, to update only modified values based on the original database values.
-        private void UpdateEntity(T entity)
+        private bool UpdateEntity(T entity)
         {
+            bool isEntityUpdate = false;
             //Get the Primary Key value for the Entity.
             var objKey = GetObjectKey(entity);
 
@@ -734,13 +737,16 @@ namespace Coditech.API.Data
                 {
                     originalEntityEntry.Property(property.Name).CurrentValue = current;
                     originalEntityEntry.Property(property.Name).IsModified = true;
+                    isEntityUpdate = true;
                 }
             }
+            return isEntityUpdate;
         }
 
         //Set Modified Values for the Entity, to update only modified values based on the original database values.
-        private void UpdateEntities(IEnumerable<T> entities)
+        private bool UpdateEntities(IEnumerable<T> entities)
         {
+            bool isEntityUpdate = false;
             //Get the Primary Key value for the Entity.
             foreach (T entity in entities)
             {
@@ -761,9 +767,11 @@ namespace Coditech.API.Data
                     {
                         originalEntityEntry.Property(property.Name).CurrentValue = current;
                         originalEntityEntry.Property(property.Name).IsModified = true;
+                        isEntityUpdate = true;
                     }
                 }
             }
+            return isEntityUpdate;
         }
 
         //Override Method to Insert/Update the Created/Modified Date for the Entity.

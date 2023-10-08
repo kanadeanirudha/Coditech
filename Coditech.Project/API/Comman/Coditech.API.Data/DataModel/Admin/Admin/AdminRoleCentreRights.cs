@@ -1,7 +1,10 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
-    public partial class AdminRoleCentreRight
+    public partial class AdminRoleCentreRights
     {
+        [Key]
         public int AdminRoleCentreRightId { get; set; }
         public int AdminRoleMasterId { get; set; }
         public string CentreCode { get; set; }

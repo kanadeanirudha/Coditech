@@ -1,5 +1,4 @@
-﻿using Coditech.Admin.Agents;
-using Coditech.Admin.Utilities;
+﻿using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;

@@ -20,14 +20,14 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<AdminRoleMaster> _adminRoleMasterRepository;
-        private readonly ICoditechRepository<AdminRoleCentreRight> _adminRoleCentreRightsRepository;
+        private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
         private readonly ICoditechRepository<AdminSanctionPost> _adminSanctionPostRepository;
-        public AdminRoleMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public AdminRoleMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _adminRoleMasterRepository = new CoditechRepository<AdminRoleMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRight>();
+            _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>();
             _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>();
         }
 
@@ -118,7 +118,7 @@ namespace Coditech.API.Service
             }
 
             //update  Admin Role Centre Right
-            List<AdminRoleCentreRight> adminRoleCentreRightList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId && x.CentreCode != adminRoleMasterModel.SelectedCentreCodeForSelf)?.ToList();
+            List<AdminRoleCentreRights> adminRoleCentreRightList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId && x.CentreCode != adminRoleMasterModel.SelectedCentreCodeForSelf)?.ToList();
 
             if (adminRoleMasterModel.MonitoringLevel == APIConstant.Self || (adminRoleMasterModel.MonitoringLevel == APIConstant.Other && adminRoleMasterModel?.SelectedRoleWiseCentres?.Count == 0))
             {
@@ -135,11 +135,11 @@ namespace Coditech.API.Service
                 foreach (UserAccessibleCentreModel item in adminRoleMasterModel?.AllCentreList?.Where(x => x.CentreCode != adminRoleMasterModel.SelectedCentreCodeForSelf))
                 {
                     string selectedCentreCode = adminRoleMasterModel?.SelectedRoleWiseCentres?.FirstOrDefault(x => x == item.CentreCode);
-                    AdminRoleCentreRight adminRoleCentreRight = adminRoleCentreRightList?.FirstOrDefault(x => x.CentreCode == item.CentreCode && x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId);
+                    AdminRoleCentreRights adminRoleCentreRight = adminRoleCentreRightList?.FirstOrDefault(x => x.CentreCode == item.CentreCode && x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId);
 
                     if (adminRoleCentreRight == null && !string.IsNullOrEmpty(selectedCentreCode))
                     {
-                        adminRoleCentreRight = new AdminRoleCentreRight()
+                        adminRoleCentreRight = new AdminRoleCentreRights()
                         {
                             AdminRoleMasterId = adminRoleMasterModel.AdminRoleMasterId,
                             CentreCode = selectedCentreCode,

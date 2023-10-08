@@ -9,6 +9,11 @@ namespace Coditech.Admin
     {
         public AutoMapperConfig()
         {
+            #region Admin 
+            CreateMap<AdminSanctionPostModel, AdminSanctionPostViewModel>().ReverseMap();
+            #endregion
+
+            #region General Master
             CreateMap<GeneralDepartmentModel, GeneralDepartmentViewModel>().ReverseMap();
             CreateMap<GeneralDepartmentListModel, GeneralDepartmentListViewModel>().ReverseMap();
             CreateMap<GeneralCountryModel, GeneralCountryViewModel>().ReverseMap();
@@ -21,6 +26,7 @@ namespace Coditech.Admin
             CreateMap<GeneralCityListModel, GeneralCityListViewModel>().ReverseMap();
             CreateMap<GeneralTaxMasterModel, GeneralTaxMasterViewModel>().ReverseMap();
             CreateMap<GeneralTaxMasterListModel, GeneralTaxMasterListViewModel>().ReverseMap();
+            #endregion
         }
     }
 }

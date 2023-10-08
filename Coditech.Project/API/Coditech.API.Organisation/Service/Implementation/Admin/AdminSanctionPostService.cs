@@ -21,14 +21,14 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<AdminSanctionPost> _adminSanctionPostRepository;
         private readonly ICoditechRepository<AdminRoleMaster> _adminRoleMasterRepository;
-        private readonly ICoditechRepository<AdminRoleCentreRight> _adminRoleCentreRightsRepository;
-        public AdminSanctionPostService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
+        public AdminSanctionPostService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>();
-            _adminRoleMasterRepository = new CoditechRepository<AdminRoleMaster>();
-            _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRight>();
+            _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleMasterRepository = new CoditechRepository<AdminRoleMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual AdminSanctionPostListModel GetAdminSanctionPostList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -94,7 +94,7 @@ namespace Coditech.API.Service
                 //Create new adminRoleMaster
                 adminRoleMaster = _adminRoleMasterRepository.Insert(adminRoleMaster);
 
-                AdminRoleCentreRight adminRoleCentreRight = new AdminRoleCentreRight()
+                AdminRoleCentreRights adminRoleCentreRight = new AdminRoleCentreRights()
                 {
                     AdminRoleMasterId = adminRoleMaster.AdminRoleMasterId,
                     CentreCode = adminSanctionPostModel.CentreCode,

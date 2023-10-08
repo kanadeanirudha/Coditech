@@ -13,6 +13,7 @@
         public const string LoginPath = "/User/login";
         public const string LogoutPath = "/User/logout";
         public const string Notifications = "Notifications";
+        public const string DataTableViewModel = "DataTableViewModel";
 
         #region CookieHelper constant
         public const double MinutesInAYear = 365 * 24 * 60;

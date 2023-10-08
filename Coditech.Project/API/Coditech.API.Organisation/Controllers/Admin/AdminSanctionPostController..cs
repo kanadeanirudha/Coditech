@@ -73,23 +73,23 @@ namespace Coditech.API.Controllers
 
         [Route("/AdminSanctionPost/GetAdminSanctionPost")]
         [HttpGet]
-        [Produces(typeof(AdminSanctionPostModel))]
-        public IActionResult GetAdminSanctionPost(short adminSanctionPostId)
+        [Produces(typeof(AdminSanctionPostResponse))]
+        public IActionResult GetAdminSanctionPost(int adminSanctionPostId)
         {
             try
             {
                 AdminSanctionPostModel adminSanctionPostModel = _adminSanctionPostMasterService.GetAdminSanctionPost(adminSanctionPostId);
-                return IsNotNull(adminSanctionPostModel) ? CreateOKResponse(adminSanctionPostModel) : NotFound();
+                return IsNotNull(adminSanctionPostModel) ? CreateOKResponse(new AdminSanctionPostResponse() { AdminSanctionPostModel = adminSanctionPostModel }) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminSanctionPost.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new AdminSanctionPostModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new AdminSanctionPostResponse { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminSanctionPost.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new AdminSanctionPostModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new AdminSanctionPostResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
