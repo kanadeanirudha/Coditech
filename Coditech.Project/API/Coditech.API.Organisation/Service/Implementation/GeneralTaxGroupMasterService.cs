@@ -72,8 +72,8 @@ namespace Coditech.API.Service
                 {
                     GeneralTaxGroupMasterDetails generalTaxGroupMasterDetail = new GeneralTaxGroupMasterDetails()
                     {
-                        GenTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
-                        GenTaxMasterId = Convert.ToInt16(genTaxMasterId)
+                        GeneralTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
+                        GeneralTaxMasterId = Convert.ToInt16(genTaxMasterId)
                     };
                     _generalTaxGroupMasterDetailRepository.Insert(generalTaxGroupMasterDetail);
                 }
@@ -95,7 +95,7 @@ namespace Coditech.API.Service
             //Get the Tax Group Master Details based on id.
             GeneralTaxGroupMaster taxGroupMasterData = _generalTaxGroupMasterRepository.Table.FirstOrDefault(x => x.GeneralTaxGroupMasterId == taxGroupMasterId);
             GeneralTaxGroupModel generalTaxGroupModel = taxGroupMasterData.FromEntityToModel<GeneralTaxGroupModel>();
-            generalTaxGroupModel.GeneralTaxMasterIds = _generalTaxGroupMasterDetailRepository.Table.Where(x => x.GenTaxGroupMasterId == taxGroupMasterId)?.Select(y => y.GenTaxMasterId.ToString())?.ToList();
+            generalTaxGroupModel.GeneralTaxMasterIds = _generalTaxGroupMasterDetailRepository.Table.Where(x => x.GeneralTaxGroupMasterId == taxGroupMasterId)?.Select(y => y.GeneralTaxMasterId.ToString())?.ToList();
             return generalTaxGroupModel;
         }
 
@@ -123,7 +123,7 @@ namespace Coditech.API.Service
 
             if (isTaxGroupMasterUpdated)
             {
-                List<GeneralTaxGroupMasterDetails> list = _generalTaxGroupMasterDetailRepository.Table.Where(x => x.GenTaxGroupMasterId == generalTaxGroupModel.GeneralTaxGroupMasterId)?.ToList();
+                List<GeneralTaxGroupMasterDetails> list = _generalTaxGroupMasterDetailRepository.Table.Where(x => x.GeneralTaxGroupMasterId == generalTaxGroupModel.GeneralTaxGroupMasterId)?.ToList();
                 if (list?.Count > 0)
                 {
                     _generalTaxGroupMasterDetailRepository.Delete(list);
@@ -132,8 +132,8 @@ namespace Coditech.API.Service
                     {
                         GeneralTaxGroupMasterDetails generalTaxGroupMasterDetail = new GeneralTaxGroupMasterDetails()
                         {
-                            GenTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
-                            GenTaxMasterId = Convert.ToInt16(genTaxMasterId)
+                            GeneralTaxGroupMasterId = generalTaxGroupModel.GeneralTaxGroupMasterId,
+                            GeneralTaxMasterId = Convert.ToInt16(genTaxMasterId)
                         };
                         generalTaxGroupMasterDetailList.Add(generalTaxGroupMasterDetail);
                     }
@@ -158,7 +158,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("TaxGroupMasterId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteTaxGroupMaster @TaxGroupMasterId,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteTaxGroup @TaxGroupMasterId,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
 

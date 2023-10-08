@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model.Response;
 
 namespace Coditech.Admin.Agents
 {
@@ -38,5 +39,6 @@ namespace Coditech.Admin.Agents
         /// <param name="taxMasterId">taxMasterId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteTaxMaster(string taxMasterId, out string errorMessage);
+        GeneralTaxMasterListResponse GetAllTaxList();
     }
 }

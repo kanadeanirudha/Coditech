@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.API.Service;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -9,6 +10,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
 using System.Diagnostics;
+using System.Drawing;
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -156,6 +158,14 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "IsOtherState",
             });
             return datatableColumnList;
+        }
+        #endregion
+        #region
+        // it will return get all tax list from database 
+        public GeneralTaxMasterListResponse GetAllTaxList()
+        {
+            GeneralTaxMasterListResponse taxMasterList = _generalTaxMasterClient.List(null, null,null,1,int.MaxValue);
+            return taxMasterList?.GeneralTaxMasterList?.Count > 0 ? taxMasterList : new GeneralTaxMasterListResponse();
         }
         #endregion
     }

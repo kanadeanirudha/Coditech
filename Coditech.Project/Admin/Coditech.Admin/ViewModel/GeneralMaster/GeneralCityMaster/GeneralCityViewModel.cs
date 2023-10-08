@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -11,10 +12,11 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Is Default")]
         public bool DefaultFlag { get; set; }
-        [Required]
+        //[Required]
         public int GeneralRegionMasterId { get; set; }
         public string RegionName { get; set; }
         public Int16? TinNumber { get; set; }
         public bool IsUserDefined { get; set; }
+        public List<GeneralCityModel> AllCityList { get; internal set; }
     }
 }

@@ -31,8 +31,9 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            GeneralCityViewModel generalCityViewModel = new GeneralCityViewModel();
+            BindDropDown(generalCityViewModel);
             return View(createEdit, new GeneralCityViewModel());
-
         }
 
         [HttpPost]
@@ -47,15 +48,16 @@ namespace Coditech.Admin.Controllers
                     return RedirectToAction<GeneralCityMasterController>(x => x.List(null));
                 }
             }
+            BindDropDown(generalCityViewModel);
             SetNotificationMessage(GetErrorNotificationMessage(generalCityViewModel.ErrorMessage));
             return View(createEdit, generalCityViewModel);
         }
-
 
         [HttpGet]
         public virtual ActionResult Edit(int cityId)
         {
             GeneralCityViewModel generalCityViewModel = _generalCityAgent.GetCity(cityId);
+            BindDropDown(generalCityViewModel);
             return ActionView(createEdit, generalCityViewModel);
         }
 
@@ -69,6 +71,7 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { cityId = generalCityViewModel.GeneralCityMasterId });
             }
+            BindDropDown(generalCityViewModel);
             return View(createEdit, generalCityViewModel);
         }
 
@@ -88,5 +91,11 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<GeneralCityMasterController>(x => x.List(null));
         }
+        #region Private
+        protected void BindDropDown(GeneralCityViewModel generalCityViewModel)
+        {
+            generalCityViewModel.AllCityList = _generalCityAgent.GetAllCityList().GeneralCityList;
+        }
+        #endregion
     }
 }
