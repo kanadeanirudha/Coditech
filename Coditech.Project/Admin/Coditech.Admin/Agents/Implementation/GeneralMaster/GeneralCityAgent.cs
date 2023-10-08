@@ -154,7 +154,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Region Name",
                 ColumnCode = "RegionName",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
@@ -162,6 +161,14 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "DefaultFlag",
             });
             return datatableColumnList;
+        }
+        #endregion
+        #region
+        // it will return get all tax list from database 
+        public GeneralCityListResponse GetAllCityList()
+        {
+            GeneralCityListResponse cityList = _generalCityClient.List(null, null, null, 1, int.MaxValue);
+            return cityList?.GeneralCityList?.Count > 0 ? cityList : new GeneralCityListResponse();
         }
         #endregion
     }

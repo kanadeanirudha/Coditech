@@ -10,6 +10,7 @@
         Organisation,
         RegionalOffice,
         Centre,
-        TaxGroup
+        TaxGroup,
+        RegionName
     }
 }

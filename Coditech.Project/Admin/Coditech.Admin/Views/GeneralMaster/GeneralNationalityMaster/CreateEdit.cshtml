@@ -42,14 +42,14 @@
                                         @Html.TextBoxFor(x => x.Description, new { @class = "form-control"})
                                         @Html.ValidationMessageFor(x => x.Description)
                                     </div>
-                                   @* <div class="row">
+                                    <div class="col-lg-4">
                                         <div class="mb-3">
                                             <div class="form-check">
                                                 @Html.CheckBoxFor(x => x.DefaultFlag, new { @class = "form-check-input" })
                                                 @Html.LabelFor(x => x.DefaultFlag, new { @class = "form-check-label" })
                                             </div>
                                         </div>
-                                    </div>*@
+                                    </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>

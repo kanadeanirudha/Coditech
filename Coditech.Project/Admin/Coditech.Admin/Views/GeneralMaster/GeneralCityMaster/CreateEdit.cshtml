@@ -1,8 +1,11 @@
-﻿@model GeneralCityViewModel
+﻿@using Coditech.Admin.Utilities;
+@model GeneralCityViewModel
 @{
     ViewBag.Title = Model.GeneralCityMasterId > 0 ? "Update City" : "Add City";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel cityDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.City.ToString(), DropdownName = "CityID", DropdownSelectedValue = Convert.ToString(Model.GeneralCityMasterId) };
+    DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.RegionName.ToString(), DropdownName = "RegionName", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId) };
 }
 <!-- Page Content-->
 <div class="page-content">
@@ -35,11 +38,13 @@
                         {
                             @Html.HiddenFor(m => m.GeneralCityMasterId)
                             @Html.HiddenFor(m => m.DefaultFlag)
+                            @Html.HiddenFor(m => m.GeneralRegionMasterId)
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.CityName, new { @class = "form-label required" })
-                                        @* @Html.Partial("~/Views/Shared/Datatable/_DropdownList.cshtml") *@
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml",cityDropdown)
+                                        @Html.HiddenFor(x=>x.CityName)
                                         @Html.ValidationMessageFor(x => x.CityName)
                                     </div>
                                 </div>
@@ -51,15 +56,21 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
+                                    @* <div class="mb-3">
+                                        @Html.LabelFor(x => x.GeneralRegionMasterId, new { @class = "form-label required" })
+                                        @Html.Partial("~/views/shared/control/_dropdownlist.cshtml",regionDropdown)
+                                        @*  @html.textboxfor(x => x.regionname, new { @class = "form-control" }) 
+                                        @Html.ValidationMessageFor(x => x.GeneralRegionMasterId)
+                                    </div> *@
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.RegionName, new { @class = "form-label required" })
-                                        @* @Html.Partial("~/Views/Shared/Datatable/_DropdownList.cshtml") *@
-                                        @Html.TextBoxFor(x => x.RegionName, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.RegionName)
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.DefaultFlag, new { @class = "form-check-input" })
+                                            @Html.LabelFor(x => x.DefaultFlag, new { @class = "form-check-label" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <button type="submit" class="btn btn-success" onclick="BindCityName()">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
@@ -68,3 +79,22 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('#GeneralRegionMasterIds').multiselect({
+                includeSelectAllOption: true,
+                //selectAllValue: 'multiselect-all',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '100%',
+            });
+            
+
+        });
+    });
+    function BindCityName() {
+        $('#CityName').val($("#CityID option:selected").text());
+    };
+</script>

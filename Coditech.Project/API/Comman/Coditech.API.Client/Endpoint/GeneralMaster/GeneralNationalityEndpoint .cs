@@ -21,6 +21,6 @@ namespace Coditech.API.Endpoint
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralNationalityMaster/UpdateNationality";
 
         public string DeleteNationalityAsync() =>
-                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralNationalityMaster/DeleteNationalityt";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralNationalityMaster/DeleteNationality";
     }
 }

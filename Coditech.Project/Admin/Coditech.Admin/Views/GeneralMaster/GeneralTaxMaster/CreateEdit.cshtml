@@ -50,6 +50,12 @@
                                         @Html.ValidationMessageFor(x => x.TaxRate)
                                     </div>
                                 </div>
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        @Html.CheckBoxFor(x => x.IsOtherState, new { @class = "form-check-input" })
+                                        @Html.LabelFor(x => x.IsOtherState, new { @class = "form-check-label" })
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
