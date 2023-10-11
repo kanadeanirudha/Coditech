@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.Common.API.Model
+namespace Coditech.Admin.ViewModel
 {
-    public class OrganisationModel : BaseModel
+    public class OrganisationMasterViewModel : BaseViewModel
     {
-        public OrganisationModel()
-        {
-        }
         public byte OrganisationMasterId { get; set; }
         public string EstablishmentCode { get; set; }
         [Required]

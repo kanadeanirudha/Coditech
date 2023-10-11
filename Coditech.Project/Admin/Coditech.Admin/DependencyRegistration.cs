@@ -26,6 +26,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralCityAgent, GeneralCityAgent>();
             builder.Services.AddScoped<IGeneralTaxMasterAgent, GeneralTaxMasterAgent>();
             builder.Services.AddScoped<IGeneralTaxGroupAgent, GeneralTaxGroupAgent>();
+            builder.Services.AddScoped<IOrganisationAgent, OrganisationAgent>();
             #endregion
 
             #region Client
@@ -40,6 +41,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralCityClient, GeneralCityClient>();
             builder.Services.AddScoped<IGeneralTaxMasterClient, GeneralTaxMasterClient>();
             builder.Services.AddScoped<IGeneralTaxGroupClient, GeneralTaxGroupClient>();
+            builder.Services.AddScoped<IOrganisationClient, OrganisationClient>();
             #endregion
         }
     }

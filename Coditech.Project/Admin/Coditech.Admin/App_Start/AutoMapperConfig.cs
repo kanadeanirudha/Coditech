@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 
 namespace Coditech.Admin
@@ -23,6 +24,10 @@ namespace Coditech.Admin
             CreateMap<GeneralTaxMasterListModel, GeneralTaxMasterListViewModel>().ReverseMap();
             CreateMap<GeneralTaxGroupModel, GeneralTaxGroupMasterViewModel>().ReverseMap();
             CreateMap<GeneralTaxGroupMasterListModel, GeneralTaxGroupMasterListViewModel>().ReverseMap();
+            #region Organisation
+            CreateMap<OrganisationModel, OrganisationMasterViewModel>().ReverseMap();
+           // CreateMap<OrganisationModel, OrganisationMaster>().ReverseMap();
+            #endregion
         }
     }
 }

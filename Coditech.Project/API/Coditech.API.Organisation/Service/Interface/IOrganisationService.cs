@@ -7,3 +7,4 @@ namespace Coditech.API.Service
         OrganisationModel UpdateOrganisation(OrganisationModel model);
     }
 }
+
