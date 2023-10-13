@@ -20,6 +20,21 @@ namespace Coditech.API.Service
             _organisationMasterRepository = new CoditechRepository<OrganisationMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
+        //Get Organisation by organisation id.
+        public  OrganisationModel GetOrganisation(short organisationId)
+        {
+            if (organisationId <=0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "OrganisationId"));
+
+            //Get the Organisation Details based on id.
+            OrganisationMaster organisationMaster = _organisationMasterRepository.Table.FirstOrDefault(x => x.OrganisationMasterId == organisationId);
+            OrganisationModel organisationModel = organisationMaster?.FromEntityToModel<OrganisationModel>();
+
+           // OrganisationMaster organisationMasterData = _organisationMasterRepository.Table.FirstOrDefault();
+          //  OrganisationModel model = HelperUtility.IsNull(organisationMasterData) ? new OrganisationModel() : organisationMasterData.FromEntityToModel<OrganisationModel>();
+            return organisationModel;
+        }
+
         //Update OrganisationMaster.
         public OrganisationModel UpdateOrganisation(OrganisationModel organisationModel)
         {

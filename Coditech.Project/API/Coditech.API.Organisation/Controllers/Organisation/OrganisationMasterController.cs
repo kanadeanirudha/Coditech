@@ -29,6 +29,28 @@ namespace Coditech.API.Controllers
         /// <returns>OrganisationModel</returns>
         /// 
 
+        [Route("/OrganisationMaster/GetOrganisation")]
+        [HttpGet]
+        [Produces(typeof(OrganisationResponse))]
+        public IActionResult GetOrganisation(short organisationMasterId)
+        {
+            try
+            {
+                OrganisationModel organisationModel = _organisationService.GetOrganisation(organisationMasterId);
+                return HelperUtility.IsNotNull(organisationModel) ? CreateOKResponse(new OrganisationResponse { OrganisationModel = organisationModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Organisation.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Organisation.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
         [Route("/OrganisationMaster/UpdateOrganisation")]
         [HttpPut, ValidateModel]
         [Produces(typeof(OrganisationResponse))]

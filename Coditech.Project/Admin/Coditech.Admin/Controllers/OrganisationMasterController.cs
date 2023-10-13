@@ -17,9 +17,10 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit()
+        public virtual ActionResult Edit(short organisationId)
         {
-            return ActionView(createEdit, new OrganisationMasterViewModel());
+            OrganisationMasterViewModel organisationMasterViewModel = _organisationAgent.GetOrganisation(organisationId);
+            return ActionView(createEdit, organisationMasterViewModel);
         }
 
         [HttpPost]
