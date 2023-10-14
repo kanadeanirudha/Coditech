@@ -5,7 +5,6 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RARIndia.Model.Model;
 
 namespace Coditech.Admin.Helpers
 {
