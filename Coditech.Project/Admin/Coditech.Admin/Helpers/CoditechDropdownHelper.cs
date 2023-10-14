@@ -59,8 +59,8 @@ namespace Coditech.Admin.Helpers
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
                     string centreCode = SpiltCentreCode(dropdownViewModel.Parameter);
-                   //GeneralDepartmentListResponse response = new GeneralDepartmentClient().GetDepartmentsByCentreCode(centreCode);
-                   // list = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
+                    GeneralDepartmentListResponse response = new GeneralDepartmentClient().GetDepartmentsByCentreCode(centreCode);
+                    list = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
                 }
                 dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Department-------" });
                 foreach (var item in list?.GeneralDepartmentList)

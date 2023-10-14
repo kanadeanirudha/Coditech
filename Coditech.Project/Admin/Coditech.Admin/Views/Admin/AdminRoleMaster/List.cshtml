@@ -1,7 +1,7 @@
 ﻿@using Coditech.Admin.Utilities;
-@model AdminSanctionPostListViewModel
+@model AdminRoleListViewModel
 @{
-    ViewBag.Title = "Admin Sanction Post List";
+    ViewBag.Title = "Admin Role List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()" };
@@ -16,7 +16,7 @@
                 <div class="page-title-box">
                     <div class="row">
                         <div class="col">
-                            <h4 class="page-title">@AdminResources.LabelAdminSanctionPostList</h4>
+                            <h4 class="page-title">@AdminResources.LabelAdminRoleList</h4>
                             @* <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Dastone</a></li>
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Tables</a></li>
@@ -55,7 +55,7 @@
                     </div><!--end card-header-->
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                            @Html.Partial("~/Views/Admin/AdminSanctionPost/_List.cshtml", Model)
+                            @Html.Partial("~/Views/Admin/AdminRoleMaster/_List.cshtml", Model)
                         </div>
                     </div>
                 </div>
@@ -64,3 +64,4 @@
     </div><!-- container -->
 </div>
 <!-- end page content -->
+<script src="~/js/coditech/adminrolemaster.js"></script>

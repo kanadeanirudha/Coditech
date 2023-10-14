@@ -127,7 +127,7 @@ namespace Coditech.Admin
         private void SetErrorPage(Exception exception, RouteData routeData)
         {
             CoditechException CoditechException = exception as CoditechException;
-            routeData.Values.Add("controller", "demo");
+            routeData.Values.Add("controller", "dashboard");
 
             switch (CoditechException?.ErrorCode)
             {

@@ -70,6 +70,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete city due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralCityMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralCityMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete country due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralCountryMaster {
@@ -77,35 +86,22 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete taxmaster due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralTaxMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralTaxMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete taxgroupmaster due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralTaxGroupMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralTaxGroupMaster", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete department due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralDepartmentMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteGeneralDepartmentMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete designation due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralDesignationMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralDesignationMaster", resourceCulture);
             }
         }
         
@@ -117,29 +113,25 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralNationalityMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete city due to associate record..
+        ///   Looks up a localized string similar to Failed to delete tax group due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralCityMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralCityMaster", resourceCulture);
+        public static string ErrorDeleteGeneralTaxGroupMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralTaxGroupMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Designation due to associate record..
+        ///   Looks up a localized string similar to Failed to delete tax due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralDesignationMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralDesignationMaster", resourceCulture);
+        public static string ErrorDeleteGeneralTaxMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralTaxMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
         /// </summary>
@@ -155,6 +147,15 @@ namespace Coditech.Resources {
         public static string LabelAction {
             get {
                 return ResourceManager.GetString("LabelAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin Role List.
+        /// </summary>
+        public static string LabelAdminRoleList {
+            get {
+                return ResourceManager.GetString("LabelAdminRoleList", resourceCulture);
             }
         }
         
@@ -186,6 +187,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to City List.
+        /// </summary>
+        public static string LabelCityList {
+            get {
+                return ResourceManager.GetString("LabelCityList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Country List.
         /// </summary>
         public static string LabelCountryList {
@@ -193,40 +203,7 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Tax List.
-        /// </summary>
-        public static string LabelTaxList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelTaxList", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to TaxGroup List.
-        /// </summary>
-        public static string LabelTaxGroupList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelTaxGroupList", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to City List.
-        /// </summary>
-        public static string LabelCityList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelCityList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>
@@ -235,24 +212,22 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelDepartmentList", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Designation List.
-        /// </summary>
-        public static string LabelDesignationList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelDesignationList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Departments.
         /// </summary>
         public static string LabelDepartments {
             get {
                 return ResourceManager.GetString("LabelDepartments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Designation List.
+        /// </summary>
+        public static string LabelDesignationList {
+            get {
+                return ResourceManager.GetString("LabelDesignationList", resourceCulture);
             }
         }
         
@@ -280,6 +255,24 @@ namespace Coditech.Resources {
         public static string LabelSave {
             get {
                 return ResourceManager.GetString("LabelSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tax Group List.
+        /// </summary>
+        public static string LabelTaxGroupList {
+            get {
+                return ResourceManager.GetString("LabelTaxGroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tax List.
+        /// </summary>
+        public static string LabelTaxList {
+            get {
+                return ResourceManager.GetString("LabelTaxList", resourceCulture);
             }
         }
         
