@@ -55,7 +55,7 @@ namespace Coditech.API.Service
             BindRoleTypes(userModel);
 
             List<UserModuleMaster> userAllModuleList = _userModuleMasterRepository.Table.Where(x => x.ModuleActiveFlag == true)?.ToList();
-            List<UserMainMenuMaster> userAllMenuList = _userMainMenuMasterRepository.Table.Where(x => x.IsEnable == true)?.ToList();
+            List<UserMainMenuMaster> userAllMenuList = _userMainMenuMasterRepository.Table.Where(x => x.IsEnable == true)?.OrderBy(y => y.MenuDisplaySeqNo)?.ToList();
             List<AdminRoleMenuDetail> userRoleMenuList = new List<AdminRoleMenuDetail>();
             if (!userModel.IsAdminUser)
             {
@@ -115,6 +115,7 @@ namespace Coditech.API.Service
         {
             foreach (UserModuleMaster item in userAllModuleList)
             {
+                UserMainMenuMaster userMainMenuMaster = userAllMenuList?.FirstOrDefault(x => x.ControllerName != null && x.ModuleCode == item.ModuleCode);
                 userModel.ModuleList.Add(new UserModuleModel()
                 {
                     UserModuleMasterId = item.UserModuleMasterId,
@@ -124,6 +125,7 @@ namespace Coditech.API.Service
                     ModuleTooltip = item.ModuleTooltip,
                     ModuleIconName = item.ModuleIconName,
                     ModuleColorClass = item.ModuleColorClass,
+                    DefaultMenuLink = userMainMenuMaster?.ControllerName?.ToLower() + "/" + userMainMenuMaster?.ActionName?.ToLower(),
                 });
             }
 

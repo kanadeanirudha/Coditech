@@ -9,5 +9,6 @@
         public string ModuleTooltip { get; set; }
         public string ModuleIconName { get; set; }
         public string ModuleColorClass { get; set; }
+        public string DefaultMenuLink { get; set; }
     }
 }

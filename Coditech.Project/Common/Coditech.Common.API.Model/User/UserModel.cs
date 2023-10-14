@@ -27,9 +27,6 @@
         public string LastModuleCode { get; set; }
         public int SelectedRoleId { get; set; }
         public string SelectedRoleCode { get; set; }
-        public string SelectedModuleCode { get; set; } = "Dashboard";
-        public string SelectedModuleName { get; set; } = "Dashboard";
-        public int SelectedMenuCode { get; set; }
         public string SelectedBalanceSheet { get; set; }
         public int SelectedBalanceId { get; set; }
         public string SelectedCentreCode { get; set; } = string.Empty;

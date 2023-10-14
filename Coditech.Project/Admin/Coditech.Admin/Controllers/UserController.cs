@@ -72,7 +72,7 @@ namespace Coditech.Admin.Controllers
 
         //Logs off the user from the site.
         [AllowAnonymous]
-        [HttpPost]
+        [HttpGet]
         public virtual ActionResult Logout()
         {
             if (User.Identity.IsAuthenticated)
@@ -81,19 +81,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<UserController>(x => x.Login(string.Empty));
         }
 
-        [HttpGet]
-        public ActionResult GetMenuListByModuleCode(string moduleCode, string controllerName, string method)
-        {
-            UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
-            if (HelperUtility.IsNotNull(userModel))
-            {
-                userModel.SelectedModuleCode = moduleCode;
-                userModel.SelectedModuleName = string.Equals(moduleCode, "dashboard", System.StringComparison.InvariantCultureIgnoreCase) ? "Dashboard" : userModel.ModuleList.FirstOrDefault(x => x.ModuleCode == moduleCode)?.ModuleName;
-                SessionHelper.SaveDataInSession<UserModel>(AdminConstants.UserDataSession, userModel);
-            }
-            return RedirectToAction(method, controllerName);
-        }
-
+        
         public ActionResult GetNotificationCount(int userId)
         {
             int notificationCount = 2; /*userId > 0 ? _userMasterBA.GetNotificationCount(userId) : 0*/;
