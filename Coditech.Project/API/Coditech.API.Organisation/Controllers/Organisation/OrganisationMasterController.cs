@@ -32,11 +32,11 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationMaster/GetOrganisation")]
         [HttpGet]
         [Produces(typeof(OrganisationResponse))]
-        public IActionResult GetOrganisation(short organisationMasterId)
+        public IActionResult GetOrganisation()
         {
             try
             {
-                OrganisationModel organisationModel = _organisationService.GetOrganisation(organisationMasterId);
+                OrganisationModel organisationModel = _organisationService.GetOrganisation();
                 return HelperUtility.IsNotNull(organisationModel) ? CreateOKResponse(new OrganisationResponse { OrganisationModel = organisationModel }) : NotFound();
             }
             catch (CoditechException ex)

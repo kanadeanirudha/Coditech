@@ -5,8 +5,8 @@ namespace Coditech.API.Endpoint
 {
     public class OrganisationEndpoint : BaseEndpoint
     {
-        public string GetOrganisationAsync(short organisationId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationMaster/GetOrganisation?organisationMasterId={organisationId}";
+        public string GetOrganisationAsync() =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationMaster/GetOrganisation";
         public string UpdateOrganisationAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationMaster/UpdateOrganisation";
     }

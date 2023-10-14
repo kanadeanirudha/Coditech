@@ -27,9 +27,9 @@ namespace Coditech.Admin.Agents
 
         #region Public Methods
         //Get Organisation by organisation id.
-        public virtual OrganisationMasterViewModel GetOrganisation(short organisationId)
+        public virtual OrganisationMasterViewModel GetOrganisation()
         {
-            OrganisationResponse response = _organisationClient.GetOrganisation(organisationId);
+            OrganisationResponse response = _organisationClient.GetOrganisation();
             return response?.OrganisationModel.ToViewModel<OrganisationMasterViewModel>();
         }
 

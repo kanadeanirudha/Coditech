@@ -17,9 +17,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short organisationId)
+        public virtual ActionResult Update()
         {
-            OrganisationMasterViewModel organisationMasterViewModel = _organisationAgent.GetOrganisation(organisationId);
+            OrganisationMasterViewModel organisationMasterViewModel = _organisationAgent.GetOrganisation();
             return ActionView(createEdit, organisationMasterViewModel);
         }
 
@@ -31,7 +31,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationAgent.UpdateOrganisation(organisationMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { organisationId = organisationMasterViewModel.OrganisationMasterId });
+                return RedirectToAction<OrganisationMasterController>(x => x.Update());
             }
             return View(createEdit, organisationMasterViewModel);
         }

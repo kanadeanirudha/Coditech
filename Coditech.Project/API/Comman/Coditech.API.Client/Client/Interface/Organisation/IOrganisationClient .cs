@@ -8,9 +8,8 @@ namespace Coditech.API.Client
         /// <summary>
         /// Get Organisation by organisationId.
         /// </summary>
-        /// <param name="organisationId">organisationId</param>
         /// <returns>Returns OrganisationResponse.</returns>
-        OrganisationResponse GetOrganisation(short organisationId);
+        OrganisationResponse GetOrganisation();
 
         /// <summary>
         /// Update Organisation.

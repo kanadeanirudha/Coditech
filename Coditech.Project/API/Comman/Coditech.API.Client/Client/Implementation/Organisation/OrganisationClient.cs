@@ -2,6 +2,7 @@
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+
 using Newtonsoft.Json;
 
 namespace Coditech.API.Client
@@ -14,17 +15,14 @@ namespace Coditech.API.Client
             organisationEndpoint = new OrganisationEndpoint();
         }
 
-        public virtual OrganisationResponse GetOrganisation(short organisationId)
+        public virtual OrganisationResponse GetOrganisation()
         {
-            return Task.Run(async () => await GetOrganisationAsync(organisationId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetOrganisationAsync(CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationResponse> GetOrganisationAsync(short organisationId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<OrganisationResponse> GetOrganisationAsync(CancellationToken cancellationToken)
         {
-            if (organisationId <= 0)
-                throw new System.ArgumentNullException("organisationId");
-
-            string endpoint = organisationEndpoint.GetOrganisationAsync(organisationId);
+            string endpoint = organisationEndpoint.GetOrganisationAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -65,10 +63,10 @@ namespace Coditech.API.Client
 
         public virtual OrganisationResponse UpdateOrganisation(OrganisationModel body)
         {
-            return Task.Run(async () => await UpdateOrganisationAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await UpdateOrganisationAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationResponse> UpdateOrganisationAsync(OrganisationModel body, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<OrganisationResponse> UpdateOrganisationAsync(OrganisationModel body, CancellationToken cancellationToken)
         {
             string endpoint = organisationEndpoint.UpdateOrganisationAsync();
             HttpResponseMessage response = null;

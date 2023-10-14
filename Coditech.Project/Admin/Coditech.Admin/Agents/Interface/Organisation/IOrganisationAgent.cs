@@ -7,9 +7,8 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Get Organisation by organisationId.
         /// </summary>
-        /// <param name="organisationId">organisationId</param>
         /// <returns>Returns OrganisationMasterViewModel.</returns>
-        OrganisationMasterViewModel GetOrganisation(short organisationId);
+        OrganisationMasterViewModel GetOrganisation();
 
         /// <summary>
         /// Update Organisation.
