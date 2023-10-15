@@ -27,11 +27,11 @@ namespace Coditech.API.Service
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _adminRoleMasterRepository = new CoditechRepository<AdminRoleMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>();
-            _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>();
+            _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual AdminRoleMasterListModel GetAdminRoleMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual AdminRoleListModel GetAdminRoleList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             int selectedDepartmentId = 0;
             int.TryParse(filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedDepartmentId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue, out selectedDepartmentId);
@@ -51,40 +51,15 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<AdminRoleModel> adminRoleMasterList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAdminRoleList @CentreCode,@DepartmentId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
-            AdminRoleMasterListModel listModel = new AdminRoleMasterListModel();
+            AdminRoleListModel listModel = new AdminRoleListModel();
 
-            listModel.AdminRoleMasterList = adminRoleMasterList?.Count > 0 ? adminRoleMasterList : new List<AdminRoleModel>();
+            listModel.AdminRoleList = adminRoleMasterList?.Count > 0 ? adminRoleMasterList : new List<AdminRoleModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
 
-        //Create adminRoleMaster .
-        public AdminRoleModel CreateAdminRoleMaster(AdminRoleModel adminRoleMasterModel)
-        {
-            if (IsNull(adminRoleMasterModel))
-                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
-            if (IsAdminRoleCodeAlreadyExist(adminRoleMasterModel.AdminRoleCode, 0))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "AdminRole Code"));
-
-            AdminRoleMaster adminRoleMaster = adminRoleMasterModel.FromModelToEntity<AdminRoleMaster>();
-
-            //Create new adminRoleMaster and return it.
-            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Insert(adminRoleMaster);
-            if (adminRoleMasterData?.AdminRoleMasterId > 0)
-            {
-                adminRoleMasterModel.AdminRoleMasterId = adminRoleMasterData.AdminRoleMasterId;
-            }
-            else
-            {
-                adminRoleMasterModel.HasError = true;
-                adminRoleMasterModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
-            }
-            return adminRoleMasterModel;
-        }
-
         //Get adminRoleMaster by adminRoleMaster id.
-        public AdminRoleModel GetAdminRoleMasterDetailsById(int adminRoleMasterId)
+        public AdminRoleModel GetAdminRoleDetailsById(int adminRoleMasterId)
         {
             if (adminRoleMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
@@ -94,20 +69,22 @@ namespace Coditech.API.Service
             AdminRoleModel adminRoleMasterModel = adminRoleMasterData.FromEntityToModel<AdminRoleModel>();
             adminRoleMasterModel.SelectedRoleWiseCentres = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId && x.IsActive == true)?.Select(y => y.CentreCode)?.Distinct().ToList();
             AdminSanctionPost adminSanctionPost = _adminSanctionPostRepository.GetById(adminRoleMasterData.AdminSanctionPostId);
+            adminRoleMasterModel.SelectedCentreCode = adminSanctionPost.CentreCode;
+            adminRoleMasterModel.SelectedDepartmentId = Convert.ToString(adminSanctionPost.DepartmentId);
             adminRoleMasterModel.SelectedCentreCodeForSelf = adminSanctionPost.CentreCode;
             adminRoleMasterModel.AllCentreList = OrganisationCentreList();
             return adminRoleMasterModel;
         }
 
         //Update adminRoleMaster.
-        public bool UpdateAdminRoleMaster(AdminRoleModel adminRoleMasterModel)
+        public bool UpdateAdminRole(AdminRoleModel adminRoleMasterModel)
         {
             bool isAdminRoleMasterUpdated = false;
             if (IsNull(adminRoleMasterModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
             if (adminRoleMasterModel.AdminRoleMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
-            
+
             AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId);
             adminRoleMasterData.MonitoringLevel = adminRoleMasterModel.MonitoringLevel;
             adminRoleMasterData.OthCentreLevel = adminRoleMasterModel.MonitoringLevel == APIConstant.Self ? string.Empty : "Selected";
@@ -115,7 +92,6 @@ namespace Coditech.API.Service
             adminRoleMasterData.IsAttendaceAllowFromOutside = adminRoleMasterModel.IsAttendaceAllowFromOutside;
             adminRoleMasterData.IsActive = adminRoleMasterModel.IsActive;
             adminRoleMasterData.ModifiedBy = adminRoleMasterModel.ModifiedBy;
-            adminRoleMasterData.ModifiedDate = DateTime.Now;
 
             //Update adminRoleMaster
             isAdminRoleMasterUpdated = _adminRoleMasterRepository.Update(adminRoleMasterData);
@@ -188,11 +164,5 @@ namespace Coditech.API.Service
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAdminRoleMaster @AdminRoleMasterID,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
-
-        #region Protected Method
-        //Check if adminRole code is already present or not.
-        protected virtual bool IsAdminRoleCodeAlreadyExist(string adminRoleCode, int adminRoleMasterId)
-         => _adminRoleMasterRepository.Table.Any(x => x.AdminRoleCode == adminRoleCode && (x.AdminRoleMasterId != adminRoleMasterId || adminRoleMasterId == 0));
-        #endregion
     }
 }

@@ -61,6 +61,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete admin role due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAdminRoleMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteAdminRoleMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete admin saction post due to associate record..
         /// </summary>
         public static string ErrorDeleteAdminSanctionPost {

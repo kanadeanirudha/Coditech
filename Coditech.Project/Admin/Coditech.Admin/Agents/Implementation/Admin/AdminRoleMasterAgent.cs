@@ -31,7 +31,7 @@ namespace Coditech.Admin.Agents
 
         #region Public Methods
 
-        public AdminRoleListViewModel GetAdminRoleMasterList(DataTableViewModel dataTableModel)
+        public AdminRoleListViewModel GetAdminRoleList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -47,100 +47,70 @@ namespace Coditech.Admin.Agents
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "SanctionPostName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             AdminRoleListResponse response = _adminRoleMasterClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            AdminRoleMasterListModel departmentList = new AdminRoleMasterListModel { AdminRoleMasterList = response?.AdminRoleMasterList };
+            AdminRoleListModel departmentList = new AdminRoleListModel { AdminRoleList = response?.AdminRoleList };
             AdminRoleListViewModel listViewModel = new AdminRoleListViewModel();
-            listViewModel.AdminRoleList = departmentList?.AdminRoleMasterList?.ToViewModel<AdminRoleViewModel>().ToList();
+            listViewModel.AdminRoleList = departmentList?.AdminRoleList?.ToViewModel<AdminRoleViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AdminRoleList.Count, BindColumns());
             return listViewModel;
         }
 
-        ////Create AdminRoleMaster.
-        //public virtual AdminRoleMasterViewModel CreateAdminRoleMaster(AdminRoleMasterViewModel adminRoleMasterViewModel)
-        //{
-        //    try
-        //    {
-        //        adminRoleMasterViewModel.CentreCode = SpiltCentreCode(adminRoleMasterViewModel.SelectedCentreCode);
-        //        adminRoleMasterViewModel.DepartmentId = Convert.ToInt16(adminRoleMasterViewModel.SelectedDepartmentId);
-        //        adminRoleMasterViewModel.IsActive = true;
-        //        AdminRoleMasterResponse response = _adminRoleMasterClient.CreateAdminRoleMaster(adminRoleMasterViewModel.ToModel<AdminRoleMasterModel>());
-        //        AdminRoleMasterModel adminRoleMasterModel = response?.AdminRoleMasterModel;
-        //        return IsNotNull(adminRoleMasterModel) ? adminRoleMasterModel.ToViewModel<AdminRoleMasterViewModel>() : new AdminRoleMasterViewModel();
-        //    }
-        //    catch (CoditechException ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
-        //        switch (ex.ErrorCode)
-        //        {
-        //            case ErrorCodes.AlreadyExist:
-        //                return (AdminRoleMasterViewModel)GetViewModelWithErrorMessage(adminRoleMasterViewModel, ex.ErrorMessage);
-        //            default:
-        //                return (AdminRoleMasterViewModel)GetViewModelWithErrorMessage(adminRoleMasterViewModel, GeneralResources.ErrorFailedToCreate);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
-        //        return (AdminRoleMasterViewModel)GetViewModelWithErrorMessage(adminRoleMasterViewModel, GeneralResources.ErrorFailedToCreate);
-        //    }
-        //}
+        //Get general AdminRoleMaster by general department master id.
+        public virtual AdminRoleViewModel GetAdminRoleDetailsById(int adminRoleMasterId)
+        {
+            AdminRoleResponse response = _adminRoleMasterClient.GetAdminRoleDetailsById(adminRoleMasterId);
+            return response?.AdminRoleModel.ToViewModel<AdminRoleViewModel>();
+        }
 
-        ////Get general AdminRoleMaster by general department master id.
-        //public virtual AdminRoleMasterViewModel GetAdminRoleMaster(int adminRoleMasterId)
-        //{
-        //    AdminRoleMasterResponse response = _adminRoleMasterClient.GetAdminRoleMaster(adminRoleMasterId);
-        //    return response?.AdminRoleMasterModel.ToViewModel<AdminRoleMasterViewModel>();
-        //}
+        //Update adminRoleMaster.
+        public virtual AdminRoleViewModel UpdateAdminRole(AdminRoleViewModel adminRoleMasterViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                AdminRoleResponse response = _adminRoleMasterClient.UpdateAdminRole(adminRoleMasterViewModel.ToModel<AdminRoleModel>());
+                AdminRoleModel adminRoleMasterModel = response?.AdminRoleModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                return IsNotNull(adminRoleMasterModel) ? adminRoleMasterModel.ToViewModel<AdminRoleViewModel>() : (AdminRoleViewModel)GetViewModelWithErrorMessage(new AdminRoleViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return (AdminRoleViewModel)GetViewModelWithErrorMessage(adminRoleMasterViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
 
-        ////Update adminRoleMaster.
-        //public virtual AdminRoleMasterViewModel UpdateAdminRoleMaster(AdminRoleMasterViewModel adminRoleMasterViewModel)
-        //{
-        //    try
-        //    {
-        //        _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
-        //        AdminRoleMasterResponse response = _adminRoleMasterClient.UpdateAdminRoleMaster(adminRoleMasterViewModel.ToModel<AdminRoleMasterModel>());
-        //        AdminRoleMasterModel adminRoleMasterModel = response?.AdminRoleMasterModel;
-        //        _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
-        //        return IsNotNull(adminRoleMasterModel) ? adminRoleMasterModel.ToViewModel<AdminRoleMasterViewModel>() : (AdminRoleMasterViewModel)GetViewModelWithErrorMessage(new AdminRoleMasterViewModel(), GeneralResources.UpdateErrorMessage);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
-        //        return (AdminRoleMasterViewModel)GetViewModelWithErrorMessage(adminRoleMasterViewModel, GeneralResources.UpdateErrorMessage);
-        //    }
-        //}
+        //Delete adminRoleMaster.
+        public virtual bool DeleteAdminRole(string adminRoleMasterId, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
 
-        ////Delete adminRoleMaster.
-        //public virtual bool DeleteAdminRoleMaster(string adminRoleMasterId, out string errorMessage)
-        //{
-        //    errorMessage = GeneralResources.ErrorFailedToDelete;
-
-        //    try
-        //    {
-        //        _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
-        //        TrueFalseResponse trueFalseResponse = _adminRoleMasterClient.DeleteAdminRoleMaster(new ParameterModel { Ids = adminRoleMasterId });
-        //        return trueFalseResponse.IsSuccess;
-        //    }
-        //    catch (CoditechException ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
-        //        switch (ex.ErrorCode)
-        //        {
-        //            case ErrorCodes.AssociationDeleteError:
-        //                errorMessage = AdminResources.ErrorDeleteAdminRoleMaster;
-        //                return false;
-        //            default:
-        //                errorMessage = GeneralResources.ErrorFailedToDelete;
-        //                return false;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
-        //        errorMessage = GeneralResources.ErrorFailedToDelete;
-        //        return false;
-        //    }
-        //}
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _adminRoleMasterClient.DeleteAdminRole(new ParameterModel { Ids = adminRoleMasterId });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteAdminRoleMaster;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
         #endregion
 
         #region protected

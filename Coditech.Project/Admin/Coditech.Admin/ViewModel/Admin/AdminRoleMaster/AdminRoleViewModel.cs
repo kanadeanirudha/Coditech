@@ -1,5 +1,8 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using Coditech.Resources;
+
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -19,6 +22,16 @@ namespace Coditech.Admin.ViewModel
         public string SanctionPostName { get; set; }
         [Display(Name = "Monitoring Level")]
         public string MonitoringLevel { get; set; }
+        [Display(Name = "Is Login Allow From Out side")]
+        public bool IsLoginAllowFromOutside { get; set; }
+        [Display(Name = "Is Attendace Allow From Out side")]
+        public bool IsAttendaceAllowFromOutside { get; set; }
         public bool IsActive { get; set; }
+        public string SelectedCentreCodeForSelf { get; set; }
+        public string SelectedCentreNameForSelf { get; set; }
+        public List<SelectListItem> MonitoringLevelList { get; set; }
+        public List<UserAccessibleCentreModel> AllCentreList { get; set; }
+        [Display(Name = "Accesible Centre")]
+        public List<string> SelectedRoleWiseCentres { get; set; }
     }
 }

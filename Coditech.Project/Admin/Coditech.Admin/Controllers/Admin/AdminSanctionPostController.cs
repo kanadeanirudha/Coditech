@@ -115,13 +115,13 @@ namespace Coditech.Admin.Controllers
         protected virtual void BindDropdown(AdminSanctionPostViewModel adminSanctionPostViewModel)
         {
             List<SelectListItem> postTypeList = new List<SelectListItem>();
-            postTypeList.Add(new SelectListItem { Text = "Temporary", Value = "Temporary" });
-            postTypeList.Add(new SelectListItem { Text = "Permanent", Value = "Permanent" });
+            postTypeList.Add(new SelectListItem { Text = AdminConstants.Temporary, Value = AdminConstants.Temporary });
+            postTypeList.Add(new SelectListItem { Text = AdminConstants.Permanent, Value =  AdminConstants.Permanent });
             ViewData["PostType"] = postTypeList;
 
             List<SelectListItem> designationTypeList = new List<SelectListItem>();
-            designationTypeList.Add(new SelectListItem { Text = "Regular", Value = "Regular" });
-            designationTypeList.Add(new SelectListItem { Text = "AddOn", Value = "AddOn" });
+            designationTypeList.Add(new SelectListItem { Text =  AdminConstants.Regular, Value = AdminConstants.Regular });
+            designationTypeList.Add(new SelectListItem { Text = AdminConstants.Addon, Value = AdminConstants.Addon });
             ViewData["DesignationType"] = designationTypeList;
         }
         #endregion

@@ -1,8 +1,10 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -22,7 +24,7 @@ namespace Coditech.Admin.Controllers
             AdminRoleListViewModel list = new AdminRoleListViewModel();
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && dataTableViewModel.SelectedDepartmentId > 0)
             {
-                list = _adminRoleMasterAgent.GetAdminRoleMasterList(dataTableViewModel);
+                list = _adminRoleMasterAgent.GetAdminRoleList(dataTableViewModel);
             }
 
             list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
@@ -34,63 +36,34 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/Admin/AdminRoleMaster/List.cshtml", list);
         }
+        public ActionResult Edit(int adminRoleMasterId)
+        {
+            AdminRoleViewModel adminRoleViewModel = _adminRoleMasterAgent.GetAdminRoleDetailsById(adminRoleMasterId);
+            BindDropdown(adminRoleViewModel);
+            return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
+        }
 
-        //[HttpGet]
-        //public ActionResult Create()
-        //{
-        //    AdminRoleMasterViewModel adminRoleMasterViewModel = new AdminRoleMasterViewModel();
-        //    BindDropdown(adminRoleMasterViewModel);
-        //    return View("~/Views/Admin/AdminRoleMaster/Create.cshtml", adminRoleMasterViewModel);
-        //}
+        [HttpPost]
+        public ActionResult Edit(AdminRoleViewModel adminRoleViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bool status = _adminRoleMasterAgent.UpdateAdminRole(adminRoleViewModel).HasError;
+                SetNotificationMessage(status
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
 
-        //[HttpPost]
-        //public virtual ActionResult Create(AdminRoleMasterViewModel adminRoleMasterViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        adminRoleMasterViewModel = _adminRoleMasterAgent.CreateAdminRoleMaster(adminRoleMasterViewModel);
-        //        if (!adminRoleMasterViewModel.HasError)
-        //        {
-        //            SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-        //            //TempData[AdminConstants.DataTableViewModel] = CreateActionDataTable(adminRoleMasterViewModel.CentreCode, Convert.ToInt32(adminRoleMasterViewModel.DepartmentId));
-        //            return RedirectToAction<AdminRoleMasterController>(x => x.List(null));
-        //        }
-        //    }
-        //    BindDropdown(adminRoleMasterViewModel);
-        //    SetNotificationMessage(GetErrorNotificationMessage(adminRoleMasterViewModel.ErrorMessage));
-        //    return View("~/Views/Admin/AdminRoleMaster/Create.cshtml", adminRoleMasterViewModel);
-        //}
+                if (!status)
+                {
+                    //TempData[AdminConstants.DataTableModel] = UpdateActionDataTable(adminRoleMasterViewModel.SelectedCentreCode, System.Convert.ToInt32(adminRoleMasterViewModel.SelectedDepartmentID));
+                    return RedirectToAction<AdminRoleMasterController>(x => x.List(null));
+                }
+            }
 
-        //[HttpGet]
-        //public virtual ActionResult Edit(int adminRoleMasterId)
-        //{
-        //    AdminRoleMasterViewModel adminRoleMasterViewModel = _adminRoleMasterAgent.GetAdminRoleMaster(adminRoleMasterId);
-        //    adminRoleMasterViewModel.SelectedCentreCode = adminRoleMasterViewModel.CentreCode;
-        //    adminRoleMasterViewModel.SelectedDepartmentId = Convert.ToString(adminRoleMasterViewModel.DepartmentId);
-        //    return ActionView("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleMasterViewModel);
-        //}
-
-        //[HttpPost]
-        //public virtual ActionResult Edit(AdminRoleMasterViewModel adminRoleMasterViewModel)
-        //{
-        //    ModelState.Remove("PostType");
-        //    ModelState.Remove("DesignationType");
-        //    if (ModelState.IsValid)
-        //    {
-        //        bool status = _adminRoleMasterAgent.UpdateAdminRoleMaster(adminRoleMasterViewModel).HasError;
-        //        SetNotificationMessage(status
-        //         ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-        //         : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-
-        //        if (!status)
-        //        {
-        //            //TempData[AdminConstants.DataTableViewModel] = UpdateActionDataTable(adminRoleMasterViewModel.SelectedCentreCode, Convert.ToInt32(adminRoleMasterViewModel.SelectedDepartmentId));
-        //            return RedirectToAction<AdminRoleMasterController>(x => x.List(null));
-        //        }
-        //    }
-        //    SetNotificationMessage(GetErrorNotificationMessage(adminRoleMasterViewModel.ErrorMessage));
-        //    return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleMasterViewModel);
-        //}
+            BindDropdown(adminRoleViewModel);
+            SetNotificationMessage(GetErrorNotificationMessage(adminRoleViewModel.ErrorMessage));
+            return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
+        }
 
         //public virtual ActionResult Delete(string departmentIds)
         //{
@@ -109,19 +82,24 @@ namespace Coditech.Admin.Controllers
         //    return RedirectToAction<AdminRoleMasterController>(x => x.List(null));
         //}
 
-        //#region Protected
-        //protected virtual void BindDropdown(AdminRoleMasterViewModel adminRoleMasterViewModel)
-        //{
-        //    List<SelectListItem> postTypeList = new List<SelectListItem>();
-        //    postTypeList.Add(new SelectListItem { Text = "Temporary", Value = "Temporary" });
-        //    postTypeList.Add(new SelectListItem { Text = "Permanent", Value = "Permanent" });
-        //    ViewData["PostType"] = postTypeList;
+        #region Protected
+        protected virtual void BindDropdown(AdminRoleViewModel adminRoleViewModel)
+        {
+            adminRoleViewModel.MonitoringLevelList = new List<SelectListItem>();
+            adminRoleViewModel.MonitoringLevelList.Add(new SelectListItem { Text = AdminConstants.Self, Value = AdminConstants.Self });
+            if (adminRoleViewModel?.AllCentreList?.Count > 1)
+            {
+                adminRoleViewModel.MonitoringLevelList.Add(new SelectListItem { Text = AdminConstants.Other, Value = AdminConstants.Other });
+            }
 
-        //    List<SelectListItem> designationTypeList = new List<SelectListItem>();
-        //    designationTypeList.Add(new SelectListItem { Text = "Regular", Value = "Regular" });
-        //    designationTypeList.Add(new SelectListItem { Text = "AddOn", Value = "AddOn" });
-        //    ViewData["DesignationType"] = designationTypeList;
-        //}
-        //#endregion
+            if (adminRoleViewModel?.AllCentreList == null || adminRoleViewModel?.AllCentreList?.Count == 0)
+            {
+                adminRoleViewModel.AllCentreList = adminRoleViewModel.AllCentreList;
+                adminRoleViewModel.AdminRoleCode = adminRoleViewModel.AdminRoleCode;
+            }
+            adminRoleViewModel.SelectedCentreNameForSelf = adminRoleViewModel.AllCentreList?.FirstOrDefault(x => x.CentreCode == adminRoleViewModel.SelectedCentreCodeForSelf)?.CentreName;
+            adminRoleViewModel?.AllCentreList?.RemoveAll(x => x.CentreCode == adminRoleViewModel.SelectedCentreCodeForSelf);
+        }
+        #endregion
     }
 }

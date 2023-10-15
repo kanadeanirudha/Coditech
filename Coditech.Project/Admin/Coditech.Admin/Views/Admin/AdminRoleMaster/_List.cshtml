@@ -23,7 +23,7 @@
                             <td>@item.MonitoringLevel</td>
                             <td>@Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)</td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?adminSanctionPostId=@item.AdminRoleMasterId" title="Update"><i class="fas fa-edit"></i></a>
+                                <a href="../@controllerName/Edit?adminRoleMasterId=@item.AdminRoleMasterId" title="Update"><i class="fas fa-edit"></i></a>
                             </td>
                         </tr>
                     }

@@ -7,10 +7,9 @@ namespace Coditech.API.Service
 {
     public interface IAdminRoleMasterService
     {
-        AdminRoleMasterListModel GetAdminRoleMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        AdminRoleModel CreateAdminRoleMaster(AdminRoleModel model);
-        AdminRoleModel GetAdminRoleMasterDetailsById(int adminRoleMasterId);
-        bool UpdateAdminRoleMaster(AdminRoleModel model);
+        AdminRoleListModel GetAdminRoleList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        AdminRoleModel GetAdminRoleDetailsById(int adminRoleMasterId);
+        bool UpdateAdminRole(AdminRoleModel model);
         bool DeleteAdminRoleMaster(ParameterModel parameterModel);
     }
 }
