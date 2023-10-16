@@ -140,6 +140,18 @@ namespace Coditech.Resources {
             }
         }
 
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete organisationCentre due to associate record..
+        /// </summary>
+        public static string ErrorDeleteOrganisationCentreMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteOrganisationCentreMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
         /// </summary>
@@ -233,6 +245,17 @@ namespace Coditech.Resources {
         public static string LabelDepartmentList {
             get {
                 return ResourceManager.GetString("LabelDepartmentList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Organisation List.
+        /// </summary>
+        public static string LabelOrganisationList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelOrganisationList", resourceCulture);
             }
         }
 
