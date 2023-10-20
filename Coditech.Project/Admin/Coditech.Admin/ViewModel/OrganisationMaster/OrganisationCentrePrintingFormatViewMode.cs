@@ -46,7 +46,10 @@ namespace Coditech.ViewModel
 
         [MaxLength(100)]
         public string PrintingLinebelowLogo { get; set; }
+
+        [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
+
         public void SaveAs(string fullPath) => throw new NotImplementedException();
     }
 }

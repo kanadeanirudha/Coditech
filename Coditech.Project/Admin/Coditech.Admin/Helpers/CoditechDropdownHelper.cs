@@ -106,14 +106,14 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Organisation.ToString()))
             {
-                //OrganisationMasterViewModel item
-                //    = new OrganisationMasterBA().GetOrganisationDetails();
-                //dropdownList.Add(new SelectListItem()
-                //{
-                //    Text = item.OrganisationName,
-                //    Value = item.OrganisationMasterId.ToString(),
-                //    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationMasterId)
-                //});
+                OrganisationMasterViewModel item
+                    = new OrganisationAgent().GetOrganisation();
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.OrganisationName,
+                    Value = item.OrganisationMasterId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationMasterId)
+                });
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.RegionalOffice.ToString()))
             {

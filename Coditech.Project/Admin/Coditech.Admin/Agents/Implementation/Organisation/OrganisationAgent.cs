@@ -13,15 +13,16 @@ namespace Coditech.Admin.Agents
     public class OrganisationAgent : BaseAgent, IOrganisationAgent
     {
         #region Private Variable
-        protected readonly ICoditechLogging _coditechLogging;
+        protected readonly ICoditechLogging _coditechLogging ;
         private readonly IOrganisationClient _organisationClient;
         #endregion
-
+        
         #region Public Constructor
-        public OrganisationAgent(ICoditechLogging coditechLogging, IOrganisationClient organisationClient)
+        public OrganisationAgent()
         {
-            _coditechLogging = coditechLogging;
-            _organisationClient = GetClient<IOrganisationClient>(organisationClient);
+            _coditechLogging =new CoditechLogging();
+            _organisationClient = new OrganisationClient();
+
         }
         #endregion
 

@@ -1,6 +1,8 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
+using Coditech.Model;
 using Coditech.Resources;
 using Coditech.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +11,10 @@ namespace Coditech.Admin.Controllers
 {
     public class OrganisationCentreMasterController : BaseController
     {
-       // RARIndiaEntities db = new RARIndiaEntities();
+        // RARIndiaEntities db = new RARIndiaEntities();
         private readonly IOrganisationCentreAgent _organisationCentreAgent;
         private const string createEdit = "~/Views/Organisation/OrganisationCentre/CreateEdit.cshtml";
         private const string OrganisationCentrePrintingFormat = "~/Views/Organisation/OrganisationCentre/OrganisationCentrePrintingFormat.cshtml";
-        private readonly string organisationCentrePrintingFormatViewModel;
 
         public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
         {
@@ -91,7 +92,7 @@ namespace Coditech.Admin.Controllers
 
         //Get: Organisation Centre Printing Format.
         [HttpGet]
-        public ActionResult PrintingFormat()
+        public ActionResult PrintingFormat(string centreCode)
         {
             return View(OrganisationCentrePrintingFormat, new OrganisationCentrePrintingFormatViewModel());
         }
@@ -113,70 +114,71 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrePrintingFormatViewModel.ErrorMessage));
             return View(OrganisationCentrePrintingFormat, organisationCentrePrintingFormatViewModel);
         }
+        
+//        #region
+//        //Logo :Printing Format
+//        [HttpGet]
+//        public ActionResult Index()
+//        {
+//            return View(OrganisationCentrePrintingFormat, new OrganisationCentrePrintingFormatViewModel());
+//        }
 
-        //#region
-        ////Logo :Printing Format
-        //[HttpGet]
-        //public ActionResult Index()
-        //{
-        //    return View(OrganisationCentrePrintingFormat, new OrganisationCentrePrintingFormatViewModel());
-        //}
+//        [HttpPost]
+//        public ActionResult Index(tbl_data d, HttpPostedFileBase imgfile)
+//        {
+//            tbl_data di = new tbl_data();
+//            string path = uploadimage(imgfile);
+//            if (path.Equals("-1"))
+//            {
 
-        //[HttpPost]
-        //public ActionResult Index(tbl_data d, HttpPostedFileBase imgfile)
-        //{
-        //    tbl_data di = new tbl_data();
-        //    string path = uploadimage(imgfile);
-        //    if (path.Equals("-1"))
-        //    {
-
-        //    }
-        //    else
-        //    {
-        //        di.Logo = path;
-        //        db.SaveChanges();
-        //    }
-        //    return View(OrganisationCentrePrintingFormat, new OrganisationCentrePrintingFormatViewModel());
-        //}
-        //public string uploadimage(HttpPostedFileBase imgfile)
-        //{
-        //    Random r = new Random();
-        //    string path = "-1";
-        //    int random = r.Next();
-        //    if (imgfile != null && imgfile.ContentLength > 0)
-        //    {
-        //        string extension = Path.GetExtension(imgfile.FileName);
-        //        if (extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
-        //        {
-        //            try
-        //            {
-        //                path = Path.Combine(Server.MapPath("~/Images/organisationCentrePrintingFormat"), random + Path.GetFileName(imgfile.FileName));
-        //                imgfile.SaveAs(path);
-        //                path = "~/Images/organisationCentrePrintingFormat/" + random + Path.GetFileName(imgfile.FileName);
-        //                ViewBag.Message = "File uploaded successfully";
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                path = "-1";
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Response.Write("<script>alert('Only jpg ,jpeg or png formats are acceptable....'); </script>");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Response.Write("<script>alert('Please select a file'); </script>");
-        //        path = "-1";
-        //    }
-        //    return path;
-        //}
-
-        // #endregion
+//            }
+//            else
+//            {
+//                di.Logo = path;
+//                db.SaveChanges();
+//            }
+//            return View(OrganisationCentrePrintingFormat, new OrganisationCentrePrintingFormatViewModel());
+//        }
+//        public string uploadimage(HttpPostedFileBase imgfile)
+//        {
+//            Random r = new Random();
+//            string path = "-1";
+//            int random = r.Next();
+//            if (imgfile != null && imgfile.ContentLength > 0)
+//            {
+//                string extension = Path.GetExtension(imgfile.FileName);
+//                if (extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
+//                {
+//                    try
+//                    {
+//                        path = Path.Combine(Server.MapPath("~/Images/organisationCentrePrintingFormat"), random + Path.GetFileName(imgfile.FileName));
+//                        imgfile.SaveAs(path);
+//                        path = "~/Images/organisationCentrePrintingFormat/" + random + Path.GetFileName(imgfile.FileName);
+//                        ViewBag.Message = "File uploaded successfully";
+//                    }
+//                    catch (Exception ex)
+//                    {
+//                        path = "-1";
+//                    }
+//                }
+//                else
+//                {
+//                    Response.Write("<script>alert('Only jpg ,jpeg or png formats are acceptable....'); </script>");
+//                }
+//            }
+//            else
+//            {
+//                Response.Write("<script>alert('Please select a file'); </script>");
+//                path = "-1";
+//            }
+//            return path;
+//        }
+//#endregion
     }
-    //public class tbl_data
-    //{
-    //    internal string Logo;
-    //}
 }
+public class tbl_data
+{
+    internal string Logo;
+}
+
+
