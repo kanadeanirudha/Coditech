@@ -1,0 +1,191 @@
+﻿using Coditech.Admin.ViewModel;
+using Coditech.API.Client;
+using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
+using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
+using Coditech.Common.Logger;
+using Coditech.Model;
+using Coditech.Resources;
+using Coditech.ViewModel;
+using System.Diagnostics;
+using static Coditech.Common.Helper.HelperUtility;
+
+namespace Coditech.Admin.Agents
+{
+    public class OrganisationCentreAgent : BaseAgent, IOrganisationCentreAgent
+    {
+        #region Private Variable
+        protected readonly ICoditechLogging _coditechLogging;
+        private readonly IOrganisationCentreClient _organisationCentreClient;
+        #endregion
+
+        #region Public Constructor
+        public OrganisationCentreAgent(ICoditechLogging coditechLogging, IOrganisationCentreClient organisationCentreClient)
+        {
+            _coditechLogging = coditechLogging;
+            _organisationCentreClient = GetClient<IOrganisationCentreClient>(organisationCentreClient);
+        }
+        #endregion
+
+        #region Public Methods
+        public OrganisationCentreListViewModel GetOrganisationCentreList(DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("CentreName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("CentreCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            OrganisationCentreListResponse response = _organisationCentreClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            OrganisationCentreListModel organisationCentreList = new OrganisationCentreListModel { OrganisationCentreList = response?.OrganisationCentreList };
+            OrganisationCentreListViewModel listViewModel = new OrganisationCentreListViewModel();
+            listViewModel.OrganisationCentreList = organisationCentreList?.OrganisationCentreList?.ToViewModel<OrganisationCentreViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.OrganisationCentreList.Count, BindColumns());
+            return listViewModel;
+        }
+
+        //Create Organisation Centre.
+        public virtual OrganisationCentreViewModel CreateOrganisationCentre(OrganisationCentreViewModel organisationCentreViewModel)
+        {
+            try
+            {
+                OrganisationCentreResponse response = _organisationCentreClient.CreateOrganisationCentre(organisationCentreViewModel.ToModel<OrganisationCentreModel>());
+                OrganisationCentreModel organisationCentreModel = response?.OrganisationCentreModel;
+                return IsNotNull(organisationCentreModel) ? organisationCentreModel.ToViewModel<OrganisationCentreViewModel>() : new OrganisationCentreViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (OrganisationCentreViewModel)GetViewModelWithErrorMessage(organisationCentreViewModel, ex.ErrorMessage);
+                    default:
+                        return (OrganisationCentreViewModel)GetViewModelWithErrorMessage(organisationCentreViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                return (OrganisationCentreViewModel)GetViewModelWithErrorMessage(organisationCentreViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get Organisation Centre by organisationCentreId.
+        public virtual OrganisationCentreViewModel GetOrganisationCentre(short organisationCentreId)
+        {
+            OrganisationCentreResponse response = _organisationCentreClient.GetOrganisationCentre(organisationCentreId);
+            return response?.OrganisationCentreModel.ToViewModel<OrganisationCentreViewModel>();
+        }
+
+        //Update Organisation Centre.
+        public virtual OrganisationCentreViewModel UpdateOrganisationCentre(OrganisationCentreViewModel organisationCentreViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Info);
+                OrganisationCentreResponse response = _organisationCentreClient.UpdateOrganisationCentre(organisationCentreViewModel.ToModel<OrganisationCentreModel>());
+                OrganisationCentreModel organisationCentreModel = response?.OrganisationCentreModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Info);
+                return IsNotNull(organisationCentreModel) ? organisationCentreModel.ToViewModel<OrganisationCentreViewModel>() : (OrganisationCentreViewModel)GetViewModelWithErrorMessage(new OrganisationCentreViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                return (OrganisationCentreViewModel)GetViewModelWithErrorMessage(organisationCentreViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Delete Organisation Centre.
+        public virtual bool DeleteOrganisationCentre(string organisationCentreId, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _organisationCentreClient.DeleteOrganisationCentre(new ParameterModel { Ids = organisationCentreId });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteOrganisationCentreMaster;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
+        //Create Organisation Printing Format CentreCode.
+        public OrganisationCentrePrintingFormatViewModel GetPrintingFormat(OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel)
+        {
+            try
+            {
+                //organisationCentrePrintingFormatViewModel.CreatedBy = LoginUserId();
+                OrganisationCentrePrintingFormatResponse organisationCentrePrintingFormatResponse = _organisationCentreClient.GetPrintingFormat(organisationCentrePrintingFormatViewModel.ToModel<OrganisationCentrePrintingFormatModel>());
+                return IsNotNull(organisationCentrePrintingFormatResponse) ? organisationCentrePrintingFormatResponse.ToViewModel<OrganisationCentrePrintingFormatViewModel>() : new OrganisationCentrePrintingFormatViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(organisationCentrePrintingFormatViewModel, ex.ErrorMessage);
+                    default:
+                        return (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(organisationCentrePrintingFormatViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex.Message, CoditechLoggingEnum.Components.OrganisationCentrePrint.ToString());
+                return (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(organisationCentrePrintingFormatViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+        #endregion
+        #region protected
+        protected virtual List<DatatableColumns> BindColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Centre Name",
+                ColumnCode = "CentreName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Centre Code",
+                ColumnCode = "CentreCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Office Type",
+                ColumnCode = "HoCoRoScFlag",
+            });
+            return datatableColumnList;
+        }
+        #endregion
+    }
+}

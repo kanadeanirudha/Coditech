@@ -2,7 +2,7 @@
 {
     public class OrganisationCentreResponse : BaseResponse
     {
-        public OrganisationCentreModel OrganisationCentreMasterModel { get; set; }
+        public OrganisationCentreModel OrganisationCentreModel { get; set; }
     }
 } 
 

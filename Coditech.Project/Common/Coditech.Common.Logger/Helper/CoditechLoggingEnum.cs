@@ -22,7 +22,9 @@
             Designation,
             OrganisationCentre,
             AdminRoleMaster,
-            AdminSanctionPost
+            AdminSanctionPost,
+            OrganisationCentrePrint,
+            PrintingFormat
         }
     }
 }

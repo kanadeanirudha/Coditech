@@ -1,11 +1,12 @@
 ﻿using Coditech.API.Data;
+using Coditech.API.Organisation.Service.Interface.Organisation;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Model;
 using Coditech.Resources;
-
 using System.Collections.Specialized;
 using System.Data;
 
@@ -18,11 +19,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
+        private readonly ICoditechRepository<OrganisationCentrePrintingFormat> _organisationCentrePrintingFormatRepository;
         public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrePrintingFormatRepository = new CoditechRepository<OrganisationCentrePrintingFormat>();
         }
 
         public virtual OrganisationCentreListModel GetOrganisationCentreList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -69,7 +72,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centre by organisationCentreMasterId.
-        public OrganisationCentreModel GetOrganisationCentre(int organisationCentreId)
+        public OrganisationCentreModel GetOrganisationCentre(short organisationCentreId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -118,9 +121,36 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        // Organisation Centre Printing Format CentreCode.
+
+        public OrganisationCentrePrintingFormatModel GetPrintingFormat(OrganisationCentrePrintingFormatModel organisationCentrePrintingFormatModel)
+        {
+            if (IsNull(organisationCentrePrintingFormatModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            if (IsCentreCodeAlreadyExist(organisationCentrePrintingFormatModel.CentreCode))
+            {
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre code"));
+            }
+            OrganisationCentrePrintingFormat organisationCentrePrintingFormat = organisationCentrePrintingFormatModel.FromModelToEntity<OrganisationCentrePrintingFormat>();
+
+            //Create new Organisation Printing Format Centre  and return it.
+            OrganisationCentrePrintingFormat organisationCentrePrintingFormatData = _organisationCentrePrintingFormatRepository.Insert(organisationCentrePrintingFormat);
+            if (organisationCentrePrintingFormatData?.OrganisationCentrePrintingFormatId > 0)
+            {
+                organisationCentrePrintingFormatModel.OrganisationCentrePrintingFormatId = organisationCentrePrintingFormatData.OrganisationCentrePrintingFormatId;
+            }
+            else
+            {
+                organisationCentrePrintingFormatModel.HasError = true;
+                organisationCentrePrintingFormatModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return organisationCentrePrintingFormatModel;
+        }
+
         #region Protected Method
         //Check if Centre code is already present or not.
-        protected virtual bool IsCentreCodeAlreadyExist(string centreCode, int organisationCentreMasterId = 0)
+        protected virtual bool IsCentreCodeAlreadyExist(string centreCode, short organisationCentreMasterId = 0)
          => _organisationCentreMasterRepository.Table.Any(x => x.CentreCode == centreCode && (x.OrganisationCentreMasterId != organisationCentreMasterId || organisationCentreMasterId == 0));
         #endregion
     }

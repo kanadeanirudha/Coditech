@@ -1,4 +1,4 @@
-﻿using Coditech.API.Service;
+﻿using Coditech.API.Organisation.Service.Interface.Organisation;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -6,6 +6,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
@@ -54,12 +55,12 @@ namespace Coditech.API.Controllers
             try
             {
                 OrganisationCentreModel organisationCentre = _organisationCentreMasterService.CreateOrganisationCentre(model);
-                return IsNotNull(organisationCentre) ? CreateCreatedResponse(new OrganisationCentreResponse { OrganisationCentreMasterModel = organisationCentre }) : CreateInternalServerErrorResponse();
+                return IsNotNull(organisationCentre) ? CreateCreatedResponse(new OrganisationCentreResponse { OrganisationCentreModel = organisationCentre }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode});
             }
             catch (Exception ex)
             {
@@ -70,23 +71,23 @@ namespace Coditech.API.Controllers
 
         [Route("/OrganisationCentreMaster/GetOrganisationCentre")]
         [HttpGet]
-        [Produces(typeof(OrganisationCentreModel))]
+        [Produces(typeof(OrganisationCentreResponse))]
         public IActionResult GetOrganisationCentre(short organisationCentreMasterId)
         {
             try
             {
-                OrganisationCentreModel organisationCentreMasterModel = _organisationCentreMasterService.GetOrganisationCentre(organisationCentreMasterId);
-                return IsNotNull(organisationCentreMasterModel) ? CreateOKResponse(organisationCentreMasterModel) : NotFound();
+                OrganisationCentreModel organisationCentreModel = _organisationCentreMasterService.GetOrganisationCentre(organisationCentreMasterId);
+                return IsNotNull(organisationCentreModel) ? CreateOKResponse(new OrganisationCentreResponse() { OrganisationCentreModel = organisationCentreModel }) : NotFound();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new OrganisationCentreModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new OrganisationCentreModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
@@ -98,12 +99,12 @@ namespace Coditech.API.Controllers
             try
             {
                 bool isUpdated = _organisationCentreMasterService.UpdateOrganisationCentre(model);
-                return isUpdated ? CreateOKResponse(new OrganisationCentreResponse { OrganisationCentreMasterModel = model }) : CreateInternalServerErrorResponse();
+                return isUpdated ? CreateOKResponse(new OrganisationCentreResponse { OrganisationCentreModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
@@ -133,5 +134,28 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/OrganisationCentreMaster/GetPrintingFormat")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(OrganisationCentrePrintingFormatResponse))]
+        public IActionResult GetPrintingFormat([FromBody] OrganisationCentrePrintingFormatModel model)
+        {
+            try
+            {
+                OrganisationCentrePrintingFormatModel organisationCentrePrintingFormatModel = _organisationCentreMasterService.GetPrintingFormat(model);
+                return IsNotNull(organisationCentrePrintingFormatModel) ? CreateOKResponse(new OrganisationCentrePrintingFormatResponse { OrganisationCentrePrintingFormatModel = organisationCentrePrintingFormatModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PrintingFormat.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrePrintingFormatResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PrintingFormat.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrePrintingFormatResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
     }
 } 

@@ -3,6 +3,7 @@ using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -104,14 +105,13 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Organisation.ToString()))
             {
-                //OrganisationMasterViewModel item
-                //    = new OrganisationMasterBA().GetOrganisationDetails();
-                //dropdownList.Add(new SelectListItem()
-                //{
-                //    Text = item.OrganisationName,
-                //    Value = item.OrganisationMasterId.ToString(),
-                //    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationMasterId)
-                //});
+                OrganisationResponse item = new OrganisationClient().GetOrganisation();
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.OrganisationModel.OrganisationName,
+                    Value = item.OrganisationModel.OrganisationMasterId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationModel.OrganisationMasterId)
+                });
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.RegionalOffice.ToString()))
             {

@@ -21,6 +21,7 @@ namespace Coditech.API.Mapper
             CreateMap<OrganisationCentreMaster, OrganisationCentreModel>().ReverseMap();
             CreateMap<AdminSanctionPost, AdminSanctionPostModel>().ReverseMap();
             CreateMap<AdminRoleMaster, AdminRoleModel>().ReverseMap();
+            CreateMap<OrganisationMaster, OrganisationModel>().ReverseMap();
         }
     }
 }

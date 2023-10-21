@@ -1,5 +1,6 @@
 ﻿
 using Coditech.API.Data;
+using Coditech.API.Organisation.Service.Interface.Organisation;
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
@@ -221,7 +222,7 @@ namespace Coditech.API.Common
         public static void RegisterDI(this WebApplicationBuilder builder)
         {
             // Add Dependency 
-            builder.Services.AddScoped<IOrganisationService, OrganisationService>();
+            builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
             builder.Services.AddScoped<IGeneralDepartmentMasterService, GeneralDepartmentMasterService>();
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IGeneralCountryMasterService, GeneralCountryMasterService>();

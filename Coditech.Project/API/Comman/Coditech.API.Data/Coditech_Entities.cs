@@ -25,6 +25,7 @@ namespace Coditech.API.Data
         #endregion
 
         #region Organisation
+        public DbSet<OrganisationMaster> OrganisationMaster { get; set;}
         public DbSet<OrganisationCentreMaster> OrganisationCentreMaster { get; set;}
         public DbSet<OrganisationCentrewiseDepartment> OrganisationCentrewiseDepartment { get; set;}
         #endregion

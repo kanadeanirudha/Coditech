@@ -30,6 +30,11 @@ namespace Coditech.Admin
             CreateMap<GeneralTaxGroupModel, GeneralTaxGroupMasterViewModel>().ReverseMap();
             CreateMap<GeneralTaxGroupMasterListModel, GeneralTaxGroupMasterListViewModel>().ReverseMap();
             #endregion
+            #region Organisation
+            CreateMap<OrganisationModel, OrganisationMasterViewModel>().ReverseMap();
+            CreateMap<OrganisationCentreModel, OrganisationCentreViewModel>().ReverseMap();
+            CreateMap<OrganisationCentreListModel, OrganisationCentreListViewModel>().ReverseMap();
+            #endregion
         }
     }
 }

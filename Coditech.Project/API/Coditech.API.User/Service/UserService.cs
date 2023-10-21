@@ -125,7 +125,7 @@ namespace Coditech.API.Service
                     ModuleTooltip = item.ModuleTooltip,
                     ModuleIconName = item.ModuleIconName,
                     ModuleColorClass = item.ModuleColorClass,
-                    DefaultMenuLink = userMainMenuMaster?.ControllerName?.ToLower() + "/" + userMainMenuMaster?.ActionName?.ToLower(),
+                    DefaultMenuLink = $"{userMainMenuMaster?.ControllerName?.ToLower()}/{userMainMenuMaster?.ActionName?.ToLower()}",
                 });
             }
 
@@ -141,7 +141,7 @@ namespace Coditech.API.Service
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
                     ControllerName = item.ControllerName?.ToLower(),
                     ActionName = item.ActionName?.ToLower(),
-                    MenuLink = item.ControllerName?.ToLower() + "/" + item.ActionName?.ToLower(),
+                    MenuLink = $"{item.ControllerName?.ToLower()}/{item.ActionName?.ToLower()}",
                     MenuToolTip = item.MenuToolTip,
                     MenuIconName = item.MenuIconName
                 });
@@ -167,7 +167,7 @@ namespace Coditech.API.Service
                         MenuDisplaySeqNo = userMenuModel.MenuDisplaySeqNo,
                         ControllerName = userMenuModel.ControllerName?.ToLower(),
                         ActionName = userMenuModel.ActionName?.ToLower(),
-                        MenuLink = userMenuModel.ControllerName?.ToLower() + "/" + userMenuModel.ActionName?.ToLower(),
+                        MenuLink = $"{userMenuModel.ControllerName?.ToLower()}/{userMenuModel.ActionName?.ToLower()}",
                         MenuToolTip = userMenuModel.MenuToolTip,
                         MenuIconName = userMenuModel.MenuIconName
                     });
