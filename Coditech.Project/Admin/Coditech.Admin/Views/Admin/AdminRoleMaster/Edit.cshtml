@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.IsAttendaceAllowFromOutside, new { @class = "form-label" })
@@ -93,7 +93,7 @@
                                                 @Html.DisplayFor(m => m.SelectedCentreNameForSelf)
                                             </div>
                                             <div id="SelectedRoleWiseCentresDivId" style="display:none">
-                                                @Html.ListBoxFor(m => m.SelectedRoleWiseCentres, new SelectList(Model.AllCentreList, "CentreCode", "CentreName"),new {@class = "form-control" })
+                                                @Html.ListBoxFor(m => m.SelectedRoleWiseCentres, new SelectList(Model.AllCentreList, "CentreCode", "CentreName"),new {@class = "selectpicker form-control" })
                                             </div>
                                         }
                                         else
@@ -102,7 +102,7 @@
                                                 @Html.DisplayFor(m => m.SelectedCentreNameForSelf)
                                             </div>
                                             <div id="SelectedRoleWiseCentresDivId">
-                                                @Html.ListBoxFor(m => m.SelectedRoleWiseCentres, new SelectList(Model.AllCentreList, "CentreCode", "CentreName"),new {@class = "form-control" })
+                                                @Html.ListBoxFor(m => m.SelectedRoleWiseCentres, new SelectList(Model.AllCentreList, "CentreCode", "CentreName"),new {@class = "selectpicker form-control "})
                                             </div>
                                         }
                                     </div>
@@ -115,7 +115,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+
