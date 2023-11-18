@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Coditech.API.Organization": {
+    "Coditech.Engine.Organization": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

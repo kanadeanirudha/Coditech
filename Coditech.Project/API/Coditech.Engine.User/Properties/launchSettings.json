@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Coditech.API.User": {
+    "Coditech.Engine.User": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
