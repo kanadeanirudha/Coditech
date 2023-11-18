@@ -50,10 +50,12 @@
                                         @Html.ValidationMessageFor(x => x.TaxRate)
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <div class="form-check">
-                                        @Html.CheckBoxFor(x => x.IsOtherState, new { @class = "form-check-input" })
-                                        @Html.LabelFor(x => x.IsOtherState, new { @class = "form-check-label" })
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.IsOtherState, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.IsOtherState, new { @class = "form-check-input" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>

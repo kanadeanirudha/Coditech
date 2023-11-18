@@ -17,6 +17,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Taxes")]
         public List<String> GeneralTaxMasterIds { get; set; }
         public List<GeneralTaxMasterModel> AllTaxList { get; set; }
+        [Display(Name = "Is Other State ")]
         public bool IsOtherState { get; set; }
     }
 }

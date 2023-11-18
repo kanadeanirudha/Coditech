@@ -43,7 +43,7 @@
                                         @Html.ValidationMessageFor(x => x.TaxGroupName)
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.GeneralTaxMasterIds, new { @class = "form-label required" })
                                         @Html.ListBoxFor(m => m.GeneralTaxMasterIds, new SelectList(Model.AllTaxList, "GeneralTaxMasterId", "TaxName"), new { @class = "selectpicker form-control" })
@@ -51,12 +51,12 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                      <div class="mb-3">
-                                    <div class="form-check">
-                                        @Html.CheckBoxFor(x => x.IsOtherState, new { @class = "form-check-input" })
-                                        @Html.LabelFor(x => x.IsOtherState, new { @class = "form-check-label" })
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.IsOtherState, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.IsOtherState, new { @class = "form-check-input" })
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
