@@ -44,3 +44,7 @@
 /Coditech.Database/.vs/Coditech.Database/FileContentIndex
 /Coditech.Project/API/Coditech.Engine.Organisation/~/data/default
 /Coditech.Project/API/Coditech.Engine.User/~/data/default
+/Coditech.Project/API/Coditech.Engine.Employee/obj
+/Coditech.Project/API/Coditech.Engine.Employee/bin
+/Coditech.Project/API/Coditech.Engine.Inventory/bin
+/Coditech.Project/API/Coditech.Engine.Inventory/obj
