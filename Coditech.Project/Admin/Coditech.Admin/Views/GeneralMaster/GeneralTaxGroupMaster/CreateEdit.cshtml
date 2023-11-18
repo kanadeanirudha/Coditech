@@ -46,7 +46,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.GeneralTaxMasterIds, new { @class = "form-label required" })
-                                        @Html.ListBoxFor(m => m.GeneralTaxMasterIds, new SelectList(Model.AllTaxList, "GeneralTaxMasterId", "TaxName"))
+                                        @Html.ListBoxFor(m => m.GeneralTaxMasterIds, new SelectList(Model.AllTaxList, "GeneralTaxMasterId", "TaxName"), new { @class = "selectpicker form-control" })
                                         @Html.ValidationMessageFor(x => x.GeneralTaxMasterIds)
                                     </div>
                                 </div>
@@ -68,17 +68,3 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(function () {
-            $('#GeneralTaxMasterIds').multiselect({
-                includeSelectAllOption: true,
-                //selectAllValue: 'multiselect-all',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '100%',
-            });
-        });
-    });
-</script>

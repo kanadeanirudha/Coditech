@@ -60,7 +60,8 @@ namespace Coditech.API.Service
             GeneralTaxGroupMaster generalTaxGroupMaster = new GeneralTaxGroupMaster()
             {
                 TaxGroupName = generalTaxGroupModel.TaxGroupName,
-                TaxGroupRate = taxGroupRate
+                TaxGroupRate = taxGroupRate,
+                IsOtherState = generalTaxGroupModel.IsOtherState,
             };
 
             //Create new Tax Group Master and return it.
