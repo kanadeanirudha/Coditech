@@ -6,6 +6,7 @@ namespace Coditech.ViewModel
     public partial class OrganisationCentrePrintingFormatViewModel : BaseViewModel
     {
         public short OrganisationCentrePrintingFormatId { get; set; }
+        public short OrganisationCentreMasterId { get; set; }
         [MaxLength(15)]
         [Required]
         [Display(Name = "Centre Code")]
@@ -50,6 +51,5 @@ namespace Coditech.ViewModel
         [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
 
-        public void SaveAs(string fullPath) => throw new NotImplementedException();
     }
 }
