@@ -222,7 +222,7 @@ namespace Coditech.API.Common
         public static void RegisterDI(this WebApplicationBuilder builder)
         {
             // Add Dependency 
-            builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
+
             builder.Services.AddScoped<IGeneralDepartmentMasterService, GeneralDepartmentMasterService>();
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IGeneralCountryMasterService, GeneralCountryMasterService>();
@@ -231,9 +231,13 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralCityMasterService, GeneralCityMasterService>();
             builder.Services.AddScoped<IGeneralNationalityMasterService, GeneralNationalityMasterService>();
             builder.Services.AddScoped<IGeneralDesignationMasterService, GeneralDesignationMasterService>();
-            builder.Services.AddScoped<IOrganisationCentreMasterService, OrganisationCentreMasterService>();
-            builder.Services.AddScoped<IAdminSanctionPostService, AdminSanctionPostService> ();
+            builder.Services.AddScoped<IAdminSanctionPostService, AdminSanctionPostService>();
+            builder.Services.AddScoped<IGeneralRegionMasterService, GeneralRegionMasterService>();
             builder.Services.AddScoped<IAdminRoleMasterService, AdminRoleMasterService>();
+
+            //Organisation
+            builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
+            builder.Services.AddScoped<IOrganisationCentreMasterService, OrganisationCentreMasterService>();
         }
         #endregion
     }

@@ -11,6 +11,7 @@
         RegionalOffice,
         Centre,
         TaxGroup,
-        RegionName
+        RegionName,
+        Country
     }
 }

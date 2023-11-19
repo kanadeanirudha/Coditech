@@ -24,7 +24,8 @@
             AdminRoleMaster,
             AdminSanctionPost,
             OrganisationCentrePrint,
-            PrintingFormat
+            PrintingFormat,
+            Region
         }
     }
 }

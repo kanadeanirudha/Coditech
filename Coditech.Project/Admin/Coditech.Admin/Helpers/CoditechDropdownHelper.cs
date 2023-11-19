@@ -34,6 +34,21 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Country.ToString()))
+            {
+                GeneralCountryListResponse response = new GeneralCountryClient().List(null, null, null, 1, int.MaxValue);
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Country-------" });
+                GeneralCountryListModel list = new GeneralCountryListModel { GeneralCountryList = response.GeneralCountryList };
+                foreach (var item in list.GeneralCountryList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = string.Concat(item.CountryName, " (", item.CountryCode, ")"),
+                        Value = Convert.ToString(item.GeneralCountryMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCountryMasterId)
+                    });
+                }
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccessibleCentre.ToString()))
             {
                 List<UserAccessibleCentreModel> accessibleCentreList = AccessibleCentreList();

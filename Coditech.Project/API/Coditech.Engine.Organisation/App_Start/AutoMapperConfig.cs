@@ -22,6 +22,7 @@ namespace Coditech.API.Mapper
             CreateMap<AdminSanctionPost, AdminSanctionPostModel>().ReverseMap();
             CreateMap<AdminRoleMaster, AdminRoleModel>().ReverseMap();
             CreateMap<OrganisationMaster, OrganisationModel>().ReverseMap();
+            CreateMap<GeneralRegionMaster, GeneralRegionModel>().ReverseMap();
         }
     }
 }

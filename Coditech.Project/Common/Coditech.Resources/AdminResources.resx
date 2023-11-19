@@ -138,6 +138,9 @@
   <data name="ErrorDeleteGeneralNationalityMaster" xml:space="preserve">
     <value>Failed to delete nationality due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralRegionMaster" xml:space="preserve">
+    <value>Failed to delete region due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralTaxGroupMaster" xml:space="preserve">
     <value>Failed to delete tax group due to associate record.</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="LabelOrganisationList" xml:space="preserve">
     <value>Organisation List</value>
+  </data>
+  <data name="LabelRegionList" xml:space="preserve">
+    <value>Region List</value>
   </data>
   <data name="LabelSave" xml:space="preserve">
     <value>Save</value>

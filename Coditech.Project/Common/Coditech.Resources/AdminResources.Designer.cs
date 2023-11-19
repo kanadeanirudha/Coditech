@@ -124,6 +124,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete region due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralRegionMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralRegionMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete tax group due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralTaxGroupMaster {
@@ -273,6 +282,15 @@ namespace Coditech.Resources {
         public static string LabelOrganisationList {
             get {
                 return ResourceManager.GetString("LabelOrganisationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Region List.
+        /// </summary>
+        public static string LabelRegionList {
+            get {
+                return ResourceManager.GetString("LabelRegionList", resourceCulture);
             }
         }
         
