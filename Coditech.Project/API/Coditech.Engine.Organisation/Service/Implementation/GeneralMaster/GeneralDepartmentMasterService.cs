@@ -126,7 +126,7 @@ namespace Coditech.API.Service
             GeneralDepartmentListModel list = new GeneralDepartmentListModel();
             list.GeneralDepartmentList = (from a in _generalDepartmentMasterRepository.Table
                                           join b in _organisationCentrewiseDepartmentRepository.Table
-                                          on a.GeneralDepartmentMasterId equals b.DepartmentId
+                                          on a.GeneralDepartmentMasterId equals b.GeneralDepartmentMasterId
                                           where (b.CentreCode == centreCode || centreCode == null)
                                           select new GeneralDepartmentModel()
                                           {

@@ -64,6 +64,12 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleViewModel.ErrorMessage));
             return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
         }
+        public ActionResult AllocateAccessRights(int adminRoleMasterId)
+        {
+            AdminRoleViewModel adminRoleViewModel = _adminRoleMasterAgent.GetAdminRoleDetailsById(adminRoleMasterId);
+            BindDropdown(adminRoleViewModel);
+            return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
+        }
 
         //public virtual ActionResult Delete(string departmentIds)
         //{
