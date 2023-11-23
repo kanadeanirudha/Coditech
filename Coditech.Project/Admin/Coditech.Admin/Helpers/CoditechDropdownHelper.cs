@@ -4,7 +4,6 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Helpers
@@ -14,6 +13,11 @@ namespace Coditech.Admin.Helpers
         public static List<UserAccessibleCentreModel> AccessibleCentreList()
         {
             return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.AccessibleCentreList;
+        }
+
+        public static List<UserCountryModel> CountryList()
+        {
+            return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.CountryList;
         }
 
         public static DropdownViewModel GeneralDropdownList(DropdownViewModel dropdownViewModel)
@@ -46,6 +50,22 @@ namespace Coditech.Admin.Helpers
                         Text = string.Concat(item.CountryName, " (", item.CountryCode, ")"),
                         Value = Convert.ToString(item.GeneralCountryMasterId),
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCountryMasterId)
+                    });
+                }
+            }
+
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.RegionName.ToString()))
+            {
+                GeneralRegionListResponse response = new GeneralRegionClient().List(null, null, null, 1, int.MaxValue);
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select State-------" });
+                GeneralRegionListModel list = new GeneralRegionListModel { GeneralRegionList = response.GeneralRegionList };
+                foreach (var item in list.GeneralRegionList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = string.Concat(item.RegionName, " (", item.ShortName, ")"),
+                        Value = Convert.ToString(item.GeneralRegionMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralRegionMasterId)
                     });
                 }
             }
@@ -165,6 +185,45 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CountryName.ToString()))
+            {
+                List<UserCountryModel> countryList = CountryList();
+                if (countryList?.Count < 1)
+                    dropdownList.Add(new SelectListItem() { Value = "", Text = "--------- Select Country -------" });
+                foreach (var item in countryList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.CountryName,
+                        Value = item.CountryCode,
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.CountryCode)
+                    });
+                }
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Region.ToString()))
+            {
+                if (CountryList()?.Count == 1 && string.IsNullOrEmpty(dropdownViewModel.Parameter))
+                {
+                    dropdownViewModel.Parameter = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).GeneralCountryMasterId;
+                }
+                GeneralRegionListModel list = new GeneralRegionListModel();
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+                {
+                    string countryCode = SpiltCountryCode(dropdownViewModel.Parameter);
+                    GeneralRegionListResponse response = new GeneralRegionClient().GetRegionByCountryWise(countryCode);
+                    list = new GeneralRegionListModel { GeneralRegionList = response?.GeneralRegionList };
+                }
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------- Select State --------" });
+                foreach (var item in list?.GeneralRegionList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.RegionName,
+                        Value = item.GeneralRegionMasterId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralRegionMasterId)
+                    });
+                }
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -173,6 +232,11 @@ namespace Coditech.Admin.Helpers
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
             return centreCode;
+        }
+        private static string SpiltCountryCode(string countryCode)
+        {
+            countryCode = !string.IsNullOrEmpty(countryCode) && countryCode.Contains(":") ? countryCode.Split(':')[0] : countryCode;
+            return countryCode;
         }
     }
 }

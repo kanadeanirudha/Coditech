@@ -49,8 +49,7 @@ namespace Coditech.API.Service
             if (IsNull(generalCityModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
             if (IsCityNameAlreadyExist(generalCityModel.CityName))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "City Code"));
-
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "City Name"));
             GeneralCityMaster generalCityMaster = generalCityModel.FromModelToEntity<GeneralCityMaster>();
 
             //Create new City and return it.
@@ -89,7 +88,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "CityID"));
 
             if (IsCityNameAlreadyExist(generalCityModel.CityName, generalCityModel.GeneralCityMasterId))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "City Code"));
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "City Name"));
 
             GeneralCityMaster generalCityMaster = generalCityModel.FromModelToEntity<GeneralCityMaster>();
 

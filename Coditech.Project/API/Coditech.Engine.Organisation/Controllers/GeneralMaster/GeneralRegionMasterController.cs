@@ -136,5 +136,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/GeneralRegionMaster/GetRegionByCountryWise")]
+        [HttpGet]
+        [Produces(typeof(GeneralRegionListResponse))]
+        public IActionResult GetRegionByCountryWise(string countryCode)
+        {
+            try
+            {
+                GeneralRegionListModel list = _generalRegionMasterService.GetRegionByCountryWise(countryCode);
+                return IsNotNull(list) ? CreateOKResponse(new GeneralRegionListResponse { GeneralRegionList = list.GeneralRegionList }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Region.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralRegionListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Region.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralRegionListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

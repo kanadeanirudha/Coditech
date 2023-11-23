@@ -160,5 +160,13 @@ namespace Coditech.Admin.Agents
             return datatableColumnList;
         }
         #endregion
+        #region
+        // it will return get all country list from database 
+        public GeneralCountryListResponse GetCountryList()
+        {
+            GeneralCountryListResponse countryList = _generalCountryClient.List(null, null, null, 1, int.MaxValue);
+            return countryList?.GeneralCountryList?.Count > 0 ? countryList : new GeneralCountryListResponse();
+        }
+        #endregion
     }
 }

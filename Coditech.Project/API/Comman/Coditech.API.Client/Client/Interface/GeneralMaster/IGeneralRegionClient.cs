@@ -40,5 +40,11 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteRegion(ParameterModel body);
+
+        /// <summary>
+        /// Get list of General Region.
+        /// </summary>
+        /// <returns>GeneralRegionListResponse</returns>
+        GeneralRegionListResponse GetRegionByCountryWise(string countryCode);
     }
 }

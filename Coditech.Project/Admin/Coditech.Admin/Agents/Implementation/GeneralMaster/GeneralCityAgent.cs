@@ -55,6 +55,9 @@ namespace Coditech.Admin.Agents
         {
             try
             {
+                generalCityViewModel.CountryCode = SpiltCountryCode(generalCityViewModel.GeneralCountryMasterId);
+                generalCityViewModel.RegionName = Convert.ToString(generalCityViewModel.GeneralRegionMasterId);
+
                 GeneralCityResponse response = _generalCityClient.CreateCity(generalCityViewModel.ToModel<GeneralCityModel>());
                 GeneralCityModel generalCityModel = response?.GeneralCityModel;
                 return IsNotNull(generalCityModel) ? generalCityModel.ToViewModel<GeneralCityViewModel>() : new GeneralCityViewModel();
@@ -141,18 +144,13 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "City Name",
+                ColumnName = "City",
                 ColumnCode = "CityName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "City Code",
-                ColumnCode = "TinNumber",
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Region Name",
+                ColumnName = "State",
                 ColumnCode = "RegionName",
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -163,13 +161,6 @@ namespace Coditech.Admin.Agents
             return datatableColumnList;
         }
         #endregion
-        #region
-        // it will return get all tax list from database 
-        public GeneralCityListResponse GetAllCityList()
-        {
-            GeneralCityListResponse cityList = _generalCityClient.List(null, null, null, 1, int.MaxValue);
-            return cityList?.GeneralCityList?.Count > 0 ? cityList : new GeneralCityListResponse();
-        }
-        #endregion
+        
     }
 }

@@ -17,11 +17,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
+        private readonly ICoditechRepository<GeneralLocationMaster> _generalLocationMasterRepository;
         public GeneralRegionMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalLocationMasterRepository = new CoditechRepository<GeneralLocationMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralRegionListModel GetRegionList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -116,6 +118,24 @@ namespace Coditech.API.Service
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteRegion @RegionId,  @Status OUT", 1, out status);
 
             return status == 1 ? true : false;
+        }
+
+        //Get region list.
+        public virtual GeneralRegionListModel GetRegionByCountryWise(string countryCode)
+        {
+            GeneralRegionListModel list = new GeneralRegionListModel();
+            list.GeneralRegionList = (from a in _generalRegionMasterRepository.Table
+                                      join b in _generalLocationMasterRepository.Table
+                                      on a.GeneralRegionMasterId equals b.RegionId
+                                      where (b.LocationAddress == countryCode || countryCode == null)
+                                      select new GeneralRegionModel()
+                                      {
+                                          GeneralRegionMasterId = a.GeneralRegionMasterId,
+                                          RegionName = a.RegionName,
+                                          ShortName = a.ShortName,
+                                          GeneralCountryMasterId = a.GeneralCountryMasterId
+                                      })?.ToList();
+            return list;
         }
 
         #region Protected Method

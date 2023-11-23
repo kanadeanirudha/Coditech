@@ -12,6 +12,8 @@
         Centre,
         TaxGroup,
         RegionName,
-        Country
+        Country,
+        CountryName,
+        Region
     }
 }
