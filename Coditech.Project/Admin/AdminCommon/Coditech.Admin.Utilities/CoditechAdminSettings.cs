@@ -56,7 +56,27 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["CoditechOrganisationApiRootUri"]);
             }
         }
-
+        public static string CoditechEmployeeApiRootUri
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechEmployeeApiRootUri"]);
+            }
+        }
+        public static string CoditechGymManagementSystemApiRootUri
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechGymManagementSystemApiRootUri"]);
+            }
+        }
+        public static string CoditechInventoryApiRootUri
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechInventoryApiRootUri"]);
+            }
+        }
         public static string NotificationMessagesIsFadeOut
         {
             get

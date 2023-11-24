@@ -35,7 +35,8 @@ namespace Coditech.API.Service
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public UserModel Login(UserLoginModel userLoginModel)
+        #region Public
+        public virtual UserModel Login(UserLoginModel userLoginModel)
         {
             if (IsNull(userLoginModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -82,6 +83,23 @@ namespace Coditech.API.Service
             userModel.SelectedCentreCode = userModel.AccessibleCentreList?.FirstOrDefault().CentreCode;
             return userModel;
         }
+
+        public virtual void InsertPersonInformation()
+        {
+
+        }
+
+        public virtual void GetPersonInformation(long personId)
+        {
+
+        }
+
+        public virtual void UpdatePersonInformation()
+        {
+
+        }
+
+        #endregion
 
         #region Protected Method
 
@@ -210,6 +228,24 @@ namespace Coditech.API.Service
             }
 
             return organisationCentreList;
+        }
+
+        protected virtual void UpdateUserMasterDetails(GeneralPersonModel model)
+        {
+            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.PersonId == model.PersonId);
+            if (userMaster != null)
+            {
+                userMaster.FirstName = model.FirstName;
+                userMaster.MiddleName = model.MiddleName;
+                userMaster.LastName = model.LastName;
+                userMaster.EmailId = model.EmailId;
+                _userMasterRepository.Update(userMaster);
+            }
+        }
+
+        protected virtual void InsertUserMasterDetails(GeneralPersonModel model)
+        {
+
         }
         #endregion
     }
