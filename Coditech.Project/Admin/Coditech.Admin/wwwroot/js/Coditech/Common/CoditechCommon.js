@@ -52,4 +52,30 @@
             CoditechDataTable.LoadList(controllerName, methodName);
         }
     },
+
+    GetRegionListByCountryId: function () {
+        var selectedItem = $("#GeneralCountryMasterId").val();
+        if (selectedItem != "") {
+            CoditechCommon.ShowLodder();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "html",
+                url: "/GeneralCommanData/GetRegionListByCountryId",
+                data: { "generalCountryMasterId": selectedItem },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#GeneralRegionMasterId").html("").html(data);
+                    CoditechCommon.HideLodder();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Region.", "error")
+                    CoditechCommon.HideLodder();
+                }
+            });
+        }
+        else {
+            $("#GeneralRegionMasterId").html("");
+        }
+    },
 }

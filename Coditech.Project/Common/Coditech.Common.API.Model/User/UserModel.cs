@@ -9,6 +9,7 @@
             MenuList = new List<UserMenuModel>();
             BalanceSheetList = new List<UserBalanceSheetModel>();
             AccessibleCentreList = new List<UserAccessibleCentreModel>();
+            CountryList = new List<UserCountryModel>();
         }
         public int UserMasterId { get; set; }
         public bool IsAdminUser { get; set; }
@@ -30,10 +31,12 @@
         public string SelectedBalanceSheet { get; set; }
         public int SelectedBalanceId { get; set; }
         public string SelectedCentreCode { get; set; } = string.Empty;
+        public string GeneralCountryMasterId { get; set; } 
         public List<AdminRoleDetailsModel> RoleList { get; set; }
         public List<UserModuleModel> ModuleList { get; set; }
         public List<UserMenuModel> MenuList { get; set; }
         public List<UserBalanceSheetModel> BalanceSheetList { get; set; }
         public List<UserAccessibleCentreModel> AccessibleCentreList { get; set; }
+        public List<UserCountryModel> CountryList { get; set; }
     }
 }

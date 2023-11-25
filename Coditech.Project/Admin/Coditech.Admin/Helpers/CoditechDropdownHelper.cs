@@ -16,6 +16,11 @@ namespace Coditech.Admin.Helpers
             return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.AccessibleCentreList;
         }
 
+        public static List<UserCountryModel> CountryList()
+        {
+            return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.CountryList;
+        }
+
         public static DropdownViewModel GeneralDropdownList(DropdownViewModel dropdownViewModel)
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
@@ -165,6 +170,25 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Region.ToString()))
+            {
+                GeneralRegionListModel list = new GeneralRegionListModel();
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+                {
+                    GeneralRegionListResponse response = new GeneralRegionClient().GetRegionByCountryWise(Convert.ToInt16(dropdownViewModel.Parameter));
+                    list = new GeneralRegionListModel { GeneralRegionList = response?.GeneralRegionList };
+                }
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------- Select State --------" });
+                foreach (var item in list?.GeneralRegionList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.RegionName,
+                        Value = item.GeneralRegionMasterId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralRegionMasterId)
+                    });
+                }
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -173,6 +197,11 @@ namespace Coditech.Admin.Helpers
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
             return centreCode;
+        }
+        private static string SpiltCountryCode(string countryCode)
+        {
+            countryCode = !string.IsNullOrEmpty(countryCode) && countryCode.Contains(":") ? countryCode.Split(':')[0] : countryCode;
+            return countryCode;
         }
     }
 }

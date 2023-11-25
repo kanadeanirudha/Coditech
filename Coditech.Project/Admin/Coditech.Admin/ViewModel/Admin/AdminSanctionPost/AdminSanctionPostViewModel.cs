@@ -14,13 +14,13 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
         public int AdminSanctionPostId { get; set; }
-        public Int16 DesignationId { get; set; }
-        public Int16 DepartmentId { get; set; }
+        public short DesignationId { get; set; }
+        public short DepartmentId { get; set; }
         public string CentreCode { get; set; }
         public string SanctionPostCode { get; set; }
         public string SanctionedPostDescription { get; set; }
         [Required]
-        public Int16 NoOfPost { get; set; } = 1;
+        public short NoOfPost { get; set; } = 1;
 
         [Required(ErrorMessage = "Post Type Required")]
         [Display(Name = "Post Type")]

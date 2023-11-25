@@ -6,7 +6,7 @@
         {
 
         }
-        public Int16 EmployeeDesignationMasterId { get; set; }
+        public short EmployeeDesignationMasterId { get; set; }
         public string Description { get; set; }
         public int DesignationLevel { get; set; }
         public int Grade { get; set; }
