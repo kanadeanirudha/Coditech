@@ -2,8 +2,8 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Resources;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -30,11 +30,8 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            GeneralCityViewModel generalCityViewModel = new GeneralCityViewModel();
-            BindDropdown(generalCityViewModel);
             return View(createEdit, new GeneralCityViewModel());
         }
-
 
         [HttpPost]
         public virtual ActionResult Create(GeneralCityViewModel generalCityViewModel)
@@ -48,7 +45,6 @@ namespace Coditech.Admin.Controllers
                     return RedirectToAction<GeneralCityMasterController>(x => x.List(null));
                 }
             }
-            BindDropdown(generalCityViewModel);
             SetNotificationMessage(GetErrorNotificationMessage(generalCityViewModel.ErrorMessage));
             return View(createEdit, generalCityViewModel);
         }
@@ -57,7 +53,6 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult Edit(int cityId)
         {
             GeneralCityViewModel generalCityViewModel = _generalCityAgent.GetCity(cityId);
-            BindDropdown(generalCityViewModel);
             return ActionView(createEdit, generalCityViewModel);
         }
 
@@ -71,7 +66,6 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { cityId = generalCityViewModel.GeneralCityMasterId });
             }
-            BindDropdown(generalCityViewModel);
             return View(createEdit, generalCityViewModel);
         }
         public virtual ActionResult Delete(string cityIds)
@@ -91,10 +85,6 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<GeneralCityMasterController>(x => x.List(null));
         }
         #region Protected
-        protected virtual void BindDropdown(GeneralCityViewModel generalCityViewModel)
-        {
-            generalCityViewModel.CountryList = _generalCountryAgent.GetCountryList().GeneralCountryList;
-        }
         #endregion
     }
 }

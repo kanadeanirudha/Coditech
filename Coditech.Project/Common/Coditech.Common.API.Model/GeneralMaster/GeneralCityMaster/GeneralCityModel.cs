@@ -9,12 +9,9 @@ namespace Coditech.Common.API.Model
 
         [MaxLength(100)]
         [Required]
-        [Display(Name = "Description")]
         public string CityName { get; set; }
 
         public string RegionName { get; set; }
-
-        public Int16? TinNumber { get; set; }
 
         [Required]
         [Display(Name = "Is Default")]
@@ -26,8 +23,6 @@ namespace Coditech.Common.API.Model
 
         [Required]
         public bool IsUserDefined { get; set; }
-
-        [Display(Name = "Country")]
-        public string GeneralCountryMasterId { get; set; }
+        public short GeneralCountryMasterId { get; set; }
     }
 }

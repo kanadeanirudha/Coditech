@@ -14,5 +14,6 @@ namespace Coditech.Admin.ViewModel
         public string DropdownSelectedValue { get; set; }
         public string ChangeEvent { get; set; }
         public string Parameter { get; set; }
+        public bool IsDisabled { get; set; }
     }
 }

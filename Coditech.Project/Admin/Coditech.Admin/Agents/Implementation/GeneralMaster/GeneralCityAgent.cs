@@ -55,9 +55,6 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                generalCityViewModel.CountryCode = SpiltCountryCode(generalCityViewModel.GeneralCountryMasterId);
-                generalCityViewModel.RegionName = Convert.ToString(generalCityViewModel.GeneralRegionMasterId);
-
                 GeneralCityResponse response = _generalCityClient.CreateCity(generalCityViewModel.ToModel<GeneralCityModel>());
                 GeneralCityModel generalCityModel = response?.GeneralCityModel;
                 return IsNotNull(generalCityModel) ? generalCityModel.ToViewModel<GeneralCityViewModel>() : new GeneralCityViewModel();
@@ -150,7 +147,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "State",
+                ColumnName = "Region",
                 ColumnCode = "RegionName",
             });
             datatableColumnList.Add(new DatatableColumns()

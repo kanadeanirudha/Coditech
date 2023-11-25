@@ -45,6 +45,6 @@ namespace Coditech.API.Client
         /// Get list of General Region.
         /// </summary>
         /// <returns>GeneralRegionListResponse</returns>
-        GeneralRegionListResponse GetRegionByCountryWise(string countryCode);
+        GeneralRegionListResponse GetRegionByCountryWise(Int16 generalCountryMasterId);
     }
 }

@@ -18,5 +18,16 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
+
+        public ActionResult GetRegionListByCountryId(string generalCountryMasterId)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.Region.ToString(),
+                DropdownName = "GeneralRegionMasterId",
+                Parameter = generalCountryMasterId,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
     }
 }

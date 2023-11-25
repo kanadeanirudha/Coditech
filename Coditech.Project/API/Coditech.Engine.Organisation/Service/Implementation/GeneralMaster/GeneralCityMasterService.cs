@@ -18,11 +18,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralCityMaster> _generalCityMasterRepository;
+        private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
         public GeneralCityMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalCityMasterRepository = new CoditechRepository<GeneralCityMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralCityListModel GetCityList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -75,6 +77,10 @@ namespace Coditech.API.Service
             //Get the City Details based on id.
             GeneralCityMaster cityData = _generalCityMasterRepository.Table.FirstOrDefault(x => x.GeneralCityMasterId == cityId);
             GeneralCityModel generalCityModel = cityData.FromEntityToModel<GeneralCityModel>();
+            if (IsNotNull(generalCityModel))
+            {
+                generalCityModel.GeneralCountryMasterId = _generalRegionMasterRepository.Table.FirstOrDefault(x => x.GeneralRegionMasterId == generalCityModel.GeneralRegionMasterId).GeneralCountryMasterId;
+            }
             return generalCityModel;
         }
 

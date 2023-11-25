@@ -4,7 +4,7 @@
     {
         public short GeneralRegionMasterId { get; set; }
         public string RegionName { get; set; }
-        public int GeneralCountryMasterId { get; set; }
+        public short GeneralCountryMasterId { get; set; }
         public string ShortName { get; set; }
         public bool DefaultFlag { get; set; }
         public bool IsUserDefined { get; set; }

@@ -140,11 +140,11 @@ namespace Coditech.API.Controllers
         [Route("/GeneralRegionMaster/GetRegionByCountryWise")]
         [HttpGet]
         [Produces(typeof(GeneralRegionListResponse))]
-        public IActionResult GetRegionByCountryWise(string countryCode)
+        public IActionResult GetRegionByCountryWise(int generalCountryMasterId)
         {
             try
             {
-                GeneralRegionListModel list = _generalRegionMasterService.GetRegionByCountryWise(countryCode);
+                GeneralRegionListModel list = _generalRegionMasterService.GetRegionByCountryWise(generalCountryMasterId);
                 return IsNotNull(list) ? CreateOKResponse(new GeneralRegionListResponse { GeneralRegionList = list.GeneralRegionList }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

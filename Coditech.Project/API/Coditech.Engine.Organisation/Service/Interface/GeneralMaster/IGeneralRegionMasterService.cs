@@ -12,6 +12,6 @@ namespace Coditech.API.Service
         GeneralRegionModel GetRegion(short generalRegionMasterId);
         bool UpdateRegion(GeneralRegionModel model);
         bool DeleteRegion(ParameterModel parameterModel);
-        GeneralRegionListModel GetRegionByCountryWise(string countryCode);
+        GeneralRegionListModel GetRegionByCountryWise(int generalCountryMasterId);
     }
 }

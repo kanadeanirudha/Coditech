@@ -121,19 +121,16 @@ namespace Coditech.API.Service
         }
 
         //Get region list.
-        public virtual GeneralRegionListModel GetRegionByCountryWise(string countryCode)
+        public virtual GeneralRegionListModel GetRegionByCountryWise(int generalCountryMasterId)
         {
             GeneralRegionListModel list = new GeneralRegionListModel();
-            list.GeneralRegionList = (from a in _generalRegionMasterRepository.Table
-                                      join b in _generalLocationMasterRepository.Table
-                                      on a.GeneralRegionMasterId equals b.RegionId
-                                      where (b.LocationAddress == countryCode || countryCode == null)
+            list.GeneralRegionList =  (from a in _generalRegionMasterRepository.Table
+                                      where (a.GeneralCountryMasterId == generalCountryMasterId)
                                       select new GeneralRegionModel()
                                       {
                                           GeneralRegionMasterId = a.GeneralRegionMasterId,
                                           RegionName = a.RegionName,
                                           ShortName = a.ShortName,
-                                          GeneralCountryMasterId = a.GeneralCountryMasterId
                                       })?.ToList();
             return list;
         }

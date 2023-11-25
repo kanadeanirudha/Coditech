@@ -4,8 +4,8 @@
     ViewBag.Title = Model.GeneralCityMasterId > 0 ? "Update City" : "Add City";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel countryDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CountryName.ToString(), DropdownName = "GeneralCountryMasterId", DropdownSelectedValue = Model.GeneralCountryMasterId, ChangeEvent = "CoditechCommon.GetRegionByCountryWise()" };
-    DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Model.GeneralCountryMasterId };
+    DropdownViewModel countryDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Country.ToString(), DropdownName = "GeneralCountryMasterId", DropdownSelectedValue = Model.GeneralCountryMasterId, ChangeEvent = "CoditechCommon.GetRegionListByCountryId()", IsDisabled = Model.GeneralCityMasterId > 0 };
+    DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Model.GeneralCountryMasterId, IsDisabled = Model.GeneralCityMasterId > 0 };
 }
 <!-- Page Content-->
 <div class="page-content">
@@ -37,11 +37,16 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.GeneralCityMasterId)
+                            if (Model.GeneralCityMasterId > 0)
+                            {
+                                @Html.HiddenFor(m => m.GeneralCountryMasterId)
+                                @Html.HiddenFor(m => m.GeneralRegionMasterId)
+                            }
                             @Html.HiddenFor(m => m.DefaultFlag)
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.GeneralCountryMasterId, new { @class = "form-label" })
+                                        @Html.LabelFor(x => x.GeneralCountryMasterId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", countryDropdown)
                                         @Html.ValidationMessageFor(x => x.GeneralCountryMasterId)
                                     </div>

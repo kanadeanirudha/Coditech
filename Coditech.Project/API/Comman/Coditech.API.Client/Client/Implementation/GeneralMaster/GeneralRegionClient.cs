@@ -262,14 +262,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralRegionListResponse GetRegionByCountryWise(string generalCountryId)
+        public virtual GeneralRegionListResponse GetRegionByCountryWise(Int16 generalCountryMasterId)
         {
-            return Task.Run(async () => await GetRegionByCountryWise(generalCountryId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetRegionByCountryWise(generalCountryMasterId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralRegionListResponse> GetRegionByCountryWise(string generalCountryId, CancellationToken cancellationToken)
+        public virtual async Task<GeneralRegionListResponse> GetRegionByCountryWise(Int16 generalCountryMasterId, CancellationToken cancellationToken)
         {
-            string endpoint = generalRegionEndpoint.GetRegionByCountryWise(generalCountryId);
+            string endpoint = generalRegionEndpoint.GetRegionByCountryWise(generalCountryMasterId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
 

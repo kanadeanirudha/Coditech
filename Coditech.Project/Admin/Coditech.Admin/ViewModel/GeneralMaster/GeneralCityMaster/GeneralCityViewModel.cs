@@ -10,7 +10,7 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(100)]
         [Required]
-        [Display(Name = "Description")]
+        [Display(Name = "City Name")]
         public string CityName { get; set; }
 
         [Required]
@@ -18,20 +18,12 @@ namespace Coditech.Admin.ViewModel
         public bool DefaultFlag { get; set; }
 
         [Required]
-        [Display(Name = "State")]
-        public int GeneralRegionMasterId { get; set; }
-
+        [Display(Name = "Region")]
+        public short GeneralRegionMasterId { get; set; }
         public string RegionName { get; set; }
 
-        public string CountryCode { get; set; }
-
-        public Int16? TinNumber { get; set; }
-
-        [Required]
-        public bool IsUserDefined { get; set; }
-
         [Display(Name = "Country")]
+        [Required]
         public string GeneralCountryMasterId { get; set; }
-        public object CountryList { get; internal set; }
     }
 }
