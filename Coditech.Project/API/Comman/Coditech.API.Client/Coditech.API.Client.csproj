@@ -24,4 +24,16 @@
     <ProjectReference Include="..\Coditech.Common.API\Coditech.Common.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Client\Implementation\Employee\" />
+    <Folder Include="Client\Implementation\Gym\" />
+    <Folder Include="Client\Implementation\Inventory\" />
+    <Folder Include="Client\Interface\Employee\" />
+    <Folder Include="Client\Interface\Gym\" />
+    <Folder Include="Client\Interface\Inventory\" />
+    <Folder Include="Endpoint\Employee\" />
+    <Folder Include="Endpoint\Gym\" />
+    <Folder Include="Endpoint\Inventory\" />
+  </ItemGroup>
+
 </Project>

@@ -213,23 +213,6 @@ namespace Coditech.API.Service
             return accountBalanceSheetList;
         }
 
-        protected virtual List<UserAccessibleCentreModel> OrganisationCentreList()
-        {
-            List<OrganisationCentreMaster> centreList = _organisationCentreMasterRepository.Table.ToList();
-            List<UserAccessibleCentreModel> organisationCentreList = new List<UserAccessibleCentreModel>();
-            foreach (OrganisationCentreMaster item in centreList)
-            {
-                organisationCentreList.Add(new UserAccessibleCentreModel()
-                {
-                    CentreCode = item.CentreCode,
-                    CentreName = item.CentreName,
-                    ScopeIdentity = "Centre"
-                });
-            }
-
-            return organisationCentreList;
-        }
-
         protected virtual void UpdateUserMasterDetails(GeneralPersonModel model)
         {
             UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.PersonId == model.PersonId);
