@@ -17,13 +17,11 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
-        private readonly ICoditechRepository<GeneralLocationMaster> _generalLocationMasterRepository;
         public GeneralRegionMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _generalLocationMasterRepository = new CoditechRepository<GeneralLocationMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralRegionListModel GetRegionList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)

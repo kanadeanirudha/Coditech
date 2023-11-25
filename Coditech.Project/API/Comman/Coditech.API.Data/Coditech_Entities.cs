@@ -23,7 +23,6 @@ namespace Coditech.API.Data
         public DbSet<GeneralNationalityMaster> GeneralNationalityMaster { get; set; }
         public DbSet<EmployeeDesignationMaster> EmployeeDesignationMaster { get; set; }
         public DbSet<GeneralRegionMaster> GeneralRegionMaster { get; set; }
-        public DbSet<GeneralLocationMaster> GeneralLocationMaster { get; set; }
         #endregion
 
         #region Organisation
