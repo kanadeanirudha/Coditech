@@ -52,7 +52,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralCountryMaster/CreateCountry")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralCountryResponse))]
-        public IActionResult CreateCountry([FromBody] GeneralCountryModel model)
+        public virtual IActionResult CreateCountry([FromBody] GeneralCountryModel model)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralCountryMaster/GetCountry")]
         [HttpGet]
         [Produces(typeof(GeneralCountryResponse))]
-        public IActionResult GetDepartment(short generalCountryMasterId)
+        public virtual IActionResult GetDepartment(short generalCountryMasterId)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralCountryMaster/UpdateCountry")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralCountryResponse))]
-        public IActionResult UpdateCountry([FromBody] GeneralCountryModel model)
+        public virtual IActionResult UpdateCountry([FromBody] GeneralCountryModel model)
         {
             try
             {
