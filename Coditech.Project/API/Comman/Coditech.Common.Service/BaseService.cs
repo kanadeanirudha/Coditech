@@ -8,8 +8,8 @@ namespace Coditech.Common.Service
 {
     public abstract class BaseService
     {
-        protected  readonly IServiceProvider _serviceProvider;
-        protected  readonly ICoditechLogging _coditechLogging;
+        protected readonly IServiceProvider _serviceProvider;
+        protected readonly ICoditechLogging _coditechLogging;
         public BaseService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -48,6 +48,18 @@ namespace Coditech.Common.Service
             }
 
             return organisationCentreList;
+        }
+
+        protected virtual List<UserModuleMaster> GetAllActiveModuleList()
+        {
+            List<UserModuleMaster> userAllModuleList = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.ModuleActiveFlag == true)?.ToList();
+            return userAllModuleList;
+        }
+
+        protected virtual List<UserMainMenuMaster> GetAllActiveMenuListList(string moduleCode = null)
+        {
+            List<UserMainMenuMaster> userAllMenuList = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.IsEnable == true && (x.ModuleCode == moduleCode || moduleCode == null))?.OrderBy(y => y.MenuDisplaySeqNo)?.ToList();
+            return userAllMenuList;
         }
     }
 }
