@@ -3,6 +3,7 @@
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
+using Coditech.Model;
 
 namespace Coditech.API.Mapper
 {
@@ -23,6 +24,7 @@ namespace Coditech.API.Mapper
             CreateMap<AdminRoleMaster, AdminRoleModel>().ReverseMap();
             CreateMap<OrganisationMaster, OrganisationModel>().ReverseMap();
             CreateMap<GeneralRegionMaster, GeneralRegionModel>().ReverseMap();
+            CreateMap<OrganisationCentrePrintingFormat, OrganisationCentrePrintingFormatModel>().ReverseMap();
         }
     }
 }

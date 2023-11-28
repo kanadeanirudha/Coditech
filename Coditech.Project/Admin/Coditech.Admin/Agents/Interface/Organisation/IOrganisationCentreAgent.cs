@@ -41,10 +41,17 @@ namespace Coditech.Admin.Agents
         bool DeleteOrganisationCentre(string organisationCentreId, out string errorMessage);
 
         /// <summary>
-        /// Get OrganisationCentrePrintingFormat.
+        /// Get Organisation Centre Printing Format by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrePrintingFormatViewModel.</returns>
+        OrganisationCentrePrintingFormatViewModel GetPrintingFormat(short organisationCentreId);
+
+        /// <summary>
+        /// Update Organisation Centre Printing Format.
         /// </summary>
         /// <param name="organisationCentrePrintingFormatViewModel">organisationCentrePrintingFormatViewModel.</param>
-        /// <returns>Returns OrganisationCentrePrintingFormatViewModel.</returns>
-        OrganisationCentrePrintingFormatViewModel GetPrintingFormat(OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel);
+        /// <returns>Returns updated OrganisationCentrePrintingFormatViewModel</returns>
+        OrganisationCentrePrintingFormatViewModel UpdatePrintingFormat(OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel);
     }
 }

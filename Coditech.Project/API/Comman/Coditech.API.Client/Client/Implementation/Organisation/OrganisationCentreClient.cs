@@ -262,14 +262,63 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual OrganisationCentrePrintingFormatResponse GetPrintingFormat(OrganisationCentrePrintingFormatModel body)
+        public virtual OrganisationCentrePrintingFormatResponse GetPrintingFormat(short organisationCentreId)
         {
-            return Task.Run(async () => await GetPrintingFormatAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetPrintingFormatAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrePrintingFormatResponse> GetPrintingFormatAsync(OrganisationCentrePrintingFormatModel body, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrePrintingFormatResponse> GetPrintingFormatAsync(short organisationCentreId, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = organisationCentreEndpoint.GetPrintingFormatAsync();
+            if (organisationCentreId <= 0)
+                throw new System.ArgumentNullException("organisationCentreId");
+
+            string endpoint = organisationCentreEndpoint.GetPrintingFormatAsync(organisationCentreId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrePrintingFormatResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new OrganisationCentrePrintingFormatResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrePrintingFormatResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrePrintingFormatResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual OrganisationCentrePrintingFormatResponse UpdatePrintingFormat(OrganisationCentrePrintingFormatModel body)
+        {
+            return Task.Run(async () => await UpdatePrintingFormatAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrePrintingFormatResponse> UpdatePrintingFormatAsync(OrganisationCentrePrintingFormatModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentreEndpoint.UpdatePrintingFormatAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -306,7 +355,6 @@ namespace Coditech.API.Client
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
-
             }
             finally
             {

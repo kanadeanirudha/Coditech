@@ -137,32 +137,32 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        //Create Organisation Printing Format CentreCode.
-        public OrganisationCentrePrintingFormatViewModel GetPrintingFormat(OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel)
+        //Get Organisation Centre Printing Format by organisationCentreId.
+        public virtual OrganisationCentrePrintingFormatViewModel GetPrintingFormat(short organisationCentreId)
+        {
+            OrganisationCentrePrintingFormatResponse response = _organisationCentreClient.GetPrintingFormat(organisationCentreId);
+            return response?.OrganisationCentrePrintingFormatModel.ToViewModel<OrganisationCentrePrintingFormatViewModel>();
+        }
+
+        //Update Organisation Centre Printing Format.
+        public virtual OrganisationCentrePrintingFormatViewModel UpdatePrintingFormat(OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel)
         {
             try
             {
-                //organisationCentrePrintingFormatViewModel.CreatedBy = LoginUserId();
-                OrganisationCentrePrintingFormatResponse organisationCentrePrintingFormatResponse = _organisationCentreClient.GetPrintingFormat(organisationCentrePrintingFormatViewModel.ToModel<OrganisationCentrePrintingFormatModel>());
-                return IsNotNull(organisationCentrePrintingFormatResponse) ? organisationCentrePrintingFormatResponse.ToViewModel<OrganisationCentrePrintingFormatViewModel>() : new OrganisationCentrePrintingFormatViewModel();
-            }
-            catch (CoditechException ex)
-            {
-                switch (ex.ErrorCode)
-                {
-                    case ErrorCodes.AlreadyExist:
-                        return (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(organisationCentrePrintingFormatViewModel, ex.ErrorMessage);
-                    default:
-                        return (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(organisationCentrePrintingFormatViewModel, GeneralResources.ErrorFailedToCreate);
-                }
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.PrintingFormat.ToString(), TraceLevel.Info);
+                OrganisationCentrePrintingFormatResponse response = _organisationCentreClient.UpdatePrintingFormat(organisationCentrePrintingFormatViewModel.ToModel<OrganisationCentrePrintingFormatModel>());
+                OrganisationCentrePrintingFormatModel organisationCentrePrintingFormatModel = response?.OrganisationCentrePrintingFormatModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.PrintingFormat.ToString(), TraceLevel.Info);
+                return IsNotNull(organisationCentrePrintingFormatModel) ? organisationCentrePrintingFormatModel.ToViewModel<OrganisationCentrePrintingFormatViewModel>() : (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(new OrganisationCentrePrintingFormatViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex.Message, CoditechLoggingEnum.Components.OrganisationCentrePrint.ToString());
-                return (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(organisationCentrePrintingFormatViewModel, GeneralResources.ErrorFailedToCreate);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PrintingFormat.ToString(), TraceLevel.Error);
+                return (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(organisationCentrePrintingFormatViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
         #endregion
+
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {

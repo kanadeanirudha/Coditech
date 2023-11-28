@@ -10,7 +10,6 @@ namespace Coditech.Admin.Controllers
 {
     public class OrganisationCentreMasterController : BaseController
     {
-        // RARIndiaEntities db = new RARIndiaEntities();
         private readonly IOrganisationCentreAgent _organisationCentreAgent;
         private const string createEdit = "~/Views/Organisation/OrganisationCentre/CreateEdit.cshtml";
         private const string OrganisationCentrePrintingFormat = "~/Views/Organisation/OrganisationCentre/OrganisationCentrePrintingFormat.cshtml";
@@ -89,29 +88,24 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<OrganisationCentreMasterController>(x => x.List(null));
         }
 
-        //Get: Organisation Centre Printing Format.
         [HttpGet]
-        public ActionResult PrintingFormat(short organisationCentreId)
+        public virtual ActionResult PrintingFormat(short organisationCentreId)
         {
-            return View(OrganisationCentrePrintingFormat, new OrganisationCentrePrintingFormatViewModel() { OrganisationCentreMasterId = organisationCentreId });
+            OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel = _organisationCentreAgent.GetPrintingFormat(organisationCentreId);
+            return ActionView(OrganisationCentrePrintingFormat, organisationCentrePrintingFormatViewModel);
         }
 
-        //Post: Organisation Centre Printing Format .
         [HttpPost]
         public virtual ActionResult PrintingFormat(OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel)
         {
             if (ModelState.IsValid)
             {
-                organisationCentrePrintingFormatViewModel = _organisationCentreAgent.GetPrintingFormat(organisationCentrePrintingFormatViewModel);
-                if (!organisationCentrePrintingFormatViewModel.HasError)
-                {
-                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<OrganisationCentreMasterController>(x => x.List(null));
-                }
+                SetNotificationMessage(_organisationCentreAgent.UpdatePrintingFormat(organisationCentrePrintingFormatViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("PrintingFormat", new { organisationCentreId = organisationCentrePrintingFormatViewModel.OrganisationCentreMasterId });
             }
-            SetNotificationMessage(GetErrorNotificationMessage(organisationCentrePrintingFormatViewModel.ErrorMessage));
             return View(OrganisationCentrePrintingFormat, organisationCentrePrintingFormatViewModel);
         }
-
     }
 }

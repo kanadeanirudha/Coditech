@@ -23,8 +23,10 @@ namespace Coditech.API.Endpoint
 
         public string DeleteOrganisationAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/DeleteOrganisationCentre";
+        public string GetPrintingFormatAsync(short organisationCentreId) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetPrintingFormat?organisationCentreMasterId={organisationCentreId}";
 
-        public string GetPrintingFormatAsync() =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetPrintingFormat";
+        public string UpdatePrintingFormatAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdatePrintingFormat";
     }
 }

@@ -60,7 +60,7 @@ namespace Coditech.API.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode});
+                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
@@ -136,14 +136,14 @@ namespace Coditech.API.Controllers
         }
 
         [Route("/OrganisationCentreMaster/GetPrintingFormat")]
-        [HttpPost, ValidateModel]
+        [HttpGet]
         [Produces(typeof(OrganisationCentrePrintingFormatResponse))]
-        public IActionResult GetPrintingFormat([FromBody] OrganisationCentrePrintingFormatModel model)
+        public IActionResult GetPrintingFormat(short organisationCentreMasterId)
         {
             try
             {
-                OrganisationCentrePrintingFormatModel organisationCentrePrintingFormatModel = _organisationCentreMasterService.GetPrintingFormat(model);
-                return IsNotNull(organisationCentrePrintingFormatModel) ? CreateOKResponse(new OrganisationCentrePrintingFormatResponse { OrganisationCentrePrintingFormatModel = organisationCentrePrintingFormatModel }) : NotFound();
+                OrganisationCentrePrintingFormatModel organisationCentrePrintingFormatModel = _organisationCentreMasterService.GetPrintingFormat(organisationCentreMasterId);
+                return IsNotNull(organisationCentrePrintingFormatModel) ? CreateOKResponse(new OrganisationCentrePrintingFormatResponse() { OrganisationCentrePrintingFormatModel = organisationCentrePrintingFormatModel }) : NotFound();
             }
             catch (CoditechException ex)
             {
@@ -157,5 +157,26 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [Route("/OrganisationCentreMaster/UpdatePrintingFormat")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrePrintingFormatResponse))]
+        public IActionResult UpdatePrintingFormat([FromBody] OrganisationCentrePrintingFormatModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdatePrintingFormat(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrePrintingFormatResponse { OrganisationCentrePrintingFormatModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PrintingFormat.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrePrintingFormatResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PrintingFormat.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrePrintingFormatResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
-} 
+}

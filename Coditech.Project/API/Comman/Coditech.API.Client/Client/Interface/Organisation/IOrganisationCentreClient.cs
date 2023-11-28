@@ -43,10 +43,17 @@ namespace Coditech.API.Client
         TrueFalseResponse DeleteOrganisationCentre(ParameterModel body);
 
         /// <summary>
-        /// Get OrganisationCentrePrintingFormat.
+        /// Get OrganisationCentrePrintingFormat by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrePrintingFormatResponse.</returns>
+        OrganisationCentrePrintingFormatResponse GetPrintingFormat(short organisationCentreId);
+
+        /// <summary>
+        /// Update OrganisationCentrePrintingFormat.
         /// </summary>
         /// <param name="OrganisationCentrePrintingFormatModel">OrganisationCentrePrintingFormatModel.</param>
-        /// <returns>Returns OrganisationCentrePrintingFormatResponse</returns>
-        OrganisationCentrePrintingFormatResponse GetPrintingFormat(OrganisationCentrePrintingFormatModel body);
+        /// <returns>Returns updated OrganisationCentrePrintingFormatResponse</returns>
+        OrganisationCentrePrintingFormatResponse UpdatePrintingFormat(OrganisationCentrePrintingFormatModel body);
     }
 }

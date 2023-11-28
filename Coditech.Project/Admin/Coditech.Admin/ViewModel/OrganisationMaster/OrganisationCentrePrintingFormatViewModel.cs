@@ -1,11 +1,10 @@
-﻿using Coditech.Common.API.Model;
+﻿using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.Model
+namespace Coditech.ViewModel
 {
-    public partial class OrganisationCentrePrintingFormatModel : BaseModel
+    public partial class OrganisationCentrePrintingFormatViewModel : BaseViewModel
     {
-        [Required]
         public short OrganisationCentrePrintingFormatId { get; set; }
 
         [Required]
@@ -47,7 +46,8 @@ namespace Coditech.Model
 
         [MaxLength(100)]
         public string PrintingLinebelowLogo { get; set; }
+
+        [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
-        public string CentreCode { get; set; }
     }
 }

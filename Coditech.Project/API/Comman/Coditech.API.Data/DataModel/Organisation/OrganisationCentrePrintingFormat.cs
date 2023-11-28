@@ -3,7 +3,7 @@
     public partial class OrganisationCentrePrintingFormat
     {
         public short OrganisationCentrePrintingFormatId { get; set; }
-        public string CentreCode { get; set; }
+        public short OrganisationCentreMasterId { get; set; }
         public string PrintingLine1 { get; set; }
         public string PrintingLine2 { get; set; }
         public string PrintingLine3 { get; set; }
