@@ -7,6 +7,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Model;
 using Coditech.Resources;
+
 using System.Collections.Specialized;
 using System.Data;
 
@@ -25,7 +26,7 @@ namespace Coditech.API.Service
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _organisationCentrePrintingFormatRepository = new CoditechRepository<OrganisationCentrePrintingFormat>();
+            _organisationCentrePrintingFormatRepository = new CoditechRepository<OrganisationCentrePrintingFormat>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual OrganisationCentreListModel GetOrganisationCentreList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -47,14 +48,14 @@ namespace Coditech.API.Service
         }
 
         //Create Organisation Centre.
-        public OrganisationCentreModel CreateOrganisationCentre(OrganisationCentreModel organisationCentreModel)
+        public virtual OrganisationCentreModel CreateOrganisationCentre(OrganisationCentreModel organisationCentreModel)
         {
             if (IsNull(organisationCentreModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             if (IsCentreCodeAlreadyExist(organisationCentreModel.CentreCode))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
-            
+
             OrganisationCentreMaster organisationCentreMaster = organisationCentreModel.FromModelToEntity<OrganisationCentreMaster>();
 
             //Create new Organisation Centre and return it.
@@ -72,7 +73,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centre by organisationCentreMasterId.
-        public OrganisationCentreModel GetOrganisationCentre(short organisationCentreId)
+        public virtual OrganisationCentreModel GetOrganisationCentre(short organisationCentreId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -122,14 +123,19 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centre Printing Format by organisationCentreMasterId.
-        public OrganisationCentrePrintingFormatModel GetPrintingFormat(short organisationCentreId)
+        public virtual OrganisationCentrePrintingFormatModel GetPrintingFormat(short organisationCentreId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
 
             //Get the  Organisation Details based on id.
+
             OrganisationCentrePrintingFormat organisationCentrePrintingData = _organisationCentrePrintingFormatRepository.Table.FirstOrDefault(x => x.OrganisationCentreMasterId == organisationCentreId);
-            OrganisationCentrePrintingFormatModel organisationCentrePrintingFormatModel = organisationCentrePrintingData.FromEntityToModel<OrganisationCentrePrintingFormatModel>();
+            OrganisationCentrePrintingFormatModel organisationCentrePrintingFormatModel = IsNull(organisationCentrePrintingData) ? new OrganisationCentrePrintingFormatModel() : organisationCentrePrintingData.FromEntityToModel<OrganisationCentrePrintingFormatModel>();
+            OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
+            organisationCentrePrintingFormatModel.CentreCode = organisationCentreModel.CentreCode;
+            organisationCentrePrintingFormatModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrePrintingFormatModel.OrganisationCentreMasterId = organisationCentreId;
             return organisationCentrePrintingFormatModel;
         }
 
@@ -145,10 +151,17 @@ namespace Coditech.API.Service
             if (IsCentreCodeAlreadyExist(organisationCentrePrintingFormatModel.CentreCode, organisationCentrePrintingFormatModel.OrganisationCentreMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
 
+            bool isOrganisationCentrePrintingFormatUpdated = false;
             OrganisationCentrePrintingFormat organisationCentrePrintingFormat = organisationCentrePrintingFormatModel.FromModelToEntity<OrganisationCentrePrintingFormat>();
 
-            //Update Organisation Centre
-            bool isOrganisationCentrePrintingFormatUpdated = _organisationCentrePrintingFormatRepository.Update(organisationCentrePrintingFormat);
+            if (organisationCentrePrintingFormatModel.OrganisationCentrePrintingFormatId > 0)
+                isOrganisationCentrePrintingFormatUpdated = _organisationCentrePrintingFormatRepository.Update(organisationCentrePrintingFormat);
+            else
+            {
+                organisationCentrePrintingFormat = _organisationCentrePrintingFormatRepository.Insert(organisationCentrePrintingFormat);
+                isOrganisationCentrePrintingFormatUpdated = organisationCentrePrintingFormat.OrganisationCentrePrintingFormatId > 0;
+            }
+
             if (!isOrganisationCentrePrintingFormatUpdated)
             {
                 organisationCentrePrintingFormatModel.HasError = true;

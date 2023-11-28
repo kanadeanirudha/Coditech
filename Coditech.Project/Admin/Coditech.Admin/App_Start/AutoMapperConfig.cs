@@ -2,6 +2,8 @@
 
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
+using Coditech.Model;
+using Coditech.ViewModel;
 
 namespace Coditech.Admin
 {
@@ -37,6 +39,7 @@ namespace Coditech.Admin
             CreateMap<OrganisationModel, OrganisationMasterViewModel>().ReverseMap();
             CreateMap<OrganisationCentreModel, OrganisationCentreViewModel>().ReverseMap();
             CreateMap<OrganisationCentreListModel, OrganisationCentreListViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrePrintingFormatModel, OrganisationCentrePrintingFormatViewModel>().ReverseMap();
             #endregion
         }
     }
