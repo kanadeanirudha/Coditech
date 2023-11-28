@@ -16,11 +16,6 @@ namespace Coditech.Admin.Helpers
             return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.AccessibleCentreList;
         }
 
-        public static List<UserCountryModel> CountryList()
-        {
-            return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.CountryList;
-        }
-
         public static DropdownViewModel GeneralDropdownList(DropdownViewModel dropdownViewModel)
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
@@ -186,6 +181,36 @@ namespace Coditech.Admin.Helpers
                         Text = item.RegionName,
                         Value = item.GeneralRegionMasterId.ToString(),
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralRegionMasterId)
+                    });
+                }
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.ModuleList.ToString()))
+            {
+                GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
+                GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Tax Group-------" });
+                foreach (var item in list?.GeneralTaxGroupMasterList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = string.Concat(item.TaxGroupName, " (", item.GeneralTaxMasterIds, ")"),
+                        Value = Convert.ToString(item.GeneralTaxGroupMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTaxGroupMasterId)
+                    });
+                }
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.MenuList.ToString()))
+            {
+                GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
+                GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Tax Group-------" });
+                foreach (var item in list?.GeneralTaxGroupMasterList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = string.Concat(item.TaxGroupName, " (", item.GeneralTaxMasterIds, ")"),
+                        Value = Convert.ToString(item.GeneralTaxGroupMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTaxGroupMasterId)
                     });
                 }
             }

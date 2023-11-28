@@ -12,6 +12,8 @@
         Centre,
         TaxGroup,
         Country,
-        Region
+        Region,
+        ModuleList,
+        MenuList
     }
 }

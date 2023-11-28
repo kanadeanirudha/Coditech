@@ -20,9 +20,6 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleApplicableDetail> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetail> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
-        private readonly ICoditechRepository<UserModuleMaster> _userModuleMasterRepository;
-        private readonly ICoditechRepository<UserMainMenuMaster> _userMainMenuMasterRepository;
-        private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -30,9 +27,6 @@ namespace Coditech.API.Service
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _userModuleMasterRepository = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _userMainMenuMasterRepository = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -55,12 +49,12 @@ namespace Coditech.API.Service
             //Bind Role
             BindRoleTypes(userModel);
 
-            List<UserModuleMaster> userAllModuleList = _userModuleMasterRepository.Table.Where(x => x.ModuleActiveFlag == true)?.ToList();
-            List<UserMainMenuMaster> userAllMenuList = _userMainMenuMasterRepository.Table.Where(x => x.IsEnable == true)?.OrderBy(y => y.MenuDisplaySeqNo)?.ToList();
+            List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
+            List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuListList();
             List<AdminRoleMenuDetail> userRoleMenuList = new List<AdminRoleMenuDetail>();
             if (!userModel.IsAdminUser)
             {
-                userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive == true && x.AdminRoleMasterId == userModel.SelectedRoleId)?.ToList();
+                userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedRoleId)?.ToList();
                 if (userRoleMenuList?.Count == 0)
                 {
                     throw new CoditechException(ErrorCodes.ContactAdministrator, null);
