@@ -25,6 +25,7 @@ namespace Coditech.API.Mapper
             CreateMap<OrganisationMaster, OrganisationModel>().ReverseMap();
             CreateMap<GeneralRegionMaster, GeneralRegionModel>().ReverseMap();
             CreateMap<OrganisationCentrePrintingFormat, OrganisationCentrePrintingFormatModel>().ReverseMap();
+            CreateMap<GeneralEnumaratorGroup, GeneralEnumaratorGroupModel>().ReverseMap();
         }
     }
 }
