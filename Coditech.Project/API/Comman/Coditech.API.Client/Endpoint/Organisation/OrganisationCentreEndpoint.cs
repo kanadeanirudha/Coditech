@@ -28,5 +28,11 @@ namespace Coditech.API.Endpoint
 
         public string UpdatePrintingFormatAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdatePrintingFormat";
+
+        public string GetCentrewiseGSTSetupAsync(short organisationCentreId) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseGSTSetup?organisationCentreMasterId={organisationCentreId}";
+
+        public string UpdateCentrewiseGSTSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseGSTSetup";
     }
 }

@@ -21,12 +21,14 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
         private readonly ICoditechRepository<OrganisationCentrePrintingFormat> _organisationCentrePrintingFormatRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseGSTCredential> _organisationCentrewiseGSTCredentialRepository;
         public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrePrintingFormatRepository = new CoditechRepository<OrganisationCentrePrintingFormat>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseGSTCredentialRepository = new CoditechRepository<OrganisationCentrewiseGSTCredential>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual OrganisationCentreListModel GetOrganisationCentreList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -168,6 +170,53 @@ namespace Coditech.API.Service
                 organisationCentrePrintingFormatModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
             return isOrganisationCentrePrintingFormatUpdated;
+        }
+
+        //Get Organisation Centrewise GST Credential by organisationCentreMasterId.
+        public virtual OrganisationCentrewiseGSTCredentialModel GetCentrewiseGSTSetup(short organisationCentreId)
+        {
+            if (organisationCentreId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
+
+            //Get the  Organisation Details based on id.
+            OrganisationCentrewiseGSTCredential organisationCentrewiseGSTCredentialData = _organisationCentrewiseGSTCredentialRepository.Table.FirstOrDefault(x => x.OrganisationCentreMasterId == organisationCentreId);
+            OrganisationCentrewiseGSTCredentialModel organisationCentrewiseGSTCredentialModel = IsNull(organisationCentrewiseGSTCredentialData) ? new OrganisationCentrewiseGSTCredentialModel() : organisationCentrewiseGSTCredentialData.FromEntityToModel<OrganisationCentrewiseGSTCredentialModel>();
+            OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
+            organisationCentrewiseGSTCredentialModel.CentreCode = organisationCentreModel.CentreCode;
+            organisationCentrewiseGSTCredentialModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrewiseGSTCredentialModel.OrganisationCentreMasterId = organisationCentreId;
+            return organisationCentrewiseGSTCredentialModel;
+        }
+
+        //Update  Organisation Centrewise GST Credential .
+        public virtual bool UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialModel organisationCentrewiseGSTCredentialModel)
+        {
+            if (IsNull(organisationCentrewiseGSTCredentialModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (organisationCentrewiseGSTCredentialModel.OrganisationCentreMasterId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreMasterId"));
+
+            if (IsCentreCodeAlreadyExist(organisationCentrewiseGSTCredentialModel.CentreCode, organisationCentrewiseGSTCredentialModel.OrganisationCentreMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
+
+            bool isOrganisationCentrewiseGSTCredentialUpdated = false;
+            OrganisationCentrewiseGSTCredential organisationCentrewiseGSTCredential = organisationCentrewiseGSTCredentialModel.FromModelToEntity<OrganisationCentrewiseGSTCredential>();
+
+            if (organisationCentrewiseGSTCredentialModel.OrganisationCentrewiseGSTCredentialId > 0)
+                isOrganisationCentrewiseGSTCredentialUpdated = _organisationCentrewiseGSTCredentialRepository.Update(organisationCentrewiseGSTCredential);
+            else
+            {
+                organisationCentrewiseGSTCredential = _organisationCentrewiseGSTCredentialRepository.Insert(organisationCentrewiseGSTCredential);
+                isOrganisationCentrewiseGSTCredentialUpdated = organisationCentrewiseGSTCredential.OrganisationCentrewiseGSTCredentialId > 0;
+            }
+
+            if (!isOrganisationCentrewiseGSTCredentialUpdated)
+            {
+                organisationCentrewiseGSTCredentialModel.HasError = true;
+                organisationCentrewiseGSTCredentialModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isOrganisationCentrewiseGSTCredentialUpdated;
         }
 
         #region Protected Method

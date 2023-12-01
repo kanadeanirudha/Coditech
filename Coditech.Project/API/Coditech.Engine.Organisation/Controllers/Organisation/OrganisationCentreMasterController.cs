@@ -178,5 +178,49 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new OrganisationCentrePrintingFormatResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/OrganisationCentreMaster/GetCentrewiseGSTSetup")]
+        [HttpGet]
+        [Produces(typeof(OrganisationCentrewiseGSTCredentialResponse))]
+        public IActionResult GetCentrewiseGSTSetup(short organisationCentreMasterId)
+        {
+            try
+            {
+                OrganisationCentrewiseGSTCredentialModel organisationCentrewiseGSTCredentialModel = _organisationCentreMasterService.GetCentrewiseGSTSetup(organisationCentreMasterId);
+                return IsNotNull(organisationCentrewiseGSTCredentialModel) ? CreateOKResponse(new OrganisationCentrewiseGSTCredentialResponse() { OrganisationCentrewiseGSTCredentialModel = organisationCentrewiseGSTCredentialModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseGSTCredentialResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseGSTCredentialResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/UpdateCentrewiseGSTSetup")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseGSTCredentialResponse))]
+        public IActionResult UpdateCentrewiseGSTSetup([FromBody] OrganisationCentrewiseGSTCredentialModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdateCentrewiseGSTSetup(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseGSTCredentialResponse { OrganisationCentrewiseGSTCredentialModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseGSTCredentialResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseGSTCredentialResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

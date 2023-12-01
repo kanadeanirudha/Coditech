@@ -25,7 +25,8 @@
             AdminSanctionPost,
             OrganisationCentrePrint,
             PrintingFormat,
-            Region
+            Region,
+            CentrewiseGST
         }
     }
 }

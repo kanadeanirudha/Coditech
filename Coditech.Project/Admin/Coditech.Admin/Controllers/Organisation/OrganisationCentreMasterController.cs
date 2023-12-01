@@ -13,6 +13,7 @@ namespace Coditech.Admin.Controllers
         private readonly IOrganisationCentreAgent _organisationCentreAgent;
         private const string createEdit = "~/Views/Organisation/OrganisationCentre/CreateEdit.cshtml";
         private const string OrganisationCentrePrintingFormat = "~/Views/Organisation/OrganisationCentre/OrganisationCentrePrintingFormat.cshtml";
+        private const string OrganisationCentrewiseGSTCredential = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseGSTCredential.cshtml";
 
         public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
         {
@@ -106,6 +107,26 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("PrintingFormat", new { organisationCentreId = organisationCentrePrintingFormatViewModel.OrganisationCentreMasterId });
             }
             return View(OrganisationCentrePrintingFormat, organisationCentrePrintingFormatViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult CentrewiseGSTSetup(short organisationCentreId)
+        {
+            OrganisationCentrewiseGSTCredentialViewModel organisationCentrewiseGSTCredentialViewModel = _organisationCentreAgent.GetCentrewiseGSTSetup(organisationCentreId);
+            return ActionView(OrganisationCentrewiseGSTCredential, organisationCentrewiseGSTCredentialViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult CentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialViewModel organisationCentrewiseGSTCredentialViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseGSTSetup(organisationCentrewiseGSTCredentialViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("CentrewiseGSTSetup", new { organisationCentreId = organisationCentrewiseGSTCredentialViewModel.OrganisationCentreMasterId });
+            }
+            return View(OrganisationCentrewiseGSTCredential, organisationCentrewiseGSTCredentialViewModel);
         }
     }
 }

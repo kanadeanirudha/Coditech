@@ -161,6 +161,31 @@ namespace Coditech.Admin.Agents
                 return (OrganisationCentrePrintingFormatViewModel)GetViewModelWithErrorMessage(organisationCentrePrintingFormatViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+
+        //Get Organisation Centrewise GST Credential by organisationCentreId.
+        public virtual OrganisationCentrewiseGSTCredentialViewModel GetCentrewiseGSTSetup(short organisationCentreId)
+        {
+            OrganisationCentrewiseGSTCredentialResponse response = _organisationCentreClient.GetCentrewiseGSTSetup(organisationCentreId);
+            return response?.OrganisationCentrewiseGSTCredentialModel.ToViewModel<OrganisationCentrewiseGSTCredentialViewModel>();
+        }
+
+        //Update Organisation Centrewise GST Credential.
+        public virtual OrganisationCentrewiseGSTCredentialViewModel UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialViewModel organisationCentrewiseGSTCredentialViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Info);
+                OrganisationCentrewiseGSTCredentialResponse response = _organisationCentreClient.UpdateCentrewiseGSTSetup(organisationCentrewiseGSTCredentialViewModel.ToModel<OrganisationCentrewiseGSTCredentialModel>());
+                OrganisationCentrewiseGSTCredentialModel organisationCentrewiseGSTCredentialModel = response?.OrganisationCentrewiseGSTCredentialModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Info);
+                return IsNotNull(organisationCentrewiseGSTCredentialModel) ? organisationCentrewiseGSTCredentialModel.ToViewModel<OrganisationCentrewiseGSTCredentialViewModel>() : (OrganisationCentrewiseGSTCredentialViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseGSTCredentialViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Error);
+                return (OrganisationCentrewiseGSTCredentialViewModel)GetViewModelWithErrorMessage(organisationCentrewiseGSTCredentialViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
 
         #region protected

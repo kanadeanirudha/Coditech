@@ -55,5 +55,19 @@ namespace Coditech.API.Client
         /// <param name="OrganisationCentrePrintingFormatModel">OrganisationCentrePrintingFormatModel.</param>
         /// <returns>Returns updated OrganisationCentrePrintingFormatResponse</returns>
         OrganisationCentrePrintingFormatResponse UpdatePrintingFormat(OrganisationCentrePrintingFormatModel body);
+
+        /// <summary>
+        /// Get OrganisationCentrewiseGSTCredential by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseGSTCredentialResponse.</returns>
+        OrganisationCentrewiseGSTCredentialResponse GetCentrewiseGSTSetup(short organisationCentreId);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseGSTCredential.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseGSTCredentialModel">OrganisationCentrewiseGSTCredentialModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseGSTCredentialResponse</returns>
+        OrganisationCentrewiseGSTCredentialResponse UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialModel body);
     }
 }

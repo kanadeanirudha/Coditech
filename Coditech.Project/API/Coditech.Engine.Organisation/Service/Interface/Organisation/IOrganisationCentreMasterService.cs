@@ -14,6 +14,8 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
         bool DeleteOrganisationCentre(ParameterModel parameterModel);
         OrganisationCentrePrintingFormatModel GetPrintingFormat(short organisationCentreMasterId);
         bool UpdatePrintingFormat(OrganisationCentrePrintingFormatModel model);
+        OrganisationCentrewiseGSTCredentialModel GetCentrewiseGSTSetup(short organisationCentreMasterId);
+        bool UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialModel model);
     }
 }
 

@@ -30,6 +30,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentreMaster> OrganisationCentreMaster { get; set;}
         public DbSet<OrganisationCentrewiseDepartment> OrganisationCentrewiseDepartment { get; set;}
         public DbSet<OrganisationCentrePrintingFormat> OrganisationCentrePrintingFormat { get; set; }
+        public DbSet<OrganisationCentrewiseGSTCredential> OrganisationCentrewiseGSTCredential { get; set; }
         #endregion
 
         #region Admin

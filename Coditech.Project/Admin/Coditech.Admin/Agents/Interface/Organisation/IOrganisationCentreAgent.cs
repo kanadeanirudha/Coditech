@@ -53,5 +53,19 @@ namespace Coditech.Admin.Agents
         /// <param name="organisationCentrePrintingFormatViewModel">organisationCentrePrintingFormatViewModel.</param>
         /// <returns>Returns updated OrganisationCentrePrintingFormatViewModel</returns>
         OrganisationCentrePrintingFormatViewModel UpdatePrintingFormat(OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel);
+
+        /// <summary>
+        /// Get Organisation Centrewise GST Credential by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseGSTCredentialViewModel.</returns>
+        OrganisationCentrewiseGSTCredentialViewModel GetCentrewiseGSTSetup(short organisationCentreId);
+
+        /// <summary>
+        /// Update Organisation Centrewise GST Credential.
+        /// </summary>
+        /// <param name="organisationCentrewiseGSTCredentialViewModel">organisationCentrePrintingFormatViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseGSTCredentialViewModel</returns>
+        OrganisationCentrewiseGSTCredentialViewModel UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialViewModel organisationCentrewiseGSTCredentialViewModel);
     }
 }
