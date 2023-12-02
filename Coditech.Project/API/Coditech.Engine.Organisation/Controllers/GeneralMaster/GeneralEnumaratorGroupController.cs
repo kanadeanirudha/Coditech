@@ -49,7 +49,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralEnumaratorGroup/CreateEnumaratorGroup")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralEnumaratorGroupResponse))]
-        public IActionResult CreateEnumaratorGroup([FromBody] GeneralEnumaratorGroupModel model)
+        public virtual IActionResult CreateEnumaratorGroup([FromBody] GeneralEnumaratorGroupModel model)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralEnumaratorGroup/GetEnumaratorGroup")]
         [HttpGet]
         [Produces(typeof(GeneralEnumaratorGroupResponse))]
-        public IActionResult GetEnumaratorGroup(short GeneralEnumaratorGroupId)
+        public virtual IActionResult GetEnumaratorGroup(short GeneralEnumaratorGroupId)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralEnumaratorGroup/UpdateEnumaratorGroup")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralEnumaratorGroupResponse))]
-        public IActionResult UpdateEnumaratorGroup([FromBody] GeneralEnumaratorGroupModel model)
+        public virtual IActionResult UpdateEnumaratorGroup([FromBody] GeneralEnumaratorGroupModel model)
         {
             try
             {
