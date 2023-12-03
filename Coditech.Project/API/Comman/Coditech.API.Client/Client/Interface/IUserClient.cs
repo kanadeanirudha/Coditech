@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 
 namespace Coditech.API.Client
 {
@@ -11,5 +12,12 @@ namespace Coditech.API.Client
         /// <returns>Success</returns>
         /// <exception cref="CoditechException">A server side error occurred.</exception>
         UserModel Login(IEnumerable<string> expand, UserLoginModel body);
+
+        /// <summary>
+        /// GetActive Module List by userId.
+        /// </summary>
+        /// <param name="userId">userId</param>
+        /// <returns>Returns UserModuleResponse.</returns>
+        UserModuleResponse GetActiveModuleList(short userId);
     }
 }

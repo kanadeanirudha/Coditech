@@ -1,5 +1,7 @@
 ﻿using Coditech.Admin.Utilities;
+using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 
 using Newtonsoft.Json;
@@ -9,6 +11,7 @@ namespace Coditech.API.Client
     public partial class UserClient : BaseClient, IUserClient
     {
         private System.Lazy<JsonSerializerSettings> _settings;
+        UserModuleEndpoint userModuleEndpoint = null;
         public UserClient()
         {
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
@@ -136,7 +139,55 @@ namespace Coditech.API.Client
         //    }
         //}
 
-       
+        public virtual UserModuleResponse GetActiveModuleList(short userId)
+        {
+            return Task.Run(async () => await GetActiveModuleAsync(userId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<UserModuleResponse> GetActiveModuleAsync(short userId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (userId <= 0)
+                throw new System.ArgumentNullException("userId");
+
+            string endpoint = userModuleEndpoint.GetActiveModuleAsync(userId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<UserModuleResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new UserModuleResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    UserModuleResponse typedBody = JsonConvert.DeserializeObject<UserModuleResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
         protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         protected struct ObjectResponseResult<T>
@@ -152,6 +203,5 @@ namespace Coditech.API.Client
             public string Text { get; }
         }
         public bool ReadResponseAsString { get; set; }
-
     }
 }

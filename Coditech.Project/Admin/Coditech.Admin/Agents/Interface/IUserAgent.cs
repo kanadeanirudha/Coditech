@@ -15,5 +15,12 @@ namespace Coditech.Admin.Agents
         /// This method is used to logout the user.
         /// </summary>
         Task Logout();
+
+        /// <summary>
+        /// Get Active Module List by userId.
+        /// </summary>
+        /// <param name="userId">userId</param>
+        /// <returns>Returns UserModuleViewModel.</returns>
+        UserModuleViewModel GetActiveModuleList(short userId);
     }
 }

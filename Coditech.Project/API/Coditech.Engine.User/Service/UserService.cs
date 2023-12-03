@@ -20,13 +20,14 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleApplicableDetail> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetail> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
+        private readonly ICoditechRepository<UserModuleMaster> _userModuleMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetail>(_serviceProvider.GetService<Coditech_Entities>());
-            _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _userModuleMasterRepository = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -92,7 +93,18 @@ namespace Coditech.API.Service
         {
 
         }
+        public virtual UserModuleModel GetActiveModuleList(short userModuleMasterId)
+        {
+            //return base.GetAllActiveModuleList();
 
+            if (userModuleMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "UserID"));
+
+            //Get the Module Details based on id.
+            UserModuleMaster userModuleMaster = _userModuleMasterRepository.Table.FirstOrDefault(x => x.UserModuleMasterId == userModuleMasterId);
+            UserModuleModel userModuleModel = userModuleMaster?.FromEntityToModel<UserModuleModel>();
+            return userModuleModel;
+        }
         #endregion
 
         #region Protected Method

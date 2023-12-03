@@ -26,7 +26,8 @@
             OrganisationCentrePrint,
             PrintingFormat,
             Region,
-            CentrewiseGST
+            CentrewiseGST,
+            UserModule
         }
     }
 }

@@ -1,10 +1,10 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Logger;
-
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
@@ -27,7 +27,7 @@ namespace Coditech.API.Controllers
         /// <param name="model">User Model.</param>
         /// <returns>UserModel</returns>
         [Route("/User/Login")]
-        [HttpPost,ValidateModel]
+        [HttpPost, ValidateModel]
         [Produces(typeof(UserModel))]
         public virtual IActionResult Login([FromBody] UserLoginModel model)
         {
@@ -55,5 +55,26 @@ namespace Coditech.API.Controllers
 
         }
 
+        [Route("/User/GetActiveModuleList")]
+        [HttpGet]
+        [Produces(typeof(UserModuleResponse))]
+        public virtual IActionResult GetActiveModuleList(short userId)
+        {
+            try
+            {
+                UserModuleModel userModuleModel = _userService.GetActiveModuleList(userId);
+                return HelperUtility.IsNotNull(userModuleModel) ? CreateOKResponse(new UserModuleResponse { UserModuleModel = userModuleModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserModule.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new UserModuleResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserModule.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new UserModuleResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

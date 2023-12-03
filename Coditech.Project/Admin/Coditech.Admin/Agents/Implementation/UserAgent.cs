@@ -2,17 +2,17 @@
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
 using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
+
 namespace Coditech.Admin.Agents
 {
     public class UserAgent : BaseAgent, IUserAgent
@@ -23,21 +23,21 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Constructor
-        public UserAgent(ICoditechLogging coditechLogging,IUserClient userClient)
+        public UserAgent(ICoditechLogging coditechLogging, IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
             _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
-        #region Public Methods
 
+        #region Public Methods
         // This method is used to login the user.
         public virtual UserLoginViewModel Login(UserLoginViewModel userLoginViewModel)
         {
             _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Info);
             try
             {
-               
+
                 UserModel userModel = _userClient.Login(null, new UserLoginModel()
                 {
                     UserName = userLoginViewModel.UserName,
@@ -74,6 +74,12 @@ namespace Coditech.Admin.Agents
             SessionHelper.Clear();
         }
 
+        //Get Active Module List .
+        public virtual UserModuleViewModel GetActiveModuleList(short userId)
+        {
+            UserModuleResponse response = _userClient.GetActiveModuleList(userId);
+            return response?.UserModuleModel.ToViewModel<UserModuleViewModel>();
+        }
         #endregion
     }
 }
