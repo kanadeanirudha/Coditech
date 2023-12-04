@@ -80,6 +80,13 @@ namespace Coditech.Admin.Agents
             UserModuleResponse response = _userClient.GetActiveModuleList(userId);
             return response?.UserModuleModel.ToViewModel<UserModuleViewModel>();
         }
+
+        //Get Active Menu List List .
+        public virtual UserMainMenuViewModel GetActiveMenuListList(short moduleCode)
+        {
+            UserMainMenuResponse response = _userClient.GetActiveMenuListList(moduleCode);
+            return response?.UserMainMenuModel.ToViewModel<UserMainMenuViewModel>();
+        }
         #endregion
     }
 }

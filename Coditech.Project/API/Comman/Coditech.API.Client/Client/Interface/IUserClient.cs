@@ -19,5 +19,6 @@ namespace Coditech.API.Client
         /// <param name="userId">userId</param>
         /// <returns>Returns UserModuleResponse.</returns>
         UserModuleResponse GetActiveModuleList(short userId);
+        UserMainMenuResponse GetActiveMenuListList(short moduleCode);
     }
 }

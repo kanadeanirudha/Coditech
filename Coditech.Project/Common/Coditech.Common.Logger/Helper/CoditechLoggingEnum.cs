@@ -27,7 +27,8 @@
             PrintingFormat,
             Region,
             CentrewiseGST,
-            UserModule
+            UserModule,
+            UserMainMenu
         }
     }
 }

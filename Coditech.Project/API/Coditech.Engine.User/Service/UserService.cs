@@ -21,6 +21,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleMenuDetail> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
         private readonly ICoditechRepository<UserModuleMaster> _userModuleMasterRepository;
+        private readonly ICoditechRepository<UserMainMenuMaster> _userMainMenuMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -28,6 +29,7 @@ namespace Coditech.API.Service
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _userModuleMasterRepository = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _userMainMenuMasterRepository = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -104,6 +106,19 @@ namespace Coditech.API.Service
             UserModuleMaster userModuleMaster = _userModuleMasterRepository.Table.FirstOrDefault(x => x.UserModuleMasterId == userModuleMasterId);
             UserModuleModel userModuleModel = userModuleMaster?.FromEntityToModel<UserModuleModel>();
             return userModuleModel;
+        }
+
+        public virtual UserMainMenuModel GetActiveMenuListList(short moduleCode)
+        {
+            //return base.GetAllActiveModuleList();
+
+             if (moduleCode <= 0)
+               throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "ModuleID"));
+
+            //Get the Module Details based on id.
+            UserMainMenuMaster userMainMenuMaster = _userMainMenuMasterRepository.Table.FirstOrDefault(x => x.UserMainMenuMasterId == moduleCode);
+            UserMainMenuModel userMainMenuModel = userMainMenuMaster?.FromEntityToModel<UserMainMenuModel>();
+            return userMainMenuModel;
         }
         #endregion
 

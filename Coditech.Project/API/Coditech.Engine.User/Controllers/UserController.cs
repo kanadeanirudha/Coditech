@@ -76,5 +76,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new UserModuleResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/User/GetActiveMenuListList")]
+        [HttpGet]
+        [Produces(typeof(UserMainMenuResponse))]
+        public virtual IActionResult GetActiveMenuListList(short moduleCode)
+        {
+            try
+            {
+                UserMainMenuModel userMainMenuModel = _userService.GetActiveMenuListList(moduleCode);
+                return HelperUtility.IsNotNull(userMainMenuModel) ? CreateOKResponse(new UserMainMenuResponse { UserMainMenuModel = userMainMenuModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenu.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new UserMainMenuResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenu.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new UserMainMenuResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

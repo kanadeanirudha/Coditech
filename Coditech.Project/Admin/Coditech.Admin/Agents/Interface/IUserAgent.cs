@@ -22,5 +22,6 @@ namespace Coditech.Admin.Agents
         /// <param name="userId">userId</param>
         /// <returns>Returns UserModuleViewModel.</returns>
         UserModuleViewModel GetActiveModuleList(short userId);
+        UserMainMenuViewModel GetActiveMenuListList(short moduleCode);
     }
 }

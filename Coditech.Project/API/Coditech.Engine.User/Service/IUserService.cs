@@ -6,5 +6,6 @@ namespace Coditech.API.Service
     {
         UserModel Login(UserLoginModel model);
         UserModuleModel GetActiveModuleList(short userModuleMasterId);
+        UserMainMenuModel GetActiveMenuListList(short moduleCode);
     }
 }
