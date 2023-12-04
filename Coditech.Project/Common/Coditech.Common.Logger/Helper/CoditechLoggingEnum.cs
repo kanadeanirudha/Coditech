@@ -20,6 +20,7 @@
             City,
             Nationality,
             Designation,
+            EnumaratorGroup,
             OrganisationCentre,
             AdminRoleMaster,
             AdminSanctionPost,
