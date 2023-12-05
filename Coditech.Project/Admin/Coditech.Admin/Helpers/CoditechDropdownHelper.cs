@@ -218,6 +218,22 @@ namespace Coditech.Admin.Helpers
             return dropdownViewModel;
         }
 
+        public static List<SelectListItem> GetGeneralDropdownList(string groupCode, string selectedValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
+
+            foreach (var item in generalEnumaratorList?.Where(x => x.EnumGroupCode == groupCode)?.OrderBy(y => y.SequenceNumber))
+            {
+                list.Add(new SelectListItem()
+                {
+                    Text = item.EnumDisplayText,
+                    Value = Convert.ToString(item.GeneralEnumaratorId),
+                    Selected = selectedValue == Convert.ToString(item.GeneralEnumaratorId)
+                });
+            }
+            return list;
+        }
         private static string SpiltCentreCode(string centreCode)
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
