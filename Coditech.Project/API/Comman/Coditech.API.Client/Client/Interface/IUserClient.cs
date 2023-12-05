@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 
 namespace Coditech.API.Client
@@ -14,11 +15,16 @@ namespace Coditech.API.Client
         UserModel Login(IEnumerable<string> expand, UserLoginModel body);
 
         /// <summary>
-        /// GetActive Module List by userId.
+        /// Get Active Module List.
         /// </summary>
-        /// <param name="userId">userId</param>
-        /// <returns>Returns UserModuleResponse.</returns>
-        UserModuleResponse GetActiveModuleList(short userId);
-        UserMainMenuResponse GetActiveMenuListList(short moduleCode);
+        /// <returns>Returns UserModuleListResponse.</returns>
+        UserModuleListResponse GetActiveModuleList();
+
+        /// <summary>
+        /// Get Active Menu List List by moduleCode.
+        /// </summary>
+        /// <param name="moduleCode">moduleCode</param>
+        /// <returns>Returns UserMainMenuResponse.</returns>
+        UserMenuListResponse GetActiveMenuList(string moduleCode);
     }
 }

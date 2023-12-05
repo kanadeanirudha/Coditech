@@ -5,7 +5,7 @@ namespace Coditech.API.Endpoint
 {
     public class UserModuleEndpoint : BaseEndpoint
     {
-        public string GetActiveModuleAsync(short userId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/GetActiveModuleList?userModuleMasterId={userId}";
+        public string GetActiveModuleAsync() =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/GetActiveModuleList";
     }
 }
