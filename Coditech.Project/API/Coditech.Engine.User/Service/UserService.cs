@@ -22,6 +22,8 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
         private readonly ICoditechRepository<UserModuleMaster> _userModuleMasterRepository;
         private readonly ICoditechRepository<UserMainMenuMaster> _userMainMenuMasterRepository;
+        private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
+        private readonly ICoditechRepository<GeneralEnumarator> _generalEnumaratorRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -31,6 +33,8 @@ namespace Coditech.API.Service
             _userModuleMasterRepository = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _userMainMenuMasterRepository = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalEnumaratorRepository = new CoditechRepository<GeneralEnumarator>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -79,6 +83,9 @@ namespace Coditech.API.Service
                 userModel.AccessibleCentreList = OrganisationCentreList();
             }
             userModel.SelectedCentreCode = userModel.AccessibleCentreList?.FirstOrDefault().CentreCode;
+
+            userModel.GeneralEnumaratorList = BindEnumarator();
+
             return userModel;
         }
 
@@ -231,6 +238,24 @@ namespace Coditech.API.Service
                 userMaster.EmailId = model.EmailId;
                 _userMasterRepository.Update(userMaster);
             }
+        }
+
+        protected virtual List<GeneralEnumaratorModel> BindEnumarator()
+        {
+            List<GeneralEnumaratorModel> generalEnumaratorList = new List<GeneralEnumaratorModel>();
+            generalEnumaratorList = (from generalEnumarator in _generalEnumaratorRepository.Table
+                                     join generalEnumaratorGroup in _generalEnumaratorGroupRepository.Table on generalEnumarator.GeneralEnumaratorGroupId equals generalEnumaratorGroup.GeneralEnumaratorGroupId
+                                     select new GeneralEnumaratorModel
+                                     {
+                                         GeneralEnumaratorGroupId = generalEnumaratorGroup.GeneralEnumaratorGroupId,
+                                         EnumGroupCode = generalEnumaratorGroup.EnumGroupCode,
+                                         GeneralEnumaratorId = generalEnumarator.GeneralEnumaratorId,
+                                         EnumName = generalEnumarator.EnumName,
+                                         EnumDisplayText = generalEnumarator.EnumDisplayText,
+                                         EnumValue = generalEnumarator.EnumValue,
+                                         SequenceNumber = generalEnumarator.SequenceNumber,
+                                     })?.ToList();
+            return generalEnumaratorList;
         }
 
         protected virtual void InsertUserMasterDetails(GeneralPersonModel model)

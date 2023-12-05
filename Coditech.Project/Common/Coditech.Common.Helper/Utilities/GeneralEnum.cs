@@ -2,7 +2,7 @@
 {
     public enum UserTypeEnum
     {
-        A,
+        Admin,
         Employee,
         Customer,
         GymMember

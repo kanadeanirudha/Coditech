@@ -50,7 +50,7 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalEnumaratorGroupModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroup))
+            if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroupCode))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EnumaratorGroup Name"));
             GeneralEnumaratorGroup generalEnumaratorGroup = generalEnumaratorGroupModel.FromModelToEntity<GeneralEnumaratorGroup>();
 
@@ -93,7 +93,7 @@ namespace Coditech.API.Service
             if (generalEnumaratorGroupModel.GeneralEnumaratorGroupId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EnumaratorGroupID"));
 
-            if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroup, generalEnumaratorGroupModel.GeneralEnumaratorGroupId))
+            if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroupCode, generalEnumaratorGroupModel.GeneralEnumaratorGroupId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EnumaratorGroup Name"));
 
             GeneralEnumaratorGroup GeneralEnumaratorGroup = generalEnumaratorGroupModel.FromModelToEntity<GeneralEnumaratorGroup>();
@@ -125,7 +125,7 @@ namespace Coditech.API.Service
         #region Protected Method
         //Check if EnumaratorGroup code is already present or not.
         protected virtual bool IsEnumaratorGroupNameAlreadyExist(string EnumaratorGroupName, int GeneralEnumaratorGroupId = 0)
-         => _generalEnumaratorGroupRepository.Table.Any(x => x.EnumGroup == EnumaratorGroupName && (x.GeneralEnumaratorGroupId != GeneralEnumaratorGroupId || GeneralEnumaratorGroupId == 0));
+         => _generalEnumaratorGroupRepository.Table.Any(x => x.EnumGroupCode == EnumaratorGroupName && (x.GeneralEnumaratorGroupId != GeneralEnumaratorGroupId || GeneralEnumaratorGroupId == 0));
         #endregion
     }
 }
