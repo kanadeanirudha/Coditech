@@ -44,7 +44,7 @@ namespace Coditech.API.Service
         }
 
         //Create Tax Master.
-        public GeneralTaxMasterModel CreateTaxMaster(GeneralTaxMasterModel generalTaxMasterModel)
+        public virtual GeneralTaxMasterModel CreateTaxMaster(GeneralTaxMasterModel generalTaxMasterModel)
         {
             if (IsNull(generalTaxMasterModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -69,7 +69,7 @@ namespace Coditech.API.Service
         }
 
         //Get Tax Master by GeneralTaxMasterId.
-        public GeneralTaxMasterModel GetTaxMaster(short taxMasterId)
+        public virtual GeneralTaxMasterModel GetTaxMaster(short taxMasterId)
         {
             if (taxMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxMasterId"));

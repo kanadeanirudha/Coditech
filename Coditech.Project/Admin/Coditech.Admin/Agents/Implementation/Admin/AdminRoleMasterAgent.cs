@@ -31,7 +31,7 @@ namespace Coditech.Admin.Agents
 
         #region Public Methods
 
-        public AdminRoleListViewModel GetAdminRoleList(DataTableViewModel dataTableModel)
+        public virtual AdminRoleListViewModel GetAdminRoleList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();

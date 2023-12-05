@@ -52,7 +52,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDepartmentMaster/CreateDepartment")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralDepartmentResponse))]
-        public IActionResult CreateDepartment([FromBody] GeneralDepartmentModel model)
+        public virtual IActionResult CreateDepartment([FromBody] GeneralDepartmentModel model)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDepartmentMaster/GetDepartment")]
         [HttpGet]
         [Produces(typeof(GeneralDepartmentResponse))]
-        public IActionResult GetDepartment(short generalDepartmentId)
+        public virtual IActionResult GetDepartment(short generalDepartmentId)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDepartmentMaster/UpdateDepartment")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralDepartmentResponse))]
-        public IActionResult UpdateDepartment([FromBody] GeneralDepartmentModel model)
+        public virtual IActionResult UpdateDepartment([FromBody] GeneralDepartmentModel model)
         {
             try
             {
@@ -140,7 +140,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDepartmentMaster/GetDepartmentsByCentreCode")]
         [HttpGet]
         [Produces(typeof(GeneralDepartmentListResponse))]
-        public IActionResult GetDepartmentsByCentreCode(string centreCode)
+        public virtual IActionResult GetDepartmentsByCentreCode(string centreCode)
         {
             try
             {

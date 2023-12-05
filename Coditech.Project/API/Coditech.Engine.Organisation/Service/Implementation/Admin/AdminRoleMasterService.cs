@@ -59,7 +59,7 @@ namespace Coditech.API.Service
         }
 
         //Get adminRoleMaster by adminRoleMaster id.
-        public AdminRoleModel GetAdminRoleDetailsById(int adminRoleMasterId)
+        public virtual AdminRoleModel GetAdminRoleDetailsById(int adminRoleMasterId)
         {
             if (adminRoleMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
@@ -77,7 +77,7 @@ namespace Coditech.API.Service
         }
 
         //Update adminRoleMaster.
-        public bool UpdateAdminRole(AdminRoleModel adminRoleMasterModel)
+        public virtual bool UpdateAdminRole(AdminRoleModel adminRoleMasterModel)
         {
             bool isAdminRoleMasterUpdated = false;
             if (IsNull(adminRoleMasterModel))

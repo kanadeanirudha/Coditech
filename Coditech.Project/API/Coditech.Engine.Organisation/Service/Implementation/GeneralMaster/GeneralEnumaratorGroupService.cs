@@ -46,7 +46,7 @@ namespace Coditech.API.Service
         }
 
         //Create EnumaratorGroup.
-        public GeneralEnumaratorGroupModel CreateEnumaratorGroup(GeneralEnumaratorGroupModel generalEnumaratorGroupModel)
+        public virtual GeneralEnumaratorGroupModel CreateEnumaratorGroup(GeneralEnumaratorGroupModel generalEnumaratorGroupModel)
         {
             if (IsNull(generalEnumaratorGroupModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -69,7 +69,7 @@ namespace Coditech.API.Service
         }
 
         //Get EnumaratorGroup by EnumaratorGroup id.
-        public GeneralEnumaratorGroupModel GetEnumaratorGroup(int EnumaratorGroupId)
+        public virtual GeneralEnumaratorGroupModel GetEnumaratorGroup(int EnumaratorGroupId)
         {
             if (EnumaratorGroupId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EnumaratorGroupID"));

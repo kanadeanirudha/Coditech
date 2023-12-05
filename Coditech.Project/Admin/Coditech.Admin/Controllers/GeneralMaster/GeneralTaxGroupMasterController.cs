@@ -20,7 +20,7 @@ namespace Coditech.Admin.Controllers
             _generalTaxMasterAgent= generalTaxMasterAgent;
         }
 
-        public ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralTaxGroupMasterListViewModel list = _generalTaxGroupAgent.GetTaxGroupMasterList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
@@ -31,7 +31,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
 
             GeneralTaxGroupMasterViewModel taxGroupMasterViewModel = new GeneralTaxGroupMasterViewModel();
@@ -95,7 +95,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<GeneralTaxGroupMasterController>(x => x.List(null));
         }
         #region Private
-        protected void BindDropDown(GeneralTaxGroupMasterViewModel taxGroupMasterViewModel)
+        protected virtual void BindDropDown(GeneralTaxGroupMasterViewModel taxGroupMasterViewModel)
         {
             taxGroupMasterViewModel.AllTaxList = _generalTaxMasterAgent.GetAllTaxList().GeneralTaxMasterList;
         }

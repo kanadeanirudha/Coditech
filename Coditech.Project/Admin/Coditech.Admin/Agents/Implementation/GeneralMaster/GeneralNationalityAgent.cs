@@ -29,7 +29,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public GeneralNationalityListViewModel GetNationalityList(DataTableViewModel dataTableModel)
+        public virtual GeneralNationalityListViewModel GetNationalityList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();

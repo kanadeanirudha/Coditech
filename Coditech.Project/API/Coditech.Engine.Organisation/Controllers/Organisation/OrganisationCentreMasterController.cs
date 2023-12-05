@@ -50,7 +50,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/CreateOrganisationCentre")]
         [HttpPost, ValidateModel]
         [Produces(typeof(OrganisationCentreResponse))]
-        public IActionResult CreateOrganisationCentre([FromBody] OrganisationCentreModel model)
+        public virtual IActionResult CreateOrganisationCentre([FromBody] OrganisationCentreModel model)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetOrganisationCentre")]
         [HttpGet]
         [Produces(typeof(OrganisationCentreResponse))]
-        public IActionResult GetOrganisationCentre(short organisationCentreMasterId)
+        public virtual IActionResult GetOrganisationCentre(short organisationCentreMasterId)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/UpdateOrganisationCentre")]
         [HttpPut, ValidateModel]
         [Produces(typeof(OrganisationCentreResponse))]
-        public IActionResult UpdateOrganisationCentre([FromBody] OrganisationCentreModel model)
+        public virtual IActionResult UpdateOrganisationCentre([FromBody] OrganisationCentreModel model)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetPrintingFormat")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrePrintingFormatResponse))]
-        public IActionResult GetPrintingFormat(short organisationCentreMasterId)
+        public virtual IActionResult GetPrintingFormat(short organisationCentreMasterId)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/UpdatePrintingFormat")]
         [HttpPut, ValidateModel]
         [Produces(typeof(OrganisationCentrePrintingFormatResponse))]
-        public IActionResult UpdatePrintingFormat([FromBody] OrganisationCentrePrintingFormatModel model)
+        public virtual IActionResult UpdatePrintingFormat([FromBody] OrganisationCentrePrintingFormatModel model)
         {
             try
             {
@@ -182,7 +182,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseGSTSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseGSTCredentialResponse))]
-        public IActionResult GetCentrewiseGSTSetup(short organisationCentreMasterId)
+        public virtual IActionResult GetCentrewiseGSTSetup(short organisationCentreMasterId)
         {
             try
             {
@@ -204,7 +204,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/UpdateCentrewiseGSTSetup")]
         [HttpPut, ValidateModel]
         [Produces(typeof(OrganisationCentrewiseGSTCredentialResponse))]
-        public IActionResult UpdateCentrewiseGSTSetup([FromBody] OrganisationCentrewiseGSTCredentialModel model)
+        public virtual IActionResult UpdateCentrewiseGSTSetup([FromBody] OrganisationCentrewiseGSTCredentialModel model)
         {
             try
             {

@@ -52,7 +52,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralTaxGroupMaster/CreateTaxGroupMaster")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralTaxGroupResponse))]
-        public IActionResult CreateTaxGroupMaster([FromBody] GeneralTaxGroupModel model)
+        public virtual IActionResult CreateTaxGroupMaster([FromBody] GeneralTaxGroupModel model)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralTaxGroupMaster/GetTaxGroupMaster")]
         [HttpGet]
         [Produces(typeof(GeneralTaxGroupResponse))]
-        public IActionResult GetTaxGroupMaster(short generalTaxGroupMasterId)
+        public virtual IActionResult GetTaxGroupMaster(short generalTaxGroupMasterId)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralTaxGroupMaster/UpdateTaxGroupMaster")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralTaxGroupResponse))]
-        public IActionResult UpdateTaxGroupMaster([FromBody] GeneralTaxGroupModel model)
+        public virtual IActionResult UpdateTaxGroupMaster([FromBody] GeneralTaxGroupModel model)
         {
             try
             {
