@@ -222,7 +222,7 @@ namespace Coditech.Admin.Helpers
         {
             List<SelectListItem> list = new List<SelectListItem>();
             List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
-
+            list.Add(new SelectListItem() { Text = "------Select-----" });
             foreach (var item in generalEnumaratorList?.Where(x => x.EnumGroupCode == groupCode)?.OrderBy(y => y.SequenceNumber))
             {
                 list.Add(new SelectListItem()

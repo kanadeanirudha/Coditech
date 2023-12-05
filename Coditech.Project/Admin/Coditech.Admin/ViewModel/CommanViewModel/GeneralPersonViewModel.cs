@@ -1,5 +1,7 @@
 ﻿using Coditech.Common.Helper;
 
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -10,12 +12,13 @@ namespace Coditech.Admin.ViewModel
         public string UserType { get; set; }
         public string PersonCode { get; set; }
         public string Title { get; set; }
-        public List<string> TitleList { get; set; }
+        public List<SelectListItem> TitleList { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string DateOfBirth { get; set; }
         public int GenderEnumId { get; set; }
+        public List<SelectListItem> GenderlList { get; set; }
         public string EmailId { get; set; }
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }

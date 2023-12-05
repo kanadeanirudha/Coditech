@@ -1,10 +1,12 @@
 ﻿using Coditech.Admin.Agents;
+using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -31,7 +33,15 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public ActionResult CreateMember()
         {
-            return View(createEdit, new GymMemberDetailsViewModel() { GeneralPersonViewModel = new GeneralPersonViewModel() { UserType = UserTypeEnum .GymMember.ToString()} });
+            GymMemberDetailsViewModel viewModel = new GymMemberDetailsViewModel()
+            {
+                GeneralPersonViewModel = new GeneralPersonViewModel()
+                {
+                    UserType = UserTypeEnum.GymMember.ToString()
+                }
+            };
+            BindDropdown(viewModel.GeneralPersonViewModel);
+            return View(createEdit, viewModel);
         }
 
         [HttpPost]
@@ -55,7 +65,7 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(generalPersonViewModel.ErrorMessage));
             return View(createEdit, viewModel);
         }
-       
+
         [HttpGet]
         public virtual ActionResult Edit(short gymMemberDetailsId)
         {
@@ -94,7 +104,11 @@ namespace Coditech.Admin.Controllers
         //}
 
         #region Protected
+        protected virtual void BindDropdown(GeneralPersonViewModel generalPersonViewModel)
+        {
+            generalPersonViewModel.GenderlList = CoditechDropdownHelper.GetGeneralDropdownList("Gender", Convert.ToString(generalPersonViewModel.GenderEnumId));
 
+        }
         #endregion
     }
 }
