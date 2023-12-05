@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 
@@ -11,7 +12,7 @@ namespace Coditech.API.Client
     public partial class UserClient : BaseClient, IUserClient
     {
         private System.Lazy<JsonSerializerSettings> _settings;
-        UserMainMenuEndpoint userMainMenuEndpoint = null;
+        UserMenuEndpoint userMenuEndpoint = null;
         UserModuleEndpoint userModuleEndpoint = null;
         public UserClient()
         {
@@ -140,17 +141,14 @@ namespace Coditech.API.Client
         //    }
         //}
 
-        public virtual UserModuleResponse GetActiveModuleList(short userId)
+        public virtual UserModuleListResponse GetActiveModuleList()
         {
-            return Task.Run(async () => await GetActiveModuleAsync(userId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetActiveModuleAsync(System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<UserModuleResponse> GetActiveModuleAsync(short userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<UserModuleListResponse> GetActiveModuleAsync(System.Threading.CancellationToken cancellationToken)
         {
-            if (userId <= 0)
-                throw new System.ArgumentNullException("userId");
-
-            string endpoint = userModuleEndpoint.GetActiveModuleAsync(userId);
+            string endpoint = userModuleEndpoint.GetActiveModuleAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -162,7 +160,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<UserModuleResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<UserModuleListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -172,12 +170,12 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 204)
                 {
-                    return new UserModuleResponse();
+                    return new UserModuleListResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    UserModuleResponse typedBody = JsonConvert.DeserializeObject<UserModuleResponse>(responseData);
+                    UserModuleListResponse typedBody = JsonConvert.DeserializeObject<UserModuleListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -189,17 +187,19 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual UserMainMenuResponse GetActiveMenuListList(short moduleCode)
+        public virtual UserMenuListResponse GetActiveMenuList(string moduleCode)
         {
             return Task.Run(async () => await GetActiveMenuListAsync(moduleCode, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<UserMainMenuResponse> GetActiveMenuListAsync(short moduleCode, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<UserMenuListResponse> GetActiveMenuListAsync(string moduleCode, System.Threading.CancellationToken cancellationToken)
         {
-            if (moduleCode <= 0)
+            if (string.IsNullOrEmpty(moduleCode))
+            {
                 throw new System.ArgumentNullException("moduleCode");
+            }
 
-            string endpoint = userMainMenuEndpoint.GetActiveMenuListAsync(moduleCode);
+            string endpoint = userMenuEndpoint.GetActiveMenuListAsync(moduleCode);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -211,7 +211,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<UserMainMenuResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<UserMenuListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -221,12 +221,12 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 204)
                 {
-                    return new UserMainMenuResponse();
+                    return new UserMenuListResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    UserMainMenuResponse typedBody = JsonConvert.DeserializeObject<UserMainMenuResponse>(responseData);
+                    UserMenuListResponse typedBody = JsonConvert.DeserializeObject<UserMenuListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }

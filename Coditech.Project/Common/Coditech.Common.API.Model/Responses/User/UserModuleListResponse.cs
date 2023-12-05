@@ -2,6 +2,6 @@
 {
     public class UserModuleListResponse : BaseListResponse
     {
-        public List<UserModuleModel> UserModuleList { get; set; }
+        public List<UserModuleModel> ModuleList { get; set; }
     }
 }

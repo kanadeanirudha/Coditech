@@ -20,7 +20,7 @@ namespace Coditech.Admin.Controllers
             _organisationCentreAgent = organisationCentreAgent;
         }
 
-        public ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             OrganisationCentreListViewModel list = _organisationCentreAgent.GetOrganisationCentreList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
@@ -31,7 +31,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View(createEdit, new OrganisationCentreViewModel());
         }

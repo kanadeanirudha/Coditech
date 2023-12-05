@@ -15,7 +15,7 @@ namespace Coditech.Admin.Controllers
         {
             _generalTaxMasterAgent = generalTaxMasterAgent;
         }
-        public ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralTaxMasterListViewModel list = _generalTaxMasterAgent.GetTaxMasterList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
@@ -26,7 +26,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View(createEdit, new GeneralTaxMasterViewModel());
         }

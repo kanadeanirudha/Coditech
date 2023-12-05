@@ -31,7 +31,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public GeneralRegionListViewModel GetRegionList(DataTableViewModel dataTableModel)
+        public virtual GeneralRegionListViewModel GetRegionList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();

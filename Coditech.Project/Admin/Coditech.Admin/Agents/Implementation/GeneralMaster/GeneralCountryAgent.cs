@@ -29,7 +29,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public GeneralCountryListViewModel GetCountryList(DataTableViewModel dataTableModel)
+        public virtual GeneralCountryListViewModel GetCountryList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -162,7 +162,7 @@ namespace Coditech.Admin.Agents
         #endregion
         #region
         // it will return get all country list from database 
-        public GeneralCountryListResponse GetCountryList()
+        public virtual GeneralCountryListResponse GetCountryList()
         {
             GeneralCountryListResponse countryList = _generalCountryClient.List(null, null, null, 1, int.MaxValue);
             return countryList?.GeneralCountryList?.Count > 0 ? countryList : new GeneralCountryListResponse();

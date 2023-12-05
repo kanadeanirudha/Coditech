@@ -96,30 +96,15 @@ namespace Coditech.API.Service
         {
 
         }
-        public virtual UserModuleModel GetActiveModuleList(short userModuleMasterId)
+
+        public virtual List<UserModuleMaster> GetActiveModuleList()
         {
-            //return base.GetAllActiveModuleList();
-
-            if (userModuleMasterId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "UserID"));
-
-            //Get the Module Details based on id.
-            UserModuleMaster userModuleMaster = _userModuleMasterRepository.Table.FirstOrDefault(x => x.UserModuleMasterId == userModuleMasterId);
-            UserModuleModel userModuleModel = userModuleMaster?.FromEntityToModel<UserModuleModel>();
-            return userModuleModel;
+            return base.GetAllActiveModuleList();
         }
 
-        public virtual UserMainMenuModel GetActiveMenuListList(short moduleCode)
+        public virtual List<UserMainMenuMaster> GetActiveMenuList(string moduleCodel)
         {
-            //return base.GetAllActiveModuleList();
-
-             if (moduleCode <= 0)
-               throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "ModuleID"));
-
-            //Get the Module Details based on id.
-            UserMainMenuMaster userMainMenuMaster = _userMainMenuMasterRepository.Table.FirstOrDefault(x => x.UserMainMenuMasterId == moduleCode);
-            UserMainMenuModel userMainMenuModel = userMainMenuMaster?.FromEntityToModel<UserMainMenuModel>();
-            return userMainMenuModel;
+            return base.GetAllActiveMenuListList(moduleCodel);
         }
         #endregion
 

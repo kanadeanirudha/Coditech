@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Coditech.Common.Helper;
 
-namespace Coditech.Common.API.Model
+using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.Admin.ViewModel
 {
-    public class UserMainMenuModel : BaseModel
+    public class UserMenuViewModel : BaseViewModel
     {
         public short UserMainMenuMasterId { get; set; }
 

@@ -27,12 +27,10 @@
     <Folder Include="Agents\Interface\Employee\" />
     <Folder Include="Agents\Interface\Gym\" />
     <Folder Include="Agents\Interface\Inventory\" />
-    <Folder Include="Controllers\Gym\" />
     <Folder Include="Controllers\Employee\" />
     <Folder Include="Controllers\Inventory\" />
     <Folder Include="MediaFolder\" />
     <Folder Include="Views\Employee\" />
-    <Folder Include="Views\Gym\" />
     <Folder Include="Views\Inventory\" />
     <Folder Include="Views\Shared\Control\" />
     <Folder Include="wwwroot\css\login\" />

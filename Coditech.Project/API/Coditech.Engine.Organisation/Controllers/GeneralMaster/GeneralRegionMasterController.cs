@@ -52,7 +52,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralRegionMaster/CreateRegion")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralRegionResponse))]
-        public IActionResult CreateRegion([FromBody] GeneralRegionModel model)
+        public virtual IActionResult CreateRegion([FromBody] GeneralRegionModel model)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralRegionMaster/GetRegion")]
         [HttpGet]
         [Produces(typeof(GeneralRegionResponse))]
-        public IActionResult GetRegion(short generalRegionMasterId)
+        public virtual IActionResult GetRegion(short generalRegionMasterId)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralRegionMaster/UpdateRegion")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralRegionResponse))]
-        public IActionResult UpdateRegion([FromBody] GeneralRegionModel model)
+        public virtual IActionResult UpdateRegion([FromBody] GeneralRegionModel model)
         {
             try
             {
@@ -140,7 +140,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralRegionMaster/GetRegionByCountryWise")]
         [HttpGet]
         [Produces(typeof(GeneralRegionListResponse))]
-        public IActionResult GetRegionByCountryWise(int generalCountryMasterId)
+        public virtual IActionResult GetRegionByCountryWise(int generalCountryMasterId)
         {
             try
             {

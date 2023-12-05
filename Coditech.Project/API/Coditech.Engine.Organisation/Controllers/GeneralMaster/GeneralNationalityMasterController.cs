@@ -52,7 +52,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralNationalityMaster/CreateNationality")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralNationalityResponse))]
-        public IActionResult CreateNationality([FromBody] GeneralNationalityModel model)
+        public virtual IActionResult CreateNationality([FromBody] GeneralNationalityModel model)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralNationalityMaster/GetNationality")]
         [HttpGet]
         [Produces(typeof(GeneralNationalityResponse))]
-        public IActionResult GetNationality(short generalNationalityMasterId)
+        public virtual IActionResult GetNationality(short generalNationalityMasterId)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralNationalityMaster/UpdateNationality")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralNationalityResponse))]
-        public IActionResult UpdateNationality([FromBody] GeneralNationalityModel model)
+        public virtual IActionResult UpdateNationality([FromBody] GeneralNationalityModel model)
         {
             try
             {

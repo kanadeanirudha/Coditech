@@ -17,7 +17,7 @@ namespace Coditech.Admin.Controllers
             _generalDepartmentAgent = generalDepartmentAgent;
         }
 
-        public ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralDepartmentListViewModel list = _generalDepartmentAgent.GetDepartmentList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
@@ -28,7 +28,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View(createEdit, new GeneralDepartmentViewModel());
         }
