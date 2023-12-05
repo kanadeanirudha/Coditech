@@ -74,7 +74,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralCountryMaster/GetCountry")]
         [HttpGet]
         [Produces(typeof(GeneralCountryResponse))]
-        public virtual IActionResult GetDepartment(short generalCountryMasterId)
+        public virtual IActionResult GetCountry(short generalCountryMasterId)
         {
             try
             {

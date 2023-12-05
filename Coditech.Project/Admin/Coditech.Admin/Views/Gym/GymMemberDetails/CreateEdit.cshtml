@@ -1,0 +1,45 @@
+﻿@using Coditech.Admin.Utilities;
+@model GymMemberDetailsViewModel
+@{
+    ViewBag.Title = Model.GymMemberDetailId > 0 ? "Update Member" : "Create Member";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+}
+<!-- Page Content-->
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="row">
+                        <div class="col">
+                            @if (Model.GymMemberDetailId > 0)
+                            {
+                                <h4 class="page-title">Update Member</h4>
+                            }
+                            else
+                            {
+                                <h4 class="page-title">Create Member</h4>
+                            }
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div><!--end page-title-box-->
+            </div><!--end col-->
+        </div><!--end row-->
+        <!-- end page title end breadcrumb -->
+        <div class="row">
+            @if (Model.GymMemberDetailId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/Gym/GymMemberDetails/GymMemberDetailsSidePannel.cshtml", Model.GymMemberDetailId.ToString())
+                </div>
+            }
+            else
+            {
+                @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model.GeneralPersonViewModel);
+            }
+        </div>
+    </div>
+</div>
+

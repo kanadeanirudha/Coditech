@@ -42,7 +42,7 @@ namespace Coditech.Common.Helper
         }
 
         public static bool IsAdminUser(string userType)
-           => Equals(userType, "A");
+           => Equals(userType, UserTypeEnum.A.ToString());
 
         public static string MD5Hash(string input)
         {

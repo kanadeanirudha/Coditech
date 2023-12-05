@@ -2,8 +2,8 @@
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
+using Coditech.Resources;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,6 @@ namespace Coditech.Admin.Controllers
 {
     public class UserController : BaseController
     {
-        private UserLoginViewModel model = null;
         private readonly IUserAgent _userAgent;
         protected readonly IAuthenticationHelper _authenticationHelper;
         public UserController(IUserAgent userAgent, IAuthenticationHelper authenticationHelper)
@@ -81,15 +80,14 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<UserController>(x => x.Login(string.Empty));
         }
 
-        
         public ActionResult GetNotificationCount(int userId)
         {
             int notificationCount = 2; /*userId > 0 ? _userMasterBA.GetNotificationCount(userId) : 0*/;
             return View("~/Views/Shared/_NotificationCount.cshtml", notificationCount);
         }
-        #region Private
 
-        private ActionResult RedirectToLocal(string returnUrl)
+        #region Protected
+        protected virtual ActionResult RedirectToLocal(string returnUrl)
         {
             if (!string.IsNullOrEmpty(returnUrl))
                 return Redirect(HttpUtility.UrlDecode(returnUrl));
@@ -97,7 +95,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<DashboardController>(x => x.Index());
         }
 
-        private void SaveLoginRememberMeCookie(string userId)
+        protected virtual void SaveLoginRememberMeCookie(string userId)
         {
             //Check if the browser support cookies 
             if ((HttpContextHelper.Request.Cookies?.Count > 0))
@@ -106,16 +104,16 @@ namespace Coditech.Admin.Controllers
 
             }
         }
-        private void GetLoginRememberMeCookie()
+        protected virtual void GetLoginRememberMeCookie()
         {
             if (HttpContext.Request.Cookies?.Count > 0)
             {
                 if (CookieHelper.IsCookieExists(AdminConstants.LoginCookieNameValue))
                 {
                     string loginName = HttpUtility.HtmlEncode(CookieHelper.GetCookieValue<string>(AdminConstants.LoginCookieNameValue));
-                    model = new UserLoginViewModel();
-                    model.UserName = loginName;
-                    model.RememberMe = true;
+                    UserLoginViewModel userLoginViewModel = new UserLoginViewModel();
+                    userLoginViewModel.UserName = loginName;
+                    userLoginViewModel.RememberMe = true;
                 }
             }
         }
