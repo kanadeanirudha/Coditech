@@ -49,7 +49,7 @@ namespace Coditech.API.Service
         }
 
         //Create Tax Group Master.
-        public GeneralTaxGroupModel CreateTaxGroupMaster(GeneralTaxGroupModel generalTaxGroupModel)
+        public virtual GeneralTaxGroupModel CreateTaxGroupMaster(GeneralTaxGroupModel generalTaxGroupModel)
         {
             if (IsNull(generalTaxGroupModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -88,7 +88,7 @@ namespace Coditech.API.Service
         }
 
         //Get Tax Group Master by GeneralTaxGroupMasterId.
-        public GeneralTaxGroupModel GetTaxGroupMaster(short taxGroupMasterId)
+        public virtual GeneralTaxGroupModel GetTaxGroupMaster(short taxGroupMasterId)
         {
             if (taxGroupMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxGroupMasterId"));

@@ -29,7 +29,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public GeneralTaxGroupMasterListViewModel GetTaxGroupMasterList(DataTableViewModel dataTableModel)
+        public virtual GeneralTaxGroupMasterListViewModel GetTaxGroupMasterList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();

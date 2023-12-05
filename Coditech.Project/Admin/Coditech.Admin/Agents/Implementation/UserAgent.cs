@@ -2,15 +2,18 @@
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
-using Coditech.Common.API.Model.Responses;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -75,17 +78,23 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Active Module List .
-        public virtual UserModuleViewModel GetActiveModuleList(short userId)
+        public virtual UserModuleListViewModel GetActiveModuleList()
         {
-            UserModuleResponse response = _userClient.GetActiveModuleList(userId);
-            return response?.UserModuleModel.ToViewModel<UserModuleViewModel>();
+            UserModuleListResponse response = _userClient.GetActiveModuleList();
+            UserModuleListModel moduleList = new UserModuleListModel { ModuleList = response?.ModuleList };
+            UserModuleListViewModel listViewModel = new UserModuleListViewModel();
+            listViewModel.ModuleList = moduleList?.ModuleList?.ToViewModel<UserModuleViewModel>().ToList();
+            return listViewModel;
         }
 
-        //Get Active Menu List List .
-        public virtual UserMainMenuViewModel GetActiveMenuListList(short moduleCode)
+        //Get Active Menu List .
+        public virtual UserMenuListViewModel GetActiveMenuList(string moduleCode)
         {
-            UserMainMenuResponse response = _userClient.GetActiveMenuListList(moduleCode);
-            return response?.UserMainMenuModel.ToViewModel<UserMainMenuViewModel>();
+            UserMenuListResponse response = _userClient.GetActiveMenuList(moduleCode);
+            UserMenuListModel menuList = new UserMenuListModel { MenuList = response?.MenuList };
+            UserMenuListViewModel listViewModel = new UserMenuListViewModel();
+            listViewModel.MenuList = menuList?.MenuList?.ToViewModel<UserMenuViewModel>().ToList();
+            return listViewModel;
         }
         #endregion
     }

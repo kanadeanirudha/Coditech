@@ -1,13 +1,11 @@
-﻿using Coditech.Common.API.Model;
-using Coditech.Common.Helper;
+﻿using Coditech.Common.Helper;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
 {
     public class GeneralTaxMasterViewModel : BaseViewModel
     {
-        internal readonly List<GeneralTaxMasterModel> GeneralTaxMasterList;
-
         public short GeneralTaxMasterId { get; set; }
         [MaxLength(50)]
         [Required]

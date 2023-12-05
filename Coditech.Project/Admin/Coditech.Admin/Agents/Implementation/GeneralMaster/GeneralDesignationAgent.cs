@@ -29,7 +29,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public GeneralDesignationListViewModel GetDesignationList(DataTableViewModel dataTableModel)
+        public virtual GeneralDesignationListViewModel GetDesignationList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();

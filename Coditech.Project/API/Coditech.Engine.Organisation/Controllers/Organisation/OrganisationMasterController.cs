@@ -32,7 +32,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationMaster/GetOrganisation")]
         [HttpGet]
         [Produces(typeof(OrganisationResponse))]
-        public IActionResult GetOrganisation()
+        public virtual IActionResult GetOrganisation()
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationMaster/UpdateOrganisation")]
         [HttpPut, ValidateModel]
         [Produces(typeof(OrganisationResponse))]
-        public IActionResult UpdateOrganisation([FromBody] OrganisationModel model)
+        public virtual IActionResult UpdateOrganisation([FromBody] OrganisationModel model)
         {
             try
             {

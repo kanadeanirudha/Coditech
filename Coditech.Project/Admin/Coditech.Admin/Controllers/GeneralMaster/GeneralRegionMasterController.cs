@@ -17,7 +17,7 @@ namespace Coditech.Admin.Controllers
             _generalRegionAgent = generalRegionAgent;
         }
 
-        public ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralRegionListViewModel list = _generalRegionAgent.GetRegionList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
@@ -28,7 +28,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View(createEdit, new GeneralRegionViewModel());
         }

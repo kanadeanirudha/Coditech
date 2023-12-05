@@ -16,7 +16,7 @@ namespace Coditech.Admin.Controllers
             _adminSanctionPostAgent = adminSanctionPostAgent;
         }
 
-        public ActionResult List(DataTableViewModel dataTableViewModel)
+        public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             //DataTableViewModel tempDataTable = TempData[AdminConstants.DataTableViewModel] as DataTableViewModel;
             //dataTableViewModel = tempDataTable == null ? dataTableViewModel ?? new DataTableViewModel() : tempDataTable;
@@ -38,7 +38,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             AdminSanctionPostViewModel adminSanctionPostViewModel = new AdminSanctionPostViewModel();
             BindDropdown(adminSanctionPostViewModel);

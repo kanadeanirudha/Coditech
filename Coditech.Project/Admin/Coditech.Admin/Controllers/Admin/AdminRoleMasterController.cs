@@ -16,7 +16,7 @@ namespace Coditech.Admin.Controllers
             _adminRoleMasterAgent = adminRoleMasterAgent;
         }
 
-        public ActionResult List(DataTableViewModel dataTableViewModel)
+        public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             //DataTableViewModel tempDataTable = TempData[AdminConstants.DataTableViewModel] as DataTableViewModel;
             //dataTableViewModel = tempDataTable == null ? dataTableViewModel ?? new DataTableViewModel() : tempDataTable;
@@ -36,7 +36,7 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/Admin/AdminRoleMaster/List.cshtml", list);
         }
-        public ActionResult Edit(int adminRoleMasterId)
+        public virtual ActionResult Edit(int adminRoleMasterId)
         {
             AdminRoleViewModel adminRoleViewModel = _adminRoleMasterAgent.GetAdminRoleDetailsById(adminRoleMasterId);
             BindDropdown(adminRoleViewModel);
@@ -44,7 +44,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(AdminRoleViewModel adminRoleViewModel)
+        public virtual ActionResult Edit(AdminRoleViewModel adminRoleViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleViewModel.ErrorMessage));
             return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
         }
-        public ActionResult AllocateAccessRights(int adminRoleMasterId)
+        public virtual ActionResult AllocateAccessRights(int adminRoleMasterId)
         {
             AdminRoleViewModel adminRoleViewModel = _adminRoleMasterAgent.GetAdminRoleDetailsById(adminRoleMasterId);
             BindDropdown(adminRoleViewModel);

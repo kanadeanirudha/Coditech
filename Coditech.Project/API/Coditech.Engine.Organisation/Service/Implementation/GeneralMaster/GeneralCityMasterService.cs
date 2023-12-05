@@ -46,7 +46,7 @@ namespace Coditech.API.Service
         }
 
         //Create City.
-        public GeneralCityModel CreateCity(GeneralCityModel generalCityModel)
+        public virtual GeneralCityModel CreateCity(GeneralCityModel generalCityModel)
         {
             if (IsNull(generalCityModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -69,7 +69,7 @@ namespace Coditech.API.Service
         }
 
         //Get City by City id.
-        public GeneralCityModel GetCity(int cityId)
+        public virtual GeneralCityModel GetCity(int cityId)
         {
             if (cityId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "CityID"));

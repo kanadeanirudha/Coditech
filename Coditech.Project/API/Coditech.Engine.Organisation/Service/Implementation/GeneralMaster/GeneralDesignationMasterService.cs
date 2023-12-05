@@ -45,7 +45,7 @@ namespace Coditech.API.Service
         }
 
         //Create Designation.
-        public GeneralDesignationModel CreateDesignation(GeneralDesignationModel generalDesignationModel)
+        public virtual GeneralDesignationModel CreateDesignation(GeneralDesignationModel generalDesignationModel)
         {
             if (IsNull(generalDesignationModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -69,7 +69,7 @@ namespace Coditech.API.Service
         }
 
         //Get Designation by EmployeeDesignationMasterId.
-        public GeneralDesignationModel GetDesignation(short designationId)
+        public virtual GeneralDesignationModel GetDesignation(short designationId)
         {
             if (designationId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DesignationId"));

@@ -30,7 +30,7 @@ namespace Coditech.Admin.Agents
         #endregion
         #region Public Methods
 
-        public GeneralDepartmentListViewModel GetDepartmentList(DataTableViewModel dataTableModel)
+        public virtual GeneralDepartmentListViewModel GetDepartmentList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();

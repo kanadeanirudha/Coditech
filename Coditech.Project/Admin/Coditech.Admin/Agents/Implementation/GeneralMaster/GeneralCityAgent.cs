@@ -29,7 +29,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public GeneralCityListViewModel GetCityList(DataTableViewModel dataTableModel)
+        public virtual GeneralCityListViewModel GetCityList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();

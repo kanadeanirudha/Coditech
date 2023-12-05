@@ -44,7 +44,7 @@ namespace Coditech.API.Service
         }
 
         //Create Nationality.
-        public GeneralNationalityModel CreateNationality(GeneralNationalityModel generalNationalityModel)
+        public virtual GeneralNationalityModel CreateNationality(GeneralNationalityModel generalNationalityModel)
         {
             if (IsNull(generalNationalityModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -68,7 +68,7 @@ namespace Coditech.API.Service
         }
 
         //Get Nationality by GeneralNationalityMasterId.
-        public GeneralNationalityModel GetNationality(short nationalityId)
+        public virtual GeneralNationalityModel GetNationality(short nationalityId)
         {
             if (nationalityId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "Nationality Name"));

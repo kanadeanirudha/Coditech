@@ -31,7 +31,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public OrganisationCentreListViewModel GetOrganisationCentreList(DataTableViewModel dataTableModel)
+        public virtual OrganisationCentreListViewModel GetOrganisationCentreList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();

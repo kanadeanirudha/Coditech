@@ -49,7 +49,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDesignationMaster/CreateDesignation")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralDesignationResponse))]
-        public IActionResult CreateDesignation([FromBody] GeneralDesignationModel model)
+        public virtual IActionResult CreateDesignation([FromBody] GeneralDesignationModel model)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDesignationMaster/GetDesignation")]
         [HttpGet]
         [Produces(typeof(GeneralDesignationResponse))]
-        public IActionResult GetDesignation(short generalDesignationMasterId)
+        public virtual IActionResult GetDesignation(short generalDesignationMasterId)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralDesignationMaster/UpdateDesignation")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralDesignationResponse))]
-        public IActionResult UpdateDesignation([FromBody] GeneralDesignationModel model)
+        public virtual IActionResult UpdateDesignation([FromBody] GeneralDesignationModel model)
         {
             try
             {
