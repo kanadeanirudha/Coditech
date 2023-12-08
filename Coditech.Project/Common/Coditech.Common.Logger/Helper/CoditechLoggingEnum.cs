@@ -29,7 +29,8 @@
             Region,
             CentrewiseGST,
             UserModule,
-            UserMainMenu
+            UserMainMenu,
+            Person
         }
     }
 }

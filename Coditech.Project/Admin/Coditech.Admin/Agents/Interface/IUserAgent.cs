@@ -25,5 +25,12 @@ namespace Coditech.Admin.Agents
         /// <param name="moduleCode">moduleCode</param>
         /// <returns>Returns UserMenuListViewModel.</returns>
         UserMenuListViewModel GetActiveMenuList(string moduleCode);
+
+        /// <summary>
+        /// Create Person.
+        /// </summary>
+        /// <param name="generalPersonViewModel">General Person View Model.</param>
+        /// <returns>Returns created model.</returns>
+        GeneralPersonViewModel InsertPersonInformation(GeneralPersonViewModel generalPersonViewModel);
     }
 }

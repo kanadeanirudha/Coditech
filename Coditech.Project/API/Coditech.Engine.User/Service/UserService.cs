@@ -24,6 +24,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<UserMainMenuMaster> _userMainMenuMasterRepository;
         private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
         private readonly ICoditechRepository<GeneralEnumarator> _generalEnumaratorRepository;
+        private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -35,6 +36,7 @@ namespace Coditech.API.Service
             _userMainMenuMasterRepository = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorRepository = new CoditechRepository<GeneralEnumarator>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalPersonRepository=new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -89,9 +91,22 @@ namespace Coditech.API.Service
             return userModel;
         }
 
-        public virtual void InsertPersonInformation()
+        public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel)
         {
+            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
+           // Create new Person and return it.
+            GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
+            if (personData?.PersonId > 0)
+            {
+                generalPersonModel.PersonId = personData.PersonId;
+            }
+            else
+            {
+                generalPersonModel.HasError = true;
+                generalPersonModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return generalPersonModel;
         }
 
         public virtual void GetPersonInformation(long personId)

@@ -26,5 +26,12 @@ namespace Coditech.API.Client
         /// <param name="moduleCode">moduleCode</param>
         /// <returns>Returns UserMainMenuResponse.</returns>
         UserMenuListResponse GetActiveMenuList(string moduleCode);
+
+        /// <summary>
+        /// Create Person.
+        /// </summary>
+        /// <param name="GeneralPersonModel">GeneralPersonModel.</param>
+        /// <returns>Returns GeneralPersonResponse.</returns>
+        GeneralPersonResponse InsertPersonInformation(GeneralPersonModel body);
     }
 }

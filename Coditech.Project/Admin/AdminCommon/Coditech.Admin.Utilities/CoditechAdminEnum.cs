@@ -14,6 +14,7 @@
         Country,
         Region,
         ModuleList,
-        MenuList
+        MenuList,
+        Nationality
     }
 }
