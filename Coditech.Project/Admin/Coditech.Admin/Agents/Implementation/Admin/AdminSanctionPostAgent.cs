@@ -31,7 +31,7 @@ namespace Coditech.Admin.Agents
 
         #region Public Methods
 
-        public AdminSanctionPostListViewModel GetAdminSanctionPostList(DataTableViewModel dataTableModel)
+        public virtual AdminSanctionPostListViewModel GetAdminSanctionPostList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();

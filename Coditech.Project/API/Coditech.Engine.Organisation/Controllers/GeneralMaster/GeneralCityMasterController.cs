@@ -52,7 +52,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralCityMaster/CreateCity")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralCityResponse))]
-        public IActionResult CreateCity([FromBody] GeneralCityModel model)
+        public virtual IActionResult CreateCity([FromBody] GeneralCityModel model)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralCityMaster/GetCity")]
         [HttpGet]
         [Produces(typeof(GeneralCityResponse))]
-        public IActionResult GetCity(int generalCityMasterId)
+        public virtual IActionResult GetCity(int generalCityMasterId)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralCityMaster/UpdateCity")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralCityResponse))]
-        public IActionResult UpdateCity([FromBody] GeneralCityModel model)
+        public virtual IActionResult UpdateCity([FromBody] GeneralCityModel model)
         {
             try
             {

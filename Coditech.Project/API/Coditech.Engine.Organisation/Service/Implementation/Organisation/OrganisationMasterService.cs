@@ -22,7 +22,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation by organisation id.
-        public OrganisationModel GetOrganisation()
+        public virtual OrganisationModel GetOrganisation()
         {
             OrganisationMaster organisationMasterData = _organisationMasterRepository.Table.FirstOrDefault();
             OrganisationModel model = HelperUtility.IsNull(organisationMasterData) ? new OrganisationModel() : organisationMasterData.FromEntityToModel<OrganisationModel>();
@@ -30,7 +30,7 @@ namespace Coditech.API.Service
         }
 
         //Update OrganisationMaster.
-        public OrganisationModel UpdateOrganisation(OrganisationModel organisationModel)
+        public virtual OrganisationModel UpdateOrganisation(OrganisationModel organisationModel)
         {
             bool isOrganisationMasterUpdated = false;
             if (HelperUtility.IsNull(organisationModel))

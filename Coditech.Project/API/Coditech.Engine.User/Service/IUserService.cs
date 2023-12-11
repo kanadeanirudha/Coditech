@@ -1,11 +1,12 @@
-﻿using Coditech.Common.API.Model;
+﻿using Coditech.API.Data;
+using Coditech.Common.API.Model;
 
 namespace Coditech.API.Service
 {
     public interface IUserService
     {
         UserModel Login(UserLoginModel model);
-        UserModuleModel GetActiveModuleList(short userModuleMasterId);
-        UserMainMenuModel GetActiveMenuListList(short moduleCode);
+        List<UserModuleMaster> GetActiveModuleList();
+        List<UserMainMenuMaster> GetActiveMenuList(string moduleCode);
     }
 }

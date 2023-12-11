@@ -46,11 +46,11 @@ namespace Coditech.API.Service
         }
 
         //Create EnumaratorGroup.
-        public GeneralEnumaratorGroupModel CreateEnumaratorGroup(GeneralEnumaratorGroupModel generalEnumaratorGroupModel)
+        public virtual GeneralEnumaratorGroupModel CreateEnumaratorGroup(GeneralEnumaratorGroupModel generalEnumaratorGroupModel)
         {
             if (IsNull(generalEnumaratorGroupModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroup))
+            if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroupCode))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EnumaratorGroup Name"));
             GeneralEnumaratorGroupMaster generalEnumaratorGroup = generalEnumaratorGroupModel.FromModelToEntity<GeneralEnumaratorGroupMaster>();
 
@@ -69,7 +69,7 @@ namespace Coditech.API.Service
         }
 
         //Get EnumaratorGroup by EnumaratorGroup id.
-        public GeneralEnumaratorGroupModel GetEnumaratorGroup(int EnumaratorGroupId)
+        public virtual GeneralEnumaratorGroupModel GetEnumaratorGroup(int EnumaratorGroupId)
         {
             if (EnumaratorGroupId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EnumaratorGroupID"));
@@ -93,7 +93,7 @@ namespace Coditech.API.Service
             if (generalEnumaratorGroupModel.GeneralEnumaratorGroupId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EnumaratorGroupID"));
 
-            if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroup, generalEnumaratorGroupModel.GeneralEnumaratorGroupId))
+            if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroupCode, generalEnumaratorGroupModel.GeneralEnumaratorGroupId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EnumaratorGroup Name"));
 
             GeneralEnumaratorGroupMaster GeneralEnumaratorGroup = generalEnumaratorGroupModel.FromModelToEntity<GeneralEnumaratorGroupMaster>();
@@ -125,7 +125,7 @@ namespace Coditech.API.Service
         #region Protected Method
         //Check if EnumaratorGroup code is already present or not.
         protected virtual bool IsEnumaratorGroupNameAlreadyExist(string EnumaratorGroupName, int GeneralEnumaratorGroupId = 0)
-         => _generalEnumaratorGroupRepository.Table.Any(x => x.EnumGroup == EnumaratorGroupName && (x.GeneralEnumaratorGroupId != GeneralEnumaratorGroupId || GeneralEnumaratorGroupId == 0));
+         => _generalEnumaratorGroupRepository.Table.Any(x => x.EnumGroupCode == EnumaratorGroupName && (x.GeneralEnumaratorGroupId != GeneralEnumaratorGroupId || GeneralEnumaratorGroupId == 0));
         #endregion
     }
 }

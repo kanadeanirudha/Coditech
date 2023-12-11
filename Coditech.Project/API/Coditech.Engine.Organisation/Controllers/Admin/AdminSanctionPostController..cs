@@ -52,7 +52,7 @@ namespace Coditech.API.Controllers
         [Route("/AdminSanctionPost/CreateAdminSanctionPost")]
         [HttpPost, ValidateModel]
         [Produces(typeof(AdminSanctionPostResponse))]
-        public IActionResult CreateAdminSanctionPost([FromBody] AdminSanctionPostModel model)
+        public virtual IActionResult CreateAdminSanctionPost([FromBody] AdminSanctionPostModel model)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Coditech.API.Controllers
         [Route("/AdminSanctionPost/GetAdminSanctionPost")]
         [HttpGet]
         [Produces(typeof(AdminSanctionPostResponse))]
-        public IActionResult GetAdminSanctionPost(int adminSanctionPostId)
+        public virtual IActionResult GetAdminSanctionPost(int adminSanctionPostId)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Coditech.API.Controllers
         [Route("/AdminSanctionPost/UpdateAdminSanctionPost")]
         [HttpPut, ValidateModel]
         [Produces(typeof(AdminSanctionPostResponse))]
-        public IActionResult UpdateAdminSanctionPost([FromBody] AdminSanctionPostModel model)
+        public virtual IActionResult UpdateAdminSanctionPost([FromBody] AdminSanctionPostModel model)
         {
             try
             {

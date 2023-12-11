@@ -17,7 +17,7 @@ namespace Coditech.Admin.Controllers
             _generalCityAgent = generalCityAgent;
             _generalCountryAgent = generalCountryAgent;
         }
-        public ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralCityListViewModel list = _generalCityAgent.GetCityList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
@@ -28,7 +28,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View(createEdit, new GeneralCityViewModel());
         }

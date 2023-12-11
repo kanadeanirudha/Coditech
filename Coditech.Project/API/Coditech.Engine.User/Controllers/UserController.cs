@@ -1,7 +1,8 @@
+using Coditech.API.Data;
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
-using Coditech.Common.API.Model.Responses;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Logger;
@@ -55,47 +56,50 @@ namespace Coditech.API.Controllers
 
         }
 
-        [Route("/User/GetActiveModuleList")]
         [HttpGet]
-        [Produces(typeof(UserModuleResponse))]
-        public virtual IActionResult GetActiveModuleList(short userId)
+        [Route("/User/GetActiveModuleList")]
+        [Produces(typeof(UserModuleListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetActiveModuleList()
         {
             try
             {
-                UserModuleModel userModuleModel = _userService.GetActiveModuleList(userId);
-                return HelperUtility.IsNotNull(userModuleModel) ? CreateOKResponse(new UserModuleResponse { UserModuleModel = userModuleModel }) : NotFound();
+                List<UserModuleMaster> list = _userService.GetActiveModuleList();
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<UserModuleListResponse>(data) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserModule.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new UserModuleResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserModule.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new UserModuleListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserModule.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new UserModuleResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new UserModuleListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
-        [Route("/User/GetActiveMenuListList")]
+        [Route("/User/GetActiveMenuList")]
         [HttpGet]
-        [Produces(typeof(UserMainMenuResponse))]
-        public virtual IActionResult GetActiveMenuListList(short moduleCode)
+        [Produces(typeof(UserMenuListResponse))]
+        public virtual IActionResult GetActiveMenuList(string moduleCode)
         {
             try
             {
-                UserMainMenuModel userMainMenuModel = _userService.GetActiveMenuListList(moduleCode);
-                return HelperUtility.IsNotNull(userMainMenuModel) ? CreateOKResponse(new UserMainMenuResponse { UserMainMenuModel = userMainMenuModel }) : NotFound();
+                List<UserMainMenuMaster> list = _userService.GetActiveMenuList(moduleCode);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<UserMenuListResponse>(data) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenu.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new UserMainMenuResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new UserMenuListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenu.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new UserMainMenuResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new UserMenuListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

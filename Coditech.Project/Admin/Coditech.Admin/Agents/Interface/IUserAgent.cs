@@ -16,12 +16,14 @@ namespace Coditech.Admin.Agents
         /// </summary>
         Task Logout();
 
+        /// Get Active Module List
+        UserModuleListViewModel GetActiveModuleList();
+
         /// <summary>
-        /// Get Active Module List by userId.
+        /// Get Active Menu List by moduleCode.
         /// </summary>
-        /// <param name="userId">userId</param>
-        /// <returns>Returns UserModuleViewModel.</returns>
-        UserModuleViewModel GetActiveModuleList(short userId);
-        UserMainMenuViewModel GetActiveMenuListList(short moduleCode);
+        /// <param name="moduleCode">moduleCode</param>
+        /// <returns>Returns UserMenuListViewModel.</returns>
+        UserMenuListViewModel GetActiveMenuList(string moduleCode);
     }
 }

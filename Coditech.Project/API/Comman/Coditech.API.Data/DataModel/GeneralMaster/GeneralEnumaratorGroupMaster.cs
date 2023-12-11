@@ -2,8 +2,8 @@
 {
     public partial class GeneralEnumaratorGroupMaster
     {
-        public int GeneralEnumaratorGroupId { get; set; }
-        public string EnumGroup { get; set; }
+        public short GeneralEnumaratorGroupId { get; set; }
+        public string EnumGroupCode { get; set; }
         public string DisaplyText { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

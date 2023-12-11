@@ -35,5 +35,7 @@
         public List<UserMenuModel> MenuList { get; set; }
         public List<UserBalanceSheetModel> BalanceSheetList { get; set; }
         public List<UserAccessibleCentreModel> AccessibleCentreList { get; set; }
+        public List<GeneralEnumaratorModel> GeneralEnumaratorList { get; set; }
+
     }
 }
