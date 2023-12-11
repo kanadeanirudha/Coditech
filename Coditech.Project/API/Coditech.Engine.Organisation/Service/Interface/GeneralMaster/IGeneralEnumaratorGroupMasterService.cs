@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 
 namespace Coditech.API.Service
 {
-    public interface IGeneralEnumaratorGroupService
+    public interface IGeneralEnumaratorGroupMasterService
     {
         GeneralEnumaratorGroupListModel GetEnumaratorGroupList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         GeneralEnumaratorGroupModel CreateEnumaratorGroup(GeneralEnumaratorGroupModel model);

@@ -13,17 +13,17 @@ using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
 {
-    public class GeneralEnumaratorGroupService : IGeneralEnumaratorGroupService
+    public class GeneralEnumaratorGroupMasterService : IGeneralEnumaratorGroupMasterService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
+        private readonly ICoditechRepository<GeneralEnumaratorGroupMaster> _generalEnumaratorGroupRepository;
         //private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
-        public GeneralEnumaratorGroupService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public GeneralEnumaratorGroupMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroupMaster>(_serviceProvider.GetService<Coditech_Entities>());
            // _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
@@ -52,10 +52,10 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
             if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroup))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EnumaratorGroup Name"));
-            GeneralEnumaratorGroup generalEnumaratorGroup = generalEnumaratorGroupModel.FromModelToEntity<GeneralEnumaratorGroup>();
+            GeneralEnumaratorGroupMaster generalEnumaratorGroup = generalEnumaratorGroupModel.FromModelToEntity<GeneralEnumaratorGroupMaster>();
 
             //Create new EnumaratorGroup and return it.
-            GeneralEnumaratorGroup enumaratorGroupData = _generalEnumaratorGroupRepository.Insert(generalEnumaratorGroup);
+            GeneralEnumaratorGroupMaster enumaratorGroupData = _generalEnumaratorGroupRepository.Insert(generalEnumaratorGroup);
             if (enumaratorGroupData?.GeneralEnumaratorGroupId > 0)
             {
                 generalEnumaratorGroupModel.GeneralEnumaratorGroupId = enumaratorGroupData.GeneralEnumaratorGroupId;
@@ -75,7 +75,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EnumaratorGroupID"));
 
             //Get the EnumaratorGroup Details based on id.
-            GeneralEnumaratorGroup enumaratorGroupData = _generalEnumaratorGroupRepository.Table.FirstOrDefault(x => x.GeneralEnumaratorGroupId == EnumaratorGroupId);
+            GeneralEnumaratorGroupMaster enumaratorGroupData = _generalEnumaratorGroupRepository.Table.FirstOrDefault(x => x.GeneralEnumaratorGroupId == EnumaratorGroupId);
             GeneralEnumaratorGroupModel generalEnumaratorGroupModel = enumaratorGroupData.FromEntityToModel<GeneralEnumaratorGroupModel>();
             if (IsNotNull(generalEnumaratorGroupModel))
             {
@@ -96,7 +96,7 @@ namespace Coditech.API.Service
             if (IsEnumaratorGroupNameAlreadyExist(generalEnumaratorGroupModel.EnumGroup, generalEnumaratorGroupModel.GeneralEnumaratorGroupId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EnumaratorGroup Name"));
 
-            GeneralEnumaratorGroup GeneralEnumaratorGroup = generalEnumaratorGroupModel.FromModelToEntity<GeneralEnumaratorGroup>();
+            GeneralEnumaratorGroupMaster GeneralEnumaratorGroup = generalEnumaratorGroupModel.FromModelToEntity<GeneralEnumaratorGroupMaster>();
 
             //Update EnumaratorGroup
             bool isEnumaratorGroupUpdated = _generalEnumaratorGroupRepository.Update(GeneralEnumaratorGroup);

@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Remove="Client\Implementation\GeneralMaster\GeneralTaxMasterClient .cs" />
     <Compile Remove="Client\Interface\GeneralMaster\IGeneralTaxMasterClient.cs" />
+    <Compile Remove="Endpoint\GeneralMaster\GeneralDesignationEndpoint - Copy.cs" />
   </ItemGroup>
 
   <ItemGroup>

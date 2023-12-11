@@ -13,23 +13,23 @@ using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
 {
-    public class GeneralCountryAgent : BaseAgent, IGeneralCountryAgent
+    public class GeneralEnumaratorGroupAgent : BaseAgent, IGeneralEnumaratorGroupAgent
     {
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly IGeneralCountryClient _generalCountryClient;
+        private readonly IGeneralEnumaratorGroupClient _GeneralEnumaratorGroupClient;
         #endregion
 
         #region Public Constructor
-        public GeneralCountryAgent(ICoditechLogging coditechLogging, IGeneralCountryClient generalCountryClient)
+        public GeneralEnumaratorGroupAgent(ICoditechLogging coditechLogging, IGeneralEnumaratorGroupClient GeneralEnumaratorGroupClient)
         {
             _coditechLogging = coditechLogging;
-            _generalCountryClient = GetClient<IGeneralCountryClient>(generalCountryClient);
+            _GeneralEnumaratorGroupClient = GetClient<IGeneralEnumaratorGroupClient>(GeneralEnumaratorGroupClient);
         }
         #endregion
 
         #region Public Methods
-        public GeneralCountryListViewModel GetCountryList(DataTableViewModel dataTableModel)
+        public GeneralEnumaratorGroupViewModel GetCountryList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -42,23 +42,23 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CountryName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralCountryListResponse response = _generalCountryClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralCountryListModel countryList = new GeneralCountryListModel { GeneralCountryList = response?.GeneralCountryList };
-            GeneralCountryListViewModel listViewModel = new GeneralCountryListViewModel();
-            listViewModel.GeneralCountryList = countryList?.GeneralCountryList?.ToViewModel<GeneralCountryListViewModel>().ToList();
+            GeneralEnumaratorGroupListResponse response = _GeneralEnumaratorGroupClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralEnumaratorGroupListModel countryList = new GeneralEnumaratorGroupListModel { GeneralEnumaratorGroupList = response?.GeneralEnumaratorGroupList };
+            GeneralEnumaratorGroupViewModel listViewModel = new GeneralEnumaratorGroupListViewModel();
+            listViewModel.GeneralEnumaratorGroupList = countryList?.GeneralEnumaratorGroupList?.ToViewModel<GeneralEnumaratorGroupViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralCountryList.Count, BindColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralEnumaratorGroupList.Count, BindColumns());
             return listViewModel;
         }
 
         //Create General Country.
-        public virtual GeneralCountryViewModel CreateCountry(GeneralCountryViewModel generalCountryViewModel)
+        public virtual GeneralEnumaratorGroupViewModel CreateCountry(GeneralEnumaratorGroupViewModel GeneralEnumaratorGroupViewModel)
         {
             try
             {
-                GeneralCountryResponse response = _generalCountryClient.CreateCountry(generalCountryViewModel.ToModel<GeneralCountryModel>());
-                GeneralCountryModel generalCountryModel = response?.GeneralCountryModel;
-                return IsNotNull(generalCountryModel) ? generalCountryModel.ToViewModel<GeneralCountryViewModel>() : new GeneralCountryViewModel();
+                GeneralEnumaratorGroupResponse response = _GeneralEnumaratorGroupClient.CreateCountry(GeneralEnumaratorGroupViewModel.ToModel<GeneralEnumaratorGroupModel>());
+                GeneralEnumaratorGroupModel GeneralEnumaratorGroupModel = response?.GeneralEnumaratorGroupModel;
+                return IsNotNull(GeneralEnumaratorGroupModel) ? GeneralEnumaratorGroupModel.ToViewModel<GeneralEnumaratorGroupViewModel>() : new GeneralEnumaratorGroupViewModel();
             }
             catch (CoditechException ex)
             {
@@ -66,52 +66,52 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
-                        return (GeneralCountryViewModel)GetViewModelWithErrorMessage(generalCountryViewModel, ex.ErrorMessage);
+                        return (GeneralEnumaratorGroupViewModel)GetViewModelWithErrorMessage(GeneralEnumaratorGroupViewModel, ex.ErrorMessage);
                     default:
-                        return (GeneralCountryViewModel)GetViewModelWithErrorMessage(generalCountryViewModel, GeneralResources.ErrorFailedToCreate);
+                        return (GeneralEnumaratorGroupViewModel)GetViewModelWithErrorMessage(GeneralEnumaratorGroupViewModel, GeneralResources.ErrorFailedToCreate);
                 }
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
-                return (GeneralCountryViewModel)GetViewModelWithErrorMessage(generalCountryViewModel, GeneralResources.ErrorFailedToCreate);
+                return (GeneralEnumaratorGroupViewModel)GetViewModelWithErrorMessage(GeneralEnumaratorGroupViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 
         //Get general Country by general country master id.
-        public virtual GeneralCountryViewModel GetCountry(short generalCountryId)
+        public virtual GeneralEnumaratorGroupViewModel GetCountry(short GeneralEnumaratorGroupId)
         {
-            GeneralCountryResponse response = _generalCountryClient.GetCountry(generalCountryId);
-            return response?.GeneralCountryModel.ToViewModel<GeneralCountryViewModel>();
+            GeneralEnumaratorGroupResponse response = _GeneralEnumaratorGroupClient.GetCountry(GeneralEnumaratorGroupId);
+            return response?.GeneralEnumaratorGroupModel.ToViewModel<GeneralEnumaratorGroupViewModel>();
         }
 
-        //Update generalCountry.
-        public virtual GeneralCountryViewModel UpdateCountry(GeneralCountryViewModel generalCountryViewModel)
+        //Update GeneralEnumaratorGroup.
+        public virtual GeneralEnumaratorGroupViewModel UpdateCountry(GeneralEnumaratorGroupViewModel GeneralEnumaratorGroupViewModel)
         {
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Info);
-                GeneralCountryResponse response = _generalCountryClient.UpdateCountry(generalCountryViewModel.ToModel<GeneralCountryModel>());
-                GeneralCountryModel generalCountryModel = response?.GeneralCountryModel;
+                GeneralEnumaratorGroupResponse response = _GeneralEnumaratorGroupClient.UpdateCountry(GeneralEnumaratorGroupViewModel.ToModel<GeneralEnumaratorGroupModel>());
+                GeneralEnumaratorGroupModel GeneralEnumaratorGroupModel = response?.GeneralEnumaratorGroupModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Info);
-                return IsNotNull(generalCountryModel) ? generalCountryModel.ToViewModel<GeneralCountryViewModel>() : (GeneralCountryViewModel)GetViewModelWithErrorMessage(new GeneralCountryViewModel(), GeneralResources.UpdateErrorMessage);
+                return IsNotNull(GeneralEnumaratorGroupModel) ? GeneralEnumaratorGroupModel.ToViewModel<GeneralEnumaratorGroupViewModel>() : (GeneralEnumaratorGroupViewModel)GetViewModelWithErrorMessage(new GeneralEnumaratorGroupViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
-                return (GeneralCountryViewModel)GetViewModelWithErrorMessage(generalCountryViewModel, GeneralResources.UpdateErrorMessage);
+                return (GeneralEnumaratorGroupViewModel)GetViewModelWithErrorMessage(GeneralEnumaratorGroupViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
 
-        //Delete generalCountry.
-        public virtual bool DeleteCountry(string generalCountryId, out string errorMessage)
+        //Delete GeneralEnumaratorGroup.
+        public virtual bool DeleteCountry(string GeneralEnumaratorGroupId, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _generalCountryClient.DeleteCountry(new ParameterModel { Ids = generalCountryId });
+                TrueFalseResponse trueFalseResponse = _GeneralEnumaratorGroupClient.DeleteCountry(new ParameterModel { Ids = GeneralEnumaratorGroupId });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -120,7 +120,7 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
-                        errorMessage = AdminResources.ErrorDeleteGeneralCountryMaster;
+                        errorMessage = AdminResources.ErrorDeleteGeneralEnumaratorGroupMaster;
                         return false;
                     default:
                         errorMessage = GeneralResources.ErrorFailedToDelete;
@@ -162,10 +162,10 @@ namespace Coditech.Admin.Agents
         #endregion
         #region
         // it will return get all country list from database 
-        public GeneralCountryListResponse GetCountryList()
+        public GeneralEnumaratorGroupListResponse GetCountryList()
         {
-            GeneralCountryListResponse countryList = _generalCountryClient.List(null, null, null, 1, int.MaxValue);
-            return countryList?.GeneralCountryList?.Count > 0 ? countryList : new GeneralCountryListResponse();
+            GeneralEnumaratorGroupListResponse countryList = _GeneralEnumaratorGroupClient.List(null, null, null, 1, int.MaxValue);
+            return countryList?.GeneralEnumaratorGroupList?.Count > 0 ? countryList : new GeneralEnumaratorGroupListResponse();
         }
         #endregion
     }

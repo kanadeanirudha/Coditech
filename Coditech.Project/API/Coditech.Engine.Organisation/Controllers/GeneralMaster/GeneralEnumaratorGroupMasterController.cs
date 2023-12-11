@@ -12,11 +12,11 @@ using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Controllers
 {
-    public class GeneralEnumaratorGroupController : BaseController
+    public class GeneralEnumaratorGroupMasterController : BaseController
     {
-        private readonly IGeneralEnumaratorGroupService _generalEnumaratorGroupService;
+        private readonly IGeneralEnumaratorGroupMasterService _generalEnumaratorGroupService;
         protected readonly ICoditechLogging _coditechLogging;
-        public GeneralEnumaratorGroupController(ICoditechLogging coditechLogging, IGeneralEnumaratorGroupService generalEnumaratorGroupService)
+        public GeneralEnumaratorGroupMasterController(ICoditechLogging coditechLogging, IGeneralEnumaratorGroupMasterService generalEnumaratorGroupService)
         {
             _generalEnumaratorGroupService = generalEnumaratorGroupService;
             _coditechLogging = coditechLogging;
