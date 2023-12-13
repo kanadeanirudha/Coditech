@@ -1,4 +1,4 @@
-﻿@model GeneralEnumaratorGroupViewModel
+﻿@model GeneralEnumaratorViewModel
 @{
     ViewBag.Title = "EnumaratorGroup List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
@@ -12,7 +12,7 @@
                 <div class="page-title-box">
                     <div class="row">
                         <div class="col">
-                            <h4 class="page-title">@AdminResources.LabelEnumaratorGroupList</h4>
+                            <h4 class="page-title">@AdminResources.LabelEnumaratorList</h4>
                             @* <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Dastone</a></li>
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Tables</a></li>
@@ -36,7 +36,7 @@
                     </div><!--end card-header-->*@
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                            @Html.Partial("~/Views/GeneralMaster/GeneralEnumaratorGroupMaster/_List.cshtml", Model)
+                            @Html.Partial("~/Views/GeneralMaster/GeneralEnumaratorMaster/_List.cshtml", Model)
                         </div>
                     </div>
                 </div>

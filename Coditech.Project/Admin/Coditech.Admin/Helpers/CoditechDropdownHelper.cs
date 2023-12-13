@@ -228,8 +228,8 @@ namespace Coditech.Admin.Helpers
                 list.Add(new SelectListItem()
                 {
                     Text = item.EnumDisplayText,
-                    Value = Convert.ToString(item.GeneralEnumaratorId),
-                    Selected = selectedValue == Convert.ToString(item.GeneralEnumaratorId)
+                    Value = Convert.ToString(item.GeneralEnumaratorMasterId),
+                    Selected = selectedValue == Convert.ToString(item.GeneralEnumaratorMasterId)
                 });
             }
             return list;

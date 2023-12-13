@@ -20,7 +20,7 @@
             City,
             Nationality,
             Designation,
-            EnumaratorGroup,
+            EnumaratorMaster,
             OrganisationCentre,
             AdminRoleMaster,
             AdminSanctionPost,
@@ -29,7 +29,8 @@
             Region,
             CentrewiseGST,
             UserModule,
-            UserMainMenu
+            UserMainMenu,
+            //Enumarator
         }
     }
 }

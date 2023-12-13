@@ -33,8 +33,8 @@ namespace Coditech.Admin
             CreateMap<GeneralTaxGroupMasterListModel, GeneralTaxGroupMasterListViewModel>().ReverseMap();
             CreateMap<GeneralRegionModel, GeneralRegionViewModel>().ReverseMap();
             CreateMap<GeneralRegionListModel, GeneralRegionListViewModel>().ReverseMap();
-            CreateMap<GeneralEnumaratorGroupModel, GeneralEnumaratorGroupViewModel>().ReverseMap();
-            CreateMap<GeneralEnumaratorGroupListModel, GeneralEnumaratorGroupListViewModel>().ReverseMap();
+            CreateMap<GeneralEnumaratorModel, GeneralEnumaratorViewModel>().ReverseMap();
+            CreateMap<GeneralEnumaratorListModel, GeneralEnumaratorListViewModel>().ReverseMap();
             #endregion
 
             #region Organisation

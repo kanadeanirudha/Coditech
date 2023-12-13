@@ -231,7 +231,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralCityMasterService, GeneralCityMasterService>();
             builder.Services.AddScoped<IGeneralNationalityMasterService, GeneralNationalityMasterService>();
             builder.Services.AddScoped<IGeneralDesignationMasterService, GeneralDesignationMasterService>();
-            builder.Services.AddScoped<IGeneralEnumaratorGroupMasterService, GeneralEnumaratorGroupMasterService>();
+            builder.Services.AddScoped<IGeneralEnumaratorMasterService, GeneralEnumaratorGroupMasterService>();
             builder.Services.AddScoped<IAdminSanctionPostService, AdminSanctionPostService>();
             builder.Services.AddScoped<IGeneralRegionMasterService, GeneralRegionMasterService>();
             builder.Services.AddScoped<IAdminRoleMasterService, AdminRoleMasterService>();

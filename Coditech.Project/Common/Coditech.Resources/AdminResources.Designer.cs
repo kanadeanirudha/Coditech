@@ -167,7 +167,20 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword", resourceCulture);
             }
         }
-        
+
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Enumarator due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEnumaratorMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralEnumaratorMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
@@ -329,5 +342,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("SelectCentre", resourceCulture);
             }
         }
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to LabelEnumarator List.
+        /// </summary>
+        public static string LabelEnumaratorList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelEnumaratorList", resourceCulture);
+            }
+        }
+
     }
 }
