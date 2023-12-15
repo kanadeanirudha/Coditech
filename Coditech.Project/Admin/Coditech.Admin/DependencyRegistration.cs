@@ -30,6 +30,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationAgent, OrganisationAgent>();
             builder.Services.AddScoped<IOrganisationCentreAgent, OrganisationCentreAgent>();
             builder.Services.AddScoped<IGeneralRegionAgent, GeneralRegionAgent>();
+            builder.Services.AddScoped<IGeneralSystemGlobleSettingAgent, GeneralSystemGlobleSettingAgent>();
             #endregion
 
             #region Client
@@ -48,6 +49,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationClient, OrganisationClient>();
             builder.Services.AddScoped<IOrganisationCentreClient, OrganisationCentreClient>();
             builder.Services.AddScoped<IGeneralRegionClient, GeneralRegionClient>();
+            builder.Services.AddScoped<IGeneralSystemGlobleSettingClient, GeneralSystemGlobleSettingClient>();
             #endregion
         }
     }

@@ -30,7 +30,8 @@
             CentrewiseGST,
             UserModule,
             UserMainMenu,
-            Person
+            Person,
+            GlobleSettingMaster
         }
     }
 }

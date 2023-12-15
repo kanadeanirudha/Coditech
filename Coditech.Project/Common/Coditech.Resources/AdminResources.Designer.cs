@@ -77,7 +77,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteAdminSanctionPost", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Globle Setting due to associate record..
+        /// </summary>
+        public static string ErrorDeleteSystemGlobleSettingMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete city due to associate record..
         /// </summary>
@@ -221,7 +232,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCityList", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Globle Setting List.
+        /// </summary>
+        public static string LabelGlobleSettingList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelGlobleSettingList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Country List.
         /// </summary>

@@ -28,6 +28,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralEnumaratorGroup, GeneralEnumaratorGroupModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseGSTCredential, OrganisationCentrewiseGSTCredentialModel>().ReverseMap();
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
+            CreateMap<GeneralSystemGlobleSettingMaster, GeneralSystemGlobleSettingModel>().ReverseMap();
         }
     }
 }

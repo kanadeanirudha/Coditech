@@ -25,6 +25,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralRegionMaster> GeneralRegionMaster { get; set; }
         public DbSet<GeneralEnumarator> GeneralEnumarator { get; set; }
         public DbSet<GeneralEnumaratorGroup> GeneralEnumaratorGroup { get; set; }
+        public DbSet<GeneralSystemGlobleSettingMaster> GeneralSystemGlobleSettingMaster { get; set; }
         #endregion
 
         #region Organisation
