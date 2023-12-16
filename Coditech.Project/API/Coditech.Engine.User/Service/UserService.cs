@@ -67,6 +67,7 @@ namespace Coditech.API.Service
                 }
                 else
                 {
+                    userAllModuleList = userAllModuleList.Where(x => x.ModuleCode != "CODITECHTOOLKIT")?.ToList();
                     //Bind Menu And Modules For Admin User
                     BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
 

@@ -13,12 +13,10 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Feature Name")]
         public string FeatureName { get; set; }
 
-        [MaxLength(200)]
         [Required]
         [Display(Name = "Feature Default Value")]
         public string FeatureDefaultValue { get; set; }
 
-        [MaxLength(200)]
         [Display(Name = "Feature Value")]
         public string FeatureValue { get; set; }
     }
