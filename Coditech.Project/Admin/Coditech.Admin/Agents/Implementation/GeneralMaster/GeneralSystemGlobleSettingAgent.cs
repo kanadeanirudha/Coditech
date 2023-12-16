@@ -148,6 +148,11 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Feature Default Value",
+                ColumnCode = "FeatureDefaultValue",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Feature Value",
                 ColumnCode = "FeatureValue",
             });

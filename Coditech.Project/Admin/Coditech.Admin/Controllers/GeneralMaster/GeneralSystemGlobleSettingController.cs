@@ -62,7 +62,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalSystemGlobleSettingAgent.UpdateSystemGlobleSetting(generalSystemGlobleSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { taxMasterId = generalSystemGlobleSettingViewModel.GeneralSystemGlobleSettingMasterId });
+                return RedirectToAction("Edit", new { generalSystemGlobleSettingId = generalSystemGlobleSettingViewModel.GeneralSystemGlobleSettingMasterId });
             }
             return View(createEdit, generalSystemGlobleSettingViewModel);
         }

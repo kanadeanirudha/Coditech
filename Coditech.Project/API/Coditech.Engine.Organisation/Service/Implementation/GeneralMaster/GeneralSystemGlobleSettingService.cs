@@ -51,6 +51,7 @@ namespace Coditech.API.Service
             if (IsFeatureNameAlreadyExist(generalSystemGlobleSettingModel.FeatureName))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Feature Name"));
 
+            generalSystemGlobleSettingModel.FeatureValue = string.IsNullOrEmpty(generalSystemGlobleSettingModel.FeatureValue) ? generalSystemGlobleSettingModel.FeatureDefaultValue : generalSystemGlobleSettingModel.FeatureValue;
             GeneralSystemGlobleSettingMaster generalSystemGlobleSettingMaster = generalSystemGlobleSettingModel.FromModelToEntity<GeneralSystemGlobleSettingMaster>();
 
             //Create new  Globle Setting and return it.
@@ -90,6 +91,8 @@ namespace Coditech.API.Service
 
             if (IsFeatureNameAlreadyExist(generalSystemGlobleSettingModel.FeatureName, generalSystemGlobleSettingModel.GeneralSystemGlobleSettingMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Feature Name"));
+
+            generalSystemGlobleSettingModel.FeatureValue = string.IsNullOrEmpty(generalSystemGlobleSettingModel.FeatureValue) ? generalSystemGlobleSettingModel.FeatureDefaultValue : generalSystemGlobleSettingModel.FeatureValue;
 
             GeneralSystemGlobleSettingMaster generalSystemGlobleSettingMaster = generalSystemGlobleSettingModel.FromModelToEntity<GeneralSystemGlobleSettingMaster>();
 
