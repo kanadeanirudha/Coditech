@@ -6,6 +6,6 @@ namespace Coditech.API.Endpoint
     public class UserMainMenuEndpoint : BaseEndpoint
     {
         public string GetActiveMenuListAsync(short moduleCode) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/GetActiveMenuListList?moduleCode={moduleCode}";
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/GetActiveMenuListList?moduleCode={moduleCode}";
     }
 }

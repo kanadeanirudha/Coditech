@@ -20,8 +20,6 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleApplicableDetail> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetail> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
-        private readonly ICoditechRepository<UserModuleMaster> _userModuleMasterRepository;
-        private readonly ICoditechRepository<UserMainMenuMaster> _userMainMenuMasterRepository;
         private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
         private readonly ICoditechRepository<GeneralEnumarator> _generalEnumaratorRepository;
         private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
@@ -31,12 +29,10 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetail>(_serviceProvider.GetService<Coditech_Entities>());
-            _userModuleMasterRepository = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _userMainMenuMasterRepository = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorRepository = new CoditechRepository<GeneralEnumarator>(_serviceProvider.GetService<Coditech_Entities>());
-            _generalPersonRepository=new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -95,7 +91,7 @@ namespace Coditech.API.Service
         {
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
-           // Create new Person and return it.
+            // Create new Person and return it.
             GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
             if (personData?.PersonId > 0)
             {

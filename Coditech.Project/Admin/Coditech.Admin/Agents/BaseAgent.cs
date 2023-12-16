@@ -181,11 +181,5 @@ namespace Coditech.Admin.Agents
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
             return centreCode;
         }
-
-        protected string SpiltCountryCode(string countryCode)
-        {
-            countryCode = !string.IsNullOrEmpty(countryCode) && countryCode.Contains(":") ? countryCode.Split(':')[0] : countryCode;
-            return countryCode;
-        }
     }
 }

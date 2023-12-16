@@ -14,174 +14,187 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.PersonId)
                 ;
-                @Html.HiddenFor(m => m.UserType)
-                ;
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.Title, new { @class = "form-label required"})
-                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.Title, new { @class = "form-label required" })
+                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                   {
+                       DropdownSelectedValue = Model.Title ?? string.Empty,
+                       DropdownName = "Title",
+                       GroupCode = DropdownTypeEnum.Title.ToString()
+                   })
                             @Html.ValidationMessageFor(x => x.Title)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.FirstName, new { @class = "form-label required"})
-                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.FirstName, new { @class = "form-label required" })
+                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.FirstName)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.MiddleName, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.MiddleName, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.MiddleName)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.LastName, new { @class = "form-label required"})
-                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.LastName, new { @class = "form-label required" })
+                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.LastName)
                         </div>
                     </div>
+                    @if (Model.PersonId > 0)
+                    {
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                @Html.LabelFor(x => x.PersonCode, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.PersonCode, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.PersonCode)
+                            </div>
+                        </div>
+                    }
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.GenderEnumId, new { @class = "form-label required"})
-                            @Html.DropDownListFor(m => m.GenderEnumId, new SelectList(Model.GenderlList, "Value", "Text"), new { @class = "form-control"})
-                            @Html.ValidationMessageFor(x => x.GenderEnumId)
+                            @Html.LabelFor(x => x.GenderEnumId, new { @class = "form-label required" })
+                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                   {
+                       DropdownSelectedValue = Model.GenderEnumId.ToString(),
+                       DropdownName = "GenderEnumId",
+                       GroupCode = DropdownTypeEnum.Gender.ToString()
+                   })   @Html.ValidationMessageFor(x => x.GenderEnumId)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.DateOfBirth, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.DateOfBirth, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.DateOfBirth, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.DateOfBirth, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.DateOfBirth)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.EmailId, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.EmailId, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.EmailId)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.MobileNumber, new { @class = "form-label required"})
-                            @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.MobileNumber, new { @class = "form-label required" })
+                            @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.MobileNumber)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.PhoneNumber, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.PhoneNumber, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.PhoneNumber)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.EmergencyContact, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.EmergencyContact, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.EmergencyContact, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.EmergencyContact, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.EmergencyContact)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.MaritalStatus, new { @class = "form-label"})
-                            <select class="form-control" id="maritalStatus" name="MaritalStatus">
-                                <option value="">-------- Select---------</option>
-                                @foreach (var maritalStatus in ViewBag.MaritalStatusList)
-                                {
-                                    <option value="@maritalStatus.Value">@maritalStatus.Text</option>
-                                }
-                            </select>
+                            @Html.LabelFor(x => x.MaritalStatus, new { @class = "form-label" })
+                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                   {
+                       DropdownType = DropdownTypeEnum.MaritalStatus.ToString(),
+                       DropdownName = "MaritalStatus",
+                       DropdownSelectedValue = Model.MaritalStatus ?? string.Empty
+                   })
                             @Html.ValidationMessageFor(x => x.MaritalStatus)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.GeneralNationalityMasterId, new { @class = "form-label required"})
+                            @Html.LabelFor(x => x.GeneralNationalityMasterId, new { @class = "form-label required" })
                             @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                        {
-                        DropdownType = DropdownTypeEnum.Nationality.ToString(),
-                        DropdownName = "GeneralNationalityMasterId",
-                        DropdownSelectedValue = Model.PersonId
+                   {
+                       DropdownType = DropdownTypeEnum.Nationality.ToString(),
+                       DropdownName = "GeneralNationalityMasterId",
+                       DropdownSelectedValue = Model.GeneralNationalityMasterId
                         .ToString()
-                        })
+                   })
                             @Html.ValidationMessageFor(x => x.GeneralNationalityMasterId)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.BloodGroup, new { @class = "form-label required"})
-                            <select name="BloodGroup" class="form-control">
-                                <option value="">-------- Select---------</option>
-                                @foreach (var bloodGroup in ViewBag.BloodGroups)
-                                {
-                                    <option value="@bloodGroup">@bloodGroup</option>
-                                }
-                            </select>
+                            @Html.LabelFor(x => x.BloodGroup, new { @class = "form-label required" })
+                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                   {
+                       DropdownType = DropdownTypeEnum.BloodGroups.ToString(),
+                       DropdownName = "BloodGroup",
+                       DropdownSelectedValue = Model.BloodGroup ?? string.Empty
+                   })
                             @Html.ValidationMessageFor(x => x.BloodGroup)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.IndentificationNumber, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.IndentificationNumber, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.IndentificationEnumId, new { @class = "form-label" })
+                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                   {
+                       DropdownSelectedValue = Model.IndentificationEnumId
+                        .ToString(),
+                       DropdownName = "IndentificationEnumId",
+                       GroupCode = DropdownTypeEnum.IndentificationType.ToString()
+                   })   @Html.ValidationMessageFor(x => x.IndentificationEnumId)
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="mb-3">
+                            @Html.LabelFor(x => x.IndentificationNumber, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.IndentificationNumber, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.IndentificationNumber)
                         </div>
                     </div>
+
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.IndentificationEnumId, new { @class = "form-label"})
-                            @Html.DropDownListFor(m => m.IndentificationEnumId, new SelectList(Model.IndentificationList, "Value", "Text"), new { @class = "form-control"})
-                            @Html.ValidationMessageFor(x => x.IndentificationEnumId)
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="mb-3">
-                            @Html.LabelFor(x => x.PhotoMediaId, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.PhotoMediaId, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.PhotoMediaId, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.PhotoMediaId, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.PhotoMediaId)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.BirthMark, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.BirthMark, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.BirthMark, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.BirthMark, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.BirthMark)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.AttendanceIntegrationId, new { @class = "form-label"})
-                            @Html.TextBoxFor(x => x.AttendanceIntegrationId, new { @class = "form-control"})
+                            @Html.LabelFor(x => x.AttendanceIntegrationId, new { @class = "form-label" })
+                            @Html.TextBoxFor(x => x.AttendanceIntegrationId, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.AttendanceIntegrationId)
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="mb-3">
                             @Html.LabelFor(x => x.GeneralOccupationMasterId, new { @class = "form-label" })
-                            @Html.TextBoxFor(x => x.GeneralOccupationMasterId, new { @class = "form-control" })
+                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                   {
+                       DropdownType = DropdownTypeEnum.Occupation.ToString(),
+                       DropdownName = "GeneralOccupationMasterId",
+                       DropdownSelectedValue = Model.GeneralOccupationMasterId.ToString()
+                   })
                             @Html.ValidationMessageFor(x => x.GeneralOccupationMasterId)
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="mb-3">
-                            @Html.LabelFor(x => x.UserType, new { @class = "form-label required"})
-                            @Html.TextBoxFor(x => x.UserType, new { @class = "form-control"})
-                            @Html.ValidationMessageFor(x => x.UserType)
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="mb-3">
-                            @Html.LabelFor(x => x.PersonCode, new { @class = "form-label required"})
-                            @Html.TextBoxFor(x => x.PersonCode, new { @class = "form-control"})
-                            @Html.ValidationMessageFor(x => x.PersonCode)
-                        </div>
-                    </div>
+
                 </div>
                 <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                 <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
@@ -189,54 +202,3 @@
         </div>
     </div>
 </div>
-@section scripts {
-    <script>
-        $(function () {
-            $('#DateOfBirth').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: false,
-                "locale": {
-                    "format": "DD/MM/YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
-        });
-    </script>
-}

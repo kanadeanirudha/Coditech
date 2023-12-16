@@ -1,12 +1,10 @@
 ﻿using Coditech.Admin.Agents;
-using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -35,49 +33,30 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public ActionResult CreateMember()
         {
-            GymMemberDetailsViewModel viewModel = new GymMemberDetailsViewModel()
-            {
-                GeneralPersonViewModel = new GeneralPersonViewModel()
-                {
-                    UserType = UserTypeEnum.GymMember.ToString()
-                }
-            };
-
-            ViewBag.MaritalStatusList = new List<SelectListItem>
-            {
-             new SelectListItem { Value = "Married", Text = "Married" },
-             new SelectListItem { Value = "Single", Text = "Single" },
-            };
-
-            ViewBag.BloodGroups = new List<string>
-            {   "A+","A-", "B+", "B-", "AB+", "AB-","O+", "O-" };
-
-            BindDropdown(viewModel.GeneralPersonViewModel);
+            GymCreateEditMemberViewModel viewModel = new GymCreateEditMemberViewModel();
             return View(createEdit, viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult CreateMember(GeneralPersonViewModel generalPersonViewModel)
+        public virtual ActionResult CreateMember(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
         {
-            GymMemberDetailsViewModel viewModel = new GymMemberDetailsViewModel()
-            {
-                GeneralPersonViewModel = generalPersonViewModel
-            };
-
-            string selectedMaritalStatus = generalPersonViewModel.MaritalStatus;
 
             if (ModelState.IsValid)
             {
-                generalPersonViewModel = _userAgent.InsertPersonInformation(generalPersonViewModel);
+                GeneralPersonViewModel generalPersonViewModel = _userAgent.InsertPersonInformation(gymCreateEditMemberViewModel.ToModel<GeneralPersonViewModel>());
                 if (!generalPersonViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
                 }
+                else
+                {
+                    gymCreateEditMemberViewModel.ErrorMessage = generalPersonViewModel.ErrorMessage;
+                }
             }
-            SetNotificationMessage(GetErrorNotificationMessage(generalPersonViewModel.ErrorMessage));
-            return View(createEdit, viewModel);
+            SetNotificationMessage(GetErrorNotificationMessage(gymCreateEditMemberViewModel.ErrorMessage));
+            return View(createEdit, gymCreateEditMemberViewModel);
         }
 
         [HttpGet]
@@ -118,11 +97,6 @@ namespace Coditech.Admin.Controllers
         //}
 
         #region Protected
-        protected virtual void BindDropdown(GeneralPersonViewModel generalPersonViewModel)
-        {
-            generalPersonViewModel.GenderlList = CoditechDropdownHelper.GetGeneralDropdownList("Gender", Convert.ToString(generalPersonViewModel.GenderEnumId));
-            generalPersonViewModel.IndentificationList = CoditechDropdownHelper.GetGeneralDropdownList("IndentificationType", Convert.ToString(generalPersonViewModel.IndentificationEnumId));
-        }
         #endregion
     }
 }

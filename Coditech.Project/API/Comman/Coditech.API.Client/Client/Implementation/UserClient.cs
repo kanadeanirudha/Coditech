@@ -6,6 +6,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 
 using Newtonsoft.Json;
+
 using System.Net;
 
 namespace Coditech.API.Client
@@ -13,13 +14,15 @@ namespace Coditech.API.Client
     public partial class UserClient : BaseClient, IUserClient
     {
         private System.Lazy<JsonSerializerSettings> _settings;
-        GeneralPersonEndpoint generalPersonEndpoint = null;
+        UserEndpoint userEndpoint = null;
         UserMenuEndpoint userMenuEndpoint = null;
         UserModuleEndpoint userModuleEndpoint = null;
         public UserClient()
         {
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-            generalPersonEndpoint = new GeneralPersonEndpoint();
+            userEndpoint = new UserEndpoint();
+            userMenuEndpoint = new UserMenuEndpoint();
+            userModuleEndpoint = new UserModuleEndpoint();
         }
         private JsonSerializerSettings CreateSerializerSettings()
         {
@@ -248,7 +251,7 @@ namespace Coditech.API.Client
 
         public virtual async Task<GeneralPersonResponse> InsertPersonInformationAsync(GeneralPersonModel body, CancellationToken cancellationToken)
         {
-            string endpoint = generalPersonEndpoint.InsertPersonInformationAsync();
+            string endpoint = userEndpoint.InsertPersonInformationAsync();
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try

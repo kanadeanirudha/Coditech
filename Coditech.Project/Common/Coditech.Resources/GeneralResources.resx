@@ -150,6 +150,9 @@
   <data name="SaveButton" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="SelectLabel" xml:space="preserve">
+    <value>---------Select----------</value>
+  </data>
   <data name="UpdateErrorMessage" xml:space="preserve">
     <value>Failed to update record.</value>
   </data>

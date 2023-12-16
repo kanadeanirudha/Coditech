@@ -6,8 +6,8 @@
     string controllerName = Convert.ToString(ViewContext.RouteData.Values["controller"]).ToLower();
     string actionName = Convert.ToString(ViewContext.RouteData.Values["action"]).ToLower();
     UserMenuModel userMenuModel = Model?.MenuList?.FirstOrDefault(x => x.ControllerName == controllerName);
-    List<UserMenuModel> menuList = Model?.MenuList?.Where(x => x.ModuleCode == userMenuModel.ModuleCode)?.ToList();
-    string moduleName = Model?.ModuleList?.FirstOrDefault(x => x.ModuleCode == userMenuModel.ModuleCode)?.ModuleName;
+    List<UserMenuModel> menuList = userMenuModel != null ? Model?.MenuList?.Where(x => x.ModuleCode == userMenuModel.ModuleCode)?.ToList() : null;
+    string moduleName = userMenuModel != null ? Model?.ModuleList?.FirstOrDefault(x => x.ModuleCode == userMenuModel.ModuleCode)?.ModuleName : string.Empty;
 }
 
 <li class="has-submenu">

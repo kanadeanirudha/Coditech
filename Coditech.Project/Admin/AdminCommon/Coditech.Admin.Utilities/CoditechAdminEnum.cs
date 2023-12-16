@@ -15,6 +15,12 @@
         Region,
         ModuleList,
         MenuList,
-        Nationality
+        Nationality,
+        Gender,
+        IndentificationType,
+        MaritalStatus,
+        BloodGroups,
+        Title,
+        Occupation
     }
 }

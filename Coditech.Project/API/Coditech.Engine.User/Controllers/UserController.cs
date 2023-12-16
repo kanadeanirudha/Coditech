@@ -104,7 +104,7 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GymMemberDetails/InsertPersonInformation")]
+        [Route("/User/InsertPersonInformation")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralPersonResponse))]
         public virtual IActionResult InsertPersonInformation([FromBody] GeneralPersonModel model)

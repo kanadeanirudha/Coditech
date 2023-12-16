@@ -31,7 +31,8 @@
             UserModule,
             UserMainMenu,
             Person,
-            GlobleSettingMaster
+            GlobleSettingMaster, 
+            MediaManager
         }
     }
 }
