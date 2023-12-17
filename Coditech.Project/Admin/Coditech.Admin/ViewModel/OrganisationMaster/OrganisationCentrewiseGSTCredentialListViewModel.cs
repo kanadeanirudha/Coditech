@@ -1,6 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
-using Coditech.Common.Helper;
-namespace Coditech.ViewModel
+﻿using Coditech.Common.Helper;
+namespace Coditech.Admin.ViewModel
 {
     public class OrganisationCentrewiseGSTCredentialListViewModel : BaseViewModel
     {

@@ -1,5 +1,5 @@
 ﻿using Coditech.Common.Helper;
-namespace Coditech.ViewModel
+namespace Coditech.Admin.ViewModel
 {
     public class OrganisationCentrePrintingListViewModel : BaseViewModel
     {

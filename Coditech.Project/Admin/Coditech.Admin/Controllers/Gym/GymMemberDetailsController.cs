@@ -44,6 +44,7 @@ namespace Coditech.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                gymCreateEditMemberViewModel.UserType = UserTypeEnum.GymMember.ToString();
                 GeneralPersonViewModel generalPersonViewModel = _userAgent.InsertPersonInformation(gymCreateEditMemberViewModel.ToModel<GeneralPersonViewModel>());
                 if (!generalPersonViewModel.HasError)
                 {

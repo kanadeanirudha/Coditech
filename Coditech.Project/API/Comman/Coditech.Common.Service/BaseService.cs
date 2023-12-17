@@ -4,6 +4,8 @@ using Coditech.Common.Logger;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using System.Collections.Generic;
+
 namespace Coditech.Common.Service
 {
     public abstract class BaseService
@@ -56,10 +58,16 @@ namespace Coditech.Common.Service
             return userAllModuleList;
         }
 
-        protected virtual List<UserMainMenuMaster> GetAllActiveMenuListList(string moduleCode = null)
+        protected virtual List<UserMainMenuMaster> GetAllActiveMenuList(string moduleCode = null)
         {
             List<UserMainMenuMaster> userAllMenuList = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.IsEnable == true && (x.ModuleCode == moduleCode || moduleCode == null))?.OrderBy(y => y.MenuDisplaySeqNo)?.ToList();
             return userAllMenuList;
+        }
+
+        protected virtual List<GeneralSystemGlobleSettingMaster> GetSystemGlobleSettingList(string featureName = null)
+        {
+            List<GeneralSystemGlobleSettingMaster> settingList = new CoditechRepository<GeneralSystemGlobleSettingMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.FeatureName == featureName || featureName == null)?.ToList();
+            return settingList;
         }
     }
 }

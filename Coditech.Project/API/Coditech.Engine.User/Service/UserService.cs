@@ -56,7 +56,7 @@ namespace Coditech.API.Service
             BindRoleTypes(userModel);
 
             List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
-            List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuListList();
+            List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
             List<AdminRoleMenuDetail> userRoleMenuList = new List<AdminRoleMenuDetail>();
             if (!userModel.IsAdminUser)
             {
@@ -97,6 +97,21 @@ namespace Coditech.API.Service
             if (personData?.PersonId > 0)
             {
                 generalPersonModel.PersonId = personData.PersonId;
+                List<GeneralSystemGlobleSettingMaster> settingMasterList = GetSystemGlobleSettingList();
+                string password = settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.DefaultPassword.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue;
+                generalPersonModel.Password = MD5Hash(password);
+                if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.ActiveProjectName.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == ActiveProjectNameEnum.GMS.ToString())
+                {
+                    //Check Is Gym Member need to Login
+                    if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
+                    {
+                        InsertUserMasterDetails(generalPersonModel);
+                    }
+                }
+                else if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.ActiveProjectName.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == ActiveProjectNameEnum.HMS.ToString())
+                {
+
+                }
             }
             else
             {
@@ -123,7 +138,7 @@ namespace Coditech.API.Service
 
         public virtual List<UserMainMenuMaster> GetActiveMenuList(string moduleCodel)
         {
-            return base.GetAllActiveMenuListList(moduleCodel);
+            return base.GetAllActiveMenuList(moduleCodel);
         }
         #endregion
 
@@ -270,9 +285,11 @@ namespace Coditech.API.Service
             return generalEnumaratorList;
         }
 
-        protected virtual void InsertUserMasterDetails(GeneralPersonModel model)
+        protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel)
         {
-
+            UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
+            userMaster.UserName = string.IsNullOrEmpty(userMaster.EmailId) ? generalPersonModel.MobileNumber : userMaster.EmailId;
+            userMaster = _userMasterRepository.Insert(userMaster);
         }
         #endregion
     }

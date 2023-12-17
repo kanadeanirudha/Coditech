@@ -1,5 +1,5 @@
-﻿using Coditech.Admin.Utilities;
-using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 
 using Microsoft.AspNetCore.Mvc;
 

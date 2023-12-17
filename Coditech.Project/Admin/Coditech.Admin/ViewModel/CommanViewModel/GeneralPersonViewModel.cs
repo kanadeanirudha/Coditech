@@ -87,5 +87,6 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Occupation")]
         public short GeneralOccupationMasterId { get; set; }
+        public string UserType { get; set; }
     }
 }

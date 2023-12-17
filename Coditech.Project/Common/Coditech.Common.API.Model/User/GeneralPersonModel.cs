@@ -4,6 +4,7 @@
     {
         public long PersonId { get; set; }
         public string UserType { get; set; }
+        public string Password { get; set; }
         public string PersonCode { get; set; }
         public string Title { get; set; }
         public string FirstName { get; set; }
