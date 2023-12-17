@@ -1,6 +1,6 @@
 ﻿namespace Coditech.API.Data
 {
-    public partial class UserMaster
+    public partial class UserMaster: BaseDataModel
     {
         public int UserMasterId { get; set; }
         public string UserType { get; set; }
@@ -14,9 +14,5 @@
         public bool IsActive { get; set; }
         public string DeviceToken { get; set; }
         public string LastModuleCode { get; set; }
-        public int? CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int? ModifiedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
     }
 }

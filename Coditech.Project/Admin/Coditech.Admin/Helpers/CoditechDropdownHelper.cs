@@ -4,6 +4,8 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.Helper.Utilities;
+using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -19,10 +21,24 @@ namespace Coditech.Admin.Helpers
         public static DropdownViewModel GeneralDropdownList(DropdownViewModel dropdownViewModel)
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
-            if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.City.ToString()))
+            if (!string.IsNullOrEmpty(dropdownViewModel.GroupCode))
+            {
+                List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
+                dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                foreach (var item in generalEnumaratorList?.Where(x => x.EnumGroupCode == dropdownViewModel.GroupCode)?.OrderBy(y => y.SequenceNumber))
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.EnumDisplayText,
+                        Value = Convert.ToString(item.GeneralEnumaratorId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralEnumaratorId)
+                    });
+                }
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.City.ToString()))
             {
                 GeneralCityListResponse response = new GeneralCityClient().List(null, null, null, 1, int.MaxValue);
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select City-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
                 GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response.GeneralCityList };
                 foreach (var item in list.GeneralCityList)
                 {
@@ -37,7 +53,7 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Country.ToString()))
             {
                 GeneralCountryListResponse response = new GeneralCountryClient().List(null, null, null, 1, int.MaxValue);
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Country-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Country-------" });
                 GeneralCountryListModel list = new GeneralCountryListModel { GeneralCountryList = response.GeneralCountryList };
                 foreach (var item in list.GeneralCountryList)
                 {
@@ -49,11 +65,28 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             }
+
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Nationality.ToString()))
+            {
+                GeneralNationalityListResponse response = new GeneralNationalityClient().List(null, null, null, 1, int.MaxValue);
+                dropdownList.Add(new SelectListItem() { Text = "-------Select -------" });
+                GeneralNationalityListModel list = new GeneralNationalityListModel { GeneralNationalityList = response.GeneralNationalityList };
+                foreach (var item in list.GeneralNationalityList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.Description,
+                        Value = Convert.ToString(item.GeneralNationalityMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralNationalityMasterId)
+                    });
+                }
+            }
+
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccessibleCentre.ToString()))
             {
                 List<UserAccessibleCentreModel> accessibleCentreList = AccessibleCentreList();
                 if (accessibleCentreList?.Count > 1)
-                    dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Centre-------" });
+                    dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------" });
                 foreach (var item in accessibleCentreList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -77,7 +110,7 @@ namespace Coditech.Admin.Helpers
                     GeneralDepartmentListResponse response = new GeneralDepartmentClient().GetDepartmentsByCentreCode(centreCode);
                     list = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
                 }
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Department-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Department-------" });
                 foreach (var item in list?.GeneralDepartmentList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -92,7 +125,7 @@ namespace Coditech.Admin.Helpers
             {
                 GeneralDesignationListResponse response = new GeneralDesignationClient().List(null, null, null, 1, int.MaxValue);
                 GeneralDesignationListModel list = new GeneralDesignationListModel() { GeneralDesignationList = response.GeneralDesignationList };
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Designation-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Designation-------" });
                 foreach (var item in list.GeneralDesignationList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -107,7 +140,7 @@ namespace Coditech.Admin.Helpers
             {
                 GeneralDepartmentListResponse response = new GeneralDepartmentClient().List(null, null, null, 1, int.MaxValue);
                 GeneralDepartmentListModel list = new GeneralDepartmentListModel() { GeneralDepartmentList = response.GeneralDepartmentList };
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Department-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Department-------" });
                 foreach (var item in list?.GeneralDepartmentList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -154,7 +187,7 @@ namespace Coditech.Admin.Helpers
             {
                 GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
                 GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Tax Group-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
                 foreach (var item in list?.GeneralTaxGroupMasterList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -173,7 +206,7 @@ namespace Coditech.Admin.Helpers
                     GeneralRegionListResponse response = new GeneralRegionClient().GetRegionByCountryWise(Convert.ToInt16(dropdownViewModel.Parameter));
                     list = new GeneralRegionListModel { GeneralRegionList = response?.GeneralRegionList };
                 }
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------- Select State --------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------- Select State --------" });
                 foreach (var item in list?.GeneralRegionList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -188,7 +221,7 @@ namespace Coditech.Admin.Helpers
             {
                 GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
                 GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Tax Group-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
                 foreach (var item in list?.GeneralTaxGroupMasterList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -203,7 +236,7 @@ namespace Coditech.Admin.Helpers
             {
                 GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
                 GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Tax Group-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
                 foreach (var item in list?.GeneralTaxGroupMasterList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -214,35 +247,82 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.MaritalStatus.ToString()))
+            {
+                dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "Married",
+                    Value = "Married",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "Single",
+                    Value = "Single",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.BloodGroups.ToString()))
+            {
+                dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "A+",
+                    Value = "A+",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "A-",
+                    Value = "A-",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "B+",
+                    Value = "B+",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "B-",
+                    Value = "B-",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "AB+",
+                    Value = "AB+",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "AB-",
+                    Value = "AB-",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "O+",
+                    Value = "O+",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "O-",
+                    Value = "O-",
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                });
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
 
-        public static List<SelectListItem> GetGeneralDropdownList(string groupCode, string selectedValue)
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
-            list.Add(new SelectListItem() { Text = "------Select-----" });
-            foreach (var item in generalEnumaratorList?.Where(x => x.EnumGroupCode == groupCode)?.OrderBy(y => y.SequenceNumber))
-            {
-                list.Add(new SelectListItem()
-                {
-                    Text = item.EnumDisplayText,
-                    Value = Convert.ToString(item.GeneralEnumaratorMasterId),
-                    Selected = selectedValue == Convert.ToString(item.GeneralEnumaratorMasterId)
-                });
-            }
-            return list;
-        }
         private static string SpiltCentreCode(string centreCode)
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
             return centreCode;
-        }
-        private static string SpiltCountryCode(string countryCode)
-        {
-            countryCode = !string.IsNullOrEmpty(countryCode) && countryCode.Contains(":") ? countryCode.Split(':')[0] : countryCode;
-            return countryCode;
         }
     }
 }

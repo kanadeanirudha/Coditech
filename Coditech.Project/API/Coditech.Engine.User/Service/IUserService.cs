@@ -8,5 +8,6 @@ namespace Coditech.API.Service
         UserModel Login(UserLoginModel model);
         List<UserModuleMaster> GetActiveModuleList();
         List<UserMainMenuMaster> GetActiveMenuList(string moduleCode);
+        GeneralPersonModel InsertPersonInformation(GeneralPersonModel model);
     }
 }

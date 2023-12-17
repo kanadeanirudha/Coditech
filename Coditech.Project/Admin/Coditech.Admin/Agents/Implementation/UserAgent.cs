@@ -3,6 +3,7 @@ using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
@@ -95,6 +96,33 @@ namespace Coditech.Admin.Agents
             UserMenuListViewModel listViewModel = new UserMenuListViewModel();
             listViewModel.MenuList = menuList?.MenuList?.ToViewModel<UserMenuViewModel>().ToList();
             return listViewModel;
+        }
+
+        //Create General Person.
+        public virtual GeneralPersonViewModel InsertPersonInformation(GeneralPersonViewModel generalPersonViewModel)
+        {
+            try
+            {
+                GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonViewModel.ToModel<GeneralPersonModel>());
+                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
+                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<GeneralPersonViewModel>() : new GeneralPersonViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (GeneralPersonViewModel)GetViewModelWithErrorMessage(generalPersonViewModel, ex.ErrorMessage);
+                    default:
+                        return (GeneralPersonViewModel)GetViewModelWithErrorMessage(generalPersonViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Error);
+                return (GeneralPersonViewModel)GetViewModelWithErrorMessage(generalPersonViewModel, GeneralResources.ErrorFailedToCreate);
+            }
         }
         #endregion
     }

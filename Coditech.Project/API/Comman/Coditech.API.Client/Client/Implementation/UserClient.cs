@@ -7,16 +7,22 @@ using Coditech.Common.Exceptions;
 
 using Newtonsoft.Json;
 
+using System.Net;
+
 namespace Coditech.API.Client
 {
     public partial class UserClient : BaseClient, IUserClient
     {
         private System.Lazy<JsonSerializerSettings> _settings;
+        UserEndpoint userEndpoint = null;
         UserMenuEndpoint userMenuEndpoint = null;
         UserModuleEndpoint userModuleEndpoint = null;
         public UserClient()
         {
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            userEndpoint = new UserEndpoint();
+            userMenuEndpoint = new UserMenuEndpoint();
+            userModuleEndpoint = new UserModuleEndpoint();
         }
         private JsonSerializerSettings CreateSerializerSettings()
         {
@@ -238,6 +244,62 @@ namespace Coditech.API.Client
             }
         }
 
+        public virtual GeneralPersonResponse InsertPersonInformation(GeneralPersonModel body)
+        {
+            return Task.Run(async () => await InsertPersonInformationAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<GeneralPersonResponse> InsertPersonInformationAsync(GeneralPersonModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = userEndpoint.InsertPersonInformationAsync();
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<GeneralPersonResponse> objectResponseResult2 = await ReadObjectResponseAsync<GeneralPersonResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<GeneralPersonResponse> objectResponseResult1 = await ReadObjectResponseAsync<GeneralPersonResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult1.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult1.Object.ErrorCode, objectResponseResult1.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult1.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            GeneralPersonResponse result = JsonConvert.DeserializeObject<GeneralPersonResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
+        }
+
         protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         protected struct ObjectResponseResult<T>
@@ -251,6 +313,11 @@ namespace Coditech.API.Client
             public T Object { get; }
 
             public string Text { get; }
+
+            public static implicit operator ObjectResponseResult<T>(BaseClient.ObjectResponseResult<GeneralPersonResponse> v)
+            {
+                throw new NotImplementedException();
+            }
         }
         public bool ReadResponseAsString { get; set; }
     }

@@ -2,7 +2,7 @@
 
 namespace Coditech.API.Data
 {
-    public partial class AdminRoleMaster
+    public partial class AdminRoleMaster : BaseDataModel
     {
         [Key]
         public int AdminRoleMasterId { get; set; }
@@ -14,10 +14,6 @@ namespace Coditech.API.Data
         public bool IsLoginAllowFromOutside { get; set; }
         public bool IsAttendaceAllowFromOutside { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }
 

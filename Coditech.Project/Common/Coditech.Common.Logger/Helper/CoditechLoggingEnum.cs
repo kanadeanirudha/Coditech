@@ -30,7 +30,10 @@
             CentrewiseGST,
             UserModule,
             UserMainMenu,
-            //Enumarator
+            Person,
+            GlobleSettingMaster, 
+            MediaManager,
+            Enumarator
         }
     }
 }

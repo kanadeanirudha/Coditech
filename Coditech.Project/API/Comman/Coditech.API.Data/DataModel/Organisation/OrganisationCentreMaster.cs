@@ -1,6 +1,6 @@
 ﻿namespace Coditech.API.Data
 {
-    public partial class OrganisationCentreMaster 
+    public partial class OrganisationCentreMaster : BaseDataModel
     {
         public short OrganisationCentreMasterId { get; set; }
         public string CentreCode { get; set; }
@@ -32,9 +32,5 @@
         public string PFNumber { get; set; }
         public string ESICNumber { get; set; }
         public string WaterMark { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

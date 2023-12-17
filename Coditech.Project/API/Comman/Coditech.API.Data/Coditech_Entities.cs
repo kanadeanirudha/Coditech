@@ -23,7 +23,9 @@ namespace Coditech.API.Data
         public DbSet<GeneralNationalityMaster> GeneralNationalityMaster { get; set; }
         public DbSet<EmployeeDesignationMaster> EmployeeDesignationMaster { get; set; }
         public DbSet<GeneralRegionMaster> GeneralRegionMaster { get; set; }
-        public DbSet<GeneralEnumarator> GeneralEnumarator { get; set; }        
+        public DbSet<GeneralEnumarator> GeneralEnumarator { get; set; }
+        public DbSet<GeneralEnumaratorGroup> GeneralEnumaratorGroup { get; set; }
+        public DbSet<GeneralSystemGlobleSettingMaster> GeneralSystemGlobleSettingMaster { get; set; }
         #endregion
 
         #region Organisation
@@ -46,6 +48,7 @@ namespace Coditech.API.Data
         public DbSet<UserMaster> UserMaster { get; set; }
         public DbSet<UserModuleMaster> UserModuleMaster { get; set; }
         public DbSet<UserMainMenuMaster> UserMainMenuMaster { get; set; }
+        public DbSet<GeneralPerson> GeneralPerson { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

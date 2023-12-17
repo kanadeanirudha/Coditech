@@ -160,6 +160,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ---------Select----------.
+        /// </summary>
+        public static string SelectLabel {
+            get {
+                return ResourceManager.GetString("SelectLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to update record..
         /// </summary>
         public static string UpdateErrorMessage {

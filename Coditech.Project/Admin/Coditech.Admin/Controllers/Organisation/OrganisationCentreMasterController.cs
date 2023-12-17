@@ -2,7 +2,6 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Resources;
-using Coditech.ViewModel;
 
 using Microsoft.AspNetCore.Mvc;
 
