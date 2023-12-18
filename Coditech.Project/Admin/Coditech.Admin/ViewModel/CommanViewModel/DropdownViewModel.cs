@@ -16,5 +16,6 @@ namespace Coditech.Admin.ViewModel
         public string Parameter { get; set; }
         public string GroupCode { get; set; }
         public bool IsDisabled { get; set; }
+        public bool IsRequired { get; set; } = true;
     }
 }

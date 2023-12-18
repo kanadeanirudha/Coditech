@@ -83,14 +83,31 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        //Get Get Member Details by personId.
+        //Get Member Personal Details by personId.
         public virtual GymCreateEditMemberViewModel GetMemberPersonalDetails(long personId)
         {
-            //GymMemberDetailsResponse response = _gymMemberDetailsClient.GetCountry(gymMemberDetailsId);
-            //return response?.GymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>();
-
-            return new GymCreateEditMemberViewModel();
+            GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
+            return response?.GeneralPersonModel.ToViewModel<GymCreateEditMemberViewModel>();
         }
+
+        //Update Member Details
+        public virtual GymCreateEditMemberViewModel UpdateMemberPersonalDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                GeneralPersonResponse response = _userClient.UpdatePersonInformation(gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>());
+                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<GymCreateEditMemberViewModel>() : (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(new GymCreateEditMemberViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(gymCreateEditMemberViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
 
         //Get Get Member Details by personId.
         public virtual GymCreateEditMemberViewModel GetMemberDetails(long personId)
@@ -99,25 +116,6 @@ namespace Coditech.Admin.Agents
             //return response?.GymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>();
 
             return new GymCreateEditMemberViewModel();
-        }
-
-        //Update Member Details
-        public virtual GymCreateEditMemberViewModel UpdateMemberDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
-        {
-            try
-            {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                //GymMemberDetailsResponse response = _gymMemberDetailsClient.UpdateCountry(gymMemberDetailsViewModel.ToModel<GymMemberDetailsModel>());
-                //GymMemberDetailsModel gymMemberDetailsModel = response?.GymMemberDetailsModel;
-                //_coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                //return IsNotNull(gymMemberDetailsModel) ? gymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>() : (GymMemberDetailsViewModel)GetViewModelWithErrorMessage(new GymMemberDetailsViewModel(), GeneralResources.UpdateErrorMessage);
-                return new GymCreateEditMemberViewModel();
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                return (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(gymCreateEditMemberViewModel, GeneralResources.UpdateErrorMessage);
-            }
         }
 
         //Delete gymMemberDetails.

@@ -24,7 +24,11 @@ namespace Coditech.Admin.Helpers
             if (!string.IsNullOrEmpty(dropdownViewModel.GroupCode))
             {
                 List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
-                dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                if (dropdownViewModel.IsRequired)
+                    dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                else
+                    dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+
                 foreach (var item in generalEnumaratorList?.Where(x => x.EnumGroupCode == dropdownViewModel.GroupCode)?.OrderBy(y => y.SequenceNumber))
                 {
                     dropdownList.Add(new SelectListItem()
@@ -252,15 +256,15 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = "Married",
-                    Value = "Married",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Text = "Single",
+                    Value = "Single",
+                    Selected = "Single" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = "Single",
-                    Value = "Single",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Text = "Married",
+                    Value = "Married",
+                    Selected = "Married" == dropdownViewModel.DropdownSelectedValue
                 });
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.BloodGroups.ToString()))
@@ -270,49 +274,49 @@ namespace Coditech.Admin.Helpers
                 {
                     Text = "A+",
                     Value = "A+",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Selected = "A+" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "A-",
                     Value = "A-",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Selected = "A-" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "B+",
                     Value = "B+",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Selected = "B+" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "B-",
                     Value = "B-",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Selected = "B-" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "AB+",
                     Value = "AB+",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Selected = "AB+" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "AB-",
                     Value = "AB-",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Selected = "AB-" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "O+",
                     Value = "O+",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Selected = "O+" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "O-",
                     Value = "O-",
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
+                    Selected = "O-" == dropdownViewModel.DropdownSelectedValue
                 });
             }
             dropdownViewModel.DropdownList = dropdownList;

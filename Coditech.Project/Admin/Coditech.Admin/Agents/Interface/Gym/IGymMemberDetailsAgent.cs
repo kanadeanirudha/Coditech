@@ -19,6 +19,13 @@ namespace Coditech.Admin.Agents
         GymCreateEditMemberViewModel CreateMemberDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel);
 
         /// <summary>
+        /// Get Member Personal Details by personId.
+        /// </summary>
+        /// <param name="personId">personId</param>
+        /// <returns>Returns GymCreateEditMemberViewModel.</returns>
+        GymCreateEditMemberViewModel GetMemberPersonalDetails(long personId);
+
+        /// <summary>
         /// Get Member Details by personId.
         /// </summary>
         /// <param name="personId">personId</param>
@@ -26,11 +33,11 @@ namespace Coditech.Admin.Agents
         GymCreateEditMemberViewModel GetMemberDetails(long personId);
 
         /// <summary>
-        /// Update MemberDetails.
+        /// Update Member Personal Details.
         /// </summary>
         /// <param name="gymCreateEditMemberViewModel">gymCreateEditMemberViewModel.</param>
         /// <returns>Returns updated GymCreateEditMemberViewModel</returns>
-        GymCreateEditMemberViewModel UpdateMemberDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel);
+        GymCreateEditMemberViewModel UpdateMemberPersonalDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel);
 
         /// <summary>
         /// Delete Members.

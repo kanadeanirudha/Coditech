@@ -13,6 +13,7 @@ namespace Coditech.Admin.ViewModel
         public string PersonCode { get; set; }
 
         [MaxLength(50)]
+        [MinLength(1)]
         [Required]
         public string Title { get; set; }
 
@@ -45,7 +46,8 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Telephone Number")]
         public string PhoneNumber { get; set; }
 
-        [MaxLength(15)]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Please enter valid mobile number")]
+        [MaxLength(10)]
         [Required]
         [Display(Name = "Mobile Number")]
         public string MobileNumber { get; set; }
@@ -82,12 +84,13 @@ namespace Coditech.Admin.ViewModel
         public string BirthMark { get; set; }
 
         [MaxLength(100)]
-        [Display(Name = "Attendance Id")]
+        [Display(Name = "Attendance Integration Id")]
         public string AttendanceIntegrationId { get; set; }
 
         [Display(Name = "Occupation")]
         public short GeneralOccupationMasterId { get; set; }
         public string UserType { get; set; }
+        [Display(Name = "Anniversary Date")]
         public DateTime? AnniversaryDate { get; set; }
     }
 }

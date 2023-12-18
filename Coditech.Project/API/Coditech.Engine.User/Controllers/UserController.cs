@@ -127,7 +127,7 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GymMemberDetails/GetPersonInformation")]
+        [Route("/User/GetPersonInformation")]
         [HttpGet]
         [Produces(typeof(GeneralPersonResponse))]
         public virtual IActionResult GetPersonInformation(long personId)
@@ -149,7 +149,7 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GymMemberDetails/UpdatePersonInformation")]
+        [Route("/User/UpdatePersonInformation")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralPersonResponse))]
         public virtual IActionResult UpdatePersonInformation([FromBody] GeneralPersonModel model)

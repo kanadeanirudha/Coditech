@@ -35,7 +35,11 @@
                     @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", Model.GymMemberDetailId.ToString())
                 </div>
             }
-            @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model);
+            @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+            {
+                @Html.HiddenFor(m => m.GymMemberDetailId);
+                @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model)
+            }
         </div>
     </div>
 </div>
@@ -49,9 +53,55 @@
                 showWeekNumbers: false,
                 drops: "auto",
                 opens: "right",
-                autoApply: false,
+                autoApply: true,
                 "locale": {
-                    "format": "DD/MM/YYYY",
+                    "format": "YYYY-MM-DD",
+                    "separator": " - ",
+                    "applyLabel": "Apply",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                minYear: 1901,
+                maxYear: parseInt(moment().format('YYYY'), 10)
+            },
+                function (start, end, label) { });
+
+            $('#AnniversaryDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                showWeekNumbers: false,
+                drops: "auto",
+                opens: "right",
+                autoApply: true,
+                "locale": {
+                    "format": "YYYY-MM-DD",
                     "separator": " - ",
                     "applyLabel": "Apply",
                     "cancelLabel": "Cancel",
@@ -91,3 +141,4 @@
         });
     </script>
 }
+

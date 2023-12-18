@@ -40,7 +40,6 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 gymCreateEditMemberViewModel = _gymMemberDetailsAgent.CreateMemberDetails(gymCreateEditMemberViewModel);
                 if (!gymCreateEditMemberViewModel.HasError)
                 {
@@ -55,23 +54,23 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Edit(int gymMemberDetailId, long personId)
         {
-            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberDetails(personId);
+            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberPersonalDetails(personId);
             gymCreateEditMemberViewModel.GymMemberDetailId = gymMemberDetailId;
             return ActionView(createEdit, gymCreateEditMemberViewModel);
         }
 
-        //[HttpPost]
-        //public virtual ActionResult Edit(GeneralGymMemberDetailsViewModel gymMemberDetailsViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        SetNotificationMessage(_gymMemberDetailsAgent.UpdateGymMemberDetails(gymMemberDetailsViewModel).HasError
-        //        ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-        //        : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-        //        return RedirectToAction("Edit", new { gymMemberDetailsId = gymMemberDetailsViewModel.GymMemberDetailsId });
-        //    }
-        //    return View(createEdit, gymMemberDetailsViewModel);
-        //}
+        [HttpPost]
+        public virtual ActionResult Edit(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_gymMemberDetailsAgent.UpdateMemberPersonalDetails(gymCreateEditMemberViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("Edit", new { gymMemberDetailId = gymCreateEditMemberViewModel.GymMemberDetailId, personId = gymCreateEditMemberViewModel.PersonId });
+            }
+            return View(createEdit, gymCreateEditMemberViewModel);
+        }
 
         public virtual ActionResult Delete(string gymMemberDetailIds)
         {

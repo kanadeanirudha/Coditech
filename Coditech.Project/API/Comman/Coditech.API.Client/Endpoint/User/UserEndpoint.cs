@@ -9,10 +9,10 @@ namespace Coditech.API.Endpoint
             $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/InsertPersonInformation";
 
         public string GetPersonInformationAsync(long personId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberDetails/GetPersonInformation?personId={personId}";
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/GetPersonInformation?personId={personId}";
 
         public string UpdatePersonInformationAsync() =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberDetails/UpdatePersonInformation";
+               $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/UpdatePersonInformation";
 
     }
 }
