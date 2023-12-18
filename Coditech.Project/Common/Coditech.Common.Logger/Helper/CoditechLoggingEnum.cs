@@ -33,6 +33,7 @@
             Person,
             GlobleSettingMaster, 
             MediaManager,
+            Gym,
             Enumarator
         }
     }

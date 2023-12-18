@@ -97,33 +97,6 @@ namespace Coditech.Admin.Agents
             listViewModel.MenuList = menuList?.MenuList?.ToViewModel<UserMenuViewModel>().ToList();
             return listViewModel;
         }
-
-        //Create General Person.
-        public virtual GeneralPersonViewModel InsertPersonInformation(GeneralPersonViewModel generalPersonViewModel)
-        {
-            try
-            {
-                GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonViewModel.ToModel<GeneralPersonModel>());
-                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
-                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<GeneralPersonViewModel>() : new GeneralPersonViewModel();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Warning);
-                switch (ex.ErrorCode)
-                {
-                    case ErrorCodes.AlreadyExist:
-                        return (GeneralPersonViewModel)GetViewModelWithErrorMessage(generalPersonViewModel, ex.ErrorMessage);
-                    default:
-                        return (GeneralPersonViewModel)GetViewModelWithErrorMessage(generalPersonViewModel, GeneralResources.ErrorFailedToCreate);
-                }
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Error);
-                return (GeneralPersonViewModel)GetViewModelWithErrorMessage(generalPersonViewModel, GeneralResources.ErrorFailedToCreate);
-            }
-        }
         #endregion
     }
 }
