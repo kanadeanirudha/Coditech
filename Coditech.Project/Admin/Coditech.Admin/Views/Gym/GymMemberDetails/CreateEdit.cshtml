@@ -32,13 +32,10 @@
             @if (Model.GymMemberDetailId > 0)
             {
                 <div class="col-lg-2">
-                    @Html.Partial("~/Views/Gym/GymMemberDetails/GymMemberDetailsSidePannel.cshtml", Model.GymMemberDetailId.ToString())
+                    @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", Model.GymMemberDetailId.ToString())
                 </div>
             }
-            else
-            {
-                @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model);
-            }
+            @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model);
         </div>
     </div>
 </div>

@@ -1,8 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.Helper;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -55,9 +53,10 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(long personId)
+        public virtual ActionResult Edit(int gymMemberDetailId, long personId)
         {
             GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberDetails(personId);
+            gymCreateEditMemberViewModel.GymMemberDetailId = gymMemberDetailId;
             return ActionView(createEdit, gymCreateEditMemberViewModel);
         }
 

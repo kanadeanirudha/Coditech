@@ -3,7 +3,6 @@
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
 using Coditech.Model;
-using Coditech.ViewModel;
 
 namespace Coditech.Admin
 {

@@ -6,14 +6,18 @@ namespace Coditech.Admin.ViewModel
     {
         public GymMemberDetailsViewModel()
         {
-            GeneralPersonViewModel = new GeneralPersonViewModel();
         }
-        public GeneralPersonViewModel GeneralPersonViewModel { get; set; }
         public int GymMemberDetailId { get; set; }
-        public long GeneralPersonId { get; set; }
+        public long PersonId { get; set; }
+        public string PersonCode { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string DateOfBirth { get; set; }
+        public string PastInjuries { get; set; }
+        public string MedicalHistory { get; set; }
+        public string OtherInformation { get; set; }
+        public short? GymGroupMasterId { get; set; }
+        public int? SourceEmumId { get; set; }
     }
 }

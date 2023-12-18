@@ -3,7 +3,7 @@ using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Client
 {
-    public interface IGeneralGymMemberDetailsClient : IBaseClient
+    public interface IGymMemberDetailsClient : IBaseClient
     {
         /// <summary>
         /// Get list of Gym Member.

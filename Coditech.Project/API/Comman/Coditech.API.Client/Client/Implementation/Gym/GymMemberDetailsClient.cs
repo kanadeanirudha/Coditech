@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 
 namespace Coditech.API.Client
 {
-    public class GeneralGymMemberDetailsClient : BaseClient, IGeneralGymMemberDetailsClient
+    public class GymMemberDetailsClient : BaseClient, IGymMemberDetailsClient
     {
         GymMemberDetailsEndpoint gymMemberDetailsEndpoint = null;
-        public GeneralGymMemberDetailsClient()
+        public GymMemberDetailsClient()
         {
             gymMemberDetailsEndpoint = new GymMemberDetailsEndpoint();
         }

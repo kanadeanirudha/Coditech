@@ -220,7 +220,7 @@ namespace Coditech.API.Common
         {
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
-            builder.Services.AddScoped<IGeneralGymMemberDetailsService, GeneralGymMemberDetailsService>();
+            builder.Services.AddScoped<IGymMemberDetailsService, GymMemberDetailsService>();
         }
         #endregion
     }

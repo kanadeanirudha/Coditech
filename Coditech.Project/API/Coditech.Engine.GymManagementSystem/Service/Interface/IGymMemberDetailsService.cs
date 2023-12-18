@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 
 namespace Coditech.API.Service
 {
-    public interface IGeneralGymMemberDetailsService
+    public interface IGymMemberDetailsService
     {
         GymMemberDetailsListModel GetGymMemberDetailsList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
     }
