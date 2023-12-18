@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -11,18 +12,18 @@ namespace Coditech.Admin.Controllers
     public class GymMemberDetailsController : BaseController
     {
         private readonly IUserAgent _userAgent;
-        //private readonly IGeneralGymMemberDetailsAgent _gymMemberDetailsAgent;
+        private readonly IGeneralGymMemberDetailsAgent _gymMemberDetailsAgent;
         private const string createEdit = "~/Views/Gym/GymMemberDetails/CreateEdit.cshtml";
 
-        public GymMemberDetailsController(/*IGeneralGymMemberDetailsAgent gymMemberDetailsAgent*/ IUserAgent userAgent)
+        public GymMemberDetailsController(IGeneralGymMemberDetailsAgent gymMemberDetailsAgent, IUserAgent userAgent)
         {
-            //_gymMemberDetailsAgent = gymMemberDetailsAgent;
+            _gymMemberDetailsAgent = gymMemberDetailsAgent;
             _userAgent = userAgent;
         }
 
         public ActionResult List(DataTableViewModel dataTableModel)
         {
-            GymMemberDetailsListViewModel list = new GymMemberDetailsListViewModel();// _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableModel);
+            GymMemberDetailsListViewModel list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_List.cshtml", list);

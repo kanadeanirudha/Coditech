@@ -31,6 +31,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentreAgent, OrganisationCentreAgent>();
             builder.Services.AddScoped<IGeneralRegionAgent, GeneralRegionAgent>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingAgent, GeneralSystemGlobleSettingAgent>();
+            builder.Services.AddScoped<IGeneralGymMemberDetailsAgent, GeneralGymMemberDetailsAgent>();
             #endregion
 
             #region Client
@@ -50,6 +51,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentreClient, OrganisationCentreClient>();
             builder.Services.AddScoped<IGeneralRegionClient, GeneralRegionClient>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingClient, GeneralSystemGlobleSettingClient>();
+            builder.Services.AddScoped<IGeneralGymMemberDetailsClient, GeneralGymMemberDetailsClient>();
             #endregion
         }
     }
