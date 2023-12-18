@@ -135,14 +135,39 @@ namespace Coditech.API.Service
             return generalPersonModel;
         }
 
-        public virtual void GetPersonInformation(long personId)
+        public virtual GeneralPersonModel GetPersonInformation(long personId)
         {
+            if (personId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
 
+            //Get the General Person Details based on id.
+            GeneralPerson personData = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == personId);
+            GeneralPersonModel generalPersonModel = personData.FromEntityToModel<GeneralPersonModel>();
+            return generalPersonModel;
         }
 
-        public virtual void UpdatePersonInformation()
+        public virtual bool UpdatePersonInformation(GeneralPersonModel generalPersonModel)
         {
 
+            if (IsNull(generalPersonModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (generalPersonModel.PersonId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
+
+            //if (IsFirstNameAlreadyExist(generalPersonModel.FirstName))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "First Name"));
+
+            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
+
+            //Update Gym Member
+            bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
+            if (!isPersonUpdated)
+            {
+                generalPersonModel.HasError = true;
+                generalPersonModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isPersonUpdated;
         }
 
         public virtual List<UserModuleMaster> GetActiveModuleList()

@@ -33,5 +33,19 @@ namespace Coditech.API.Client
         /// <param name="GeneralPersonModel">GeneralPersonModel.</param>
         /// <returns>Returns GeneralPersonResponse.</returns>
         GeneralPersonResponse InsertPersonInformation(GeneralPersonModel body);
+
+        /// <summary>
+        /// Get GeneralPerson by personId.
+        /// </summary>
+        /// <param name="personId">personId</param>
+        /// <returns>Returns GeneralPersonResponse.</returns>
+        GeneralPersonResponse GetPersonInformation(long personId);
+
+        /// <summary>
+        /// Update GeneralPerson.
+        /// </summary>
+        /// <param name="GeneralPersonModel">GeneralPersonModel.</param>
+        /// <returns>Returns updated GeneralPersonResponse</returns>
+        GeneralPersonResponse UpdatePersonInformation(GeneralPersonModel body);
     }
 }

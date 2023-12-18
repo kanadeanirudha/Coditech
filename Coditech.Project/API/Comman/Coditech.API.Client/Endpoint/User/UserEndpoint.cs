@@ -8,5 +8,11 @@ namespace Coditech.API.Endpoint
         public string InsertPersonInformationAsync() =>
             $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/InsertPersonInformation";
 
+        public string GetPersonInformationAsync(long personId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberDetails/GetPersonInformation?personId={personId}";
+
+        public string UpdatePersonInformationAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberDetails/UpdatePersonInformation";
+
     }
 }

@@ -16,6 +16,7 @@ namespace Coditech.API.Controllers
     [ApiController]
     public class UserController : BaseController
     {
+
         private readonly IUserService _userService;
         protected readonly ICoditechLogging _coditechLogging;
         public UserController(ICoditechLogging coditechLogging, IUserService UserService)
@@ -113,6 +114,50 @@ namespace Coditech.API.Controllers
             {
                 GeneralPersonModel generalPerson = _userService.InsertPersonInformation(model);
                 return HelperUtility.IsNotNull(generalPerson) ? CreateCreatedResponse(new GeneralPersonResponse { GeneralPersonModel = generalPerson }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralPersonResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralPersonResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GymMemberDetails/GetPersonInformation")]
+        [HttpGet]
+        [Produces(typeof(GeneralPersonResponse))]
+        public virtual IActionResult GetPersonInformation(long personId)
+        {
+            try
+            {
+                GeneralPersonModel generalPersonModel = _userService.GetPersonInformation(personId);
+                return HelperUtility.IsNotNull(generalPersonModel) ? CreateOKResponse(new GeneralPersonResponse() { GeneralPersonModel = generalPersonModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralPersonResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralPersonResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GymMemberDetails/UpdatePersonInformation")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(GeneralPersonResponse))]
+        public virtual IActionResult UpdatePersonInformation([FromBody] GeneralPersonModel model)
+        {
+            try
+            {
+                bool isUpdated = _userService.UpdatePersonInformation(model);
+                return isUpdated ? CreateOKResponse(new GeneralPersonResponse { GeneralPersonModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
