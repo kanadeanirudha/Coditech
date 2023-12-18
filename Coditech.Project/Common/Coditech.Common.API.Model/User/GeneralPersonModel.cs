@@ -25,5 +25,6 @@
         public string BirthMark { get; set; }
         public string AttendanceIntegrationId { get; set; }
         public short GeneralOccupationMasterId { get; set; }
+        public DateTime? AnniversaryDate { get; set; }
     }
 }

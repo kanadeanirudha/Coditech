@@ -19,15 +19,15 @@ namespace Coditech.Admin.Agents
     {
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly IGeneralCountryClient _generalCountryClient;
+        private readonly IGymMemberDetailsClient _gymMemberDetailsClient;
         private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
-        public GymMemberDetailsAgent(ICoditechLogging coditechLogging, IGeneralCountryClient generalCountryClient, IUserClient userClient)
+        public GymMemberDetailsAgent(ICoditechLogging coditechLogging, IGymMemberDetailsClient gymMemberDetailsClient, IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
-            _generalCountryClient = GetClient<IGeneralCountryClient>(generalCountryClient);
+            _gymMemberDetailsClient = GetClient<IGymMemberDetailsClient>(gymMemberDetailsClient);
             _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
@@ -40,20 +40,19 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("CountryName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("CountryCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CountryName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralCountryListResponse response = _generalCountryClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralCountryListModel countryList = new GeneralCountryListModel { GeneralCountryList = response?.GeneralCountryList };
-            GeneralCountryListViewModel listViewModel = new GeneralCountryListViewModel();
-            listViewModel.GeneralCountryList = countryList?.GeneralCountryList?.ToViewModel<GeneralCountryViewModel>().ToList();
+            GymMemberDetailsListResponse response = _gymMemberDetailsClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberDetailsListModel countryList = new GymMemberDetailsListModel { GymMemberDetailsList = response?.GymMemberDetailsList };
+            GymMemberDetailsListViewModel listViewModel = new GymMemberDetailsListViewModel();
+            listViewModel.GymMemberDetailsList = countryList?.GymMemberDetailsList?.ToViewModel<GymMemberDetailsViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralCountryList.Count, BindColumns());
-            //Todo
-            return /*listViewModel*/ new GymMemberDetailsListViewModel();
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberDetailsList.Count, BindColumns());
+            return listViewModel;
         }
 
         //Create Member Details
@@ -85,10 +84,19 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Get Member Details by personId.
+        public virtual GymCreateEditMemberViewModel GetMemberPersonalDetails(long personId)
+        {
+            //GymMemberDetailsResponse response = _gymMemberDetailsClient.GetCountry(gymMemberDetailsId);
+            //return response?.GymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>();
+
+            return new GymCreateEditMemberViewModel();
+        }
+
+        //Get Get Member Details by personId.
         public virtual GymCreateEditMemberViewModel GetMemberDetails(long personId)
         {
-            //GeneralCountryResponse response = _generalCountryClient.GetCountry(generalCountryId);
-            //return response?.GeneralCountryModel.ToViewModel<GeneralCountryViewModel>();
+            //GymMemberDetailsResponse response = _gymMemberDetailsClient.GetCountry(gymMemberDetailsId);
+            //return response?.GymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>();
 
             return new GymCreateEditMemberViewModel();
         }
@@ -99,10 +107,10 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                //GeneralCountryResponse response = _generalCountryClient.UpdateCountry(generalCountryViewModel.ToModel<GeneralCountryModel>());
-                //GeneralCountryModel generalCountryModel = response?.GeneralCountryModel;
+                //GymMemberDetailsResponse response = _gymMemberDetailsClient.UpdateCountry(gymMemberDetailsViewModel.ToModel<GymMemberDetailsModel>());
+                //GymMemberDetailsModel gymMemberDetailsModel = response?.GymMemberDetailsModel;
                 //_coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                //return IsNotNull(generalCountryModel) ? generalCountryModel.ToViewModel<GeneralCountryViewModel>() : (GeneralCountryViewModel)GetViewModelWithErrorMessage(new GeneralCountryViewModel(), GeneralResources.UpdateErrorMessage);
+                //return IsNotNull(gymMemberDetailsModel) ? gymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>() : (GymMemberDetailsViewModel)GetViewModelWithErrorMessage(new GymMemberDetailsViewModel(), GeneralResources.UpdateErrorMessage);
                 return new GymCreateEditMemberViewModel();
             }
             catch (Exception ex)
@@ -112,7 +120,7 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        //Delete generalCountry.
+        //Delete gymMemberDetails.
         public virtual bool DeleteMembers(string gymMemberDetailIds, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
@@ -120,7 +128,7 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _generalCountryClient.DeleteCountry(new ParameterModel { Ids = gymMemberDetailIds });
+                TrueFalseResponse trueFalseResponse = new TrueFalseResponse();// _gymMemberDetailsClient.DeleteMembers(new ParameterModel { Ids = gymMemberDetailIds });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -129,7 +137,7 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
-                        errorMessage = AdminResources.ErrorDeleteGeneralCountryMaster;
+                        //errorMessage = AdminResources.ErrorDeleteGymMemberDetailsMaster;
                         return false;
                     default:
                         errorMessage = GeneralResources.ErrorFailedToDelete;
@@ -151,20 +159,15 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Country Name",
-                ColumnCode = "CountryName",
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Country Code",
-                ColumnCode = "CountryCode",
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
                 IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Is Default",
-                ColumnCode = "DefaultFlag",
             });
             return datatableColumnList;
         }
