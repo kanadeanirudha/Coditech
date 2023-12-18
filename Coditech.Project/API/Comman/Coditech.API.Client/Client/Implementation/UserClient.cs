@@ -291,9 +291,6 @@ namespace Coditech.API.Client
                         }
                 }
             }
-            catch (Exception ex) {
-                return null;
-            }
             finally
             {
                 if (disposeResponse)

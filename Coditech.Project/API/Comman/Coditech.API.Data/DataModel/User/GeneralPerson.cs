@@ -25,10 +25,15 @@ namespace Coditech.API.Data
         public string BirthMark { get; set; }
         public string AttendanceIntegrationId { get; set; }
         public short GeneralOccupationMasterId { get; set; }
+        public DateTime? AnniversaryDate { get; set; }
         public string Custom1 { get; set; }
         public string Custom2 { get; set; }
         public string Custom3 { get; set; }
         public string Custom4 { get; set; }
         public string Custom5 { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

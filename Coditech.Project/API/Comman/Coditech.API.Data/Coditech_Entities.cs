@@ -8,8 +8,7 @@ namespace Coditech.API.Data
         {
         }
 
-        public Coditech_Entities(DbContextOptions<Coditech_Entities> options)
-            : base(options)
+        public Coditech_Entities(DbContextOptions<Coditech_Entities> options) : base(options)
         {
         }
 
@@ -29,9 +28,9 @@ namespace Coditech.API.Data
         #endregion
 
         #region Organisation
-        public DbSet<OrganisationMaster> OrganisationMaster { get; set;}
-        public DbSet<OrganisationCentreMaster> OrganisationCentreMaster { get; set;}
-        public DbSet<OrganisationCentrewiseDepartment> OrganisationCentrewiseDepartment { get; set;}
+        public DbSet<OrganisationMaster> OrganisationMaster { get; set; }
+        public DbSet<OrganisationCentreMaster> OrganisationCentreMaster { get; set; }
+        public DbSet<OrganisationCentrewiseDepartment> OrganisationCentrewiseDepartment { get; set; }
         public DbSet<OrganisationCentrePrintingFormat> OrganisationCentrePrintingFormat { get; set; }
         public DbSet<OrganisationCentrewiseGSTCredential> OrganisationCentrewiseGSTCredential { get; set; }
         #endregion
@@ -46,9 +45,14 @@ namespace Coditech.API.Data
 
         #region User
         public DbSet<UserMaster> UserMaster { get; set; }
+        public DbSet<UserType> UserType { get; set; }
         public DbSet<UserModuleMaster> UserModuleMaster { get; set; }
         public DbSet<UserMainMenuMaster> UserMainMenuMaster { get; set; }
         public DbSet<GeneralPerson> GeneralPerson { get; set; }
+        #endregion
+
+        #region Gym
+        public DbSet<GymMemberDetails> GymMemberDetails { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
