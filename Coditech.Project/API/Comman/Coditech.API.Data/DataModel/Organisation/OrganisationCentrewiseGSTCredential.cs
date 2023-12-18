@@ -2,7 +2,7 @@
 
 namespace Coditech.API.Data
 {
-    public partial class OrganisationCentrewiseGSTCredential : BaseDataModel
+    public partial class OrganisationCentrewiseGSTCredential
     {
         public short OrganisationCentrewiseGSTCredentialId { get; set; }
         public short OrganisationCentreMasterId { get; set; }
@@ -17,5 +17,9 @@ namespace Coditech.API.Data
         public string TokenExpiry { get; set; }
         public string ClientId { get; set; }
         public bool IsLiveMode { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

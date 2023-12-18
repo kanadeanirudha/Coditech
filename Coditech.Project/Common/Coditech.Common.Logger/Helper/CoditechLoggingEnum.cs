@@ -32,7 +32,8 @@
             UserMainMenu,
             Person,
             GlobleSettingMaster, 
-            MediaManager
+            MediaManager,
+            Gym
         }
     }
 }
