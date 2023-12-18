@@ -2,7 +2,7 @@
 
 namespace Coditech.API.Data
 {
-    public partial class GeneralPerson : BaseDataModel
+    public partial class GeneralPerson
     {
         [Key]
         public long PersonId { get; set; }

@@ -291,6 +291,9 @@ namespace Coditech.API.Client
                         }
                 }
             }
+            catch (Exception ex) {
+                return null;
+            }
             finally
             {
                 if (disposeResponse)
@@ -299,26 +302,7 @@ namespace Coditech.API.Client
                 }
             }
         }
-
         protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
-        protected struct ObjectResponseResult<T>
-        {
-            public ObjectResponseResult(T responseObject, string responseText)
-            {
-                this.Object = responseObject;
-                this.Text = responseText;
-            }
-
-            public T Object { get; }
-
-            public string Text { get; }
-
-            public static implicit operator ObjectResponseResult<T>(BaseClient.ObjectResponseResult<GeneralPersonResponse> v)
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public bool ReadResponseAsString { get; set; }
+        
     }
 }

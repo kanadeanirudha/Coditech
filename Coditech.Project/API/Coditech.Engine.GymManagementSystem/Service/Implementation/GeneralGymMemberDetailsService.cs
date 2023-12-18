@@ -17,12 +17,10 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly ICoditechRepository<GymMemberDetailsMaster> _generalGymMemberDetailsRepository;
         public GeneralGymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _generalGymMemberDetailsRepository = new CoditechRepository<GymMemberDetailsMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GymMemberDetailsListModel GetGymMemberDetailsList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)

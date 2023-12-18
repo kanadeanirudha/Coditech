@@ -10,7 +10,7 @@ namespace Coditech.API.Mapper
     {
         public AutoMapperConfig()
         {
-            CreateMap<GymMemberDetailsMaster, GymMemberDetailsModel>().ReverseMap();
+          
         }
     }
 }

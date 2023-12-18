@@ -22,10 +22,8 @@
 
   <ItemGroup>
     <Folder Include="Agents\Implementation\Employee\" />
-    <Folder Include="Agents\Implementation\Gym\" />
     <Folder Include="Agents\Implementation\Inventory\" />
     <Folder Include="Agents\Interface\Employee\" />
-    <Folder Include="Agents\Interface\Gym\" />
     <Folder Include="Agents\Interface\Inventory\" />
     <Folder Include="Controllers\Employee\" />
     <Folder Include="Controllers\Inventory\" />

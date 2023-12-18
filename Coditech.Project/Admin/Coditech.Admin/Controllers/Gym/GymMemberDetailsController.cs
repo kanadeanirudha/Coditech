@@ -11,14 +11,12 @@ namespace Coditech.Admin.Controllers
 {
     public class GymMemberDetailsController : BaseController
     {
-        private readonly IUserAgent _userAgent;
-        private readonly IGeneralGymMemberDetailsAgent _gymMemberDetailsAgent;
+        private readonly IGymMemberDetailsAgent _gymMemberDetailsAgent;
         private const string createEdit = "~/Views/Gym/GymMemberDetails/CreateEdit.cshtml";
 
-        public GymMemberDetailsController(IGeneralGymMemberDetailsAgent gymMemberDetailsAgent, IUserAgent userAgent)
+        public GymMemberDetailsController(IGymMemberDetailsAgent gymMemberDetailsAgent)
         {
             _gymMemberDetailsAgent = gymMemberDetailsAgent;
-            _userAgent = userAgent;
         }
 
         public ActionResult List(DataTableViewModel dataTableModel)
@@ -42,19 +40,14 @@ namespace Coditech.Admin.Controllers
         [ValidateAntiForgeryToken]
         public virtual ActionResult CreateMember(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
         {
-
             if (ModelState.IsValid)
             {
-                gymCreateEditMemberViewModel.UserType = UserTypeEnum.GymMember.ToString();
-                GeneralPersonViewModel generalPersonViewModel = _userAgent.InsertPersonInformation(gymCreateEditMemberViewModel.ToModel<GeneralPersonViewModel>());
-                if (!generalPersonViewModel.HasError)
+
+                gymCreateEditMemberViewModel = _gymMemberDetailsAgent.CreateMemberDetails(gymCreateEditMemberViewModel);
+                if (!gymCreateEditMemberViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
-                }
-                else
-                {
-                    gymCreateEditMemberViewModel.ErrorMessage = generalPersonViewModel.ErrorMessage;
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymCreateEditMemberViewModel.ErrorMessage));
@@ -62,10 +55,10 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short gymMemberDetailsId)
+        public virtual ActionResult Edit(long personId)
         {
-            GymMemberDetailsViewModel gymMemberDetailsViewModel = new GymMemberDetailsViewModel();// _gymMemberDetailsAgent.GetGymMemberDetails(gymMemberDetailsId);
-            return ActionView(createEdit, gymMemberDetailsViewModel);
+            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberDetails(personId);
+            return ActionView(createEdit, gymCreateEditMemberViewModel);
         }
 
         //[HttpPost]
@@ -81,22 +74,22 @@ namespace Coditech.Admin.Controllers
         //    return View(createEdit, gymMemberDetailsViewModel);
         //}
 
-        //public virtual ActionResult Delete(string countryIds)
-        //{
-        //    string message = string.Empty;
-        //    bool status = false;
-        //    if (!string.IsNullOrEmpty(countryIds))
-        //    {
-        //        status = _gymMemberDetailsAgent.DeleteGymMemberDetails(countryIds, out message);
-        //        SetNotificationMessage(!status
-        //        ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
-        //        : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-        //        return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
-        //    }
+        public virtual ActionResult Delete(string gymMemberDetailIds)
+        {
+            string message = string.Empty;
+            bool status = false;
+            if (!string.IsNullOrEmpty(gymMemberDetailIds))
+            {
+                status = _gymMemberDetailsAgent.DeleteMembers(gymMemberDetailIds, out message);
+                SetNotificationMessage(!status
+                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
+                return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+            }
 
-        //    SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-        //    return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
-        //}
+            SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
+            return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+        }
 
         #region Protected
         #endregion

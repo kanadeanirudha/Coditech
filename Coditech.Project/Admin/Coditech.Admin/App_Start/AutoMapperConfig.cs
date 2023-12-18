@@ -47,6 +47,11 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrePrintingFormatModel, OrganisationCentrePrintingFormatViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseGSTCredentialModel, OrganisationCentrewiseGSTCredentialViewModel>().ReverseMap();
             #endregion
+
+            #region Gym
+            CreateMap<GymCreateEditMemberViewModel, GeneralPersonModel>().ReverseMap();
+            
+            #endregion
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentreAgent, OrganisationCentreAgent>();
             builder.Services.AddScoped<IGeneralRegionAgent, GeneralRegionAgent>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingAgent, GeneralSystemGlobleSettingAgent>();
-            builder.Services.AddScoped<IGeneralGymMemberDetailsAgent, GeneralGymMemberDetailsAgent>();
+            builder.Services.AddScoped<IGymMemberDetailsAgent, GymMemberDetailsAgent>();
             #endregion
 
             #region Client

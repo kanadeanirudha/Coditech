@@ -39,12 +39,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymMember.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GymMemberDetailsListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymMember.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GymMemberDetailsListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }

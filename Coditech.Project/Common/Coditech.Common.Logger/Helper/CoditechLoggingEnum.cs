@@ -33,7 +33,7 @@
             Person,
             GlobleSettingMaster, 
             MediaManager,
-            GymMember
+            Gym
         }
     }
 }
