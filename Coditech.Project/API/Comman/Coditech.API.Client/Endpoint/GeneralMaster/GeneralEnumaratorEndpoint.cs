@@ -4,7 +4,7 @@ using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Endpoint
 {
-    public class GeneralEnumaratorEndpoint : generalEnumarator
+    public class GeneralEnumaratorEndpoint : BaseEndpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
