@@ -155,14 +155,17 @@ namespace Coditech.API.Service
             if (generalPersonModel.PersonId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
 
-            //if (IsFirstNameAlreadyExist(generalPersonModel.FirstName))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "First Name"));
-
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
             //Update Gym Member
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
-            if (!isPersonUpdated)
+            if (isPersonUpdated)
+            {
+                UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.PersonId == generalPersonModel.PersonId);
+                userMasterData.EmailId = generalPersonModel.EmailId;
+                _userMasterRepository.Update(userMasterData);
+            }
+            else
             {
                 generalPersonModel.HasError = true;
                 generalPersonModel.ErrorMessage = GeneralResources.UpdateErrorMessage;

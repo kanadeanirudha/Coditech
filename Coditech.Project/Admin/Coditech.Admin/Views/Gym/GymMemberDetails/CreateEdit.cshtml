@@ -4,6 +4,7 @@
     ViewBag.Title = Model.GymMemberDetailId > 0 ? "Update Member" : "Create Member";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string css = Model.PersonId > 0 ? "col-lg-10" : "col-lg-12";
 }
 <!-- Page Content-->
 <div class="page-content">
@@ -35,11 +36,17 @@
                     @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", Model.GymMemberDetailId.ToString())
                 </div>
             }
-            @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
-            {
-                @Html.HiddenFor(m => m.GymMemberDetailId);
-                @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model)
-            }
+            <div class="@css">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.GymMemberDetailId)
+                            @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model)
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
