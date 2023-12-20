@@ -18,13 +18,13 @@
         public string FaxNumber { get; set; }
         public string OfficePhone1 { get; set; }
         public string OfficePhone2 { get; set; }
+        public string OrganisationCode { get; set; }
+        public string PFNumber { get; set; }
+        public string ESICNumber { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public string OrganisationCode { get; set; }
-        public string PFNumber { get; set; }
-        public string ESICNumber { get; set; }
     }
 }
 

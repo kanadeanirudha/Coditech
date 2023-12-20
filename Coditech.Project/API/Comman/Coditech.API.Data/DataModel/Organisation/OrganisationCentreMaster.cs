@@ -1,6 +1,6 @@
 ﻿namespace Coditech.API.Data
 {
-    public partial class OrganisationCentreMaster 
+    public partial class OrganisationCentreMaster
     {
         public short OrganisationCentreMasterId { get; set; }
         public string CentreCode { get; set; }

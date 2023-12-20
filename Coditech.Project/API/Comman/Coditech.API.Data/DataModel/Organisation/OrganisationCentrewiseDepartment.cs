@@ -2,7 +2,7 @@
 
 namespace Coditech.API.Data
 {
-    public partial class OrganisationCentrewiseDepartment 
+    public partial class OrganisationCentrewiseDepartment
     {
         public short OrganisationCentrewiseDepartmentId { get; set; }
         public short GeneralDepartmentMasterId { get; set; }

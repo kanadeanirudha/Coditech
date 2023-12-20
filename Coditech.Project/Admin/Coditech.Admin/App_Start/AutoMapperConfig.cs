@@ -3,7 +3,6 @@
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
 using Coditech.Model;
-using Coditech.ViewModel;
 
 namespace Coditech.Admin
 {
@@ -33,6 +32,11 @@ namespace Coditech.Admin
             CreateMap<GeneralTaxGroupMasterListModel, GeneralTaxGroupMasterListViewModel>().ReverseMap();
             CreateMap<GeneralRegionModel, GeneralRegionViewModel>().ReverseMap();
             CreateMap<GeneralRegionListModel, GeneralRegionListViewModel>().ReverseMap();
+            CreateMap<GeneralPersonModel, GeneralPersonViewModel>().ReverseMap();
+            CreateMap<GeneralSystemGlobleSettingModel, GeneralSystemGlobleSettingViewModel>().ReverseMap();
+            CreateMap<GeneralSystemGlobleSettingListModel, GeneralSystemGlobleSettingListViewModel>().ReverseMap();
+            CreateMap<GymMemberDetailsModel, GymMemberDetailsViewModel>().ReverseMap();
+            CreateMap<GymMemberDetailsListModel, GymMemberDetailsListViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorModel, GeneralEnumaratorViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorListModel, GeneralEnumaratorListViewModel>().ReverseMap();
             #endregion
@@ -43,6 +47,11 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentreListModel, OrganisationCentreListViewModel>().ReverseMap();
             CreateMap<OrganisationCentrePrintingFormatModel, OrganisationCentrePrintingFormatViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseGSTCredentialModel, OrganisationCentrewiseGSTCredentialViewModel>().ReverseMap();
+            #endregion
+
+            #region Gym
+            CreateMap<GymCreateEditMemberViewModel, GeneralPersonModel>().ReverseMap();
+            
             #endregion
         }
     }

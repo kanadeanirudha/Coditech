@@ -1,7 +1,8 @@
 ﻿using Coditech.Common.Helper;
+
 using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.ViewModel
+namespace Coditech.Admin.ViewModel
 {
     public class OrganisationCentrePrintingFormatViewModel : BaseViewModel
     {

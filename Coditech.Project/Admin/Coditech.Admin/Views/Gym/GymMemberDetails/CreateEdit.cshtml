@@ -1,5 +1,5 @@
 ﻿@using Coditech.Admin.Utilities;
-@model GymMemberDetailsViewModel
+@model GymCreateEditMemberViewModel
 @{
     ViewBag.Title = Model.GymMemberDetailId > 0 ? "Update Member" : "Create Member";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
@@ -32,14 +32,62 @@
             @if (Model.GymMemberDetailId > 0)
             {
                 <div class="col-lg-2">
-                    @Html.Partial("~/Views/Gym/GymMemberDetails/GymMemberDetailsSidePannel.cshtml", Model.GymMemberDetailId.ToString())
+                    @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", Model.GymMemberDetailId.ToString())
                 </div>
             }
-            else
-            {
-                @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model.GeneralPersonViewModel);
-            }
+            @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model);
         </div>
     </div>
 </div>
 
+@section scripts {
+    <script>
+        $(function () {
+            $('#DateOfBirth').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                showWeekNumbers: false,
+                drops: "auto",
+                opens: "right",
+                autoApply: false,
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Apply",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                minYear: 1901,
+                maxYear: parseInt(moment().format('YYYY'), 10)
+            },
+                function (start, end, label) { });
+        });
+    </script>
+}

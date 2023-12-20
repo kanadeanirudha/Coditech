@@ -1,6 +1,6 @@
 ﻿namespace Coditech.API.Data
 {
-    public partial class AdminRoleMenuDetail 
+    public partial class AdminRoleMenuDetail
     {
         public int AdminRoleMenuDetailId { get; set; }
         public int AdminRoleMasterId { get; set; }

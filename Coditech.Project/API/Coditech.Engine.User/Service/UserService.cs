@@ -20,21 +20,23 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleApplicableDetail> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetail> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
-        private readonly ICoditechRepository<UserModuleMaster> _userModuleMasterRepository;
-        private readonly ICoditechRepository<UserMainMenuMaster> _userMainMenuMasterRepository;
         private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
         private readonly ICoditechRepository<GeneralEnumarator> _generalEnumaratorRepository;
+        private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
+        private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
+        private readonly ICoditechRepository<UserType> _userTypeRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetail>(_serviceProvider.GetService<Coditech_Entities>());
-            _userModuleMasterRepository = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _userMainMenuMasterRepository = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorRepository = new CoditechRepository<GeneralEnumarator>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
+            _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -58,7 +60,7 @@ namespace Coditech.API.Service
             BindRoleTypes(userModel);
 
             List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
-            List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuListList();
+            List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
             List<AdminRoleMenuDetail> userRoleMenuList = new List<AdminRoleMenuDetail>();
             if (!userModel.IsAdminUser)
             {
@@ -69,6 +71,7 @@ namespace Coditech.API.Service
                 }
                 else
                 {
+                    userAllModuleList = userAllModuleList.Where(x => x.ModuleCode != "CODITECHTOOLKIT")?.ToList();
                     //Bind Menu And Modules For Admin User
                     BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
 
@@ -89,9 +92,47 @@ namespace Coditech.API.Service
             return userModel;
         }
 
-        public virtual void InsertPersonInformation()
+        public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel)
         {
+            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
+            // Create new Person and return it.
+            GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
+            if (personData?.PersonId > 0)
+            {
+                generalPersonModel.PersonId = personData.PersonId;
+                List<GeneralSystemGlobleSettingMaster> settingMasterList = GetSystemGlobleSettingList();
+                string password = settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.DefaultPassword.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue;
+                generalPersonModel.Password = MD5Hash(password);
+                string registrationFormat = _userTypeRepository.Table.FirstOrDefault(x => x.UserTypeCode == generalPersonModel.UserType)?.RegistrationFormat;
+                if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.ActiveProjectName.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == ActiveProjectNameEnum.GMS.ToString())
+                {
+                    //Check Is Gym Member need to Login
+                    if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
+                    {
+                        GymMemberDetails gymMemberDetails = new GymMemberDetails()
+                        {
+                            PersonId = generalPersonModel.PersonId,
+                            PersonCode = registrationFormat,
+                            UserType = generalPersonModel.UserType
+                        };
+                        gymMemberDetails = _gymMemberDetailsRepository.Insert(gymMemberDetails);
+
+                        if (gymMemberDetails?.GymMemberDetailId > 0)
+                            InsertUserMasterDetails(generalPersonModel);
+                    }
+                }
+                else if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.ActiveProjectName.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == ActiveProjectNameEnum.HMS.ToString())
+                {
+
+                }
+            }
+            else
+            {
+                generalPersonModel.HasError = true;
+                generalPersonModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return generalPersonModel;
         }
 
         public virtual void GetPersonInformation(long personId)
@@ -111,7 +152,7 @@ namespace Coditech.API.Service
 
         public virtual List<UserMainMenuMaster> GetActiveMenuList(string moduleCodel)
         {
-            return base.GetAllActiveMenuListList(moduleCodel);
+            return base.GetAllActiveMenuList(moduleCodel);
         }
         #endregion
 
@@ -258,9 +299,11 @@ namespace Coditech.API.Service
             return generalEnumaratorList;
         }
 
-        protected virtual void InsertUserMasterDetails(GeneralPersonModel model)
+        protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel)
         {
-
+            UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
+            userMaster.UserName = generalPersonModel.PersonCode;
+            userMaster = _userMasterRepository.Insert(userMaster);
         }
         #endregion
     }
