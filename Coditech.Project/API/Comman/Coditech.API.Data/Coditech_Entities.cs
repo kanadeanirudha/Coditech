@@ -22,7 +22,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralNationalityMaster> GeneralNationalityMaster { get; set; }
         public DbSet<EmployeeDesignationMaster> EmployeeDesignationMaster { get; set; }
         public DbSet<GeneralRegionMaster> GeneralRegionMaster { get; set; }
-        public DbSet<GeneralEnumarator> GeneralEnumarator { get; set; }
+        public DbSet<GeneralEnumaratorMaster> GeneralEnumaratorMaster { get; set; }
         public DbSet<GeneralEnumaratorGroup> GeneralEnumaratorGroup { get; set; }
         public DbSet<GeneralSystemGlobleSettingMaster> GeneralSystemGlobleSettingMaster { get; set; }
         #endregion
@@ -53,6 +53,16 @@ namespace Coditech.API.Data
 
         #region Gym
         public DbSet<GymMemberDetails> GymMemberDetails { get; set; }
+        #endregion
+
+        #region MediaManager
+        public DbSet<MediaConfiguration> MediaConfiguration { get; set; }
+        public DbSet<MediaDetail> MediaDetail { get; set; }
+        public DbSet<MediaFolderMaster> MediaFolderMaster { get; set; }
+        public DbSet<MediaServerMaster> MediaServerMaster { get; set; }
+        public DbSet<MediaSettingMaster> MediaSettingMaster { get; set; }
+        public DbSet<MediaTypeExtensionMaster> MediaTypeExtensionMaster { get; set; }
+        public DbSet<MediaTypeMaster> MediaTypeMaster { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

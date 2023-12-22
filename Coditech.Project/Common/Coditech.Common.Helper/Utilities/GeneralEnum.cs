@@ -45,4 +45,12 @@
         GMS,
         HMS
     }
+
+    public enum MediaTypeEnum
+    {
+        Image,
+        File,
+        Video,
+        Audio
+    }
 }

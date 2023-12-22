@@ -1,7 +1,10 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
-    public partial class GeneralEnumarator
+    public partial class GeneralEnumaratorMaster
     {
+        [Key]
         public int GeneralEnumaratorId { get; set; }
         public int GeneralEnumaratorGroupId { get; set; }
         public string EnumName { get; set; }

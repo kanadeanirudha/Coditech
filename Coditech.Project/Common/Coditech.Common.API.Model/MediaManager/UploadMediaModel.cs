@@ -3,6 +3,8 @@ namespace Coditech.Common.API.Model
 {
     public class UploadMediaModel : BaseModel
     {
-        public List<IFormFile> MediaFileList { get; set; }
+        public IFormFile MediaFile { get; set; }
+        public string MediaType { get; set; }
+        public string MediaFolderName{ get; set; }
     }
 }
