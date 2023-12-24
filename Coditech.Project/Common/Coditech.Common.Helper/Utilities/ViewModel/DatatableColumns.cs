@@ -5,5 +5,6 @@
         public string ColumnName { get; set; }
         public string ColumnCode { get; set; }
         public bool IsSortable { get; set; }
+        public string CustomStyle { get; set; }
     }
 }

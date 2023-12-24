@@ -19,5 +19,8 @@ namespace Coditech.Admin.ViewModel
         public string OtherInformation { get; set; }
         public short? GymGroupMasterId { get; set; }
         public int? SourceEmumId { get; set; }
+        public string ImagePath { get; set; }
+        public string MobileNumber { get; set; }
+        public string EmailId { get; set; }
     }
 }

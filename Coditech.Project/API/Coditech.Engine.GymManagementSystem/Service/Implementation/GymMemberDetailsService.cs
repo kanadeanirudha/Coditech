@@ -1,11 +1,9 @@
 ﻿
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
-using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using Coditech.Resources;
 
 using System.Collections.Specialized;
 using System.Data;
