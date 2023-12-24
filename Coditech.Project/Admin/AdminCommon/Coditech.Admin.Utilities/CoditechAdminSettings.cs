@@ -77,6 +77,13 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["CoditechInventoryApiRootUri"]);
             }
         }
+        public static string CoditechMediaManagerApiRootUri
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechMediaManagerApiRootUri"]);
+            }
+        }
         public static string NotificationMessagesIsFadeOut
         {
             get

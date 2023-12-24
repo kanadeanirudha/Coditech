@@ -161,14 +161,15 @@
             @Html.ValidationMessageFor(x => x.IndentificationNumber)
         </div>
     </div>
-
-    <div class="col-lg-3">
-        <div class="mb-3">
-            @Html.LabelFor(x => x.PhotoMediaId, new { @class = "form-label" })
-            @Html.TextBoxFor(x => x.PhotoMediaId, new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.PhotoMediaId)
+    @if (Model.PersonId > 0)
+    {
+        <div class="col-lg-3">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.PhotoMediaId, new { @class = "form-label" })
+                <input type="file" name="PhotoMedia" class="form-control" />
+            </div>
         </div>
-    </div>
+    }
     <div class="col-lg-3">
         <div class="mb-3">
             @Html.LabelFor(x => x.BirthMark, new { @class = "form-label" })

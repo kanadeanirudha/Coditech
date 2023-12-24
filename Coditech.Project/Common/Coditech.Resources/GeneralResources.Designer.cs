@@ -115,11 +115,47 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File size limit exceed. It should be below{0} MB..
+        /// </summary>
+        public static string ErrorFileSizeLimitExceed {
+            get {
+                return ResourceManager.GetString("ErrorFileSizeLimitExceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} can not be less than 1..
         /// </summary>
         public static string ErrorIdLessThanOne {
             get {
                 return ResourceManager.GetString("ErrorIdLessThanOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid File Extension.
+        /// </summary>
+        public static string ErrorInvalidFileExtension {
+            get {
+                return ResourceManager.GetString("ErrorInvalidFileExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid file name..
+        /// </summary>
+        public static string ErrorInvalidFileName {
+            get {
+                return ResourceManager.GetString("ErrorInvalidFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid folder path..
+        /// </summary>
+        public static string ErrorInvalidFolderPath {
+            get {
+                return ResourceManager.GetString("ErrorInvalidFolderPath", resourceCulture);
             }
         }
         

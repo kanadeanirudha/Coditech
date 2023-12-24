@@ -52,6 +52,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralRegionClient, GeneralRegionClient>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingClient, GeneralSystemGlobleSettingClient>();
             builder.Services.AddScoped<IGymMemberDetailsClient, GymMemberDetailsClient>();
+            builder.Services.AddScoped<IMediaManagerClient, MediaManagerClient>();
             #endregion
         }
     }

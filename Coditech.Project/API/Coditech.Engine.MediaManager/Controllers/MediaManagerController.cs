@@ -1,14 +1,15 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
-using Coditech.Common.Helper;
 using Coditech.Common.Logger;
 
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
 
+using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Controllers
 {
     [ApiController]
@@ -19,35 +20,34 @@ namespace Coditech.API.Controllers
        
         public MediaManagerController(ICoditechLogging coditechLogging, IMediaManagerService mediaManagerService)
         {
-            _mediaManagerService = mediaManagerService;
             _coditechLogging = coditechLogging;
+            _mediaManagerService = mediaManagerService;
         }
-   
+
         /// <summary>
         /// Login to application.
         /// </summary>
-        /// <param name="model">User Model.</param>
-        /// <returns>UserModel</returns>
+        /// <param name="model">UploadMediaModel.</param>
+        /// <returns>UploadMediaModel</returns>
         [Route("/MediaManager/UploadMedia")]
         [HttpPost, ValidateModel]
-        [Produces(typeof(UserModel))]
+        [Produces(typeof(MediaManagerResponse))]
         public virtual IActionResult UploadMedia([FromBody] UploadMediaModel model)
         {
             try
             {
                 UploadMediaModel uploadMediaModel = _mediaManagerService.UploadMedia(model);
-                return HelperUtility.IsNotNull(uploadMediaModel) ? CreateOKResponse(uploadMediaModel) : null;
-
+                return IsNotNull(uploadMediaModel) ? CreateCreatedResponse(new MediaManagerResponse { UploadMediaModel = uploadMediaModel }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Warning);
-                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateUnauthorizedResponse(new MediaManagerResponse { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
-                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateUnauthorizedResponse(new MediaManagerResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }
