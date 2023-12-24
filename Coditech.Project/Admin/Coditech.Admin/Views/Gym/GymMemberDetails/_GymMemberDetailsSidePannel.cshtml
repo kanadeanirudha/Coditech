@@ -1,26 +1,32 @@
 ﻿@using Coditech.Admin.Utilities;
-@model string
+@model Dictionary<string, string>
 @{
     Layout = null;
+    int gymMemberDetailId = Convert.ToInt32(Model?.FirstOrDefault(x => x.Key == "GymMemberDetailId").Value);
+    long personId = Convert.ToInt64(Model?.FirstOrDefault(x => x.Key == "PersonId").Value);
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
 <div class="card">
     <div class="card-body">
         <div class="files-nav">
             <div class="nav flex-column nav-pills" id="files-tab" aria-orientation="vertical">
-                <a class="nav-link" href="/GymMemberDetails/Edit?adminRoleMasterId=@Model" aria-selected="true">
-                    <i class="ti-menu"></i><h5 class="m-0 ps-2">Member Personal Details</h5>
+                <a class="nav-link" href="/GymMemberDetails/Edit?gymMemberDetailId=@gymMemberDetailId&personId=@personId" aria-selected="true">
+                    <i class="ti-menu"></i><h5 class="m-0 ps-2">Personal Details</h5>
                 </a>
-                <a class="nav-link" href="/GymMemberDetails/AllocateAccessRights?adminRoleMasterId=@Model" aria-selected="true">
-                    <i class="ti-key"></i><h5 class="m-0 ps-2">Member Other Details</h5>
+                <a class="nav-link" href="/GymMemberDetails/MemberOtherDetails?gymMemberDetailId=@gymMemberDetailId&personId=@personId" aria-selected="true">
+                    <i class="ti-key"></i><h5 class="m-0 ps-2">Other Details</h5>
                 </a>
-                <a class="nav-link" href="/GymMemberDetails/AllocateRoleToUser?adminRoleMasterId=@Model" aria-selected="true">
-                    <i class="ti-user"></i><h5 class="m-0 ps-2">Member Body Measurement</h5>
+                <a class="nav-link" href="/GymMemberDetails/MemberBodyMeasurement?gymMemberDetailId=@gymMemberDetailId&personId=@personId" aria-selected="true">
+                    <i class="ti-user"></i><h5 class="m-0 ps-2">Body Measurement</h5>
                 </a>
-                <a class="nav-link" href="/GymMemberDetails/AllocateRoleToUser?adminRoleMasterId=@Model" aria-selected="true">
-                    <i class="ti-user"></i><h5 class="m-0 ps-2">Member Follow-up</h5>
+                <a class="nav-link" href="/GymMemberDetails/MemberFollowUp?gymMemberDetailId=@gymMemberDetailId&personId=@personId" aria-selected="true">
+                    <i class="ti-user"></i><h5 class="m-0 ps-2">Follow-up</h5>
                 </a>
-                <a class="nav-link" href="/GymMemberDetails/AllocateRoleToUser?adminRoleMasterId=@Model" aria-selected="true">
-                    <i class="ti-user"></i><h5 class="m-0 ps-2">Member Attendance Details</h5>
+                <a class="nav-link" href="/GymMemberDetails/MemberAttendanceDetails?gymMemberDetailId=@gymMemberDetailId&personId=@personId" aria-selected="true">
+                    <i class="ti-user"></i><h5 class="m-0 ps-2">Attendance Details</h5>
+                </a>
+                <a class="nav-link" href="/GymMemberDetails/MemberPaymentHistory?gymMemberDetailId=@gymMemberDetailId&personId=@personId" aria-selected="true">
+                    <i class="ti-user"></i><h5 class="m-0 ps-2">Payment History</h5>
                 </a>
             </div>
         </div>

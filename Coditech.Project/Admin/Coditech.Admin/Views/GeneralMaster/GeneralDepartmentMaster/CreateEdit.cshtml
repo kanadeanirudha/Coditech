@@ -5,31 +5,25 @@
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
 <!-- Page Content-->
-<div class="page-content">
+<div class="page-content mt-5">
     <div class="container-fluid">
-        <!-- Page-Title -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="page-title-box">
-                    <div class="row">
-                        <div class="col">
-                            @if (Model.GeneralDepartmentMasterId > 0)
-                            {
-                                <h4 class="page-title">Update Department</h4>
-                            }
-                            else
-                            {
-                                <h4 class="page-title">Create Department</h4>
-                            }
-                        </div><!--end col-->
-                    </div><!--end row-->
-                </div><!--end page-title-box-->
-            </div><!--end col-->
-        </div><!--end row-->
-        <!-- end page title end breadcrumb -->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.GeneralDepartmentMasterId > 0)
+                                {
+                                    <h4 class="card-title">Update Department</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Department</h4>
+                                }
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
@@ -38,7 +32,7 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.DepartmentName, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.DepartmentName, new { @class = "form-control"})
+                                        @Html.TextBoxFor(x => x.DepartmentName, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.DepartmentName)
                                     </div>
                                     <div class="mb-3">
@@ -51,14 +45,14 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.DepartmentShortCode, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.DepartmentShortCode, new { @class = "form-control"})
+                                        @Html.TextBoxFor(x => x.DepartmentShortCode, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.DepartmentShortCode)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PrintShortDesc, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.PrintShortDesc, new { @class = "form-control"})
+                                        @Html.TextBoxFor(x => x.PrintShortDesc, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.PrintShortDesc)
                                     </div>
                                 </div>

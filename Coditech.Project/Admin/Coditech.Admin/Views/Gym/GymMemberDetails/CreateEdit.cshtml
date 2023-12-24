@@ -5,39 +5,36 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     string css = Model.PersonId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("GymMemberDetailId", Model.GymMemberDetailId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
 }
 <!-- Page Content-->
-<div class="page-content">
+<div class="page-content mt-5">
     <div class="container-fluid">
-        <!-- Page-Title -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="page-title-box">
-                    <div class="row">
-                        <div class="col">
-                            @if (Model.GymMemberDetailId > 0)
-                            {
-                                <h4 class="page-title"><span>Update Member- @Model.FirstName @Model.LastName (@Model.PersonCode)</span></h4>
-                            }
-                            else
-                            {
-                                <h4 class="page-title">Create Member</h4>
-                            }
-                        </div><!--end col-->
-                    </div><!--end row-->
-                </div><!--end page-title-box-->
-            </div><!--end col-->
-        </div><!--end row-->
-        <!-- end page title end breadcrumb -->
         <div class="row">
             @if (Model.GymMemberDetailId > 0)
             {
                 <div class="col-lg-2">
-                    @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", Model.GymMemberDetailId.ToString())
+                    @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", keyValuePairs)
                 </div>
             }
             <div class="@css">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.GymMemberDetailId > 0)
+                                {
+                                    <h4 class="page-title"><span>Update Member- @Model.FirstName @Model.LastName (@Model.PersonCode)</span></h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Member</h4>
+                                }
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
