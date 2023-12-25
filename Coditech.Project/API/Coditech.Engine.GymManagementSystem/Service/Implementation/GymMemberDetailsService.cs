@@ -5,6 +5,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -13,12 +14,12 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class GymMemberDetailsService : IGymMemberDetailsService
+    public class GymMemberDetailsService : BaseService, IGymMemberDetailsService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
-        public GymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public GymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -51,6 +52,15 @@ namespace Coditech.API.Service
 
             GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == gymMemberDetailId);
             GymMemberDetailsModel gymMemberDetailsModel = gymMemberDetails?.FromEntityToModel<GymMemberDetailsModel>();
+            if (IsNotNull(gymMemberDetailsModel))
+            {
+                GeneralPerson generalPerson = GetGeneralPersonDetails(gymMemberDetailsModel.PersonId);
+                if (IsNotNull(gymMemberDetailsModel))
+                {
+                    gymMemberDetailsModel.FirstName = generalPerson.FirstName;
+                    gymMemberDetailsModel.LastName = generalPerson.LastName;
+                }
+            }
             return gymMemberDetailsModel;
         }
 
@@ -63,9 +73,20 @@ namespace Coditech.API.Service
             if (gymMemberDetailsModel.GymMemberDetailId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymMemberDetailId"));
 
-            GymMemberDetails gymMemberDetails = gymMemberDetailsModel.FromModelToEntity<GymMemberDetails>();
+            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == gymMemberDetailsModel.GymMemberDetailId);
 
-            bool isUpdated = _gymMemberDetailsRepository.Update(gymMemberDetails);
+            bool isUpdated = false;
+            if (IsNull(gymMemberDetails))
+            {
+                return isUpdated;
+            }
+            gymMemberDetails.PastInjuries = gymMemberDetailsModel.PastInjuries;
+            gymMemberDetails.MedicalHistory = gymMemberDetailsModel.MedicalHistory;
+            gymMemberDetails.GymGroupEnumId = gymMemberDetailsModel.GymGroupEnumId;
+            gymMemberDetails.SourceEmumId = gymMemberDetailsModel.SourceEmumId;
+            gymMemberDetails.OtherInformation = gymMemberDetailsModel.OtherInformation;
+
+            isUpdated = _gymMemberDetailsRepository.Update(gymMemberDetails);
             if (!isUpdated)
             {
                 gymMemberDetailsModel.HasError = true;

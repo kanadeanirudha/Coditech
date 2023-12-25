@@ -111,13 +111,10 @@ namespace Coditech.Admin.Agents
         #endregion
 
         //Get Member Other Details
-        public virtual GymMemberDetailsViewModel GetGymMemberOtherDetails(int gymMemberDetailId, long personId)
+        public virtual GymMemberDetailsViewModel GetGymMemberOtherDetails(int gymMemberDetailId)
         {
             GymMemberDetailsResponse response = _gymMemberDetailsClient.GetGymMemberOtherDetails(gymMemberDetailId);
             GymMemberDetailsViewModel gymMemberDetailsViewModel = response?.GymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>();
-            if (gymMemberDetailsViewModel != null)
-                gymMemberDetailsViewModel.PersonId = personId;
-
             return gymMemberDetailsViewModel;
         }
 
@@ -155,7 +152,7 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
-                        //errorMessage = AdminResources.ErrorDeleteGymMemberDetailsMaster;
+                        errorMessage = AdminResources.ErrorDeleteGymMemberDetails;
                         return false;
                     default:
                         errorMessage = GeneralResources.ErrorFailedToDelete;

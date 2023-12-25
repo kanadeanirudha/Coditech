@@ -77,18 +77,7 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteAdminSanctionPost", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Globle Setting due to associate record..
-        /// </summary>
-        public static string ErrorDeleteSystemGlobleSettingMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete city due to associate record..
         /// </summary>
@@ -162,11 +151,29 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete gym member due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymMemberDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGymMemberDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete organisationCentre due to associate record..
         /// </summary>
         public static string ErrorDeleteOrganisationCentreMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteOrganisationCentreMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Globle Setting due to associate record..
+        /// </summary>
+        public static string ErrorDeleteSystemGlobleSettingMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
             }
         }
         
@@ -232,18 +239,7 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCityList", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Globle Setting List.
-        /// </summary>
-        public static string LabelGlobleSettingList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelGlobleSettingList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Country List.
         /// </summary>
@@ -277,6 +273,15 @@ namespace Coditech.Resources {
         public static string LabelDesignationList {
             get {
                 return ResourceManager.GetString("LabelDesignationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Globle Setting List.
+        /// </summary>
+        public static string LabelGlobleSettingList {
+            get {
+                return ResourceManager.GetString("LabelGlobleSettingList", resourceCulture);
             }
         }
         

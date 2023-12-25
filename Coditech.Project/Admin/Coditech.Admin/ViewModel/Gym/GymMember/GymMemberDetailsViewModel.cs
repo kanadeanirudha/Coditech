@@ -1,5 +1,7 @@
 ﻿using Coditech.Common.Helper;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Coditech.Admin.ViewModel
 {
     public class GymMemberDetailsViewModel : BaseViewModel
@@ -14,10 +16,17 @@ namespace Coditech.Admin.ViewModel
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string DateOfBirth { get; set; }
+        [Display(Name = "Past Injuries")]
         public string PastInjuries { get; set; }
+        [Display(Name = "Medical History")]
         public string MedicalHistory { get; set; }
+        [Display(Name = "Other Information")]
         public string OtherInformation { get; set; }
-        public short? GymGroupMasterId { get; set; }
+        [Required]
+        [Display(Name ="Group")]
+        public int GymGroupEnumId { get; set; }
+        [Required]
+        [Display(Name = "Source")]
         public int? SourceEmumId { get; set; }
         public string ImagePath { get; set; }
         public string MobileNumber { get; set; }

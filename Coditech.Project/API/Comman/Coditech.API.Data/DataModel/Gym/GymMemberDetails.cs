@@ -12,7 +12,7 @@ namespace Coditech.API.Data
         public string PastInjuries { get; set; }
         public string MedicalHistory { get; set; }
         public string OtherInformation { get; set; }
-        public short? GymGroupMasterId { get; set; }
+        public int? GymGroupEnumId { get; set; }
         public int? SourceEmumId { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

@@ -21,7 +21,9 @@
         MaritalStatus,
         BloodGroups,
         Title,
-        Occupation
+        Occupation,
+        GymGroup,
+        GymSource
     }
 
     public enum GeneralSystemGlobleSettingEnum

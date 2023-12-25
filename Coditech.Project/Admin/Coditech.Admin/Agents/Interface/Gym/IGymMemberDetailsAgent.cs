@@ -40,7 +40,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="gymMemberDetailId">gymMemberDetailId</param>
         /// <returns>Returns GymMemberDetailsResponse.</returns>
-        GymMemberDetailsViewModel GetGymMemberOtherDetails(int gymMemberDetailId, long personId);
+        GymMemberDetailsViewModel GetGymMemberOtherDetails(int gymMemberDetailId);
 
         /// <summary>
         /// Update GymMember Other Details

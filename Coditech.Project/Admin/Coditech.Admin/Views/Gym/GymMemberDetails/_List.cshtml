@@ -27,7 +27,8 @@
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.DefaultFlag)
                             </td> *@
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?gymMemberDetailId=@item.GymMemberDetailId&personId=@item.PersonId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
+                                <a href="../@controllerName/UpdateMemberPersonalDetails?gymMemberDetailId=@item.GymMemberDetailId&personId=@item.PersonId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
+                                <a href="../@controllerName/AddFollowup?gymMemberDetailId=@item.GymMemberDetailId&personId=@item.PersonId" title="Add Follow-Up" class="btn btn-sm btn-soft-warning btn-circle me-2"><i class="fas ti-user"></i></a><span class="m-2">|</span>
                                 <a href="../@controllerName/Delete?gymMemberDetailIds=@item.GymMemberDetailId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>

@@ -69,5 +69,11 @@ namespace Coditech.Common.Service
             List<GeneralSystemGlobleSettingMaster> settingList = new CoditechRepository<GeneralSystemGlobleSettingMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.FeatureName == featureName || featureName == null)?.ToList();
             return settingList;
         }
+
+        protected virtual GeneralPerson GetGeneralPersonDetails(long personId)
+        {
+            GeneralPerson generalPerson = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).GetById(personId);
+            return generalPerson;
+        }
     }
 }
