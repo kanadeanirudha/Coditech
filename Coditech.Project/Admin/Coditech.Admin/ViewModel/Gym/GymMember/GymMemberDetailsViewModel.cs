@@ -16,12 +16,19 @@ namespace Coditech.Admin.ViewModel
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string DateOfBirth { get; set; }
+
+        [MaxLength(500)]
         [Display(Name = "Past Injuries")]
         public string PastInjuries { get; set; }
+
+        [MaxLength(500)]
         [Display(Name = "Medical History")]
         public string MedicalHistory { get; set; }
+
+        [MaxLength(500)]
         [Display(Name = "Other Information")]
         public string OtherInformation { get; set; }
+
         [Required]
         [Display(Name ="Group")]
         public int GymGroupEnumId { get; set; }

@@ -25,7 +25,7 @@ namespace Coditech.Admin.Helpers
             {
                 List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
                 if (dropdownViewModel.IsRequired)
-                    dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                    dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
                 else
                     dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
 
@@ -34,8 +34,8 @@ namespace Coditech.Admin.Helpers
                     dropdownList.Add(new SelectListItem()
                     {
                         Text = item.EnumDisplayText,
-                        Value = Convert.ToString(item.GeneralEnumaratorId),
-                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralEnumaratorId)
+                        Value = dropdownViewModel.IsTextValueSame ? item.EnumName : Convert.ToString(item.GeneralEnumaratorId),
+                        Selected = dropdownViewModel.IsTextValueSame ? dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EnumName) : dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralEnumaratorId)
                     });
                 }
             }
@@ -253,7 +253,7 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.MaritalStatus.ToString()))
             {
-                dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "Single",
@@ -269,7 +269,7 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.BloodGroups.ToString()))
             {
-                dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                dropdownList.Add(new SelectListItem() { Value = "NA", Text = GeneralResources.SelectLabel });
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = "A+",

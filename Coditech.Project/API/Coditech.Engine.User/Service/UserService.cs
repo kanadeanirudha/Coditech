@@ -103,8 +103,9 @@ namespace Coditech.API.Service
                 generalPersonModel.PersonId = personData.PersonId;
                 List<GeneralSystemGlobleSettingMaster> settingMasterList = GetSystemGlobleSettingList();
                 string password = settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.DefaultPassword.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue;
-                generalPersonModel.Password = MD5Hash(password);
                 string registrationFormat = _userTypeRepository.Table.FirstOrDefault(x => x.UserTypeCode == generalPersonModel.UserType)?.RegistrationFormat;
+                generalPersonModel.Password = MD5Hash(password);
+                generalPersonModel.PersonCode = registrationFormat;
                 if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.ActiveProjectName.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == ActiveProjectNameEnum.GMS.ToString())
                 {
                     //Check Is Gym Member need to Login
@@ -113,7 +114,7 @@ namespace Coditech.API.Service
                         GymMemberDetails gymMemberDetails = new GymMemberDetails()
                         {
                             PersonId = generalPersonModel.PersonId,
-                            PersonCode = registrationFormat,
+                            PersonCode = generalPersonModel.PersonCode,
                             UserType = generalPersonModel.UserType
                         };
                         gymMemberDetails = _gymMemberDetailsRepository.Insert(gymMemberDetails);
@@ -162,8 +163,11 @@ namespace Coditech.API.Service
             if (isPersonUpdated)
             {
                 UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.PersonId == generalPersonModel.PersonId);
-                userMasterData.EmailId = generalPersonModel.EmailId;
-                _userMasterRepository.Update(userMasterData);
+                if (userMasterData.EmailId != generalPersonModel.EmailId)
+                {
+                    userMasterData.EmailId = generalPersonModel.EmailId;
+                    _userMasterRepository.Update(userMasterData);
+                }
             }
             else
             {

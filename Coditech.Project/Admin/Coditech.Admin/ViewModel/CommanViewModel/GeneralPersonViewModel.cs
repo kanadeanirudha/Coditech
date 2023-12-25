@@ -15,7 +15,8 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         [MinLength(1)]
         [Required]
-        public string Title { get; set; }
+        [Display(Name = "Title")]
+        public string PersonTitle { get; set; }
 
         [MaxLength(50)]
         [Required]
@@ -38,11 +39,12 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Gender")]
         public int GenderEnumId { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(200)]
+        [EmailAddress]
         [Display(Name = "Email Id")]
         public string EmailId { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(20)]
         [Display(Name = "Telephone Number")]
         public string PhoneNumber { get; set; }
 
@@ -72,7 +74,6 @@ namespace Coditech.Admin.ViewModel
         public int IndentificationEnumId { get; set; }
 
         [MaxLength(50)]
-        [Required]
         [Display(Name = "Blood Group")]
         public string BloodGroup { get; set; }
 

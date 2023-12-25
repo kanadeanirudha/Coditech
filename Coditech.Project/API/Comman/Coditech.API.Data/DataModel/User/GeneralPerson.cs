@@ -6,7 +6,7 @@ namespace Coditech.API.Data
     {
         [Key]
         public long PersonId { get; set; }
-        public string Title { get; set; }
+        public string PersonTitle { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

@@ -35,11 +35,12 @@
                                {
                                    DropdownSelectedValue = Model.GymGroupEnumId.ToString(),
                                    DropdownName = "GymGroupEnumId",
-                                   GroupCode = DropdownTypeEnum.GymGroup.ToString()
+                                   GroupCode = DropdownTypeEnum.GymGroup.ToString(),
+                                   IsRequired = true
                                })
                                         @Html.ValidationMessageFor(x => x.GymGroupEnumId)
 
-                                </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
@@ -48,7 +49,8 @@
                                {
                                    DropdownSelectedValue = Model.SourceEmumId.ToString(),
                                    DropdownName = "SourceEmumId",
-                                   GroupCode = DropdownTypeEnum.GymSource.ToString()
+                                   GroupCode = DropdownTypeEnum.GymSource.ToString(),
+                                   IsRequired = true
                                })
                                         @Html.ValidationMessageFor(x => x.SourceEmumId)
                                     </div>
@@ -56,7 +58,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.MedicalHistory, new { @class = "form-label" })
-                                        @Html.TextAreaFor(x => x.MedicalHistory, new { @class = "form-control", @maxlength="500"})
+                                        @Html.TextAreaFor(x => x.MedicalHistory, new { @class = "form-control", @maxlength = "500" })
                                         @Html.ValidationMessageFor(x => x.MedicalHistory)
                                     </div>
                                 </div>

@@ -6,7 +6,7 @@
         public string UserType { get; set; }
         public string Password { get; set; }
         public string PersonCode { get; set; }
-        public string Title { get; set; }
+        public string PersonTitle { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
