@@ -1,4 +1,7 @@
 ﻿using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
+using Coditech.Common.API.Model;
 
 namespace Coditech.Admin.Agents
 {
@@ -26,13 +29,6 @@ namespace Coditech.Admin.Agents
         GymCreateEditMemberViewModel GetMemberPersonalDetails(long personId);
 
         /// <summary>
-        /// Get Member Details by personId.
-        /// </summary>
-        /// <param name="personId">personId</param>
-        /// <returns>Returns GymCreateEditMemberViewModel.</returns>
-        GymCreateEditMemberViewModel GetMemberDetails(long personId);
-
-        /// <summary>
         /// Update Member Personal Details.
         /// </summary>
         /// <param name="gymCreateEditMemberViewModel">gymCreateEditMemberViewModel.</param>
@@ -40,10 +36,23 @@ namespace Coditech.Admin.Agents
         GymCreateEditMemberViewModel UpdateMemberPersonalDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel);
 
         /// <summary>
-        /// Delete Members.
+        /// Get MemberOtherDetails by gymMemberDetailId.
         /// </summary>
-        /// <param name="gymMemberDetailId">gymMemberDetailId.</param>
+        /// <param name="gymMemberDetailId">gymMemberDetailId</param>
+        /// <returns>Returns GymMemberDetailsResponse.</returns>
+        GymMemberDetailsViewModel GetGymMemberOtherDetails(int gymMemberDetailId, long personId);
+
+        /// <summary>
+        /// Update GymMember Other Details
+        /// </summary>
+        /// <param name="GymMemberDetailsModel">GymMemberDetailsModel.</param>
+        /// <returns>Returns updated GymMemberDetailsViewModel</returns>
+        GymMemberDetailsViewModel UpdateGymMemberOtherDetails(GymMemberDetailsViewModel gymMemberDetailsModel);
+        /// <summary>
+        /// Delete Gym Members.
+        /// </summary>
+        /// <param name="gymMemberDetailIds">gymMemberDetailIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeleteMembers(string gymMemberDetailId, out string errorMessage);
+        bool DeleteGymMembers(string gymMemberDetailIds, out string errorMessage);
     }
 }

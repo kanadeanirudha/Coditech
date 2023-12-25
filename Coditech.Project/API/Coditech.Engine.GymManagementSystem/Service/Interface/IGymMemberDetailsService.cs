@@ -8,5 +8,8 @@ namespace Coditech.API.Service
     public interface IGymMemberDetailsService
     {
         GymMemberDetailsListModel GetGymMemberDetailsList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        GymMemberDetailsModel GetGymMemberOtherDetails(int gymMemberDetailId);
+        bool UpdateGymMemberOtherDetails(GymMemberDetailsModel model);
+        bool DeleteGymMembers(ParameterModel parameterModel);
     }
 }

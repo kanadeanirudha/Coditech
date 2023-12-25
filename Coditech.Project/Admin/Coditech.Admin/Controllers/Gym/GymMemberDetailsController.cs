@@ -72,13 +72,20 @@ namespace Coditech.Admin.Controllers
             return View(createEdit, gymCreateEditMemberViewModel);
         }
 
+        [HttpGet]
+        public virtual ActionResult GetMemberOtherDetails(int gymMemberDetailId, long personId)
+        {
+            GymMemberDetailsViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetGymMemberOtherDetails(gymMemberDetailId, personId);
+            return ActionView(createEdit, gymCreateEditMemberViewModel);
+        }
+
         public virtual ActionResult Delete(string gymMemberDetailIds)
         {
             string message = string.Empty;
             bool status = false;
             if (!string.IsNullOrEmpty(gymMemberDetailIds))
             {
-                status = _gymMemberDetailsAgent.DeleteMembers(gymMemberDetailIds, out message);
+                status = _gymMemberDetailsAgent.DeleteGymMembers(gymMemberDetailIds, out message);
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));

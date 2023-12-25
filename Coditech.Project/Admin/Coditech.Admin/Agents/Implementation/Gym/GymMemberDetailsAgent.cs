@@ -47,14 +47,15 @@ namespace Coditech.Admin.Agents
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GymMemberDetailsListResponse response = _gymMemberDetailsClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GymMemberDetailsListModel countryList = new GymMemberDetailsListModel { GymMemberDetailsList = response?.GymMemberDetailsList };
+            GymMemberDetailsListModel gymMemberList = new GymMemberDetailsListModel { GymMemberDetailsList = response?.GymMemberDetailsList };
             GymMemberDetailsListViewModel listViewModel = new GymMemberDetailsListViewModel();
-            listViewModel.GymMemberDetailsList = countryList?.GymMemberDetailsList?.ToViewModel<GymMemberDetailsViewModel>().ToList();
+            listViewModel.GymMemberDetailsList = gymMemberList?.GymMemberDetailsList?.ToViewModel<GymMemberDetailsViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberDetailsList.Count, BindColumns());
             return listViewModel;
         }
 
+        #region General Person
         //Create Member Details
         public virtual GymCreateEditMemberViewModel CreateMemberDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
         {
@@ -107,26 +108,45 @@ namespace Coditech.Admin.Agents
                 return (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(gymCreateEditMemberViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+        #endregion
 
-
-        //Get Get Member Details by personId.
-        public virtual GymCreateEditMemberViewModel GetMemberDetails(long personId)
+        //Get Member Other Details
+        public virtual GymMemberDetailsViewModel GetGymMemberOtherDetails(int gymMemberDetailId, long personId)
         {
-            //GymMemberDetailsResponse response = _gymMemberDetailsClient.GetCountry(gymMemberDetailsId);
-            //return response?.GymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>();
+            GymMemberDetailsResponse response = _gymMemberDetailsClient.GetGymMemberOtherDetails(gymMemberDetailId);
+            GymMemberDetailsViewModel gymMemberDetailsViewModel = response?.GymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>();
+            if (gymMemberDetailsViewModel != null)
+                gymMemberDetailsViewModel.PersonId = personId;
 
-            return new GymCreateEditMemberViewModel();
+            return gymMemberDetailsViewModel;
         }
 
-        //Delete gymMemberDetails.
-        public virtual bool DeleteMembers(string gymMemberDetailIds, out string errorMessage)
+        //Update Gym Member Other Details.
+        public virtual GymMemberDetailsViewModel UpdateGymMemberOtherDetails(GymMemberDetailsViewModel gymMemberDetailsViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                GymMemberDetailsResponse response = _gymMemberDetailsClient.UpdateGymMemberOtherDetails(gymMemberDetailsViewModel.ToModel<GymMemberDetailsModel>());
+                GymMemberDetailsModel gymMemberDetailsModel = response?.GymMemberDetailsModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                return IsNotNull(gymMemberDetailsModel) ? gymMemberDetailsModel.ToViewModel<GymMemberDetailsViewModel>() : (GymMemberDetailsViewModel)GetViewModelWithErrorMessage(new GymMemberDetailsViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return (GymMemberDetailsViewModel)GetViewModelWithErrorMessage(gymMemberDetailsViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+        //Delete gym Member Details.
+        public virtual bool DeleteGymMembers(string gymMemberDetailIds, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = new TrueFalseResponse();// _gymMemberDetailsClient.DeleteMembers(new ParameterModel { Ids = gymMemberDetailIds });
+                TrueFalseResponse trueFalseResponse = _gymMemberDetailsClient.DeleteGymMember(new ParameterModel { Ids = gymMemberDetailIds });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
