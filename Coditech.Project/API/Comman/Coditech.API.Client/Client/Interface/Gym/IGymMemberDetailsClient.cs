@@ -32,6 +32,6 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
-        TrueFalseResponse DeleteGymMember(ParameterModel body);
+        TrueFalseResponse DeleteGymMembers(ParameterModel body);
     }
 }

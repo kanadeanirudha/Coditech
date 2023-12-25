@@ -95,7 +95,7 @@ namespace Coditech.API.Controllers
         [Route("/GymMemberDetails/DeleteGymMembers")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteCountry([FromBody] ParameterModel gymMemberDetailIds)
+        public virtual IActionResult DeleteGymMembers([FromBody] ParameterModel gymMemberDetailIds)
         {
             try
             {

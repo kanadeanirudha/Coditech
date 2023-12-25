@@ -83,7 +83,7 @@ namespace Coditech.API.Service
             gymMemberDetails.PastInjuries = gymMemberDetailsModel.PastInjuries;
             gymMemberDetails.MedicalHistory = gymMemberDetailsModel.MedicalHistory;
             gymMemberDetails.GymGroupEnumId = gymMemberDetailsModel.GymGroupEnumId;
-            gymMemberDetails.SourceEmumId = gymMemberDetailsModel.SourceEmumId;
+            gymMemberDetails.SourceEnumId = gymMemberDetailsModel.SourceEnumId;
             gymMemberDetails.OtherInformation = gymMemberDetailsModel.OtherInformation;
 
             isUpdated = _gymMemberDetailsRepository.Update(gymMemberDetails);
@@ -102,10 +102,10 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymMemberDetailId"));
 
             CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("GymMemberDetailId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("GymMemberDetailIds", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteGymMembers @GymMemberDetailId,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteGymMembers @GymMemberDetailIds,  @Status OUT", 1, out status);
 
             return status == 1 ? true : false;
         }

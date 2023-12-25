@@ -143,7 +143,7 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _gymMemberDetailsClient.DeleteGymMember(new ParameterModel { Ids = gymMemberDetailIds });
+                TrueFalseResponse trueFalseResponse = _gymMemberDetailsClient.DeleteGymMembers(new ParameterModel { Ids = gymMemberDetailIds });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)

@@ -162,14 +162,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual TrueFalseResponse DeleteGymMember(ParameterModel body)
+        public virtual TrueFalseResponse DeleteGymMembers(ParameterModel body)
         {
-            return Task.Run(async () => await DeleteGymMemberAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await DeleteGymMembersAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<TrueFalseResponse> DeleteGymMemberAsync(ParameterModel body, CancellationToken cancellationToken)
+        public virtual async Task<TrueFalseResponse> DeleteGymMembersAsync(ParameterModel body, CancellationToken cancellationToken)
         {
-            string endpoint = gymMemberDetailsEndpoint.DeleteGymMemberAsync();
+            string endpoint = gymMemberDetailsEndpoint.DeleteGymMembersAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

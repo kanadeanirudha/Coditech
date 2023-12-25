@@ -1,6 +1,6 @@
 ﻿@model GymMemberDetailsViewModel
 @{
-    ViewBag.Title = "Update Country";
+    ViewBag.Title = "Update Other Details";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
@@ -44,15 +44,15 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.SourceEmumId, new { @class = "form-label" })
+                                        @Html.LabelFor(x => x.SourceEnumId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
-                                   DropdownSelectedValue = Model.SourceEmumId.ToString(),
-                                   DropdownName = "SourceEmumId",
+                                   DropdownSelectedValue = Model.SourceEnumId.ToString(),
+                                   DropdownName = "SourceEnumId",
                                    GroupCode = DropdownTypeEnum.GymSource.ToString(),
                                    IsRequired = true
                                })
-                                        @Html.ValidationMessageFor(x => x.SourceEmumId)
+                                        @Html.ValidationMessageFor(x => x.SourceEnumId)
                                     </div>
                                 </div>
                                 <div class="col-lg-6">

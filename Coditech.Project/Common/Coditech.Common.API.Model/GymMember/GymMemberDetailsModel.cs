@@ -16,6 +16,6 @@
         public string MedicalHistory { get; set; }
         public string OtherInformation { get; set; }
         public int? GymGroupEnumId { get; set; }
-        public int? SourceEmumId { get; set; }
+        public int? SourceEnumId { get; set; }
     }
 }

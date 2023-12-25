@@ -34,7 +34,7 @@ namespace Coditech.Admin.ViewModel
         public int GymGroupEnumId { get; set; }
         [Required]
         [Display(Name = "Source")]
-        public int? SourceEmumId { get; set; }
+        public int? SourceEnumId { get; set; }
         public string ImagePath { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }

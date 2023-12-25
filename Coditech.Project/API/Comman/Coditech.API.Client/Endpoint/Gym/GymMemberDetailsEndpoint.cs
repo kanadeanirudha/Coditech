@@ -18,7 +18,7 @@ namespace Coditech.API.Endpoint
         public string UpdateGymMemberOtherDetailsAsync() =>
                $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/UpdateGymMemberOtherDetails";
 
-        public string DeleteGymMemberAsync() =>
-                  $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/DeleteGymMember";
+        public string DeleteGymMembersAsync() =>
+                  $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/DeleteGymMembers";
     }
 }
