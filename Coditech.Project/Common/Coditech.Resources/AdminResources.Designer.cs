@@ -106,7 +106,30 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete GeneralEnumarator due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEnumarator
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralEnumarator", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete GeneralEnumaratorGroup due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEnumaratorGroup
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralEnumaratorGroup", resourceCulture);
+            }
+        }
+
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete department due to associate record..
         /// </summary>
@@ -265,7 +288,20 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to GeneralEnumaratorGroup List.
+        /// </summary>
+        public static string LabelGeneralEnumaratorGroupList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelGeneralEnumaratorGroupList", resourceCulture);
+            }
+        }
+
+
+
         /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>

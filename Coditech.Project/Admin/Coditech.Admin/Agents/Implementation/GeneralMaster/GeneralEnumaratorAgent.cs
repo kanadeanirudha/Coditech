@@ -21,10 +21,10 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Constructor
-        public GeneralEnumaratorAgent(ICoditechLogging coditechLogging, IGeneralEnumaratorClient GeneralEnumaratorClient)
+        public GeneralEnumaratorAgent(ICoditechLogging coditechLogging, IGeneralEnumaratorClient generalEnumaratorClient)
         {
             _coditechLogging = coditechLogging;
-            _generalEnumaratorClient = GetClient<IGeneralEnumaratorClient>(GeneralEnumaratorClient);
+            _generalEnumaratorClient = GetClient<IGeneralEnumaratorClient>(generalEnumaratorClient);
         }
         #endregion
 
@@ -43,63 +43,63 @@ namespace Coditech.Admin.Agents
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "EnumaratorName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GeneralEnumaratorListResponse response = _generalEnumaratorClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralEnumaratorListModel EnumaratorList = new GeneralEnumaratorListModel { GeneralEnumaratorList = response?.GeneralEnumaratorList };
+            GeneralEnumaratorListModel generalEnumaratorList = new GeneralEnumaratorListModel { GeneralEnumaratorList = response?.GeneralEnumaratorList };
             GeneralEnumaratorListViewModel listViewModel = new GeneralEnumaratorListViewModel();
-            listViewModel.GeneralEnumaratorList = EnumaratorList?.GeneralEnumaratorList?.ToViewModel<GeneralEnumaratorListViewModel>().ToList();
+            listViewModel.GeneralEnumaratorList = generalEnumaratorList?.GeneralEnumaratorList?.ToViewModel<GeneralEnumaratorViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralEnumaratorList.Count, BindColumns());
             return listViewModel;
         }
 
         //Create General Enumarator.
-        public virtual GeneralEnumaratorViewModel CreateEnumarator(GeneralEnumaratorViewModel GeneralEnumaratorViewModel)
+        public virtual GeneralEnumaratorViewModel CreateEnumarator(GeneralEnumaratorViewModel generalEnumaratorViewModel)
         {
             try
             {
-                GeneralEnumaratorResponse response = _generalEnumaratorClient.CreateEnumarator(GeneralEnumaratorViewModel.ToModel<GeneralEnumaratorModel>());
+                GeneralEnumaratorResponse response = _generalEnumaratorClient.CreateEnumarator(generalEnumaratorViewModel.ToModel<GeneralEnumaratorModel>());
                 GeneralEnumaratorModel GeneralEnumaratorModel = response?.GeneralEnumaratorModel;
                 return IsNotNull(GeneralEnumaratorModel) ? GeneralEnumaratorModel.ToViewModel<GeneralEnumaratorViewModel>() : new GeneralEnumaratorViewModel();
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EnumaratorMaster.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Warning);
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
-                        return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(GeneralEnumaratorViewModel, ex.ErrorMessage);
+                        return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(generalEnumaratorViewModel, ex.ErrorMessage);
                     default:
-                        return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(GeneralEnumaratorViewModel, GeneralResources.ErrorFailedToCreate);
+                        return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(generalEnumaratorViewModel, GeneralResources.ErrorFailedToCreate);
                 }
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EnumaratorMaster.ToString(), TraceLevel.Error);
-                return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(GeneralEnumaratorViewModel, GeneralResources.ErrorFailedToCreate);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
+                return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(generalEnumaratorViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 
         //Get general Enumarator by general Enumarator master id.
-        public virtual GeneralEnumaratorViewModel GetEnumarator(short GeneralEnumaratorMasterId)
+        public virtual GeneralEnumaratorViewModel GetEnumarator(int generalEnumaratorMasterId)
         {
-            GeneralEnumaratorResponse response = _generalEnumaratorClient.GetEnumarator(GeneralEnumaratorMasterId);
+            GeneralEnumaratorResponse response = _generalEnumaratorClient.GetEnumarator(generalEnumaratorMasterId);
             return response?.GeneralEnumaratorModel.ToViewModel<GeneralEnumaratorViewModel>();
         }
 
         //Update GeneralEnumarator.
-        public virtual GeneralEnumaratorViewModel UpdateEnumarator(GeneralEnumaratorViewModel GeneralEnumaratorViewModel)
+        public virtual GeneralEnumaratorViewModel UpdateEnumarator(GeneralEnumaratorViewModel generalEnumaratorViewModel)
         {
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EnumaratorMaster.ToString(), TraceLevel.Info);
-                GeneralEnumaratorResponse response = _generalEnumaratorClient.UpdateEnumarator(GeneralEnumaratorViewModel.ToModel<GeneralEnumaratorModel>());
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Info);
+                GeneralEnumaratorResponse response = _generalEnumaratorClient.UpdateEnumarator(generalEnumaratorViewModel.ToModel<GeneralEnumaratorModel>());
                 GeneralEnumaratorModel GeneralEnumaratorModel = response?.GeneralEnumaratorModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.EnumaratorMaster.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Info);
                 return IsNotNull(GeneralEnumaratorModel) ? GeneralEnumaratorModel.ToViewModel<GeneralEnumaratorViewModel>() : (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(new GeneralEnumaratorViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EnumaratorMaster.ToString(), TraceLevel.Error);
-                return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(GeneralEnumaratorViewModel, GeneralResources.UpdateErrorMessage);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
+                return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(generalEnumaratorViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
 
@@ -110,13 +110,13 @@ namespace Coditech.Admin.Agents
 
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EnumaratorMaster.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _generalEnumaratorClient.DeleteEnumarator(new ParameterModel { Ids = GeneralEnumaratorMasterId });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EnumaratorMaster.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Warning);
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
@@ -129,7 +129,7 @@ namespace Coditech.Admin.Agents
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EnumaratorMaster.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
                 errorMessage = GeneralResources.ErrorFailedToDelete;
                 return false;
             }

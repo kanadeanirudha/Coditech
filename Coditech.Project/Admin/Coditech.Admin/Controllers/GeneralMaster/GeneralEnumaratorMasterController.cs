@@ -50,7 +50,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short GeneralEnumaratorMasterId)
+        public virtual ActionResult Edit(int GeneralEnumaratorMasterId)
         {
             GeneralEnumaratorViewModel GeneralEnumaratorViewModel = _GeneralEnumaratorAgent.GetEnumarator(GeneralEnumaratorMasterId);
             return ActionView(createEdit, GeneralEnumaratorViewModel);
@@ -69,13 +69,13 @@ namespace Coditech.Admin.Controllers
             return View(createEdit, GeneralEnumaratorViewModel);
         }
 
-        public virtual ActionResult Delete(string EnumaratorIds)
+        public virtual ActionResult Delete(string enumaratorIds)
         {
             string message = string.Empty;
             bool status = false;
-            if (!string.IsNullOrEmpty(EnumaratorIds))
+            if (!string.IsNullOrEmpty(enumaratorIds))
             {
-                status = _GeneralEnumaratorAgent.DeleteEnumarator(EnumaratorIds, out message);
+                status = _GeneralEnumaratorAgent.DeleteEnumarator(enumaratorIds, out message);
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));

@@ -1,8 +1,8 @@
 ﻿namespace Coditech.API.Data
 {
-    public partial class GeneralEnumaratorGroup
+    public partial class GeneralEnumaratorGroupMaster
     {
-        public short GeneralEnumaratorGroupId { get; set; }
+        public int GeneralEnumaratorGroupId { get; set; }
         public string EnumGroupCode { get; set; }
         public string DisaplyText { get; set; }
         public Nullable<int> CreatedBy { get; set; }

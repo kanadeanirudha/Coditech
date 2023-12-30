@@ -21,7 +21,9 @@
         MaritalStatus,
         BloodGroups,
         Title,
-        Occupation
+        Occupation,
+        GeneralEnumarator,
+        GeneralEnumaratorGroup
     }
 
     public enum GeneralSystemGlobleSettingEnum

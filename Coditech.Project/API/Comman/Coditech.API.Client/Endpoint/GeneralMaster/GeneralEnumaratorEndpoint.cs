@@ -15,8 +15,8 @@ namespace Coditech.API.Endpoint
         public string CreateEnumaratorAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorMaster/CreateEnumarator";
 
-        public string GetEnumaratorAsync(short EnumaratorId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorMaster/GetEnumarator?generalEnumaratorMasterId={EnumaratorId}";
+        public string GetEnumaratorAsync(int generalEnumaratorId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorMaster/GetEnumarator?generalEnumaratorMasterId={generalEnumaratorId}";
 
         public string UpdateEnumaratorAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorMaster/UpdateEnumarator";

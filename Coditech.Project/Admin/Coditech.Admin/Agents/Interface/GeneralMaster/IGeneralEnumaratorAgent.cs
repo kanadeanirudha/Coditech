@@ -17,28 +17,28 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="GeneralEnumaratorViewModel">General Enumarator View Model.</param>
         /// <returns>Returns created model.</returns>
-        GeneralEnumaratorViewModel CreateEnumarator(GeneralEnumaratorViewModel GeneralEnumaratorViewModel);
+        GeneralEnumaratorViewModel CreateEnumarator(GeneralEnumaratorViewModel generalEnumaratorViewModel);
 
         /// <summary>
         /// Get Enumarator by GeneralEnumaratorMasterId.
         /// </summary>
         /// <param name="GeneralEnumaratorMasterId">GeneralEnumaratorMasterId</param>
         /// <returns>Returns GeneralEnumaratorViewModel.</returns>
-        GeneralEnumaratorViewModel GetEnumarator(short GeneralEnumaratorMasterId);
+        GeneralEnumaratorViewModel GetEnumarator(int generalEnumaratorMasterId);
 
         /// <summary>
         /// Update Enumarator.
         /// </summary>
         /// <param name="GeneralEnumaratorViewModel">GeneralEnumaratorViewModel.</param>
         /// <returns>Returns updated GeneralEnumaratorViewModel</returns>
-        GeneralEnumaratorViewModel UpdateEnumarator(GeneralEnumaratorViewModel GeneralEnumaratorViewModel);
+        GeneralEnumaratorViewModel UpdateEnumarator(GeneralEnumaratorViewModel generalEnumaratorViewModel);
 
         /// <summary>
         /// Delete Enumarator.
         /// </summary>
         /// <param name="GeneralEnumaratorMasterId">GeneralEnumaratorMasterId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeleteEnumarator(string GeneralEnumaratorMasterId, out string errorMessage);
+        bool DeleteEnumarator(string generalEnumaratorMasterId, out string errorMessage);
         GeneralEnumaratorListResponse GetEnumaratorList();
     }
 }

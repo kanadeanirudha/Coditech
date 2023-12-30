@@ -45,7 +45,7 @@ namespace Coditech.Admin.Agents
             GeneralCountryListResponse response = _generalCountryClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralCountryListModel countryList = new GeneralCountryListModel { GeneralCountryList = response?.GeneralCountryList };
             GeneralCountryListViewModel listViewModel = new GeneralCountryListViewModel();
-            listViewModel.GeneralCountryList = countryList?.GeneralCountryList?.ToViewModel<GeneralCountryListViewModel>().ToList();
+            listViewModel.GeneralCountryList = countryList?.GeneralCountryList?.ToViewModel<GeneralCountryViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralCountryList.Count, BindColumns());
             return listViewModel;

@@ -69,13 +69,13 @@ namespace Coditech.API.Service
         }
 
         //Get Enumarator by Enumarator id.
-        public virtual GeneralEnumaratorModel GetEnumarator(int EnumaratorId)
+        public virtual GeneralEnumaratorModel GetEnumarator(int generalEnumaratorId)
         {
-            if (EnumaratorId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EnumaratorID"));
+            if (generalEnumaratorId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralEnumaratorId"));
 
             //Get the Enumarator Details based on id.
-            GeneralEnumaratorMaster EnumaratorData = _generalEnumaratorRepository.Table.FirstOrDefault(x => x.GeneralEnumaratorId == EnumaratorId);
+            GeneralEnumaratorMaster EnumaratorData = _generalEnumaratorRepository.Table.FirstOrDefault(x => x.GeneralEnumaratorId == generalEnumaratorId);
             GeneralEnumaratorModel generalEnumaratorModel = EnumaratorData.FromEntityToModel<GeneralEnumaratorModel>();
             if (IsNotNull(generalEnumaratorModel))
             {
@@ -124,8 +124,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Enumarator code is already present or not.
-        protected virtual bool IsEnumaratorNameAlreadyExist(string EnumaratorName, int GeneralEnumaratorId = 0)
-         => _generalEnumaratorRepository.Table.Any(x => x.EnumGroupCode == EnumaratorName && (x.GeneralEnumaratorId != GeneralEnumaratorId || GeneralEnumaratorId == 0));
+        protected virtual bool IsEnumaratorNameAlreadyExist(string enumName, int GeneralEnumaratorId = 0)
+         => _generalEnumaratorRepository.Table.Any(x => x.EnumName == enumName && (x.GeneralEnumaratorId != GeneralEnumaratorId || GeneralEnumaratorId == 0));
         #endregion
     }
 }

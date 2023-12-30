@@ -20,7 +20,7 @@
             City,
             Nationality,
             Designation,
-            EnumaratorMaster,
+            /*EnumaratorMaster,*/
             OrganisationCentre,
             AdminRoleMaster,
             AdminSanctionPost,
@@ -34,7 +34,8 @@
             GlobleSettingMaster, 
             MediaManager,
             Gym,
-            Enumarator
+            GeneralEnumaratorMaster,
+            GeneralEnumaratorGroupMaster
         }
     }
 }

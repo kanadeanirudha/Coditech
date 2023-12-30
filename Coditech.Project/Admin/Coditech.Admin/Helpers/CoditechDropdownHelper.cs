@@ -66,6 +66,22 @@ namespace Coditech.Admin.Helpers
                 }
             }
 
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.GeneralEnumaratorGroup.ToString()))
+            {
+                GeneralEnumaratorGroupListResponse response = new GeneralEnumaratorGroupClient().List(null, null, null, 1, int.MaxValue);
+                dropdownList.Add(new SelectListItem() { Text = "-------Select GeneralEnumaratorGroup-------" });
+                GeneralEnumaratorGroupListModel list = new GeneralEnumaratorGroupListModel { GeneralEnumaratorGroupList = response.GeneralEnumaratorGroupList };
+                foreach (var item in list.GeneralEnumaratorGroupList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = string.Concat(item.DisaplyText, " (", item.EnumGroupCode, ")"),
+                        Value = Convert.ToString(item.GeneralEnumaratorGroupId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralEnumaratorGroupId)
+                    });
+                }
+            }
+
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Nationality.ToString()))
             {
                 GeneralNationalityListResponse response = new GeneralNationalityClient().List(null, null, null, 1, int.MaxValue);

@@ -4,10 +4,10 @@ namespace Coditech.Admin.ViewModel
 {
     public class GeneralEnumaratorListViewModel : BaseViewModel
     {
-        public List<GeneralEnumaratorListViewModel> GeneralEnumaratorList { get; set; }
+        public List<GeneralEnumaratorViewModel> GeneralEnumaratorList { get; set; }
         public GeneralEnumaratorListViewModel()
         {
-            GeneralEnumaratorList = new List<GeneralEnumaratorListViewModel>();
+            GeneralEnumaratorList = new List<GeneralEnumaratorViewModel>();
         }
     }
 }

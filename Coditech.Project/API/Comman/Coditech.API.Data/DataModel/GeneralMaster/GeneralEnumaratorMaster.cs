@@ -2,13 +2,18 @@
 {
     public partial class GeneralEnumaratorMaster
     {
-        public int GeneralEnumaratorMasterId { get; set; }
+        public int GeneralEnumaratorId { get; set; }
         public int GeneralEnumaratorGroupId { get; set; }
-        public string EnumGroupCode { get; set; }
         public string EnumName { get; set; }
         public string EnumDisplayText { get; set; }
+        public string RelatedWith { get; set; }
         public short EnumValue { get; set; }
         public short SequenceNumber { get; set; }
+        public Nullable<bool> IsDefault { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }
 

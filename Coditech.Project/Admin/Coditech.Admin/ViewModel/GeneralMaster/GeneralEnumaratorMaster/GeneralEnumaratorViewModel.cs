@@ -12,7 +12,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "EnumName")]
         public string EnumName { get; set; }
         public string EnumDisplayText { get; set; }
+        public string RelatedWith { get; set; }
         public short EnumValue { get; set; }
         public short SequenceNumber { get; set; }
+        public bool IsDefault { get; set; }
     }
 }

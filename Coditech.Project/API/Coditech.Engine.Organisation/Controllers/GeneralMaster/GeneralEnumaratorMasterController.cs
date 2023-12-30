@@ -36,12 +36,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GeneralEnumaratorResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GeneralEnumaratorResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -58,12 +58,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new GeneralEnumaratorResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GeneralEnumaratorResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -71,7 +71,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralEnumarator/GetEnumarator")]
         [HttpGet]
         [Produces(typeof(GeneralEnumaratorResponse))]
-        public virtual IActionResult GetEnumarator(short GeneralEnumaratorId)
+        public virtual IActionResult GetEnumarator(int GeneralEnumaratorId)
         {
             try
             {
@@ -80,12 +80,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new GeneralEnumaratorResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GeneralEnumaratorResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -102,12 +102,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new GeneralEnumaratorResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GeneralEnumaratorResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -115,21 +115,21 @@ namespace Coditech.API.Controllers
         [Route("/GeneralEnumarator/DeleteEnumarator")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteEnumarator([FromBody] ParameterModel EnumaratorIds)
+        public virtual IActionResult DeleteEnumarator([FromBody] ParameterModel generalEnumaratorIds)
         {
             try
             {
-                bool deleted = _generalEnumaratorService.DeleteEnumarator(EnumaratorIds);
+                bool deleted = _generalEnumaratorService.DeleteEnumarator(generalEnumaratorIds);
                 return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralEnumaratorMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
