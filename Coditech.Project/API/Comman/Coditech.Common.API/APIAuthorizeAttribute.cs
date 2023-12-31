@@ -29,7 +29,7 @@ namespace Coditech.Common.API
             if (Authorize(actionContext))
                 return;
 
-            // HandleUnauthorizedRequest(actionContext);
+            HandleUnauthorizedRequest(actionContext);
         }
         protected void HandleUnauthorizedRequest(AuthorizationFilterContext actionContext)
         {
@@ -83,6 +83,8 @@ namespace Coditech.Common.API
                 //        SetErrorCodes(Libraries.Common.Exceptions.ErrorCodes.UnAuthorized, "Token is invalid", HttpStatusCode.Unauthorized, actionContext);
                 //    }
                 //}
+                //else if (CoditechApiSettings.EnableBasicAuthorization)
+
                 //else if (CoditechApiSettings.EnableBasicAuthorization)
                 //{
                 //    string? authValue = actionContext.HttpContext.Request.Headers["Authorization"].First();

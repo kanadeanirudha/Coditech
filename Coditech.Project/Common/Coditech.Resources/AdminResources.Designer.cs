@@ -115,6 +115,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete enum group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEnumaratorGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralEnumaratorGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete nationality due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralNationalityMaster {
@@ -273,6 +282,15 @@ namespace Coditech.Resources {
         public static string LabelDesignationList {
             get {
                 return ResourceManager.GetString("LabelDesignationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enum Group.
+        /// </summary>
+        public static string LabelEnumGroupList {
+            get {
+                return ResourceManager.GetString("LabelEnumGroupList", resourceCulture);
             }
         }
         

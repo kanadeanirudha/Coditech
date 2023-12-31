@@ -29,12 +29,12 @@ namespace Coditech.Admin.Helpers
 
 
         //Get the Login User Details based on the user name. To bind user id in Api request.
-        public static UserViewModel GetUserDetails()
+        public static UserModel GetUserDetails()
         {
-            UserViewModel model = null;
+            UserModel model = null;
             try
             {
-                model = SessionHelper.GetDataFromSession<UserViewModel>(AdminConstants.UserDataSession);
+                model = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
 
                 if (Equals(model, null))
                 {
@@ -47,7 +47,7 @@ namespace Coditech.Admin.Helpers
                         //if (!Equals(userModel, null))
                         //{
                         //    model = userModel.ToViewModel<UserViewModel>();
-                        //    SessionHelper.SaveDataInSession<UserViewModel>(AdminConstants.UserDataSession, model);
+                        //    SessionHelper.SaveDataInSession<UserModel>(AdminConstants.UserDataSession, model);
                         //}
                         //client = null;
 

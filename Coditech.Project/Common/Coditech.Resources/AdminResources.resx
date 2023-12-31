@@ -135,6 +135,9 @@
   <data name="ErrorDeleteGeneralDesignationMaster" xml:space="preserve">
     <value>Failed to delete designation due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralEnumaratorGroup" xml:space="preserve">
+    <value>Failed to delete enum group due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralNationalityMaster" xml:space="preserve">
     <value>Failed to delete nationality due to associate record.</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="LabelDesignationList" xml:space="preserve">
     <value>Designation List</value>
+  </data>
+  <data name="LabelEnumGroupList" xml:space="preserve">
+    <value>Enum Group</value>
   </data>
   <data name="LabelGlobleSettingList" xml:space="preserve">
     <value>Globle Setting List</value>

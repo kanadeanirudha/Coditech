@@ -18,13 +18,11 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
-        //private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
         public GeneralEnumaratorGroupService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
-           // _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralEnumaratorGroupListModel GetEnumaratorGroupList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -124,8 +122,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if EnumaratorGroup code is already present or not.
-        protected virtual bool IsEnumaratorGroupNameAlreadyExist(string EnumaratorGroupName, int GeneralEnumaratorGroupId = 0)
-         => _generalEnumaratorGroupRepository.Table.Any(x => x.EnumGroupCode == EnumaratorGroupName && (x.GeneralEnumaratorGroupId != GeneralEnumaratorGroupId || GeneralEnumaratorGroupId == 0));
+        protected virtual bool IsEnumaratorGroupNameAlreadyExist(string enumGroupCode, int GeneralEnumaratorGroupId = 0)
+         => _generalEnumaratorGroupRepository.Table.Any(x => x.EnumGroupCode == enumGroupCode && (x.GeneralEnumaratorGroupId != GeneralEnumaratorGroupId || GeneralEnumaratorGroupId == 0));
         #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace Coditech.API.Data
             int userId = 0;
             var headers = HttpContextHelper.Request?.Headers;
             if (headers != null)
-                int.TryParse(headers["LoginUserId"], out userId);
+                int.TryParse(headers["LoginAsUserId"], out userId);
 
             return userId;
         }

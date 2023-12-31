@@ -42,6 +42,8 @@ namespace Coditech.Admin.Agents
                 filters = new FilterCollection();
                 filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);

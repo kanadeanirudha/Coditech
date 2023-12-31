@@ -1,7 +1,6 @@
 ﻿using Coditech.Common.API.Model.Response;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.Extensions.Configuration;
@@ -14,7 +13,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Web;
 
 namespace Coditech.API.Client
 {
@@ -22,7 +20,7 @@ namespace Coditech.API.Client
     {
         private static readonly ICoditechLogging _coditechLogging = CoditechDependencyResolver.GetService<ICoditechLogging>();
         private static IConfigurationSection settings = CoditechDependencyResolver.GetService<IConfiguration>().GetSection("appsettings");
-        
+
         private string _domainName;
         private string _domainKey;
         private int _apiRequestTimeout = 0;
@@ -30,8 +28,7 @@ namespace Coditech.API.Client
         private string _localeId;
         public int UserId { get; set; }
         public bool RefreshCache { get; set; }
-        public int LoginAs { get; set; }
-        private string LoginAsHeader => LoginAs > 0 ? $"LoginAsUserId: {LoginAs}" : string.Empty;
+        private string LoginAsHeader => UserId > 0 ? $"LoginAsUserId: {UserId}" : string.Empty;
         ///// <summary>
         ///// API request timeout in milliseconds.
         ///// </summary>
@@ -76,7 +73,7 @@ namespace Coditech.API.Client
             }
             set { _domainKey = value; }
         }
-       
+
         //Get the IPAddress of the user.
         private string MinifiedJsonResponseHeader
         {
@@ -596,18 +593,18 @@ namespace Coditech.API.Client
         //Set headers for api request.
         protected virtual HttpRequestMessage SetHeaders(HttpRequestMessage req, string endpoint = "")
         {
-            //SetAuthorizationHeader(req, endpoint);
-            //SetLoginAsHeader(req);
-            //SetDomainHeader(req);
+            SetAuthorizationHeader(req, endpoint);
+            SetLoginAsHeader(req);
+            SetDomainHeader(req);
             //SetMinifiedJsonResponseHeader(req);
             return req;
         }
 
         private void SetHeaders(HttpWebRequest req, string endpoint = "")
         {
-            //SetAuthorizationHeader(req, endpoint);
-            //SetLoginAsHeader(req);
-            //SetDomainHeader(req);
+            SetAuthorizationHeader(req, endpoint);
+            SetLoginAsHeader(req);
+            SetDomainHeader(req);
             SetMinifiedJsonResponseHeader(req);
         }
 
@@ -868,7 +865,7 @@ namespace Coditech.API.Client
             if (response != null) status.StatusCode = response.StatusCode;
 
         }
-        
+
         #endregion
 
         #region protected

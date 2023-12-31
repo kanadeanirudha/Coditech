@@ -32,6 +32,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralRegionAgent, GeneralRegionAgent>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingAgent, GeneralSystemGlobleSettingAgent>();
             builder.Services.AddScoped<IGymMemberDetailsAgent, GymMemberDetailsAgent>();
+            builder.Services.AddScoped<IGeneralEnumaratorGroupAgent, GeneralEnumaratorGroupAgent>();
             #endregion
 
             #region Client
@@ -39,6 +40,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAdminSanctionPostClient, AdminSanctionPostClient>();
             builder.Services.AddScoped<IAdminRoleMasterClient, AdminRoleMasterClient>();
             #endregion
+
             builder.Services.AddScoped<IUserClient, UserClient>();
             builder.Services.AddScoped<IGeneralDepartmentClient, GeneralDepartmentClient>();
             builder.Services.AddScoped<IGeneralCountryClient, GeneralCountryClient>();
@@ -53,6 +55,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralSystemGlobleSettingClient, GeneralSystemGlobleSettingClient>();
             builder.Services.AddScoped<IGymMemberDetailsClient, GymMemberDetailsClient>();
             builder.Services.AddScoped<IMediaManagerClient, MediaManagerClient>();
+            builder.Services.AddScoped<IGeneralEnumaratorGroupClient, GeneralEnumaratorGroupClient>();
             #endregion
         }
     }

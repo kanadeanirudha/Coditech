@@ -2,6 +2,7 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
@@ -26,10 +27,10 @@ namespace Coditech.Admin.Agents
 
             if (HttpContextHelper.Current.User != null && HttpContextHelper.Current.User.Identity.IsAuthenticated)
             {
-                UserViewModel model = SessionProxyHelper.GetUserDetails();
+                UserModel model = SessionProxyHelper.GetUserDetails();
                 if (HelperUtility.IsNotNull(model))
                 {
-                    (obj as BaseClient).UserId = model.UserId;
+                    (obj as BaseClient).UserId = model.UserMasterId;
                     (obj as BaseClient).RefreshCache = true;
                 }
             }
@@ -50,10 +51,10 @@ namespace Coditech.Admin.Agents
 
             if (HttpContextHelper.Current.User != null && HttpContextHelper.Current.User.Identity.IsAuthenticated)
             {
-                var model = SessionProxyHelper.GetUserDetails();
+                UserModel model = SessionProxyHelper.GetUserDetails();
                 if (HelperUtility.IsNotNull(model))
                 {
-                    (obj as BaseClient).UserId = model.UserId;
+                    (obj as BaseClient).UserId = model.UserMasterId;
                     (obj as BaseClient).RefreshCache = true;
                 }
             }
