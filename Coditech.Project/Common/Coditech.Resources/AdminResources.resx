@@ -135,6 +135,9 @@
   <data name="ErrorDeleteGeneralDesignationMaster" xml:space="preserve">
     <value>Failed to delete designation due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralEnumarator" xml:space="preserve">
+    <value>Failed to delete enum due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralEnumaratorGroup" xml:space="preserve">
     <value>Failed to delete enum group due to associate record.</value>
   </data>

@@ -115,6 +115,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete enum due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEnumarator {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralEnumarator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete enum group due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralEnumaratorGroup {

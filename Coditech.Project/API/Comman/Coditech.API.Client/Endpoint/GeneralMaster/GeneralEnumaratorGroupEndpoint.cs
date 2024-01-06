@@ -15,13 +15,23 @@ namespace Coditech.API.Endpoint
         public string CreateEnumaratorGroupAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorGroup/CreateEnumaratorGroup";
 
-        public string GetEnumaratorGroupAsync(int GeneralEnumaratorGroupId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorGroup/GetEnumaratorGroup?GeneralEnumaratorGroupId={GeneralEnumaratorGroupId}";
+        public string GetEnumaratorGroupAsync(int generalEnumaratorGroupId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorGroup/GetEnumaratorGroup?generalEnumaratorGroupId={generalEnumaratorGroupId}";
        
         public string UpdateEnumaratorGroupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorGroup/UpdateEnumaratorGroup";
 
         public string DeleteEnumaratorGroupAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorGroup/DeleteEnumaratorGroup";
+
+        public string GetEnumaratorAsync(int generalEnumaratorId) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorGroup/GetEnumarator?generalEnumaratorId={generalEnumaratorId}";
+
+        public string InsertUpdateEnumaratorAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorGroup/InsertUpdateEnumarator";
+
+        public string DeleteEnumaratorAsync() =>
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralEnumaratorGroup/DeleteEnumarator";
+
     }
 }

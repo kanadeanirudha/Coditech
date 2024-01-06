@@ -4,7 +4,9 @@ using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
+
 using Newtonsoft.Json;
+
 using System.Net;
 
 namespace Coditech.API.Client
@@ -16,6 +18,8 @@ namespace Coditech.API.Client
         {
             generalEnumaratorGroupEndpoint = new GeneralEnumaratorGroupEndpoint();
         }
+
+        #region EnumaratorGroup
         public virtual GeneralEnumaratorGroupListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
@@ -117,17 +121,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralEnumaratorGroupResponse GetEnumaratorGroup(int GeneralEnumaratorGroupId)
+        public virtual GeneralEnumaratorGroupResponse GetEnumaratorGroup(int generalEnumaratorGroupId)
         {
-            return Task.Run(async () => await GetEnumaratorGroupAsync(GeneralEnumaratorGroupId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetEnumaratorGroupAsync(generalEnumaratorGroupId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralEnumaratorGroupResponse> GetEnumaratorGroupAsync(int GeneralEnumaratorGroupId, CancellationToken cancellationToken)
+        public virtual async Task<GeneralEnumaratorGroupResponse> GetEnumaratorGroupAsync(int generalEnumaratorGroupId, CancellationToken cancellationToken)
         {
-            if (GeneralEnumaratorGroupId <= 0)
+            if (generalEnumaratorGroupId <= 0)
                 throw new System.ArgumentNullException("GeneralEnumaratorGroupId");
 
-            string endpoint = generalEnumaratorGroupEndpoint.GetEnumaratorGroupAsync(GeneralEnumaratorGroupId);
+            string endpoint = generalEnumaratorGroupEndpoint.GetEnumaratorGroupAsync(generalEnumaratorGroupId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -260,5 +264,155 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+
+        #endregion
+
+        #region Enumarator
+
+        public virtual GeneralEnumaratorResponse GetEnumarator(int generalEnumaratorId)
+        {
+            return Task.Run(async () => await GetEnumaratorAsync(generalEnumaratorId, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<GeneralEnumaratorResponse> GetEnumaratorAsync(int generalEnumaratorId, CancellationToken cancellationToken)
+        {
+            if (generalEnumaratorId <= 0)
+                throw new System.ArgumentNullException("generalEnumaratorId");
+
+            string endpoint = generalEnumaratorGroupEndpoint.GetEnumaratorAsync(generalEnumaratorId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<GeneralEnumaratorResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new GeneralEnumaratorResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    GeneralEnumaratorResponse typedBody = JsonConvert.DeserializeObject<GeneralEnumaratorResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual GeneralEnumaratorResponse InsertUpdateEnumarator(GeneralEnumaratorModel body)
+        {
+            return Task.Run(async () => await InsertUpdateEnumaratorAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<GeneralEnumaratorResponse> InsertUpdateEnumaratorAsync(GeneralEnumaratorModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = generalEnumaratorGroupEndpoint.InsertUpdateEnumaratorAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<GeneralEnumaratorResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<GeneralEnumaratorResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    GeneralEnumaratorResponse typedBody = JsonConvert.DeserializeObject<GeneralEnumaratorResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual TrueFalseResponse DeleteEnumarator(ParameterModel body)
+        {
+            return Task.Run(async () => await DeleteEnumaratorAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<TrueFalseResponse> DeleteEnumaratorAsync(ParameterModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = generalEnumaratorGroupEndpoint.DeleteEnumaratorAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<TrueFalseResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        #endregion
     }
 }

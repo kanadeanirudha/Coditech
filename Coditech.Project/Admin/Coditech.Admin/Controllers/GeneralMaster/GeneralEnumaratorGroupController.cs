@@ -11,12 +11,14 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IGeneralEnumaratorGroupAgent _generalEnumaratorGroupAgent;
         private const string createEdit = "~/Views/GeneralMaster/GeneralEnumaratorGroup/CreateEdit.cshtml";
+        private const string createEditGeneralEnum = "~/Views/GeneralMaster/GeneralEnumaratorGroup/_CreateEditGeneralEnum.cshtml";
 
         public GeneralEnumaratorGroupController(IGeneralEnumaratorGroupAgent generalEnumaratorGroupAgent)
         {
             _generalEnumaratorGroupAgent = generalEnumaratorGroupAgent;
         }
 
+        #region EnumaratorGroup
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralEnumaratorGroupListViewModel list = _generalEnumaratorGroupAgent.GetEnumaratorGroupList(dataTableModel);
@@ -50,9 +52,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(int generalEnumaratorGroupId)
+        public virtual ActionResult Edit(string generalEnumaratorGroupId)
         {
-            GeneralEnumaratorGroupViewModel generalEnumaratorGroupViewModel = _generalEnumaratorGroupAgent.GetEnumaratorGroup(generalEnumaratorGroupId);
+            GeneralEnumaratorGroupViewModel generalEnumaratorGroupViewModel = _generalEnumaratorGroupAgent.GetEnumaratorGroup(Convert.ToInt32(generalEnumaratorGroupId));
             return ActionView(createEdit, generalEnumaratorGroupViewModel);
         }
 
@@ -86,6 +88,59 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<GeneralEnumaratorGroupController>(x => x.List(null));
         }
 
+        #endregion
+
+        #region Enumarator
+        [HttpGet]
+        public virtual ActionResult CreateEditEnumarator(string generalEnumaratorGroupId, string generalEnumaratorId)
+        {
+            GeneralEnumaratorViewModel generalEnumaratorViewModel = new GeneralEnumaratorViewModel()
+            {
+                GeneralEnumaratorGroupId = Convert.ToInt32(generalEnumaratorGroupId)
+            };
+            if (Convert.ToInt32(generalEnumaratorId) > 0)
+            {
+                generalEnumaratorViewModel = _generalEnumaratorGroupAgent.GetEnumarator(Convert.ToInt32(generalEnumaratorId));
+            }
+            return ActionView(createEditGeneralEnum, generalEnumaratorViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual ActionResult CreateEditEnumarator(GeneralEnumaratorViewModel generalEnumaratorViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                generalEnumaratorViewModel = _generalEnumaratorGroupAgent.InsertUpdateEnumarator(generalEnumaratorViewModel);
+                if (!generalEnumaratorViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("Edit", "GeneralEnumaratorGroup", new { generalEnumaratorViewModel.GeneralEnumaratorGroupId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(generalEnumaratorViewModel.ErrorMessage));
+            return ActionView(createEditGeneralEnum, generalEnumaratorViewModel);
+        }
+
+        public virtual ActionResult DeleteEnumarator(string generalEnumaratorGroupId, string generalEnumaratorIds)
+        {
+            string message = string.Empty;
+
+            if (!string.IsNullOrEmpty(generalEnumaratorIds))
+            {
+                bool status = false;
+                status = _generalEnumaratorGroupAgent.DeleteEnumarator(generalEnumaratorIds, out message);
+                SetNotificationMessage(!status
+                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
+            }
+            else
+            {
+                SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
+            }
+            return RedirectToAction("Edit", "GeneralEnumaratorGroup", new { generalEnumaratorGroupId });
+        }
+        #endregion
         #region Protected
 
         #endregion

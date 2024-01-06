@@ -21,6 +21,7 @@
             Nationality,
             Designation,
             EnumaratorGroup,
+            Enumarator,
             OrganisationCentre,
             AdminRoleMaster,
             AdminSanctionPost,
