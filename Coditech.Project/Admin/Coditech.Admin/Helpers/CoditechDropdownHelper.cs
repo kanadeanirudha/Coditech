@@ -323,6 +323,21 @@ namespace Coditech.Admin.Helpers
                     Selected = "O-" == dropdownViewModel.DropdownSelectedValue
                 });
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Occupation.ToString()))
+            {
+                GeneralOccupationListResponse response = new GeneralOccupationClient().List(null, null, null, 1, int.MaxValue);
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Occupation-------" });
+                GeneralOccupationListModel list = new GeneralOccupationListModel { GeneralOccupationList = response.GeneralOccupationList };
+                foreach (var item in list.GeneralOccupationList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.OccupationName,
+                        Value = Convert.ToString(item.GeneralOccupationMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralOccupationMasterId)
+                    });
+                }
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
