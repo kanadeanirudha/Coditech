@@ -34,7 +34,10 @@
             Person,
             GlobleSettingMaster, 
             MediaManager,
-            Gym
+            Gym,
+            OccupationMaster
+            
+
         }
     }
 }

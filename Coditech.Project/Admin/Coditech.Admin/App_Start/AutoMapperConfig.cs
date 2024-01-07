@@ -40,6 +40,8 @@ namespace Coditech.Admin
             CreateMap<GeneralEnumaratorGroupListModel, GeneralEnumaratorGroupViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorGroupModel, GeneralEnumaratorGroupViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorModel, GeneralEnumaratorViewModel>().ReverseMap();
+            CreateMap<GeneralOccupationModel, GeneralOccupationViewModel>().ReverseMap();
+            CreateMap<GeneralOccupationListModel, GeneralOccupationListViewModel>().ReverseMap();
             #endregion
 
             #region Organisation

@@ -144,6 +144,9 @@
   <data name="ErrorDeleteGeneralNationalityMaster" xml:space="preserve">
     <value>Failed to delete nationality due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralOccupationMaster" xml:space="preserve">
+    <value>Failed to delete Occupation due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralRegionMaster" xml:space="preserve">
     <value>Failed to delete region due to associate record.</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="ErrorDeleteGymMemberDetails" xml:space="preserve">
     <value>Failed to delete gym member due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteOccupationMaster" xml:space="preserve">
+    <value>Failed to delete Occupation due to associate record.</value>
   </data>
   <data name="ErrorDeleteOrganisationCentreMaster" xml:space="preserve">
     <value>Failed to delete organisationCentre due to associate record.</value>
@@ -206,6 +212,9 @@
   </data>
   <data name="LabelNationalityList" xml:space="preserve">
     <value>NationalityList</value>
+  </data>
+  <data name="LabelOccupationList" xml:space="preserve">
+    <value>Occupation List</value>
   </data>
   <data name="LabelOrganisationList" xml:space="preserve">
     <value>Organisation List</value>

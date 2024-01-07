@@ -142,6 +142,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralOccupationMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralOccupationMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete region due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralRegionMaster {
@@ -174,6 +183,15 @@ namespace Coditech.Resources {
         public static string ErrorDeleteGymMemberDetails {
             get {
                 return ResourceManager.GetString("ErrorDeleteGymMemberDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
+        /// </summary>
+        public static string ErrorDeleteOccupationMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteOccupationMaster", resourceCulture);
             }
         }
         
@@ -327,6 +345,15 @@ namespace Coditech.Resources {
         public static string LabelNationalityList {
             get {
                 return ResourceManager.GetString("LabelNationalityList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occupation List.
+        /// </summary>
+        public static string LabelOccupationList {
+            get {
+                return ResourceManager.GetString("LabelOccupationList", resourceCulture);
             }
         }
         
