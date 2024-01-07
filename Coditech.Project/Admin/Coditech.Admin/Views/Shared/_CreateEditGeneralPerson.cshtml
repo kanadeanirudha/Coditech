@@ -173,7 +173,8 @@
        {
            DropdownType = DropdownTypeEnum.Occupation.ToString(),
            DropdownName = "GeneralOccupationMasterId",
-           DropdownSelectedValue = Model.GeneralOccupationMasterId.ToString()
+           DropdownSelectedValue = Model.GeneralOccupationMasterId.ToString(),
+           IsRequired = false
        })
             @Html.ValidationMessageFor(x => x.GeneralOccupationMasterId)
         </div>
