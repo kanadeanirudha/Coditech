@@ -9,6 +9,16 @@
     {
       "library": "jquery-validation-unobtrusive@4.0.0",
       "destination": "wwwroot/js/layout/jquery-validation-unobtrusive/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery-validate@1.20.0",
+      "destination": "wwwroot/js/layout/jquery-validate/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery-validation-unobtrusive@4.0.0",
+      "destination": "wwwroot/js/layout/jquery-validation-unobtrusive/"
     }
   ]
 }

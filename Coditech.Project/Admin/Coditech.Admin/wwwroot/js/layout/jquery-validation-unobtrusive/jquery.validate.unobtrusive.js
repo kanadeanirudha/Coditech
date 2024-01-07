@@ -383,7 +383,7 @@
     });
     adapters.add("required", function (options) {
         // jQuery Validate equates "required" with "mandatory" for checkbox elements
-        if (options.element.tagName.toUpperCase() !== "INPUT") {
+        if (options.element.tagName.toUpperCase() !== "INPUT" || options.element.type.toUpperCase() !== "CHECKBOX") {
             setValidationValues(options, "required", true);
         }
     });
