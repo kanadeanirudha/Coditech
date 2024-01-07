@@ -37,6 +37,8 @@ namespace Coditech.Admin
             CreateMap<GeneralSystemGlobleSettingListModel, GeneralSystemGlobleSettingListViewModel>().ReverseMap();
             CreateMap<GymMemberDetailsModel, GymMemberDetailsViewModel>().ReverseMap();
             CreateMap<GymMemberDetailsListModel, GymMemberDetailsListViewModel>().ReverseMap();
+            CreateMap<GeneralOccupationModel, GeneralOccupationViewModel>().ReverseMap();
+            CreateMap<GeneralOccupationListModel, GeneralOccupationListViewModel>().ReverseMap();
             #endregion
 
             #region Organisation
