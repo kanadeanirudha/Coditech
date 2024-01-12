@@ -31,6 +31,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<GeneralSystemGlobleSettingMaster, GeneralSystemGlobleSettingModel>().ReverseMap();
             CreateMap<GeneralOccupationMaster, GeneralOccupationModel>().ReverseMap();
+            CreateMap<GeneralMeasurementUnitMaster, GeneralMeasurementUnitModel>().ReverseMap();
         }
     }
 }
