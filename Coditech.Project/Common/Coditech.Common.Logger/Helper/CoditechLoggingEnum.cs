@@ -35,8 +35,8 @@
             GlobleSettingMaster, 
             MediaManager,
             Gym,
-            OccupationMaster
-            
+            OccupationMaster,
+            MeasurementUnitMaster
 
         }
     }

@@ -133,6 +133,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Measurement Unit due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralMeasurementUnitMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralMeasurementUnitMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete nationality due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralNationalityMaster {
@@ -336,6 +345,15 @@ namespace Coditech.Resources {
         public static string LabelIsActive {
             get {
                 return ResourceManager.GetString("LabelIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement Unit List.
+        /// </summary>
+        public static string LabelMeasurementUnitList {
+            get {
+                return ResourceManager.GetString("LabelMeasurementUnitList", resourceCulture);
             }
         }
         
