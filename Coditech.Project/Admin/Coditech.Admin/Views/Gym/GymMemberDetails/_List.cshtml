@@ -3,6 +3,7 @@
     Layout = null;
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    ModelPopUpViewModel addFollowUpModel = new ModelPopUpViewModel() { ModelPopUpId = "AddFollowUpModelPopupId", ModalContentId = "AddFollowUpModelPopupContentId" };
 }
 <div class="row">
     @Html.Partial("~/Views/Shared/Datatable/_DatatableShowResult.cshtml", Model.PageListViewModel.RecordPerPage)
@@ -24,11 +25,11 @@
                             <td>@item.MobileNumber</td>
                             <td>@item.EmailId</td>
                             @* <td>
-                                @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.DefaultFlag)
-                            </td> *@
+                    @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.DefaultFlag)
+                    </td> *@
                             <td class="text-center">
                                 <a href="../@controllerName/UpdateMemberPersonalDetails?gymMemberDetailId=@item.GymMemberDetailId&personId=@item.PersonId" title="Update" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
-                                <a href="../@controllerName/AddFollowup?gymMemberDetailId=@item.GymMemberDetailId&personId=@item.PersonId" title="Add Follow-Up" class="btn btn-sm btn-soft-warning btn-circle"><i class="fas ti-user"></i></a><span class="m-2">|</span>
+                                <a data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="GymMemberDetails.OpenModelPopUp('GymMemberDetails','MemberFollowUp','@addFollowUpModel.ModalContentId')" title="Add Follow-Up" class="btn btn-sm btn-soft-warning btn-circle"><i class="fas ti-user"></i></a><span class="m-2">|</span>
                                 <a href="../@controllerName/Delete?gymMemberDetailIds=@item.GymMemberDetailId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
@@ -39,3 +40,5 @@
     </div>
 </div>
 @Html.Partial("~/Views/Shared/Datatable/_DatatablePagination.cshtml", Model.PageListViewModel)
+@Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", addFollowUpModel)
+

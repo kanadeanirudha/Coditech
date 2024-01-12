@@ -145,8 +145,8 @@ namespace Coditech.API.Service
             if (IsNull(generalEnumaratorModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsEnumaratorNameAlreadyExist(generalEnumaratorModel.EnumName, generalEnumaratorModel.GeneralEnumaratorId))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EnumaratorGroup Name"));
+            if (IsEnumaratorNameAlreadyExist(generalEnumaratorModel.EnumName, generalEnumaratorModel.GeneralEnumaratorGroupId, generalEnumaratorModel.GeneralEnumaratorId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Enumarator Name"));
 
             if (generalEnumaratorModel.GeneralEnumaratorGroupId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EnumaratorGroupID"));
@@ -211,12 +211,12 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if EnumaratorGroup code is already present or not.
-        protected virtual bool IsEnumaratorGroupNameAlreadyExist(string enumGroupCode, int GeneralEnumaratorGroupId = 0)
-         => _generalEnumaratorGroupRepository.Table.Any(x => x.EnumGroupCode == enumGroupCode && (x.GeneralEnumaratorGroupId != GeneralEnumaratorGroupId || GeneralEnumaratorGroupId == 0));
+        protected virtual bool IsEnumaratorGroupNameAlreadyExist(string enumGroupCode, int generalEnumaratorGroupId = 0)
+         => _generalEnumaratorGroupRepository.Table.Any(x => x.EnumGroupCode == enumGroupCode && (x.GeneralEnumaratorGroupId != generalEnumaratorGroupId || generalEnumaratorGroupId == 0));
 
         //Check if Enumarator code is already present or not.
-        protected virtual bool IsEnumaratorNameAlreadyExist(string EnumName, int generalEnumaratorId = 0)
-         => _generalEnumaratorMasterRepository.Table.Any(x => x.EnumName == EnumName && (x.GeneralEnumaratorId != generalEnumaratorId || generalEnumaratorId == 0));
+        protected virtual bool IsEnumaratorNameAlreadyExist(string enumName, int generalEnumaratorGroupId = 0, int generalEnumaratorId = 0)
+         => _generalEnumaratorMasterRepository.Table.Any(x => x.EnumName == enumName && x.GeneralEnumaratorGroupId == generalEnumaratorGroupId && (x.GeneralEnumaratorId != generalEnumaratorId || generalEnumaratorId == 0));
 
         #endregion
     }

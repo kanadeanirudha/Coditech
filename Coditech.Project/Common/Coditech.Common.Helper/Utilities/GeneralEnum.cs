@@ -23,12 +23,14 @@
         Title,
         Occupation,
         GymGroup,
-        GymSource
+        GymSource,
+        GymFollowupTypes
     }
 
     public enum GeneralSystemGlobleSettingEnum
     {
         IsGymMemberLogin,
+        IsEmployeeLogin,
         ActiveProjectName,
         DefaultPassword
     }

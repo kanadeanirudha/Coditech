@@ -108,6 +108,28 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
         }
 
+        [HttpGet]
+        public virtual ActionResult MemberFollowUp(int gymMemberDetailId, long gymMemberFollowUpId)
+        {
+            GymMemberFollowUpViewModel model = new GymMemberFollowUpViewModel();
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", model);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual ActionResult MemberFollowUp(GymMemberFollowUpViewModel gymMemberFollowUpViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", gymMemberFollowUpViewModel);
+            }
+            return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", gymMemberFollowUpViewModel);
+        }
+
         #region Protected
         #endregion
     }

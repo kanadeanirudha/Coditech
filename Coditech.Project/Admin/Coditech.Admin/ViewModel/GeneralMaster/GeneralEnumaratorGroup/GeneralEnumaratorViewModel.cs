@@ -31,5 +31,8 @@ namespace Coditech.Admin.ViewModel
         public short SequenceNumber { get; set; }
 
         public bool IsDefault { get; set; }
+
+        [Display(Name = "Is Active")]
+        public bool IsActive { get; set; } = true;
     }
 }

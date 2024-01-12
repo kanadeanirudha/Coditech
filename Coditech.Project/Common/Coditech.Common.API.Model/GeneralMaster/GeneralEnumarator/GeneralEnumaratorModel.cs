@@ -14,5 +14,6 @@
         public short EnumValue { get; set; }
         public short SequenceNumber { get; set; }
         public bool IsDefault { get; set; }
+        public bool IsActive { get; set; }
     }
 }
