@@ -29,13 +29,16 @@ namespace Coditech.API.Client.Endpoint
         private string UriItemSeparator => settings["CoditechApiUriItemSeparator"];
         private string UriKeyValueSeparator => settings["CoditechApiUriKeyValueSeparator"];
         private string CommaReplacer => settings["CoditechCommaReplacer"];
-        
+
         protected string BuildEndpointQueryString(IEnumerable<string> expand = null, IEnumerable<FilterTuple> filter = null, IDictionary<string, string> sort = null, int? pageIndex = null, int? pageSize = null, params string[] param) =>
         string.Concat(BuildExpandQueryString(expand), BuildFilterQueryString(filter), BuildSortQueryString(sort), BuildPageIndexQueryString(pageIndex), BuildPageSizeQueryString(pageSize), CustomEndpoint(param));
 
-        private string BuildExpandQueryString(IEnumerable<string> expands)
+        protected string BuildEndpointQueryString(bool IsBindParamer = false, IEnumerable<string> expand = null, IEnumerable<FilterTuple> filter = null, IDictionary<string, string> sort = null, int? pageIndex = null, int? pageSize = null, params string[] param) =>
+        string.Concat(BuildExpandQueryString(expand, IsBindParamer), BuildFilterQueryString(filter), BuildSortQueryString(sort), BuildPageIndexQueryString(pageIndex), BuildPageSizeQueryString(pageSize), CustomEndpoint(param));
+
+        private string BuildExpandQueryString(IEnumerable<string> expands, bool IsBindParamer = false)
         {
-            string queryString = "?expand=";
+            string queryString = IsBindParamer ? "&expand=" : "?expand=";
 
             if (expands != null)
             {

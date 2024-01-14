@@ -110,5 +110,35 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        #region Member Follow Up
+        public virtual GymMemberFollowUpListModel GymMemberFollowUpList(int gymMemberDetailId, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        {
+            //Bind the Filter, sorts & Paging FollowUp.
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+            CoditechViewRepository<GymMemberFollowUpModel> objStoredProc = new CoditechViewRepository<GymMemberFollowUpModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@GymMemberDetailId", gymMemberDetailId, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<GymMemberFollowUpModel> gymMemberList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberFollowUpList @GymMemberDetailId, @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            GymMemberFollowUpListModel listModel = new GymMemberFollowUpListModel();
+
+            listModel.GymMemberFollowUpList = gymMemberList?.Count > 0 ? gymMemberList : new List<GymMemberFollowUpModel>();
+            listModel.BindPageListModel(pageListModel);
+
+            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
+            if (IsNotNull(generalPerson))
+            {
+                listModel.FirstName = generalPerson.FirstName;
+                listModel.LastName = generalPerson.LastName;
+            }
+            listModel.GymMemberDetailId = gymMemberDetailId;
+            listModel.PersonId = personId;
+            return listModel;
+        }
+
+        #endregion
     }
 }

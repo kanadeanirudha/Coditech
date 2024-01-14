@@ -5,15 +5,15 @@
     constructor: function () {
     },
 
-    OpenModelPopUp: function (controllerName, methodName, modelPopContentId) {
+    GetMemberFollowUp: function (modelPopContentId, gymMemberDetailId, gymMemberFollowUpId) {
         CoditechCommon.ShowLodder();
         $.ajax(
             {
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/" + controllerName + "/" + methodName,
-                data: { "gymMemberDetailId": 0,"gymMemberFollowUpId": 0 },
+                url: "/GymMemberDetails/GetMemberFollowUp",
+                data: { "gymMemberDetailId": gymMemberDetailId, "gymMemberFollowUpId": gymMemberFollowUpId },
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
                     $('#' + modelPopContentId).html("").html(result);
@@ -31,11 +31,30 @@
     SaveFollowup: function () {
         $("#frmGymMemberFollowUp").validate();
         debugger
+        $("#errorGymFollowupTypesEnumId").text('').text("").removeClass("field-validation-error").hide();
+        $("#errorReminderDate").text('').text("").removeClass("field-validation-error").hide();
         if ($("#frmGymMemberFollowUp").valid()) {
             if ($("#GymFollowupTypesEnumId").val() == "") {
+                $("#errorGymFollowupTypesEnumId").text('').text("Please Select Follow-up Type.").addClass("field-validation-error").show();
+                return false;
+            }
+            if ($("#IsSetReminder").is(':checked') && $("#ReminderDate").val() == "") {
+                $("#errorReminderDate").text('').text("Please Select Reminder Date.").addClass("field-validation-error").show();
                 return false;
             }
             $("#frmGymMemberFollowUp").submit();
+        }
+    },
+
+    IsSetReminder: function () {
+        debugger
+        $("#ReminderDate").val("");
+        if ($("#IsSetReminder").is(':checked')) {
+            // Code in the case checkbox is checked.
+            $("#ReminderDateDivId").show();
+        } else {
+            // Code in the case checkbox is NOT checked.
+            $("#ReminderDateDivId").hide();
         }
     }
 }

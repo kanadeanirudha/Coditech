@@ -17,6 +17,7 @@ namespace Coditech.Admin.Controllers
             _gymMemberDetailsAgent = gymMemberDetailsAgent;
         }
 
+        #region GymMemberDetails
         public ActionResult List(DataTableViewModel dataTableModel)
         {
             GymMemberDetailsListViewModel list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableModel);
@@ -107,11 +108,26 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
         }
+        #endregion
 
-        [HttpGet]
-        public virtual ActionResult MemberFollowUp(int gymMemberDetailId, long gymMemberFollowUpId)
+        #region MemberFollowUp
+        public ActionResult MemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
-            GymMemberFollowUpViewModel model = new GymMemberFollowUpViewModel();
+            GymMemberFollowUpListViewModel list = _gymMemberDetailsAgent.GymMemberFollowUpList(gymMemberDetailId, personId, dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberFollowUpList.cshtml", list);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberFollowUpList.cshtml", list);
+        }
+        [HttpGet]
+        public virtual ActionResult GetMemberFollowUp(int gymMemberDetailId, long gymMemberFollowUpId)
+        {
+            GymMemberFollowUpViewModel model = new GymMemberFollowUpViewModel()
+            {
+                GymMemberDetailId = gymMemberDetailId,
+                GymMemberFollowUpId = gymMemberFollowUpId
+            };
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", model);
@@ -121,7 +137,7 @@ namespace Coditech.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult MemberFollowUp(GymMemberFollowUpViewModel gymMemberFollowUpViewModel)
+        public virtual ActionResult CreatEditMemberFollowUp(GymMemberFollowUpViewModel gymMemberFollowUpViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -129,6 +145,7 @@ namespace Coditech.Admin.Controllers
             }
             return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", gymMemberFollowUpViewModel);
         }
+        #endregion
 
         #region Protected
         #endregion

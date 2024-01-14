@@ -54,5 +54,12 @@ namespace Coditech.Admin.Agents
         /// <param name="gymMemberDetailIds">gymMemberDetailIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteGymMembers(string gymMemberDetailIds, out string errorMessage);
+
+        /// <summary>
+        /// Get list of Gym Member.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GymMemberFollowUpListViewModel</returns>
+        GymMemberFollowUpListViewModel GymMemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel);
     }
 }

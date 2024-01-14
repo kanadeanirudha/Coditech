@@ -112,6 +112,7 @@ namespace Coditech.Admin.Agents
         }
         #endregion
 
+        #region Member Other Details
         //Get Member Other Details
         public virtual GymMemberDetailsViewModel GetGymMemberOtherDetails(int gymMemberDetailId)
         {
@@ -170,6 +171,39 @@ namespace Coditech.Admin.Agents
         }
         #endregion
 
+        #region Member Follow Up
+        public virtual GymMemberFollowUpListViewModel GymMemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("FollowupType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FollowupComment", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GymMemberFollowUpListResponse response = _gymMemberDetailsClient.GymMemberFollowUpList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberFollowUpListModel gymMemberList = new GymMemberFollowUpListModel { GymMemberFollowUpList = response?.GymMemberFollowUpList };
+
+            GymMemberFollowUpListViewModel listViewModel = new GymMemberFollowUpListViewModel()
+            {
+                PersonId = response.PersonId,
+                GymMemberDetailId = response.GymMemberDetailId,
+                FirstName = response?.FirstName,
+                LastName = response?.LastName
+            };
+            listViewModel.GymMemberFollowUpList = gymMemberList?.GymMemberFollowUpList?.ToViewModel<GymMemberFollowUpViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberFollowUpList.Count, BindGymMemberFollowUpColumns());
+            return listViewModel;
+        }
+
+        #endregion
+        #endregion
+
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {
@@ -202,6 +236,34 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Email Id",
                 ColumnCode = "EmailId",
                 IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindGymMemberFollowUpColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Comments",
+                ColumnCode = "FollowupComment",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Follow-Up Type",
+                ColumnCode = "FollowupType",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Set Reminder",
+                ColumnCode = "IsSetReminder",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Reminder Date",
+                ColumnCode = "ReminderDate",
             });
             return datatableColumnList;
         }

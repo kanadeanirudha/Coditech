@@ -33,5 +33,12 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteGymMembers(ParameterModel body);
+
+        /// <summary>
+        /// Get list of Gym Member.
+        /// </summary>
+        /// <returns>GymMemberFollowUpListResponse</returns>
+        GymMemberFollowUpListResponse GymMemberFollowUpList(int GymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
     }
 }
