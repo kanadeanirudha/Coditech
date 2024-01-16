@@ -61,7 +61,7 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual EmployeeMasterResponse GetEmployee(int emplyeeId)
+        public virtual EmployeeMasterResponse GetEmployeeOtherDetails(int emplyeeId)
         {
             return Task.Run(async () => await GetEmployeeMasterAsync(emplyeeId, CancellationToken.None)).GetAwaiter().GetResult();
         }
@@ -110,7 +110,7 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual EmployeeMasterResponse UpdateEmployee(EmployeeMasterModel body)
+        public virtual EmployeeMasterResponse UpdateEmployeeOtherDetails(EmployeeMasterModel body)
         {
             return Task.Run(async () => await UpdateEmployeeMasterAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
