@@ -138,6 +138,72 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new GymMemberFollowUpListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/GymMemberDetails/GetGymMemberFollowUp")]
+        [HttpGet]
+        [Produces(typeof(GymMemberFollowUpResponse))]
+        public virtual IActionResult GetGymMemberFollowUp(long gymMemberFollowUpId)
+        {
+            try
+            {
+                GymMemberFollowUpModel gymMemberFollowUpModel = _generalGymMemberDetailsService.GetGymMemberFollowUp(gymMemberFollowUpId);
+                return IsNotNull(gymMemberFollowUpModel) ? CreateOKResponse(new GymMemberFollowUpResponse { GymMemberFollowUpModel = gymMemberFollowUpModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GymMemberFollowUpResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberFollowUpResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GymMemberDetails/InserUpdateGymMemberFollowUp")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(GymMemberFollowUpResponse))]
+        public virtual IActionResult InserUpdateGymMemberFollowUp([FromBody] GymMemberFollowUpModel model)
+        {
+            try
+            {
+                bool isUpdated = _generalGymMemberDetailsService.InserUpdateGymMemberFollowUp(model);
+                return isUpdated ? CreateOKResponse(new GymMemberFollowUpResponse { GymMemberFollowUpModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GymMemberFollowUpResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberFollowUpResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GymMemberDetails/DeleteGymMemberFollowUp")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult DeleteGymMemberFollowUp([FromBody] ParameterModel countryIds)
+        {
+            try
+            {
+                bool deleted = _generalGymMemberDetailsService.DeleteGymMemberFollowUp(countryIds);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
         #endregion
     }
 }

@@ -201,6 +201,62 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
+        public virtual GymMemberFollowUpViewModel GetMemberFollowUp(long gymMemberFollowUpId)
+        {
+            GymMemberFollowUpResponse response = _gymMemberDetailsClient.GetGymMemberFollowUp(gymMemberFollowUpId);
+            GymMemberFollowUpViewModel gymMemberDetailsViewModel = response?.GymMemberFollowUpModel.ToViewModel<GymMemberFollowUpViewModel>();
+            return gymMemberDetailsViewModel;
+        }
+
+        //Update Member Details
+        public virtual GymMemberFollowUpViewModel InserUpdateGymMemberFollowUp(GymMemberFollowUpViewModel gymMemberFollowUpViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                GymMemberFollowUpResponse response = _gymMemberDetailsClient.InserUpdateGymMemberFollowUp(gymMemberFollowUpViewModel.ToModel<GymMemberFollowUpModel>());
+                GymMemberFollowUpModel gymMemberFollowUpModel = response?.GymMemberFollowUpModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                return IsNotNull(gymMemberFollowUpModel) ? gymMemberFollowUpModel.ToViewModel<GymMemberFollowUpViewModel>() : (GymMemberFollowUpViewModel)GetViewModelWithErrorMessage(new GymMemberFollowUpViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return (GymMemberFollowUpViewModel)GetViewModelWithErrorMessage(gymMemberFollowUpViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Delete gym Member Details.
+        public virtual bool DeleteGymMemberFollowUp(string gymMemberFollowUpIdIds, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _gymMemberDetailsClient.DeleteGymMemberFollowUp(new ParameterModel { Ids = gymMemberFollowUpIdIds });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteGymMemberDetails;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
         #endregion
         #endregion
 

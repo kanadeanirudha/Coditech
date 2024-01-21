@@ -40,5 +40,25 @@ namespace Coditech.API.Client
         /// <returns>GymMemberFollowUpListResponse</returns>
         GymMemberFollowUpListResponse GymMemberFollowUpList(int GymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
+        /// <summary>
+        /// Get Gym Member Follow Up details by gymMemberFollowUpId.
+        /// </summary>
+        /// <param name="gymMemberFollowUpId">gymMemberFollowUpId</param>
+        /// <returns>Returns GymMemberFollowUpResponse.</returns>
+        GymMemberFollowUpResponse GetGymMemberFollowUp(long gymMemberFollowUpId);
+
+        /// <summary>
+        /// Inser Update Gym Member FollowUp.
+        /// </summary>
+        /// <param name="GymMemberFollowUpModel">GymMemberFollowUpModel.</param>
+        /// <returns>Returns updated GymMemberFollowUpResponse</returns>
+        GymMemberFollowUpResponse InserUpdateGymMemberFollowUp(GymMemberFollowUpModel body);
+
+        /// <summary>
+        /// Delete Gym Member FollowUp.
+        /// </summary>
+        /// <param name="ParameterModel">ParameterModel.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        TrueFalseResponse DeleteGymMemberFollowUp(ParameterModel body);
     }
 }

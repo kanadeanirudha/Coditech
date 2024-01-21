@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">Member Follow-Up List- @Model.FirstName @Model.LastName</span>
-                        <a class="btn btn-sm btn-soft-primary float-end" data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="GymMemberDetails.GetMemberFollowUp('@addFollowUpModel.ModalContentId','@Model.GymMemberDetailId','0')" title="Add Follow-Up">
+                        <a class="btn btn-sm btn-soft-primary float-end" data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="GymMemberDetails.GetMemberFollowUp('@addFollowUpModel.ModalContentId','@Model.GymMemberDetailId','0','@Model.PersonId')" title="Add Follow-Up">
                             <i class="fas fa-plus me-2"></i>Add Follow-Up
                         </a>
                         <p class="text-muted mb-0"></p>

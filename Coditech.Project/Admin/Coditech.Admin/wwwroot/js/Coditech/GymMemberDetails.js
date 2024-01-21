@@ -5,7 +5,7 @@
     constructor: function () {
     },
 
-    GetMemberFollowUp: function (modelPopContentId, gymMemberDetailId, gymMemberFollowUpId) {
+    GetMemberFollowUp: function (modelPopContentId, gymMemberDetailId, gymMemberFollowUpId, personId) {
         CoditechCommon.ShowLodder();
         $.ajax(
             {
@@ -13,7 +13,7 @@
                 type: "GET",
                 dataType: "html",
                 url: "/GymMemberDetails/GetMemberFollowUp",
-                data: { "gymMemberDetailId": gymMemberDetailId, "gymMemberFollowUpId": gymMemberFollowUpId },
+                data: { "gymMemberDetailId": gymMemberDetailId, "gymMemberFollowUpId": gymMemberFollowUpId, "personId": personId },
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
                     $('#' + modelPopContentId).html("").html(result);

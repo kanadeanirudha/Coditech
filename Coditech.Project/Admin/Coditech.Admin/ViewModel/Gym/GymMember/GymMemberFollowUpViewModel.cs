@@ -8,6 +8,7 @@ namespace Coditech.Admin.ViewModel
     {
         public long GymMemberFollowUpId { get; set; }
         public int GymMemberDetailId { get; set; }
+        public long PersonId { get; set; }
 
         [Required]
         [Display(Name = "Follow-Up Type")]

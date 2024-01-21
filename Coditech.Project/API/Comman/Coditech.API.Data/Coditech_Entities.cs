@@ -55,6 +55,7 @@ namespace Coditech.API.Data
 
         #region Gym
         public DbSet<GymMemberDetails> GymMemberDetails { get; set; }
+        public DbSet<GymMemberFollowUp> GymMemberFollowUp { get; set; }
         #endregion
 
         #region MediaManager

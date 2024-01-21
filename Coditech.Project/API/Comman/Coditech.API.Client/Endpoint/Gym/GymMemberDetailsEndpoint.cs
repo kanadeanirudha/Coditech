@@ -26,5 +26,14 @@ namespace Coditech.API.Endpoint
             string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GymMemberFollowUpList?gymMemberDetailId={gymMemberDetailId}&personId={personId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
+
+        public string GetGymMemberFollowUpAsync(long gymMemberFollowUpId) =>
+           $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GetGymMemberFollowUp?gymMemberFollowUpId={gymMemberFollowUpId}";
+
+        public string InserUpdateGymMemberFollowUpAsync() =>
+              $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/InserUpdateGymMemberFollowUp";
+
+        public string DeleteGymMemberFollowUpAsync() =>
+                  $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/DeleteGymMemberFollowUp";
     }
 }

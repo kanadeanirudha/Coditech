@@ -17,7 +17,7 @@ namespace Coditech.API.Data
         private static string CreatedBy = "CreatedBy";
         private static string ModifiedDate = "ModifiedDate";
         private static string ModifiedBy = "ModifiedBy";
-        private static DateTime CurrentDateTime = DateTime.Now;
+        private DateTime CurrentDateTime = DateTime.Now;
         public virtual bool IsUserWantToDebugSql { get; set; } = HelperMethods.IsUserWantToDebugSql;
 
         #endregion

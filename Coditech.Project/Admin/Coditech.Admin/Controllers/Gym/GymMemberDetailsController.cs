@@ -10,7 +10,7 @@ namespace Coditech.Admin.Controllers
     public class GymMemberDetailsController : BaseController
     {
         private readonly IGymMemberDetailsAgent _gymMemberDetailsAgent;
-        private const string createEdit = "~/Views/Gym/GymMemberDetails/CreateEdit.cshtml";
+        private const string createEditGymMember = "~/Views/Gym/GymMemberDetails/CreateEditGymMember.cshtml";
 
         public GymMemberDetailsController(IGymMemberDetailsAgent gymMemberDetailsAgent)
         {
@@ -32,7 +32,7 @@ namespace Coditech.Admin.Controllers
         public ActionResult CreateMember()
         {
             GymCreateEditMemberViewModel viewModel = new GymCreateEditMemberViewModel();
-            return View(createEdit, viewModel);
+            return View(createEditGymMember, viewModel);
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace Coditech.Admin.Controllers
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymCreateEditMemberViewModel.ErrorMessage));
-            return View(createEdit, gymCreateEditMemberViewModel);
+            return View(createEditGymMember, gymCreateEditMemberViewModel);
         }
 
         [HttpGet]
@@ -57,7 +57,7 @@ namespace Coditech.Admin.Controllers
         {
             GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberPersonalDetails(personId);
             gymCreateEditMemberViewModel.GymMemberDetailId = gymMemberDetailId;
-            return ActionView(createEdit, gymCreateEditMemberViewModel);
+            return ActionView(createEditGymMember, gymCreateEditMemberViewModel);
         }
 
         [HttpPost]
@@ -70,7 +70,7 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("UpdateMemberPersonalDetails", new { gymMemberDetailId = gymCreateEditMemberViewModel.GymMemberDetailId, personId = gymCreateEditMemberViewModel.PersonId });
             }
-            return View(createEdit, gymCreateEditMemberViewModel);
+            return View(createEditGymMember, gymCreateEditMemberViewModel);
         }
 
         [HttpGet]
@@ -121,18 +121,24 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/Gym/GymMemberDetails/GymMemberFollowUpList.cshtml", list);
         }
         [HttpGet]
-        public virtual ActionResult GetMemberFollowUp(int gymMemberDetailId, long gymMemberFollowUpId)
+        public virtual ActionResult GetMemberFollowUp(int gymMemberDetailId, long gymMemberFollowUpId, long personId)
         {
-            GymMemberFollowUpViewModel model = new GymMemberFollowUpViewModel()
+            GymMemberFollowUpViewModel gymMemberDetailsViewModel = null;
+            if (gymMemberFollowUpId > 0)
             {
-                GymMemberDetailId = gymMemberDetailId,
-                GymMemberFollowUpId = gymMemberFollowUpId
-            };
-            if (AjaxHelper.IsAjaxRequest)
-            {
-                return PartialView("~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", model);
+                gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetMemberFollowUp(gymMemberFollowUpId);
+                gymMemberDetailsViewModel.GymMemberDetailId = gymMemberDetailId;
+                gymMemberDetailsViewModel.PersonId = personId;
             }
-            return View($"~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", model);
+            else
+            {
+                gymMemberDetailsViewModel = new GymMemberFollowUpViewModel()
+                {
+                    GymMemberDetailId = gymMemberDetailId,
+                    GymMemberFollowUpId = gymMemberFollowUpId
+                };
+            }
+            return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", gymMemberDetailsViewModel);
         }
 
         [HttpPost]
@@ -141,13 +147,33 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                return PartialView("~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", gymMemberFollowUpViewModel);
+                SetNotificationMessage(_gymMemberDetailsAgent.InserUpdateGymMemberFollowUp(gymMemberFollowUpViewModel).HasError
+                ? gymMemberFollowUpViewModel.GymMemberFollowUpId > 0 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetErrorNotificationMessage(GeneralResources.ErrorFailedToCreate)
+                : gymMemberFollowUpViewModel.GymMemberFollowUpId > 0 ? GetSuccessNotificationMessage(GeneralResources.UpdateMessage) : GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
             }
-            return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", gymMemberFollowUpViewModel);
+            return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberFollowUpViewModel.GymMemberDetailId, personId = gymMemberFollowUpViewModel.PersonId });
         }
-        #endregion
 
-        #region Protected
-        #endregion
+        public virtual ActionResult DeleteGymMemberFollowUp(string gymMemberFollowUpIdIds, int gymMemberDetailId, long personId)
+        {
+            string message = string.Empty;
+            bool status = false;
+            if (!string.IsNullOrEmpty(gymMemberFollowUpIdIds))
+            {
+                status = _gymMemberDetailsAgent.DeleteGymMemberFollowUp(gymMemberFollowUpIdIds, out message);
+                SetNotificationMessage(!status
+                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
+                return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
+            }
+
+            SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
+            return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
+        }
+
     }
+    #endregion
+
+    #region Protected
+    #endregion
 }
