@@ -194,7 +194,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGymMemberDetails", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete gym member due to associate record..
+        /// </summary>
+        public static string ErrorDeleteEmployeeDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteEmployeeDetails", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
@@ -428,5 +439,6 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("SelectCentre", resourceCulture);
             }
         }
+        
     }
 }

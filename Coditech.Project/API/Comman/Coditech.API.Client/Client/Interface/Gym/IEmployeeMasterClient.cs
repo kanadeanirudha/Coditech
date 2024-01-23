@@ -13,19 +13,27 @@ namespace Coditech.API.Client
         /// <returns>EmployeeMasterListResponse</returns>
         EmployeeMasterListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
+
+        /// <summary>
+        /// Create Country.
+        /// </summary>
+        /// <param name="EmployeeMasterModel">EmployeeMasterModel.</param>
+        /// <returns>Returns EmployeeMasterResponse.</returns>
+        EmployeeMasterResponse CreateEmployee(EmployeeMasterModel body);
+
         /// <summary>
         /// Get Employee by employeeId.
         /// </summary>
         /// <param name="employeeId">employeeId</param>
         /// <returns>Returns EmployeeMasterResponse.</returns>
-        EmployeeMasterResponse GetEmployeeOtherDetails(int employeeId);
+        EmployeeMasterResponse GetEmployeeDetails(int employeeId);
 
         /// <summary>
         /// Update Employee Master.
         /// </summary>
         /// <param name="EmployeeMasterModel">EmployeeMasterModel.</param>
         /// <returns>Returns updated EmployeeMasterResponse</returns>
-        EmployeeMasterResponse UpdateEmployeeOtherDetails(EmployeeMasterModel body);
+        EmployeeMasterResponse UpdateEmployeeDetails(EmployeeMasterModel body);
 
         /// <summary>
         /// Delete Employee.

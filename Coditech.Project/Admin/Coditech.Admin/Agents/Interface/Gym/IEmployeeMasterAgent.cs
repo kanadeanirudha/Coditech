@@ -17,37 +17,37 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Create Employee.
         /// </summary>
-        /// <param name="EmployeeCreateEditViewModel">employee Create Edit  View Model.</param>
+        /// <param name="EmployeeMasterViewModel">employee Create View Model.</param>
         /// <returns>Returns created model.</returns>
-        EmployeeCreateEditViewModel CreateEmployee(EmployeeCreateEditViewModel EmployeeCreateEditViewModel);
+        EmployeeMasterViewModel CreateEmployee(EmployeeMasterViewModel EmployeeMasterViewModel);
 
         /// <summary>
         /// Get Employee by employeeId.
         /// </summary>
         /// <param name="employeeId">employeeId</param>
-        /// <returns>Returns EmployeeCreateEditViewModel.</returns>
-        EmployeeCreateEditViewModel GetEmployeePersonalDetails(long employeeId);
+        /// <returns>Returns EmployeeMasterViewModel.</returns>
+        EmployeeMasterViewModel GetEmployeeDetails(int employeeId);
 
         /// <summary>
         /// Update Member Personal Details.
         /// </summary>
-        /// <param name="EmployeeCreateEditViewModel">EmployeeCreateEditViewModel.</param>
-        /// <returns>Returns updated EmployeeCreateEditViewModel</returns>
-        EmployeeCreateEditViewModel UpdateEmployeePersonalDetails(EmployeeCreateEditViewModel EmployeeCreateEditViewModel);
+        /// <param name="EmployeeMasterViewModel">EmployeeMasterViewModel.</param>
+        /// <returns>Returns updated EmployeeMasterViewModel</returns>
+        EmployeeMasterViewModel UpdateEmployeeDetails(EmployeeMasterViewModel EmployeeMasterViewModel);
 
         /// <summary>
         /// Get Employee by employeeId.
         /// </summary>
         /// <param name="employeeId">employeeId</param>
         /// <returns>Returns EmployeeMasterResponse.</returns>
-        EmployeeMasterViewModel GetEmployeeOtherDetails(int employeeId);
+        //EmployeeMasterViewModel GetEmployeeDetails(int employeeId);
 
-        /// <summary>
-        /// Update Employee
-        /// </summary>
-        /// <param name="EmployeeMasterModel">EmployeeMasterModel.</param>
-        /// <returns>Returns updated EmployeeMasterViewModel</returns>
-        EmployeeMasterViewModel UpdateEmployeeOtherDetails(EmployeeMasterViewModel EmployeeMasterModel);
+        ///// <summary>
+        ///// Update Employee
+        ///// </summary>
+        ///// <param name="EmployeeMasterModel">EmployeeMasterModel.</param>
+        ///// <returns>Returns updated EmployeeMasterViewModel</returns>
+        //EmployeeMasterViewModel UpdateEmployeeOtherDetails(EmployeeMasterViewModel EmployeeMasterModel);
 
         /// <summary>
         /// Delete employee.
