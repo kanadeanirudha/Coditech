@@ -36,7 +36,8 @@
             MediaManager,
             Gym,
             OccupationMaster,
-            MeasurementUnitMaster
+            MeasurementUnitMaster,
+            OrganisationCentrewiseDepartment
 
         }
     }
