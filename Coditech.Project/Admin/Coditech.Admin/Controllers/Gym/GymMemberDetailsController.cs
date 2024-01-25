@@ -79,6 +79,28 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", gymMemberDetailsViewModel);
         }
 
+        [HttpGet]
+        public virtual ActionResult UpdateMemberPersonalAddress(int gymMemberDetailId, long personId)
+        {
+            GeneralPersonAddressListViewModel model  = _gymMemberDetailsAgent.GetMemberAddressDetails(personId);
+            //model.GymMemberDetailId = gymMemberDetailId;
+            return ActionView(createEdit, model);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateMemberPersonalAddress(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_gymMemberDetailsAgent.UpdateMemberAddressDetails(gymCreateEditMemberViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateMemberPersonalDetails", new { gymMemberDetailId = gymCreateEditMemberViewModel.GymMemberDetailId, personId = gymCreateEditMemberViewModel.PersonId });
+            }
+            return View(createEdit, gymCreateEditMemberViewModel);
+        }
+
+
         [HttpPost]
         public virtual ActionResult MemberOtherDetails(GymMemberDetailsViewModel gymMemberDetailsViewModel)
         {

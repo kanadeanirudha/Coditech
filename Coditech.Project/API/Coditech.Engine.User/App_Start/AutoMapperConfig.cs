@@ -15,6 +15,7 @@ namespace Coditech.API.Mapper
             CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<UserMaster, GeneralPersonModel>().ReverseMap();
+            CreateMap<GeneralPersonAddress, GeneralPersonAddressModel>().ReverseMap();
         }
     }
 }

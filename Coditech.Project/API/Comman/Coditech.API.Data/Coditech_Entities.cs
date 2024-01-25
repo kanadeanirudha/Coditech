@@ -49,6 +49,7 @@ namespace Coditech.API.Data
         public DbSet<UserModuleMaster> UserModuleMaster { get; set; }
         public DbSet<UserMainMenuMaster> UserMainMenuMaster { get; set; }
         public DbSet<GeneralPerson> GeneralPerson { get; set; }
+        public DbSet<GeneralPersonAddress> GeneralPersonAddress { get; set; }
         #endregion
 
         #region Gym

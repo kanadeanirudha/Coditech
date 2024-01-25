@@ -47,5 +47,19 @@ namespace Coditech.API.Client
         /// <param name="GeneralPersonModel">GeneralPersonModel.</param>
         /// <returns>Returns updated GeneralPersonResponse</returns>
         GeneralPersonResponse UpdatePersonInformation(GeneralPersonModel body);
+
+        /// <summary>
+        /// Get GeneralPerson Address Details by personId.
+        /// </summary>
+        /// <param name="personId">personId</param>
+        /// <returns>Returns GeneralPersonAddressListResponse</returns>
+        GeneralPersonAddressListResponse GetPersonAddressDetail(long personId);
+
+        /// <summary>
+        /// Update GeneralPerson.
+        /// </summary>
+        /// <param name="GeneralPersonModel">GeneralPersonAddressDetailModel.</param>
+        /// <returns>Returns updated GeneralPersonResponse</returns>
+        GeneralPersonAddressResponse UpdatePersonAddressDetailInformation(GeneralPersonAddressModel model);
     }
 }
