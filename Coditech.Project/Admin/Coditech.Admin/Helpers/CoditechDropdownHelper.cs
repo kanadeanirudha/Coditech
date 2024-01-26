@@ -94,7 +94,7 @@ namespace Coditech.Admin.Helpers
             {
                 List<UserAccessibleCentreModel> accessibleCentreList = AccessibleCentreList();
                 if (accessibleCentreList?.Count != 1)
-                    dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------" });
+                    dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------", Value = "" });
 
                 foreach (var item in accessibleCentreList)
                 {
