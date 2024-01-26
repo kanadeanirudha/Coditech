@@ -206,7 +206,7 @@ namespace Coditech.API.Service
             return base.GetAllActiveMenuList(moduleCodel);
         }
 
-        public virtual GeneralPersonAddressListModel GetPersonAddressDetail(long personId)
+        public virtual GeneralPersonAddressListModel GetGeneralPersonAddresses(long personId)
         {
             if (personId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
@@ -214,21 +214,50 @@ namespace Coditech.API.Service
             GeneralPersonAddressListModel generalPersonAddressListModel = new GeneralPersonAddressListModel();
             //Get the General Person Address Details based on id.
             List<GeneralPersonAddress> personAddresses = _generalPersonAddressRepository.Table.Where(x => x.PersonId == personId)?.ToList();
+            List<GeneralPersonAddressModel> personAddressDetailList = new List<GeneralPersonAddressModel>();
             if (personAddresses?.Count > 0)
             {
-                List< GeneralPersonAddressModel> personAddressDetailList = new List<GeneralPersonAddressModel>();
-                foreach (GeneralPersonAddress personAddress in personAddresses)
+                if (personAddresses.Any(x => x.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString()))
                 {
-                    GeneralPersonAddressModel generalPersonAddressModel = personAddress.FromEntityToModel<GeneralPersonAddressModel>();
+                    GeneralPersonAddressModel generalPersonAddressModel = personAddresses.FirstOrDefault(x => x.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString()).FromEntityToModel<GeneralPersonAddressModel>();
                     personAddressDetailList.Add(generalPersonAddressModel);
                 }
-                generalPersonAddressListModel.PersonAddressList = personAddressDetailList;
+                else
+                {
+                    personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString() });
+                }
 
+                if (personAddresses.Any(x => x.AddressTypeEnum == AddressTypeEnum.CorrespondanceAddress.ToString()))
+                {
+                    GeneralPersonAddressModel generalPersonAddressModel = personAddresses.FirstOrDefault(x => x.AddressTypeEnum == AddressTypeEnum.CorrespondanceAddress.ToString()).FromEntityToModel<GeneralPersonAddressModel>();
+                    personAddressDetailList.Add(generalPersonAddressModel);
+                }
+                else
+                {
+                    personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString() });
+                }
+
+                if (personAddresses.Any(x => x.AddressTypeEnum == AddressTypeEnum.BusinessAddress.ToString()))
+                {
+                    GeneralPersonAddressModel generalPersonAddressModel = personAddresses.FirstOrDefault(x => x.AddressTypeEnum == AddressTypeEnum.BusinessAddress.ToString()).FromEntityToModel<GeneralPersonAddressModel>();
+                    personAddressDetailList.Add(generalPersonAddressModel);
+                }
+                else
+                {
+                    personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.BusinessAddress.ToString() });
+                }
             }
+            else
+            {
+                personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString() });
+                personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString() });
+                personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.BusinessAddress.ToString() });
+            }
+            generalPersonAddressListModel.PersonAddressList = personAddressDetailList;
             return generalPersonAddressListModel;
         }
 
-        public virtual bool UpdatePersonAddressDetail(GeneralPersonAddressModel generalPersonAddressModel)
+        public virtual GeneralPersonAddressModel InsertUpdateGeneralPersonAddress(GeneralPersonAddressModel generalPersonAddressModel)
         {
 
             if (IsNull(generalPersonAddressModel))
@@ -237,6 +266,7 @@ namespace Coditech.API.Service
             if (generalPersonAddressModel.PersonId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
 
+            return new GeneralPersonAddressModel();
             GeneralPerson generalPerson = generalPersonAddressModel.FromModelToEntity<GeneralPerson>();
 
             //Update Gym Member
@@ -255,7 +285,7 @@ namespace Coditech.API.Service
                 generalPersonAddressModel.HasError = true;
                 generalPersonAddressModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
-            return isPersonUpdated;
+            //return isPersonUpdated;
         }
         #endregion
 

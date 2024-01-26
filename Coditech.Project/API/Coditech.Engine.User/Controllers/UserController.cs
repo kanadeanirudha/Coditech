@@ -173,14 +173,14 @@ namespace Coditech.API.Controllers
 
 
         //get Person Address Details
-        [Route("/User/GetPersonAddressDetail")]
+        [Route("/User/GetGeneralPersonAddresses")]
         [HttpGet]
         [Produces(typeof(GeneralPersonAddressListResponse))]
-        public virtual IActionResult GetPersonAddressDetail(long personId)
+        public virtual IActionResult GetGeneralPersonAddresses(long personId)
         {
             try
             {
-                GeneralPersonAddressListModel generalPersonAddressList = _userService.GetPersonAddressDetail(personId);
+                GeneralPersonAddressListModel generalPersonAddressList = _userService.GetGeneralPersonAddresses(personId);
                 return HelperUtility.IsNotNull(generalPersonAddressList) ? CreateOKResponse(new GeneralPersonAddressListResponse() { GeneralPersonAddressList = generalPersonAddressList.PersonAddressList }) : NotFound();
             }
             catch (CoditechException ex)
@@ -195,25 +195,25 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/User/UpdatePersonAddressDetail")]
+        [Route("/User/InsertUpdateGeneralPersonAddress")]
         [HttpPut, ValidateModel]
-        [Produces(typeof(GeneralPersonResponse))]
-        public virtual IActionResult UpdatePersonAddressDetail([FromBody] GeneralPersonModel model)
+        [Produces(typeof(GeneralPersonAddressResponse))]
+        public virtual IActionResult InsertUpdateGeneralPersonAddress([FromBody] GeneralPersonAddressModel model)
         {
             try
             {
-                bool isUpdated = _userService.UpdatePersonInformation(model);
-                return isUpdated ? CreateOKResponse(new GeneralPersonResponse { GeneralPersonModel = model }) : CreateInternalServerErrorResponse();
+                GeneralPersonAddressModel generalPersonAddress= _userService.InsertUpdateGeneralPersonAddress(model);
+                return HelperUtility.IsNotNull(generalPersonAddress) ? CreateCreatedResponse(new GeneralPersonAddressResponse { GeneralPersonAddressModel = generalPersonAddress }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralPersonResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GeneralPersonAddressResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralPersonResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GeneralPersonAddressResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 

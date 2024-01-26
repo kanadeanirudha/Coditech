@@ -402,16 +402,16 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralPersonAddressListResponse GetPersonAddressDetail(long personId)
+        public virtual GeneralPersonAddressListResponse GetGeneralPersonAddresses(long personId)
         {
-            return Task.Run(async () => await GetPersonAddressDetailAsync(personId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetGeneralPersonAddressesAsync(personId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<GeneralPersonAddressListResponse> GetPersonAddressDetailAsync(long personId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GeneralPersonAddressListResponse> GetGeneralPersonAddressesAsync(long personId, System.Threading.CancellationToken cancellationToken)
         {
             if (personId <= 0)
                 throw new System.ArgumentNullException("personId");
 
-            string endpoint = userEndpoint.GetPersonAddressDetailAsync(personId);
+            string endpoint = userEndpoint.GetGeneralPersonAddressesAsync(personId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -450,14 +450,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralPersonAddressResponse UpdatePersonAddressDetailInformation(GeneralPersonAddressModel body)
+        public virtual GeneralPersonAddressResponse InsertUpdateGeneralPersonAddress(GeneralPersonAddressModel body)
         {
-            return Task.Run(async () => await UpdatePersonAddressDetailInformationAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await InsertUpdateGeneralPersonAddressAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralPersonAddressResponse> UpdatePersonAddressDetailInformationAsync(GeneralPersonAddressModel body, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GeneralPersonAddressResponse> InsertUpdateGeneralPersonAddressAsync(GeneralPersonAddressModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = userEndpoint.UpdatePersonInformationAsync();
+            string endpoint = userEndpoint.InsertUpdateGeneralPersonAddressAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

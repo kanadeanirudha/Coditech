@@ -11,7 +11,8 @@
         /// </summary>
         public enum Components
         {
-            UserLogin, 
+            UserLogin,
+            UserAddress,
             Organisation,
             DepartmentMaster,
             CountryMaster,

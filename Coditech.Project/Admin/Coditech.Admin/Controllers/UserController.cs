@@ -80,10 +80,30 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<UserController>(x => x.Login(string.Empty));
         }
 
-        public ActionResult GetNotificationCount(int userId)
+        public virtual ActionResult GetNotificationCount(int userId)
         {
             int notificationCount = 2; /*userId > 0 ? _userMasterBA.GetNotificationCount(userId) : 0*/;
             return View("~/Views/Shared/_NotificationCount.cshtml", notificationCount);
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetGeneralPersonAddressess(long personId)
+        {
+            GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
+            return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual ActionResult CreateEditGeneralPersonalAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("GetGeneralPersonAddressess", new { personId = generalPersonAddressViewModel.PersonId });
+            }
+            return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", generalPersonAddressViewModel);
         }
 
         #region Protected

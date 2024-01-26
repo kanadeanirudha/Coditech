@@ -39,7 +39,7 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.GymMemberDetailId)
-                            @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model)
+                            @Html.Partial("~/Views/Shared/GeneralPerson/_CreateEditGeneralPerson.cshtml", Model)
                         }
                     </div>
                 </div>

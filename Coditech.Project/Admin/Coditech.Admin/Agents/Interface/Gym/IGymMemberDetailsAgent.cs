@@ -29,27 +29,13 @@ namespace Coditech.Admin.Agents
         GymCreateEditMemberViewModel GetMemberPersonalDetails(long personId);
 
         /// <summary>
-        /// Get Member Address Details by personId.
-        /// </summary>
-        /// <param name="personId">personId</param>
-        /// <returns>Returns GeneralPersonAddressListViewModel.</returns>
-        GeneralPersonAddressListViewModel GetMemberAddressDetails(long personId);
-
-        /// <summary>
         /// Update Member Personal Details.
         /// </summary>
         /// <param name="gymCreateEditMemberViewModel">gymCreateEditMemberViewModel.</param>
         /// <returns>Returns updated GymCreateEditMemberViewModel</returns>
         GymCreateEditMemberViewModel UpdateMemberPersonalDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel);
 
-        /// <summary>
-        /// Update Member Address Details.
-        /// </summary>
-        /// <param name="gymCreateEditMemberViewModel">gymCreateEditMemberViewModel.</param>
-        /// <returns>Returns updated GymCreateEditMemberViewModel</returns>
-        GymCreateEditMemberViewModel UpdateMemberAddressDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel);
-
-        /// <summary>
+         /// <summary>
         /// Get MemberOtherDetails by gymMemberDetailId.
         /// </summary>
         /// <param name="gymMemberDetailId">gymMemberDetailId</param>

@@ -53,13 +53,13 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="personId">personId</param>
         /// <returns>Returns GeneralPersonAddressListResponse</returns>
-        GeneralPersonAddressListResponse GetPersonAddressDetail(long personId);
+        GeneralPersonAddressListResponse GetGeneralPersonAddresses(long personId);
 
         /// <summary>
         /// Update GeneralPerson.
         /// </summary>
         /// <param name="GeneralPersonModel">GeneralPersonAddressDetailModel.</param>
         /// <returns>Returns updated GeneralPersonResponse</returns>
-        GeneralPersonAddressResponse UpdatePersonAddressDetailInformation(GeneralPersonAddressModel model);
+        GeneralPersonAddressResponse InsertUpdateGeneralPersonAddress(GeneralPersonAddressModel model);
     }
 }
