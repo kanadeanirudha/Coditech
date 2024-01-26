@@ -37,7 +37,8 @@
             Gym,
             OccupationMaster,
             MeasurementUnitMaster,
-            OrganisationCentrewiseDepartment
+            OrganisationCentrewiseDepartment,
+            AssociateUnAssociateCentrewiseDepartment
 
         }
     }

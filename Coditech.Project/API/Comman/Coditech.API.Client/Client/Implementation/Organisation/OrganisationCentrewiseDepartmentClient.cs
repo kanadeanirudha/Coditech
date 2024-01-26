@@ -1,5 +1,7 @@
 ﻿using Coditech.API.Endpoint;
+using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Newtonsoft.Json;
@@ -57,5 +59,58 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+
+        public virtual OrganisationCentrewiseDepartmentResponse UpdateAssociateUnAssociateCentrewiseDepartment(OrganisationCentrewiseDepartmentModel body)
+        {
+            return Task.Run(async () => await UpdateAssociateUnAssociateCentrewiseDepartmentAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseDepartmentResponse> UpdateAssociateUnAssociateCentrewiseDepartmentAsync(OrganisationCentrewiseDepartmentModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentrewiseDepartmentEndpoint.UpdateAssociateUnAssociateCentrewiseDepartmentAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseDepartmentResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseDepartmentResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseDepartmentResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseDepartmentResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
     }
 }
+

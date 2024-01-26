@@ -2,6 +2,7 @@
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
@@ -41,6 +42,28 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseDepartment.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseDepartmentListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentrewiseDepartment/UpdateAssociateUnAssociateCentrewiseDepartment")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseDepartmentResponse))]
+        public virtual IActionResult UpdateAssociateUnAssociateCentrewiseDepartment([FromBody] OrganisationCentrewiseDepartmentModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentrewiseDepartmentService.UpdateAssociateUnAssociateCentrewiseDepartment(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseDepartmentResponse { OrganisationCentrewiseDepartmentModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AssociateUnAssociateCentrewiseDepartment.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseDepartmentResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AssociateUnAssociateCentrewiseDepartment.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseDepartmentResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

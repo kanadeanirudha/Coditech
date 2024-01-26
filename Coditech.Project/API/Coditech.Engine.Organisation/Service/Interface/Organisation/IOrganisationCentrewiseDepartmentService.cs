@@ -7,6 +7,8 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
     public interface IOrganisationCentrewiseDepartmentService
     {
         OrganisationCentrewiseDepartmentListModel GetOrganisationCentrewiseDepartmentList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+
+        bool UpdateAssociateUnAssociateCentrewiseDepartment(OrganisationCentrewiseDepartmentModel model);
     }
 }
 

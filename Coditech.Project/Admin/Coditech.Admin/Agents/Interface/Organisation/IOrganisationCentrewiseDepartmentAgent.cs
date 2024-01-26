@@ -10,5 +10,12 @@ namespace Coditech.Admin.Agents
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>OrganisationCentrewiseDepartmentListViewModel</returns>
         OrganisationCentrewiseDepartmentListViewModel GetOrganisationCentrewiseDepartmentList(DataTableViewModel dataTableModel);
+
+        /// <summary>
+        /// Update Associate UnAssociate Centrewise Department.
+        /// </summary>
+        /// <param name="organisationCentrewiseDepartmentViewModel">organisationCentrewiseDepartmentViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseDepartmentViewModel</returns>
+        OrganisationCentrewiseDepartmentViewModel UpdateAssociateUnAssociateCentrewiseDepartment(OrganisationCentrewiseDepartmentViewModel organisationCentrewiseDepartmentViewModel);
     }
 }

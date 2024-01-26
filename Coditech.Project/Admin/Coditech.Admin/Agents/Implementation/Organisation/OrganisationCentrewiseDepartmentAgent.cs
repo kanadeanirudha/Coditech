@@ -2,9 +2,12 @@
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Resources;
+using System.Diagnostics;
 
 namespace Coditech.Admin.Agents
 {
@@ -31,11 +34,11 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("CentreCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("DepartmentSeqNo", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("CenterCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("GeneralDepartmentMasterId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreCode" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CenterCode" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             OrganisationCentrewiseDepartmentListResponse response = _organisationCentrewiseDepartmentClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentrewiseDepartmentListModel organisationCentrewiseDepartmentList = new OrganisationCentrewiseDepartmentListModel { OrganisationCentrewiseDepartmentList = response?.OrganisationCentrewiseDepartmentList };
@@ -44,6 +47,24 @@ namespace Coditech.Admin.Agents
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.OrganisationCentrewiseDepartmentList.Count, BindColumns());
             return listViewModel;
+        }
+
+        //Update Associate UnAssociate Centrewise Department.
+        public virtual OrganisationCentrewiseDepartmentViewModel UpdateAssociateUnAssociateCentrewiseDepartment(OrganisationCentrewiseDepartmentViewModel organisationCentrewiseDepartmentViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AssociateUnAssociateCentrewiseDepartment.ToString(), TraceLevel.Info);
+                OrganisationCentrewiseDepartmentResponse response = _organisationCentrewiseDepartmentClient.UpdateAssociateUnAssociateCentrewiseDepartment(organisationCentrewiseDepartmentViewModel.ToModel<OrganisationCentrewiseDepartmentModel>());
+                OrganisationCentrewiseDepartmentModel organisationCentrewiseDepartmentModel = response?.OrganisationCentrewiseDepartmentModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AssociateUnAssociateCentrewiseDepartment.ToString(), TraceLevel.Info);
+                return HelperUtility.IsNotNull(organisationCentrewiseDepartmentModel) ? organisationCentrewiseDepartmentModel.ToViewModel<OrganisationCentrewiseDepartmentViewModel>() : (OrganisationCentrewiseDepartmentViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseDepartmentViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AssociateUnAssociateCentrewiseDepartment.ToString(), TraceLevel.Error);
+                return (OrganisationCentrewiseDepartmentViewModel)GetViewModelWithErrorMessage(organisationCentrewiseDepartmentViewModel, GeneralResources.UpdateErrorMessage);
+            }
         }
         #endregion
 

@@ -11,5 +11,8 @@ namespace Coditech.API.Endpoint
             string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseDepartment/GetOrganisationCentrewiseDepartmentList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
+
+        public string UpdateAssociateUnAssociateCentrewiseDepartmentAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseDepartment/UpdateAssociateUnAssociateCentrewiseDepartment";
     }
 }
