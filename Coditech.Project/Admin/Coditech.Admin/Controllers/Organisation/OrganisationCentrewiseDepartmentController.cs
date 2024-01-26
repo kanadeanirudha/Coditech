@@ -12,6 +12,7 @@ namespace Coditech.Admin.Controllers
     public class OrganisationCentrewiseDepartmentController : BaseController
     {
         private readonly IOrganisationCentrewiseDepartmentAgent _organisationCentrewiseDepartmentAgent;
+        private const string createEdit = "~/Views/Organisation/OrganisationCentrewiseDepartment/CreateEdit.cshtml";
         public OrganisationCentrewiseDepartmentController(IOrganisationCentrewiseDepartmentAgent organisationCentrewiseDepartmentAgent)
         {
             _organisationCentrewiseDepartmentAgent = organisationCentrewiseDepartmentAgent;
@@ -40,9 +41,9 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult AssociateUnAssociateCentrewiseDepartment(OrganisationCentrewiseDepartmentViewModel organisationCentrewiseDepartmentViewModel)
         {
-            //SetNotificationMessage(_gymMemberDetailsAgent.UpdateMemberPersonalDetails(gymCreateEditMemberViewModel).HasError
-            //    ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-            //    : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+            SetNotificationMessage(_organisationCentrewiseDepartmentAgent.AssociateUnAssociateCentrewiseDepartment(organisationCentrewiseDepartmentViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = organisationCentrewiseDepartmentViewModel.CentreCode });
         }
     }

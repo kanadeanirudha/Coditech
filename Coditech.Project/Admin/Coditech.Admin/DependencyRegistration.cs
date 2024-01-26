@@ -35,6 +35,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralEnumaratorGroupAgent, GeneralEnumaratorGroupAgent>();
             builder.Services.AddScoped<IGeneralOccupationAgent, GeneralOccupationAgent>();
             builder.Services.AddScoped<IGeneralMeasurementUnitAgent, GeneralMeasurementUnitAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewiseDepartmentAgent, OrganisationCentrewiseDepartmentAgent>();
             #endregion
 
             #region Client
@@ -60,6 +61,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralEnumaratorGroupClient, GeneralEnumaratorGroupClient>();
             builder.Services.AddScoped<IGeneralOccupationClient, GeneralOccupationClient>();
             builder.Services.AddScoped<IGeneralMeasurementUnitClient, GeneralMeasurementUnitClient>();
+            builder.Services.AddScoped<IOrganisationCentrewiseDepartmentClient, OrganisationCentrewiseDepartmentClient>();
             #endregion
         }
     }

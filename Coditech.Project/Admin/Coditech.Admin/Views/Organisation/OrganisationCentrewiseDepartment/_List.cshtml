@@ -23,13 +23,13 @@
                             <td>@item.DepartmentShortCode</td>
                             <td>@Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsAssociated)</td>
                             <td class="text-center">
-                                @if (item.OrganisationCentrewiseDepartmentId > 0)
+                                @if (item.IsAssociated)
                                 {
-                                    <a data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="OrganisationCentrewiseDepartment.GetAssociateUnAssociateCentrewiseDepartment('@addFollowUpModel.ModalContentId','@item.OrganisationCentrewiseDepartmentId','@item.GeneralDepartmentMasterId','@item.DepartmentName')" title="UnAssociate Centre From Department" class="btn btn-sm btn-soft-warning btn-circle"><i class="far fa-check-circle"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="OrganisationCentrewiseDepartment.GetAssociateUnAssociateCentrewiseDepartment('@addFollowUpModel.ModalContentId','@item.OrganisationCentrewiseDepartmentId','@item.GeneralDepartmentMasterId','@item.DepartmentName')" title="UnAssociate Centre From Department" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-redo"></i></a>
                                 }
                                 else
                                 {
-                                    <a data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="OrganisationCentrewiseDepartment.GetAssociateUnAssociateCentrewiseDepartment('@addFollowUpModel.ModalContentId','@item.OrganisationCentrewiseDepartmentId','@item.GeneralDepartmentMasterId','@item.DepartmentName')" title="Associate Centre To Department" class="btn btn-sm btn-soft-warning btn-circle"><i class="fas ti-user"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="OrganisationCentrewiseDepartment.GetAssociateUnAssociateCentrewiseDepartment('@addFollowUpModel.ModalContentId','@item.OrganisationCentrewiseDepartmentId','@item.GeneralDepartmentMasterId','@item.DepartmentName')" title="Associate Centre To Department" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-check"></i></a>
                                 }
                             </td>
                         </tr>
