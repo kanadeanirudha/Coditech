@@ -21,6 +21,7 @@
             Nationality,
             Designation,
             EnumaratorGroup,
+            Enumarator,
             OrganisationCentre,
             AdminRoleMaster,
             AdminSanctionPost,
@@ -33,7 +34,10 @@
             Person,
             GlobleSettingMaster, 
             MediaManager,
-            Gym
+            Gym,
+            OccupationMaster,
+            MeasurementUnitMaster
+
         }
     }
 }

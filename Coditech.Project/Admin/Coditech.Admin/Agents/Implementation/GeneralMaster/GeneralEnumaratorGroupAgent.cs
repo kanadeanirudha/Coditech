@@ -31,6 +31,8 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
+
+        #region EnumaratorGroup
         public virtual GeneralEnumaratorGroupListViewModel GetEnumaratorGroupList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
@@ -137,6 +139,68 @@ namespace Coditech.Admin.Agents
             }
         }
 
+        #endregion
+
+        #region Enumarator
+
+        //Get general Enumarator by general Enumarator master id.
+        public virtual GeneralEnumaratorViewModel GetEnumarator(int generalEnumaratorId)
+        {
+            GeneralEnumaratorResponse response = _generalEnumaratorGroupClient.GetEnumarator(generalEnumaratorId);
+            return response?.GeneralEnumaratorModel.ToViewModel<GeneralEnumaratorViewModel>();
+        }
+
+        //Insert Update generalEnumarator.
+        public virtual GeneralEnumaratorViewModel InsertUpdateEnumarator(GeneralEnumaratorViewModel generalEnumaratorViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Info);
+                GeneralEnumaratorResponse response = _generalEnumaratorGroupClient.InsertUpdateEnumarator(generalEnumaratorViewModel.ToModel<GeneralEnumaratorModel>());
+                GeneralEnumaratorModel generalEnumaratorModel = response?.GeneralEnumaratorModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Info);
+                return IsNotNull(generalEnumaratorModel) ? generalEnumaratorModel.ToViewModel<GeneralEnumaratorViewModel>() : (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(new GeneralEnumaratorViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Error);
+                return (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(generalEnumaratorViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Delete generalEnumarator.
+        public virtual bool DeleteEnumarator(string generalEnumaratorId, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _generalEnumaratorGroupClient.DeleteEnumarator(new ParameterModel { Ids = generalEnumaratorId });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteGeneralEnumarator;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
+        #endregion
         #endregion
 
         #region protected

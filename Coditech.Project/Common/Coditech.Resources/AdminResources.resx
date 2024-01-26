@@ -135,11 +135,20 @@
   <data name="ErrorDeleteGeneralDesignationMaster" xml:space="preserve">
     <value>Failed to delete designation due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralEnumarator" xml:space="preserve">
+    <value>Failed to delete enum due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralEnumaratorGroup" xml:space="preserve">
     <value>Failed to delete enum group due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralMeasurementUnitMaster" xml:space="preserve">
+    <value>Failed to delete Measurement Unit due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralNationalityMaster" xml:space="preserve">
     <value>Failed to delete nationality due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGeneralOccupationMaster" xml:space="preserve">
+    <value>Failed to delete Occupation due to associate record.</value>
   </data>
   <data name="ErrorDeleteGeneralRegionMaster" xml:space="preserve">
     <value>Failed to delete region due to associate record.</value>
@@ -152,6 +161,9 @@
   </data>
   <data name="ErrorDeleteGymMemberDetails" xml:space="preserve">
     <value>Failed to delete gym member due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteOccupationMaster" xml:space="preserve">
+    <value>Failed to delete Occupation due to associate record.</value>
   </data>
   <data name="ErrorDeleteOrganisationCentreMaster" xml:space="preserve">
     <value>Failed to delete organisationCentre due to associate record.</value>
@@ -201,8 +213,14 @@
   <data name="LabelIsActive" xml:space="preserve">
     <value>Is Active</value>
   </data>
+  <data name="LabelMeasurementUnitList" xml:space="preserve">
+    <value>Measurement Unit List</value>
+  </data>
   <data name="LabelNationalityList" xml:space="preserve">
     <value>NationalityList</value>
+  </data>
+  <data name="LabelOccupationList" xml:space="preserve">
+    <value>Occupation List</value>
   </data>
   <data name="LabelOrganisationList" xml:space="preserve">
     <value>Organisation List</value>
@@ -219,7 +237,7 @@
   <data name="LabelTaxList" xml:space="preserve">
     <value>Tax List</value>
   </data>
-  <data name="SelectCentre" xml:space="preserve">
+	<data name="SelectCentre" xml:space="preserve">
     <value>-----Select Centre-----</value>
   </data>
 </root>

@@ -26,6 +26,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<UserType> _userTypeRepository;
+        private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -39,6 +40,7 @@ namespace Coditech.API.Service
             _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
+            _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -108,26 +110,41 @@ namespace Coditech.API.Service
                 string registrationFormat = _userTypeRepository.Table.FirstOrDefault(x => x.UserTypeCode == generalPersonModel.UserType)?.RegistrationFormat;
                 generalPersonModel.Password = MD5Hash(password);
                 generalPersonModel.PersonCode = registrationFormat;
-                if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.ActiveProjectName.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == ActiveProjectNameEnum.GMS.ToString())
+                if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    //Check Is Gym Member need to Login
-                    if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
+                    GymMemberDetails gymMemberDetails = new GymMemberDetails()
                     {
-                        GymMemberDetails gymMemberDetails = new GymMemberDetails()
-                        {
-                            PersonId = generalPersonModel.PersonId,
-                            PersonCode = generalPersonModel.PersonCode,
-                            UserType = generalPersonModel.UserType
-                        };
-                        gymMemberDetails = _gymMemberDetailsRepository.Insert(gymMemberDetails);
+                        PersonId = generalPersonModel.PersonId,
+                        PersonCode = generalPersonModel.PersonCode,
+                        UserType = generalPersonModel.UserType
+                    };
+                    gymMemberDetails = _gymMemberDetailsRepository.Insert(gymMemberDetails);
 
+                    //Check Is Gym Member need to Login
+                    if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1" && gymMemberDetails?.GymMemberDetailId > 0)
+                    {
                         if (gymMemberDetails?.GymMemberDetailId > 0)
                             InsertUserMasterDetails(generalPersonModel);
                     }
                 }
-                else if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.ActiveProjectName.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == ActiveProjectNameEnum.HMS.ToString())
+                else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
+                    EmployeeMaster employeeMaster = new EmployeeMaster()
+                    {
+                        PersonId = generalPersonModel.PersonId,
+                        PersonCode = generalPersonModel.PersonCode,
+                        UserType = generalPersonModel.UserType,
+                        EmployeeDesignationMasterId = generalPersonModel.EmployeeDesignationMasterId,
+                        OrganisationCentrewiseDepartmentId = generalPersonModel.OrganisationCentrewiseDepartmentId
+                    };
+                    employeeMaster = _employeeMasterRepository.Insert(employeeMaster);
 
+                    //Check Is Gym Member need to Login
+                    if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1" && employeeMaster?.EmployeeId > 0)
+                    {
+                        if (employeeMaster?.EmployeeId > 0)
+                            InsertUserMasterDetails(generalPersonModel);
+                    }
                 }
             }
             else
@@ -372,6 +389,7 @@ namespace Coditech.API.Service
             List<GeneralEnumaratorModel> generalEnumaratorList = new List<GeneralEnumaratorModel>();
             generalEnumaratorList = (from generalEnumarator in _generalEnumaratorRepository.Table
                                      join generalEnumaratorGroup in _generalEnumaratorGroupRepository.Table on generalEnumarator.GeneralEnumaratorGroupId equals generalEnumaratorGroup.GeneralEnumaratorGroupId
+                                     where generalEnumarator.IsActive
                                      select new GeneralEnumaratorModel
                                      {
                                          GeneralEnumaratorGroupId = generalEnumaratorGroup.GeneralEnumaratorGroupId,

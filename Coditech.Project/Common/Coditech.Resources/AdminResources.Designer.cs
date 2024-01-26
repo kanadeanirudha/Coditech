@@ -115,6 +115,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete enum due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEnumarator {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralEnumarator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete enum group due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralEnumaratorGroup {
@@ -124,11 +133,29 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Measurement Unit due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralMeasurementUnitMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralMeasurementUnitMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete nationality due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralNationalityMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteGeneralNationalityMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralOccupationMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralOccupationMaster", resourceCulture);
             }
         }
         
@@ -165,6 +192,15 @@ namespace Coditech.Resources {
         public static string ErrorDeleteGymMemberDetails {
             get {
                 return ResourceManager.GetString("ErrorDeleteGymMemberDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
+        /// </summary>
+        public static string ErrorDeleteOccupationMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteOccupationMaster", resourceCulture);
             }
         }
         
@@ -313,11 +349,29 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement Unit List.
+        /// </summary>
+        public static string LabelMeasurementUnitList {
+            get {
+                return ResourceManager.GetString("LabelMeasurementUnitList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NationalityList.
         /// </summary>
         public static string LabelNationalityList {
             get {
                 return ResourceManager.GetString("LabelNationalityList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occupation List.
+        /// </summary>
+        public static string LabelOccupationList {
+            get {
+                return ResourceManager.GetString("LabelOccupationList", resourceCulture);
             }
         }
         

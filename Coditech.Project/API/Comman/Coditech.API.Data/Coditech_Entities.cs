@@ -25,6 +25,8 @@ namespace Coditech.API.Data
         public DbSet<GeneralEnumaratorMaster> GeneralEnumaratorMaster { get; set; }
         public DbSet<GeneralEnumaratorGroup> GeneralEnumaratorGroup { get; set; }
         public DbSet<GeneralSystemGlobleSettingMaster> GeneralSystemGlobleSettingMaster { get; set; }
+        public DbSet<GeneralOccupationMaster> GeneralOccupationMaster { get; set; }
+        public DbSet<GeneralMeasurementUnitMaster> GeneralMeasurementUnitMaster { get; set; }
         #endregion
 
         #region Organisation
@@ -54,6 +56,7 @@ namespace Coditech.API.Data
 
         #region Gym
         public DbSet<GymMemberDetails> GymMemberDetails { get; set; }
+        public DbSet<GymMemberFollowUp> GymMemberFollowUp { get; set; }
         #endregion
 
         #region MediaManager

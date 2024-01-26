@@ -13,7 +13,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "City Name")]
         public string CityName { get; set; }
 
-        [Required]
         [Display(Name = "Is Default")]
         public bool DefaultFlag { get; set; }
 

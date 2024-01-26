@@ -236,6 +236,8 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralRegionMasterService, GeneralRegionMasterService>();
             builder.Services.AddScoped<IAdminRoleMasterService, AdminRoleMasterService>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingService, GeneralSystemGlobleSettingService>();
+            builder.Services.AddScoped<IGeneralOccupationMasterService, GeneralOccupationMasterService>();
+            builder.Services.AddScoped<IGeneralMeasurementUnitMasterService, GeneralMeasurementUnitMasterService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();

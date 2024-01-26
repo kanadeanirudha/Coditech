@@ -57,7 +57,9 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Country.ToString()))
             {
                 GeneralCountryListResponse response = new GeneralCountryClient().List(null, null, null, 1, int.MaxValue);
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Country-------" });
+                if (response?.GeneralCountryList?.Count != 1)
+                    dropdownList.Add(new SelectListItem() { Text = "-------Select Country-------" });
+
                 GeneralCountryListModel list = new GeneralCountryListModel { GeneralCountryList = response.GeneralCountryList };
                 foreach (var item in list.GeneralCountryList)
                 {
@@ -73,8 +75,10 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Nationality.ToString()))
             {
                 GeneralNationalityListResponse response = new GeneralNationalityClient().List(null, null, null, 1, int.MaxValue);
-                dropdownList.Add(new SelectListItem() { Text = "-------Select -------" });
-                GeneralNationalityListModel list = new GeneralNationalityListModel { GeneralNationalityList = response.GeneralNationalityList };
+                if (response?.GeneralNationalityList?.Count != 1)
+                    dropdownList.Add(new SelectListItem() { Text = "-------Select -------" });
+
+                GeneralNationalityListModel list = new GeneralNationalityListModel { GeneralNationalityList = response?.GeneralNationalityList };
                 foreach (var item in list.GeneralNationalityList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -89,8 +93,9 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccessibleCentre.ToString()))
             {
                 List<UserAccessibleCentreModel> accessibleCentreList = AccessibleCentreList();
-                if (accessibleCentreList?.Count > 1)
+                if (accessibleCentreList?.Count != 1)
                     dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------" });
+
                 foreach (var item in accessibleCentreList)
                 {
                     dropdownList.Add(new SelectListItem()
@@ -223,16 +228,15 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.ModuleList.ToString()))
             {
-                GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
-                GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
-                foreach (var item in list?.GeneralTaxGroupMasterList)
+                UserModuleListResponse response = new UserClient().GetActiveModuleList();
+                dropdownList.Add(new SelectListItem() { Text = "-------Select-------" });
+                foreach (var item in response?.ModuleList)
                 {
                     dropdownList.Add(new SelectListItem()
                     {
-                        Text = string.Concat(item.TaxGroupName, " (", item.GeneralTaxMasterIds, ")"),
-                        Value = Convert.ToString(item.GeneralTaxGroupMasterId),
-                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTaxGroupMasterId)
+                        Text = item.ModuleName,
+                        Value = Convert.ToString(item.UserModuleMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.UserModuleMasterId)
                     });
                 }
             }
@@ -318,6 +322,25 @@ namespace Coditech.Admin.Helpers
                     Value = "O-",
                     Selected = "O-" == dropdownViewModel.DropdownSelectedValue
                 });
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Occupation.ToString()))
+            {
+                GeneralOccupationListResponse response = new GeneralOccupationClient().List(null, null, null, 1, int.MaxValue);
+                if (dropdownViewModel.IsRequired)
+                    dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+                else
+                    dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+
+                GeneralOccupationListModel list = new GeneralOccupationListModel { GeneralOccupationList = response.GeneralOccupationList };
+                foreach (var item in list.GeneralOccupationList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.OccupationName,
+                        Value = Convert.ToString(item.GeneralOccupationMasterId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralOccupationMasterId)
+                    });
+                }
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;

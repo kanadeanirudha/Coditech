@@ -8,5 +8,6 @@
         public int GeneralEnumaratorGroupId { get; set; }
         public string EnumGroupCode { get; set; }
         public string DisaplyText { get; set; }
+        public List<GeneralEnumaratorModel> GeneralEnumaratorList { get; set; }
     }
 }

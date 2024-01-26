@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -15,5 +16,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [MaxLength(50)]
         public string DisaplyText { get; set; }
+
+        public List<GeneralEnumaratorModel> GeneralEnumaratorList { get; set; }
     }
 }

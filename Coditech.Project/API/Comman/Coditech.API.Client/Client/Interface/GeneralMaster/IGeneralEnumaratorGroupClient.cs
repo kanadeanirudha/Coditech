@@ -40,5 +40,26 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteEnumaratorGroup(ParameterModel body);
+
+        /// <summary>
+        /// Get Enumarator by generalEnumaratorId.
+        /// </summary>
+        /// <param name="generalEnumaratorId">generalEnumaratorId</param>
+        /// <returns>Returns GeneralEnumaratorResponse.</returns>
+        GeneralEnumaratorResponse GetEnumarator(int generalEnumaratorId);
+
+        /// <summary>
+        /// Update Enumarator.
+        /// </summary>
+        /// <param name="GeneralEnumaratorModel">GeneralEnumaratorModel.</param>
+        /// <returns>Returns updated GeneralEnumaratorResponse</returns>
+        GeneralEnumaratorResponse InsertUpdateEnumarator(GeneralEnumaratorModel body);
+
+        /// <summary>
+        /// Delete Enumarator.
+        /// </summary>
+        /// <param name="ParameterModel">ParameterModel.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        TrueFalseResponse DeleteEnumarator(ParameterModel body);
     }
 }

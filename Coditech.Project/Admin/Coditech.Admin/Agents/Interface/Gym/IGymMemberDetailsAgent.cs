@@ -68,5 +68,33 @@ namespace Coditech.Admin.Agents
         /// <param name="gymMemberDetailIds">gymMemberDetailIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteGymMembers(string gymMemberDetailIds, out string errorMessage);
+
+        /// <summary>
+        /// Get list of Gym Member.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GymMemberFollowUpListViewModel</returns>
+        GymMemberFollowUpListViewModel GymMemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel);
+
+        /// <summary>
+        /// Get GetMemberFollowUp by gymMemberFollowUpId.
+        /// </summary>
+        /// <param name="gymMemberDetailId">gymMemberFollowUpId</param>
+        /// <returns>Returns GymMemberFollowUpViewModel.</returns>
+        GymMemberFollowUpViewModel GetMemberFollowUp(long gymMemberFollowUpId);
+
+        /// <summary>
+        /// Inser Update Member FollowUp
+        /// </summary>
+        /// <param name="GymMemberFollowUpViewModel">GymMemberFollowUpViewModel.</param>
+        /// <returns>Returns updated GymMemberFollowUpViewModel</returns>
+        GymMemberFollowUpViewModel InserUpdateGymMemberFollowUp(GymMemberFollowUpViewModel gymMemberFollowUpViewModel);
+
+        /// <summary>
+        /// Delete Gym Members Follow Up.
+        /// </summary>
+        /// <param name="gymMemberFollowUpIdIds">gymMemberFollowUpIdIds.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        bool DeleteGymMemberFollowUp(string gymMemberFollowUpIdIds, out string errorMessage);
     }
 }

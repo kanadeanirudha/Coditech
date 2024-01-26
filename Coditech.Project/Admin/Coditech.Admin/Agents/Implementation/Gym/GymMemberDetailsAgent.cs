@@ -138,6 +138,7 @@ namespace Coditech.Admin.Agents
         }
         #endregion
 
+        #region Member Other Details
         //Get Member Other Details
         public virtual GymMemberDetailsViewModel GetGymMemberOtherDetails(int gymMemberDetailId)
         {
@@ -196,6 +197,95 @@ namespace Coditech.Admin.Agents
         }
         #endregion
 
+        #region Member Follow Up
+        public virtual GymMemberFollowUpListViewModel GymMemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("FollowupType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FollowupComment", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GymMemberFollowUpListResponse response = _gymMemberDetailsClient.GymMemberFollowUpList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberFollowUpListModel gymMemberList = new GymMemberFollowUpListModel { GymMemberFollowUpList = response?.GymMemberFollowUpList };
+
+            GymMemberFollowUpListViewModel listViewModel = new GymMemberFollowUpListViewModel()
+            {
+                PersonId = response.PersonId,
+                GymMemberDetailId = response.GymMemberDetailId,
+                FirstName = response?.FirstName,
+                LastName = response?.LastName
+            };
+            listViewModel.GymMemberFollowUpList = gymMemberList?.GymMemberFollowUpList?.ToViewModel<GymMemberFollowUpViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberFollowUpList.Count, BindGymMemberFollowUpColumns());
+            return listViewModel;
+        }
+
+        public virtual GymMemberFollowUpViewModel GetMemberFollowUp(long gymMemberFollowUpId)
+        {
+            GymMemberFollowUpResponse response = _gymMemberDetailsClient.GetGymMemberFollowUp(gymMemberFollowUpId);
+            GymMemberFollowUpViewModel gymMemberDetailsViewModel = response?.GymMemberFollowUpModel.ToViewModel<GymMemberFollowUpViewModel>();
+            return gymMemberDetailsViewModel;
+        }
+
+        //Update Member Details
+        public virtual GymMemberFollowUpViewModel InserUpdateGymMemberFollowUp(GymMemberFollowUpViewModel gymMemberFollowUpViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                GymMemberFollowUpResponse response = _gymMemberDetailsClient.InserUpdateGymMemberFollowUp(gymMemberFollowUpViewModel.ToModel<GymMemberFollowUpModel>());
+                GymMemberFollowUpModel gymMemberFollowUpModel = response?.GymMemberFollowUpModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                return IsNotNull(gymMemberFollowUpModel) ? gymMemberFollowUpModel.ToViewModel<GymMemberFollowUpViewModel>() : (GymMemberFollowUpViewModel)GetViewModelWithErrorMessage(new GymMemberFollowUpViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return (GymMemberFollowUpViewModel)GetViewModelWithErrorMessage(gymMemberFollowUpViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Delete gym Member Details.
+        public virtual bool DeleteGymMemberFollowUp(string gymMemberFollowUpIdIds, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _gymMemberDetailsClient.DeleteGymMemberFollowUp(new ParameterModel { Ids = gymMemberFollowUpIdIds });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteGymMemberDetails;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+        #endregion
+        #endregion
+
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {
@@ -228,6 +318,34 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Email Id",
                 ColumnCode = "EmailId",
                 IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindGymMemberFollowUpColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Comments",
+                ColumnCode = "FollowupComment",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Follow-Up Type",
+                ColumnCode = "FollowupType",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Set Reminder",
+                ColumnCode = "IsSetReminder",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Reminder Date",
+                ColumnCode = "ReminderDate",
             });
             return datatableColumnList;
         }

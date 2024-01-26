@@ -9,8 +9,11 @@ namespace Coditech.API.Data
         public int GeneralEnumaratorGroupId { get; set; }
         public string EnumName { get; set; }
         public string EnumDisplayText { get; set; }
+        public string RelatedWith { get; set; }
         public short EnumValue { get; set; }
         public short SequenceNumber { get; set; }
+        public bool IsDefault { get; set; }
+        public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
