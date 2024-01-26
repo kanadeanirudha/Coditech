@@ -35,7 +35,7 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns updated GymCreateEditMemberViewModel</returns>
         GymCreateEditMemberViewModel UpdateMemberPersonalDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel);
 
-        /// <summary>
+         /// <summary>
         /// Get MemberOtherDetails by gymMemberDetailId.
         /// </summary>
         /// <param name="gymMemberDetailId">gymMemberDetailId</param>

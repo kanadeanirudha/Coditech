@@ -57,4 +57,11 @@
         Video,
         Audio
     }
+
+    public enum AddressTypeEnum
+    {
+        PermanentAddress,
+        CorrespondanceAddress,
+        BusinessAddress        
+    }
 }

@@ -25,5 +25,18 @@ namespace Coditech.Admin.Agents
         /// <param name="moduleCode">moduleCode</param>
         /// <returns>Returns UserMenuListViewModel.</returns>
         UserMenuListViewModel GetActiveMenuList(string moduleCode);
+
+        /// <summary>
+        /// Get Person Address Details by personId.
+        /// </summary>
+        /// <param name="personId">personId</param>
+        /// <returns>Returns GeneralPersonAddressListViewModel.</returns>
+        GeneralPersonAddressListViewModel GetGeneralPersonAddresses(long personId);
+        /// <summary>
+        /// Update Person Address.
+        /// </summary>
+        /// <param name="generalPersonAddressViewModel">generalPersonAddressViewModel.</param>
+        /// <returns>Returns updated generalPersonAddressViewModel</returns>
+        GeneralPersonAddressViewModel InsertUpdateGeneralPersonAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel);
     }
 }

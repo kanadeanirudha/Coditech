@@ -11,8 +11,14 @@ namespace Coditech.API.Endpoint
         public string GetPersonInformationAsync(long personId) =>
             $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/GetPersonInformation?personId={personId}";
 
+        public string GetGeneralPersonAddressesAsync(long personId) =>
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/GetGeneralPersonAddresses?personId={personId}";
+
         public string UpdatePersonInformationAsync() =>
                $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/UpdatePersonInformation";
+
+        public string InsertUpdateGeneralPersonAddressAsync() =>
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/InsertUpdateGeneralPersonAddress";
 
     }
 }

@@ -1,0 +1,43 @@
+﻿@using Coditech.Admin.Utilities;
+@model GeneralPersonAddressListViewModel
+@{
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    ViewBag.Title = "Update Person Address";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("GymMemberDetailId", Model.GymMemberDetailId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", keyValuePairs)
+            </div>
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h4 class="card-title"><span>Update Person Address- @Model.FirstName @Model.LastName</span></h4>
+                                @* <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/@actionName" role="button"><i class="fas fa-plus me-2"></i>Back</a> *@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="generalPersonAddressDivId"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/layout/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        User.GetGeneralPersonAddressess(@Model.PersonId);
+    });
+</script>
+
+

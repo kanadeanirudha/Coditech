@@ -23,6 +23,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
         private readonly ICoditechRepository<GeneralEnumaratorMaster> _generalEnumaratorRepository;
         private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
+        private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<UserType> _userTypeRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
@@ -36,6 +37,7 @@ namespace Coditech.API.Service
             _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorRepository = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
@@ -202,6 +204,88 @@ namespace Coditech.API.Service
         public virtual List<UserMainMenuMaster> GetActiveMenuList(string moduleCodel)
         {
             return base.GetAllActiveMenuList(moduleCodel);
+        }
+
+        public virtual GeneralPersonAddressListModel GetGeneralPersonAddresses(long personId)
+        {
+            if (personId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
+
+            GeneralPersonAddressListModel generalPersonAddressListModel = new GeneralPersonAddressListModel();
+            //Get the General Person Address Details based on id.
+            List<GeneralPersonAddress> personAddresses = _generalPersonAddressRepository.Table.Where(x => x.PersonId == personId)?.ToList();
+            List<GeneralPersonAddressModel> personAddressDetailList = new List<GeneralPersonAddressModel>();
+            if (personAddresses?.Count > 0)
+            {
+                if (personAddresses.Any(x => x.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString()))
+                {
+                    GeneralPersonAddressModel generalPersonAddressModel = personAddresses.FirstOrDefault(x => x.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString()).FromEntityToModel<GeneralPersonAddressModel>();
+                    personAddressDetailList.Add(generalPersonAddressModel);
+                }
+                else
+                {
+                    personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString() });
+                }
+
+                if (personAddresses.Any(x => x.AddressTypeEnum == AddressTypeEnum.CorrespondanceAddress.ToString()))
+                {
+                    GeneralPersonAddressModel generalPersonAddressModel = personAddresses.FirstOrDefault(x => x.AddressTypeEnum == AddressTypeEnum.CorrespondanceAddress.ToString()).FromEntityToModel<GeneralPersonAddressModel>();
+                    personAddressDetailList.Add(generalPersonAddressModel);
+                }
+                else
+                {
+                    personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString() });
+                }
+
+                if (personAddresses.Any(x => x.AddressTypeEnum == AddressTypeEnum.BusinessAddress.ToString()))
+                {
+                    GeneralPersonAddressModel generalPersonAddressModel = personAddresses.FirstOrDefault(x => x.AddressTypeEnum == AddressTypeEnum.BusinessAddress.ToString()).FromEntityToModel<GeneralPersonAddressModel>();
+                    personAddressDetailList.Add(generalPersonAddressModel);
+                }
+                else
+                {
+                    personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.BusinessAddress.ToString() });
+                }
+            }
+            else
+            {
+                personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString() });
+                personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString() });
+                personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.BusinessAddress.ToString() });
+            }
+            generalPersonAddressListModel.PersonAddressList = personAddressDetailList;
+            return generalPersonAddressListModel;
+        }
+
+        public virtual GeneralPersonAddressModel InsertUpdateGeneralPersonAddress(GeneralPersonAddressModel generalPersonAddressModel)
+        {
+
+            if (IsNull(generalPersonAddressModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (generalPersonAddressModel.PersonId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
+
+            return new GeneralPersonAddressModel();
+            GeneralPerson generalPerson = generalPersonAddressModel.FromModelToEntity<GeneralPerson>();
+
+            //Update Gym Member
+            bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
+            if (isPersonUpdated)
+            {
+                UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.PersonId == generalPersonAddressModel.PersonId);
+                if (userMasterData.EmailId != generalPersonAddressModel.EmailAddress)
+                {
+                    userMasterData.EmailId = generalPersonAddressModel.EmailAddress;
+                    _userMasterRepository.Update(userMasterData);
+                }
+            }
+            else
+            {
+                generalPersonAddressModel.HasError = true;
+                generalPersonAddressModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            //return isPersonUpdated;
         }
         #endregion
 

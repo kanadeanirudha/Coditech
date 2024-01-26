@@ -97,6 +97,34 @@ namespace Coditech.Admin.Agents
             listViewModel.MenuList = menuList?.MenuList?.ToViewModel<UserMenuViewModel>().ToList();
             return listViewModel;
         }
+
+        //Get Member Address Details by personID
+        public virtual GeneralPersonAddressListViewModel GetGeneralPersonAddresses(long personId)
+        {
+            GeneralPersonAddressListResponse response = _userClient.GetGeneralPersonAddresses(personId);
+            GeneralPersonAddressListModel generalPersonAddressListModel = new GeneralPersonAddressListModel() { PersonAddressList = response?.GeneralPersonAddressList };
+            GeneralPersonAddressListViewModel generalPersonAddressListViewModel = new GeneralPersonAddressListViewModel();
+            generalPersonAddressListViewModel.GeneralPersonAddressList = generalPersonAddressListModel.PersonAddressList.ToViewModel<GeneralPersonAddressViewModel>()?.ToList();
+            return generalPersonAddressListViewModel;
+        }
+
+        //Update Member Address Details
+        public virtual GeneralPersonAddressViewModel InsertUpdateGeneralPersonAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.UserAddress.ToString(), TraceLevel.Info);
+                GeneralPersonAddressResponse response = _userClient.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel.ToModel<GeneralPersonAddressModel>());
+                GeneralPersonAddressModel generalPersonAddressDetailModel = response?.GeneralPersonAddressModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.UserAddress.ToString(), TraceLevel.Info);
+                return IsNotNull(generalPersonAddressDetailModel) ? generalPersonAddressDetailModel.ToViewModel<GeneralPersonAddressViewModel>() : (GeneralPersonAddressViewModel)GetViewModelWithErrorMessage(new GeneralPersonAddressViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserAddress.ToString(), TraceLevel.Error);
+                return (GeneralPersonAddressViewModel)GetViewModelWithErrorMessage(generalPersonAddressViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
     }
 }

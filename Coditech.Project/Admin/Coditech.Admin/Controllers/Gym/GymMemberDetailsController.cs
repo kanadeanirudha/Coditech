@@ -80,6 +80,7 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", gymMemberDetailsViewModel);
         }
 
+
         [HttpPost]
         public virtual ActionResult MemberOtherDetails(GymMemberDetailsViewModel gymMemberDetailsViewModel)
         {
@@ -107,6 +108,17 @@ namespace Coditech.Admin.Controllers
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+        }
+
+        [HttpGet]
+        public virtual ActionResult CreateEditGymMemberAddress(int gymMemberDetailId, long personId)
+        {
+            GeneralPersonAddressListViewModel model = new GeneralPersonAddressListViewModel()
+            {
+                GymMemberDetailId = gymMemberDetailId,
+                PersonId = personId
+            };
+            return ActionView("~/Views/Gym/GymMemberDetails/CreateEditGymMemberAddress.cshtml", model);
         }
         #endregion
 
@@ -172,8 +184,5 @@ namespace Coditech.Admin.Controllers
         }
 
     }
-    #endregion
-
-    #region Protected
     #endregion
 }
