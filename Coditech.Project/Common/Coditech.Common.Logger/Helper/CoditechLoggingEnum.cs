@@ -36,6 +36,7 @@
             GlobleSettingMaster, 
             MediaManager,
             Gym,
+            EmployeeMaster,
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,

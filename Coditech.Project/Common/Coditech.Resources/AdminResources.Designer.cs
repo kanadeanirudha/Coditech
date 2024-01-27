@@ -11,8 +11,8 @@
 namespace Coditech.Resources
 {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -235,6 +235,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete gym member due to associate record..
+        /// </summary>
+        public static string ErrorDeleteEmployeeDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteEmployeeDetails", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
         public static string ErrorDeleteOccupationMaster
@@ -352,6 +363,18 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
+            }
+        }
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to Country List.
+        /// </summary>
+        public static string LabelEmployeeList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelEmployeeList", resourceCulture);
             }
         }
 
@@ -530,5 +553,6 @@ namespace Coditech.Resources
                 return ResourceManager.GetString("SelectCentre", resourceCulture);
             }
         }
+        
     }
 }
