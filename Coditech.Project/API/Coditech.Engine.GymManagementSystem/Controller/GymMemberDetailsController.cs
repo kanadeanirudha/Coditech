@@ -205,5 +205,10 @@ namespace Coditech.API.Controllers
             }
         }
         #endregion
+
+        #region Gym Member Attendance
+
+
+        #endregion
     }
 }

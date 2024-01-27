@@ -258,6 +258,11 @@ namespace Coditech.Admin.Agents
             }
         }
         #endregion
+
+        #region Gym Member Attendance
+
+
+        #endregion
         #endregion
 
         #region protected

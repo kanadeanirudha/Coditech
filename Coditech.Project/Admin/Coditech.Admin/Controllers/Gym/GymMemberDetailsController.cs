@@ -182,7 +182,56 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
         }
+        #endregion
 
+        #region Gym Member Attendance
+        public ActionResult GymMemberAttendanceList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetMemberAttendance(int gymMemberDetailId, long gymMemberAttendanceId, long personId)
+        {
+            GymMemberFollowUpViewModel gymMemberDetailsViewModel = null;
+            if (gymMemberAttendanceId > 0)
+            {
+                gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetMemberFollowUp(gymMemberAttendanceId);
+                gymMemberDetailsViewModel.GymMemberDetailId = gymMemberDetailId;
+                gymMemberDetailsViewModel.PersonId = personId;
+            }
+            else
+            {
+                gymMemberDetailsViewModel = new GymMemberFollowUpViewModel()
+                {
+                    GymMemberDetailId = gymMemberDetailId,
+                    GymMemberFollowUpId = gymMemberAttendanceId
+                };
+            }
+            return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", gymMemberDetailsViewModel);
+        }
+
+        public ActionResult CreatEditMemberAttendance(GymMemberAttendanceViewModel gymMemberAttendanceViewModel)
+        {
+
+        }
+
+        public virtual ActionResult DeleteMemberAttendance(string gymMemberAttendanceIds)
+        {
+            string message = string.Empty;
+            bool status = false;
+            if (!string.IsNullOrEmpty(gymMemberAttendanceIds))
+            {
+                status = _gymMemberDetailsAgent.DeleteMemberAttendance(gymMemberAttendanceIds, out message);
+                SetNotificationMessage(!status
+                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
+                return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+            }
+
+            SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
+            return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+        }
+        #endregion
     }
-    #endregion
 }

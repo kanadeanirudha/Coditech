@@ -392,5 +392,10 @@ namespace Coditech.API.Client
             }
         }
         #endregion
+
+        #region Gym Member Attendance
+
+
+        #endregion
     }
 }
