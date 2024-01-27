@@ -65,7 +65,7 @@ namespace Coditech.API.Service
             OrganisationCentrewiseDepartment organisationCentrewiseDepartment = organisationCentrewiseDepartmentModel.FromModelToEntity<OrganisationCentrewiseDepartment>();
             if (organisationCentrewiseDepartmentModel.OrganisationCentrewiseDepartmentId > 0)
             {
-                _organisationCentrewiseDepartmentRepository.Delete(organisationCentrewiseDepartment);
+                isAssociateUnAssociateCentrewiseDepartment = _organisationCentrewiseDepartmentRepository.Delete(organisationCentrewiseDepartment);
             }
             else
             {
