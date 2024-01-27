@@ -304,7 +304,19 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
             }
         }
-        
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to Country List.
+        /// </summary>
+        public static string LabelEmployeeList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelEmployeeList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>

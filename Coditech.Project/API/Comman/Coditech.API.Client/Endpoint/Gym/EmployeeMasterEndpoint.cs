@@ -12,10 +12,13 @@ namespace Coditech.API.Endpoint
             return endpoint;
         }
 
-        public string GetEmployeeMasterAsync(int employeeId) =>
+        public string CreateEmployeeAsync() =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeMaster/CreateCountry";
+
+        public string GetEmployeeAsync(int employeeId) =>
             $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/EmployeeMaster/GetEmployeeMaster?employeeId={employeeId}";
 
-        public string UpdateEmployeeMasterAsync() =>
+        public string UpdateEmployeeAsync() =>
                $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/EmployeeMaster/UpdateEmployeeMaster";
 
         public string DeleteEmployeeAsync() =>
