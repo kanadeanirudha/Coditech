@@ -70,25 +70,25 @@ namespace Coditech.Admin.Controllers
             return View(createEditEmployee, employeeCreateEditViewModel);
         }
 
-        //[HttpGet]
-        //public virtual ActionResult GetEmployeeOtherDetail(int gymMemberDetailId)
-        //{
-        //    EmployeeMasterViewModel employeeMasterViewModel = _employeeMasterAgent.GetGymMemberOtherDetails(gymMemberDetailId);
-        //    return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", gymMemberDetailsViewModel);
-        //}
+        [HttpGet]
+        public virtual ActionResult GetEmployeeOtherDetail(long employeeId)
+        {
+            EmployeeMasterViewModel employeeMasterViewModel = _employeeMasterAgent.GetEmployeeOtherDetail(employeeId);
+            return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
+        }
 
-        //[HttpPost]
-        //public virtual ActionResult UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        SetNotificationMessage(_employeeMasterAgent.UpdateGymMemberOtherDetails(gymMemberDetailsViewModel).HasError
-        //        ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-        //        : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-        //        return RedirectToAction("MemberOtherDetails", new { gymMemberDetailId = gymMemberDetailsViewModel.GymMemberDetailId, personId = gymMemberDetailsViewModel.PersonId });
-        //    }
-        //    return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", gymMemberDetailsViewModel);
-        //}
+        [HttpPost]
+        public virtual ActionResult UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_employeeMasterAgent.UpdateEmployeeOtherDetail(employeeMasterViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("GetEmployeeOtherDetail", new { gymMemberDetailId = employeeMasterViewModel.EmployeeId, personId = employeeMasterViewModel.PersonId });
+            }
+            return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", employeeMasterViewModel);
+        }
         public virtual ActionResult Delete(string employeeIds)
         {
             string message = string.Empty;

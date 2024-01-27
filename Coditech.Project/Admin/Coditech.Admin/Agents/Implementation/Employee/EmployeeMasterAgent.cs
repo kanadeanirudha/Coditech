@@ -108,8 +108,33 @@ namespace Coditech.Admin.Agents
                 return (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(employeeCreateEditViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
-        #endregion
 
+        //Get Member Other Details
+        public virtual EmployeeMasterViewModel GetEmployeeOtherDetail(long employeeId)
+        {
+            EmployeeMasterResponse response = _employeeMasterClient.GetEmployeeOtherDetail(employeeId);
+            EmployeeMasterViewModel employeeMasterViewModel = response?.EmployeeMasterModel.ToViewModel<EmployeeMasterViewModel>();
+            return employeeMasterViewModel;
+        }
+
+        //Update Gym Member Other Details.
+        public virtual EmployeeMasterViewModel UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                EmployeeMasterResponse response = _employeeMasterClient.UpdateEmployeeOtherDetail(employeeMasterViewModel.ToModel<EmployeeMasterModel>());
+                EmployeeMasterModel employeeMasterModel = response?.EmployeeMasterModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                return IsNotNull(employeeMasterModel) ? employeeMasterModel.ToViewModel<EmployeeMasterViewModel>() : (EmployeeMasterViewModel)GetViewModelWithErrorMessage(new EmployeeMasterViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+       
         //Delete Employee.
         public virtual bool DeleteEmployee(string employeeIds, out string errorMessage)
         {
@@ -141,6 +166,8 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+
+        #endregion
         #endregion
 
         #region protected

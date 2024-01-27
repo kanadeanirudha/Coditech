@@ -19,9 +19,9 @@ namespace Coditech.Admin.Agents
         EmployeeCreateEditViewModel CreateEmployee(EmployeeCreateEditViewModel employeeCreateEditViewModel);
 
         /// <summary>
-        /// Get Employee by employeeId.
+        /// Get Employee Personal Details by personId.
         /// </summary>
-        /// <param name="employeeId">employeeId</param>
+        /// <param name="employeeId">personId</param>
         /// <returns>Returns EmployeeCreateEditViewModel.</returns>
         EmployeeCreateEditViewModel GetEmployeePersonalDetails(long personId);
 
@@ -31,6 +31,20 @@ namespace Coditech.Admin.Agents
         /// <param name="EmployeeMasterViewModel">EmployeeCreateEditViewModel.</param>
         /// <returns>Returns updated EmployeeCreateEditViewModel</returns>
         EmployeeCreateEditViewModel UpdateEmployeePersonalDetails(EmployeeCreateEditViewModel employeeCreateEditViewModel);
+
+        /// <summary>
+        /// Get Employee by employeeId.
+        /// </summary>
+        /// <param name="employeeId">employeeId</param>
+        /// <returns>Returns EmployeeMasterViewModel.</returns>
+        EmployeeMasterViewModel GetEmployeeOtherDetail(long employeeId);
+
+        /// <summary>
+        /// Update Employee Other Details.
+        /// </summary>
+        /// <param name="EmployeeMasterViewModel">EmployeeMasterViewModel.</param>
+        /// <returns>Returns updated EmployeeMasterViewModel</returns>
+        EmployeeMasterViewModel UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel);
 
         /// <summary>
         /// Delete employee.
