@@ -8,7 +8,9 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -17,18 +19,21 @@ namespace Coditech.Admin.Agents
     {
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly IEmployeeMasterClient _employeeMasterClient;        
+        private readonly IEmployeeMasterClient _employeeMasterClient;
+        private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
-        public EmployeeMasterAgent(ICoditechLogging coditechLogging, IEmployeeMasterClient employeeMasterClient)
+        public EmployeeMasterAgent(ICoditechLogging coditechLogging, IEmployeeMasterClient employeeMasterClient, IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
-            _employeeMasterClient = GetClient<IEmployeeMasterClient>(employeeMasterClient);            
+            _employeeMasterClient = GetClient<IEmployeeMasterClient>(employeeMasterClient);
+            _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
 
         #region Public Methods
+        #region Employee
         public virtual EmployeeMasterListViewModel GetEmployeeMasterList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
@@ -37,7 +42,7 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("EmployeeId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);                
+                filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -50,17 +55,16 @@ namespace Coditech.Admin.Agents
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.EmployeeMasterList.Count, BindColumns());
             return listViewModel;
         }
-
-        #region Employee
+       
         //Create Employee
-        public virtual EmployeeMasterViewModel CreateEmployee(EmployeeMasterViewModel employeeMasterViewModel)
+        public virtual EmployeeCreateEditViewModel CreateEmployee(EmployeeCreateEditViewModel employeeCreateEditViewModel)
         {
             try
             {
-
-                EmployeeMasterResponse response = _employeeMasterClient.CreateEmployee(employeeMasterViewModel.ToModel<EmployeeMasterModel>());  
-                EmployeeMasterModel employeeMasterModel = response?.EmployeeMasterModel;
-                return IsNotNull(employeeMasterModel) ? employeeMasterModel.ToViewModel<EmployeeMasterViewModel>() : new EmployeeMasterViewModel();                                
+                employeeCreateEditViewModel.UserType = UserTypeEnum.GymMember.ToString();
+                GeneralPersonResponse response = _userClient.InsertPersonInformation(employeeCreateEditViewModel.ToModel<GeneralPersonModel>());
+                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
+                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<EmployeeCreateEditViewModel>() : new EmployeeCreateEditViewModel();
             }
             catch (CoditechException ex)
             {
@@ -68,71 +72,45 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
-                        return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, ex.ErrorMessage);
+                        return (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(employeeCreateEditViewModel, ex.ErrorMessage);
                     default:
-                        return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, GeneralResources.ErrorFailedToCreate);
+                        return (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(employeeCreateEditViewModel, GeneralResources.ErrorFailedToCreate);
                 }
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
-                return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, GeneralResources.ErrorFailedToCreate);
+                return (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(employeeCreateEditViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 
-        //Get Employee Details by employeeId.
-        public virtual EmployeeMasterViewModel GetEmployeeDetails(int employeeId)
+        //Get Employee Details by personId.
+        public virtual EmployeeCreateEditViewModel GetEmployeePersonalDetails(long personId)
         {
-            EmployeeMasterResponse response = _employeeMasterClient.GetEmployeeDetails(employeeId);
-            return response?.EmployeeMasterModel.ToViewModel<EmployeeMasterViewModel>();
+            GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
+            return response?.GeneralPersonModel.ToViewModel<EmployeeCreateEditViewModel>();
         }
 
-        //Update Employee Details
-        public virtual EmployeeMasterViewModel UpdateEmployeeDetails(EmployeeMasterViewModel employeeMasterViewModel)
+        //Update Employee Personal Details
+        public virtual EmployeeCreateEditViewModel UpdateEmployeePersonalDetails(EmployeeCreateEditViewModel employeeCreateEditViewModel)
         {
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
-                EmployeeMasterResponse response = _employeeMasterClient.UpdateEmployeeDetails(employeeMasterViewModel.ToModel<EmployeeMasterModel>());
-                EmployeeMasterModel employeeMasterModel = response?.EmployeeMasterModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
-                return IsNotNull(employeeMasterModel) ? employeeMasterModel.ToViewModel<EmployeeMasterViewModel>() : (EmployeeMasterViewModel)GetViewModelWithErrorMessage(new EmployeeMasterViewModel(), GeneralResources.UpdateErrorMessage);
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                GeneralPersonResponse response = _userClient.UpdatePersonInformation(employeeCreateEditViewModel.ToModel<GeneralPersonModel>());
+                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<EmployeeCreateEditViewModel>() : (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(new EmployeeCreateEditViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
-                return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, GeneralResources.UpdateErrorMessage);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(employeeCreateEditViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
         #endregion
 
-        //#region Employee Other Details
-        ////Get Member Other Details
-        //public virtual EmployeeMasterViewModel GetEmployeeDetails(int employeeId) a
-        //{
-        //    EmployeeMasterResponse response = _employeeMasterClient.GetEmployeeDetails(employeeId);
-        //    EmployeeMasterViewModel employeeMasterViewModel = response?.EmployeeMasterModel.ToViewModel<EmployeeMasterViewModel>();
-        //    return employeeMasterViewModel;
-        //}
-
-        //Update EmployeeMaster Details.
-        //public virtual EmployeeMasterViewModel UpdateEmployeeDetails(EmployeeMasterViewModel employeeMasterViewModel)
-        //{
-        //    try
-        //    {
-        //        _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
-        //        EmployeeMasterResponse response = _employeeMasterClient.UpdateEmployeeDetails(employeeMasterViewModel.ToModel<EmployeeMasterModel>());
-        //        EmployeeMasterModel employeeMasterModel = response?.EmployeeMasterModel;
-        //        _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
-        //        return IsNotNull(employeeMasterModel) ? employeeMasterModel.ToViewModel<EmployeeMasterViewModel>() : (EmployeeMasterViewModel)GetViewModelWithErrorMessage(new EmployeeMasterViewModel(), GeneralResources.UpdateErrorMessage);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
-        //        return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, GeneralResources.UpdateErrorMessage);
-        //    }
-        //}
-        //Delete gym Member Details.
+        //Delete Employee.
         public virtual bool DeleteEmployee(string employeeIds, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
@@ -164,7 +142,7 @@ namespace Coditech.Admin.Agents
             }
         }
         #endregion
-               
+
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {
@@ -188,6 +166,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Gender",
+                ColumnCode = "Gender",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Contact",
                 ColumnCode = "MobileNumber",
                 IsSortable = true,
@@ -200,7 +184,7 @@ namespace Coditech.Admin.Agents
             });
             return datatableColumnList;
         }
-       
+
     }
 }
 #endregion

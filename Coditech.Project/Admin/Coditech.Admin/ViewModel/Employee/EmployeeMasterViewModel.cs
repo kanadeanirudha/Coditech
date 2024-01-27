@@ -12,6 +12,10 @@ namespace Coditech.Admin.ViewModel
         public long EmployeeId { get; set; }
         public long PersonId { get; set; }
         public string PersonCode { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string DateOfBirth { get; set; }
         public string UserType { get; set; }
         public int EmployeeDesignationMasterId { get; set; }
         public int OrganisationCentrewiseDepartmentId { get; set; }
@@ -21,10 +25,5 @@ namespace Coditech.Admin.ViewModel
         public string UANNumber { get; set; }
         public string PassportNumber { get; set; }        
         public string AdharCardNumber { get; set; }
-        // public long CreatedBy { get; set; }
-        // public DateTime CreatedDate { get; set; }
-        // public long ModifiedBy { get; set; }
-        // public DateTime ModifiedDate { get; set; }
-
     }
 }

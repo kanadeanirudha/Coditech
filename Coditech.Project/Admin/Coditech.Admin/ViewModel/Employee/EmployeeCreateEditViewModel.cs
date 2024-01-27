@@ -5,6 +5,6 @@
         public EmployeeCreateEditViewModel()
         {
         }
-        public int EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
     }
 }

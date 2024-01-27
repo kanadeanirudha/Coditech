@@ -3,7 +3,7 @@ namespace Coditech.Common.API.Model
 {
     public class EmployeeMasterModel : BaseModel
     {
-        public int EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
         public long PersonId { get; set; }
         public string PersonCode { get; set; }
         public string UserType { get; set; }
@@ -15,9 +15,5 @@ namespace Coditech.Common.API.Model
         public string UANNumber { get; set; }
         public string PassportNumber { get; set; }
         public string AdharCardNumber { get; set; }
-        //public int CreatedBy { get; set; }
-        //public DateTime CreatedDate { get; set; }
-        //public int ModifiedBy { get; set; }
-        //public datetime ModifiedDate
     }
 }

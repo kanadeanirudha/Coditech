@@ -6,6 +6,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 
 using Newtonsoft.Json;
+
 using System.Net;
 
 namespace Coditech.API.Client
@@ -62,73 +63,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual EmployeeMasterResponse CreateEmployee(EmployeeMasterModel body)
+        public virtual EmployeeMasterResponse GetEmployeeOtherDetail(long employeeId)
         {
-            return Task.Run(async () => await CreateEmployeeAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetEmployeeOtherDetailAsync(employeeId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<EmployeeMasterResponse> CreateEmployeeAsync(EmployeeMasterModel body, CancellationToken cancellationToken)
+        public virtual async Task<EmployeeMasterResponse> GetEmployeeOtherDetailAsync(long employeeId, CancellationToken cancellationToken)
         {
-            string endpoint = employeeMasterEndpoint.CreateEmployeeAsync();
-            HttpResponseMessage response = null;
-            bool disposeResponse = true;
-            try
-            {
-                ApiStatus status = new ApiStatus();
-                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+            if (employeeId <= 0)
+                throw new System.ArgumentNullException("employeeId");
 
-                switch (response.StatusCode)
-                {
-                    case HttpStatusCode.OK:
-                        {
-                            ObjectResponseResult<EmployeeMasterResponse> objectResponseResult2 = await ReadObjectResponseAsync<EmployeeMasterResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                            if (objectResponseResult2.Object == null)
-                            {
-                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
-                            }
-
-                            return objectResponseResult2.Object;
-                        }
-                    case HttpStatusCode.Created:
-                        {
-                            ObjectResponseResult<EmployeeMasterResponse> objectResponseResult = await ReadObjectResponseAsync<EmployeeMasterResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                            if (objectResponseResult.Object == null)
-                            {
-                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
-                            }
-
-                            return objectResponseResult.Object;
-                        }
-                    default:
-                        {
-                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
-                            EmployeeMasterResponse result = JsonConvert.DeserializeObject<EmployeeMasterResponse>(value);
-                            UpdateApiStatus(result, status, response);
-                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-                        }
-                }
-            }
-            finally
-            {
-                if (disposeResponse)
-                {
-                    response.Dispose();
-                }
-            }
-        }
-
-        public virtual EmployeeMasterResponse GetEmployeeDetails(int emplyeeId)
-        {
-            return Task.Run(async () => await GetEmployeeMasterAsync(emplyeeId, CancellationToken.None)).GetAwaiter().GetResult();
-        }
-
-        public virtual async Task<EmployeeMasterResponse> GetEmployeeMasterAsync(int emplyeeId, CancellationToken cancellationToken)
-        {
-            if (emplyeeId <= 0)
-                throw new System.ArgumentNullException("emplyeeId");
-
-            string endpoint = employeeMasterEndpoint.GetEmployeeAsync(emplyeeId);
+            string endpoint = employeeMasterEndpoint.GetEmployeeOtherDetailAsync(employeeId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -167,14 +112,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual EmployeeMasterResponse UpdateEmployeeDetails(EmployeeMasterModel body)
+        public virtual EmployeeMasterResponse UpdateEmployeeOtherDetail(EmployeeMasterModel body)
         {
-            return Task.Run(async () => await UpdateEmployeeMasterAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await UpdateEmployeeOtherDetailAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<EmployeeMasterResponse> UpdateEmployeeMasterAsync(EmployeeMasterModel body, CancellationToken cancellationToken)
+        public virtual async Task<EmployeeMasterResponse> UpdateEmployeeOtherDetailAsync(EmployeeMasterModel body, CancellationToken cancellationToken)
         {
-            string endpoint = employeeMasterEndpoint.UpdateEmployeeAsync();
+            string endpoint = employeeMasterEndpoint.UpdateEmployeeOtherDetailAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -261,54 +206,5 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-
-        //#region Member Follow Up
-        //public virtual GymMemberFollowUpListResponse GymMemberFollowUpList(int emplyeeId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
-        //{
-        //    return Task.Run(async () => await GymMemberFollowUpListAsync(emplyeeId, personId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
-        //}
-
-        //public virtual async Task<GymMemberFollowUpListResponse> GymMemberFollowUpListAsync(int emplyeeId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
-        //{
-        //    string endpoint = employeeMasterEndpoint.GymMemberFollowUpListAsync(emplyeeId, personId, expand, filter, sort, pageIndex, pageSize);
-        //    HttpResponseMessage response = null;
-        //    var disposeResponse = true;
-        //    try
-        //    {
-        //        ApiStatus status = new ApiStatus();
-
-        //        response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
-        //        Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
-        //        var status_ = (int)response.StatusCode;
-        //        if (status_ == 200)
-        //        {
-        //            var objectResponse = await ReadObjectResponseAsync<GymMemberFollowUpListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
-        //            if (objectResponse.Object == null)
-        //            {
-        //                throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
-        //            }
-        //            return objectResponse.Object;
-        //        }
-        //        else if (status_ == 204)
-        //        {
-        //            return new GymMemberFollowUpListResponse();
-        //        }
-        //        else
-        //        {
-        //            string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        //            GymMemberFollowUpListResponse typedBody = JsonConvert.DeserializeObject<GymMemberFollowUpListResponse>(responseData);
-        //            UpdateApiStatus(typedBody, status, response);
-        //            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        if (disposeResponse)
-        //            response.Dispose();
-        //    }
-        //}
-
-        //#endregion
-
     }
 }
