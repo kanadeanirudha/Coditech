@@ -18,9 +18,6 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
-            //DataTableViewModel tempDataTable = TempData[AdminConstants.DataTableViewModel] as DataTableViewModel;
-            //dataTableViewModel = tempDataTable == null ? dataTableViewModel ?? new DataTableViewModel() : tempDataTable;
-
             AdminSanctionPostListViewModel list = new AdminSanctionPostListViewModel();
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && dataTableViewModel.SelectedDepartmentId > 0)
             {
@@ -54,8 +51,7 @@ namespace Coditech.Admin.Controllers
                 if (!adminSanctionPostViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    //TempData[AdminConstants.DataTableViewModel] = CreateActionDataTable(adminSanctionPostViewModel.CentreCode, Convert.ToInt32(adminSanctionPostViewModel.DepartmentId));
-                    return RedirectToAction<AdminSanctionPostController>(x => x.List(null));
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.CentreCode, SelectedDepartmentId = Convert.ToInt32(adminSanctionPostViewModel.DepartmentId) });
                 }
             }
             BindDropdown(adminSanctionPostViewModel);
@@ -86,15 +82,14 @@ namespace Coditech.Admin.Controllers
 
                 if (!status)
                 {
-                    //TempData[AdminConstants.DataTableViewModel] = UpdateActionDataTable(adminSanctionPostViewModel.SelectedCentreCode, Convert.ToInt32(adminSanctionPostViewModel.SelectedDepartmentId));
-                    return RedirectToAction<AdminSanctionPostController>(x => x.List(null));
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt32(adminSanctionPostViewModel.SelectedDepartmentId) });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminSanctionPostViewModel.ErrorMessage));
             return View("~/Views/Admin/AdminSanctionPost/Edit.cshtml", adminSanctionPostViewModel);
         }
 
-        public virtual ActionResult Delete(string departmentIds)
+        public virtual ActionResult Delete(string departmentIds, string centreCode, int selectedDepartmentId)
         {
             string message = string.Empty;
             bool status = false;
@@ -108,7 +103,13 @@ namespace Coditech.Admin.Controllers
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<AdminSanctionPostController>(x => x.List(null));
+            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = centreCode, SelectedDepartmentId = selectedDepartmentId });
+        }
+
+        public virtual ActionResult Cancel(string SelectedCentreCode, int SelectedDepartmentId)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = SelectedDepartmentId };
+            return RedirectToAction("List", dataTableViewModel);
         }
 
         #region Protected
@@ -116,11 +117,11 @@ namespace Coditech.Admin.Controllers
         {
             List<SelectListItem> postTypeList = new List<SelectListItem>();
             postTypeList.Add(new SelectListItem { Text = AdminConstants.Temporary, Value = AdminConstants.Temporary });
-            postTypeList.Add(new SelectListItem { Text = AdminConstants.Permanent, Value =  AdminConstants.Permanent });
+            postTypeList.Add(new SelectListItem { Text = AdminConstants.Permanent, Value = AdminConstants.Permanent });
             ViewData["PostType"] = postTypeList;
 
             List<SelectListItem> designationTypeList = new List<SelectListItem>();
-            designationTypeList.Add(new SelectListItem { Text =  AdminConstants.Regular, Value = AdminConstants.Regular });
+            designationTypeList.Add(new SelectListItem { Text = AdminConstants.Regular, Value = AdminConstants.Regular });
             designationTypeList.Add(new SelectListItem { Text = AdminConstants.Addon, Value = AdminConstants.Addon });
             ViewData["DesignationType"] = designationTypeList;
         }

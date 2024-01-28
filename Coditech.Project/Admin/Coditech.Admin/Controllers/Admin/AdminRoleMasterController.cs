@@ -18,9 +18,6 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
-            //DataTableViewModel tempDataTable = TempData[AdminConstants.DataTableViewModel] as DataTableViewModel;
-            //dataTableViewModel = tempDataTable == null ? dataTableViewModel ?? new DataTableViewModel() : tempDataTable;
-
             AdminRoleListViewModel list = new AdminRoleListViewModel();
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && dataTableViewModel.SelectedDepartmentId > 0)
             {
@@ -55,11 +52,9 @@ namespace Coditech.Admin.Controllers
 
                 if (!status)
                 {
-                    //TempData[AdminConstants.DataTableModel] = UpdateActionDataTable(adminRoleMasterViewModel.SelectedCentreCode, System.Convert.ToInt32(adminRoleMasterViewModel.SelectedDepartmentID));
-                    return RedirectToAction<AdminRoleMasterController>(x => x.List(null));
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminRoleViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt32(adminRoleViewModel.SelectedDepartmentId) });
                 }
             }
-
             BindDropdown(adminRoleViewModel);
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleViewModel.ErrorMessage));
             return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
@@ -71,22 +66,11 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
         }
 
-        //public virtual ActionResult Delete(string departmentIds)
-        //{
-        //    string message = string.Empty;
-        //    bool status = false;
-        //    if (!string.IsNullOrEmpty(departmentIds))
-        //    {
-        //        status = _adminRoleMasterAgent.DeleteAdminRoleMaster(departmentIds, out message);
-        //        SetNotificationMessage(!status
-        //        ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
-        //        : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-        //        return RedirectToAction<AdminRoleMasterController>(x => x.List(null));
-        //    }
-
-        //    SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-        //    return RedirectToAction<AdminRoleMasterController>(x => x.List(null));
-        //}
+        public virtual ActionResult Cancel(string SelectedCentreCode, int SelectedDepartmentId)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = SelectedDepartmentId };
+            return RedirectToAction("List", dataTableViewModel);
+        }
 
         #region Protected
         protected virtual void BindDropdown(AdminRoleViewModel adminRoleViewModel)
