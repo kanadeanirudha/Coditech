@@ -87,6 +87,7 @@ namespace Coditech.API.Service
             gymMemberDetails.GymGroupEnumId = gymMemberDetailsModel.GymGroupEnumId;
             gymMemberDetails.SourceEnumId = gymMemberDetailsModel.SourceEnumId;
             gymMemberDetails.OtherInformation = gymMemberDetailsModel.OtherInformation;
+            gymMemberDetails.IsActive = gymMemberDetailsModel.IsActive;
 
             isUpdated = _gymMemberDetailsRepository.Update(gymMemberDetails);
             if (!isUpdated)

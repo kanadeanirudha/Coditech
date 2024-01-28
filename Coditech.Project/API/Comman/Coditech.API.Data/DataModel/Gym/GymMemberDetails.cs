@@ -14,6 +14,7 @@ namespace Coditech.API.Data
         public string OtherInformation { get; set; }
         public int? GymGroupEnumId { get; set; }
         public int? SourceEnumId { get; set; }
+        public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }

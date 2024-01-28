@@ -293,6 +293,12 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "EmailId",
                 IsSortable = true,
             });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "IsActive",
+                ColumnCode = "IsActive",
+                IsSortable = true,
+            });
             return datatableColumnList;
         }
 

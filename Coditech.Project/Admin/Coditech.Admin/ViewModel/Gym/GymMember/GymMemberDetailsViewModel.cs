@@ -38,5 +38,6 @@ namespace Coditech.Admin.ViewModel
         public string ImagePath { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

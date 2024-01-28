@@ -17,5 +17,6 @@
         public string OtherInformation { get; set; }
         public int? GymGroupEnumId { get; set; }
         public int? SourceEnumId { get; set; }
+        public bool IsActive { get; set; }
     }
 }
