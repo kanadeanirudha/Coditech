@@ -39,7 +39,8 @@
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,
-            AssociateUnAssociateCentrewiseDepartment
+            AssociateUnAssociateCentrewiseDepartment,
+            GymBodyMeasurementType
 
         }
     }

@@ -342,6 +342,23 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             }
+
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.MeasurementUnit.ToString()))
+            {
+                GeneralMeasurementUnitListResponse response = new GeneralMeasurementUnitClient().List(null, null, null, 1, int.MaxValue);
+                GeneralMeasurementUnitListModel list = new GeneralMeasurementUnitListModel() { GeneralMeasurementUnitList = response.GeneralMeasurementUnitList };
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Measurement Unit-------" });
+                foreach (var item in list?.GeneralMeasurementUnitList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.MeasurementUnitDisplayName,
+                        Value = item.GeneralMeasurementUnitMasterId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralMeasurementUnitMasterId)
+                    });
+                }
+            }
+
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }

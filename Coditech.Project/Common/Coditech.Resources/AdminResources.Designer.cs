@@ -103,6 +103,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete gymBodyMeasurementType due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymBodyMeasurementType
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGymBodyMeasurementType", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete country due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralCountryMaster
@@ -352,6 +363,17 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to GymBodyMeasurementType List.
+        /// </summary>
+        public static string LabelGymBodyMeasurementTypeList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelGymBodyMeasurementTypeList", resourceCulture);
             }
         }
 
