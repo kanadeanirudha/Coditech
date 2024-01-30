@@ -27,6 +27,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralSystemGlobleSettingMaster> GeneralSystemGlobleSettingMaster { get; set; }
         public DbSet<GeneralOccupationMaster> GeneralOccupationMaster { get; set; }
         public DbSet<GeneralMeasurementUnitMaster> GeneralMeasurementUnitMaster { get; set; }
+        public DbSet<GeneralRunningNumbers> GeneralRunningNumbers { get; set; }
         #endregion
 
         #region Organisation

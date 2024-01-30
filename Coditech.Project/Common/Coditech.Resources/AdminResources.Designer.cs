@@ -367,6 +367,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to RunningNumbers List.
+        /// </summary>
+        public static string LabelRunningNumbersList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelRunningNumbersList", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to GymBodyMeasurementType List.
         /// </summary>
         public static string LabelGymBodyMeasurementTypeList
