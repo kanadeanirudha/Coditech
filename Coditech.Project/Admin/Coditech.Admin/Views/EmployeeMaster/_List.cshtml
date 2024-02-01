@@ -18,23 +18,17 @@
                     foreach (var item in Model?.EmployeeMasterList)
                     {
                         <tr>
-                            <td>@item.PersonId</td>
-                            <td>@item.PersonCode</td>
-                            <td>@item.UserType</td>
-                            <td>@item.EmployeeDesignationMasterId</td>
-                            <td>@item.OrganisationCentrewiseDepartmentId</td>
-                            <td>@item.OrganisationCentrewiseDepartmentId</td>
-                            <td>
-                                @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsEmployeeSmoker)
-                            </td>
-                            <td>@item.ReportingEmployeeId</td>
-                            <td>@item.PANCardNumber</td>
-                            <td>@item.UANNumber</td>
-                            <td>@item.PassportNumber</td>
-                            <td>@item.AdharCardNumber</td>                            
+                            <td style="text-align: center; width: 0px"><img src="@item.ImagePath" class="rounded-circle thumb-xs me-1" /></td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.MobileNumber</td>
+                            <td>@item.EmailId</td>
+                            @* <td>
+                    @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.DefaultFlag)
+                    </td> *@
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?generalCountryId=@item.EmployeeId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
-                                <a href="../@controllerName/Delete?countryIds=@item.EmployeeId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                <a href="../@controllerName/UpdateEmployeePersonalDetails?employeeId=@item.EmployeeId&personId=@item.PersonId" title="Update" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
+                                <a href="../@controllerName/Delete?employeeIds=@item.EmployeeId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }

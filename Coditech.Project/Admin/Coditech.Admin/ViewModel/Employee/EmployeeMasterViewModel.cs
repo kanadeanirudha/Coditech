@@ -25,5 +25,8 @@ namespace Coditech.Admin.ViewModel
         public string UANNumber { get; set; }
         public string PassportNumber { get; set; }        
         public string AdharCardNumber { get; set; }
+        public string ImagePath { get; set; }
+        public string MobileNumber { get; set; }
+        public string EmailId { get; set; }
     }
 }
