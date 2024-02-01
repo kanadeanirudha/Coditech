@@ -30,7 +30,6 @@
     <Folder Include="Client\Interface\Employee\" />
     <Folder Include="Client\Interface\Inventory\" />
     <Folder Include="Endpoint\Employee\" />
-    <Folder Include="Endpoint\Gym\" />
     <Folder Include="Endpoint\Inventory\" />
   </ItemGroup>
 

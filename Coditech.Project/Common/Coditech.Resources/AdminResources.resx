@@ -162,6 +162,9 @@
   <data name="ErrorDeleteGymMemberDetails" xml:space="preserve">
     <value>Failed to delete gym member due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGymMembershipPlan" xml:space="preserve">
+    <value>Failed to delete gym membership Plan due to associate record.</value>
+  </data>
   <data name="ErrorDeleteOccupationMaster" xml:space="preserve">
     <value>Failed to delete Occupation due to associate record.</value>
   </data>
@@ -236,8 +239,5 @@
   </data>
   <data name="LabelTaxList" xml:space="preserve">
     <value>Tax List</value>
-  </data>
-	<data name="SelectCentre" xml:space="preserve">
-    <value>-----Select Centre-----</value>
   </data>
 </root>
