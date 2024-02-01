@@ -48,7 +48,7 @@ namespace Coditech.API.Service
             if (IsNull(employeeMasterModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsEmployeeIdAlreadyExist(employeeMasterModel.EmployeeId))
+            if (IsPersonCodeAlreadyExist(employeeMasterModel.EmployeeId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Employee Id"));
 
             EmployeeMaster employeeMaster = employeeMasterModel.FromModelToEntity<EmployeeMaster>();
