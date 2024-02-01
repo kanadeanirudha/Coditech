@@ -54,6 +54,10 @@ namespace Coditech.API.Data
         public DbSet<GeneralPersonAddress> GeneralPersonAddress { get; set; }
         #endregion
 
+        #region Employee
+        public DbSet<EmployeeMaster> EmployeeMaster { get; set; }        
+        #endregion
+
         #region Gym
         public DbSet<GymMemberDetails> GymMemberDetails { get; set; }
         public DbSet<GymMemberFollowUp> GymMemberFollowUp { get; set; }

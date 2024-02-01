@@ -23,7 +23,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
         private readonly ICoditechRepository<GeneralEnumaratorMaster> _generalEnumaratorRepository;
         private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
-        private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
+        private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;        
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<UserType> _userTypeRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;

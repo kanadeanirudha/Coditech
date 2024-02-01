@@ -58,11 +58,14 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseDepartmentListModel, OrganisationCentrewiseDepartmentListViewModel>().ReverseMap();
             #endregion
 
+            #region Employee            
+            CreateMap<EmployeeCreateEditViewModel, EmployeeMasterModel>().ReverseMap();
+            #endregion
+
             #region Gym
             CreateMap<GymCreateEditMemberViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<GymMemberFollowUpListViewModel, GymMemberFollowUpListModel>().ReverseMap();
-            CreateMap<GymMemberFollowUpViewModel, GymMemberFollowUpModel>().ReverseMap();
-            CreateMap<EmployeeCreateEditViewModel, EmployeeMasterModel>().ReverseMap();            
+            CreateMap<GymMemberFollowUpViewModel, GymMemberFollowUpModel>().ReverseMap();                       
             #endregion
         }
     }
