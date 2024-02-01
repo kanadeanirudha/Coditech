@@ -153,6 +153,9 @@
   <data name="ErrorMessage_PleaseContactYourAdministrator" xml:space="preserve">
     <value>Please Contact Your Administrator</value>
   </data>
+  <data name="LabelIsActive" xml:space="preserve">
+    <value>Is Active</value>
+  </data>
   <data name="ModelNotNull" xml:space="preserve">
     <value>Model can not be null.</value>
   </data>

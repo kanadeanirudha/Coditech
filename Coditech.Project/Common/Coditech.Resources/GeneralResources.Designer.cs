@@ -169,6 +169,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Active.
+        /// </summary>
+        public static string LabelIsActive {
+            get {
+                return ResourceManager.GetString("LabelIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Model can not be null..
         /// </summary>
         public static string ModelNotNull {

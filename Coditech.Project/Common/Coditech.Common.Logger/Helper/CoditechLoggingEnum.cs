@@ -33,14 +33,16 @@
             UserModule,
             UserMainMenu,
             Person,
-            GlobleSettingMaster, 
+            GlobleSettingMaster,
             MediaManager,
             Gym,
             EmployeeMaster,
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,
-            AssociateUnAssociateCentrewiseDepartment
+            AssociateUnAssociateCentrewiseDepartment,
+            GymBodyMeasurementType,
+            RunningNumbers
 
         }
     }

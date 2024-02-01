@@ -27,6 +27,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralSystemGlobleSettingMaster> GeneralSystemGlobleSettingMaster { get; set; }
         public DbSet<GeneralOccupationMaster> GeneralOccupationMaster { get; set; }
         public DbSet<GeneralMeasurementUnitMaster> GeneralMeasurementUnitMaster { get; set; }
+        public DbSet<GeneralRunningNumbers> GeneralRunningNumbers { get; set; }
         #endregion
 
         #region Organisation
@@ -61,6 +62,8 @@ namespace Coditech.API.Data
         #region Gym
         public DbSet<GymMemberDetails> GymMemberDetails { get; set; }
         public DbSet<GymMemberFollowUp> GymMemberFollowUp { get; set; }
+        public DbSet<GymBodyMeasurementType> GymBodyMeasurementType { get; set; }
+
         #endregion
 
         #region MediaManager

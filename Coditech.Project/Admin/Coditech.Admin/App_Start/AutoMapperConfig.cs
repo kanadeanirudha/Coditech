@@ -46,6 +46,8 @@ namespace Coditech.Admin
             CreateMap<GeneralMeasurementUnitListModel, GeneralMeasurementUnitListViewModel>().ReverseMap();
             CreateMap<GeneralPersonAddressModel, GeneralPersonAddressViewModel>().ReverseMap();
             CreateMap<GeneralPersonAddressListModel, GeneralPersonAddressListViewModel>().ReverseMap();
+            CreateMap<GeneralRunningNumbersModel, GeneralRunningNumbersViewModel>().ReverseMap();
+            CreateMap<GeneralRunningNumbersListModel, GeneralRunningNumbersListViewModel>().ReverseMap();
             #endregion
 
             #region Organisation
@@ -65,7 +67,9 @@ namespace Coditech.Admin
             #region Gym
             CreateMap<GymCreateEditMemberViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<GymMemberFollowUpListViewModel, GymMemberFollowUpListModel>().ReverseMap();
-            CreateMap<GymMemberFollowUpViewModel, GymMemberFollowUpModel>().ReverseMap();                       
+            CreateMap<GymMemberFollowUpViewModel, GymMemberFollowUpModel>().ReverseMap();
+            CreateMap<GymBodyMeasurementTypeModel, GymBodyMeasurementTypeViewModel>().ReverseMap();
+            CreateMap<GymBodyMeasurementTypeListModel, GymBodyMeasurementTypeListViewModel>().ReverseMap();
             #endregion
         }
     }

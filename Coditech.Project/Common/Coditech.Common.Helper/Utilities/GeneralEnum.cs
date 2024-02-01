@@ -25,6 +25,7 @@
         GymGroup,
         GymSource,
         GymFollowupTypes,
+        MeasurementUnit,
         Employee
     }
 
