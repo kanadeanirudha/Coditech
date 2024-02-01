@@ -50,36 +50,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/EmployeeMasterMaster/CreateEmployee")]
-        [HttpPost, ValidateModel]
-        [Produces(typeof(EmployeeMasterResponse))]
-        public virtual IActionResult CreateEmployee([FromBody] EmployeeMasterModel model)
-        {
-            try
-            {
-                EmployeeMasterModel employeeMaster = _employeeMasterService.CreateEmployee(model);
-                return IsNotNull(employeeMaster) ? CreateCreatedResponse(new EmployeeMasterResponse { EmployeeMasterModel = employeeMaster }) : CreateInternalServerErrorResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new EmployeeMasterResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new EmployeeMasterResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
-        [Route("/EmployeeMaster/GetEmployee")]
+        [Route("/EmployeeMaster/GetEmployeeOtherDetail")]
         [HttpGet]
         [Produces(typeof(EmployeeMasterResponse))]
-        public virtual IActionResult GetEmployee(long employeeId)
+        public virtual IActionResult GetEmployeeOtherDetail(long employeeId)
         {
             try
             {
-                EmployeeMasterModel employeeMasterModel = _employeeMasterService.GetEmployee(employeeId);
+                EmployeeMasterModel employeeMasterModel = _employeeMasterService.GetEmployeeOtherDetail(employeeId);
                 return IsNotNull(employeeMasterModel) ? CreateOKResponse(new EmployeeMasterResponse { EmployeeMasterModel = employeeMasterModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -94,14 +72,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/EmployeeMaster/UpdateEmployee")]
+        [Route("/EmployeeMaster/UpdateEmployeeOtherDetail")]
         [HttpPut, ValidateModel]
         [Produces(typeof(EmployeeMasterResponse))]
-        public virtual IActionResult UpdateEmployee([FromBody] EmployeeMasterModel model)
+        public virtual IActionResult UpdateEmployeeOtherDetail([FromBody] EmployeeMasterModel model)
         {
             try
             {
-                bool isUpdated = _employeeMasterService.UpdateEmployee(model);
+                bool isUpdated = _employeeMasterService.UpdateEmployeeOtherDetail(model);
                 return isUpdated ? CreateOKResponse(new EmployeeMasterResponse { EmployeeMasterModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)

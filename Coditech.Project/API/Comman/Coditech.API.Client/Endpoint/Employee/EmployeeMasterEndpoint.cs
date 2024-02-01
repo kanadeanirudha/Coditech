@@ -8,7 +8,7 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeMasterList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string GetEmployeeOtherDetailAsync(long employeeId) =>

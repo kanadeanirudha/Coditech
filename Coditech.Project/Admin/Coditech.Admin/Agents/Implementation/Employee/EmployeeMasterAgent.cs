@@ -62,7 +62,7 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                employeeCreateEditViewModel.UserType = UserTypeEnum.GymMember.ToString();
+                employeeCreateEditViewModel.UserType = UserTypeEnum.Employee.ToString();
                 GeneralPersonResponse response = _userClient.InsertPersonInformation(employeeCreateEditViewModel.ToModel<GeneralPersonModel>());
                 GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
                 return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<EmployeeCreateEditViewModel>() : new EmployeeCreateEditViewModel();

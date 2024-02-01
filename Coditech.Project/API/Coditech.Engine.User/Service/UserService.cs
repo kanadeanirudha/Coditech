@@ -121,9 +121,8 @@ namespace Coditech.API.Service
                     gymMemberDetails = _gymMemberDetailsRepository.Insert(gymMemberDetails);
 
                     //Check Is Gym Member need to Login
-                    if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1" && gymMemberDetails?.GymMemberDetailId > 0)
+                    if ( gymMemberDetails?.GymMemberDetailId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                     {
-                        if (gymMemberDetails?.GymMemberDetailId > 0)
                             InsertUserMasterDetails(generalPersonModel);
                     }
                 }
@@ -139,10 +138,9 @@ namespace Coditech.API.Service
                     };
                     employeeMaster = _employeeMasterRepository.Insert(employeeMaster);
 
-                    //Check Is Gym Member need to Login
-                    if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1" && employeeMaster?.EmployeeId > 0)
+                    //Check Is Employee need to Login
+                    if (employeeMaster?.EmployeeId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                     {
-                        if (employeeMaster?.EmployeeId > 0)
                             InsertUserMasterDetails(generalPersonModel);
                     }
                 }

@@ -8,9 +8,8 @@ namespace Coditech.API.Service
     public interface IEmployeeMasterService
     {
         EmployeeMasterListModel GetEmployeeList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        EmployeeMasterModel CreateEmployee(EmployeeMasterModel model);
-        EmployeeMasterModel GetEmployee(long employeeId);
-        bool UpdateEmployee(EmployeeMasterModel model);
+        EmployeeMasterModel GetEmployeeOtherDetail(long employeeId);
+        bool UpdateEmployeeOtherDetail(EmployeeMasterModel model);
         bool DeleteEmployee(ParameterModel parameterModel);
     }
 }
