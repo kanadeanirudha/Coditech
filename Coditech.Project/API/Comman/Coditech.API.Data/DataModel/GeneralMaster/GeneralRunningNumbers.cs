@@ -1,7 +1,10 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
     public partial class GeneralRunningNumbers
     {
+        [Key]
         public long GeneralRunningNumberId { get; set; }
         public string Description { get; set; }
         public int KeyFieldEnum { get; set; }

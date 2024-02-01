@@ -28,7 +28,5 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/GeneralMaster/GeneralRunningNumbers/List.cshtml", list);
         }
-
-       
     }
 }
