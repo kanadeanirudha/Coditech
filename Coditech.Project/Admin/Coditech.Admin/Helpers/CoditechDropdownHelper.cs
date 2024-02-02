@@ -359,6 +359,44 @@ namespace Coditech.Admin.Helpers
                 }
             }
 
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Enum.ToString()))
+            {
+                GeneralEnumaratorGroupListResponse response = new GeneralEnumaratorGroupClient().List(null, null, null, 1, int.MaxValue);
+                GeneralEnumaratorGroupListModel list = new GeneralEnumaratorGroupListModel() { GeneralEnumaratorGroupList = response.GeneralEnumaratorGroupList };
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Enum-------" });
+                foreach (var item in list?.GeneralEnumaratorGroupList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.EnumGroupCode,
+                        Value = item.GeneralEnumaratorGroupId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralEnumaratorGroupId)
+                    });
+                }
+            }
+
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.FinancialYear.ToString()))
+            {
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "2020 - 2021",
+                    Value = "2020 - 2021",
+                    Selected = "2020 - 2021" == dropdownViewModel.DropdownSelectedValue
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "2021 - 2022",
+                    Value = "2021 - 2022",
+                    Selected = "2021 - 2022" == dropdownViewModel.DropdownSelectedValue
+                });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "2023 - 2024",
+                    Value = "2023 - 2024",
+                    Selected = "2023 - 2024" == dropdownViewModel.DropdownSelectedValue
+                });
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
