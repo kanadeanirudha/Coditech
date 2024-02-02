@@ -380,21 +380,21 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = "2020 - 2021",
-                    Value = "2020 - 2021",
-                    Selected = "2020 - 2021" == dropdownViewModel.DropdownSelectedValue
+                    Text = "2021",
+                    Value = "2021",
+                    Selected = "2021" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = "2021 - 2022",
-                    Value = "2021 - 2022",
-                    Selected = "2021 - 2022" == dropdownViewModel.DropdownSelectedValue
+                    Text = "2022",
+                    Value = "2022",
+                    Selected = "2022" == dropdownViewModel.DropdownSelectedValue
                 });
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = "2023 - 2024",
-                    Value = "2023 - 2024",
-                    Selected = "2023 - 2024" == dropdownViewModel.DropdownSelectedValue
+                    Text = "2023",
+                    Value = "2023",
+                    Selected = "2023" == dropdownViewModel.DropdownSelectedValue
                 });
             }
             dropdownViewModel.DropdownList = dropdownList;

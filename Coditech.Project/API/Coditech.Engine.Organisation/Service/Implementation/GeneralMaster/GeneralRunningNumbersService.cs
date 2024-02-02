@@ -37,7 +37,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralRunningNumbersModel> generalRunningNumbersList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetRunningNumbersList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralRunningNumbersModel> generalRunningNumbersList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralRunningNumbersList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             GeneralRunningNumbersListModel listModel = new GeneralRunningNumbersListModel();
 
             listModel.GeneralRunningNumbersList = generalRunningNumbersList?.Count > 0 ? generalRunningNumbersList : new List<GeneralRunningNumbersModel>();

@@ -35,13 +35,13 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("Description", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("CentreCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Description", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("IsActive", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "Description" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreCode" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GeneralRunningNumbersListResponse response = _generalRunningNumbersClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralRunningNumbersListModel organisationCentrewiseDepartmentList = new GeneralRunningNumbersListModel { GeneralRunningNumbersList = response?.GeneralRunningNumbersList };
@@ -181,12 +181,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Prefix",
                 ColumnCode = "Prefix",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Back Dated Prefix",
-                ColumnCode = "BackDatedPrefix",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
