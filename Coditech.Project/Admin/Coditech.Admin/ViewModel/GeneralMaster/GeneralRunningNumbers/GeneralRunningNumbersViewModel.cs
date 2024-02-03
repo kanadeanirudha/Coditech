@@ -17,7 +17,7 @@ namespace Coditech.Admin.ViewModel
         public int KeyFieldEnumId { get; set; }
 
         [Display(Name = "Financial Year")]
-        public int? GeneralFinancialYearId { get; set; }
+        public Nullable<int> GeneralFinancialYearId { get; set; }
 
         [MaxLength(15)]
         [Required]
@@ -51,7 +51,7 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [Display(Name = "Start Sequence")]
-        public bool StartSequence { get; set; }
+        public long StartSequence { get; set; }
 
         [Required]
         [Display(Name = "Current Sequnce")]
