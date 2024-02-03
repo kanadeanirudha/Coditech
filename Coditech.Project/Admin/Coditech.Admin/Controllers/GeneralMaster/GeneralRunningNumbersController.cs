@@ -44,7 +44,7 @@ namespace Coditech.Admin.Controllers
                 if (!generalRunningNumbersViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralRunningNumbersController>(x => x.List(null));
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = generalRunningNumbersViewModel.CentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalRunningNumbersViewModel.ErrorMessage));
@@ -66,12 +66,12 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalRunningNumbersAgent.UpdateRunningNumbers(generalRunningNumbersViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalRunningNumberId = generalRunningNumbersViewModel.GeneralRunningNumberId });
+                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = generalRunningNumbersViewModel.CentreCode });
             }
             return View(createEdit, generalRunningNumbersViewModel);
         }
 
-        public virtual ActionResult Delete(string generalRunningNumberIds)
+        public virtual ActionResult Delete(string generalRunningNumberIds, string centreCode)
         {
             string message = string.Empty;
             bool status = false;
@@ -85,7 +85,7 @@ namespace Coditech.Admin.Controllers
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<GeneralRunningNumbersController>(x => x.List(null));
+            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = centreCode });
         }
 
         #region Protected
