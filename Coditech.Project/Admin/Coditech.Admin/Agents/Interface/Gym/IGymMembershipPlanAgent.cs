@@ -40,14 +40,14 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="gymMemberDetailId">gymMemberDetailId</param>
         /// <returns>Returns GymMembershipPlanResponse.</returns>
-        GymMembershipPlanViewModel GetGymMembershipPlan(int gymMemberDetailId);
+        GymMembershipPlanViewModel GetGymMemberOthershipPlan(int gymMemberDetailId);
 
         /// <summary>
         /// Update GymMember Other shipPlan
         /// </summary>
         /// <param name="GymMembershipPlanModel">GymMembershipPlanModel.</param>
         /// <returns>Returns updated GymMembershipPlanViewModel</returns>
-        GymMembershipPlanViewModel UpdateGymMembershipPlan(GymMembershipPlanViewModel gymMembershipPlanModel);
+        GymMembershipPlanViewModel UpdateGymMemberOthershipPlan(GymMembershipPlanViewModel gymMembershipPlanModel);
         /// <summary>
         /// Delete Gym Members.
         /// </summary>

@@ -18,14 +18,14 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="gymMemberDetailId">gymMemberDetailId</param>
         /// <returns>Returns GymMembershipPlanResponse.</returns>
-        GymMembershipPlanResponse GetGymMembershipPlan(int gymMemberDetailId);
+        GymMembershipPlanResponse GetGymMemberOthershipPlan(int gymMemberDetailId);
 
         /// <summary>
         /// Update Gym Member Other shipPlan.
         /// </summary>
         /// <param name="GymMembershipPlanModel">GymMembershipPlanModel.</param>
         /// <returns>Returns updated GymMembershipPlanResponse</returns>
-        GymMembershipPlanResponse UpdateGymMembershipPlan(GymMembershipPlanModel body);
+        GymMembershipPlanResponse UpdateGymMemberOthershipPlan(GymMembershipPlanModel body);
 
         /// <summary>
         /// Delete Gym Member.

@@ -61,17 +61,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GymMembershipPlanResponse GetGymMembershipPlan(int gymMemberDetailId)
+        public virtual GymMembershipPlanResponse GetGymMemberOthershipPlan(int gymMemberDetailId)
         {
-            return Task.Run(async () => await GetGymMembershipPlanAsync(gymMemberDetailId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetGymMemberOthershipPlanAsync(gymMemberDetailId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymMembershipPlanResponse> GetGymMembershipPlanAsync(int gymMemberDetailId, CancellationToken cancellationToken)
+        public virtual async Task<GymMembershipPlanResponse> GetGymMemberOthershipPlanAsync(int gymMemberDetailId, CancellationToken cancellationToken)
         {
             if (gymMemberDetailId <= 0)
                 throw new System.ArgumentNullException("gymMemberDetailId");
 
-            string endpoint = gymMembershipPlanEndpoint.GetGymMembershipPlanAsync(gymMemberDetailId);
+            string endpoint = gymMembershipPlanEndpoint.GetGymMemberOthershipPlanAsync(gymMemberDetailId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -110,14 +110,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GymMembershipPlanResponse UpdateGymMembershipPlan(GymMembershipPlanModel body)
+        public virtual GymMembershipPlanResponse UpdateGymMemberOthershipPlan(GymMembershipPlanModel body)
         {
-            return Task.Run(async () => await UpdateGymMembershipPlanAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await UpdateGymMemberOthershipPlanAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymMembershipPlanResponse> UpdateGymMembershipPlanAsync(GymMembershipPlanModel body, CancellationToken cancellationToken)
+        public virtual async Task<GymMembershipPlanResponse> UpdateGymMemberOthershipPlanAsync(GymMembershipPlanModel body, CancellationToken cancellationToken)
         {
-            string endpoint = gymMembershipPlanEndpoint.UpdateGymMembershipPlanAsync();
+            string endpoint = gymMembershipPlanEndpoint.UpdateGymMemberOthershipPlanAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

@@ -76,8 +76,8 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult MemberOthershipPlan(int gymMemberDetailId)
         {
-            GymMembershipPlanViewModel gymMembershipPlanViewModel = _gymMembershipPlanAgent.GetGymMembershipPlan(gymMemberDetailId);
-            return View("~/Views/Gym/GymMembershipPlan/UpdateGymMembershipPlan.cshtml", gymMembershipPlanViewModel);
+            GymMembershipPlanViewModel gymMembershipPlanViewModel = _gymMembershipPlanAgent.GetGymMemberOthershipPlan(gymMemberDetailId);
+            return View("~/Views/Gym/GymMembershipPlan/UpdateGymMemberOthershipPlan.cshtml", gymMembershipPlanViewModel);
         }
 
         [HttpPost]
@@ -85,12 +85,12 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_gymMembershipPlanAgent.UpdateGymMembershipPlan(gymMembershipPlanViewModel).HasError
+                SetNotificationMessage(_gymMembershipPlanAgent.UpdateGymMemberOthershipPlan(gymMembershipPlanViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("MemberOthershipPlan", new { gymMemberDetailId = gymMembershipPlanViewModel.GymMemberDetailId, personId = gymMembershipPlanViewModel.PersonId });
             }
-            return View("~/Views/Gym/GymMembershipPlan/UpdateGymMembershipPlan.cshtml", gymMembershipPlanViewModel);
+            return View("~/Views/Gym/GymMembershipPlan/UpdateGymMemberOthershipPlan.cshtml", gymMembershipPlanViewModel);
         }
         public virtual ActionResult Delete(string gymMemberDetailIds)
         {
