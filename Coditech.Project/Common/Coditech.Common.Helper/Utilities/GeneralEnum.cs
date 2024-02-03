@@ -26,7 +26,8 @@
         GymSource,
         GymFollowupTypes,
         MeasurementUnit,
-        Employee
+        Employee,
+        GymPlanType,
     }
 
     public enum GeneralSystemGlobleSettingEnum

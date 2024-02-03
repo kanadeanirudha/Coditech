@@ -222,6 +222,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IGymMemberDetailsService, GymMemberDetailsService>();
             builder.Services.AddScoped<IGymBodyMeasurementTypeService, GymBodyMeasurementTypeService>();
+            builder.Services.AddScoped<IGymMembershipPlanService, GymMembershipPlanService>();
         }
         #endregion
     }

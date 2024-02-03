@@ -216,6 +216,15 @@ namespace Coditech.Resources {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete gym membership Plan due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymMembershipPlan {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGymMembershipPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
         public static string ErrorDeleteOccupationMaster {
