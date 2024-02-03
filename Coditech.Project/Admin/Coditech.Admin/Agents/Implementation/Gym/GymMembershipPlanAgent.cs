@@ -114,20 +114,20 @@ namespace Coditech.Admin.Agents
 
         #region Member Other shipPlan
         //Get Member Other shipPlan
-        public virtual GymMembershipPlanViewModel GetGymMemberOthershipPlan(int gymMemberDetailId)
+        public virtual GymMembershipPlanViewModel GetGymMembershipPlan(int gymMemberDetailId)
         {
-            GymMembershipPlanResponse response = _gymMembershipPlanClient.GetGymMemberOthershipPlan(gymMemberDetailId);
+            GymMembershipPlanResponse response = _gymMembershipPlanClient.GetGymMembershipPlan(gymMemberDetailId);
             GymMembershipPlanViewModel gymMembershipPlanViewModel = response?.GymMembershipPlanModel.ToViewModel<GymMembershipPlanViewModel>();
             return gymMembershipPlanViewModel;
         }
 
         //Update Gym Member Other shipPlan.
-        public virtual GymMembershipPlanViewModel UpdateGymMemberOthershipPlan(GymMembershipPlanViewModel gymMembershipPlanViewModel)
+        public virtual GymMembershipPlanViewModel UpdateGymMembershipPlan(GymMembershipPlanViewModel gymMembershipPlanViewModel)
         {
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                GymMembershipPlanResponse response = _gymMembershipPlanClient.UpdateGymMemberOthershipPlan(gymMembershipPlanViewModel.ToModel<GymMembershipPlanModel>());
+                GymMembershipPlanResponse response = _gymMembershipPlanClient.UpdateGymMembershipPlan(gymMembershipPlanViewModel.ToModel<GymMembershipPlanModel>());
                 GymMembershipPlanModel gymMembershipPlanModel = response?.GymMembershipPlanModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
                 return IsNotNull(gymMembershipPlanModel) ? gymMembershipPlanModel.ToViewModel<GymMembershipPlanViewModel>() : (GymMembershipPlanViewModel)GetViewModelWithErrorMessage(new GymMembershipPlanViewModel(), GeneralResources.UpdateErrorMessage);

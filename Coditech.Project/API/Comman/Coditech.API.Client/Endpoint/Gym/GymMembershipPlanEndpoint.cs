@@ -12,11 +12,11 @@ namespace Coditech.API.Endpoint
             return endpoint;
         }
 
-        public string GetGymMemberOthershipPlanAsync(int gymMemberDetailId) =>
-            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/GetGymMemberOthershipPlan?gymMemberDetailId={gymMemberDetailId}";
+        public string GetGymMembershipPlanAsync(int gymMemberDetailId) =>
+            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/GetGymMembershipPlan?gymMemberDetailId={gymMemberDetailId}";
 
-        public string UpdateGymMemberOthershipPlanAsync() =>
-               $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/UpdateGymMemberOthershipPlan";
+        public string UpdateGymMembershipPlanAsync() =>
+               $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/UpdateGymMembershipPlan";
 
         public string DeleteGymMembersAsync() =>
                   $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/DeleteGymMembers";

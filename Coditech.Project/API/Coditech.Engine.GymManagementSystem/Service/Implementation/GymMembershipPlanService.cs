@@ -45,7 +45,7 @@ namespace Coditech.API.Service
         }
 
         //Get Gym Member Other shipPlan
-        public virtual GymMembershipPlanModel GetGymMemberOthershipPlan(int gymMembershipPlanId)
+        public virtual GymMembershipPlanModel GetGymMembershipPlan(int gymMembershipPlanId)
         {
             if (gymMembershipPlanId <= 100)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymMembershipPlanId"));
@@ -65,7 +65,7 @@ namespace Coditech.API.Service
         }
 
         //Update Gym Member Other shipPlan
-        public virtual bool UpdateGymMemberOthershipPlan(GymMembershipPlanModel gymMembershipPlanModel)
+        public virtual bool UpdateGymMembershipPlan(GymMembershipPlanModel gymMembershipPlanModel)
         {
             if (IsNull(gymMembershipPlanModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);

@@ -48,14 +48,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GymMembershipPlan/GetGymMemberOthershipPlan")]
+        [Route("/GymMembershipPlan/GetGymMembershipPlan")]
         [HttpGet]
         [Produces(typeof(GymMembershipPlanResponse))]
-        public virtual IActionResult GetGymMemberOthershipPlan(int gymMemberDetailId)
+        public virtual IActionResult GetGymMembershipPlan(int gymMemberDetailId)
         {
             try
             {
-                GymMembershipPlanModel gymMembershipPlanModel = _generalGymMembershipPlanService.GetGymMemberOthershipPlan(gymMemberDetailId);
+                GymMembershipPlanModel gymMembershipPlanModel = _generalGymMembershipPlanService.GetGymMembershipPlan(gymMemberDetailId);
                 return IsNotNull(gymMembershipPlanModel) ? CreateOKResponse(new GymMembershipPlanResponse { GymMembershipPlanModel = gymMembershipPlanModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -70,14 +70,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GymMembershipPlan/UpdateGymMemberOthershipPlan")]
+        [Route("/GymMembershipPlan/UpdateGymMembershipPlan")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GymMembershipPlanResponse))]
-        public virtual IActionResult UpdateGymMemberOthershipPlan([FromBody] GymMembershipPlanModel model)
+        public virtual IActionResult UpdateGymMembershipPlan([FromBody] GymMembershipPlanModel model)
         {
             try
             {
-                bool isUpdated = _generalGymMembershipPlanService.UpdateGymMemberOthershipPlan(model);
+                bool isUpdated = _generalGymMembershipPlanService.UpdateGymMembershipPlan(model);
                 return isUpdated ? CreateOKResponse(new GymMembershipPlanResponse { GymMembershipPlanModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
