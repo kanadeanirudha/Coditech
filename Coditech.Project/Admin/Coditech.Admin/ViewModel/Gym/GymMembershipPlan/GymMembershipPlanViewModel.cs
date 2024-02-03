@@ -1,11 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Coditech.Common.Helper;
 
-namespace Coditech.Common.API.Model
+using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.Admin.ViewModel
 {
-    public class GymMembershipPlanModel : BaseModel
+    public class GymMembershipPlanViewModel : BaseViewModel
     {
+        public GymMembershipPlanViewModel()
+        {
+        }
         public int GymMembershipPlanId { get; set; }
-
         [MaxLength(100)]
         public string MembershipPlanName { get; set; }
         public decimal MaxCost { get; set; }

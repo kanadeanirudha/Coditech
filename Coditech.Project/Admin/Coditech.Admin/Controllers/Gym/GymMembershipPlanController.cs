@@ -29,76 +29,56 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateMember()
+        public ActionResult CreateGymMembershipPlan()
         {
-            GymCreateEditMemberViewModel viewModel = new GymCreateEditMemberViewModel();
+            GymMembershipPlanViewModel viewModel = new GymMembershipPlanViewModel();
             return View(createEdit, viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult CreateMember(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
+        public virtual ActionResult CreateGymMembershipPlan(GymMembershipPlanViewModel gymMembershipPlanViewModel)
         {
             if (ModelState.IsValid)
             {
-                gymCreateEditMemberViewModel = _gymMembershipPlanAgent.CreateMembershipPlan(gymCreateEditMemberViewModel);
-                if (!gymCreateEditMemberViewModel.HasError)
+                gymMembershipPlanViewModel = _gymMembershipPlanAgent.CreateGymMembershipPlan(gymMembershipPlanViewModel);
+                if (!gymMembershipPlanViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     return RedirectToAction<GymMembershipPlanController>(x => x.List(null));
                 }
             }
-            SetNotificationMessage(GetErrorNotificationMessage(gymCreateEditMemberViewModel.ErrorMessage));
-            return View(createEdit, gymCreateEditMemberViewModel);
+            SetNotificationMessage(GetErrorNotificationMessage(gymMembershipPlanViewModel.ErrorMessage));
+            return View(createEdit, gymMembershipPlanViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult UpdateMemberPersonalshipPlan(int gymMemberDetailId, long personId)
+        public virtual ActionResult UpdateGymMembershipPlan(int gymMembershipPlanId)
         {
-            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMembershipPlanAgent.GetMemberPersonalshipPlan(personId);
-            gymCreateEditMemberViewModel.GymMemberDetailId = gymMemberDetailId;
-            return ActionView(createEdit, gymCreateEditMemberViewModel);
+            GymMembershipPlanViewModel gymMembershipPlanViewModel = _gymMembershipPlanAgent.GetGymMembershipPlan(gymMembershipPlanId);
+            return ActionView(createEdit, gymMembershipPlanViewModel);
         }
 
         [HttpPost]
-        public virtual ActionResult UpdateMemberPersonalshipPlan(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
+        public virtual ActionResult UpdateGymMembershipPlan(GymMembershipPlanViewModel gymMembershipPlanViewModel)
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_gymMembershipPlanAgent.UpdateMemberPersonalshipPlan(gymCreateEditMemberViewModel).HasError
+                SetNotificationMessage(_gymMembershipPlanAgent.UpdateGymMembershipPlan(gymMembershipPlanViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("UpdateMemberPersonalshipPlan", new { gymMemberDetailId = gymCreateEditMemberViewModel.GymMemberDetailId, personId = gymCreateEditMemberViewModel.PersonId });
+                return RedirectToAction("UpdateGymMembershipPlan", new { gymMembershipPlanId = gymMembershipPlanViewModel.GymMembershipPlanId});
             }
-            return View(createEdit, gymCreateEditMemberViewModel);
+            return View(createEdit, gymMembershipPlanViewModel);
         }
 
-        [HttpGet]
-        public virtual ActionResult MemberOthershipPlan(int gymMemberDetailId)
-        {
-            GymMembershipPlanViewModel gymMembershipPlanViewModel = _gymMembershipPlanAgent.GetGymMemberOthershipPlan(gymMemberDetailId);
-            return View("~/Views/Gym/GymMembershipPlan/UpdateGymMemberOthershipPlan.cshtml", gymMembershipPlanViewModel);
-        }
-
-        [HttpPost]
-        public virtual ActionResult MemberOthershipPlan(GymMembershipPlanViewModel gymMembershipPlanViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                SetNotificationMessage(_gymMembershipPlanAgent.UpdateGymMemberOthershipPlan(gymMembershipPlanViewModel).HasError
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("MemberOthershipPlan", new { gymMemberDetailId = gymMembershipPlanViewModel.GymMemberDetailId, personId = gymMembershipPlanViewModel.PersonId });
-            }
-            return View("~/Views/Gym/GymMembershipPlan/UpdateGymMemberOthershipPlan.cshtml", gymMembershipPlanViewModel);
-        }
-        public virtual ActionResult Delete(string gymMemberDetailIds)
+        public virtual ActionResult Delete(string gymMembershipPlanIds)
         {
             string message = string.Empty;
             bool status = false;
-            if (!string.IsNullOrEmpty(gymMemberDetailIds))
+            if (!string.IsNullOrEmpty(gymMembershipPlanIds))
             {
-                status = _gymMembershipPlanAgent.DeleteGymMembers(gymMemberDetailIds, out message);
+                status = _gymMembershipPlanAgent.DeleteGymMembershipPlan(gymMembershipPlanIds, out message);
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
@@ -108,46 +88,6 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<GymMembershipPlanController>(x => x.List(null));
         }
-        #endregion
-
-        #region MemberFollowUp
-        public ActionResult MemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
-        {
-            GymMemberFollowUpListViewModel list = _gymMembershipPlanAgent.GymMemberFollowUpList(gymMemberDetailId, personId, dataTableModel);
-            if (AjaxHelper.IsAjaxRequest)
-            {
-                return PartialView("~/Views/Gym/GymMembershipPlan/_GymMemberFollowUpList.cshtml", list);
-            }
-            return View($"~/Views/Gym/GymMembershipPlan/GymMemberFollowUpList.cshtml", list);
-        }
-        [HttpGet]
-        public virtual ActionResult GetMemberFollowUp(int gymMemberDetailId, long gymMemberFollowUpId)
-        {
-            GymMemberFollowUpViewModel model = new GymMemberFollowUpViewModel()
-            {
-                GymMemberDetailId = gymMemberDetailId,
-                GymMemberFollowUpId = gymMemberFollowUpId
-            };
-            if (AjaxHelper.IsAjaxRequest)
-            {
-                return PartialView("~/Views/Gym/GymMembershipPlan/_CreateEditMemberFollowUp.cshtml", model);
-            }
-            return View($"~/Views/Gym/GymMembershipPlan/_CreateEditMemberFollowUp.cshtml", model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public virtual ActionResult CreatEditMemberFollowUp(GymMemberFollowUpViewModel gymMemberFollowUpViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                return PartialView("~/Views/Gym/GymMembershipPlan/_CreateEditMemberFollowUp.cshtml", gymMemberFollowUpViewModel);
-            }
-            return PartialView($"~/Views/Gym/GymMembershipPlan/_CreateEditMemberFollowUp.cshtml", gymMemberFollowUpViewModel);
-        }
-        #endregion
-
-        #region Protected
         #endregion
     }
 }

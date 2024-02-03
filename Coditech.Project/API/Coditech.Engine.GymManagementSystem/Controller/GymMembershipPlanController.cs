@@ -48,14 +48,37 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GymMembershipPlan/GetGymMemberOthershipPlan")]
-        [HttpGet]
+        [Route("/GymMembershipPlan/CreateGymMembershipPlan")]
+        [HttpPost, ValidateModel]
         [Produces(typeof(GymMembershipPlanResponse))]
-        public virtual IActionResult GetGymMemberOthershipPlan(int gymMemberDetailId)
+        public virtual IActionResult CreateGymMembershipPlan([FromBody] GymMembershipPlanModel model)
         {
             try
             {
-                GymMembershipPlanModel gymMembershipPlanModel = _generalGymMembershipPlanService.GetGymMemberOthershipPlan(gymMemberDetailId);
+                GymMembershipPlanModel gymMembershipPlanModel = _generalGymMembershipPlanService.CreateGymMembershipPlan(model);
+                return IsNotNull(gymMembershipPlanModel) ? CreateCreatedResponse(new GymMembershipPlanResponse { GymMembershipPlanModel = gymMembershipPlanModel }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GymMembershipPlanResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMembershipPlanResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+
+        [Route("/GymMembershipPlan/GetGymMembershipPlan")]
+        [HttpGet]
+        [Produces(typeof(GymMembershipPlanResponse))]
+        public virtual IActionResult GetGymMembershipPlan(int gymMembershipPlanId)
+        {
+            try
+            {
+                GymMembershipPlanModel gymMembershipPlanModel = _generalGymMembershipPlanService.GetGymMembershipPlan(gymMembershipPlanId);
                 return IsNotNull(gymMembershipPlanModel) ? CreateOKResponse(new GymMembershipPlanResponse { GymMembershipPlanModel = gymMembershipPlanModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -70,14 +93,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GymMembershipPlan/UpdateGymMemberOthershipPlan")]
+        [Route("/GymMembershipPlan/UpdateGymMembershipPlan")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GymMembershipPlanResponse))]
-        public virtual IActionResult UpdateGymMemberOthershipPlan([FromBody] GymMembershipPlanModel model)
+        public virtual IActionResult UpdateGymMembershipPlan([FromBody] GymMembershipPlanModel model)
         {
             try
             {
-                bool isUpdated = _generalGymMembershipPlanService.UpdateGymMemberOthershipPlan(model);
+                bool isUpdated = _generalGymMembershipPlanService.UpdateGymMembershipPlan(model);
                 return isUpdated ? CreateOKResponse(new GymMembershipPlanResponse { GymMembershipPlanModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
@@ -92,14 +115,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GymMembershipPlan/DeleteGymMembers")]
+        [Route("/GymMembershipPlan/DeleteGymMembershipPlan")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteGymMembers([FromBody] ParameterModel gymMemberDetailIds)
+        public virtual IActionResult DeleteGymMembershipPlan([FromBody] ParameterModel gymMembershipPlanIds)
         {
             try
             {
-                bool deleted = _generalGymMembershipPlanService.DeleteGymMembers(gymMemberDetailIds);
+                bool deleted = _generalGymMembershipPlanService.DeleteGymMembershipPlan(gymMembershipPlanIds);
                 return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
             }
             catch (CoditechException ex)
@@ -113,31 +136,5 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
-
-        #region Member Follow Up
-        [HttpGet]
-        [Route("/GymMembershipPlan/GymMemberFollowUpList")]
-        [Produces(typeof(GymMemberFollowUpListResponse))]
-        [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GymMemberFollowUpList(int gymMemberDetailId, long personId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
-        {
-            try
-            {
-                GymMemberFollowUpListModel list = _generalGymMembershipPlanService.GymMemberFollowUpList(gymMemberDetailId, personId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
-                string data = ApiHelper.ToJson(list);
-                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberFollowUpListResponse>(data) : CreateNoContentResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GymMemberFollowUpListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GymMemberFollowUpListResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-        #endregion
     }
 }

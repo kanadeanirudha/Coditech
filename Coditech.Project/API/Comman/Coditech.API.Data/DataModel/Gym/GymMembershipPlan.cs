@@ -6,15 +6,19 @@ namespace Coditech.API.Data
     {
         [Key]
         public int GymMembershipPlanId { get; set; }
-        public long MembershipPlanName { get; set; }
-        [MaxLength(100)]
-        public string PersonCode { get; set; }
-        public string UserType { get; set; }
-        public string PastInjuries { get; set; }
-        public string MedicalHistory { get; set; }
-        public string OtherInformation { get; set; }
-        public int? GymGroupEnumId { get; set; }
-        public int? SourceEnumId { get; set; }
+
+        public string MembershipPlanName { get; set; }
+        public decimal MaxCost { get; set; }
+        public decimal MinCost { get; set; }
+        public int PlanTypeEnumId { get; set; }
+        public byte? PlanDurationInMonth { get; set; }
+        public short? PlanDurationInDays { get; set; }
+        public short? PlanDurationInSession { get; set; }
+        public bool IsRenewable { get; set; }
+        public bool IsTimebaseBiometricAccess { get; set; }
+        public TimeSpan? FromTime { get; set; }
+        public TimeSpan? ToTime { get; set; }
+        public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }

@@ -1,36 +1,26 @@
 ﻿@using Coditech.Admin.Utilities;
-@model GymCreateEditMemberViewModel
+@model GymMembershipPlanViewModel
 @{
-    ViewBag.Title = Model.GymMemberDetailId > 0 ? "Update Member" : "Create Member";
+    ViewBag.Title = Model.GymMembershipPlanId > 0 ? "Update Gym Membership Plan" : "Create Gym Membership Plan";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    string css = Model.PersonId > 0 ? "col-lg-10" : "col-lg-12";
-    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
-    keyValuePairs.Add("GymMemberDetailId", Model.GymMemberDetailId.ToString());
-    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
     <div class="container-fluid">
         <div class="row">
-            @if (Model.GymMemberDetailId > 0)
-            {
-                <div class="col-lg-2">
-                    @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", keyValuePairs)
-                </div>
-            }
-            <div class="@css">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                @if (Model.GymMemberDetailId > 0)
+                                @if (Model.GymMembershipPlanId > 0)
                                 {
-                                    <h4 class="card-title"><span>Update Member- @Model.FirstName @Model.LastName</span></h4>
+                                    <h4 class="card-title"><span>Update Gym Membership Plan</span></h4>
                                 }
                                 else
                                 {
-                                    <h4 class="card-title">Create Member</h4>
+                                    <h4 class="card-title">Create Gym Membership Plan</h4>
                                 }
                             </div>
                         </div>
@@ -38,8 +28,38 @@
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
-                            @Html.HiddenFor(m => m.GymMemberDetailId)
-                            @Html.Partial("~/Views/Shared/_CreateEditGeneralPerson.cshtml", Model)
+                            @Html.HiddenFor(m => m.GymMembershipPlanId)
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.MembershipPlanName, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.MembershipPlanName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.MembershipPlanName)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PlanTypeEnumId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.PlanTypeEnumId.ToString(),
+                                   DropdownName = "PlanTypeEnumId",
+                                   GroupCode = DropdownTypeEnum.GymPlanType.ToString()
+                               })
+                                        @Html.ValidationMessageFor(x => x.PlanTypeEnumId, null, new { id = "errorPlanTypeEnumId" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.IsActive, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>
@@ -47,102 +67,3 @@
         </div>
     </div>
 </div>
-
-@section scripts {
-    <script>
-        $(function () {
-            $('#DateOfBirth').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
-
-            $('#AnniversaryDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
-        });
-    </script>
-}
-

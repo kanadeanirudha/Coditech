@@ -14,31 +14,31 @@ namespace Coditech.API.Client
         GymMembershipPlanListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
-        /// Get Gym Member Other shipPlan by gymMemberDetailId.
+        /// Create Gym Membership Plan
         /// </summary>
-        /// <param name="gymMemberDetailId">gymMemberDetailId</param>
+        /// <param name="GymMembershipPlanModel">GymMembershipPlanModel.</param>
         /// <returns>Returns GymMembershipPlanResponse.</returns>
-        GymMembershipPlanResponse GetGymMemberOthershipPlan(int gymMemberDetailId);
+        GymMembershipPlanResponse CreateGymMembershipPlan(GymMembershipPlanModel body);
 
         /// <summary>
-        /// Update Gym Member Other shipPlan.
+        /// Get Gym Membership Plan by gymMembershipPlanId.
+        /// </summary>
+        /// <param name="gymMembershipPlanId">gymMembershipPlanId</param>
+        /// <returns>Returns GymMembershipPlanResponse.</returns>
+        GymMembershipPlanResponse GetGymMembershipPlan(int gymMembershipPlanId);
+
+        /// <summary>
+        /// Update Gym Membership Plan.
         /// </summary>
         /// <param name="GymMembershipPlanModel">GymMembershipPlanModel.</param>
         /// <returns>Returns updated GymMembershipPlanResponse</returns>
-        GymMembershipPlanResponse UpdateGymMemberOthershipPlan(GymMembershipPlanModel body);
+        GymMembershipPlanResponse UpdateGymMembershipPlan(GymMembershipPlanModel body);
 
         /// <summary>
-        /// Delete Gym Member.
+        /// Delete Gym Membership plan.
         /// </summary>
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
-        TrueFalseResponse DeleteGymMembers(ParameterModel body);
-
-        /// <summary>
-        /// Get list of Gym Member.
-        /// </summary>
-        /// <returns>GymMemberFollowUpListResponse</returns>
-        GymMemberFollowUpListResponse GymMemberFollowUpList(int GymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
-
+        TrueFalseResponse DeleteGymMembershipPlan(ParameterModel body);
     }
 }

@@ -20,7 +20,6 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IGymMembershipPlanClient _gymMembershipPlanClient;
-        private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
@@ -28,7 +27,6 @@ namespace Coditech.Admin.Agents
         {
             _coditechLogging = coditechLogging;
             _gymMembershipPlanClient = GetClient<IGymMembershipPlanClient>(gymMembershipPlanClient);
-            _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
 
@@ -40,13 +38,12 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MembershipPlanName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MaxCost", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MinCost", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "MembershipPlanName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GymMembershipPlanListResponse response = _gymMembershipPlanClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GymMembershipPlanListModel gymMemberList = new GymMembershipPlanListModel { GymMembershipPlanList = response?.GymMembershipPlanList };
@@ -58,15 +55,14 @@ namespace Coditech.Admin.Agents
         }
 
         #region General Person
-        //Create Member shipPlan
-        public virtual GymCreateEditMemberViewModel CreateMembershipPlan(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
+        //Create Membership Plan
+        public virtual GymMembershipPlanViewModel CreateGymMembershipPlan(GymMembershipPlanViewModel gymMembershipPlanViewModel)
         {
             try
             {
-                gymCreateEditMemberViewModel.UserType = UserTypeEnum.GymMember.ToString();
-                GeneralPersonResponse response = _userClient.InsertPersonInformation(gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>());
-                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
-                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<GymCreateEditMemberViewModel>() : new GymCreateEditMemberViewModel();
+                GymMembershipPlanResponse response = _gymMembershipPlanClient.CreateGymMembershipPlan(gymMembershipPlanViewModel.ToModel<GymMembershipPlanModel>());
+                GymMembershipPlanModel gymMembershipPlanModel = response?.GymMembershipPlanModel;
+                return IsNotNull(gymMembershipPlanModel) ? gymMembershipPlanModel.ToViewModel<GymMembershipPlanViewModel>() : new GymMembershipPlanViewModel();
             }
             catch (CoditechException ex)
             {
@@ -74,60 +70,33 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
-                        return (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(gymCreateEditMemberViewModel, ex.ErrorMessage);
+                        return (GymMembershipPlanViewModel)GetViewModelWithErrorMessage(gymMembershipPlanViewModel, ex.ErrorMessage);
                     default:
-                        return (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(gymCreateEditMemberViewModel, GeneralResources.ErrorFailedToCreate);
+                        return (GymMembershipPlanViewModel)GetViewModelWithErrorMessage(gymMembershipPlanViewModel, GeneralResources.ErrorFailedToCreate);
                 }
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                return (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(gymCreateEditMemberViewModel, GeneralResources.ErrorFailedToCreate);
+                return (GymMembershipPlanViewModel)GetViewModelWithErrorMessage(gymMembershipPlanViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 
-        //Get Member Personal shipPlan by personId.
-        public virtual GymCreateEditMemberViewModel GetMemberPersonalshipPlan(long personId)
+        //Get Gym Membership Plan
+        public virtual GymMembershipPlanViewModel GetGymMembershipPlan(int gymMembershipPlanId)
         {
-            GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
-            return response?.GeneralPersonModel.ToViewModel<GymCreateEditMemberViewModel>();
-        }
-
-        //Update Member shipPlan
-        public virtual GymCreateEditMemberViewModel UpdateMemberPersonalshipPlan(GymCreateEditMemberViewModel gymCreateEditMemberViewModel)
-        {
-            try
-            {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                GeneralPersonResponse response = _userClient.UpdatePersonInformation(gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>());
-                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<GymCreateEditMemberViewModel>() : (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(new GymCreateEditMemberViewModel(), GeneralResources.UpdateErrorMessage);
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                return (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(gymCreateEditMemberViewModel, GeneralResources.UpdateErrorMessage);
-            }
-        }
-        #endregion
-
-        #region Member Other shipPlan
-        //Get Member Other shipPlan
-        public virtual GymMembershipPlanViewModel GetGymMemberOthershipPlan(int gymMemberDetailId)
-        {
-            GymMembershipPlanResponse response = _gymMembershipPlanClient.GetGymMemberOthershipPlan(gymMemberDetailId);
+            GymMembershipPlanResponse response = _gymMembershipPlanClient.GetGymMembershipPlan(gymMembershipPlanId);
             GymMembershipPlanViewModel gymMembershipPlanViewModel = response?.GymMembershipPlanModel.ToViewModel<GymMembershipPlanViewModel>();
             return gymMembershipPlanViewModel;
         }
 
         //Update Gym Member Other shipPlan.
-        public virtual GymMembershipPlanViewModel UpdateGymMemberOthershipPlan(GymMembershipPlanViewModel gymMembershipPlanViewModel)
+        public virtual GymMembershipPlanViewModel UpdateGymMembershipPlan(GymMembershipPlanViewModel gymMembershipPlanViewModel)
         {
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                GymMembershipPlanResponse response = _gymMembershipPlanClient.UpdateGymMemberOthershipPlan(gymMembershipPlanViewModel.ToModel<GymMembershipPlanModel>());
+                GymMembershipPlanResponse response = _gymMembershipPlanClient.UpdateGymMembershipPlan(gymMembershipPlanViewModel.ToModel<GymMembershipPlanModel>());
                 GymMembershipPlanModel gymMembershipPlanModel = response?.GymMembershipPlanModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
                 return IsNotNull(gymMembershipPlanModel) ? gymMembershipPlanModel.ToViewModel<GymMembershipPlanViewModel>() : (GymMembershipPlanViewModel)GetViewModelWithErrorMessage(new GymMembershipPlanViewModel(), GeneralResources.UpdateErrorMessage);
@@ -138,15 +107,15 @@ namespace Coditech.Admin.Agents
                 return (GymMembershipPlanViewModel)GetViewModelWithErrorMessage(gymMembershipPlanViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
-        //Delete gym Member shipPlan.
-        public virtual bool DeleteGymMembers(string gymMemberDetailIds, out string errorMessage)
+        //Delete gym Membership Plan.
+        public virtual bool DeleteGymMembershipPlan(string gymMembershipPlanIds, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _gymMembershipPlanClient.DeleteGymMembers(new ParameterModel { Ids = gymMemberDetailIds });
+                TrueFalseResponse trueFalseResponse = _gymMembershipPlanClient.DeleteGymMembershipPlan(new ParameterModel { Ids = gymMembershipPlanIds });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -171,37 +140,6 @@ namespace Coditech.Admin.Agents
         }
         #endregion
 
-        #region Member Follow Up
-        public virtual GymMemberFollowUpListViewModel GymMemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
-        {
-            FilterCollection filters = null;
-            dataTableModel = dataTableModel ?? new DataTableViewModel();
-            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
-            {
-                filters = new FilterCollection();
-                filters.Add("FollowupType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("FollowupComment", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-            }
-
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
-
-            GymMemberFollowUpListResponse response = _gymMembershipPlanClient.GymMemberFollowUpList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GymMemberFollowUpListModel gymMemberList = new GymMemberFollowUpListModel { GymMemberFollowUpList = response?.GymMemberFollowUpList };
-
-            GymMemberFollowUpListViewModel listViewModel = new GymMemberFollowUpListViewModel()
-            {
-                PersonId = response.PersonId,
-                GymMemberDetailId = response.GymMemberDetailId,
-                FirstName = response?.FirstName,
-                LastName = response?.LastName
-            };
-            listViewModel.GymMemberFollowUpList = gymMemberList?.GymMemberFollowUpList?.ToViewModel<GymMemberFollowUpViewModel>().ToList();
-
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberFollowUpList.Count, BindGymMemberFollowUpColumns());
-            return listViewModel;
-        }
-
-        #endregion
         #endregion
 
         #region protected
@@ -210,31 +148,49 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Image",
-                ColumnCode = "Image",
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "First Name",
-                ColumnCode = "FirstName",
+                ColumnName = "Membership Plan",
+                ColumnCode = "MembershipPlanName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Last Name",
-                ColumnCode = "LastName",
+                ColumnName = "Plan Type",
+                ColumnCode = "PlanType",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Max Cost",
+                ColumnCode = "MaxCost",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Contact",
-                ColumnCode = "MobileNumber",
+                ColumnName = "Min Cost",
+                ColumnCode = "MinCost",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Email Id",
-                ColumnCode = "EmailId",
+                ColumnName = "Duration In Month",
+                ColumnCode = "PlanDurationInMonth",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Duration In Session",
+                ColumnCode = "PlanDurationInSession",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Renewable",
+                ColumnCode = "IsRenewable",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
                 IsSortable = true,
             });
             return datatableColumnList;

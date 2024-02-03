@@ -12,19 +12,16 @@ namespace Coditech.API.Endpoint
             return endpoint;
         }
 
-        public string GetGymMemberOthershipPlanAsync(int gymMemberDetailId) =>
-            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/GetGymMemberOthershipPlan?gymMemberDetailId={gymMemberDetailId}";
+        public string CreateGymMembershipPlanAsync() =>
+           $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/CreateGymMembershipPlan";
 
-        public string UpdateGymMemberOthershipPlanAsync() =>
-               $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/UpdateGymMemberOthershipPlan";
+        public string GetGymMembershipPlanAsync(int gymMembershipPlanId) =>
+            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/GetGymMembershipPlan?gymMembershipPlanId={gymMembershipPlanId}";
 
-        public string DeleteGymMembersAsync() =>
-                  $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/DeleteGymMembers";
+        public string UpdateGymMembershipPlanAsync() =>
+               $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/UpdateGymMembershipPlan";
 
-        public string GymMemberFollowUpListAsync(int gymMemberDetailId,long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
-        {
-            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/GymMemberFollowUpList?gymMemberDetailId={gymMemberDetailId}&personId={personId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
-            return endpoint;
-        }
+        public string DeleteGymMembershipPlanAsync() =>
+                  $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMembershipPlan/DeleteGymMembershipPlan";
     }
 }
