@@ -155,6 +155,18 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Prefix",
+                ColumnCode = "Prefix",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Separator",
+                ColumnCode = "Separator",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Start Sequence",
                 ColumnCode = "StartSequence",
                 IsSortable = true,
@@ -169,18 +181,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Is Sequence Reset",
                 ColumnCode = "IsSequenceReset",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Separator",
-                ColumnCode = "Separator",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Prefix",
-                ColumnCode = "Prefix",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
