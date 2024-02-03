@@ -194,7 +194,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGymBodyMeasurementType", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete General Running Numbers.
+        /// </summary>
+        public static string ErrorDeleteGeneralRunningNumbers
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralRunningNumbers", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete gym member due to associate record..
         /// </summary>

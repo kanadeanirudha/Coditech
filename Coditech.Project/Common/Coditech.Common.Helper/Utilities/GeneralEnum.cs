@@ -28,6 +28,8 @@
         MeasurementUnit,
         Employee,
         GymPlanType,
+        FinancialYear,
+        GeneralRunningNumberFor
     }
 
     public enum GeneralSystemGlobleSettingEnum

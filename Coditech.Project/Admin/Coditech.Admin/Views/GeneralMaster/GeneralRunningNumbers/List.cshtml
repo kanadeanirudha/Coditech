@@ -34,13 +34,13 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-1">
-                                <label>@AdminResources.LabelCentre</label>
+                                <label>@AdminResources.LabelCentre </label>
                             </div>
                             <div class="col-md-3">
                                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
                             </div>
                             <div class="col-md-1">
-                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="GeneralRunningNumbers.GetGeneralRunningNumbersByCentreCode()" />
+                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="GeneralRunningNumbers.GetGeneralRunningNumbersByCentreCode()"/>
                             </div>
                         </div>
                     </div><!--end card-header-->
@@ -55,4 +55,4 @@
     </div><!-- container -->
 </div>
 <!-- end page content -->
-<script src="~/js/coditech/general/GeneralRunningNumbers.js"></script>
+<script src="~/js/coditech/GeneralRunningNumbers.js"></script>
