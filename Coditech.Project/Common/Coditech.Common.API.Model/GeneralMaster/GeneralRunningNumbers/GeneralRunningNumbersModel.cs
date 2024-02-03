@@ -14,7 +14,7 @@ namespace Coditech.Common.API.Model
         [Required]
         public int KeyFieldEnumId { get; set; }
 
-        public int GeneralFinancialYearId { get; set; }
+        public int? GeneralFinancialYearId { get; set; }
 
         [MaxLength(15)]
         [Required]

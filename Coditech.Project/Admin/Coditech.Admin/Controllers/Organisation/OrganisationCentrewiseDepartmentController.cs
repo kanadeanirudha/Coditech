@@ -5,8 +5,6 @@ using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
 
-using System.Data;
-
 namespace Coditech.Admin.Controllers
 {
     public class OrganisationCentrewiseDepartmentController : BaseController

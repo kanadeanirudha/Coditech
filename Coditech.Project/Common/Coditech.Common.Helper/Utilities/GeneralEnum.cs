@@ -26,8 +26,8 @@
         GymSource,
         GymFollowupTypes,
         MeasurementUnit,
-        Enum,
-        FinancialYear
+        FinancialYear,
+        GeneralRunningNumberFor
     }
 
     public enum GeneralSystemGlobleSettingEnum

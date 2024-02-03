@@ -8,7 +8,7 @@ namespace Coditech.API.Data
         public long GeneralRunningNumberId { get; set; }
         public string Description { get; set; }
         public int KeyFieldEnumId { get; set; }
-        public int GeneralFinancialYearId { get; set; }
+        public int? GeneralFinancialYearId { get; set; }
         public string CentreCode { get; set; }
         public string DisplayFormat { get; set; }
         public bool IsSequenceReset { get; set; }
