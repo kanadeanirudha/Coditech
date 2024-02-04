@@ -10,9 +10,8 @@ namespace Coditech.Admin.ViewModel
         public long GeneralLeadGenerationMasterId { get; set; }
      
         [MaxLength(50)]
-        [Required]
-        [Display(Name = "Person Title")]
-        public string PersonTitle { get; set; } 
+        [Display(Name = "Title")]
+        public string Title { get; set; } 
 
         [MaxLength(50)]
         [Required]
