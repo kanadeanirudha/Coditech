@@ -1,6 +1,6 @@
 ﻿@model GeneralLeadGenerationViewModel
 @{
-    ViewBag.Title = Model.GeneralLeadGenerationMasterId > 0 ? "Update LeadGeneration" : "Add LeadGeneration";
+    ViewBag.Title = Model.GeneralLeadGenerationMasterId > 0 ? "Update LeadGeneration" : "Add Lead Generation";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
@@ -16,11 +16,11 @@
                             <div class="col">
                                 @if (Model.GeneralLeadGenerationMasterId > 0)
                                 {
-                                    <h4 class="card-title">Update LeadGeneration</h4>
+                                    <h4 class="card-title">Update Lead Generation</h4>
                                 }
                                 else
                                 {
-                                    <h4 class="card-title">Create LeadGeneration</h4>
+                                    <h4 class="card-title">Create Lead Generation</h4>
                                 }
                             </div><!--end col-->
                         </div>  <!--end row-->
