@@ -123,6 +123,9 @@
   <data name="ErrorDeleteAdminSanctionPost" xml:space="preserve">
     <value>Failed to delete admin saction post due to associate record.</value>
   </data>
+  <data name="ErrorDeleteEmployeeDetails" xml:space="preserve">
+    <value>Failed to delete employee due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralCityMaster" xml:space="preserve">
     <value>Failed to delete city due to associate record.</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="ErrorDeleteGeneralEnumaratorGroup" xml:space="preserve">
     <value>Failed to delete enum group due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGeneralLeadGenerationMaster" xml:space="preserve">
+    <value>Failed to delete lead generation due to associate record.</value>
   </data>
   <data name="ErrorDeleteGeneralMeasurementUnitMaster" xml:space="preserve">
     <value>Failed to delete Measurement Unit due to associate record.</value>
@@ -204,6 +210,9 @@
   <data name="LabelDesignationList" xml:space="preserve">
     <value>Designation List</value>
   </data>
+  <data name="LabelEmployeeList" xml:space="preserve">
+    <value>Employee List</value>
+  </data>
   <data name="LabelEnumGroupList" xml:space="preserve">
     <value>Enum Group</value>
   </data>
@@ -213,6 +222,9 @@
   <data name="LabelIsActive" xml:space="preserve">
     <value>Is Active</value>
   </data>
+  <data name="LabelLeadGenerationList" xml:space="preserve">
+    <value>Lead Generation List</value>
+  </data>
   <data name="LabelMeasurementUnitList" xml:space="preserve">
     <value>Measurement Unit List</value>
   </data>
@@ -221,6 +233,9 @@
   </data>
   <data name="LabelOccupationList" xml:space="preserve">
     <value>Occupation List</value>
+  </data>
+  <data name="LabelOrganisationCentrewiseDepartmentList" xml:space="preserve">
+    <value>Organisation Centrewise Department List</value>
   </data>
   <data name="LabelOrganisationList" xml:space="preserve">
     <value>Organisation List</value>
@@ -237,7 +252,7 @@
   <data name="LabelTaxList" xml:space="preserve">
     <value>Tax List</value>
   </data>
-	<data name="SelectCentre" xml:space="preserve">
+  <data name="SelectCentre" xml:space="preserve">
     <value>-----Select Centre-----</value>
   </data>
 </root>

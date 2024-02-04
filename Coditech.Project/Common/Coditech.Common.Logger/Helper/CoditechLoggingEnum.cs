@@ -40,7 +40,8 @@
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,
-            AssociateUnAssociateCentrewiseDepartment
+            AssociateUnAssociateCentrewiseDepartment,
+            LeadGenerationMaster
 
         }
     }
