@@ -8,9 +8,10 @@ namespace Coditech.API.Data
         public long EmployeeId { get; set; }
         public long PersonId { get; set; }
         public string PersonCode { get; set; }
+        public string CentreCode { get; set; }
         public string UserType { get; set; }
         public short EmployeeDesignationMasterId { get; set; }
-        public short OrganisationCentrewiseDepartmentId { get; set; }
+        public short GeneralDepartmentMasterId { get; set; }
         public bool IsEmployeeSmoker { get; set; }
         public int? ReportingEmployeeId { get; set; }
         public string PANCardNumber { get; set; }

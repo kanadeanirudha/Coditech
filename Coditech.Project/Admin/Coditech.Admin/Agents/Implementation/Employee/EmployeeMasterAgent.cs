@@ -56,15 +56,19 @@ namespace Coditech.Admin.Agents
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.EmployeeMasterList.Count, BindColumns());
             return listViewModel;
         }
-       
+
         //Create Employee
         public virtual EmployeeCreateEditViewModel CreateEmployee(EmployeeCreateEditViewModel employeeCreateEditViewModel)
         {
             try
             {
                 employeeCreateEditViewModel.UserType = UserTypeEnum.Employee.ToString();
-                GeneralPersonResponse response = _userClient.InsertPersonInformation(employeeCreateEditViewModel.ToModel<GeneralPersonModel>());
-                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
+                GeneralPersonModel generalPersonModel = employeeCreateEditViewModel.ToModel<GeneralPersonModel>();
+                generalPersonModel.SelectedCentreCode = employeeCreateEditViewModel.SelectedCentreCode;
+                generalPersonModel.SelectedDepartmentId = employeeCreateEditViewModel.SelectedDepartmentId;
+
+                GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonModel);
+                generalPersonModel = response?.GeneralPersonModel;
                 return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<EmployeeCreateEditViewModel>() : new EmployeeCreateEditViewModel();
             }
             catch (CoditechException ex)
@@ -135,7 +139,7 @@ namespace Coditech.Admin.Agents
                 return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
-       
+
         //Delete Employee.
         public virtual bool DeleteEmployee(string employeeIds, out string errorMessage)
         {
