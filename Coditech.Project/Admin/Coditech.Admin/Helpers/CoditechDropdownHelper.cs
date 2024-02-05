@@ -126,7 +126,7 @@ namespace Coditech.Admin.Helpers
                     GeneralDepartmentListResponse response = new GeneralDepartmentClient().GetDepartmentsByCentreCode(centreCode);
                     list = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
                 }
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Department-------" });
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Department-------", Value = "" });
                 foreach (var item in list?.GeneralDepartmentList)
                 {
                     dropdownList.Add(new SelectListItem()

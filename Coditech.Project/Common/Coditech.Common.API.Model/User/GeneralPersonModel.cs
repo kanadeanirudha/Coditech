@@ -26,9 +26,7 @@
         public string AttendanceIntegrationId { get; set; }
         public short GeneralOccupationMasterId { get; set; }
         public DateTime? AnniversaryDate { get; set; }
-        public short EmployeeDesignationMasterId { get; set; }
-        public short OrganisationCentrewiseDepartmentId { get; set; }
-
-        
+        public string SelectedCentreCode { get; set; }
+        public string SelectedDepartmentId { get; set; }
     }
 }

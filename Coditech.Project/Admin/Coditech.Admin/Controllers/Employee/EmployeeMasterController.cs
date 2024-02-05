@@ -10,7 +10,7 @@ namespace Coditech.Admin.Controllers
     public class EmployeeMasterController : BaseController
     {
         private readonly IEmployeeMasterAgent _employeeMasterAgent;
-        private const string createEditEmployee = "~/Views/EmployeeMaster/GeneralCountryMaster/CreateEdit.cshtml";
+        private const string createEditEmployee = "~/Views/EmployeeMaster/CreateEditEmployee.cshtml";
 
         public EmployeeMasterController(IEmployeeMasterAgent employeeMasterAgent) 
         {

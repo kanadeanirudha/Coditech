@@ -7,6 +7,8 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 
+using Microsoft.IdentityModel.Tokens;
+
 using System.Data;
 
 using static Coditech.Common.Helper.HelperUtility;
@@ -23,7 +25,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
         private readonly ICoditechRepository<GeneralEnumaratorMaster> _generalEnumaratorRepository;
         private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
-        private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;        
+        private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<UserType> _userTypeRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
@@ -98,6 +100,13 @@ namespace Coditech.API.Service
 
         public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel)
         {
+
+            if (!ValidatedGeneralPersonData(generalPersonModel))
+            {
+                generalPersonModel.HasError = true;
+                generalPersonModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                return generalPersonModel;
+            }
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
             // Create new Person and return it.
@@ -121,9 +130,9 @@ namespace Coditech.API.Service
                     gymMemberDetails = _gymMemberDetailsRepository.Insert(gymMemberDetails);
 
                     //Check Is Gym Member need to Login
-                    if ( gymMemberDetails?.GymMemberDetailId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
+                    if (gymMemberDetails?.GymMemberDetailId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                     {
-                            InsertUserMasterDetails(generalPersonModel);
+                        InsertUserMasterDetails(generalPersonModel);
                     }
                 }
                 else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
@@ -133,15 +142,15 @@ namespace Coditech.API.Service
                         PersonId = generalPersonModel.PersonId,
                         PersonCode = generalPersonModel.PersonCode,
                         UserType = generalPersonModel.UserType,
-                        EmployeeDesignationMasterId = generalPersonModel.EmployeeDesignationMasterId,
-                        OrganisationCentrewiseDepartmentId = generalPersonModel.OrganisationCentrewiseDepartmentId
+                        CentreCode = generalPersonModel.SelectedCentreCode,
+                        GeneralDepartmentMasterId = Convert.ToInt16(generalPersonModel.SelectedDepartmentId)
                     };
                     employeeMaster = _employeeMasterRepository.Insert(employeeMaster);
 
                     //Check Is Employee need to Login
                     if (employeeMaster?.EmployeeId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                     {
-                            InsertUserMasterDetails(generalPersonModel);
+                        InsertUserMasterDetails(generalPersonModel);
                     }
                 }
             }
@@ -436,6 +445,23 @@ namespace Coditech.API.Service
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.UserName = generalPersonModel.PersonCode;
             userMaster = _userMasterRepository.Insert(userMaster);
+        }
+
+        protected virtual bool ValidatedGeneralPersonData(GeneralPersonModel generalPersonModel) {
+            bool status = true;
+            if (IsNull(generalPersonModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+               
+            }
+            else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode) || string.IsNullOrEmpty(generalPersonModel.SelectedDepartmentId))
+                    status = false;
+            }
+            return status;
         }
         #endregion
     }
