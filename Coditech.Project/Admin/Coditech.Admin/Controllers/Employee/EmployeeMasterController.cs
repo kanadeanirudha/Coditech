@@ -17,9 +17,16 @@ namespace Coditech.Admin.Controllers
             _employeeMasterAgent = employeeMasterAgent;
         }
 
-        public virtual ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
-            EmployeeMasterListViewModel list = _employeeMasterAgent.GetEmployeeMasterList(dataTableModel);
+            EmployeeMasterListViewModel list = new EmployeeMasterListViewModel();
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) /*&& dataTableViewModel.SelectedDepartmentId > 0*/)
+            {
+                list = _employeeMasterAgent.GetEmployeeMasterList(dataTableViewModel);
+            }
+            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
+            list.SelectedDepartmentId = dataTableViewModel.SelectedDepartmentId;
+           
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/EmployeeMaster/_List.cshtml", list);

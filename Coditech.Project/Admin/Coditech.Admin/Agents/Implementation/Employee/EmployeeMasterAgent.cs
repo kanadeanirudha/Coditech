@@ -37,14 +37,16 @@ namespace Coditech.Admin.Agents
         #region Employee
         public virtual EmployeeMasterListViewModel GetEmployeeMasterList(DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = null;
+            FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
                 filters.Add("EmployeeId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
+
+            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
+            filters.Add(FilterKeys.SelectedDepartmentId, ProcedureFilterOperators.Equals, Convert.ToString(dataTableModel.SelectedDepartmentId));
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
