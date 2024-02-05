@@ -24,7 +24,8 @@
         Occupation,
         GymGroup,
         GymSource,
-        GymFollowupTypes
+        GymFollowupTypes,
+        LeadStatus
     }
 
     public enum GeneralSystemGlobleSettingEnum

@@ -74,29 +74,39 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.LeadGenerationSource, new { @class = "form-label" })
-                                        <select class="form-control" id="LeadGenerationSource" name="LeadGenerationSource">
-                                            <option value="">--Select--</option>
-                                            <!-- List is empty by default -->
-                                        </select>
-                                        @Html.ValidationMessageFor(x => x.LeadGenerationSource)
+                                        @Html.LabelFor(x => x.LeadGenerationSourceEnumId, new { @class = "form-label" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.LeadGenerationSourceEnumId.ToString(),
+                                   DropdownName = "LeadGenerationSourceEnumId",
+                                   GroupCode = DropdownTypeEnum.GymSource.ToString()
+                               })
+                                        @Html.ValidationMessageFor(x => x.LeadGenerationSourceEnumId)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.LeadGenerationStatus, new { @class = "form-label" })
-                                        @Html.TextAreaFor(x => x.LeadGenerationStatus, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.LeadGenerationStatus)
+                                        @Html.LabelFor(x => x.LeadGenerationStatusEnumId, new { @class = "form-label" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.LeadGenerationStatusEnumId.ToString(),
+                                   DropdownName = "LeadGenerationStatusEnumId",
+                                   GroupCode = DropdownTypeEnum.LeadStatus.ToString()
+                               })
+                                        @Html.ValidationMessageFor(x => x.LeadGenerationStatusEnumId)
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.IsConverted, new { @class = "form-label" })
-                                        <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.IsConverted, new { @class = "form-check-input" })
+                                @if (Model.GeneralLeadGenerationMasterId > 0)
+                                {
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.IsConverted, new { @class = "form-label" })
+                                            <div class="form-check">
+                                                @Html.CheckBoxFor(x => x.IsConverted, new { @class = "form-check-input" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
