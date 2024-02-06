@@ -32,20 +32,19 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual OrganisationCentrewiseBuildingListViewModel GetOrganisationCentrewiseBuildingList(DataTableViewModel dataTableModel, string centreCode)
+        public virtual OrganisationCentrewiseBuildingListViewModel GetOrganisationCentrewiseBuildingList(DataTableViewModel dataTableModel/*, string centreCode*/)
         {
-            FilterCollection filters = new FilterCollection() ;
+            FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
-            {                 
+            {
+                filters = new FilterCollection();
                 filters.Add("BuildName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("CentreCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-            filters.Add("BuildName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
-            filters.Add(FilterKeys.SelectedDepartmentId, ProcedureFilterOperators.Equals, Convert.ToString(dataTableModel.SelectedDepartmentId));
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreCode" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             OrganisationCentrewiseBuildingListResponse response = _organisationCentrewiseBuildingClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentrewiseBuildingListModel organisationCentrewiseBuildingList = new OrganisationCentrewiseBuildingListModel { OrganisationCentrewiseBuildingList = response?.OrganisationCentrewiseBuildingList };
@@ -56,7 +55,7 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
-        //Create Organisation Centre.
+        //Create Organisation Centrewise Building Master.
         public virtual OrganisationCentrewiseBuildingViewModel CreateOrganisationCentrewiseBuilding(OrganisationCentrewiseBuildingViewModel organisationCentrewiseBuildingViewModel)
         {
             try
@@ -67,7 +66,7 @@ namespace Coditech.Admin.Agents
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Warning);
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
@@ -78,54 +77,54 @@ namespace Coditech.Admin.Agents
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 return (OrganisationCentrewiseBuildingViewModel)GetViewModelWithErrorMessage(organisationCentrewiseBuildingViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 
-        //Get Organisation Centre by organisationCentreId.
+        //Get Organisation Centrewise Building Master by organisationCentrewiseBuildingId.
         public virtual OrganisationCentrewiseBuildingViewModel GetOrganisationCentrewiseBuilding(short organisationCentrewiseBuildingId)
         {
             OrganisationCentrewiseBuildingResponse response = _organisationCentrewiseBuildingClient.GetOrganisationCentrewiseBuilding(organisationCentrewiseBuildingId);
             return response?.OrganisationCentrewiseBuildingModel.ToViewModel<OrganisationCentrewiseBuildingViewModel>();
         }
 
-        //Update Organisation Centre.
+        //Update Organisation Centrewise Building Master.
         public virtual OrganisationCentrewiseBuildingViewModel UpdateOrganisationCentrewiseBuilding(OrganisationCentrewiseBuildingViewModel organisationCentrewiseBuildingViewModel)
         {
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Info);
                 OrganisationCentrewiseBuildingResponse response = _organisationCentrewiseBuildingClient.UpdateOrganisationCentrewiseBuilding(organisationCentrewiseBuildingViewModel.ToModel<OrganisationCentrewiseBuildingModel>());
                 OrganisationCentrewiseBuildingModel organisationCentrewiseBuildingModel = response?.OrganisationCentrewiseBuildingModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Info);
                 return IsNotNull(organisationCentrewiseBuildingModel) ? organisationCentrewiseBuildingModel.ToViewModel<OrganisationCentrewiseBuildingViewModel>() : (OrganisationCentrewiseBuildingViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseBuildingViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 return (OrganisationCentrewiseBuildingViewModel)GetViewModelWithErrorMessage(organisationCentrewiseBuildingViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
 
-        //Delete Organisation Centre.
+        //Delete Organisation Centrewise Building Master .
         public virtual bool DeleteOrganisationCentrewiseBuilding(string organisationCentrewiseBuildingId, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _organisationCentrewiseBuildingClient.DeleteOrganisationCentrewiseBuilding(new ParameterModel { Ids = organisationCentrewiseBuildingId });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Warning);
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
-                        errorMessage = AdminResources.ErrorDeleteOrganisationCentreMaster;
+                        errorMessage = AdminResources.ErrorDeleteOrganisationCentrewiseBuildingMaster;
                         return false;
                     default:
                         errorMessage = GeneralResources.ErrorFailedToDelete;
@@ -134,13 +133,11 @@ namespace Coditech.Admin.Agents
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 errorMessage = GeneralResources.ErrorFailedToDelete;
                 return false;
             }
         }
-
-       
         #endregion
 
         #region protected

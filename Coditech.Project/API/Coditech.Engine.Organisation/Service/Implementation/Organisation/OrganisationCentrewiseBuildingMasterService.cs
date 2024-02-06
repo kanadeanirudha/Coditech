@@ -50,7 +50,7 @@ namespace Coditech.API.Service
             return listModel;
         }
 
-        //Create Organisation Centre.
+        //Create Organisation Centrewise Building Master.
         public virtual OrganisationCentrewiseBuildingModel CreateOrganisationCentrewiseBuilding(OrganisationCentrewiseBuildingModel organisationCentrewiseBuildingModel)
         {
             if (IsNull(organisationCentrewiseBuildingModel))
@@ -61,11 +61,11 @@ namespace Coditech.API.Service
 
             OrganisationCentrewiseBuildingMaster organisationCentrewiseBuildingMaster = organisationCentrewiseBuildingModel.FromModelToEntity<OrganisationCentrewiseBuildingMaster>();
 
-            //Create new Organisation Centre and return it.
-            OrganisationCentrewiseBuildingMaster organisationData = _organisationCentrewiseBuildingMasterRepository.Insert(organisationCentrewiseBuildingMaster);
-            if (organisationData?.OrganisationCentrewiseBuildingMasterId > 0)
+            //Create new Organisation Centrewise Building Master and return it.
+            OrganisationCentrewiseBuildingMaster organisationCentrewiseBuildingMasterData = _organisationCentrewiseBuildingMasterRepository.Insert(organisationCentrewiseBuildingMaster);
+            if (organisationCentrewiseBuildingMasterData?.OrganisationCentrewiseBuildingMasterId > 0)
             {
-                organisationCentrewiseBuildingModel.OrganisationCentrewiseBuildingMasterId = organisationData.OrganisationCentrewiseBuildingMasterId;
+                organisationCentrewiseBuildingModel.OrganisationCentrewiseBuildingMasterId = organisationCentrewiseBuildingMasterData.OrganisationCentrewiseBuildingMasterId;
             }
             else
             {
@@ -75,7 +75,7 @@ namespace Coditech.API.Service
             return organisationCentrewiseBuildingModel;
         }
 
-        //Get Organisation Centre by organisationCentrewiseBuildingMasterId.
+        //Get Organisation Centrewise Building Master by organisationCentrewiseBuildingMasterId.
         public virtual OrganisationCentrewiseBuildingModel GetOrganisationCentrewiseBuilding(short organisationCentrewiseBuildingId)
         {
             if (organisationCentrewiseBuildingId <= 0)
@@ -87,7 +87,7 @@ namespace Coditech.API.Service
             return organisationCentrewiseBuildingModel;
         }
 
-        //Update  Organisation Centre.
+        //Update  Organisation Centrewise Building Master.
         public virtual bool UpdateOrganisationCentrewiseBuilding(OrganisationCentrewiseBuildingModel organisationCentrewiseBuildingModel)
         {
             if (IsNull(organisationCentrewiseBuildingModel))
@@ -101,7 +101,7 @@ namespace Coditech.API.Service
 
             OrganisationCentrewiseBuildingMaster organisationCentrewiseBuildingMaster = organisationCentrewiseBuildingModel.FromModelToEntity<OrganisationCentrewiseBuildingMaster>();
 
-            //Update Organisation Centre
+            //Update Organisation Centrewise Building Master
             bool isOrganisationCentrewiseBuildingUpdated = _organisationCentrewiseBuildingMasterRepository.Update(organisationCentrewiseBuildingMaster);
             if (!isOrganisationCentrewiseBuildingUpdated)
             {
@@ -111,7 +111,7 @@ namespace Coditech.API.Service
             return isOrganisationCentrewiseBuildingUpdated;
         }
 
-        //Delete Organisation Centre.
+        //Delete Organisation Centrewise Building Master.
         public virtual bool DeleteOrganisationCentrewiseBuilding(ParameterModel parameterModel)
         {
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))

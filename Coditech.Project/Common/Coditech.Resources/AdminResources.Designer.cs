@@ -176,16 +176,27 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralTaxGroupMaster", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete tax due to associate record..
+        ///   Looks up a localized string similar to Failed to delete organisationCentrewiseBuildingMaster due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralTaxMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteGeneralTaxMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete tax due to associate record..
+        /// </summary>
+        public static string ErrorDeleteOrganisationCentrewiseBuildingMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteOrganisationCentrewiseBuildingMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Body Measurement Type.
         /// </summary>
@@ -471,7 +482,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelRunningNumbersList", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Label Organisation Centrewise Building List.
+        /// </summary>
+        public static string LabelOrganisationCentrewiseBuildingList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelOrganisationCentrewiseBuildingList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>

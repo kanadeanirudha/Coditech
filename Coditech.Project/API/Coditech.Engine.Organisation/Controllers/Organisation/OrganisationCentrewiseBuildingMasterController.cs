@@ -37,12 +37,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseBuildingListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseBuildingListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -54,17 +54,17 @@ namespace Coditech.API.Controllers
         {
             try
             {
-                OrganisationCentrewiseBuildingModel organisationCentre = _organisationCentrewiseBuildingMasterService.CreateOrganisationCentrewiseBuilding(model);
-                return IsNotNull(organisationCentre) ? CreateCreatedResponse(new OrganisationCentrewiseBuildingResponse { OrganisationCentrewiseBuildingModel = organisationCentre }) : CreateInternalServerErrorResponse();
+                OrganisationCentrewiseBuildingModel organisationCentrewiseBuilding = _organisationCentrewiseBuildingMasterService.CreateOrganisationCentrewiseBuilding(model);
+                return IsNotNull(organisationCentrewiseBuilding) ? CreateCreatedResponse(new OrganisationCentrewiseBuildingResponse { OrganisationCentrewiseBuildingModel = organisationCentrewiseBuilding }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseBuildingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseBuildingResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -81,12 +81,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseBuildingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseBuildingResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -103,12 +103,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseBuildingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseBuildingResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -125,15 +125,14 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseBuilding.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
-       
     }
 }

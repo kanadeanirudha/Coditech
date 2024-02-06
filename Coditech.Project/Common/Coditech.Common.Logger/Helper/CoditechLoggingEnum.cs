@@ -42,7 +42,8 @@
             OrganisationCentrewiseDepartment,
             AssociateUnAssociateCentrewiseDepartment,
             GymBodyMeasurementType,
-            RunningNumbers
+            RunningNumbers,
+            OrganisationCentrewiseBuilding
 
         }
     }

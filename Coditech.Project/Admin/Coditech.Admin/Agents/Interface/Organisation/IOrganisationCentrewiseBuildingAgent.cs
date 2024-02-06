@@ -5,35 +5,35 @@ namespace Coditech.Admin.Agents
     public interface IOrganisationCentrewiseBuildingAgent
     {
         /// <summary>
-        /// Get list of Organisation Centre.
+        /// Get list of Organisation Centrewise Building Master.
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
-        /// <returns>OrganisationCentreListViewModel</returns>
+        /// <returns>OrganisationCentrewiseBuildingListViewModel</returns>
         OrganisationCentrewiseBuildingListViewModel GetOrganisationCentrewiseBuildingList(DataTableViewModel dataTableModel);
 
         /// <summary>
-        /// Create Organisation Centre.
+        /// Create Organisation Centrewise Building Master.
         /// </summary>
-        /// <param name="organisationCentrewiseBuildingViewModel">Organisation Centre View Model.</param>
+        /// <param name="organisationCentrewiseBuildingViewModel">Organisation Centrewise Building View Model.</param>
         /// <returns>Returns created model.</returns>
         OrganisationCentrewiseBuildingViewModel CreateOrganisationCentrewiseBuilding(OrganisationCentrewiseBuildingViewModel organisationCentrewiseBuildingViewModel);
 
         /// <summary>
-        /// Get Organisation Centre by organisationCentrewiseBuildingId.
+        /// Get OrganisationCentrewiseBuildingMaster by organisationCentrewiseBuildingId.
         /// </summary>
         /// <param name="organisationCentrewiseBuildingId">organisationCentrewiseBuildingId</param>
-        /// <returns>Returns OrganisationCentreViewModel.</returns>
+        /// <returns>Returns OrganisationCentrewiseBuildingViewModel.</returns>
         OrganisationCentrewiseBuildingViewModel GetOrganisationCentrewiseBuilding(short organisationCentrewiseBuildingId);
 
         /// <summary>
-        /// Update Organisation Centre.
+        /// Update Organisation Centrewise Building Master.
         /// </summary>
-        /// <param name="organisationCentrewiseBuildingViewModel">organisationCentreViewModel.</param>
-        /// <returns>Returns updated OrganisationCentreViewModel</returns>
+        /// <param name="organisationCentrewiseBuildingViewModel">organisationCentrewiseBuildingViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseBuildingViewModel</returns>
         OrganisationCentrewiseBuildingViewModel UpdateOrganisationCentrewiseBuilding(OrganisationCentrewiseBuildingViewModel organisationCentrewiseBuildingViewModel);
 
         /// <summary>
-        /// Delete Organisation Centre.
+        /// Delete Organisation Centrewise Building Master.
         /// </summary>
         /// <param name="organisationCentrewiseBuildingId">organisationCentrewiseBuildingId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>

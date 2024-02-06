@@ -21,11 +21,9 @@
                             <td>@item.BuildName</td>
                             <td>@item.CentreCode</td>
                             <td>@item.Area</td>
-                            @* <td>
-                                @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.DefaultFlag)
-                            </td> *@
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?organisationCentreId=@item.OrganisationCentrewiseBuildingMasterId" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="../@controllerName/Edit?organisationCentrewiseBuildingMasterId=@item.OrganisationCentrewiseBuildingMasterId" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="../@controllerName/Delete?organisationCentrewiseBuildingIds=@item.OrganisationCentrewiseBuildingMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }
