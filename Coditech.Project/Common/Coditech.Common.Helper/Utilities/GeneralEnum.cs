@@ -5,6 +5,7 @@
         City,
         AccessibleCentre,
         CentrewiseDepartment,
+        CentrewiseBuilding,
         Department,
         Designation,
         Organisation,
