@@ -29,6 +29,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralTaxGroupAgent, GeneralTaxGroupAgent>();
             builder.Services.AddScoped<IOrganisationAgent, OrganisationAgent>();
             builder.Services.AddScoped<IOrganisationCentreAgent, OrganisationCentreAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewiseBuildingAgent, OrganisationCentrewiseBuildingAgent>();
             builder.Services.AddScoped<IGeneralRegionAgent, GeneralRegionAgent>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingAgent, GeneralSystemGlobleSettingAgent>();
             builder.Services.AddScoped<IEmployeeMasterAgent, EmployeeMasterAgent>();
@@ -58,6 +59,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralTaxGroupClient, GeneralTaxGroupClient>();
             builder.Services.AddScoped<IOrganisationClient, OrganisationClient>();
             builder.Services.AddScoped<IOrganisationCentreClient, OrganisationCentreClient>();
+            builder.Services.AddScoped<IOrganisationCentrewiseBuildingClient, OrganisationCentrewiseBuildingClient>();
             builder.Services.AddScoped<IGeneralRegionClient, GeneralRegionClient>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingClient, GeneralSystemGlobleSettingClient>();
             builder.Services.AddScoped<IEmployeeMasterClient, EmployeeMasterClient>();
