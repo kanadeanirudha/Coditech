@@ -43,7 +43,8 @@
             AssociateUnAssociateCentrewiseDepartment,
             GymBodyMeasurementType,
             RunningNumbers,
-            OrganisationCentrewiseBuilding
+            OrganisationCentrewiseBuilding,
+            LeadGenerationMaster
 
         }
     }

@@ -25,12 +25,13 @@
         Occupation,
         GymGroup,
         GymSource,
-        GymFollowupTypes,
         MeasurementUnit,
         Employee,
         GymPlanType,
         FinancialYear,
-        GeneralRunningNumberFor
+        GeneralRunningNumberFor,
+        GymFollowupTypes,
+        LeadStatus
     }
 
     public enum GeneralSystemGlobleSettingEnum
