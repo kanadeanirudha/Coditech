@@ -11,7 +11,7 @@ namespace Coditech.Admin.ViewModel
      
         [MaxLength(50)]
         [Display(Name = "Title")]
-        public string Title { get; set; } 
+        public string PersonTitle { get; set; } 
 
         [MaxLength(50)]
         [Required]
@@ -48,16 +48,16 @@ namespace Coditech.Admin.ViewModel
         public string MobileNumber { get; set; } 
 
         [Required]
-        [Display(Name = "Source Enum ID")]
+        [Display(Name = "Source")]
         public int LeadGenerationSourceEnumId { get; set; }  
 
         [MaxLength]
         [Required]
-        [Display(Name = "Category Enum IDs")]
+        [Display(Name = "Category")]
         public string LeadGenerationCategoryEnumIds { get; set; }  
 
         [Required]
-        [Display(Name = "Status ID")]
+        [Display(Name = "Status")]
         public int LeadGenerationStatusEnumId { get; set; }  
 
         [Required]

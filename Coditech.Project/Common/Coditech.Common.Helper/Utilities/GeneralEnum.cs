@@ -31,7 +31,8 @@
         FinancialYear,
         GeneralRunningNumberFor,
         GymFollowupTypes,
-        LeadStatus
+        LeadStatus,
+        LeadCategory
     }
 
     public enum GeneralSystemGlobleSettingEnum

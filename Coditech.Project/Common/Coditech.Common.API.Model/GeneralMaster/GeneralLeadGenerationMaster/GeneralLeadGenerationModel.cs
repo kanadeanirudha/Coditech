@@ -15,7 +15,7 @@ namespace Coditech.Common.API.Model
 
         [MaxLength(50)]
         [Required]
-        public string Title { get; set; } // nvarchar(50) 
+        public string PersonTitle { get; set; } // nvarchar(50) 
 
         [MaxLength(50)]
         [Required]
