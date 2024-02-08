@@ -4,12 +4,6 @@ namespace Coditech.Common.API.Model
 {
     public class GeneralLeadGenerationModel : BaseModel
     {
-        public GeneralLeadGenerationModel()
-        {
-
-        }
-
-        [Key]
         [Required]
         public long GeneralLeadGenerationMasterId { get; set; } // bigint
 
@@ -56,19 +50,14 @@ namespace Coditech.Common.API.Model
         [Required]
         public bool IsConverted { get; set; } // bit 
 
-        [MaxLength]
         public string Custom1 { get; set; } // nvarchar(max) 
 
-        [MaxLength]
         public string Custom2 { get; set; } // nvarchar(max) 
 
-        [MaxLength]
         public string Custom3 { get; set; } // nvarchar(max) 
 
-        [MaxLength]
         public string Custom4 { get; set; } // nvarchar(max) 
 
-        [MaxLength]
         public string Custom5 { get; set; } // nvarchar(max) 
 
         public int? CreatedBy { get; set; } // int 

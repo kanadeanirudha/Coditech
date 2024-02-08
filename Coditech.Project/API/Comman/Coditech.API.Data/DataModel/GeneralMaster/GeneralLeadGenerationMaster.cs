@@ -7,7 +7,7 @@ namespace Coditech.API.Data
 
         [Key]
         public long GeneralLeadGenerationMasterId { get; set; } 
-        public string Title { get; set; }
+        public string PersonTitle { get; set; }
         public string FirstName { get; set; } 
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -20,9 +20,6 @@ namespace Coditech.API.Data
         public string LeadGenerationCategoryEnumIds { get; set; }
         public int LeadGenerationStatusEnumId { get; set; }
         public bool IsConverted { get; set; }
-        public string LeadGenerationSource { get; set; }
-        public string LeadGenerationCategory { get; set; }
-        public string LeadGenerationStatus { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
