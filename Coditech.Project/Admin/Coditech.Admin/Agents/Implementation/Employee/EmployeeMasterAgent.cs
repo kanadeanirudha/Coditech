@@ -95,7 +95,8 @@ namespace Coditech.Admin.Agents
         public virtual EmployeeCreateEditViewModel GetEmployeePersonalDetails(long personId)
         {
             GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
-            return response?.GeneralPersonModel.ToViewModel<EmployeeCreateEditViewModel>();
+            EmployeeCreateEditViewModel employeeCreateEditViewModel = response?.GeneralPersonModel.ToViewModel<EmployeeCreateEditViewModel>();
+            return employeeCreateEditViewModel;
         }
 
         //Update Employee Personal Details
