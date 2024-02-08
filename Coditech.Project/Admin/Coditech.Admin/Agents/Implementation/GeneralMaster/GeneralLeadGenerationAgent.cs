@@ -40,7 +40,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "LeadGenerationName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GeneralLeadGenerationListResponse response = _generalLeadGenerationClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralLeadGenerationListModel LeadGenerationList = new GeneralLeadGenerationListModel { GeneralLeadGenerationList = response?.GeneralLeadGenerationList };
