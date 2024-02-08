@@ -8,7 +8,9 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -18,13 +20,15 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IGeneralLeadGenerationClient _generalLeadGenerationClient;
+        private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
-        public GeneralLeadGenerationAgent(ICoditechLogging coditechLogging, IGeneralLeadGenerationClient generalLeadGenerationClient)
+        public GeneralLeadGenerationAgent(ICoditechLogging coditechLogging, IGeneralLeadGenerationClient generalLeadGenerationClient, IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
             _generalLeadGenerationClient = GetClient<IGeneralLeadGenerationClient>(generalLeadGenerationClient);
+            _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
 
@@ -90,6 +94,16 @@ namespace Coditech.Admin.Agents
         {
             try
             {
+                if (generalLeadGenerationViewModel.IsConverted)
+                {
+                    GeneralPersonModel generalPersonModel = generalLeadGenerationViewModel.ToModel<GeneralPersonModel>();
+                    generalPersonModel.UserType = generalLeadGenerationViewModel.UserTypeCode;
+                    GeneralPersonResponse generalPersonResponse = _userClient.InsertPersonInformation(generalPersonModel);
+                    if (generalPersonResponse?.GeneralPersonModel.PersonId <= 0)
+                    {
+                        return (GeneralLeadGenerationViewModel)GetViewModelWithErrorMessage(generalLeadGenerationViewModel, GeneralResources.UpdateErrorMessage);
+                    }
+                }
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.LeadGenerationMaster.ToString(), TraceLevel.Info);
                 GeneralLeadGenerationResponse response = _generalLeadGenerationClient.UpdateLeadGeneration(generalLeadGenerationViewModel.ToModel<GeneralLeadGenerationModel>());
                 GeneralLeadGenerationModel generalLeadGenerationModel = response?.GeneralLeadGenerationModel;

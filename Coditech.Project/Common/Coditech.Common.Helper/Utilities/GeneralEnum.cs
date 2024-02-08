@@ -32,7 +32,8 @@
         GeneralRunningNumberFor,
         GymFollowupTypes,
         LeadStatus,
-        LeadCategory
+        LeadCategory,
+        UserType
     }
 
     public enum GeneralSystemGlobleSettingEnum

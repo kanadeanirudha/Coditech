@@ -29,6 +29,21 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.GeneralLeadGenerationMasterId)
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.UserTypeCode, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.UserTypeCode ?? string.Empty,
+                                   DropdownName = "UserTypeCode",
+                                   GroupCode = DropdownTypeEnum.UserType.ToString(),
+                                   IsTextValueSame = true,
+                               })    @Html.ValidationMessageFor(x => x.UserTypeCode)
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="mb-3">
@@ -88,7 +103,7 @@
                                         @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control", type = "email" })
                                         @Html.ValidationMessageFor(x => x.EmailId)
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.MobileNumber, new { @class = "form-label required" })
@@ -139,7 +154,7 @@
                                         @Html.ValidationMessageFor(x => x.LeadGenerationCategoryEnumIds)
                                     </div>
                                 </div>
-                                @if (Model.GeneralLeadGenerationMasterId > 0)
+                                @if (Model.GeneralLeadGenerationMasterId > 0 && !Model.IsConverted)
                                 {
                                     <div class="col-lg-3">
                                         <div class="mb-3">

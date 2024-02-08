@@ -18,18 +18,12 @@
                     foreach (var item in Model?.GeneralLeadGenerationList)
                     {
                         <tr>
-                            <td>@item.PersonTitle</td>
                             <td>@item.FirstName</td>
-                            <td>@item.MiddleName</td>
                             <td>@item.LastName</td>
-                            <td>@item.GenderEnumId</td>
-                            <td>@item.DateOfBirth</td>
                             <td>@item.EmailId</td>
                             <td>@item.MobileNumber</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.LeadGenerationSourceEnumId</td>
-                            <td>@item.LeadGenerationStatusEnumId</td>
-                            <td>@item.LeadGenerationCategoryEnumIds</td>
+                            <td>@item.LeadGenerationSource</td>
+                            <td>@item.LeadGenerationStatus</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsConverted)
                             </td>

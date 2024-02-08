@@ -50,6 +50,7 @@ namespace Coditech.Admin
             CreateMap<GeneralRunningNumbersListModel, GeneralRunningNumbersListViewModel>().ReverseMap();
             CreateMap<GeneralLeadGenerationModel, GeneralLeadGenerationViewModel>().ReverseMap();
             CreateMap<GeneralLeadGenerationListModel, GeneralLeadGenerationListViewModel>().ReverseMap();
+            CreateMap<GeneralLeadGenerationViewModel, GeneralPersonModel>().ReverseMap();
             #endregion
 
             #region Organisation

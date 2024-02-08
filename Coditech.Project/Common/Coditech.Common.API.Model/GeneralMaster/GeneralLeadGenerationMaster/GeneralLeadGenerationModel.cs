@@ -6,6 +6,7 @@ namespace Coditech.Common.API.Model
     {
         [Required]
         public long GeneralLeadGenerationMasterId { get; set; } // bigint
+        public string UserTypeCode { get; set; } // nvarchar(50) 
 
         [MaxLength(50)]
         [Required]
@@ -59,14 +60,7 @@ namespace Coditech.Common.API.Model
         public string Custom4 { get; set; } // nvarchar(max) 
 
         public string Custom5 { get; set; } // nvarchar(max) 
-
-        public int? CreatedBy { get; set; } // int 
-
-        public DateTime? CreatedDate { get; set; } // datetime 
-
-        public int? ModifiedBy { get; set; } // int 
-
-        public DateTime? ModifiedDate { get; set; } // datetime 
-
+        public string LeadGenerationSource { get; set; }
+        public string LeadGenerationStatus { get; set; }
     }
 }

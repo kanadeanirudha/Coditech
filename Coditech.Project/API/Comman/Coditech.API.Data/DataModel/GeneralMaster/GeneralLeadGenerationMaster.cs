@@ -7,6 +7,7 @@ namespace Coditech.API.Data
 
         [Key]
         public long GeneralLeadGenerationMasterId { get; set; } 
+        public string UserTypeCode { get; set; }
         public string PersonTitle { get; set; }
         public string FirstName { get; set; } 
         public string MiddleName { get; set; }
