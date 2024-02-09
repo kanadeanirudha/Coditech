@@ -43,7 +43,7 @@
             AssociateUnAssociateCentrewiseDepartment,
             GymBodyMeasurementType,
             RunningNumbers,
-            LeadGenerationMaster
+            LeadGenerationMaster,
             OrganisationCentrewiseBuilding,
             OrganisationCentrewiseBuildingRooms
 

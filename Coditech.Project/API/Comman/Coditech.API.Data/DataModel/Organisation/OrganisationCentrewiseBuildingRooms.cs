@@ -1,7 +1,10 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
     public partial class OrganisationCentrewiseBuildingRooms
     {
+        [Key]
         public short OrganisationCentrewiseBuildingRoomId { get; set; }
         public short OrganisationCentrewiseBuildingMasterId { get; set; }
         public int BuildFloorEnumId { get; set; }
