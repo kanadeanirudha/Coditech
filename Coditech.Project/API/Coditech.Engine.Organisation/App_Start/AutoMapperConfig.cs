@@ -36,6 +36,7 @@ namespace Coditech.API.Mapper
             CreateMap<OrganisationCentrewiseDepartment, OrganisationCentrewiseDepartmentModel>().ReverseMap();
             CreateMap<GeneralRunningNumbers, GeneralRunningNumbersModel>().ReverseMap();
             CreateMap<GeneralLeadGenerationMaster, GeneralLeadGenerationModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseBuildingRooms, OrganisationCentrewiseBuildingRoomsModel>().ReverseMap();
         }
     }
 }

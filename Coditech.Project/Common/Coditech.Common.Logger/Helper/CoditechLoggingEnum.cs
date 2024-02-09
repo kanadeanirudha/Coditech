@@ -43,8 +43,9 @@
             AssociateUnAssociateCentrewiseDepartment,
             GymBodyMeasurementType,
             RunningNumbers,
-            OrganisationCentrewiseBuilding,
             LeadGenerationMaster
+            OrganisationCentrewiseBuilding,
+            OrganisationCentrewiseBuildingRooms
 
         }
     }

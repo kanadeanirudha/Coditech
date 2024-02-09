@@ -246,6 +246,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IOrganisationCentreMasterService, OrganisationCentreMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseDepartmentService, OrganisationCentrewiseDepartmentService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
+            builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
         }
         #endregion
     }

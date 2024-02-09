@@ -42,6 +42,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGymBodyMeasurementTypeAgent, GymBodyMeasurementTypeAgent>();
             builder.Services.AddScoped<IGeneralRunningNumbersAgent, GeneralRunningNumbersAgent>();
             builder.Services.AddScoped<IGeneralLeadGenerationAgent, GeneralLeadGenerationAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsAgent, OrganisationCentrewiseBuildingRoomsAgent>();
             #endregion
 
             #region Client
@@ -74,6 +75,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGymBodyMeasurementTypeClient, GymBodyMeasurementTypeClient>();
             builder.Services.AddScoped<IGeneralRunningNumbersClient, GeneralRunningNumbersClient>();
             builder.Services.AddScoped<IGeneralLeadGenerationClient, GeneralLeadGenerationClient>();
+            builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsClient, OrganisationCentrewiseBuildingRoomsClient>();
             #endregion
         }
     }

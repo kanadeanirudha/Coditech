@@ -1,0 +1,57 @@
+﻿@model OrganisationCentrewiseBuildingRoomsListViewModel
+@{
+    ViewBag.Title = "Organisation Centrewise Building Rooms List";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()" };
+}
+<!-- Page Content-->
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="page-title">@AdminResources.LabelOrganisationCentrewiseBuildingRoomsList</h4>
+                            <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add OrganisationCentrewiseBuildingRooms</a>
+                            @* <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Dastone</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Tables</a></li>
+                            <li class="breadcrumb-item active">Datatables</li>
+                            </ol>*@
+                        </div><!--end col-->
+                        <!--end col-->
+                    </div><!--end row-->
+                </div><!--end page-title-box-->
+            </div><!--end col-->
+        </div><!--end row-->
+        <!-- end page title end breadcrumb -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label>@AdminResources.LabelCentre </label>
+                            </div>
+                            <div class="col-md-3">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                            </div>
+                            <div class="col-md-1">
+                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="CoditechCommon.GetDepartmentByCentreCode()" />
+                            </div>
+                        </div>
+                    </div><!--end card-header-->
+                    <div class="card-body">
+                        <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            @Html.Partial("~/Views/Organisation/OrganisationCentrewiseBuildingRooms/_List.cshtml", Model)
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+    </div><!-- container -->
+</div>
+<!-- end page content -->
