@@ -22,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\GeneralPerson\" />
     <Folder Include="Data\" />
+    <Folder Include="Service\GeneralPerson\" />
   </ItemGroup>
 
 </Project>
