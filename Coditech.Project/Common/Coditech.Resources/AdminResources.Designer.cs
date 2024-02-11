@@ -167,24 +167,22 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralNationalityMaster", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete organisationCentrewiseBuildingRooms due to associate record..
-        /// </summary>
-        public static string ErrorDeleteOrganisationCentrewiseBuildingRooms
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteOrganisationCentrewiseBuildingRooms", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralOccupationMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteGeneralOccupationMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete general person follow up due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralPersonFollowUp {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralPersonFollowUp", resourceCulture);
             }
         }
         
@@ -279,6 +277,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete OrganisationCentrewiseBuildingRooms due to associate record..
+        /// </summary>
+        public static string ErrorDeleteOrganisationCentrewiseBuildingRooms {
+            get {
+                return ResourceManager.GetString("ErrorDeleteOrganisationCentrewiseBuildingRooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Globle Setting due to associate record..
         /// </summary>
         public static string ErrorDeleteSystemGlobleSettingMaster {
@@ -359,17 +366,6 @@ namespace Coditech.Resources {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to OrganisationCentrewiseBuildingRooms List.
-        /// </summary>
-        public static string LabelOrganisationCentrewiseBuildingRoomsList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelOrganisationCentrewiseBuildingRoomsList", resourceCulture);
-            }
-        }
-
         /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>
@@ -488,6 +484,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Organisation Centrewise Building Rooms List.
+        /// </summary>
+        public static string LabelOrganisationCentrewiseBuildingRoomsList {
+            get {
+                return ResourceManager.GetString("LabelOrganisationCentrewiseBuildingRoomsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Organisation Centrewise Department List.
         /// </summary>
         public static string LabelOrganisationCentrewiseDepartmentList {
@@ -502,6 +507,15 @@ namespace Coditech.Resources {
         public static string LabelOrganisationList {
             get {
                 return ResourceManager.GetString("LabelOrganisationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Person Follow Up List.
+        /// </summary>
+        public static string LabelPersonFollowUpList {
+            get {
+                return ResourceManager.GetString("LabelPersonFollowUpList", resourceCulture);
             }
         }
         

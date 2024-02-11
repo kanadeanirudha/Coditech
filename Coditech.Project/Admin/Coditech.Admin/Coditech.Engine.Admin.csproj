@@ -21,14 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Agents\Implementation\GeneralPerson\" />
     <Folder Include="Agents\Implementation\Inventory\" />
-    <Folder Include="Agents\Interface\GeneralPerson\" />
     <Folder Include="Agents\Interface\Inventory\" />
     <Folder Include="Controllers\Inventory\" />
-    <Folder Include="Controllers\GeneralPerson\" />
     <Folder Include="MediaFolder\" />
-    <Folder Include="Views\GeneralPerson\" />
     <Folder Include="Views\Inventory\" />
     <Folder Include="Views\Shared\Control\" />
     <Folder Include="wwwroot\css\login\" />

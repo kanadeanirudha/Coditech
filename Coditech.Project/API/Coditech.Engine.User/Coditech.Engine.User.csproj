@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Service\GeneralPerson\**" />
+    <Content Remove="Service\GeneralPerson\**" />
+    <EmbeddedResource Remove="Service\GeneralPerson\**" />
+    <EntityDeploy Remove="Service\GeneralPerson\**" />
+    <None Remove="Service\GeneralPerson\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
@@ -22,9 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\GeneralPerson\" />
     <Folder Include="Data\" />
-    <Folder Include="Service\GeneralPerson\" />
   </ItemGroup>
 
 </Project>
