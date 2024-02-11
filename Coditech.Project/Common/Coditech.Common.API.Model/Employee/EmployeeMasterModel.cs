@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace Coditech.Common.API.Model
 {
     public class EmployeeMasterModel : BaseModel
@@ -14,6 +16,7 @@ namespace Coditech.Common.API.Model
         public string PANCardNumber { get; set; }
         public string UANNumber { get; set; }
         public string PassportNumber { get; set; }
+        [Required]
         public string AdharCardNumber { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -22,5 +25,8 @@ namespace Coditech.Common.API.Model
         public string ImagePath { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+        public string BankName { get; set; }
+        public string BankAccountNumber { get; set; }
+        public string BankIFSCCode { get; set; }
     }
 }
