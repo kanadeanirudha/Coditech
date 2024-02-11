@@ -22,6 +22,7 @@ namespace Coditech.Admin.Controllers
             {
                 list = _organisationCentrewiseBuildingRoomsAgent.GetOrganisationCentrewiseBuildingRoomsList(dataTableViewModel);
             }
+            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Organisation/OrganisationCentrewiseBuildingRooms/_List.cshtml", list);

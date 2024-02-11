@@ -3,7 +3,7 @@
     ViewBag.Title = "Organisation Centrewise Building Rooms List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingRoomsByCentreCode()" };
 }
 <!-- Page Content-->
 <div class="page-content">
@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col">
                             <h4 class="page-title">@AdminResources.LabelOrganisationCentrewiseBuildingRoomsList</h4>
-                            <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add OrganisationCentrewiseBuildingRooms</a>
+                            <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Building </a>
                             @* <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Dastone</a></li>
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Tables</a></li>
@@ -40,7 +40,7 @@
                                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
                             </div>
                             <div class="col-md-1">
-                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="CoditechCommon.GetDepartmentByCentreCode()" />
+                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingRoomsByCentreCode()" />
                             </div>
                         </div>
                     </div><!--end card-header-->
