@@ -5,7 +5,6 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using Coditech.Model;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -20,12 +19,12 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<OrganisationCentrewiseBuildingMaster> _organisationCentrewiseBuildingMasterRepository;
-        
+
         public OrganisationCentrewiseBuildingMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _organisationCentrewiseBuildingMasterRepository = new CoditechRepository<OrganisationCentrewiseBuildingMaster>(_serviceProvider.GetService<Coditech_Entities>());            
+            _organisationCentrewiseBuildingMasterRepository = new CoditechRepository<OrganisationCentrewiseBuildingMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual OrganisationCentrewiseBuildingListModel GetOrganisationCentrewiseBuildingList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -75,7 +74,7 @@ namespace Coditech.API.Service
             return organisationCentrewiseBuildingModel;
         }
 
-        //Get Organisation Centrewise Building Master by organisationCentrewiseBuildingMasterId.
+        //Get Organisation Centrewise Building Master by organisationCentrewiseBuildingId.
         public virtual OrganisationCentrewiseBuildingModel GetOrganisationCentrewiseBuilding(short organisationCentrewiseBuildingId)
         {
             if (organisationCentrewiseBuildingId <= 0)
@@ -123,8 +122,8 @@ namespace Coditech.API.Service
             int status = 0;
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteOrganisationCentrewiseBuildingMaster @OrganisationCentrewiseBuildingMasterId,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
-        }       
-       
+        }
+
 
         #region Protected Method
         //Check if Centre code is already present or not.

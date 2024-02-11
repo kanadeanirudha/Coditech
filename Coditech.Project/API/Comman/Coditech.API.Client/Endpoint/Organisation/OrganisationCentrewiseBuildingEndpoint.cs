@@ -16,13 +16,13 @@ namespace Coditech.API.Endpoint
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseBuildingMaster/CreateOrganisationCentrewiseBuilding";
 
         public string GetOrganisationAsync(short organisationCentrewiseBuildingId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseBuildingMaster/GetOrganisationCentrewisebuilding?OrganisationCentrewiseBuildingMasterId={organisationCentrewiseBuildingId}";
-       
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseBuildingMaster/GetOrganisationCentrewisebuilding?organisationCentrewiseBuildingId={organisationCentrewiseBuildingId}";
+
         public string UpdateOrganisationAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseBuildingMaster/UpdateOrganisationCentrewiseBuilding";
 
         public string DeleteOrganisationAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseBuildingMaster/DeleteOrganisationCentrewiseBuilding";
-        
+
     }
 }
