@@ -24,11 +24,13 @@ namespace Coditech.Admin.Helpers
             if (!string.IsNullOrEmpty(dropdownViewModel.GroupCode))
             {
                 List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
-                if (dropdownViewModel.IsRequired)
-                    dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
-                else
-                    dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
-
+                if (dropdownViewModel.AddSelectItem)
+                {
+                    if (dropdownViewModel.IsRequired)
+                        dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+                    else
+                        dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+                }
                 foreach (var item in generalEnumaratorList?.Where(x => x.EnumGroupCode == dropdownViewModel.GroupCode)?.OrderBy(y => y.SequenceNumber))
                 {
                     dropdownList.Add(new SelectListItem()

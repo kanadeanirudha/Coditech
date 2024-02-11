@@ -28,6 +28,26 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/Gym/GymMemberDetails/List.cshtml", list);
         }
 
+        public ActionResult ActiveMemberList(DataTableViewModel dataTableModel)
+        {
+            GymMemberDetailsListViewModel list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableModel, "Active");
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/_List.cshtml", list);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/List.cshtml", list);
+        }
+
+        public ActionResult InActiveMemberList(DataTableViewModel dataTableModel)
+        {
+            GymMemberDetailsListViewModel list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableModel, "InActive");
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/_List.cshtml", list);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/List.cshtml", list);
+        }
+
         [HttpGet]
         public ActionResult CreateMember()
         {

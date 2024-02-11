@@ -52,5 +52,7 @@ namespace Coditech.Common.API.Model
         public bool IsConverted { get; set; } 
         public string LeadGenerationSource { get; set; }
         public string LeadGenerationStatus { get; set; }
+        public string Comments { get; set; }
+        public string Location { get; set; }
     }
 }

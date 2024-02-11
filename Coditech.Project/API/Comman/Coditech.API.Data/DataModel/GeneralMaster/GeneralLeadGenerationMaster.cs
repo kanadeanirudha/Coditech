@@ -19,6 +19,8 @@ namespace Coditech.API.Data
         public string MobileNumber { get; set; }
         public int LeadGenerationSourceEnumId { get; set; }
         public string LeadGenerationCategoryEnumIds { get; set; }
+        public string Comments { get; set; }
+        public string Location { get; set; }
         public int LeadGenerationStatusEnumId { get; set; }
         public bool IsConverted { get; set; }
         public Nullable<int> CreatedBy { get; set; }

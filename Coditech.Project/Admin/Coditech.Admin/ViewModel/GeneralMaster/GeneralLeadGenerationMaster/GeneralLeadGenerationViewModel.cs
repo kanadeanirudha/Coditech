@@ -90,5 +90,11 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Lead Generation Status")]
         public string LeadGenerationStatus { get; set; }
+
+        [Display(Name = "Comments")]
+        public string Comments { get; set; }
+
+        [Display(Name = "Location")]
+        public string Location { get; set; }
     }
 }

@@ -50,10 +50,10 @@ namespace Coditech.API.Service
             if (IsNull(gymMembershipPlanModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            GymMembershipPlan generalCountryMaster = gymMembershipPlanModel.FromModelToEntity<GymMembershipPlan>();
+            GymMembershipPlan gymMembershipPlan = gymMembershipPlanModel.FromModelToEntity<GymMembershipPlan>();
 
             //Create new Country and return it.
-            GymMembershipPlan gymMembershipPlanData = _gymMembershipPlanRepository.Insert(generalCountryMaster);
+            GymMembershipPlan gymMembershipPlanData = _gymMembershipPlanRepository.Insert(gymMembershipPlan);
             if (gymMembershipPlanData?.GymMembershipPlanId > 0)
             {
                 gymMembershipPlanModel.GymMembershipPlanId = gymMembershipPlanData.GymMembershipPlanId;
@@ -69,7 +69,7 @@ namespace Coditech.API.Service
         //Get Gym Membership Plan
         public virtual GymMembershipPlanModel GetGymMembershipPlan(int gymMembershipPlanId)
         {
-            if (gymMembershipPlanId <= 100)
+            if (gymMembershipPlanId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymMembershipPlanId"));
 
             GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.Table.FirstOrDefault(x => x.GymMembershipPlanId == gymMembershipPlanId);

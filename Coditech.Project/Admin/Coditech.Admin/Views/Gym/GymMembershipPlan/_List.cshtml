@@ -20,12 +20,10 @@
                         <tr>
                             <td>@item.MembershipPlanName</td>
                             <td>@item.PlanType</td>
+                            <td>@item.PlanDurationInMonth Month & @item.PlanDurationInDays Days</td>
+                            <td>@item.PlanDurationInSession Session</td>
                             <td>@item.MaxCost</td>
                             <td>@item.MinCost</td>
-                            <td>@item.PlanDurationInMonth</td>
-                            <td>@item.PlanDurationInDays</td>
-                            <td>@item.PlanDurationInSession</td>
-                            <td>@item.IsRenewable	</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
                             </td>

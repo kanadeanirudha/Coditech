@@ -33,13 +33,20 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual GymMemberDetailsListViewModel GetGymMemberDetailsList(DataTableViewModel dataTableModel)
+        public virtual GymMemberDetailsListViewModel GetGymMemberDetailsList(DataTableViewModel dataTableModel, string listType = null)
         {
-            FilterCollection filters = null;
+            FilterCollection filters = new FilterCollection();
+            if (listType == "Active") {
+                filters.Add("IsActive", ProcedureFilterOperators.Equals, "1");
+            }
+            else if (listType == "InActive")
+            {
+                filters.Add("IsActive", ProcedureFilterOperators.Equals, "0");
+            }
+
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
                 filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);

@@ -157,21 +157,10 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Plan Type",
                 ColumnCode = "PlanType",
             });
+           
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Max Cost",
-                ColumnCode = "MaxCost",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Min Cost",
-                ColumnCode = "MinCost",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Duration In Month",
+                ColumnName = "Duration In Month & Days",
                 ColumnCode = "PlanDurationInMonth",
                 IsSortable = true,
             });
@@ -183,8 +172,14 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Renewable",
-                ColumnCode = "IsRenewable",
+                ColumnName = "Max Cost",
+                ColumnCode = "MaxCost",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Min Cost",
+                ColumnCode = "MinCost",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
