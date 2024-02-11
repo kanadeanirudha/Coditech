@@ -41,8 +41,8 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("PersonId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FollowTakenId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FollowTakenFor", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);

@@ -47,7 +47,7 @@
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.PersonTitle, new { @class = "form-label" })
+                                        @Html.LabelFor(x => x.PersonTitle, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
                                    DropdownSelectedValue = Model.PersonTitle ?? string.Empty,
