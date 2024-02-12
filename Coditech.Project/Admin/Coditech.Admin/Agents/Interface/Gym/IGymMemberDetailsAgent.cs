@@ -12,7 +12,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>GymMemberDetailsListViewModel</returns>
-        GymMemberDetailsListViewModel GetGymMemberDetailsList(DataTableViewModel dataTableModel);
+        GymMemberDetailsListViewModel GetGymMemberDetailsList(DataTableViewModel dataTableModel, string listType = null);
 
         /// <summary>
         /// Create MemberDetails.
@@ -35,7 +35,7 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns updated GymCreateEditMemberViewModel</returns>
         GymCreateEditMemberViewModel UpdateMemberPersonalDetails(GymCreateEditMemberViewModel gymCreateEditMemberViewModel);
 
-         /// <summary>
+        /// <summary>
         /// Get MemberOtherDetails by gymMemberDetailId.
         /// </summary>
         /// <param name="gymMemberDetailId">gymMemberDetailId</param>

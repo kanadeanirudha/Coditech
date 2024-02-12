@@ -23,11 +23,15 @@ namespace Coditech.Admin.ViewModel
         public long ReportingEmployeeId { get; set; }
         public string PANCardNumber { get; set; }
         public string UANNumber { get; set; }
-        public string PassportNumber { get; set; }        
+        public string PassportNumber { get; set; }
+        [Required]
         public string AdharCardNumber { get; set; }
         public string ImagePath { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public string Gender { get; set; }
+        public string BankName { get; set; }
+        public string BankAccountNumber { get; set; }
+        public string BankIFSCCode { get; set; }
     }
 }

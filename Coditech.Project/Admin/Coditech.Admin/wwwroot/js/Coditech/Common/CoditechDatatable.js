@@ -17,20 +17,18 @@
         CallListPage(controllerName, methodName, dataTableModel);
     },
 
-    LoadListPrevious: function (controllerName, methodName) {
-        var PageIndex = $('#DataTables_PageIndexId').val() == "1" ? 1 : dataTableModel.PageIndex = parseInt($('#DataTables_PageIndexId').val()) - 1;
-        var dataTableModel = BindDataTableModel(PageIndex);
-        CallListPage(controllerName, methodName, dataTableModel);
-    },
-    // LoadList method is used to load List page
     LoadListLast: function (controllerName, methodName, pageSize) {
         var dataTableModel = BindDataTableModel(pageSize);
         CallListPage(controllerName, methodName, dataTableModel);
     },
 
-    LoadListNext: function (controllerName, methodName) {
-        var PageIndex = parseInt($('#DataTables_PageIndexId').val()) + 1;
-        var dataTableModel = BindDataTableModel(PageIndex);
+    LoadListPrevious: function (controllerName, methodName, pageIndex) {
+        var dataTableModel = BindDataTableModel(pageIndex);
+        CallListPage(controllerName, methodName, dataTableModel);
+    },
+    
+    LoadListNext: function (controllerName, methodName, pageIndex) {
+        var dataTableModel = BindDataTableModel(pageIndex);
         CallListPage(controllerName, methodName, dataTableModel);
     },
 

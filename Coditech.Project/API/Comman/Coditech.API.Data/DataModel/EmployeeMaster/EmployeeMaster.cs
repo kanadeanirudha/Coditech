@@ -18,6 +18,9 @@ namespace Coditech.API.Data
         public string UANNumber { get; set; }
         public string PassportNumber { get; set; }
         public string AdharCardNumber { get; set; }
+        public string BankName { get; set; }
+        public string BankAccountNumber { get; set; }
+        public string BankIFSCCode { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }

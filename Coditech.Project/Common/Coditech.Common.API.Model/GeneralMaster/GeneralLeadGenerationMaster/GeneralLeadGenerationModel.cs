@@ -46,21 +46,13 @@ namespace Coditech.Common.API.Model
         public string LeadGenerationCategoryEnumIds { get; set; } // varchar(MAX) 
 
         [Required]
-        public int LeadGenerationStatusEnumId { get; set; } // int 
+        public int LeadGenerationStatusEnumId { get; set; }
 
         [Required]
-        public bool IsConverted { get; set; } // bit 
-
-        public string Custom1 { get; set; } // nvarchar(max) 
-
-        public string Custom2 { get; set; } // nvarchar(max) 
-
-        public string Custom3 { get; set; } // nvarchar(max) 
-
-        public string Custom4 { get; set; } // nvarchar(max) 
-
-        public string Custom5 { get; set; } // nvarchar(max) 
+        public bool IsConverted { get; set; } 
         public string LeadGenerationSource { get; set; }
         public string LeadGenerationStatus { get; set; }
+        public string Comments { get; set; }
+        public string Location { get; set; }
     }
 }

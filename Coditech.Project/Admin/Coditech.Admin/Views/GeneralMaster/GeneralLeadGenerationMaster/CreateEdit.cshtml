@@ -90,13 +90,13 @@
                                })   @Html.ValidationMessageFor(x => x.GenderEnumId)
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                @* <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.DateOfBirth, new { @class = "form-label" })
                                         @Html.TextBoxFor(x => x.DateOfBirth, new { @class = "form-control", @id = "DateOfBirth" })
                                         @Html.ValidationMessageFor(x => x.DateOfBirth, null, new { id = "errorDateOfBirth" })
                                     </div>
-                                </div>
+                                </div> *@
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.EmailId, new { @class = "form-label" })
@@ -154,6 +154,21 @@
                                         @Html.ValidationMessageFor(x => x.LeadGenerationCategoryEnumIds)
                                     </div>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.Location, new { @class = "form-label" })
+                                        @Html.TextAreaFor(x => x.PhoneNumber, new { @class = "form-control", type = "tel" })
+                                        @Html.ValidationMessageFor(x => x.PhoneNumber)
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.Comments, new { @class = "form-label" })
+                                        @Html.TextAreaFor(x => x.Comments, new { @class = "form-control", type = "tel" })
+                                        @Html.ValidationMessageFor(x => x.Comments)
+                                    </div>
+                                </div>
+                              
                                 @if (Model.GeneralLeadGenerationMasterId > 0 && !Model.IsConverted)
                                 {
                                     <div class="col-lg-3">

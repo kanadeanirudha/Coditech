@@ -47,7 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.GymManageme
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.MediaManager", "API\Coditech.Engine.MediaManager\Coditech.Engine.MediaManager.csproj", "{40A85D54-D60A-4DC3-8D0F-A41C04E4B229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Engine.HospitalManagementSystem", "API\Coditech.Engine.HospitalManagementSystem\Coditech.Engine.HospitalManagementSystem.csproj", "{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.HospitalManagementSystem", "API\Coditech.Engine.HospitalManagementSystem\Coditech.Engine.HospitalManagementSystem.csproj", "{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Engine.SalesAndPurchase", "API\Coditech.Engine.SalesAndPurchase\Coditech.Engine.SalesAndPurchase.csproj", "{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
