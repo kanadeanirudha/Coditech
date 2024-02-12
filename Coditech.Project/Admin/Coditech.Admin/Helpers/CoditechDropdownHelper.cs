@@ -387,6 +387,23 @@ namespace Coditech.Admin.Helpers
                     Selected = "2023" == dropdownViewModel.DropdownSelectedValue
                 });
             }
+
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuilding.ToString()))
+            {
+                OrganisationCentrewiseBuildingListResponse response = new OrganisationCentrewiseBuildingClient().List(null, null, null, 1, int.MaxValue);
+                OrganisationCentrewiseBuildingListModel list = new OrganisationCentrewiseBuildingListModel() { OrganisationCentrewiseBuildingList = response.OrganisationCentrewiseBuildingList };
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Building-------" });
+                foreach (var item in list?.OrganisationCentrewiseBuildingList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.BuildName,
+                        Value = item.OrganisationCentrewiseBuildingMasterId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationCentrewiseBuildingMasterId)
+                    });
+                }
+            }
+
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }

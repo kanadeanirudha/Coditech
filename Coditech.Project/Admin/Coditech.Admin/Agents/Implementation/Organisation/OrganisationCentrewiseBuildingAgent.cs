@@ -40,11 +40,11 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("BuildName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("CentreCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Area", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreCode" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "BuildName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             OrganisationCentrewiseBuildingListResponse response = _organisationCentrewiseBuildingClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentrewiseBuildingListModel organisationCentrewiseBuildingList = new OrganisationCentrewiseBuildingListModel { OrganisationCentrewiseBuildingList = response?.OrganisationCentrewiseBuildingList };
@@ -152,14 +152,9 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Centre Code",
-                ColumnCode = "CentreCode",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Area",
+                ColumnName = "Area sq.ft",
                 ColumnCode = "Area",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

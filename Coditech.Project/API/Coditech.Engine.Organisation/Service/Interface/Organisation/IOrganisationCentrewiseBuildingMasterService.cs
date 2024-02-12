@@ -9,10 +9,10 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
     {
         OrganisationCentrewiseBuildingListModel GetOrganisationCentrewiseBuildingList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         OrganisationCentrewiseBuildingModel CreateOrganisationCentrewiseBuilding(OrganisationCentrewiseBuildingModel model);
-        OrganisationCentrewiseBuildingModel GetOrganisationCentrewiseBuilding(short organisationCentrewiseBuildingMasterId);
+        OrganisationCentrewiseBuildingModel GetOrganisationCentrewiseBuilding(short organisationCentrewiseBuildingId);
         bool UpdateOrganisationCentrewiseBuilding(OrganisationCentrewiseBuildingModel model);
         bool DeleteOrganisationCentrewiseBuilding(ParameterModel parameterModel);
-        
+
     }
 }
 

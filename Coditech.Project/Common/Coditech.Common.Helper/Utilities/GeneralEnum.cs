@@ -33,7 +33,8 @@
         GymFollowupTypes,
         LeadStatus,
         LeadCategory,
-        UserType
+        UserType,
+        Floors
     }
 
     public enum GeneralSystemGlobleSettingEnum

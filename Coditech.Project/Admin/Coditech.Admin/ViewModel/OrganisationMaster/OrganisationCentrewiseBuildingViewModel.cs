@@ -18,6 +18,7 @@ namespace Coditech.Admin.ViewModel
         public string BuildName { get; set; }
 
         [Required]
+        [Display(Name = "Area sq.ft")]
         public short Area { get; set; }        
     }
 }

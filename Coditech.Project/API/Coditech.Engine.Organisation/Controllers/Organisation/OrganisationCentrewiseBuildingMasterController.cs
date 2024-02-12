@@ -72,11 +72,11 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentrewiseBuildingMaster/GetOrganisationCentrewiseBuilding")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseBuildingResponse))]
-        public virtual IActionResult GetOrganisationCentre(short organisationCentrewiseBuildingMasterId)
+        public virtual IActionResult GetOrganisationCentrewiseBuilding(short organisationCentrewiseBuildingId)
         {
             try
             {
-                OrganisationCentrewiseBuildingModel organisationCentrewiseBuildingModel = _organisationCentrewiseBuildingMasterService.GetOrganisationCentrewiseBuilding(organisationCentrewiseBuildingMasterId);
+                OrganisationCentrewiseBuildingModel organisationCentrewiseBuildingModel = _organisationCentrewiseBuildingMasterService.GetOrganisationCentrewiseBuilding(organisationCentrewiseBuildingId);
                 return IsNotNull(organisationCentrewiseBuildingModel) ? CreateOKResponse(new OrganisationCentrewiseBuildingResponse() { OrganisationCentrewiseBuildingModel = organisationCentrewiseBuildingModel }) : NotFound();
             }
             catch (CoditechException ex)

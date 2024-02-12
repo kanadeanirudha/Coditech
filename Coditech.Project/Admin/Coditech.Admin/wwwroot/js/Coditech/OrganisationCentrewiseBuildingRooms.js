@@ -1,18 +1,18 @@
-﻿var GeneralRunningNumbers = {
+﻿var OrganisationCentrewiseBuildingRooms = {
     Initialize: function () {
-        GeneralRunningNumbers.constructor();
+        OrganisationCentrewiseBuildingRooms.constructor();
     },
 
     constructor: function () {
     },
 
-    GetGeneralRunningNumbersByCentreCode: function () {
+    GetOrganisationCentrewiseBuildingRoomsByCentreCode: function () {
         $('#DataTables_SearchById').val("")
         if ($("#SelectedCentreCode").val() == "") {
             CoditechNotification.DisplayNotificationMessage("Please select centre.", "error");
         }
         else {
-            CoditechDataTable.LoadList("GeneralRunningNumbers", "List");
+            CoditechDataTable.LoadList("OrganisationCentrewiseBuildingRooms", "List");
         }
     },
 }

@@ -40,7 +40,7 @@ namespace Coditech.Admin.Agents
             }
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "RoomName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "Area" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             OrganisationCentrewiseBuildingRoomsListResponse response = _organisationCentrewiseBuildingRoomsClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentrewiseBuildingRoomsListModel organisationCentrewiseBuildingRoomsList = new OrganisationCentrewiseBuildingRoomsListModel { OrganisationCentrewiseBuildingRoomsList = response?.OrganisationCentrewiseBuildingRoomsList };
@@ -142,13 +142,13 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Organisation Centrewise Building",
+                ColumnName = "Building",
                 ColumnCode = "OrganisationCentrewiseBuildingMasterId",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Build Floor Enum",
+                ColumnName = "Floor",
                 ColumnCode = "BuildFloorEnumId",
                 IsSortable = true,
             });
@@ -160,7 +160,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Area",
+                ColumnName = "Area sq.ft",
                 ColumnCode = "Area",
                 IsSortable = true,
             });
