@@ -41,9 +41,11 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.City.ToString()))
             {
-                GeneralCityListResponse response = new GeneralCityClient().List(null, null, null, 1, int.MaxValue);
+                //GeneralCityListResponse response = new GeneralCityClient().List(null, null, null, 1, int.MaxValue);
+                GeneralCityListResponse response = new GeneralCityClient().GetCityByRegionWise(Convert.ToInt16(dropdownViewModel.Parameter));
+
                 dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
-                GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response.GeneralCityList };
+                GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response?.GeneralCityList };
                 foreach (var item in list.GeneralCityList)
                 {
                     dropdownList.Add(new SelectListItem()

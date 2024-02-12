@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
 {
-    public class GeneralPersonAddressViewModel: BaseViewModel
+    public class GeneralPersonAddressViewModel : BaseViewModel
     {
         public long GeneralPersonAddressId { get; set; }
         public string AddressTypeEnum { get; set; }
@@ -22,22 +22,31 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
         [MaxLength(200)]
         [Required]
         [Display(Name = "Address1")]
         public string AddressLine1 { get; set; }
+
         [MaxLength(200)]
         [Display(Name = "Address2")]
         public string AddressLine2 { get; set; }
+
         [MaxLength(100)]
         [Display(Name ="Company Name")]
         public string CompanyName { get; set; }
+
+        [Display(Name = "Country")]
+        [Required]
+        public short GeneralCountryMasterId { get; set; }
+
+        [Display(Name = "Region")]
         [Required]
         public short GeneralRegionMasterId { get; set; }
+        [Display(Name = "City")]
         [Required]
         public int GeneralCityMasterId { get; set; }
         [MaxLength(10)]
-        [Required]
         public string Postalcode { get; set; }
         [MaxLength(50)]
         [Display(Name = "Telephone Number")]
@@ -52,6 +61,8 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Email Id")]
         public string EmailAddress { get; set; }
         public bool IsActive { get; set; }
+        [Display(Name ="Same as Permanent Address")]
+        public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }
         public bool IsDefault { get; set; }
     }
 }
