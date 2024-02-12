@@ -156,6 +156,9 @@
   <data name="ErrorDeleteGeneralOccupationMaster" xml:space="preserve">
     <value>Failed to delete Occupation due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralPersonFollowUp" xml:space="preserve">
+    <value>Failed to delete general person follow up due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralRegionMaster" xml:space="preserve">
     <value>Failed to delete region due to associate record.</value>
   </data>
@@ -185,6 +188,9 @@
   </data>
   <data name="ErrorDeleteOrganisationCentrewiseBuildingMaster" xml:space="preserve">
     <value>Failed to delete Organisation Centrewise Building due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteOrganisationCentrewiseBuildingRooms" xml:space="preserve">
+    <value>Failed to delete OrganisationCentrewiseBuildingRooms due to associate record.</value>
   </data>
   <data name="ErrorDeleteSystemGlobleSettingMaster" xml:space="preserve">
     <value>Failed to delete Globle Setting due to associate record.</value>
@@ -252,11 +258,17 @@
   <data name="LabelOrganisationCentrewiseBuildingList" xml:space="preserve">
     <value>Organisation Centrewise Building List</value>
   </data>
+  <data name="LabelOrganisationCentrewiseBuildingRoomsList" xml:space="preserve">
+    <value>Organisation Centrewise Building Rooms List</value>
+  </data>
   <data name="LabelOrganisationCentrewiseDepartmentList" xml:space="preserve">
     <value>Organisation Centrewise Department List</value>
   </data>
   <data name="LabelOrganisationList" xml:space="preserve">
     <value>Organisation List</value>
+  </data>
+  <data name="LabelPersonFollowUpList" xml:space="preserve">
+    <value>Person Follow Up List</value>
   </data>
   <data name="LabelRegionList" xml:space="preserve">
     <value>Region List</value>

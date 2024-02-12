@@ -78,6 +78,10 @@ namespace Coditech.API.Data
         public DbSet<MediaTypeExtensionMaster> MediaTypeExtensionMaster { get; set; }
         public DbSet<MediaTypeMaster> MediaTypeMaster { get; set; }
         #endregion
+
+        #region GeneralPerson
+        public DbSet<GeneralPersonFollowUp> GeneralPersonFollowUp { get; set; }
+        #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }

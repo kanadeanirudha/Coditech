@@ -43,6 +43,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralRunningNumbersAgent, GeneralRunningNumbersAgent>();
             builder.Services.AddScoped<IGeneralLeadGenerationAgent, GeneralLeadGenerationAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsAgent, OrganisationCentrewiseBuildingRoomsAgent>();
+            builder.Services.AddScoped<IGeneralPersonFollowUpAgent, GeneralPersonFollowUpAgent>();
             #endregion
 
             #region Client
@@ -76,6 +77,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralRunningNumbersClient, GeneralRunningNumbersClient>();
             builder.Services.AddScoped<IGeneralLeadGenerationClient, GeneralLeadGenerationClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsClient, OrganisationCentrewiseBuildingRoomsClient>();
+            builder.Services.AddScoped<IGeneralPersonFollowUpClient, GeneralPersonFollowUpClient>();
             #endregion
         }
     }

@@ -2,6 +2,7 @@
 
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.GeneralPerson.GeneralPersonFollowUp;
 using Coditech.Model;
 
 namespace Coditech.Admin
@@ -85,7 +86,12 @@ namespace Coditech.Admin
             CreateMap<EmployeeCreateEditViewModel, EmployeeMasterModel>().ReverseMap();
             #endregion
 
-          
+            #region Person
+            CreateMap<GeneralPersonFollowUpListViewModel, GeneralPersonFollowUpListModel>().ReverseMap();
+            CreateMap<GeneralPersonFollowUpViewModel, GeneralPersonFollowUpModel>().ReverseMap();
+            #endregion
+
+
         }
     }
 }

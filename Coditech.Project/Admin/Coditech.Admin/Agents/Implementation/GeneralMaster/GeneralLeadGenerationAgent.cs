@@ -170,26 +170,29 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Email",
                 ColumnCode = "EmailId",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Mobile Number",
                 ColumnCode = "MobileNumber",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Lead Generation Source",
-                ColumnCode = "LeadGenerationSource",
+                ColumnCode = "LeadGenerationSourceEnumId",
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Lead Generation Status",
-                ColumnCode = "LeadGenerationStatus",
+                ColumnCode = "LeadGenerationStatusEnumId",
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Converted",
                 ColumnCode = "IsConverted",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

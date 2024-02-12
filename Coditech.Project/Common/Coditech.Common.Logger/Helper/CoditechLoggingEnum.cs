@@ -45,7 +45,8 @@
             RunningNumbers,
             LeadGenerationMaster,
             OrganisationCentrewiseBuilding,
-            OrganisationCentrewiseBuildingRooms
+            OrganisationCentrewiseBuildingRooms,
+            PersonFollowUp
 
         }
     }
