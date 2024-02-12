@@ -52,7 +52,7 @@ namespace Coditech.Admin.Helpers
                 }
                 GeneralCityListResponse response = new GeneralCityClient().List(null, filters, null, 1, int.MaxValue);
                 dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
-                GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response.GeneralCityList };
+                GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response?.GeneralCityList };
                 foreach (var item in list.GeneralCityList)
                 {
                     dropdownList.Add(new SelectListItem()

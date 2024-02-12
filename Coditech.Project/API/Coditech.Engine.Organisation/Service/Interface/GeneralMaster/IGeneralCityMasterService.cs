@@ -12,5 +12,7 @@ namespace Coditech.API.Service
         GeneralCityModel GetCity(int generalCityMasterId);
         bool UpdateCity(GeneralCityModel model);
         bool DeleteCity(ParameterModel parameterModel);
+        GeneralCityListModel GetCityByRegionWise(int generalRegionMasterId);
+
     }
 }

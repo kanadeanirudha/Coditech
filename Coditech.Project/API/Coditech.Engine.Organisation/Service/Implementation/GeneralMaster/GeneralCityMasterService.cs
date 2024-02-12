@@ -122,6 +122,21 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        //Get city list.
+        public virtual GeneralCityListModel GetCityByRegionWise(int generalRegionMasterId)
+        {
+            GeneralCityListModel list = new GeneralCityListModel();
+            list.GeneralCityList = (from a in _generalCityMasterRepository.Table
+                                      where (a.GeneralRegionMasterId == generalRegionMasterId)
+                                      select new GeneralCityModel()
+                                      {
+                                          GeneralCityMasterId = a.GeneralCityMasterId,
+                                          CityName = a.CityName
+                                          //ShortName = a.ShortName,
+                                      })?.ToList();
+            return list;
+        }
+
         #region Protected Method
         //Check if City code is already present or not.
         protected virtual bool IsCityNameAlreadyExist(string cityName, int generalCityMasterId = 0)

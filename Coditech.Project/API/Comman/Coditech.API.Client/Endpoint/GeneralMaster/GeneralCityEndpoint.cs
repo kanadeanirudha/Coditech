@@ -22,5 +22,11 @@ namespace Coditech.API.Endpoint
 
         public string DeleteCityAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCityMaster/DeleteCity";
+
+        public string GetCityByRegionWise(Int16 generalRegionMasterId)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCityMaster/GetCityByRegionWise?generalRegionMasterId={generalRegionMasterId}";
+            return endpoint;
+        }
     }
 }

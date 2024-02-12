@@ -136,5 +136,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/GeneralCityMaster/GetCityByRegionWise")]
+        [HttpGet]
+        [Produces(typeof(GeneralCityResponse))]
+        public virtual IActionResult GetCityByRegionWise(int generalRegionMasterId)
+        {
+            try
+            {
+                GeneralCityListModel list = _generalCityMasterService.GetCityByRegionWise(generalRegionMasterId);
+                return IsNotNull(list) ? CreateOKResponse(new GeneralCityListResponse { GeneralCityList = list.GeneralCityList }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Region.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralCityListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Region.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralCityListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

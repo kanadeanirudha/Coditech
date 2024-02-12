@@ -19,5 +19,6 @@
         public string EmailAddress { get; set; }
         public bool IsActive { get; set; }
         public bool IsDefault { get; set; }        
+        public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }        
     }
 }
