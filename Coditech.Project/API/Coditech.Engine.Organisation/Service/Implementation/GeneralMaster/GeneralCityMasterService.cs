@@ -8,6 +8,7 @@ using Coditech.Resources;
 
 using System.Collections.Specialized;
 using System.Data;
+using System.Drawing;
 
 using static Coditech.Common.Helper.HelperUtility;
 
@@ -125,14 +126,16 @@ namespace Coditech.API.Service
         //Get city list.
         public virtual GeneralCityListModel GetCityByRegionWise(int generalRegionMasterId)
         {
+            string regionName = _generalRegionMasterRepository.Table.FirstOrDefault(x => x.GeneralRegionMasterId == generalRegionMasterId)?.RegionName;
+
             GeneralCityListModel list = new GeneralCityListModel();
             list.GeneralCityList = (from a in _generalCityMasterRepository.Table
                                       where (a.GeneralRegionMasterId == generalRegionMasterId)
                                       select new GeneralCityModel()
                                       {
                                           GeneralCityMasterId = a.GeneralCityMasterId,
-                                          CityName = a.CityName
-                                          //ShortName = a.ShortName,
+                                          CityName = a.CityName,
+                                          RegionName = regionName,
                                       })?.ToList();
             return list;
         }

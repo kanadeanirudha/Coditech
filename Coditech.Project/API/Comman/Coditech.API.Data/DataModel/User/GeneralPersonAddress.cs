@@ -14,6 +14,7 @@ namespace Coditech.API.Data
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string CompanyName { get; set; }
+        public short GeneralCountryMasterId { get; set; }
         public short GeneralRegionMasterId { get; set; }
         public int GeneralCityMasterId { get; set; }
         public string Postalcode { get; set; }

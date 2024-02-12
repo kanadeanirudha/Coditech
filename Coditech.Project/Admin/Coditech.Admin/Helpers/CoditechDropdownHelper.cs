@@ -44,13 +44,9 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.City.ToString()))
             {
                 short regionId = Convert.ToInt16(dropdownViewModel.Parameter);
-                FilterCollection filters = null;
-                if (regionId > 0)
-                {
-                    filters = new FilterCollection();
-                    filters.Add("GeneralRegionMasterId", ProcedureFilterOperators.Like, regionId.ToString());
-                }
-                GeneralCityListResponse response = new GeneralCityClient().List(null, filters, null, 1, int.MaxValue);
+                //GeneralCityListResponse response = new GeneralCityClient().List(null, null, null, 1, int.MaxValue);
+                GeneralCityListResponse response = new GeneralCityClient().GetCityByRegionWise(Convert.ToInt16(dropdownViewModel.Parameter));
+
                 dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
                 GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response?.GeneralCityList };
                 foreach (var item in list.GeneralCityList)
