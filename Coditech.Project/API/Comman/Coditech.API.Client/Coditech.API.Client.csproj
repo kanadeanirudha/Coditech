@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Client\Implementation\Inventory\" />
     <Folder Include="Client\Interface\Inventory\" />
-    <Folder Include="Endpoint\Gym\" />
     <Folder Include="Endpoint\Employee\" />
     <Folder Include="Endpoint\Inventory\" />
   </ItemGroup>

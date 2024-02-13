@@ -46,8 +46,8 @@
             LeadGenerationMaster,
             OrganisationCentrewiseBuilding,
             OrganisationCentrewiseBuildingRooms,
-            PersonFollowUp
-
+            PersonFollowUp,
+            MemberBodyMeasurement
         }
     }
 }
