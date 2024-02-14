@@ -77,7 +77,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteAdminSanctionPost", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Employee due to associate record..
+        /// </summary>
+        public static string ErrorDeleteEmployeeMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteEmployeeMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Employee due to associate record..
         /// </summary>

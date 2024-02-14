@@ -4,9 +4,7 @@ using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses.EmployeeMaster;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
-
 using Newtonsoft.Json;
-
 using System.Net;
 
 namespace Coditech.API.Client
