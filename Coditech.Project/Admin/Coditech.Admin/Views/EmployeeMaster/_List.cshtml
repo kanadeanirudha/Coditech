@@ -18,13 +18,12 @@
                     foreach (var item in Model?.EmployeeMasterList)
                     {
                         <tr>
-                            @* <td style="text-align: center; width: 0px"><img src="@item.ImagePath" class="rounded-circle thumb-xs me-1" /></td> *@
-                            <td>@item.EmployeeId</td>
-                            <td>@item.PersonId</td>
-                            <td>@item.PersonCode</td>
-                            <td>@item.UserType</td>
-                            <td>@item.CentreCode</td>
-                            <td>@item.IsActive</td>                            
+                            <td style="text-align: center; width: 0px"><img src="@item.ImagePath" class="rounded-circle thumb-xs me-1" /></td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Gender</td>
+                            <td>@item.MobileNumber</td>
+                            <td>@item.EmailId</td>
                             @* <td>
                     @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.DefaultFlag)
                     </td> *@

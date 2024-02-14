@@ -184,13 +184,13 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Employee Id",
-                ColumnCode = "EmployeeId",
+                ColumnName = "Image",
+                ColumnCode = "Image",
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Person Id",
-                ColumnCode = "PersonId",
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -201,12 +201,23 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Person Code",
-                ColumnCode = "PersonCode",
+                ColumnName = "Gender",
+                ColumnCode = "Gender",
                 IsSortable = true,
             });
-            
-            return datatableColumnList;
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Contact",
+                ColumnCode = "MobileNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Email Id",
+                ColumnCode = "EmailId",
+                IsSortable = true,
+            });
+            return datatableColumnList;           
         }
 
     }

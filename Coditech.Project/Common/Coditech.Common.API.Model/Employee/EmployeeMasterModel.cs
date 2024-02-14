@@ -12,7 +12,7 @@ namespace Coditech.Common.API.Model
         public string CentreCode { get; set; }
         public short GeneralDepartmentMasterId { get; set; }
         public int EmployeeDesignationMasterId { get; set; }
-        //public int OrganisationCentrewiseDepartmentId { get; set; }
+        public int OrganisationCentrewiseDepartmentId { get; set; }
         public bool IsEmployeeSmoker { get; set; }
         public long ReportingEmployeeId { get; set; }
         public string PANCardNumber { get; set; }
@@ -20,15 +20,16 @@ namespace Coditech.Common.API.Model
         public string PassportNumber { get; set; }
         [Required]
         public string AdharCardNumber { get; set; }
-        //public string FirstName { get; set; }
-        //public string MiddleName { get; set; }
-        //public string LastName { get; set; }
-        //public string DateOfBirth { get; set; }
-        //public string ImagePath { get; set; }
-        //public string MobileNumber { get; set; }
-        //public string EmailId { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string DateOfBirth { get; set; }
+        public string ImagePath { get; set; }
+        public string MobileNumber { get; set; }
+        public string EmailId { get; set; }
         public string BankName { get; set; }
         public string BankAccountNumber { get; set; }
         public string BankIFSCCode { get; set; }
+        public bool IsActive { get; set; }
     }
 }
