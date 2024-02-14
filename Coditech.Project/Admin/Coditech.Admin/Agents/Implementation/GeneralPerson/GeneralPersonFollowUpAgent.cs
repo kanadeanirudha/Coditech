@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
-using Coditech.Common.API.Model.GeneralPerson.GeneralPersonFollowUp;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;

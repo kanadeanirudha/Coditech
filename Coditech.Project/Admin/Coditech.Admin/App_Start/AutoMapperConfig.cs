@@ -2,7 +2,6 @@
 
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
-using Coditech.Common.API.Model.GeneralPerson.GeneralPersonFollowUp;
 using Coditech.Model;
 
 namespace Coditech.Admin

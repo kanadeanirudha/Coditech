@@ -1,6 +1,4 @@
-﻿using Coditech.Common.API.Model.GeneralPerson.GeneralPersonFollowUp;
-
-namespace Coditech.Common.API.Model.Responses.GeneralPerson.GeneralPersonFollowUp
+﻿namespace Coditech.Common.API.Model.Response
 {
     public class GeneralPersonFollowUpResponse : BaseResponse
     {

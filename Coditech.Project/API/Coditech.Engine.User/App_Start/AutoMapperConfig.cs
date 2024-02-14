@@ -2,7 +2,6 @@
 
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
-using Coditech.Common.API.Model.GeneralPerson.GeneralPersonFollowUp;
 using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Mapper

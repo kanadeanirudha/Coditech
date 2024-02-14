@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.Common.API.Model.GeneralPerson.GeneralPersonFollowUp
+namespace Coditech.Common.API.Model
 {
     public class GeneralPersonFollowUpModel : BaseModel
     {
