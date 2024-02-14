@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Engine.Admin.ViewModel;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace Coditech.Admin.Controllers
     public class GymMemberDetailsController : BaseController
     {
         private readonly IGymMemberDetailsAgent _gymMemberDetailsAgent;
+        private GeneralPersonAttendanceDetailsViewModel gymMemberDetailsViewModel;
         private const string createEditGymMember = "~/Views/Gym/GymMemberDetails/CreateEditGymMember.cshtml";
 
         public GymMemberDetailsController(IGymMemberDetailsAgent gymMemberDetailsAgent)
@@ -185,53 +187,68 @@ namespace Coditech.Admin.Controllers
         #endregion
 
         #region Gym Member Attendance
-        public ActionResult GymMemberAttendanceList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public ActionResult GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
-
-        }
-
-        [HttpGet]
-        public virtual ActionResult GetMemberAttendance(int gymMemberDetailId, long gymMemberAttendanceId, long personId)
-        {
-            GymMemberFollowUpViewModel gymMemberDetailsViewModel = null;
-            if (gymMemberAttendanceId > 0)
+            GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
             {
-                gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetMemberFollowUp(gymMemberAttendanceId);
+                return PartialView("~/Views/Gym/GymMemberDetails/_GeneralPersonAttendanceDetailsList.cshtml", list);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetailsList.cshtml", list);
+        }
+        [HttpGet]
+        public virtual ActionResult GetGeneralPersonAttendanceDetails(int gymMemberDetailId, long generalPersonAttendanceDetailId, long personId)
+        {
+            GeneralPersonAttendanceDetailsViewModel gymMemberDetailsViewModel = null;
+            if (generalPersonAttendanceDetailId > 0)
+            {
+                gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetGeneralPersonAttendanceDetails(generalPersonAttendanceDetailId);
                 gymMemberDetailsViewModel.GymMemberDetailId = gymMemberDetailId;
                 gymMemberDetailsViewModel.PersonId = personId;
             }
             else
             {
-                gymMemberDetailsViewModel = new GymMemberFollowUpViewModel()
+                gymMemberDetailsViewModel = new GeneralPersonAttendanceDetailsViewModel()
                 {
                     GymMemberDetailId = gymMemberDetailId,
-                    GymMemberFollowUpId = gymMemberAttendanceId
+                    GeneralPersonAttendanceDetailId = generalPersonAttendanceDetailId
                 };
             }
-            return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditMemberFollowUp.cshtml", gymMemberDetailsViewModel);
+            return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditGeneralPersonAttendanceDetails.cshtml", gymMemberDetailsViewModel);
         }
 
-        public ActionResult CreatEditMemberAttendance(GymMemberAttendanceViewModel gymMemberAttendanceViewModel)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual ActionResult CreatEditGeneralPersonAttendanceDetails(GeneralPersonAttendanceDetailsViewModel generalPersonAttendanceDetailsViewModel)
         {
-
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_gymMemberDetailsAgent.InserUpdateGeneralPersonAttendanceDetails(generalPersonAttendanceDetailsViewModel).HasError
+                ? generalPersonAttendanceDetailsViewModel.GeneralPersonAttendanceDetailId > 0 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetErrorNotificationMessage(GeneralResources.ErrorFailedToCreate)
+                : generalPersonAttendanceDetailsViewModel.GeneralPersonAttendanceDetailId > 0 ? GetSuccessNotificationMessage(GeneralResources.UpdateMessage) : GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+            }
+            return RedirectToAction("GeneralPersonAttendanceDetailsList", new { gymMemberDetailId = generalPersonAttendanceDetailsViewModel.GymMemberDetailId, personId = generalPersonAttendanceDetailsViewModel.PersonId });
         }
 
-        public virtual ActionResult DeleteMemberAttendance(string gymMemberAttendanceIds)
+        public virtual ActionResult DeleteGeneralPersonAttendanceDetails(string generalPersonAttendanceDetailIdIds, int gymMemberDetailId, long personId)
         {
             string message = string.Empty;
             bool status = false;
-            if (!string.IsNullOrEmpty(gymMemberAttendanceIds))
+            if (!string.IsNullOrEmpty(generalPersonAttendanceDetailIdIds))
             {
-                status = _gymMemberDetailsAgent.DeleteMemberAttendance(gymMemberAttendanceIds, out message);
+                status = _gymMemberDetailsAgent.DeleteGeneralPersonAttendanceDetails(generalPersonAttendanceDetailIdIds, out message);
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+                return RedirectToAction("GeneralPersonAttendanceDetailsList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+            return RedirectToAction("GeneralPersonAttendanceDetailsList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
         }
         #endregion
+
+       
+      
     }
 }

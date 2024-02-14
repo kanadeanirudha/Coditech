@@ -7,6 +7,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Engine.Admin.ViewModel;
 using Coditech.Resources;
 
 using System.Diagnostics;
@@ -260,10 +261,100 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Gym Member Attendance
+        public virtual GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDeatailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("GeneralPersonattendanceDeatailsType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("GeneralPersonattendanceDeatailsComment", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GeneralPersonAttendanceDetailsListResponse response = _gymMemberDetailsClient.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralPersonAttendanceDetailsListModel gymMemberList = new GeneralPersonAttendanceDetailsListModel { GeneralPersonAttendanceDetailsList = response?.GeneralPersonAttendanceDetailsList };
 
 
+            GeneralPersonAttendanceDetailsListViewModel listViewModel = new GeneralPersonAttendanceDetailsListViewModel()
+            {
+                PersonId = response.PersonId,
+                GymMemberDetailId = response.GymMemberDetailId,
+                FirstName = response?.FirstName,
+                LastName = response?.LastName
+            };
+            listViewModel.GeneralPersonAttendanceDetailsList = gymMemberList?.GeneralPersonAttendanceDetailsList?.ToViewModel<GeneralPersonAttendanceDetailsViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralPersonAttendanceDetailsList.Count, BindGeneralPersonAttendanceDetailsColumns());
+            return listViewModel;
+        }
+
+        private List<DatatableColumns> BindGeneralPersonAttendanceDetailsColumns()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual GeneralPersonAttendanceDetailsViewModel GetGeneralPersonAttendanceDetails(long generalPersonAttendanceDetailsId)
+        {
+            GeneralPersonAttendanceDetailsResponse response = _gymMemberDetailsClient.GetGeneralPersonAttendanceDetailsUp(generalPersonAttendanceDetailsId);
+            GeneralPersonAttendanceDetailsViewModel gymMemberDetailsViewModel = response?.GeneralPersonAttendanceDetailsModel.ToViewModel<GeneralPersonAttendanceDetailsViewModel>();
+            return gymMemberDetailsViewModel;
+        }
+
+        //Update Member Details
+        public virtual GeneralPersonAttendanceDetailsViewModel InserUpdateGeneralPersonAttendanceDetails(GeneralPersonAttendanceDetailsViewModel generalPersonAttendanceDetailsViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                GeneralPersonAttendanceDetailsResponse response = _gymMemberDetailsClient.InserUpdateGeneralPersonAttendanceDetails(generalPersonAttendanceDetailsViewModel.ToModel<GeneralPersonAttendanceDetailsModel>());
+                GeneralPersonAttendanceDetailsModel generalPersonAttendanceDetailsModel = response?.GeneralPersonAttendanceDetailsModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                return IsNotNull(generalPersonAttendanceDetailsModel) ? generalPersonAttendanceDetailsModel.ToViewModel<GeneralPersonAttendanceDetailsViewModel>() : (GeneralPersonAttendanceDetailsViewModel)GetViewModelWithErrorMessage(new GeneralPersonAttendanceDetailsViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return (GeneralPersonAttendanceDetailsViewModel)GetViewModelWithErrorMessage(generalPersonAttendanceDetailsViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Delete gym Member Details.
+        public virtual bool DeleteGeneralPersonAttendanceDetails(string generalPersonAttendanceDetailsIdIds, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _gymMemberDetailsClient.DeleteGeneralPersonAttendanceDetails(new ParameterModel { Ids = generalPersonAttendanceDetailsIdIds });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteGymMemberDetails;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
         #endregion
-        #endregion
+
+
 
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
@@ -328,6 +419,14 @@ namespace Coditech.Admin.Agents
             });
             return datatableColumnList;
         }
+
+        public GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            throw new NotImplementedException();
+        }
+
+
         #endregion
     }
 }
+    #endregion

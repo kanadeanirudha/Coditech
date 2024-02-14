@@ -2,6 +2,7 @@
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.API.Model;
+using Coditech.Engine.Admin.ViewModel;
 
 namespace Coditech.Admin.Agents
 {
@@ -82,5 +83,34 @@ namespace Coditech.Admin.Agents
         /// <param name="gymMemberFollowUpIdIds">gymMemberFollowUpIdIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteGymMemberFollowUp(string gymMemberFollowUpIdIds, out string errorMessage);
+
+        /// <summary>
+        /// Get list of Gym Member.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GeneralPersonAttendanceDetailsListViewModel</returns>
+        GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel);
+
+        /// <summary>
+        /// Get GetGeneralPersonAttendanceDetails by generalPersonAttendanceDetailsId.
+        /// </summary>
+        /// <param name="gymMemberDetailId">generalPersonAttendanceDetailsId</param>
+        /// <returns>Returns GeneralPersonAttendanceDetailsViewModel.</returns>
+        GeneralPersonAttendanceDetailsViewModel GetGeneralPersonAttendanceDetails(long generalPersonAttendanceDetailsId);
+
+        /// <summary>
+        /// Inser Update General Person Attendance Details
+        /// </summary>
+        /// <param name="GeneralPersonAttendanceDetailsViewModel">GeneralPersonAttendanceDetailsViewModel.</param>
+        /// <returns>Returns updated GeneralPersonAttendanceDetailsViewModel</returns>
+        GeneralPersonAttendanceDetailsViewModel InserUpdateGeneralPersonAttendanceDetails(GeneralPersonAttendanceDetailsViewModel generalPersonAttendanceDetailsViewModel);
+
+        /// <summary>
+        /// Delete General Person Attendance Details.
+        /// </summary>
+        /// <param name="generalPersonAttendanceDetailsIdIds">generalPersonAttendanceDetailsIdIds.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        bool DeleteGeneralPersonAttendanceDetails(string generalPersonAttendanceDetailsIdIds, out string errorMessage);
     }
+
 }
