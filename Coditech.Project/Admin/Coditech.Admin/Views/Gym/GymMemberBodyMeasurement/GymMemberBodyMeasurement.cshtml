@@ -1,0 +1,33 @@
+﻿@model GymMemberBodyMeasurementListViewModel
+@{
+    ViewBag.Title = "Update Other Details";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("GymMemberDetailId", Model.GymMemberDetailId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", keyValuePairs)
+            </div>
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h4 class="card-title">Member Other Details- @Model.FirstName @Model.LastName</h4>
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

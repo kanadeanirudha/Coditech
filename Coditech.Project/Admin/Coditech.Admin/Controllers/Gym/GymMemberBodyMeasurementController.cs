@@ -21,7 +21,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId)
         {
             GymMemberBodyMeasurementListViewModel list = _gymMemberBodyMeasurementAgent.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, 3);
-            return ActionView(createEdit, list);
+            return ActionView("~/Views/Gym/GymMemberBodyMeasurement/GymMemberBodyMeasurement.cshtml", list);
         }
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
