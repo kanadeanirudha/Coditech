@@ -22,8 +22,8 @@
                             <td>@item.DepartmentShortCode</td>
                             <td>@item.PrintShortDesc</td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?generalDepartmentId=@item.GeneralDepartmentMasterId" title="Update"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
-                                <a href="../@controllerName/Delete?departmentIds=@item.GeneralDepartmentMasterId" title="Delete"><i class="fas fa-times-circle"></i></a>
+                                <a href="../@controllerName/Edit?generalDepartmentId=@item.GeneralDepartmentMasterId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
+                                <a href="../@controllerName/Delete?departmentIds=@item.GeneralDepartmentMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }
