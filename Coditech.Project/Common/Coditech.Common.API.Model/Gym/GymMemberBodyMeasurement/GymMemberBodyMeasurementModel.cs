@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Coditech.Common.API.Model
 {
@@ -8,16 +7,18 @@ namespace Coditech.Common.API.Model
         [Required]
         public long GymMemberBodyMeasurementId { get; set; }
 
-        [ForeignKey("GymMemberDetailId")]
         [Required]
         public int GymMemberDetailId { get; set; } 
 
-        [Key]
         [Required]
         public short GymBodyMeasurementTypeId { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string BodyMeasurementValue { get; set; } 
+        public string BodyMeasurementValue { get; set; }
+
+        public string BodyMeasurementType { get; set; }
+        public string MeasurementUnitShortCode { get; set; }
+        public string MeasurementUnitDisplayName { get; set; }
     }
 }

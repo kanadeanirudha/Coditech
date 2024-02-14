@@ -7,6 +7,7 @@ namespace Coditech.API.Service
 {
     public interface IGymMemberBodyMeasurementService
     {
+        GymMemberBodyMeasurementListModel GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId, short pageSize);
         GymMemberBodyMeasurementListModel GetMemberBodyMeasurementList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         GymMemberBodyMeasurementModel CreateMemberBodyMeasurement(GymMemberBodyMeasurementModel model);
         GymMemberBodyMeasurementModel GetMemberBodyMeasurement(long GymMemberBodyMeasurementId);

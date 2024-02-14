@@ -16,6 +16,52 @@ namespace Coditech.API.Client
         {
             gymMemberBodyMeasurementEndpoint = new GymMemberBodyMeasurementEndpoint();
         }
+
+        public virtual GymMemberBodyMeasurementListResponse GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId, short pageSize)
+        {
+            return Task.Run(async () => await GetBodyMeasurementTypeListByMemberIdAsync(gymMemberDetailId, personId, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<GymMemberBodyMeasurementListResponse> GetBodyMeasurementTypeListByMemberIdAsync(int gymMemberDetailId, long personId, short pageSize, CancellationToken cancellationToken)
+        {
+            string endpoint = gymMemberBodyMeasurementEndpoint.GetBodyMeasurementTypeListByMemberIdAsync(gymMemberDetailId, personId, pageSize);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<GymMemberBodyMeasurementListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else if (status_ == 204)
+                {
+                    return new GymMemberBodyMeasurementListResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    GymMemberBodyMeasurementListResponse typedBody = JsonConvert.DeserializeObject<GymMemberBodyMeasurementListResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
         public virtual GymMemberBodyMeasurementListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();

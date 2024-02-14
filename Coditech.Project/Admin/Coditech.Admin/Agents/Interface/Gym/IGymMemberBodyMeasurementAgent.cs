@@ -6,6 +6,15 @@ namespace Coditech.Admin.Agents
     public interface IGymMemberBodyMeasurementAgent
     {
         /// <summary>
+        /// Get Body Measurement Type List By MemberId
+        /// </summary>
+        /// <param name="gymMemberDetailId">gymMemberDetailId</param>
+        /// <param name="personId">personId</param>
+        /// <param name="listCount">listCount</param>
+        /// <returns>GymMemberBodyMeasurementListViewModel</returns>
+        GymMemberBodyMeasurementListViewModel GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId, short pageSize);
+
+        /// <summary>
         /// Get list of General MemberBodyMeasurement.
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>

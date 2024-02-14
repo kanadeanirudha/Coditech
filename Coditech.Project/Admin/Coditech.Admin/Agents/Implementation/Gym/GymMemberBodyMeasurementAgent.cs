@@ -33,6 +33,16 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
+
+        public virtual GymMemberBodyMeasurementListViewModel GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId, short pageSize)
+        {
+            GymMemberBodyMeasurementListResponse response = _GymMemberBodyMeasurementClient.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, pageSize);
+            GymMemberBodyMeasurementListModel MemberBodyMeasurementList = new GymMemberBodyMeasurementListModel { GymMemberBodyMeasurementList = response?.GymMemberBodyMeasurementList };
+            GymMemberBodyMeasurementListViewModel listViewModel = new GymMemberBodyMeasurementListViewModel();
+            listViewModel.GymMemberBodyMeasurementList = MemberBodyMeasurementList?.GymMemberBodyMeasurementList?.ToViewModel<GymMemberBodyMeasurementViewModel>().ToList();
+            return listViewModel;
+        }
+
         public virtual GymMemberBodyMeasurementListViewModel GetMemberBodyMeasurementList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;

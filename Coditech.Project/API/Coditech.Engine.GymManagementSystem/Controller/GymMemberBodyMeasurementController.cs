@@ -25,6 +25,31 @@ namespace Coditech.API.Controllers
             _coditechLogging = coditechLogging;
         }
 
+
+        [HttpGet]
+        [Route("/GymMemberBodyMeasurement/GetBodyMeasurementTypeListByMemberId")]
+        [Produces(typeof(GymMemberBodyMeasurementListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId, short pageSize)
+        {
+            try
+            {
+                GymMemberBodyMeasurementListModel list = _gymMemberBodyMeasurementService.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberBodyMeasurementListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MemberBodyMeasurement.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberBodyMeasurementListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MemberBodyMeasurement.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberBodyMeasurementListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("/GymMemberBodyMeasurement/GetMemberBodyMeasurementList")]
         [Produces(typeof(GymMemberBodyMeasurementListResponse))]
@@ -48,6 +73,7 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new GymMemberBodyMeasurementListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
 
         [Route("/GymMemberBodyMeasurement/CreateMemberBodyMeasurement")]
         [HttpPost, ValidateModel]

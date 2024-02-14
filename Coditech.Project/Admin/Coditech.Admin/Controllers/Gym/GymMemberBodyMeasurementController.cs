@@ -17,6 +17,13 @@ namespace Coditech.Admin.Controllers
             _gymMemberBodyMeasurementAgent = gymMemberBodyMeasurementAgent;
         }
 
+        [HttpGet]
+        public virtual ActionResult GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId)
+        {
+            GymMemberBodyMeasurementListViewModel list = _gymMemberBodyMeasurementAgent.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, 3);
+            return ActionView(createEdit, list);
+        }
+
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GymMemberBodyMeasurementListViewModel list = _gymMemberBodyMeasurementAgent.GetMemberBodyMeasurementList(dataTableModel);

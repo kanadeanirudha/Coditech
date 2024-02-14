@@ -25,6 +25,12 @@ namespace Coditech.API.Service
             _gymMemberBodyMeasurementRepository = new CoditechRepository<GymMemberBodyMeasurement>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
+        public virtual GymMemberBodyMeasurementListModel GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId, short pageSize)
+        {
+            GymMemberBodyMeasurementListModel listModel = new GymMemberBodyMeasurementListModel();
+            return listModel;
+        }
+
         public virtual GymMemberBodyMeasurementListModel GetMemberBodyMeasurementList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.

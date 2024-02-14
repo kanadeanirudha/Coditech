@@ -8,20 +8,22 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberBodyMeasurement/GetMemberBodyMeasurementList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/GetMemberBodyMeasurementList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
+        public string GetBodyMeasurementTypeListByMemberIdAsync(int gymMemberDetailId, long personId, short pageSize) =>
+           $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/GetBodyMeasurementTypeListByMemberId?gymMemberDetailId={gymMemberDetailId}&personId={personId}&pageSize{pageSize}";
 
         public string CreateMemberBodyMeasurementAsync() =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberBodyMeasurement/CreateMemberBodyMeasurement";
+            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/CreateMemberBodyMeasurement";
 
         public string GetMemberBodyMeasurementAsync(long GymMemberBodyMeasurementId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberBodyMeasurement/GetMemberBodyMeasurement?GymMemberBodyMeasurementId={GymMemberBodyMeasurementId}";
+            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/GetMemberBodyMeasurement?GymMemberBodyMeasurementId={GymMemberBodyMeasurementId}";
        
         public string UpdateMemberBodyMeasurementAsync() =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberBodyMeasurement/UpdateMemberBodyMeasurement";
+               $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/UpdateMemberBodyMeasurement";
 
         public string DeleteMemberBodyMeasurementAsync() =>
-                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GymMemberBodyMeasurement/DeleteMemberBodyMeasurement";
+                  $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/DeleteMemberBodyMeasurement";
     }
 }

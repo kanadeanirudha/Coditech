@@ -8,6 +8,15 @@ namespace Coditech.API.Client
     public interface IGymMemberBodyMeasurementClient : IBaseClient
     {
         /// <summary>
+        /// Get Body Measurement Type List By MemberId
+        /// </summary>
+        /// <param name="gymMemberDetailId">gymMemberDetailId</param>
+        /// <param name="personId">personId</param>
+        /// <param name="listCount">listCount</param>
+        /// <returns>GymMemberBodyMeasurementListViewModel</returns>
+        GymMemberBodyMeasurementListResponse GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId, short pageSize);
+
+        /// <summary>
         /// Get list of  MemberBodyMeasurement.
         /// </summary>
         /// <returns>GymMemberBodyMeasurementListResponse</returns>
