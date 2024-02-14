@@ -20,7 +20,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             EmployeeMasterListViewModel list = new EmployeeMasterListViewModel();
-            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) /*&& dataTableViewModel.SelectedDepartmentId > 0*/)
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && dataTableViewModel.SelectedDepartmentId > 0)
             {
                 list = _employeeMasterAgent.GetEmployeeMasterList(dataTableViewModel);
             }
