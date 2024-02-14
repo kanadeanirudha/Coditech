@@ -4,7 +4,6 @@ namespace Coditech.Common.API.Model
 {
     public class GeneralPersonFollowUpModel : BaseModel
     {
-        [Key]
         [Required]
         public long GeneralPersonFollowUpId { get; set; }
 
@@ -26,7 +25,5 @@ namespace Coditech.Common.API.Model
         public bool IsSetReminder { get; set; }
 
         public DateTime? ReminderDate { get; set; }
-
-
     }
 }
