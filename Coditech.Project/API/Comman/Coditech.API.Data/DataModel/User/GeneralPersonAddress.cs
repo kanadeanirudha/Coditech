@@ -14,6 +14,7 @@ namespace Coditech.API.Data
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string CompanyName { get; set; }
+        public short GeneralCountryMasterId { get; set; }
         public short GeneralRegionMasterId { get; set; }
         public int GeneralCityMasterId { get; set; }
         public string Postalcode { get; set; }
@@ -22,6 +23,7 @@ namespace Coditech.API.Data
         public string EmailAddress { get; set; }
         public bool IsActive { get; set; }
         public bool IsDefault { get; set; }
+        public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }

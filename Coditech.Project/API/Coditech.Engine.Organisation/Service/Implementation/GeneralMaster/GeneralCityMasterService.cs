@@ -8,6 +8,7 @@ using Coditech.Resources;
 
 using System.Collections.Specialized;
 using System.Data;
+using System.Drawing;
 
 using static Coditech.Common.Helper.HelperUtility;
 
@@ -120,6 +121,23 @@ namespace Coditech.API.Service
             int status = 0;
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteCity @CityId,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
+        }
+
+        //Get city list.
+        public virtual GeneralCityListModel GetCityByRegionWise(int generalRegionMasterId)
+        {
+            string regionName = _generalRegionMasterRepository.Table.FirstOrDefault(x => x.GeneralRegionMasterId == generalRegionMasterId)?.RegionName;
+
+            GeneralCityListModel list = new GeneralCityListModel();
+            list.GeneralCityList = (from a in _generalCityMasterRepository.Table
+                                      where (a.GeneralRegionMasterId == generalRegionMasterId)
+                                      select new GeneralCityModel()
+                                      {
+                                          GeneralCityMasterId = a.GeneralCityMasterId,
+                                          CityName = a.CityName,
+                                          RegionName = regionName,
+                                      })?.ToList();
+            return list;
         }
 
         #region Protected Method

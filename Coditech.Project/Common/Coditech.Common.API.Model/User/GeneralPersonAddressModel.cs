@@ -11,6 +11,7 @@
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string CompanyName { get; set; }
+        public short GeneralCountryMasterId { get; set; }
         public short GeneralRegionMasterId { get; set; }
         public int GeneralCityMasterId { get; set; }
         public string Postalcode { get; set; }
@@ -19,5 +20,6 @@
         public string EmailAddress { get; set; }
         public bool IsActive { get; set; }
         public bool IsDefault { get; set; }        
+        public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }        
     }
 }

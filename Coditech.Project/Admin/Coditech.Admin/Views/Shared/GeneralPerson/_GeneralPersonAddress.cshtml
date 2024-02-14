@@ -16,6 +16,10 @@
                     else if (item.AddressTypeEnum == AddressTypeEnum.CorrespondanceAddress.ToString())
                     {
                         <span class="card-title">Correspondance Address</span>
+                        <div class="form-check">
+                            @Html.CheckBoxFor(x=>x.IsCorrespondanceAddressSameAsPermanentAddress,new {@class = "form-check-input"})
+                            @Html.LabelFor(x=>x.IsCorrespondanceAddressSameAsPermanentAddress,new {@class = "form-label"})
+                        </div>
                     }
                     else if (item.AddressTypeEnum == AddressTypeEnum.BusinessAddress.ToString())
                     {
