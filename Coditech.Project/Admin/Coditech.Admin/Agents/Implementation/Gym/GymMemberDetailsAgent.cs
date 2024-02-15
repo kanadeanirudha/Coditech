@@ -21,14 +21,16 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IGymMemberDetailsClient _gymMemberDetailsClient;
+        private readonly IGeneralPersonAttendanceDetailsClient _generalPersonAttendanceDetailsClient;
         private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
-        public GymMemberDetailsAgent(ICoditechLogging coditechLogging, IGymMemberDetailsClient gymMemberDetailsClient, IUserClient userClient)
+        public GymMemberDetailsAgent(ICoditechLogging coditechLogging, IGymMemberDetailsClient gymMemberDetailsClient, IUserClient userClient, IGeneralPersonAttendanceDetailsClient generalPersonAttendanceDetailsClient)
         {
             _coditechLogging = coditechLogging;
             _gymMemberDetailsClient = GetClient<IGymMemberDetailsClient>(gymMemberDetailsClient);
+            _generalPersonAttendanceDetailsClient = GetClient<IGeneralPersonAttendanceDetailsClient>(generalPersonAttendanceDetailsClient);
             _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
@@ -283,9 +285,8 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralPersonAttendanceDetailsListResponse response = _gymMemberDetailsClient.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralPersonAttendanceDetailsListResponse response = _generalPersonAttendanceDetailsClient.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralPersonAttendanceDetailsListModel gymMemberList = new GeneralPersonAttendanceDetailsListModel { GeneralPersonAttendanceDetailsList = response?.GeneralPersonAttendanceDetailsList };
-
 
             GeneralPersonAttendanceDetailsListViewModel listViewModel = new GeneralPersonAttendanceDetailsListViewModel()
             {
@@ -307,7 +308,7 @@ namespace Coditech.Admin.Agents
 
         public virtual GeneralPersonAttendanceDetailsViewModel GetGeneralPersonAttendanceDetails(long generalPersonAttendanceDetailsId)
         {
-            GeneralPersonAttendanceDetailsResponse response = _gymMemberDetailsClient.GetGeneralPersonAttendanceDetailsUp(generalPersonAttendanceDetailsId);
+            GeneralPersonAttendanceDetailsResponse response = _generalPersonAttendanceDetailsClient.GetGeneralPersonAttendanceDetails(generalPersonAttendanceDetailsId);
             GeneralPersonAttendanceDetailsViewModel gymMemberDetailsViewModel = response?.GeneralPersonAttendanceDetailsModel.ToViewModel<GeneralPersonAttendanceDetailsViewModel>();
             return gymMemberDetailsViewModel;
         }
@@ -318,7 +319,7 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                GeneralPersonAttendanceDetailsResponse response = _gymMemberDetailsClient.InserUpdateGeneralPersonAttendanceDetails(generalPersonAttendanceDetailsViewModel.ToModel<GeneralPersonAttendanceDetailsModel>());
+                GeneralPersonAttendanceDetailsResponse response = _generalPersonAttendanceDetailsClient.InserUpdateGeneralPersonAttendanceDetails(generalPersonAttendanceDetailsViewModel.ToModel<GeneralPersonAttendanceDetailsModel>());
                 GeneralPersonAttendanceDetailsModel generalPersonAttendanceDetailsModel = response?.GeneralPersonAttendanceDetailsModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
                 return IsNotNull(generalPersonAttendanceDetailsModel) ? generalPersonAttendanceDetailsModel.ToViewModel<GeneralPersonAttendanceDetailsViewModel>() : (GeneralPersonAttendanceDetailsViewModel)GetViewModelWithErrorMessage(new GeneralPersonAttendanceDetailsViewModel(), GeneralResources.UpdateErrorMessage);
@@ -334,11 +335,10 @@ namespace Coditech.Admin.Agents
         public virtual bool DeleteGeneralPersonAttendanceDetails(string generalPersonAttendanceDetailsIdIds, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
-
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _gymMemberDetailsClient.DeleteGeneralPersonAttendanceDetails(new ParameterModel { Ids = generalPersonAttendanceDetailsIdIds });
+                TrueFalseResponse trueFalseResponse = _generalPersonAttendanceDetailsClient.DeleteGeneralPersonAttendanceDetails(new ParameterModel { Ids = generalPersonAttendanceDetailsIdIds });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -362,8 +362,6 @@ namespace Coditech.Admin.Agents
             }
         }
         #endregion
-
-
 
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
