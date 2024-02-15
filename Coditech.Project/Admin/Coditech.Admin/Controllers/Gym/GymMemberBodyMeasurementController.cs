@@ -10,7 +10,7 @@ namespace Coditech.Admin.Controllers
     public class GymMemberBodyMeasurementController : BaseController
     {
         private readonly IGymMemberBodyMeasurementAgent _gymMemberBodyMeasurementAgent;
-        private const string createEdit = "~/Views/Gym/GymMemberBodyMeasurement/CreateEdit.cshtml";
+        private const string createEdit = "~/Views/Gym/GymMemberBodyMeasurement/_GymMemberBodyMeasurementPopUp.cshtml";
 
         public GymMemberBodyMeasurementController(IGymMemberBodyMeasurementAgent gymMemberBodyMeasurementAgent)
         {
@@ -20,8 +20,8 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId)
         {
-            GymMemberBodyMeasurementListViewModel list = _gymMemberBodyMeasurementAgent.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, 3);
-            return ActionView(createEdit, list);
+            GymMemberBodyMeasurementListViewModel list = _gymMemberBodyMeasurementAgent.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, 4);
+            return ActionView("~/Views/Gym/GymMemberBodyMeasurement/GymMemberBodyMeasurement.cshtml", list);
         }
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
@@ -35,13 +35,13 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Create()
+        public virtual ActionResult AddGymMemberBodyMeasurement(int gymMemberDetailId, long gymMemberBodyMeasurementId)
         {
-            return View(createEdit, new GymMemberBodyMeasurementViewModel());
+            return PartialView(createEdit, new GymMemberBodyMeasurementViewModel() { GymMemberDetailId = gymMemberDetailId, GymMemberBodyMeasurementId = gymMemberBodyMeasurementId });
         }
 
         [HttpPost]
-        public virtual ActionResult Create(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
+        public virtual ActionResult AddGymMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
         {
             if (ModelState.IsValid)
             {

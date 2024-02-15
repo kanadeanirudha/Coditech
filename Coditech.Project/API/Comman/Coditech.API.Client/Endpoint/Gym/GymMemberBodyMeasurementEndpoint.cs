@@ -12,7 +12,7 @@ namespace Coditech.API.Endpoint
             return endpoint;
         }
         public string GetBodyMeasurementTypeListByMemberIdAsync(int gymMemberDetailId, long personId, short pageSize) =>
-           $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/GetBodyMeasurementTypeListByMemberId?gymMemberDetailId={gymMemberDetailId}&personId={personId}&pageSize{pageSize}";
+           $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/GetBodyMeasurementTypeListByMemberId?gymMemberDetailId={gymMemberDetailId}&personId={personId}&pageSize={pageSize}";
 
         public string CreateMemberBodyMeasurementAsync() =>
             $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberBodyMeasurement/CreateMemberBodyMeasurement";

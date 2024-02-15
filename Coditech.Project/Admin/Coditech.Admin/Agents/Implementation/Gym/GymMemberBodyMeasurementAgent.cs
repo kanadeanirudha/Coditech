@@ -37,8 +37,14 @@ namespace Coditech.Admin.Agents
         public virtual GymMemberBodyMeasurementListViewModel GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId, short pageSize)
         {
             GymMemberBodyMeasurementListResponse response = _GymMemberBodyMeasurementClient.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, pageSize);
-            GymMemberBodyMeasurementListModel MemberBodyMeasurementList = new GymMemberBodyMeasurementListModel { GymMemberBodyMeasurementList = response?.GymMemberBodyMeasurementList };
-            GymMemberBodyMeasurementListViewModel listViewModel = new GymMemberBodyMeasurementListViewModel();
+            GymMemberBodyMeasurementListModel MemberBodyMeasurementList = new GymMemberBodyMeasurementListModel { GymMemberBodyMeasurementList = response?.GymMemberBodyMeasurementList, GymMemberDetailId = response.GymMemberDetailId, PersonId = response.PersonId, FirstName = response.FirstName, LastName = response.LastName };
+            GymMemberBodyMeasurementListViewModel listViewModel = new GymMemberBodyMeasurementListViewModel()
+            {
+                GymMemberDetailId = MemberBodyMeasurementList.GymMemberDetailId,
+                PersonId = MemberBodyMeasurementList.PersonId,
+                FirstName = MemberBodyMeasurementList.FirstName,
+                LastName = MemberBodyMeasurementList.LastName
+            };
             listViewModel.GymMemberBodyMeasurementList = MemberBodyMeasurementList?.GymMemberBodyMeasurementList?.ToViewModel<GymMemberBodyMeasurementViewModel>().ToList();
             return listViewModel;
         }
@@ -187,7 +193,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Body Measurement Value",
                 ColumnCode = "BodyMeasurementValue",
                 IsSortable = true,
-            });            
+            });
             return datatableColumnList;
         }
         #endregion
