@@ -20,7 +20,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId)
         {
-            GymMemberBodyMeasurementListViewModel list = _gymMemberBodyMeasurementAgent.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, 3);
+            GymMemberBodyMeasurementListViewModel list = _gymMemberBodyMeasurementAgent.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, 4);
             return ActionView("~/Views/Gym/GymMemberBodyMeasurement/GymMemberBodyMeasurement.cshtml", list);
         }
 

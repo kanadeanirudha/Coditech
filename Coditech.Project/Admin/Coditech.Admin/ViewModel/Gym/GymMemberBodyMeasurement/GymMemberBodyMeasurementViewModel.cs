@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -23,5 +24,11 @@ namespace Coditech.Admin.ViewModel
         public string BodyMeasurementType { get; set; }
         public string MeasurementUnitShortCode { get; set; }
         public string MeasurementUnitDisplayName { get; set; }
+
+        public List<GymMemberBodyMeasurementValueModel> GymMemberBodyMeasurementValueList { get; set; }
+        public GymMemberBodyMeasurementViewModel()
+        {
+            GymMemberBodyMeasurementValueList = new List<GymMemberBodyMeasurementValueModel>();
+        }
     }
 }

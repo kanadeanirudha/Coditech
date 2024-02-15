@@ -16,6 +16,9 @@ namespace Coditech.Common.API.Model
         [Required]
         [MaxLength(50)]
         public string BodyMeasurementValue { get; set; }
+        public string BodyMeasurementType { get; set; }
+        public string MeasurementUnitShortCode { get; set; }
+        public string MeasurementUnitDisplayName { get; set; }
 
         public List<GymMemberBodyMeasurementValueModel> GymMemberBodyMeasurementValueList { get; set; }
         public GymMemberBodyMeasurementModel()
