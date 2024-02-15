@@ -34,7 +34,8 @@
         LeadStatus,
         LeadCategory,
         UserType,
-        Floors
+        Floors,
+        AttendanceState
     }
 
     public enum GeneralSystemGlobleSettingEnum

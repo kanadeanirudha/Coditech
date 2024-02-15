@@ -193,5 +193,10 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
         #endregion
+
+        #region Gym Member Attendance
+
+
+        #endregion
     }
 }

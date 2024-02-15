@@ -2,6 +2,7 @@
 
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
+using Coditech.Engine.Admin.ViewModel;
 using Coditech.Model;
 
 namespace Coditech.Admin
@@ -85,6 +86,8 @@ namespace Coditech.Admin
             CreateMap<EmployeeCreateEditViewModel, EmployeeMasterModel>().ReverseMap();
             CreateMap<GymMemberBodyMeasurementModel, GymMemberBodyMeasurementViewModel>().ReverseMap();
             CreateMap<GymMemberBodyMeasurementListModel, GymMemberBodyMeasurementListViewModel>().ReverseMap();
+            CreateMap<GeneralPersonAttendanceDetailsListViewModel, GeneralPersonAttendanceDetailsListModel>().ReverseMap();
+            CreateMap<GeneralPersonAttendanceDetailsViewModel, GeneralPersonAttendanceDetailsModel>().ReverseMap();
             #endregion
 
             #region Person

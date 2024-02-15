@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Coditech.API.Data.DataModel.Gym;
+using Microsoft.EntityFrameworkCore;
 
 namespace Coditech.API.Data
 {
@@ -68,7 +69,7 @@ namespace Coditech.API.Data
         public DbSet<GymBodyMeasurementType> GymBodyMeasurementType { get; set; }
         public DbSet<GymMembershipPlan> GymMembershipPlan { get; set; }
         public DbSet<GymMemberBodyMeasurement> GymMemberBodyMeasurement { get; set; }
-
+        public DbSet<GeneralPersonAttendanceDetails> GeneralPersonAttendanceDetails { get; set; }
         #endregion
 
         #region MediaManager
