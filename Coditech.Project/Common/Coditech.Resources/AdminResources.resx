@@ -124,7 +124,7 @@
     <value>Failed to delete admin saction post due to associate record.</value>
   </data>
   <data name="ErrorDeleteEmployeeDetails" xml:space="preserve">
-    <value>Failed to delete Employee due to associate record.</value>
+    <value>Failed to delete employee detaild due to associate record.</value>
   </data>
   <data name="ErrorDeleteGeneralCityMaster" xml:space="preserve">
     <value>Failed to delete city due to associate record.</value>
@@ -143,6 +143,9 @@
   </data>
   <data name="ErrorDeleteGeneralEnumaratorGroup" xml:space="preserve">
     <value>Failed to delete enum group due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGeneralFinancialYearMaster" xml:space="preserve">
+    <value>Failed to delete financial year due to associate record.</value>
   </data>
   <data name="ErrorDeleteGeneralLeadGenerationMaster" xml:space="preserve">
     <value>Failed to delete Lead Generation due to associate record.</value>
@@ -236,6 +239,9 @@
   </data>
   <data name="LabelEnumGroupList" xml:space="preserve">
     <value>Enum Group</value>
+  </data>
+  <data name="LabelFinancialYearList" xml:space="preserve">
+    <value>FinancialYear List</value>
   </data>
   <data name="LabelGlobleSettingList" xml:space="preserve">
     <value>Globle Setting List</value>

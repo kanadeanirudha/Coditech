@@ -79,7 +79,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Employee due to associate record..
+        ///   Looks up a localized string similar to Failed to delete employee detaild due to associate record..
         /// </summary>
         public static string ErrorDeleteEmployeeDetails {
             get {
@@ -138,6 +138,15 @@ namespace Coditech.Resources {
         public static string ErrorDeleteGeneralEnumaratorGroup {
             get {
                 return ResourceManager.GetString("ErrorDeleteGeneralEnumaratorGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete financial year due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralFinancialYearMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralFinancialYearMaster", resourceCulture);
             }
         }
         
@@ -417,6 +426,15 @@ namespace Coditech.Resources {
         public static string LabelEnumGroupList {
             get {
                 return ResourceManager.GetString("LabelEnumGroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FinancialYear List.
+        /// </summary>
+        public static string LabelFinancialYearList {
+            get {
+                return ResourceManager.GetString("LabelFinancialYearList", resourceCulture);
             }
         }
         
