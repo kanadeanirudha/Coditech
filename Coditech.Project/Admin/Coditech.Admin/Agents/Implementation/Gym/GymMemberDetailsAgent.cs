@@ -7,7 +7,6 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using Coditech.Engine.Admin.ViewModel;
 using Coditech.Resources;
 
 using System.Diagnostics;
@@ -272,20 +271,21 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Gym Member Attendance
-        public virtual GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDeatailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public virtual GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("GeneralPersonattendanceDeatailsType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("GeneralPersonattendanceDeatailsComment", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("AttendanceDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LoginTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LogoutTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralPersonAttendanceDetailsListResponse response = _generalPersonAttendanceDetailsClient.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralPersonAttendanceDetailsListResponse response = _generalPersonAttendanceDetailsClient.GeneralPersonAttendanceDetailsList(personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralPersonAttendanceDetailsListModel gymMemberList = new GeneralPersonAttendanceDetailsListModel { GeneralPersonAttendanceDetailsList = response?.GeneralPersonAttendanceDetailsList };
 
             GeneralPersonAttendanceDetailsListViewModel listViewModel = new GeneralPersonAttendanceDetailsListViewModel()
@@ -297,13 +297,8 @@ namespace Coditech.Admin.Agents
             };
             listViewModel.GeneralPersonAttendanceDetailsList = gymMemberList?.GeneralPersonAttendanceDetailsList?.ToViewModel<GeneralPersonAttendanceDetailsViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralPersonAttendanceDetailsList.Count, BindGeneralPersonAttendanceDetailsColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralPersonAttendanceDetailsList.Count, BindGymMemberAttendanceDeatailsColumns());
             return listViewModel;
-        }
-
-        private List<DatatableColumns> BindGeneralPersonAttendanceDetailsColumns()
-        {
-            throw new NotImplementedException();
         }
 
         public virtual GeneralPersonAttendanceDetailsViewModel GetGeneralPersonAttendanceDetails(long generalPersonAttendanceDetailsId)
@@ -433,12 +428,39 @@ namespace Coditech.Admin.Agents
             return datatableColumnList;
         }
 
-        public GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        protected virtual List<DatatableColumns> BindGymMemberAttendanceDeatailsColumns()
         {
-            throw new NotImplementedException();
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Attendance Date",
+                ColumnCode = "AttendanceDate",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Check In Time",
+                ColumnCode = "LoginTime",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Check Out Time",
+                ColumnCode = "LogoutTime",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Duration",
+                ColumnCode = "Duration",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Remark",
+                ColumnCode = "Remark",
+            });
+            return datatableColumnList;
         }
-
-
         #endregion
     }
 }

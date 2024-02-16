@@ -1,6 +1,6 @@
 ﻿using Coditech.Common.Helper;
 
-namespace Coditech.Engine.Admin.ViewModel
+namespace Coditech.Admin.ViewModel
 {
     public class GeneralPersonAttendanceDetailsListViewModel : BaseViewModel
     {

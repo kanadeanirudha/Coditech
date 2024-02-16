@@ -1,8 +1,4 @@
 ﻿using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model.Response;
-using Coditech.Common.API.Model.Responses;
-using Coditech.Common.API.Model;
-using Coditech.Engine.Admin.ViewModel;
 
 namespace Coditech.Admin.Agents
 {
@@ -90,7 +86,7 @@ namespace Coditech.Admin.Agents
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>GeneralPersonAttendanceDetailsListViewModel</returns>
         GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel);
-
+                                                    
         /// <summary>
         /// Get GetGeneralPersonAttendanceDetails by generalPersonAttendanceDetailsId.
         /// </summary>

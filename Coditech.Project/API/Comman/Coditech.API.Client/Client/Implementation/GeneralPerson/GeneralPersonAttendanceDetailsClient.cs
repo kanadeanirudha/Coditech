@@ -21,14 +21,14 @@ namespace Coditech.API.Client
 
 
         #region Gym Member Attendance
-        public virtual GeneralPersonAttendanceDetailsListResponse GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual GeneralPersonAttendanceDetailsListResponse GeneralPersonAttendanceDetailsList(long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await GeneralPersonAttendanceDetailsListAsync(gymMemberDetailId, personId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GeneralPersonAttendanceDetailsListAsync(personId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralPersonAttendanceDetailsListResponse> GeneralPersonAttendanceDetailsListAsync(int gymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<GeneralPersonAttendanceDetailsListResponse> GeneralPersonAttendanceDetailsListAsync(long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = generalPersonAttendanceDetailsEndpoint.GeneralPersonAttendanceDetailsListAsync(gymMemberDetailId, personId, expand, filter, sort, pageIndex, pageSize);
+            string endpoint = generalPersonAttendanceDetailsEndpoint.GeneralPersonAttendanceDetailsListAsync(personId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

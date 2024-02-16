@@ -7,9 +7,9 @@ namespace Coditech.API.Endpoint
     public class GeneralPersonAttendanceDetailsEndpoint : BaseEndpoint
     {
         #region Gym Member Attendance
-        public string GeneralPersonAttendanceDetailsListAsync(int gymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string GeneralPersonAttendanceDetailsListAsync(long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GeneralPersonAttendanceDetailsList?gymMemberDetailId={gymMemberDetailId}&personId={personId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GeneralPersonAttendanceDetailsList?personId={personId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 

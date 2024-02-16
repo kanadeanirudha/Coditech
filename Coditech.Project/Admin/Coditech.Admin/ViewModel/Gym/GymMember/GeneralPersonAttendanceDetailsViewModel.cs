@@ -1,7 +1,7 @@
 ﻿using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.Engine.Admin.ViewModel
+namespace Coditech.Admin.ViewModel
 {
     public class GeneralPersonAttendanceDetailsViewModel : BaseViewModel
     {
@@ -11,8 +11,9 @@ namespace Coditech.Engine.Admin.ViewModel
 
         public int GeneralAttendanceStateEnumId { get; set; }
 
-                
-        [Display(Name = "Attendancedate")]
+
+        [Required]
+        [Display(Name = "Attendance Date")]
         public DateTime Attendancedate { get; set; }
 
         [Display(Name = "LoginTime")]
@@ -21,6 +22,9 @@ namespace Coditech.Engine.Admin.ViewModel
         [Display(Name = "LogoutTime")]
         public DateTime LogoutTime { get; set; }
 
+        [Display(Name = "Remark")]
+        public string Remark { get; set; }
+        public string Duration { get; set; }
     }
 }
 
