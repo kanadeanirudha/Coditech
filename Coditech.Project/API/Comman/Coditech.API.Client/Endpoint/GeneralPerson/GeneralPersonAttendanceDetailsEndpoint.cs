@@ -9,18 +9,18 @@ namespace Coditech.API.Endpoint
         #region Gym Member Attendance
         public string GeneralPersonAttendanceDetailsListAsync(long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GeneralPersonAttendanceDetailsList?personId={personId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechUserApiRootUri}/GymMemberDetails/GeneralPersonAttendanceDetailsList?personId={personId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string GetGeneralPersonAttendanceDetailsAsync(long generalPersonAttendanceDetailId) =>
-          $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GetGeneralPersonAttendanceDetails?generalPersonAttendanceDetailId={generalPersonAttendanceDetailId}";
+          $"{CoditechAdminSettings.CoditechUserApiRootUri}/GymMemberDetails/GetGeneralPersonAttendanceDetails?generalPersonAttendanceDetailId={generalPersonAttendanceDetailId}";
 
         public string InserUpdateGeneralPersonAttendanceDetailsAsync() =>
-              $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/InserUpdateGeneralPersonAttendanceDetails";
+              $"{CoditechAdminSettings.CoditechUserApiRootUri}/GymMemberDetails/InserUpdateGeneralPersonAttendanceDetails";
 
         public string DeleteGeneralPersonAttendanceDetailsAsync() =>
-                  $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/DeleteGeneralPersonAttendanceDetails";
+                  $"{CoditechAdminSettings.CoditechUserApiRootUri}/GymMemberDetails/DeleteGeneralPersonAttendanceDetails";
         #endregion
     }
 }

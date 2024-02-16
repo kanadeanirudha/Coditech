@@ -47,7 +47,8 @@
             OrganisationCentrewiseBuilding,
             OrganisationCentrewiseBuildingRooms,
             PersonFollowUp,
-            MemberBodyMeasurement
+            MemberBodyMeasurement,
+            PersonAttendance
         }
     }
 }

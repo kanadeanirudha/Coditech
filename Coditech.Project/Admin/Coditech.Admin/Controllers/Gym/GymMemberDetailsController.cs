@@ -208,7 +208,7 @@ namespace Coditech.Admin.Controllers
         #endregion
 
         #region Gym Member Attendance
-        public ActionResult GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public ActionResult MemberAttendanceDetails(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
             GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
