@@ -28,15 +28,9 @@
     <Folder Include="Views\Inventory\" />
     <Folder Include="Views\Shared\Control\" />
     <Folder Include="wwwroot\css\login\" />
+    <Folder Include="wwwroot\js\Coditech\GeneralMaster\" />
     <Folder Include="wwwroot\js\Coditech\Organisation\" />
     <Folder Include="wwwroot\js\login\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="wwwroot\js\Coditech\OrganisationCentreWiseBuildingMaster.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@
     ViewBag.Title = Model.GeneralRunningNumberId > 0 ? "Update Running Numbers" : "Add Running Numbers";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "CoditechCommon.GetGeneralRunningNumbersByCentreCode()" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "" };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">

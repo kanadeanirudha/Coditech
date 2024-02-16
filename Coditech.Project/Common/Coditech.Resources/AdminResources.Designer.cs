@@ -556,7 +556,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Label Running Numbers List.
+        ///   Looks up a localized string similar to Running Numbers List.
         /// </summary>
         public static string LabelRunningNumbersList {
             get {
