@@ -97,7 +97,17 @@ namespace Coditech.API.Service
 
             return userModel;
         }
+        public virtual List<UserModuleMaster> GetActiveModuleList()
+        {
+            return base.GetAllActiveModuleList();
+        }
 
+        public virtual List<UserMainMenuMaster> GetActiveMenuList(string moduleCodel)
+        {
+            return base.GetAllActiveMenuList(moduleCodel);
+        }
+
+        #region General Person
         public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel)
         {
 
@@ -203,16 +213,6 @@ namespace Coditech.API.Service
             return isPersonUpdated;
         }
 
-        public virtual List<UserModuleMaster> GetActiveModuleList()
-        {
-            return base.GetAllActiveModuleList();
-        }
-
-        public virtual List<UserMainMenuMaster> GetActiveMenuList(string moduleCodel)
-        {
-            return base.GetAllActiveMenuList(moduleCodel);
-        }
-
         public virtual GeneralPersonAddressListModel GetGeneralPersonAddresses(long personId)
         {
             if (personId <= 0)
@@ -294,6 +294,8 @@ namespace Coditech.API.Service
             }
             //return isPersonUpdated;
         }
+        #endregion
+
         #endregion
 
         #region Protected Method
