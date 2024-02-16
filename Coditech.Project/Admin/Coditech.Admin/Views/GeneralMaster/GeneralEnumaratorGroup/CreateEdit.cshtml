@@ -34,11 +34,11 @@
                                         @Html.LabelFor(x => x.EnumGroupCode, new { @class = "form-label required" })
                                         @if (Model.GeneralEnumaratorGroupId > 0)
                                         {
-                                            @Html.TextBoxFor(x => x.EnumGroupCode, new { @class = "form-control", @readonly = "true" })
+                                            @Html.TextBoxFor(x => x.EnumGroupCode, new { @class = "form-control", @readonly = "true"})
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.EnumGroupCode, new { @class = "form-control" })
+                                            @Html.TextBoxFor(x => x.EnumGroupCode, new { @class = "form-control", @onkeypress = "return CoditechCommon.AllowOnlyAlphabets()" })
                                         }
                                         @Html.ValidationMessageFor(x => x.EnumGroupCode)
                                     </div>

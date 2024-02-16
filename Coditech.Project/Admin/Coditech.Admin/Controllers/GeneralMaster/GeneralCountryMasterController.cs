@@ -42,7 +42,7 @@ namespace Coditech.Admin.Controllers
                 if (!generalCountryViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralCountryMasterController>(x => x.List(null));
+                    return RedirectToAction("List", CreateActionDataTable());
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalCountryViewModel.ErrorMessage));

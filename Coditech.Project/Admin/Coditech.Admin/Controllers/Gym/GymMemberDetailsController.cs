@@ -68,7 +68,7 @@ namespace Coditech.Admin.Controllers
                 if (!gymCreateEditMemberViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+                    return RedirectToAction("List", CreateActionDataTable());
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymCreateEditMemberViewModel.ErrorMessage));

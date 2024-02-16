@@ -10,6 +10,10 @@
             Search:
             <input id="DataTables_SearchById" type="text" class="form-control form-control-sm" value="@Model">
             <a onclick="CoditechDataTable.LoadList('@controllerName','@actionName')"><i class="fas fa-search" title="Search"></i></a>
+            @if (!string.IsNullOrEmpty(@Model))
+            {
+                <a onclick="CoditechDataTable.ReloadLoadList('@controllerName','@actionName')"><i class="fas fa-times" title="Clear"></i></a>
+            }
         </label>
     </div>
 </div>

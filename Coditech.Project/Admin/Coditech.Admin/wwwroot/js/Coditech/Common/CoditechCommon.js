@@ -117,7 +117,7 @@
     ValidNumeric: function () {
         var charCode = (event.which) ? event.which : event.keyCode;
         if (charCode >= 48 && charCode <= 57) { return true; }
-        else { return false; }   
+        else { return false; }
     },
 
     ValidDecimalNumeric: function () {
@@ -126,5 +126,15 @@
             return false;
 
         return true;
+    },
+
+    AllowOnlyAlphabets: function () {
+        var charCode = (event.which) ? event.which : event.keyCode;
+        if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     },
 }

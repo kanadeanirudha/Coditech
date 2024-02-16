@@ -9,7 +9,7 @@ namespace Coditech.Admin.ViewModel
         public int GeneralEnumaratorId { get; set; }
         public int GeneralEnumaratorGroupId { get; set; }
 
-        [Display(Name = "Enum Name")]
+        [Display(Name = "Enum Code")]
         [Required]
         [MaxLength(50)]
         public string EnumName { get; set; }

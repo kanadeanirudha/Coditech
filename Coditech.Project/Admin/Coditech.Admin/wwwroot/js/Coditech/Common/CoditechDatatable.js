@@ -39,6 +39,11 @@
         var dataTableModel = BindDataTableModel($('#DataTables_PageIndexId').val());
         CallListPage(controllerName, methodName, dataTableModel);
     },
+    ReloadLoadList: function (controllerName, methodName) {
+        $("#DataTables_SearchById").val("");
+        var dataTableModel = BindDataTableModel($('#DataTables_PageIndexId').val());
+        CallListPage(controllerName, methodName, dataTableModel);
+    },
 }
 
 function CallListPage(controllerName, methodName, dataTableModel) {
