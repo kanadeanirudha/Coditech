@@ -6,7 +6,7 @@
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("GymMemberDetailId", Model.GymMemberDetailId.ToString());
     keyValuePairs.Add("PersonId", Model.PersonId.ToString());
-    ModelPopUpViewModel addFollowUpModel = new ModelPopUpViewModel() { ModelPopUpId = "AddGymMemberBodyMeasurementModelPopupId", ModalContentId = "AddGymMemberBodyMeasurementContentId" };
+    ModelPopUpViewModel addGymMemberBodyMeasurementModel = new ModelPopUpViewModel() { ModelPopUpId = "AddGymMemberBodyMeasurementModelPopupId", ModalContentId = "AddGymMemberBodyMeasurementContentId" };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -28,7 +28,7 @@
                         <div class="row">
                             @foreach (var item in Model.GymMemberBodyMeasurementList)
                             {
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="card">
                                         <div class="card-body">
                                             <div id="DataTablesDivId_@item.GymBodyMeasurementTypeId" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -37,7 +37,7 @@
                                                         <tr role="row">
                                                             <th colspan="2" class="px-1">
                                                                 @item.BodyMeasurementType
-                                                                <a data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="GymMemberBodyMeasurement.AddGymMemberBodyMeasurement('@addFollowUpModel.ModalContentId','@item.GymMemberDetailId','@item.GymMemberBodyMeasurementId')" title="Add @item.BodyMeasurementType" class="btn btn-sm btn-soft-warning btn-circle float-end"><i class="fas ti-plus"></i></a>
+                                                                <a data-bs-toggle="modal" data-bs-target="#@addGymMemberBodyMeasurementModel.ModelPopUpId" href="void javascritp(0)" onclick="GymMemberDetails.AddGymMemberBodyMeasurement('@addGymMemberBodyMeasurementModel.ModalContentId','@Model.GymMemberDetailId','@item.GymBodyMeasurementTypeId','@item.BodyMeasurementType','@item.MeasurementUnitShortCode','@Model.PersonId')" title="Add @item.BodyMeasurementType" class="btn btn-sm btn-soft-success btn-circle float-end"><i class="fas ti-plus"></i></a>
                                                             </th>
                                                         </tr>
                                                         @if (item.GymMemberBodyMeasurementValueList?.Count > 0)
@@ -54,7 +54,7 @@
                                                             foreach (var value in item.GymMemberBodyMeasurementValueList)
                                                             {
                                                                 <tr>
-                                                                    <td>@value.CreatedDate</td>
+                                                                    <td>@value.CreatedDate.ToShortDateString()</td>
                                                                     <td>@value.BodyMeasurementValue @value.MeasurementUnitShortCode</td>
                                                                 </tr>
                                                             }
@@ -77,4 +77,4 @@
         </div>
     </div>
 </div>
-<script src="~/js/coditech/gymmemberbodymeasurement.js"></script>
+@Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", addGymMemberBodyMeasurementModel)

@@ -97,28 +97,30 @@ namespace Coditech.API.Service
             return listModel;
         }
         //Create MemberBodyMeasurement.
-        public virtual GymMemberBodyMeasurementModel CreateMemberBodyMeasurement(GymMemberBodyMeasurementModel GymMemberBodyMeasurementModel)
+        public virtual GymMemberBodyMeasurementModel CreateMemberBodyMeasurement(GymMemberBodyMeasurementModel gymMemberBodyMeasurementModel)
         {
-            if (IsNull(GymMemberBodyMeasurementModel))
+            if (IsNull(gymMemberBodyMeasurementModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            //if (IsMemberBodyMeasurementCodeAlreadyExist(GymMemberBodyMeasurementModel.FirstName))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "First Name"));
-
-            GymMemberBodyMeasurement gymMemberBodyMeasurement = GymMemberBodyMeasurementModel.FromModelToEntity<GymMemberBodyMeasurement>();
+            GymMemberBodyMeasurement gymMemberBodyMeasurement = new GymMemberBodyMeasurement()
+            {
+                GymMemberDetailId = gymMemberBodyMeasurementModel.GymMemberDetailId,
+                GymBodyMeasurementTypeId = gymMemberBodyMeasurementModel.GymBodyMeasurementTypeId,
+                BodyMeasurementValue = gymMemberBodyMeasurementModel.BodyMeasurementValue
+            };
 
             //Create new MemberBodyMeasurement and return it.
             GymMemberBodyMeasurement MemberBodyMeasurementData = _gymMemberBodyMeasurementRepository.Insert(gymMemberBodyMeasurement);
             if (MemberBodyMeasurementData?.GymMemberBodyMeasurementId > 0)
             {
-                GymMemberBodyMeasurementModel.GymMemberBodyMeasurementId = MemberBodyMeasurementData.GymMemberBodyMeasurementId;
+                gymMemberBodyMeasurementModel.GymMemberBodyMeasurementId = MemberBodyMeasurementData.GymMemberBodyMeasurementId;
             }
             else
             {
-                GymMemberBodyMeasurementModel.HasError = true;
-                GymMemberBodyMeasurementModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                gymMemberBodyMeasurementModel.HasError = true;
+                gymMemberBodyMeasurementModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
-            return GymMemberBodyMeasurementModel;
+            return gymMemberBodyMeasurementModel;
         }
 
         //Get MemberBodyMeasurement by MemberBodyMeasurement id.

@@ -56,5 +56,35 @@
             // Code in the case checkbox is NOT checked.
             $("#ReminderDateDivId").hide();
         }
-    }
+    },
+
+     AddGymMemberBodyMeasurement: function (modelPopContentId, gymMemberDetailId, gymBodyMeasurementTypeId, bodyMeasurementType, measurementUnitShortCode, personId) {
+        CoditechCommon.ShowLodder();
+        let gymMemberBodyMeasurementViewModel = {
+            GymMemberDetailId: gymMemberDetailId,
+            GymBodyMeasurementTypeId: gymBodyMeasurementTypeId,
+            BodyMeasurementType: bodyMeasurementType,
+            MeasurementUnitShortCode: measurementUnitShortCode,
+            PersonId: personId
+        };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: "html",
+            url: "/GymMemberDetails/GetGymMemberBodyMeasurement",
+            data: gymMemberBodyMeasurementViewModel,
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                $('#' + modelPopContentId).html("").html(result);
+                CoditechCommon.HideLodder();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == "401") {
+                    location.reload();
+                }
+                CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
+                CoditechCommon.HideLodder();
+            }
+        });
+    },
 }
