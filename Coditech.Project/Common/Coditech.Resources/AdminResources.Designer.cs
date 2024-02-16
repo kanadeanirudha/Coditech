@@ -79,6 +79,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete employee detaild due to associate record..
+        /// </summary>
+        public static string ErrorDeleteEmployeeDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteEmployeeDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete city due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralCityMaster {
@@ -129,6 +138,15 @@ namespace Coditech.Resources {
         public static string ErrorDeleteGeneralEnumaratorGroup {
             get {
                 return ResourceManager.GetString("ErrorDeleteGeneralEnumaratorGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete country due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralFinancialYearMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralFinancialYearMaster", resourceCulture);
             }
         }
         
@@ -204,17 +222,6 @@ namespace Coditech.Resources {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete gym member due to associate record..
-        /// </summary>
-        public static string ErrorDeleteEmployeeDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteEmployeeDetails", resourceCulture);
-            }
-        }
-
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete gym membership Plan due to associate record..
         /// </summary>
@@ -322,18 +329,6 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
             }
         }
-
-
-        /// <summary>
-        ///   Looks up a localized string similar to Country List.
-        /// </summary>
-        public static string LabelEmployeeList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelEmployeeList", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///   Looks up a localized string similar to Department List.
@@ -363,11 +358,29 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee List.
+        /// </summary>
+        public static string LabelEmployeeList {
+            get {
+                return ResourceManager.GetString("LabelEmployeeList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enum Group.
         /// </summary>
         public static string LabelEnumGroupList {
             get {
                 return ResourceManager.GetString("LabelEnumGroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FinancialYear List.
+        /// </summary>
+        public static string LabelFinancialYearList {
+            get {
+                return ResourceManager.GetString("LabelFinancialYearList", resourceCulture);
             }
         }
         
@@ -487,15 +500,5 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelTaxList", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -----Select Centre-----.
-        /// </summary>
-        public static string SelectCentre {
-            get {
-                return ResourceManager.GetString("SelectCentre", resourceCulture);
-            }
-        }
-        
     }
 }
