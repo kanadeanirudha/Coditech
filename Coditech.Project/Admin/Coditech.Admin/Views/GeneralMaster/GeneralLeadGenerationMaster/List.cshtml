@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Lead Generation List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-    string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -11,11 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="row">
-                            <span class="card-title">@AdminResources.LabelLeadGenerationList</span>
-                        </div>
-                    </div>
-                    <div class="card-header">
+                        <span class="card-title">@AdminResources.LabelLeadGenerationList</span>
                         <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Lead Generation</a>
                         <p class="text-muted mb-0"></p>
                     </div>

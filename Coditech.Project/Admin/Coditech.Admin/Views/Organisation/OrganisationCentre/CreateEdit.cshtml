@@ -211,7 +211,7 @@
                                     {
                                     DropdownType = DropdownTypeEnum.City.ToString(),
                                     DropdownName = "GeneralCityMasterId",
-                                    DropdownSelectedValue = Model.OrganisationCentreMasterId
+                                   DropdownSelectedValue = Model.GeneralCityMasterId
                                     .ToString()
                                     })
                                         @Html.ValidationMessageFor(x => x.GeneralCityMasterId)
@@ -266,7 +266,7 @@
                 opens: "right",
                 autoApply: false,
                 "locale": {
-                    "format": "DD-MM-YYYY",
+                    // "format": "DD-MM-YYYY",
                     "separator": " - ",
                     "applyLabel": "Apply",
                     "cancelLabel": "Cancel",
