@@ -222,6 +222,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IGeneralPersonFollowUpService, GeneralPersonFollowUpService>();
+            builder.Services.AddScoped<IGeneralPersonAttendanceDetailsService, GeneralPersonAttendanceDetailsService>();
         }
         #endregion
     }

@@ -291,7 +291,7 @@ namespace Coditech.Admin.Agents
             GeneralPersonAttendanceDetailsListViewModel listViewModel = new GeneralPersonAttendanceDetailsListViewModel()
             {
                 PersonId = response.PersonId,
-                GymMemberDetailId = response.GymMemberDetailId,
+                GymMemberDetailId = gymMemberDetailId,
                 FirstName = response?.FirstName,
                 LastName = response?.LastName
             };

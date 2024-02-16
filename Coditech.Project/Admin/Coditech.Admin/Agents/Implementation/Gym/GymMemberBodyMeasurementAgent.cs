@@ -72,13 +72,16 @@ namespace Coditech.Admin.Agents
         }
 
         //Create General MemberBodyMeasurement.
-        public virtual GymMemberBodyMeasurementViewModel CreateMemberBodyMeasurement(GymMemberBodyMeasurementViewModel GymMemberBodyMeasurementViewModel)
+        public virtual GymMemberBodyMeasurementViewModel CreateMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
         {
             try
             {
-                GymMemberBodyMeasurementResponse response = _GymMemberBodyMeasurementClient.CreateMemberBodyMeasurement(GymMemberBodyMeasurementViewModel.ToModel<GymMemberBodyMeasurementModel>());
-                GymMemberBodyMeasurementModel GymMemberBodyMeasurementModel = response?.GymMemberBodyMeasurementModel;
-                return IsNotNull(GymMemberBodyMeasurementModel) ? GymMemberBodyMeasurementModel.ToViewModel<GymMemberBodyMeasurementViewModel>() : new GymMemberBodyMeasurementViewModel();
+                long personId = gymMemberBodyMeasurementViewModel.PersonId;
+                GymMemberBodyMeasurementResponse response = _GymMemberBodyMeasurementClient.CreateMemberBodyMeasurement(gymMemberBodyMeasurementViewModel.ToModel<GymMemberBodyMeasurementModel>());
+                GymMemberBodyMeasurementModel gymMemberBodyMeasurementModel = response?.GymMemberBodyMeasurementModel;
+                gymMemberBodyMeasurementViewModel = IsNotNull(gymMemberBodyMeasurementModel) ? gymMemberBodyMeasurementModel.ToViewModel<GymMemberBodyMeasurementViewModel>() : new GymMemberBodyMeasurementViewModel();
+                gymMemberBodyMeasurementViewModel.PersonId = personId;
+                return gymMemberBodyMeasurementViewModel;
             }
             catch (CoditechException ex)
             {
@@ -86,15 +89,15 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
-                        return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(GymMemberBodyMeasurementViewModel, ex.ErrorMessage);
+                        return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(gymMemberBodyMeasurementViewModel, ex.ErrorMessage);
                     default:
-                        return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(GymMemberBodyMeasurementViewModel, GeneralResources.ErrorFailedToCreate);
+                        return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(gymMemberBodyMeasurementViewModel, GeneralResources.ErrorFailedToCreate);
                 }
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MemberBodyMeasurement.ToString(), TraceLevel.Error);
-                return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(GymMemberBodyMeasurementViewModel, GeneralResources.ErrorFailedToCreate);
+                return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(gymMemberBodyMeasurementViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 

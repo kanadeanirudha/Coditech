@@ -28,11 +28,11 @@ namespace Coditech.API.Controllers
         [Route("/GeneralPersonAttendanceDetails/GetPersonAttendanceList")]
         [Produces(typeof(GeneralPersonAttendanceDetailsListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetPersonAttendanceList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetPersonAttendanceList(long personId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                GeneralPersonAttendanceDetailsListModel list = _generalPersonAttendanceDetailsService.GetPersonAttendanceList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                GeneralPersonAttendanceDetailsListModel list = _generalPersonAttendanceDetailsService.GetPersonAttendanceList(personId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GeneralPersonAttendanceDetailsListResponse>(data) : CreateNoContentResponse();
             }

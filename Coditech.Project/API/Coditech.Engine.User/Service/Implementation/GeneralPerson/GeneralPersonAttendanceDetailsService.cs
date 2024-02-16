@@ -6,6 +6,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -14,33 +15,41 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class GeneralPersonAttendanceDetailsService : IGeneralPersonAttendanceDetailsService
+    public class GeneralPersonAttendanceDetailsService : BaseService, IGeneralPersonAttendanceDetailsService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralPersonAttendanceDetails> _generalPersonAttendanceDetailsRepository;
-        public GeneralPersonAttendanceDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public GeneralPersonAttendanceDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalPersonAttendanceDetailsRepository = new CoditechRepository<GeneralPersonAttendanceDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralPersonAttendanceDetailsModel> objStoredProc = new CoditechViewRepository<GeneralPersonAttendanceDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@PersonId", personId, ParameterDirection.Input, DbType.Int64);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralPersonAttendanceDetailsModel> PersonAttendanceList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralPersonAttendanceDetailsList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralPersonAttendanceDetailsModel> PersonAttendanceList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralPersonAttendanceDetailsList @PersonId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             GeneralPersonAttendanceDetailsListModel listModel = new GeneralPersonAttendanceDetailsListModel();
 
             listModel.GeneralPersonAttendanceDetailsList = PersonAttendanceList?.Count > 0 ? PersonAttendanceList : new List<GeneralPersonAttendanceDetailsModel>();
             listModel.BindPageListModel(pageListModel);
+            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
+            if (IsNotNull(generalPerson))
+            {
+                listModel.FirstName = generalPerson.FirstName;
+                listModel.LastName = generalPerson.LastName;
+            }
+            listModel.PersonId = personId;
             return listModel;
         }
         //Create Lead Generation.
