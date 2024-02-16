@@ -3,34 +3,21 @@
     ViewBag.Title = "Organisation Centrewise Department List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "OrganisationCentrewiseDepartment.GetDepartmentByCentreCode()" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()" };
 }
 <!-- Page Content-->
-<div class="page-content">
+<div class="page-content mt-5">
     <div class="container-fluid">
-        <!-- Page-Title -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="page-title-box">
-                    <div class="row">
-                        <div class="col">
-                            <h4 class="page-title">@AdminResources.LabelOrganisationCentrewiseDepartmentList</h4>
-                            @* <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Dastone</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Tables</a></li>
-                            <li class="breadcrumb-item active">Datatables</li>
-                            </ol>*@
-                        </div><!--end col-->
-                        <!--end col-->
-                    </div><!--end row-->
-                </div><!--end page-title-box-->
-            </div><!--end col-->
-        </div><!--end row-->
-        <!-- end page title end breadcrumb -->
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
+                        <div class="row">
+                            <span class="card-title">@AdminResources.LabelOrganisationCentrewiseDepartmentList</span>
+                        </div>
+                    </div>
+                    <div class="card-header">
+                        <p class="text-muted mb-0"></p>
                         <div class="row">
                             <div class="col-md-1">
                                 <label>@AdminResources.LabelCentre</label>
@@ -42,16 +29,15 @@
                                 <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="OrganisationCentrewiseDepartment.GetDepartmentByCentreCode()" />
                             </div>
                         </div>
-                    </div><!--end card-header-->
+                    </div>
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
                             @Html.Partial("~/Views/Organisation/OrganisationCentrewiseDepartment/_List.cshtml", Model)
                         </div>
                     </div>
                 </div>
-            </div> <!-- end col -->
-        </div> <!-- end row -->
-    </div><!-- container -->
+            </div>
+        </div>
+    </div>
 </div>
 <!-- end page content -->
-<script src="~/js/coditech/adminrolemaster.js"></script>
