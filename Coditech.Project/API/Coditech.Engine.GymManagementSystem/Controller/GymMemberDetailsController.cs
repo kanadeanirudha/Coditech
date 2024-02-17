@@ -28,11 +28,11 @@ namespace Coditech.API.Controllers
         [Route("/GymMemberDetails/GetGymMemberDetailsList")]
         [Produces(typeof(GymMemberDetailsListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetGymMemberDetailsList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetGymMemberDetailsList(string selectedCentreCode, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                GymMemberDetailsListModel list = _generalGymMemberDetailsService.GetGymMemberDetailsList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                GymMemberDetailsListModel list = _generalGymMemberDetailsService.GetGymMemberDetailsList(selectedCentreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberDetailsListResponse>(data) : CreateNoContentResponse();
             }

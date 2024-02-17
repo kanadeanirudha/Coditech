@@ -49,7 +49,7 @@ namespace Coditech.Admin.Controllers
                 if (!employeeCreateEditViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<EmployeeMasterController>(x => x.List(null));
+                    return RedirectToAction("List", CreateActionDataTable());
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(employeeCreateEditViewModel.ErrorMessage));

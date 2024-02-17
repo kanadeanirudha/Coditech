@@ -57,7 +57,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GymMemberDetailsListResponse response = _gymMemberDetailsClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberDetailsListResponse response = _gymMemberDetailsClient.List(dataTableModel.SelectedCentreCode, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GymMemberDetailsListModel gymMemberList = new GymMemberDetailsListModel { GymMemberDetailsList = response?.GymMemberDetailsList };
             GymMemberDetailsListViewModel listViewModel = new GymMemberDetailsListViewModel();
             listViewModel.GymMemberDetailsList = gymMemberList?.GymMemberDetailsList?.ToViewModel<GymMemberDetailsViewModel>().ToList();

@@ -3,7 +3,7 @@
     ViewBag.Title = Model.GeneralRunningNumberId > 0 ? "Update Running Numbers" : "Add Running Numbers";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "", IsDisabled = Model.GeneralRunningNumberId > 0 };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -41,11 +41,11 @@
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.GeneralFinancialYearId, new { @class = "form-label" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                                    {
-                                    DropdownType = DropdownTypeEnum.FinancialYear.ToString(),
-                                    DropdownName = "GeneralFinancialYearId",
-                                    DropdownSelectedValue = Model.GeneralFinancialYearId.ToString()
-                                    })
+                               {
+                                   DropdownType = DropdownTypeEnum.FinancialYear.ToString(),
+                                   DropdownName = "GeneralFinancialYearId",
+                                   DropdownSelectedValue = Model.GeneralFinancialYearId.ToString()
+                               })
                                         @Html.ValidationMessageFor(x => x.GeneralFinancialYearId)
                                     </div>
                                 </div>
@@ -60,11 +60,13 @@
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.KeyFieldEnumId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                                    {
-                                    DropdownSelectedValue = Model.KeyFieldEnumId.ToString(),
-                                    DropdownName = "KeyFieldEnumId",
-                                    GroupCode = DropdownTypeEnum.GeneralRunningNumberFor.ToString()
-                                    })   @Html.ValidationMessageFor(x => x.KeyFieldEnumId)
+                               {
+                                   DropdownSelectedValue = Model.KeyFieldEnumId.ToString(),
+                                   DropdownName = "KeyFieldEnumId",
+                                   GroupCode = DropdownTypeEnum.GeneralRunningNumberFor.ToString(),
+                                   IsDisabled = Model.GeneralRunningNumberId > 0
+                               })
+                                        @Html.ValidationMessageFor(x => x.KeyFieldEnumId)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">

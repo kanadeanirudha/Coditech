@@ -10,6 +10,7 @@ using Coditech.Resources;
 using Microsoft.IdentityModel.Tokens;
 
 using System.Data;
+using System.Diagnostics;
 
 using static Coditech.Common.Helper.HelperUtility;
 
@@ -126,13 +127,13 @@ namespace Coditech.API.Service
                 generalPersonModel.PersonId = personData.PersonId;
                 List<GeneralSystemGlobleSettingMaster> settingMasterList = GetSystemGlobleSettingList();
                 string password = settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.DefaultPassword.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue;
-                string registrationFormat = _userTypeRepository.Table.FirstOrDefault(x => x.UserTypeCode == generalPersonModel.UserType)?.RegistrationFormat;
                 generalPersonModel.Password = MD5Hash(password);
-                generalPersonModel.PersonCode = registrationFormat;
                 if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
+                    generalPersonModel.PersonCode = GenerateRegistrationCode("GymMemberRegistration", generalPersonModel.SelectedCentreCode);
                     GymMemberDetails gymMemberDetails = new GymMemberDetails()
                     {
+                        CentreCode = generalPersonModel.SelectedCentreCode,
                         PersonId = generalPersonModel.PersonId,
                         PersonCode = generalPersonModel.PersonCode,
                         UserType = generalPersonModel.UserType
@@ -147,6 +148,7 @@ namespace Coditech.API.Service
                 }
                 else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
+                    generalPersonModel.PersonCode = GenerateRegistrationCode("EmployeeRegistration", generalPersonModel.SelectedCentreCode);
                     EmployeeMaster employeeMaster = new EmployeeMaster()
                     {
                         PersonId = generalPersonModel.PersonId,
@@ -449,19 +451,48 @@ namespace Coditech.API.Service
             userMaster = _userMasterRepository.Insert(userMaster);
         }
 
-        protected virtual bool ValidatedGeneralPersonData(GeneralPersonModel generalPersonModel) {
+        protected virtual bool ValidatedGeneralPersonData(GeneralPersonModel generalPersonModel)
+        {
             bool status = true;
             if (IsNull(generalPersonModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
+            int generalEnumaratorId = 0;
             if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
-               
+                if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
+                {
+                    status = false;
+                    _coditechLogging.LogMessage("SelectedCentreCode or SelectedDepartmentId is null", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                }
+
+                generalEnumaratorId = GetEnumIdByEnumCode("GymMemberRegistration");
+                if (generalEnumaratorId == 0)
+                {
+                    _coditechLogging.LogMessage("EmployeeRegistration is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+                    status = false;
+                }
             }
             else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode) || string.IsNullOrEmpty(generalPersonModel.SelectedDepartmentId))
+                {
                     status = false;
+                    _coditechLogging.LogMessage("SelectedCentreCode or SelectedDepartmentId is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+                }
+
+                generalEnumaratorId = GetEnumIdByEnumCode("EmployeeRegistration");
+                if (generalEnumaratorId == 0)
+                {
+                    _coditechLogging.LogMessage("EmployeeRegistration is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+                    status = false;
+                }
+            }
+
+            if (!new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>()).Table.Any(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode == generalPersonModel.SelectedCentreCode))
+            {
+                status = false;
+                _coditechLogging.LogMessage("General Running Numbers row not present", generalPersonModel.UserType.ToString(), TraceLevel.Error);
             }
             return status;
         }

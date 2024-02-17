@@ -8,6 +8,7 @@ namespace Coditech.API.Data
         public int GymMemberDetailId { get; set; }
         public long PersonId { get; set; }
         public string PersonCode { get; set; }
+        public string CentreCode { get; set; }
         public string UserType { get; set; }
         public string PastInjuries { get; set; }
         public string MedicalHistory { get; set; }

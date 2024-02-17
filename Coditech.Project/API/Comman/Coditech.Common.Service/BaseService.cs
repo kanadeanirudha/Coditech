@@ -4,8 +4,6 @@ using Coditech.Common.Logger;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using System.Collections.Generic;
-
 namespace Coditech.Common.Service
 {
     public abstract class BaseService
@@ -75,5 +73,45 @@ namespace Coditech.Common.Service
             GeneralPerson generalPerson = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).GetById(personId);
             return generalPerson;
         }
+
+        protected virtual string GetEnumCodeByEnumId(int generalEnumaratorId)
+        {
+            GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).GetById(generalEnumaratorId);
+            return generalEnumaratorMaster.EnumName;
+        }
+
+        protected virtual int GetEnumIdByEnumCode(string enumCode)
+        {
+            GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EnumName == enumCode);
+            return generalEnumaratorMaster.GeneralEnumaratorId;
+        }
+
+        protected virtual string GenerateRegistrationCode(string enumCode, string centreCode)
+        {
+            string registrationCode = string.Empty;
+            int generalEnumaratorId = GetEnumIdByEnumCode(enumCode);
+            CoditechRepository<GeneralRunningNumbers> _generalRunningNumbersRepository =   new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>());
+            GeneralRunningNumbers generalRunningNumbers = _generalRunningNumbersRepository.Table.FirstOrDefault(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode== centreCode);
+            if (generalRunningNumbers != null)
+            {
+                DateTime dateTime = DateTime.Now;
+                generalRunningNumbers.CurrentSequnce = (generalRunningNumbers.CurrentSequnce + 1);
+                registrationCode = generalRunningNumbers.DisplayFormat?.ToLower();
+                registrationCode = registrationCode.Replace("<centrecode>", centreCode);
+                registrationCode = registrationCode.Replace("<separator>", generalRunningNumbers.Separator);
+                registrationCode = registrationCode.Replace("<prefix>", generalRunningNumbers.Prefix);
+                registrationCode = registrationCode.Replace("<yyyy>", dateTime.Year.ToString());
+                registrationCode = registrationCode.Replace("<yy>", dateTime.Year.ToString());
+                registrationCode = registrationCode.Replace("<mm>", dateTime.Month.ToString());
+                registrationCode = registrationCode.Replace("<dd>", dateTime.Date.ToString());
+                registrationCode = registrationCode.Replace("<hh>", dateTime.Hour.ToString());
+                registrationCode = registrationCode.Replace("<mm>", dateTime.Minute.ToString());
+                registrationCode = registrationCode.Replace("<sec>", dateTime.Second.ToString());
+                registrationCode = registrationCode.Replace("<currentsequence>", (generalRunningNumbers.CurrentSequnce).ToString());
+                _generalRunningNumbersRepository.Update(generalRunningNumbers);
+            }
+            return registrationCode;
+        }
+
     }
 }

@@ -11,7 +11,7 @@ namespace Coditech.API.Client
         /// Get list of Gym Member.
         /// </summary>
         /// <returns>GymMemberDetailsListResponse</returns>
-        GymMemberDetailsListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        GymMemberDetailsListResponse List(string selectedCentreCode,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Get Gym Member Other Details by gymMemberDetailId.

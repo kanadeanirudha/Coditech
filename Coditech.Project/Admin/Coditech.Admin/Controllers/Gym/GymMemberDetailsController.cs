@@ -21,9 +21,14 @@ namespace Coditech.Admin.Controllers
         }
 
         #region GymMemberDetails
-        public ActionResult List(DataTableViewModel dataTableModel)
+        public ActionResult List(DataTableViewModel dataTableViewModel)
         {
-            GymMemberDetailsListViewModel list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableModel);
+            GymMemberDetailsListViewModel list = new GymMemberDetailsListViewModel();
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
+            {
+                list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableViewModel);
+            }
+            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_List.cshtml", list);
@@ -281,7 +286,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult GetGymMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
         {
             gymMemberBodyMeasurementViewModel.CreatedDate = DateTime.Now.ToShortDateString();
-            return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel); 
+            return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel);
         }
 
         [HttpPost]
