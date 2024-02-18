@@ -17,10 +17,10 @@ namespace Coditech.Admin.ViewModel
         public string LastName { get; set; }
         public string DateOfBirth { get; set; }
         public string UserType { get; set; }
-        public int EmployeeDesignationMasterId { get; set; }
-        public int OrganisationCentrewiseDepartmentId { get; set; }
+        public short EmployeeDesignationMasterId { get; set; }
+        public short OrganisationCentrewiseDepartmentId { get; set; }
         public bool IsEmployeeSmoker { get; set; }
-        public long ReportingEmployeeId { get; set; }
+        public long? ReportingEmployeeId { get; set; }
         public string PANCardNumber { get; set; }
         public string UANNumber { get; set; }
         public string PassportNumber { get; set; }
