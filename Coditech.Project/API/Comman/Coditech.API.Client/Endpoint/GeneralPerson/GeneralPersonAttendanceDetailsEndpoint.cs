@@ -17,7 +17,7 @@ namespace Coditech.API.Endpoint
           $"{CoditechAdminSettings.CoditechUserApiRootUri}/GeneralPersonAttendanceDetails/GetPersonAttendance?generalPersonAttendanceDetailId={generalPersonAttendanceDetailId}";
 
         public string InserUpdateGeneralPersonAttendanceDetailsAsync() =>
-              $"{CoditechAdminSettings.CoditechUserApiRootUri}/GeneralPersonAttendanceDetails/CreatePersonAttendance";
+              $"{CoditechAdminSettings.CoditechUserApiRootUri}/GeneralPersonAttendanceDetails/InserUpdateGeneralPersonAttendanceDetails";
 
         public string DeleteGeneralPersonAttendanceDetailsAsync() =>
                   $"{CoditechAdminSettings.CoditechUserApiRootUri}/GeneralPersonAttendanceDetails/DeletePersonAttendance";

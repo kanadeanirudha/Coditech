@@ -10,7 +10,7 @@
             BalanceSheetList = new List<UserBalanceSheetModel>();
             AccessibleCentreList = new List<UserAccessibleCentreModel>();
         }
-        public int UserMasterId { get; set; }
+        public long UserMasterId { get; set; }
         public bool IsAdminUser { get; set; }
         public short UserTypeID { get; set; }
         public string UserType { get; set; }

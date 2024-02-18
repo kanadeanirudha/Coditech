@@ -12,10 +12,10 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Enum Group Code")]
         public string EnumGroupCode { get; set; }
 
-        [Display(Name = "Disaply Text")]
+        [Display(Name = "Display Text")]
         [Required]
         [MaxLength(50)]
-        public string DisaplyText { get; set; }
+        public string DisplayText { get; set; }
 
         public List<GeneralEnumaratorModel> GeneralEnumaratorList { get; set; }
     }

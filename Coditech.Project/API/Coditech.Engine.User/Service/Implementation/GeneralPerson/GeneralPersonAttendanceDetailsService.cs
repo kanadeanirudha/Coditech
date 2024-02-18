@@ -53,7 +53,7 @@ namespace Coditech.API.Service
             return listModel;
         }
         //Create Lead Generation.
-        public virtual GeneralPersonAttendanceDetailsModel CreatePersonAttendance(GeneralPersonAttendanceDetailsModel generalPersonAttendanceDetailsModel)
+        public virtual GeneralPersonAttendanceDetailsModel InserUpdateGeneralPersonAttendanceDetails(GeneralPersonAttendanceDetailsModel generalPersonAttendanceDetailsModel)
         {
             if (IsNull(generalPersonAttendanceDetailsModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -84,27 +84,6 @@ namespace Coditech.API.Service
             GeneralPersonAttendanceDetails generalPersonAttendanceDetails = _generalPersonAttendanceDetailsRepository.Table.FirstOrDefault(x => x.GeneralPersonAttendanceDetailId == PersonAttendanceId);
             GeneralPersonAttendanceDetailsModel generalPersonAttendanceDetailsModel = generalPersonAttendanceDetails?.FromEntityToModel<GeneralPersonAttendanceDetailsModel>();
             return generalPersonAttendanceDetailsModel;
-        }
-
-        //Update PersonAttendance.
-        public virtual bool UpdatePersonAttendance(GeneralPersonAttendanceDetailsModel generalPersonAttendanceDetailsModel)
-        {
-            if (IsNull(generalPersonAttendanceDetailsModel))
-                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
-
-            if (generalPersonAttendanceDetailsModel.GeneralPersonAttendanceDetailId < 1)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonAttendanceID"));
-
-            GeneralPersonAttendanceDetails generalPersonAttendanceDetails = generalPersonAttendanceDetailsModel.FromModelToEntity<GeneralPersonAttendanceDetails>();
-
-            //Update PersonAttendance
-            bool isPersonAttendanceUpdated = _generalPersonAttendanceDetailsRepository.Update(generalPersonAttendanceDetails);
-            if (!isPersonAttendanceUpdated)
-            {
-                generalPersonAttendanceDetailsModel.HasError = true;
-                generalPersonAttendanceDetailsModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
-            }
-            return isPersonAttendanceUpdated;
         }
 
         //Delete PersonAttendance.

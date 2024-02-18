@@ -41,7 +41,7 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("EnumGroupCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("DisaplyText", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("DisplayText", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "EnumGroupCode" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -215,8 +215,8 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Disaply Text",
-                ColumnCode = "DisaplyText",
+                ColumnName = "Display Text",
+                ColumnCode = "Display Text",
                 IsSortable = true,
             });
             return datatableColumnList;

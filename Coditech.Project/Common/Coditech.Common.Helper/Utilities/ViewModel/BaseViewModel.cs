@@ -6,9 +6,9 @@
         {
             PageListViewModel = new PageListViewModel();
         }
-        public int CreatedBy { get; set; }
+        public long CreatedBy { get; set; }
         public string CreatedDate { get; set; }
-        public int ModifiedBy { get; set; }
+        public long ModifiedBy { get; set; }
         public string ModifiedDate { get; set; }
 
         public bool HasError { get; set; }

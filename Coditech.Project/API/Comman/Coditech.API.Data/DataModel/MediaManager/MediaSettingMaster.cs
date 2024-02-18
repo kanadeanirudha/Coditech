@@ -17,9 +17,9 @@ namespace Coditech.API.Data
         public short ThumbnailImageResize { get; set; }
         public short SmallThumbnailImageResize { get; set; }
         public string HelpDescription { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

@@ -5,11 +5,11 @@ namespace Coditech.Common.API.Model
     public class BaseModel
     {
         [XmlIgnore]
-        public int CreatedBy { get; set; }
+        public long CreatedBy { get; set; }
         [XmlIgnore]
         public DateTime CreatedDate { get; set; }
         [XmlIgnore]
-        public int ModifiedBy { get; set; }
+        public long ModifiedBy { get; set; }
         [XmlIgnore]
         public DateTime ModifiedDate { get; set; }
         public string Custom1 { get; set; }

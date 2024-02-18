@@ -2,7 +2,7 @@
 {
     public partial class UserMaster
     {
-        public int UserMasterId { get; set; }
+        public long UserMasterId { get; set; }
         public string UserType { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -14,9 +14,9 @@
         public bool IsActive { get; set; }
         public string DeviceToken { get; set; }
         public string LastModuleCode { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

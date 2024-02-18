@@ -8,9 +8,8 @@ namespace Coditech.API.Service
     public interface IGeneralPersonAttendanceDetailsService
     {
         GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        GeneralPersonAttendanceDetailsModel CreatePersonAttendance(GeneralPersonAttendanceDetailsModel model);
+        GeneralPersonAttendanceDetailsModel InserUpdateGeneralPersonAttendanceDetails(GeneralPersonAttendanceDetailsModel model);
         GeneralPersonAttendanceDetailsModel GetPersonAttendance(long generalPersonAttendanceDetailsId);
-        bool UpdatePersonAttendance(GeneralPersonAttendanceDetailsModel model);
         bool DeletePersonAttendance(ParameterModel parameterModel);
     }
 }

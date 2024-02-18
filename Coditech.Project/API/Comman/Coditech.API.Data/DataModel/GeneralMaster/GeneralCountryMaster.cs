@@ -11,9 +11,9 @@
         public string CurrencyCode { get; set; }
         public string currencySymbol { get; set; }
         public byte[] CountryFlag { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

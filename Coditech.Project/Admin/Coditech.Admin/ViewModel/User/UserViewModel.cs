@@ -6,7 +6,7 @@ namespace Coditech.Admin.ViewModel
 {
     public class UserViewModel : BaseViewModel
     {
-        public int UserId { get; set; }
+        public long UserMasterId { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]

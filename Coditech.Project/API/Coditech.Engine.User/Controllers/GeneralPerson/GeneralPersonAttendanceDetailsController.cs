@@ -48,14 +48,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/GeneralPersonAttendanceDetails/CreatePersonAttendance")]
+        [Route("/GeneralPersonAttendanceDetails/InserUpdateGeneralPersonAttendanceDetails")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralPersonAttendanceDetailsResponse))]
-        public virtual IActionResult CreatePersonAttendance([FromBody] GeneralPersonAttendanceDetailsModel model)
+        public virtual IActionResult InserUpdateGeneralPersonAttendanceDetails([FromBody] GeneralPersonAttendanceDetailsModel model)
         {
             try
             {
-                GeneralPersonAttendanceDetailsModel PersonAttendance = _generalPersonAttendanceDetailsService.CreatePersonAttendance(model);
+                GeneralPersonAttendanceDetailsModel PersonAttendance = _generalPersonAttendanceDetailsService.InserUpdateGeneralPersonAttendanceDetails(model);
                 return IsNotNull(PersonAttendance) ? CreateCreatedResponse(new GeneralPersonAttendanceDetailsResponse { GeneralPersonAttendanceDetailsModel = PersonAttendance }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
@@ -79,28 +79,6 @@ namespace Coditech.API.Controllers
             {
                 GeneralPersonAttendanceDetailsModel generalPersonAttendanceDetailsModel = _generalPersonAttendanceDetailsService.GetPersonAttendance(generalPersonAttendanceDetailsId);
                 return IsNotNull(generalPersonAttendanceDetailsModel) ? CreateOKResponse(new GeneralPersonAttendanceDetailsResponse { GeneralPersonAttendanceDetailsModel = generalPersonAttendanceDetailsModel }) : CreateNoContentResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PersonAttendance.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new GeneralPersonAttendanceDetailsResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PersonAttendance.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GeneralPersonAttendanceDetailsResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
-        [Route("/GeneralPersonAttendanceDetails/UpdatePersonAttendance")]
-        [HttpPut, ValidateModel]
-        [Produces(typeof(GeneralPersonAttendanceDetailsResponse))]
-        public virtual IActionResult UpdatePersonAttendance([FromBody] GeneralPersonAttendanceDetailsModel model)
-        {
-            try
-            {
-                bool isUpdated = _generalPersonAttendanceDetailsService.UpdatePersonAttendance(model);
-                return isUpdated ? CreateOKResponse(new GeneralPersonAttendanceDetailsResponse { GeneralPersonAttendanceDetailsModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {

@@ -10,9 +10,9 @@
         public Nullable<System.DateTime> DisableDate { get; set; }
         public string DisablePurpose { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

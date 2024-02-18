@@ -23,9 +23,9 @@ namespace Coditech.API.Data
         public string Location { get; set; }
         public int LeadGenerationStatusEnumId { get; set; }
         public bool IsConverted { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

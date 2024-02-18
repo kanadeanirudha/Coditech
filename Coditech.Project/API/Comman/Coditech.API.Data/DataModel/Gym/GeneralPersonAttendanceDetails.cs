@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.API.Data.DataModel.Gym
 {
@@ -11,15 +6,15 @@ namespace Coditech.API.Data.DataModel.Gym
     {
         [Key]
         public long GeneralPersonAttendanceDetailId { get; set; }
-        public long PersonId { get; set; }
-        public int GeneralAttendanceStateEnumId { get; set; }
+        public long EntityId { get; set; }
+        public string UserType { get; set; }
         public int GymMemberDetailId { get; set; }
         public DateTime AttendanceDate { get; set; }
-        public DateTime LoginTime { get; set; }
-        public DateTime LogoutTime { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public TimeSpan LoginTime { get; set; }
+        public TimeSpan LogoutTime { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

@@ -11,9 +11,9 @@ namespace Coditech.API.Data
         public string FollowupComment { get; set; }
         public bool IsSetReminder { get; set; }
         public DateTime? ReminderDate { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

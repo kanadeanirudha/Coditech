@@ -26,9 +26,9 @@ namespace Coditech.API.Client
         private int _apiRequestTimeout = 0;
         private string _DomainHeader;
         private string _localeId;
-        public int UserId { get; set; }
+        public long UserMasterId { get; set; }
         public bool RefreshCache { get; set; }
-        private string LoginAsHeader => UserId > 0 ? $"LoginAsUserId: {UserId}" : string.Empty;
+        private string LoginAsHeader => UserMasterId > 0 ? $"LoginAsUserId: {UserMasterId}" : string.Empty;
         ///// <summary>
         ///// API request timeout in milliseconds.
         ///// </summary>

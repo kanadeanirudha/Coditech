@@ -30,7 +30,7 @@ namespace Coditech.Admin.Agents
                 UserModel model = SessionProxyHelper.GetUserDetails();
                 if (HelperUtility.IsNotNull(model))
                 {
-                    (obj as BaseClient).UserId = model.UserMasterId;
+                    (obj as BaseClient).UserMasterId = model.UserMasterId;
                     (obj as BaseClient).RefreshCache = true;
                 }
             }
@@ -54,7 +54,7 @@ namespace Coditech.Admin.Agents
                 UserModel model = SessionProxyHelper.GetUserDetails();
                 if (HelperUtility.IsNotNull(model))
                 {
-                    (obj as BaseClient).UserId = model.UserMasterId;
+                    (obj as BaseClient).UserMasterId = model.UserMasterId;
                     (obj as BaseClient).RefreshCache = true;
                 }
             }

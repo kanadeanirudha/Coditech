@@ -14,7 +14,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         public string EnumName { get; set; }
 
-        [Display(Name = "Disaply Text")]
+        [Display(Name = "Display Text")]
         [Required]
         [MaxLength(250)]
         public string EnumDisplayText { get; set; }
