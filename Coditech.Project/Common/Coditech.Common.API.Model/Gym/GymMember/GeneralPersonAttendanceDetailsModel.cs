@@ -1,15 +1,12 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
     public class GeneralPersonAttendanceDetailsModel : BaseModel
     {
         public long GeneralPersonAttendanceDetailId { get; set; }
         public int GymMemberDetailId { get; set; }
 
-        public long PersonId { get; set; }
+        public long EntityId { get; set; }
+        public string UserType { get; set; }
 
         public int GeneralAttendanceStateEnumId { get; set; }
 
