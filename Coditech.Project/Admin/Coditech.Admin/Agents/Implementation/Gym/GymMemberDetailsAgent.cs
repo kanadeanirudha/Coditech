@@ -38,7 +38,8 @@ namespace Coditech.Admin.Agents
         public virtual GymMemberDetailsListViewModel GetGymMemberDetailsList(DataTableViewModel dataTableModel, string listType = null)
         {
             FilterCollection filters = new FilterCollection();
-            if (listType == "Active") {
+            if (listType == "Active")
+            {
                 filters.Add("IsActive", ProcedureFilterOperators.Equals, "1");
             }
             else if (listType == "InActive")
@@ -271,7 +272,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Gym Member Attendance
-        public virtual GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public virtual GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, string userType, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -285,7 +286,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralPersonAttendanceDetailsListResponse response = _generalPersonAttendanceDetailsClient.GeneralPersonAttendanceDetailsList(personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralPersonAttendanceDetailsListResponse response = _generalPersonAttendanceDetailsClient.GeneralPersonAttendanceDetailsList(personId, userType, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralPersonAttendanceDetailsListModel gymMemberList = new GeneralPersonAttendanceDetailsListModel { GeneralPersonAttendanceDetailsList = response?.GeneralPersonAttendanceDetailsList };
 
             GeneralPersonAttendanceDetailsListViewModel listViewModel = new GeneralPersonAttendanceDetailsListViewModel()
@@ -464,4 +465,4 @@ namespace Coditech.Admin.Agents
         #endregion
     }
 }
-    #endregion
+#endregion
