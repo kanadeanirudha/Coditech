@@ -9,6 +9,8 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 
+using Microsoft.IdentityModel.Tokens;
+
 using System.Collections.Specialized;
 using System.Data;
 
@@ -27,7 +29,7 @@ namespace Coditech.API.Service
             _generalPersonAttendanceDetailsRepository = new CoditechRepository<GeneralPersonAttendanceDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(long personId,string userType, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(long personId, string userType, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
@@ -59,18 +61,33 @@ namespace Coditech.API.Service
             if (IsNull(generalPersonAttendanceDetailsModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            GeneralPersonAttendanceDetails generalPersonAttendanceDetails = generalPersonAttendanceDetailsModel.FromModelToEntity<GeneralPersonAttendanceDetails>();
-
-            //Create new PersonAttendance and return it.
-            GeneralPersonAttendanceDetails personAttendanceData = _generalPersonAttendanceDetailsRepository.Insert(generalPersonAttendanceDetails);
-            if (personAttendanceData?.GeneralPersonAttendanceDetailId > 0)
+            GeneralPersonAttendanceDetails generalPersonAttendanceDetails = _generalPersonAttendanceDetailsRepository.Table.FirstOrDefault(x => x.AttendanceDate == generalPersonAttendanceDetailsModel.AttendanceDate && x.EntityId == generalPersonAttendanceDetailsModel.EntityId && x.UserType == generalPersonAttendanceDetailsModel.UserType);
+            if (IsNull(generalPersonAttendanceDetails))
             {
-                generalPersonAttendanceDetailsModel.GeneralPersonAttendanceDetailId = personAttendanceData.GeneralPersonAttendanceDetailId;
+                generalPersonAttendanceDetails = generalPersonAttendanceDetailsModel.FromModelToEntity<GeneralPersonAttendanceDetails>();
+
+                //Create new PersonAttendance and return it.
+                GeneralPersonAttendanceDetails personAttendanceData = _generalPersonAttendanceDetailsRepository.Insert(generalPersonAttendanceDetails);
+                if (personAttendanceData?.GeneralPersonAttendanceDetailId > 0)
+                {
+                    generalPersonAttendanceDetailsModel.GeneralPersonAttendanceDetailId = personAttendanceData.GeneralPersonAttendanceDetailId;
+                }
+                else
+                {
+                    generalPersonAttendanceDetailsModel.HasError = true;
+                    generalPersonAttendanceDetailsModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                }
             }
             else
             {
-                generalPersonAttendanceDetailsModel.HasError = true;
-                generalPersonAttendanceDetailsModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                generalPersonAttendanceDetails.LoginTime = IsNull(generalPersonAttendanceDetailsModel.LoginTime) ? generalPersonAttendanceDetails.LoginTime : generalPersonAttendanceDetailsModel.LoginTime;
+                generalPersonAttendanceDetails.LogoutTime = IsNull(generalPersonAttendanceDetailsModel.LogoutTime) ? generalPersonAttendanceDetails.LogoutTime : generalPersonAttendanceDetailsModel.LogoutTime;
+                generalPersonAttendanceDetails.Remark = IsNull(generalPersonAttendanceDetailsModel.Remark) ? generalPersonAttendanceDetails.Remark : generalPersonAttendanceDetailsModel.Remark;
+                if (!_generalPersonAttendanceDetailsRepository.Update(generalPersonAttendanceDetails))
+                {
+                    generalPersonAttendanceDetailsModel.HasError = true;
+                    generalPersonAttendanceDetailsModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                }
             }
             return generalPersonAttendanceDetailsModel;
         }
