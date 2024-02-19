@@ -81,7 +81,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get HospitalDoctors by hospital Doctor id.
-        public virtual HospitalDoctorsViewModel GetHospitalDoctors(long hospitalDoctorId)
+        public virtual HospitalDoctorsViewModel GetHospitalDoctors(int hospitalDoctorId)
         {
             HospitalDoctorsResponse response = _hospitalDoctorsClient.GetHospitalDoctors(hospitalDoctorId);
             return response?.HospitalDoctorsModel.ToViewModel<HospitalDoctorsViewModel>();
@@ -184,6 +184,11 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Room Name",
                 ColumnCode = "OrganisationCentrewiseBuildingRoomId",
                 IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Associated",
+                ColumnCode = "IsAssociated",
             });
             return datatableColumnList;
         }

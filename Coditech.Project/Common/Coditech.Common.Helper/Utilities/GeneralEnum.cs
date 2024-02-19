@@ -36,7 +36,6 @@
         UserType,
         MedicalSpecilization,
         WeekDays,
-        EmployeeMaster,
         CentrewiseBuildingRooms,
         Floors,
         AttendanceState

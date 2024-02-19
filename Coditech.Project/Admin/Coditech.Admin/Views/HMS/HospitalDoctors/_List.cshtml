@@ -3,6 +3,7 @@
     Layout = null;
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    ModelPopUpViewModel addFollowUpModel = new ModelPopUpViewModel() { ModelPopUpId = "AssociateUnAssociateOrganisationCentrewiseDepartmentModelPopupId", ModalContentId = "AssociateUnAssociateOrganisationCentrewiseDepartmentModelPopupContentId" };
 }
 <div class="row">
     @Html.Partial("~/Views/Shared/Datatable/_DatatableShowResult.cshtml", Model.PageListViewModel.RecordPerPage)
@@ -25,10 +26,21 @@
                             <td>@item.EmailId</td>
                             <td>@item.MedicalSpecilizationEnumId</td>
                             <td>@item.OrganisationCentrewiseBuildingRoomId</td>
+                            <td>@Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsAssociated)</td>
                             <td class="text-center">
+                                @if (item.IsAssociated)
+                                {
+                                    <a data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="OrganisationCentrewiseDepartment.GetAssociateUnAssociateCentrewiseDepartment('@addFollowUpModel.ModalContentId','@item.OrganisationCentrewiseDepartmentId','@item.GeneralDepartmentMasterId','@item.DepartmentName')" title="UnAssociate Centre From Department" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-redo"></i></a>
+                                }
+                                else
+                                {
+                                    <a data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="OrganisationCentrewiseDepartment.GetAssociateUnAssociateCentrewiseDepartment('@addFollowUpModel.ModalContentId','@item.OrganisationCentrewiseDepartmentId','@item.GeneralDepartmentMasterId','@item.DepartmentName')" title="Associate Centre To Department" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-check"></i></a>
+                                }
+                            </td>
+                            @* <td class="text-center">
                                 <a href="../@controllerName/Edit?hospitalDoctorId=@item.HospitalDoctorId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
                                 <a href="../@controllerName/Delete?hospitalDoctorIds=@item.HospitalDoctorId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
-                            </td>
+                            </td> *@
                         </tr>
                     }
                 }

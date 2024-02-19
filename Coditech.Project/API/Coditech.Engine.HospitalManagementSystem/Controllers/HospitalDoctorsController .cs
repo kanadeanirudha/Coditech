@@ -74,7 +74,7 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
         [Route("/HospitalDoctors/GetHospitalDoctors")]
         [HttpGet]
         [Produces(typeof(HospitalDoctorsResponse))]
-        public virtual IActionResult GetHospitalDoctors(long hospitalDoctorId)
+        public virtual IActionResult GetHospitalDoctors(int hospitalDoctorId)
         {
             try
             {

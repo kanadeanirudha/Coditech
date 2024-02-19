@@ -2,7 +2,6 @@
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-using Coditech.Common.API.Model.Responses.EmployeeMaster;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 
@@ -120,12 +119,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual HospitalDoctorsResponse GetHospitalDoctors(long hospitalDoctorId)
+        public virtual HospitalDoctorsResponse GetHospitalDoctors(int hospitalDoctorId)
         {
             return Task.Run(async () => await GetHospitalDoctorsAsync(hospitalDoctorId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalDoctorsResponse> GetHospitalDoctorsAsync(long hospitalDoctorId, CancellationToken cancellationToken)
+        public virtual async Task<HospitalDoctorsResponse> GetHospitalDoctorsAsync(int hospitalDoctorId, CancellationToken cancellationToken)
         {
             if (hospitalDoctorId <= 0)
                 throw new System.ArgumentNullException("hospitalDoctorId");

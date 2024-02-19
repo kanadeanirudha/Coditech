@@ -70,7 +70,7 @@ namespace Coditech.API.Service
         }
 
         //Get HospitalDoctors by  hospital Doctor id.
-        public virtual HospitalDoctorsModel GetHospitalDoctors(long hospitalDoctorId)
+        public virtual HospitalDoctorsModel GetHospitalDoctors(int hospitalDoctorId)
         {
             if (hospitalDoctorId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorId"));

@@ -25,7 +25,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="hospitalDoctorId">hospitalDoctorId</param>
         /// <returns>Returns HospitalDoctorsViewModel.</returns>
-        HospitalDoctorsViewModel GetHospitalDoctors(long hospitalDoctorId);
+        HospitalDoctorsViewModel GetHospitalDoctors(int hospitalDoctorId);
 
         /// <summary>
         /// Update Hospital Doctors.

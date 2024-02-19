@@ -5,7 +5,7 @@ namespace Coditech.API.Data
     public partial class HospitalDoctors
     {
         [Key]
-        public long HospitalDoctorId { get; set; }
+        public int HospitalDoctorId { get; set; }
         public long EmployeeId { get; set; }
         public int MedicalSpecilizationEnumId { get; set; }
         public string WeekDayEnumIds { get; set; }

@@ -9,7 +9,7 @@ namespace Coditech.API.Service
     {
         HospitalDoctorsListModel GetHospitalDoctorsList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         HospitalDoctorsModel CreateHospitalDoctors(HospitalDoctorsModel model);
-        HospitalDoctorsModel GetHospitalDoctors(long hospitalDoctorId);
+        HospitalDoctorsModel GetHospitalDoctors(int hospitalDoctorId);
         bool UpdateHospitalDoctors(HospitalDoctorsModel model);
         bool DeleteHospitalDoctors(ParameterModel parameterModel);
     }

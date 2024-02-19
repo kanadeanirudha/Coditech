@@ -403,7 +403,7 @@ namespace Coditech.Admin.Helpers
                 }
             }
 
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.EmployeeMaster.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Employee.ToString()))
             {
                 EmployeeMasterListResponse response = new EmployeeMasterClient().List(null, null, null, 1, int.MaxValue);
                 EmployeeMasterListModel list = new EmployeeMasterListModel() { EmployeeMasterList = response.EmployeeMasterList };
