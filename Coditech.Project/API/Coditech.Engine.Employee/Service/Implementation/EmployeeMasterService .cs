@@ -99,7 +99,9 @@ namespace Coditech.API.Service
         }
 
         #region Protected Method
-       
+        //Check if Person code is already present or not.
+        protected virtual bool IsPersonCodeAlreadyExist(string personCode, long employeeId = 0)
+         => _employeeMasterRepository.Table.Any(x => x.PersonCode == personCode && (x.EmployeeId != employeeId || employeeId == 0));
         #endregion
     }
 }

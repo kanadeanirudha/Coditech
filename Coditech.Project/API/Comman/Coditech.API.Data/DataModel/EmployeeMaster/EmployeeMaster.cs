@@ -13,7 +13,7 @@ namespace Coditech.API.Data
         public short EmployeeDesignationMasterId { get; set; }
         public short GeneralDepartmentMasterId { get; set; }
         public bool IsEmployeeSmoker { get; set; }
-        public int? ReportingEmployeeId { get; set; }
+        public long? ReportingEmployeeId { get; set; }
         public string PANCardNumber { get; set; }
         public string UANNumber { get; set; }
         public string PassportNumber { get; set; }
@@ -21,10 +21,13 @@ namespace Coditech.API.Data
         public string BankName { get; set; }
         public string BankAccountNumber { get; set; }
         public string BankIFSCCode { get; set; }
+        public bool IsActive { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }
+
+
 

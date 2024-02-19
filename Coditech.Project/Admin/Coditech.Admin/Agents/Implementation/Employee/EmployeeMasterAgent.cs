@@ -104,20 +104,20 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
                 GeneralPersonResponse response = _userClient.UpdatePersonInformation(employeeCreateEditViewModel.ToModel<GeneralPersonModel>());
                 GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
                 return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<EmployeeCreateEditViewModel>() : (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(new EmployeeCreateEditViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
                 return (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(employeeCreateEditViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
 
-        //Get Member Other Details
+        //Get Employee Other Details
         public virtual EmployeeMasterViewModel GetEmployeeOtherDetail(long employeeId)
         {
             EmployeeMasterResponse response = _employeeMasterClient.GetEmployeeOtherDetail(employeeId);
@@ -125,20 +125,20 @@ namespace Coditech.Admin.Agents
             return employeeMasterViewModel;
         }
 
-        //Update Gym Member Other Details.
+        //Update Employee Other Details.
         public virtual EmployeeMasterViewModel UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
         {
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
                 EmployeeMasterResponse response = _employeeMasterClient.UpdateEmployeeOtherDetail(employeeMasterViewModel.ToModel<EmployeeMasterModel>());
                 EmployeeMasterModel employeeMasterModel = response?.EmployeeMasterModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
                 return IsNotNull(employeeMasterModel) ? employeeMasterModel.ToViewModel<EmployeeMasterViewModel>() : (EmployeeMasterViewModel)GetViewModelWithErrorMessage(new EmployeeMasterViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
                 return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
@@ -217,7 +217,7 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "EmailId",
                 IsSortable = true,
             });
-            return datatableColumnList;
+            return datatableColumnList;           
         }
 
     }
