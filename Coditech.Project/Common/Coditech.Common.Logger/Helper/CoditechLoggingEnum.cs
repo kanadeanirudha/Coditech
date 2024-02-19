@@ -48,7 +48,7 @@
             OrganisationCentrewiseBuilding,
             OrganisationCentrewiseBuildingRooms,
             PersonFollowUp,
-            HospitalDoctors
+            HospitalDoctors,
             MemberBodyMeasurement,
             PersonAttendance
         }

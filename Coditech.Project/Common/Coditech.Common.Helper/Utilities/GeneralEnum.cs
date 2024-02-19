@@ -37,7 +37,7 @@
         MedicalSpecilization,
         WeekDays,
         EmployeeMaster,
-        CentrewiseBuildingRooms
+        CentrewiseBuildingRooms,
         Floors,
         AttendanceState
     }
