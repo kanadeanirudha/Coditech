@@ -17,10 +17,10 @@ namespace Coditech.Admin.ViewModel
         public DateTime Attendancedate { get; set; }
 
         [Display(Name = "LoginTime")]
-        public DateTime LoginTime { get; set; }
+        public TimeSpan? LoginTime { get; set; }
 
         [Display(Name = "LogoutTime")]
-        public DateTime LogoutTime { get; set; }
+        public TimeSpan? LogoutTime { get; set; }
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }

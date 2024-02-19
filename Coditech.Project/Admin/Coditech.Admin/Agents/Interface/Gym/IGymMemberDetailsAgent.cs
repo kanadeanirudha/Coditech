@@ -85,7 +85,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>GeneralPersonAttendanceDetailsListViewModel</returns>
-        GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel);
+        GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, string userType, DataTableViewModel dataTableModel);
                                                     
         /// <summary>
         /// Get GetGeneralPersonAttendanceDetails by generalPersonAttendanceDetailsId.

@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Enum;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -215,7 +216,7 @@ namespace Coditech.Admin.Controllers
         #region Gym Member Attendance
         public ActionResult MemberAttendanceDetails(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
-            GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, dataTableModel);
+            GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, UserTypeEnum.GymMember.ToString(), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_GeneralPersonAttendanceDetailsList.cshtml", list);

@@ -12,7 +12,7 @@ namespace Coditech.API.Client
         /// Get list of Gym Member.
         /// </summary>
         /// <returns>GeneralPersonAttendanceDetailsListResponse</returns>
-        GeneralPersonAttendanceDetailsListResponse GeneralPersonAttendanceDetailsList(long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        GeneralPersonAttendanceDetailsListResponse GeneralPersonAttendanceDetailsList(long personId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Get GeneralPersonAttendanceDetails  by generalPersonAttendanceDetailId.
