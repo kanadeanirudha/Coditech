@@ -91,5 +91,12 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["NotificationMessagesIsFadeOut"]);
             }
         }
+        public static string CoditechHospitalManagementSystemApiRootUri
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechHospitalManagementSystemApiRootUri"]);
+            }
+        }
     }
 }

@@ -83,6 +83,10 @@ namespace Coditech.API.Data
         public DbSet<MediaTypeMaster> MediaTypeMaster { get; set; }
         #endregion
 
+        #region HospitalDoctors
+        public DbSet<HospitalDoctors> HospitalDoctors { get; set; }
+        #endregion
+
         #region GeneralPerson
         public DbSet<GeneralPersonFollowUp> GeneralPersonFollowUp { get; set; }
         #endregion

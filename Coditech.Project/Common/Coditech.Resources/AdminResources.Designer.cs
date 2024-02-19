@@ -203,7 +203,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralRegionMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete hospital Doctors due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalDoctorsDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalDoctorsDetails", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete General Running Numbers due to associate record..
         /// </summary>
@@ -401,7 +412,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelDepartments", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Hospital.
+        /// </summary>
+        public static string LabelHospitalList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelHospitalList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Designation List.
         /// </summary>
