@@ -36,7 +36,7 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("RoomName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("Area", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("BuildingName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
 
@@ -149,7 +149,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Floor",
-                ColumnCode = "BuildFloorEnumId",
+                ColumnCode = "BuildingFloorEnumId",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()

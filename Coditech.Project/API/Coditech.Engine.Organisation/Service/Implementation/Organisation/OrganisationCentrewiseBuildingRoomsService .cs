@@ -53,7 +53,7 @@ namespace Coditech.API.Service
             if (IsNull(organisationCentrewiseBuildingRoomsModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsRoomNameAlreadyExist(organisationCentrewiseBuildingRoomsModel.RoomName))
+            if (IsRoomNameAlreadyExist(organisationCentrewiseBuildingRoomsModel.RoomName, organisationCentrewiseBuildingRoomsModel.OrganisationCentrewiseBuildingRoomId, organisationCentrewiseBuildingRoomsModel.BuildingFloorEnumId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Room Name"));
 
             OrganisationCentrewiseBuildingRooms organisationCentrewiseBuildingRooms = organisationCentrewiseBuildingRoomsModel.FromModelToEntity<OrganisationCentrewiseBuildingRooms>();
@@ -93,7 +93,7 @@ namespace Coditech.API.Service
             if (organisationCentrewiseBuildingRoomsModel.OrganisationCentrewiseBuildingRoomId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "OrganisationCentrewiseBuildingRoomId"));
 
-            if (IsRoomNameAlreadyExist(organisationCentrewiseBuildingRoomsModel.RoomName, organisationCentrewiseBuildingRoomsModel.OrganisationCentrewiseBuildingRoomId))
+            if (IsRoomNameAlreadyExist(organisationCentrewiseBuildingRoomsModel.RoomName, organisationCentrewiseBuildingRoomsModel.OrganisationCentrewiseBuildingRoomId, organisationCentrewiseBuildingRoomsModel.BuildingFloorEnumId ,organisationCentrewiseBuildingRoomsModel.OrganisationCentrewiseBuildingRoomId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Room Name"));
 
             OrganisationCentrewiseBuildingRooms organisationCentrewiseBuildingRooms = organisationCentrewiseBuildingRoomsModel.FromModelToEntity<OrganisationCentrewiseBuildingRooms>();
@@ -125,8 +125,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Room Name is already present or not.
-        protected virtual bool IsRoomNameAlreadyExist(string roomName, short organisationCentrewiseBuildingRoomId = 0)
-         => _organisationCentrewiseBuildingRoomsRepository.Table.Any(x => x.RoomName == roomName && (x.OrganisationCentrewiseBuildingRoomId != organisationCentrewiseBuildingRoomId || organisationCentrewiseBuildingRoomId == 0));
+        protected virtual bool IsRoomNameAlreadyExist(string roomName, short OrganisationCentrewiseBuildingMasterId, int BuildingFloorEnumId, short organisationCentrewiseBuildingRoomId = 0)
+         => _organisationCentrewiseBuildingRoomsRepository.Table.Any(x => x.RoomName == roomName && x.OrganisationCentrewiseBuildingRoomId == OrganisationCentrewiseBuildingMasterId && x.BuildingFloorEnumId == BuildingFloorEnumId && (x.OrganisationCentrewiseBuildingRoomId != organisationCentrewiseBuildingRoomId || organisationCentrewiseBuildingRoomId == 0));
         #endregion
     }
 }

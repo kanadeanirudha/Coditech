@@ -3,7 +3,7 @@
     ViewBag.Title = Model.OrganisationCentrewiseBuildingRoomId > 0 ? "Update Building" : "Add Building ";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingRoomsByCentreCode()" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingByCentreCode()" };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -44,21 +44,22 @@
                                {
                                    DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(),
                                    DropdownName = "OrganisationCentrewiseBuildingMasterId",
-                                   DropdownSelectedValue = Model.OrganisationCentrewiseBuildingMasterId.ToString()
+                                   DropdownSelectedValue = Model.OrganisationCentrewiseBuildingMasterId.ToString(),
+                                   Parameter = Model.CentreCode
                                })
                                         @Html.ValidationMessageFor(x => x.OrganisationCentrewiseBuildingMasterId)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.BuildFloorEnumId, new { @class = "form-label required" })
+                                        @Html.LabelFor(x => x.BuildingFloorEnumId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
-                                   DropdownSelectedValue = Model.BuildFloorEnumId.ToString(),
-                                   DropdownName = "BuildFloorEnumId",
+                                   DropdownSelectedValue = Model.BuildingFloorEnumId.ToString(),
+                                   DropdownName = "BuildingFloorEnumId",
                                    GroupCode = DropdownTypeEnum.Floors.ToString()
                                })
-                                        @Html.ValidationMessageFor(x => x.BuildFloorEnumId)
+                                        @Html.ValidationMessageFor(x => x.BuildingFloorEnumId)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">

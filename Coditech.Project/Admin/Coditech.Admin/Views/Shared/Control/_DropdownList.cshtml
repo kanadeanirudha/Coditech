@@ -5,7 +5,7 @@
 }
 @if (Model.IsDisabled)
 {
-    @Html.DropDownList(Model.DropdownName, Model.DropdownList, new { @class = "form-control", @onchange = Model.ChangeEvent, @disabled = "disabled" })
+    @Html.DropDownList(Model.DropdownName, Model.DropdownList, new { @class = "form-control", @onchange = Model.ChangeEvent, @readonly = "true" })
 }
 else
 {

@@ -7,7 +7,7 @@ namespace Coditech.API.Data
         [Key]
         public short OrganisationCentrewiseBuildingRoomId { get; set; }
         public short OrganisationCentrewiseBuildingMasterId { get; set; }
-        public int BuildFloorEnumId { get; set; }
+        public int BuildingFloorEnumId { get; set; }
         public string RoomName { get; set; }
         public short Area { get; set; }
         public Nullable<long> CreatedBy { get; set; }

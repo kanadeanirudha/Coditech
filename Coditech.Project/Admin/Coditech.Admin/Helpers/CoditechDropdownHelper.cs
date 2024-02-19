@@ -386,23 +386,28 @@ namespace Coditech.Admin.Helpers
                     Selected = "2023" == dropdownViewModel.DropdownSelectedValue
                 });
             }
-
+            
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuilding.ToString()))
             {
-                OrganisationCentrewiseBuildingListResponse response = new OrganisationCentrewiseBuildingClient().List(null, null, null, 1, int.MaxValue);
-                OrganisationCentrewiseBuildingListModel list = new OrganisationCentrewiseBuildingListModel() { OrganisationCentrewiseBuildingList = response.OrganisationCentrewiseBuildingList };
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Building-------" });
-                foreach (var item in list?.OrganisationCentrewiseBuildingList)
+
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
-                    dropdownList.Add(new SelectListItem()
+                    FilterCollection filters = new FilterCollection();
+                    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+                    OrganisationCentrewiseBuildingListResponse response = new OrganisationCentrewiseBuildingClient().List(null, filters, null, 1, int.MaxValue);
+                    OrganisationCentrewiseBuildingListModel list = new OrganisationCentrewiseBuildingListModel() { OrganisationCentrewiseBuildingList = response.OrganisationCentrewiseBuildingList };
+                    foreach (var item in list?.OrganisationCentrewiseBuildingList)
                     {
-                        Text = item.BuildName,
-                        Value = item.OrganisationCentrewiseBuildingMasterId.ToString(),
-                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationCentrewiseBuildingMasterId)
-                    });
+                        dropdownList.Add(new SelectListItem()
+                        {
+                            Text = item.BuildingName,
+                            Value = item.OrganisationCentrewiseBuildingMasterId.ToString(),
+                            Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationCentrewiseBuildingMasterId)
+                        });
+                    }
                 }
             }
-
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Employee.ToString()))
             {
                 EmployeeMasterListResponse response = new EmployeeMasterClient().List(null, null, null, 1, int.MaxValue);

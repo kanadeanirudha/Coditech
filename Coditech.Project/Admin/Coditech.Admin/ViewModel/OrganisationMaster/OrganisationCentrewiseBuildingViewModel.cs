@@ -15,7 +15,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(100)]
         [Required]
         [Display(Name = "Build Name")]
-        public string BuildName { get; set; }
+        public string BuildingName { get; set; }
 
         [Required]
         [Display(Name = "Area sq.ft")]

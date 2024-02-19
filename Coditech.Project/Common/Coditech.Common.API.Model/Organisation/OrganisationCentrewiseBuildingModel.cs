@@ -12,7 +12,7 @@ namespace Coditech.Common.API.Model
 
         [MaxLength(100)]
         [Required]
-        public string BuildName { get; set; }      
+        public string BuildingName { get; set; }      
         
         public short Area { get; set; }
         

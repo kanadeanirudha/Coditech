@@ -1,7 +1,9 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
@@ -45,7 +47,7 @@ namespace Coditech.Admin.Controllers
                 if (!organisationCentrewiseBuildingRoomsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<OrganisationCentrewiseBuildingRoomsController>(x => x.List(null));
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingRoomsViewModel.CentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseBuildingRoomsViewModel.ErrorMessage));
@@ -90,6 +92,16 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<OrganisationCentrewiseBuildingRoomsController>(x => x.List(null));
         }
 
+        public virtual ActionResult GetOrganisationCentrewiseBuildingByCentreCode(string centreCode)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(),
+                DropdownName = "OrganisationCentrewiseBuildingMasterId",
+                Parameter = centreCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
         #region Protected
 
         #endregion

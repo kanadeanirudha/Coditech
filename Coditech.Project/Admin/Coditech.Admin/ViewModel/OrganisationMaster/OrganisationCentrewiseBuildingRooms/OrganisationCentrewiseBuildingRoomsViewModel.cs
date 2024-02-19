@@ -13,7 +13,7 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [Display(Name = "Floor")]
-        public int BuildFloorEnumId { get; set; }
+        public int BuildingFloorEnumId { get; set; }
 
         [MaxLength(100)]
         [Required]
@@ -28,5 +28,8 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Centre")]
         public string CentreCode { get; set; }
+
+        public string BuildingName { get; set; }
+        public string BuildingFloor { get; set; }
     }
 }

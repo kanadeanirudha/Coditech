@@ -55,7 +55,7 @@ namespace Coditech.API.Service
             if (IsNull(organisationCentrewiseBuildingModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsCentreCodeAlreadyExist(organisationCentrewiseBuildingModel.CentreCode, organisationCentrewiseBuildingModel.BuildName))
+            if (IsCentreCodeAlreadyExist(organisationCentrewiseBuildingModel.CentreCode, organisationCentrewiseBuildingModel.BuildingName))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
 
             OrganisationCentrewiseBuildingMaster organisationCentrewiseBuildingMaster = organisationCentrewiseBuildingModel.FromModelToEntity<OrganisationCentrewiseBuildingMaster>();
@@ -95,7 +95,7 @@ namespace Coditech.API.Service
             if (organisationCentrewiseBuildingModel.OrganisationCentrewiseBuildingMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentrewiseBuildingId"));
 
-            if (IsCentreCodeAlreadyExist(organisationCentrewiseBuildingModel.CentreCode, organisationCentrewiseBuildingModel.BuildName, organisationCentrewiseBuildingModel.OrganisationCentrewiseBuildingMasterId))
+            if (IsCentreCodeAlreadyExist(organisationCentrewiseBuildingModel.CentreCode, organisationCentrewiseBuildingModel.BuildingName, organisationCentrewiseBuildingModel.OrganisationCentrewiseBuildingMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
 
             OrganisationCentrewiseBuildingMaster organisationCentrewiseBuildingMaster = organisationCentrewiseBuildingModel.FromModelToEntity<OrganisationCentrewiseBuildingMaster>();
@@ -128,7 +128,7 @@ namespace Coditech.API.Service
         #region Protected Method
         //Check if Centre code is already present or not.
         protected virtual bool IsCentreCodeAlreadyExist(string centreCode, string buildingName, short organisationCentrewiseBuildingMasterId = 0)
-         => _organisationCentrewiseBuildingMasterRepository.Table.Any(x => x.CentreCode == centreCode && x.BuildName == buildingName && (x.OrganisationCentrewiseBuildingMasterId != organisationCentrewiseBuildingMasterId || organisationCentrewiseBuildingMasterId == 0));
+         => _organisationCentrewiseBuildingMasterRepository.Table.Any(x => x.CentreCode == centreCode && x.BuildingName == buildingName && (x.OrganisationCentrewiseBuildingMasterId != organisationCentrewiseBuildingMasterId || organisationCentrewiseBuildingMasterId == 0));
         #endregion
     }
 }

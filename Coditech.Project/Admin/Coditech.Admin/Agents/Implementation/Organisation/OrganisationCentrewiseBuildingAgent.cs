@@ -39,12 +39,12 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("BuildName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("BuildingName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("Area", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "BuildName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "BuildingName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             OrganisationCentrewiseBuildingListResponse response = _organisationCentrewiseBuildingClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentrewiseBuildingListModel organisationCentrewiseBuildingList = new OrganisationCentrewiseBuildingListModel { OrganisationCentrewiseBuildingList = response?.OrganisationCentrewiseBuildingList };
@@ -146,8 +146,8 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Build Name",
-                ColumnCode = "BuildName",
+                ColumnName = "Building Name",
+                ColumnCode = "BuildingName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()

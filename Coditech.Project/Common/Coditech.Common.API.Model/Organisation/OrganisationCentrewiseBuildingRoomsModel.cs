@@ -10,7 +10,7 @@ namespace Coditech.Common.API.Model
         public short OrganisationCentrewiseBuildingMasterId { get; set; }
 
         [Required]
-        public int BuildFloorEnumId { get; set; }
+        public int BuildingFloorEnumId { get; set; }
 
         [MaxLength(100)]
         [Required]
@@ -18,5 +18,7 @@ namespace Coditech.Common.API.Model
 
         [Required]
         public short Area { get; set; }
+        public string BuildingName { get; set; }
+        public string BuildingFloor { get; set; }
     }
 }
