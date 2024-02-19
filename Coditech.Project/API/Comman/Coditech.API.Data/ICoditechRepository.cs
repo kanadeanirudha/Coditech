@@ -45,7 +45,7 @@
         /// <param name="entity"></param>
         /// <param name="loginUserId"></param>
         /// <returns></returns>
-        T Insert(T entity, int loginUserId);
+        T Insert(T entity, long loginUserId);
 
         /// <summary>
         /// Insert entity 
@@ -76,7 +76,7 @@
         /// </summary>
         /// <param name="entity">Entity</param>
         /// <param name="loginUserId">login User Id</param>
-        bool Update(T entity, int loginUserId);
+        bool Update(T entity, long loginUserId);
 
         /// <summary>
         /// Update multiple entities in one batch.

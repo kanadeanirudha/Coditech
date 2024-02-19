@@ -14,12 +14,12 @@ namespace Coditech.API.Data
         /// Get Login User Id from Request Headers
         /// </summary>
         /// <returns>Login User Id</returns>
-        public static int GetLoginUserId()
+        public static long GetLoginUserId()
         {
-            int userId = 0;
+            long userId = 0;
             var headers = HttpContextHelper.Request?.Headers;
             if (headers != null)
-                int.TryParse(headers["LoginAsUserId"], out userId);
+                long.TryParse(headers["LoginAsUserId"], out userId);
 
             return userId;
         }

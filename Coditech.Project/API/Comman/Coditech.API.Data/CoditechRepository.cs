@@ -106,8 +106,8 @@ namespace Coditech.API.Data
             {
                 if (Equals(entity, null))
                     throw new ArgumentNullException(nameof(entity));
-                int createdBy = Convert.ToInt32(entity.GetProperty("CreatedBy"));
-                int modifiedBy = Convert.ToInt32(entity.GetProperty("ModifiedBy"));
+                long createdBy = Convert.ToInt64(entity.GetProperty("CreatedBy"));
+                long modifiedBy = Convert.ToInt64(entity.GetProperty("ModifiedBy"));
                 Entities.Add(entity);
                 int _result = SaveChangesToDB(_context, HelperMethods.GetLoginUserId());
             }
@@ -128,14 +128,14 @@ namespace Coditech.API.Data
         /// <param name="loginUserId">UserId of login user</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual T Insert(T entity, int loginUserId)
+        public virtual T Insert(T entity, long loginUserId)
         {
             try
             {
                 if (Equals(entity, null))
                     throw new ArgumentNullException(nameof(entity));
-                int createdBy = Convert.ToInt32(entity.GetProperty("CreatedBy"));
-                int modifiedBy = Convert.ToInt32(entity.GetProperty("ModifiedBy"));
+                long createdBy = Convert.ToInt64(entity.GetProperty("CreatedBy"));
+                long modifiedBy = Convert.ToInt64(entity.GetProperty("ModifiedBy"));
                 Entities.Add(entity);
                 int _result = SaveChangesToDB(_context, loginUserId);
             }
@@ -258,7 +258,7 @@ namespace Coditech.API.Data
         /// <param name="loginUserId">login User Id</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual bool Update(T entity, int loginUserId)
+        public virtual bool Update(T entity, long loginUserId)
         {
             try
             {
@@ -775,7 +775,7 @@ namespace Coditech.API.Data
         }
 
         //Override Method to Insert/Update the Created/Modified Date for the Entity.
-        public int SaveChangesToDB(CoditechDbContext _context, int loginUserAccountId, int createdBy = 0, int modifiedBy = 0)
+        public int SaveChangesToDB(CoditechDbContext _context, long loginUserAccountId, long createdBy = 0, long modifiedBy = 0)
         {
             try
             {
@@ -791,7 +791,7 @@ namespace Coditech.API.Data
             }
 
         }
-        public void SetDataIntoEntity(EntityEntry dbEntry, int loginUserAccountId, int createdBy = 0, int modifiedBy = 0)
+        public void SetDataIntoEntity(EntityEntry dbEntry, long loginUserAccountId, long createdBy = 0, long modifiedBy = 0)
         {
             if (Equals(dbEntry.State, EntityState.Added))
             {

@@ -40,7 +40,7 @@ namespace Coditech.Admin.Agents
             }
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "Area" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "RoomName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             OrganisationCentrewiseBuildingRoomsListResponse response = _organisationCentrewiseBuildingRoomsClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentrewiseBuildingRoomsListModel organisationCentrewiseBuildingRoomsList = new OrganisationCentrewiseBuildingRoomsListModel { OrganisationCentrewiseBuildingRoomsList = response?.OrganisationCentrewiseBuildingRoomsList };

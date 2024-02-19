@@ -48,7 +48,7 @@ namespace Coditech.Admin.Controllers
                 if (!organisationCentrewiseBuildingViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<OrganisationCentrewiseBuildingMasterController>(x => x.List(null));
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingViewModel.CentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseBuildingViewModel.ErrorMessage));
