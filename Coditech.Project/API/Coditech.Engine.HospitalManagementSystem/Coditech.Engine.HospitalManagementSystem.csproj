@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Coditech.Common.Helper\Coditech.Common.Helper.csproj" />
     <ProjectReference Include="..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
+    <ProjectReference Include="..\..\Common\Coditech.Resources\Coditech.Resources.csproj" />
     <ProjectReference Include="..\Comman\Coditech.API.Data\Coditech.API.Data.csproj" />
     <ProjectReference Include="..\Comman\Coditech.Common.API\Coditech.Common.API.csproj" />
   </ItemGroup>
