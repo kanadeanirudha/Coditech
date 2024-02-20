@@ -1,0 +1,121 @@
+﻿@using Coditech.Admin.Utilities;
+@model GeneralPersonAttendanceDetailsViewModel
+@{
+    Layout = null;
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+}
+
+<!-- Page Content-->
+<div class="modal-header">
+    <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+        <i class="fas fa-user" style="color: white; margin-right: 10px; font-size: 24px;"></i>
+        <span style="vertical-align: middle; font-size: 18px;">Manual Attendance: @Model.FirstName @Model.LastName </span>
+    </h6>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-top: -3px; padding: 10px;"></button>
+</div>
+
+@using (Html.BeginForm("CreatEditGeneralPersonAttendanceDetails", controllerName, FormMethod.Post, new { id = "frmGymMemberManualAttendance" }))
+{
+    @Html.AntiForgeryToken()
+    ;
+    @Html.HiddenFor(x => x.GymMemberDetailId)
+    @Html.HiddenFor(x => x.GeneralPersonAttendanceDetailId)
+    @Html.HiddenFor(x => x.EntityId)
+    @Html.HiddenFor(x => x.UserType)
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.AttendanceDate, new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.AttendanceDate, new { @class = "form-control", @readonly = "true" })
+                    @Html.ValidationMessageFor(x => x.AttendanceDate, null, new { id = "errorAttendanceDate" })
+                </div>
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(x => x.GeneralAttendanceStateEnumId, new { @class = "form-label required" })
+                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+       {
+           DropdownSelectedValue = Model.GeneralAttendanceStateEnumId.ToString(),
+           DropdownName = "GeneralAttendanceStateEnumId",
+           GroupCode = DropdownTypeEnum.AttendanceState.ToString(),
+           IsTextValueSame = true,
+           ChangeEvent = "GymMemberDetails.DisplayCheckInCheckOutDiv()"
+       })
+                @Html.ValidationMessageFor(x => x.GeneralAttendanceStateEnumId, null, new { id = "errorGeneralAttendanceStateEnumId" })
+            </div>
+            <div class="mb-3" id="LoginTimeDivId" style="display: none;">
+                @Html.LabelFor(x => x.LoginTime, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.LoginTime, new { @class = "form-control", type = "time", onchange = "SaveManualAttendance()" })
+                @Html.ValidationMessageFor(x => x.LoginTime)
+            </div>
+
+            <div class="mb-3" id="LogoutTimeDivId" style="display: none;">
+                @Html.LabelFor(x => x.LogoutTime, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.LogoutTime, new { @class = "form-control", type = "time", onchange = "SaveManualAttendance()" })
+                @Html.ValidationMessageFor(x => x.LogoutTime, null, new { id = "errorLogoutTime" })
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <a id="saveDraft" class="btn btn-success" data-test-selector="linkSave" onclick="GymMemberDetails.SaveManualAttendance()">@AdminResources.LabelSave</a>
+    </div>
+
+    <!-- Your custom scripts -->
+    @Html.Partial("_ValidationScriptsPartial")
+    <script src="~/js/layout/daterangepicker.js"></script>
+    <script src="~/js/coditech/gymmemberdetails.js"></script>
+
+    <script>
+        $(function () {
+            $('#AttendanceDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                showWeekNumbers: false,
+                drops: "auto",
+                opens: "right",
+                autoApply: true,
+                "locale": {
+                    "separator": " - ",
+                    "applyLabel": "Apply",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                maxDate: moment().startOf('day'), 
+                startDate: moment(), 
+                endDate: moment(), 
+            },
+                function (start, end, label) { });
+        });
+
+    </script>
+}
