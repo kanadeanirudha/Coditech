@@ -9,7 +9,7 @@ namespace Coditech.Admin.ViewModel
         public int GymMemberDetailId { get; set; }
         public long PersonId { get; set; }
         [Display(Name = "Attendance State")]
-        public int GeneralAttendanceStateEnumId { get; set; }
+        public string GeneralAttendanceStateEnumId { get; set; }
 
         [Required]
         [Display(Name = "Attendance Date")]

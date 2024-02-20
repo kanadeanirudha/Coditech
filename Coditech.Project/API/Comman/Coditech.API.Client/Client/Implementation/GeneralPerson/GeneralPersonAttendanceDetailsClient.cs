@@ -21,14 +21,14 @@ namespace Coditech.API.Client
 
 
         #region Gym Member Attendance
-        public virtual GeneralPersonAttendanceDetailsListResponse GeneralPersonAttendanceDetailsList(long personId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual GeneralPersonAttendanceDetailsListResponse GeneralPersonAttendanceDetailsList(long entityId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await GeneralPersonAttendanceDetailsListAsync(personId, userType, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GeneralPersonAttendanceDetailsListAsync(entityId, userType, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralPersonAttendanceDetailsListResponse> GeneralPersonAttendanceDetailsListAsync(long personId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<GeneralPersonAttendanceDetailsListResponse> GeneralPersonAttendanceDetailsListAsync(long entityId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = generalPersonAttendanceDetailsEndpoint.GeneralPersonAttendanceDetailsListAsync(personId, userType, expand, filter, sort, pageIndex, pageSize);
+            string endpoint = generalPersonAttendanceDetailsEndpoint.GeneralPersonAttendanceDetailsListAsync(entityId, userType, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -128,7 +128,7 @@ namespace Coditech.API.Client
             try
             {
                 ApiStatus status = new ApiStatus();
-                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
                 var headers_ = BindHeaders(response);
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
