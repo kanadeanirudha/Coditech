@@ -18,7 +18,7 @@
                     foreach (var item in Model?.GeneralPersonAttendanceDetailsList)
                     {
                         <tr>
-                            <td>@item.Attendancedate</td>
+                            <td>@item.AttendanceDate.ToShortDateString()</td>
                             <td>@item.LoginTime</td>
                             <td>@item.LogoutTime</td>
                             <td>@item.Duration</td>

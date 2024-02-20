@@ -8,7 +8,6 @@ namespace Coditech.API.Data.DataModel.Gym
         public long GeneralPersonAttendanceDetailId { get; set; }
         public long EntityId { get; set; }
         public string UserType { get; set; }
-        public int GymMemberDetailId { get; set; }
         public DateTime AttendanceDate { get; set; }
         public TimeSpan? LoginTime { get; set; }
         public TimeSpan? LogoutTime { get; set; }

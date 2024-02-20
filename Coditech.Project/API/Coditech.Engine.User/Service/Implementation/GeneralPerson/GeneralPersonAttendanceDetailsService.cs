@@ -29,12 +29,12 @@ namespace Coditech.API.Service
             _generalPersonAttendanceDetailsRepository = new CoditechRepository<GeneralPersonAttendanceDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(long personId, string userType, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(long entityId, string userType, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralPersonAttendanceDetailsModel> objStoredProc = new CoditechViewRepository<GeneralPersonAttendanceDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@EntityId", personId, ParameterDirection.Input, DbType.Int64);
+            objStoredProc.SetParameter("@EntityId", entityId, ParameterDirection.Input, DbType.Int64);
             objStoredProc.SetParameter("@UserType", userType, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
@@ -46,13 +46,13 @@ namespace Coditech.API.Service
 
             listModel.GeneralPersonAttendanceDetailsList = PersonAttendanceList?.Count > 0 ? PersonAttendanceList : new List<GeneralPersonAttendanceDetailsModel>();
             listModel.BindPageListModel(pageListModel);
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
+            GeneralPerson generalPerson = GetGeneralPersonDetails(entityId);
             if (IsNotNull(generalPerson))
             {
                 listModel.FirstName = generalPerson.FirstName;
                 listModel.LastName = generalPerson.LastName;
             }
-            listModel.PersonId = personId;
+            listModel.EntityId = entityId;
             return listModel;
         }
         //Create Lead Generation.

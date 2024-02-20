@@ -286,7 +286,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralPersonAttendanceDetailsListResponse response = _generalPersonAttendanceDetailsClient.GeneralPersonAttendanceDetailsList(personId, userType, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralPersonAttendanceDetailsListResponse response = _generalPersonAttendanceDetailsClient.GeneralPersonAttendanceDetailsList(gymMemberDetailId, userType, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralPersonAttendanceDetailsListModel gymMemberList = new GeneralPersonAttendanceDetailsListModel { GeneralPersonAttendanceDetailsList = response?.GeneralPersonAttendanceDetailsList };
 
             GeneralPersonAttendanceDetailsListViewModel listViewModel = new GeneralPersonAttendanceDetailsListViewModel()
@@ -315,6 +315,8 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                generalPersonAttendanceDetailsViewModel.EntityId = generalPersonAttendanceDetailsViewModel.GymMemberDetailId;
+                generalPersonAttendanceDetailsViewModel.UserType = UserTypeEnum.GymMember.ToString();
                 GeneralPersonAttendanceDetailsResponse response = _generalPersonAttendanceDetailsClient.InserUpdateGeneralPersonAttendanceDetails(generalPersonAttendanceDetailsViewModel.ToModel<GeneralPersonAttendanceDetailsModel>());
                 GeneralPersonAttendanceDetailsModel generalPersonAttendanceDetailsModel = response?.GeneralPersonAttendanceDetailsModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);

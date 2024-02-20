@@ -8,8 +8,6 @@
         public long EntityId { get; set; }
         public string UserType { get; set; }
 
-        public int GeneralAttendanceStateEnumId { get; set; }
-
         public DateTime? AttendanceDate { get; set; }
 
         public TimeSpan? LoginTime { get; set; }

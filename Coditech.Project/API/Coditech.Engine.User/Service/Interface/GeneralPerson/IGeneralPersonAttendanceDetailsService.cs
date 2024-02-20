@@ -7,7 +7,7 @@ namespace Coditech.API.Service
 {
     public interface IGeneralPersonAttendanceDetailsService
     {
-        GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(long personId, string userType, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        GeneralPersonAttendanceDetailsListModel GetPersonAttendanceList(long entityId, string userType, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         GeneralPersonAttendanceDetailsModel InserUpdateGeneralPersonAttendanceDetails(GeneralPersonAttendanceDetailsModel model);
         GeneralPersonAttendanceDetailsModel GetPersonAttendance(long generalPersonAttendanceDetailsId);
         bool DeletePersonAttendance(ParameterModel parameterModel);

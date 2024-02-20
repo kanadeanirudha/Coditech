@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Coditech.Common.Enum;
 using Coditech.Resources;
 
@@ -224,14 +225,14 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetailsList.cshtml", list);
         }
         [HttpGet]
-        public virtual ActionResult GetGeneralPersonAttendanceDetails(int gymMemberDetailId, long generalPersonAttendanceDetailId, long personId)
+        public virtual ActionResult GetGeneralPersonAttendanceDetails(int gymMemberDetailId, long generalPersonAttendanceDetailId)
         {
             GeneralPersonAttendanceDetailsViewModel gymMemberDetailsViewModel = null;
             if (generalPersonAttendanceDetailId > 0)
             {
                 gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetGeneralPersonAttendanceDetails(generalPersonAttendanceDetailId);
                 gymMemberDetailsViewModel.GymMemberDetailId = gymMemberDetailId;
-                gymMemberDetailsViewModel.PersonId = personId;
+                
             }
             else
             {
@@ -241,6 +242,15 @@ namespace Coditech.Admin.Controllers
                     GeneralPersonAttendanceDetailId = generalPersonAttendanceDetailId
                 };
             }
+            GymMemberDetailsViewModel gymMemberDetailModel = _gymMemberDetailsAgent.GetGymMemberOtherDetails(gymMemberDetailId);
+
+            // Now, set the Firstname property in the ViewModel
+            if (gymMemberDetailModel != null)
+            {
+                gymMemberDetailsViewModel.FirstName = gymMemberDetailModel.FirstName;
+                gymMemberDetailsViewModel.LastName = gymMemberDetailModel.LastName;
+            }
+
             return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditGeneralPersonAttendanceDetails.cshtml", gymMemberDetailsViewModel);
         }
 
@@ -254,7 +264,7 @@ namespace Coditech.Admin.Controllers
                 ? generalPersonAttendanceDetailsViewModel.GeneralPersonAttendanceDetailId > 0 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetErrorNotificationMessage(GeneralResources.ErrorFailedToCreate)
                 : generalPersonAttendanceDetailsViewModel.GeneralPersonAttendanceDetailId > 0 ? GetSuccessNotificationMessage(GeneralResources.UpdateMessage) : GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
             }
-            return RedirectToAction("GeneralPersonAttendanceDetailsList", new { gymMemberDetailId = generalPersonAttendanceDetailsViewModel.GymMemberDetailId, personId = generalPersonAttendanceDetailsViewModel.PersonId });
+            return RedirectToAction("MemberAttendanceDetails", new { gymMemberDetailId = generalPersonAttendanceDetailsViewModel.GymMemberDetailId, personId = generalPersonAttendanceDetailsViewModel.PersonId });
         }
 
         public virtual ActionResult DeleteGeneralPersonAttendanceDetails(string generalPersonAttendanceDetailIdIds, int gymMemberDetailId, long personId)
