@@ -12,7 +12,7 @@ namespace Coditech.Admin.Controllers
         private readonly IEmployeeMasterAgent _employeeMasterAgent;
         private const string createEditEmployee = "~/Views/EmployeeMaster/CreateEditEmployee.cshtml";
 
-        public EmployeeMasterController(IEmployeeMasterAgent employeeMasterAgent) 
+        public EmployeeMasterController(IEmployeeMasterAgent employeeMasterAgent)
         {
             _employeeMasterAgent = employeeMasterAgent;
         }
@@ -26,7 +26,7 @@ namespace Coditech.Admin.Controllers
             }
             list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
             list.SelectedDepartmentId = dataTableViewModel.SelectedDepartmentId;
-           
+
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/EmployeeMaster/_List.cshtml", list);
@@ -59,8 +59,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult UpdateEmployeePersonalDetails(long employeeId, long personId)
         {
-            EmployeeCreateEditViewModel employeeCreateEditViewModel = _employeeMasterAgent.GetEmployeePersonalDetails(personId);
-            employeeCreateEditViewModel.EmployeeId = employeeId;
+            EmployeeCreateEditViewModel employeeCreateEditViewModel = _employeeMasterAgent.GetEmployeePersonalDetails(employeeId, personId);
             return ActionView(createEditEmployee, employeeCreateEditViewModel);
         }
 

@@ -4,6 +4,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -12,12 +13,12 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class EmployeeMasterService : IEmployeeMasterService
+    public class EmployeeMasterService : BaseService, IEmployeeMasterService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
-        public EmployeeMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public EmployeeMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -50,7 +51,7 @@ namespace Coditech.API.Service
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
-      
+
         //Get Employee by Employee id.
         public virtual EmployeeMasterModel GetEmployeeOtherDetail(long employeeId)
         {
@@ -59,7 +60,16 @@ namespace Coditech.API.Service
 
             //Get the Employee Details based on id.
             EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == employeeId);
-            EmployeeMasterModel employeeMasterModel = employeeMaster?.FromEntityToModel<EmployeeMasterModel>();
+            EmployeeMasterModel employeeMasterModel = IsNotNull(employeeMaster) ? employeeMaster?.FromEntityToModel<EmployeeMasterModel>() : new EmployeeMasterModel();
+            if (IsNotNull(employeeMasterModel))
+            {
+                GeneralPerson generalPerson = GetGeneralPersonDetails(employeeMasterModel.PersonId);
+                if (IsNotNull(employeeMasterModel))
+                {
+                    employeeMasterModel.FirstName = generalPerson.FirstName;
+                    employeeMasterModel.LastName = generalPerson.LastName;
+                }
+            }
             return employeeMasterModel;
         }
 
@@ -72,8 +82,10 @@ namespace Coditech.API.Service
             if (employeeMasterModel.EmployeeId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeID"));
 
-            EmployeeMaster employeeMaster = employeeMasterModel.FromModelToEntity<EmployeeMaster>();
-                        //Update Employee
+            EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == employeeMasterModel.EmployeeId);
+            BindEmployeeOtherDetail(employeeMasterModel, employeeMaster);
+
+            //Update Employee
             bool isEmployeeUpdated = _employeeMasterRepository.Update(employeeMaster);
             if (!isEmployeeUpdated)
             {
@@ -102,6 +114,21 @@ namespace Coditech.API.Service
         //Check if Person code is already present or not.
         protected virtual bool IsPersonCodeAlreadyExist(string personCode, long employeeId = 0)
          => _employeeMasterRepository.Table.Any(x => x.PersonCode == personCode && (x.EmployeeId != employeeId || employeeId == 0));
+
+
+        protected virtual void BindEmployeeOtherDetail(EmployeeMasterModel employeeMasterModel, EmployeeMaster employeeMaster)
+        {
+            employeeMaster.IsEmployeeSmoker = employeeMasterModel.IsEmployeeSmoker;
+            employeeMaster.ReportingEmployeeId = employeeMasterModel.ReportingEmployeeId;
+            employeeMaster.PANCardNumber = employeeMasterModel.PANCardNumber;
+            employeeMaster.UANNumber = employeeMasterModel.UANNumber;
+            employeeMaster.PassportNumber = employeeMasterModel.PassportNumber;
+            employeeMaster.AdharCardNumber = employeeMasterModel.AdharCardNumber;
+            employeeMaster.BankName = employeeMasterModel.BankName;
+            employeeMaster.BankIFSCCode = employeeMasterModel.BankIFSCCode;
+            employeeMaster.IsActive = employeeMasterModel.IsActive;
+        }
+
         #endregion
     }
 }

@@ -23,7 +23,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="employeeId">personId</param>
         /// <returns>Returns EmployeeCreateEditViewModel.</returns>
-        EmployeeCreateEditViewModel GetEmployeePersonalDetails(long personId);
+        EmployeeCreateEditViewModel GetEmployeePersonalDetails(long employeeId, long personId);
 
         /// <summary>
         /// Update Employee Personal Details.

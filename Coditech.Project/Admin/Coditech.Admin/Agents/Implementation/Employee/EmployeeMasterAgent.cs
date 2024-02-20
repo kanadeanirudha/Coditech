@@ -41,7 +41,10 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters.Add("EmployeeId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
@@ -92,10 +95,21 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Employee Details by personId.
-        public virtual EmployeeCreateEditViewModel GetEmployeePersonalDetails(long personId)
+        public virtual EmployeeCreateEditViewModel GetEmployeePersonalDetails(long employeeId, long personId)
         {
             GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
             EmployeeCreateEditViewModel employeeCreateEditViewModel = response?.GeneralPersonModel.ToViewModel<EmployeeCreateEditViewModel>();
+            if (IsNotNull(employeeCreateEditViewModel))
+            {
+                EmployeeMasterResponse employeeMasterResponse = _employeeMasterClient.GetEmployeeOtherDetail(employeeId);
+                if (IsNotNull(employeeMasterResponse))
+                {
+                    employeeCreateEditViewModel.SelectedCentreCode = employeeMasterResponse.EmployeeMasterModel.CentreCode;
+                    employeeCreateEditViewModel.SelectedDepartmentId = Convert.ToString(employeeMasterResponse.EmployeeMasterModel.GeneralDepartmentMasterId);
+                }
+                employeeCreateEditViewModel.EmployeeId = employeeId;
+                employeeCreateEditViewModel.PersonId = personId;
+            }
             return employeeCreateEditViewModel;
         }
 
@@ -217,7 +231,7 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "EmailId",
                 IsSortable = true,
             });
-            return datatableColumnList;           
+            return datatableColumnList;
         }
 
     }
