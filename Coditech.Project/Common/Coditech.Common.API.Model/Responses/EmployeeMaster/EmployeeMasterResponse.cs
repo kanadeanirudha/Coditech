@@ -1,4 +1,4 @@
-﻿namespace Coditech.Common.API.Model.Responses.EmployeeMaster
+﻿namespace Coditech.Common.API.Model.Response
 {
     public class EmployeeMasterResponse : BaseResponse
     {

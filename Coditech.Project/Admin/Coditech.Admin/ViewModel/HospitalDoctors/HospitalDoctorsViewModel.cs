@@ -20,7 +20,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(500)]
         [Required]
         [Display(Name = "Week Days")]
-        public string WeekDayEnumIds { get; set; }
+        public List<string> WeekDayEnumIds { get; set; }
 
         [Required]
         [Display(Name = "Room Name")]
@@ -34,21 +34,20 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
 
+        [Required]
+        [Display(Name = "Building Name")]
+        public short OrganisationCentrewiseBuildingMasterId { get; set; }
+
         public string ImagePath { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        [Required]
-        [Display(Name = "Mobile Number")]
+        public string MedicalSpecilization { get; set; }
         public string MobileNumber { get; set; }
-
-        [Display(Name = "Email")]
         public string EmailId { get; set; }
         public bool IsAssociated { get; set; }
         public short OrganisationCentrewiseDepartmentId { get; set; }
-
-        public short GeneralDepartmentMasterId { get; set; }
-
         public string DepartmentName { get; set; }
+        public string CentreCode { get; set; }
+        public string BuildingRoomName { get; set; }
     }
 }

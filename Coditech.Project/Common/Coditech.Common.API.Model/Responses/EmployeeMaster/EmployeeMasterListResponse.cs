@@ -1,6 +1,4 @@
-﻿using Coditech.Common.API.Model.Response;
-
-namespace Coditech.Common.API.Model.Responses.EmployeeMaster
+﻿namespace Coditech.Common.API.Model.Response
 {
     public class EmployeeMasterListResponse : BaseListResponse
     {

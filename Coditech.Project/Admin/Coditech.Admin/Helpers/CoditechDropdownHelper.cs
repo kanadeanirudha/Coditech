@@ -4,7 +4,6 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-using Coditech.Common.API.Model.Responses.EmployeeMaster;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -386,7 +385,7 @@ namespace Coditech.Admin.Helpers
                     Selected = "2023" == dropdownViewModel.DropdownSelectedValue
                 });
             }
-            
+
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuilding.ToString()))
             {
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Building-------" });
@@ -408,34 +407,46 @@ namespace Coditech.Admin.Helpers
                     }
                 }
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Employee.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UnAssociatedEmployeeList.ToString()))
             {
-                EmployeeMasterListResponse response = new EmployeeMasterClient().List(null, null, null, 1, int.MaxValue);
-                EmployeeMasterListModel list = new EmployeeMasterListModel() { EmployeeMasterList = response.EmployeeMasterList };
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Employee-------" });
-                foreach (var item in list?.EmployeeMasterList)
+
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
-                    dropdownList.Add(new SelectListItem()
+                    string cc = dropdownViewModel.Parameter.Split("~")[0];
+                    short di = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                    HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(cc, di, false, null, null, null, 1, int.MaxValue);
+                    HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
+                    foreach (var item in list?.HospitalDoctorsList)
                     {
-                        Text = string.Concat(item.FirstName, " (", item.LastName, ")"),
-                        Value = item.EmployeeId.ToString(),
-                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmployeeId)
-                    });
+                        dropdownList.Add(new SelectListItem()
+                        {
+                            Text = $"{item.FirstName} {item.LastName} ({item.MedicalSpecilization})",
+                            Value = item.EmployeeId.ToString(),
+                            Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmployeeId)
+                        });
+                    }
                 }
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuildingRooms.ToString()))
             {
-                OrganisationCentrewiseBuildingRoomsListResponse response = new OrganisationCentrewiseBuildingRoomsClient().List(null, null, null, 1, int.MaxValue);
-                OrganisationCentrewiseBuildingRoomsListModel list = new OrganisationCentrewiseBuildingRoomsListModel() { OrganisationCentrewiseBuildingRoomsList = response.OrganisationCentrewiseBuildingRoomsList };
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Room-------" });
-                foreach (var item in list?.OrganisationCentrewiseBuildingRoomsList)
+
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
-                    dropdownList.Add(new SelectListItem()
+                    FilterCollection filters = new FilterCollection();
+                    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+                    OrganisationCentrewiseBuildingRoomsListResponse response = new OrganisationCentrewiseBuildingRoomsClient().List(null, filters, null, 1, int.MaxValue);
+                    OrganisationCentrewiseBuildingRoomsListModel list = new OrganisationCentrewiseBuildingRoomsListModel() { OrganisationCentrewiseBuildingRoomsList = response.OrganisationCentrewiseBuildingRoomsList };
+                    foreach (var item in list?.OrganisationCentrewiseBuildingRoomsList)
                     {
-                        Text = item.RoomName,
-                        Value = item.OrganisationCentrewiseBuildingRoomId.ToString(),
-                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationCentrewiseBuildingRoomId)
-                    });
+                        dropdownList.Add(new SelectListItem()
+                        {
+                            Text = item.RoomName,
+                            Value = item.OrganisationCentrewiseBuildingRoomId.ToString(),
+                            Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationCentrewiseBuildingRoomId)
+                        });
+                    }
                 }
             }
             dropdownViewModel.DropdownList = dropdownList;
