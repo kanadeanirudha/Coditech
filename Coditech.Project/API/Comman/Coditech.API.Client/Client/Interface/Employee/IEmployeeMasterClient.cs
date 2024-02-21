@@ -1,6 +1,5 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
-using Coditech.Common.API.Model.Responses.EmployeeMaster;
 using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Client

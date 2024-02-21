@@ -20,7 +20,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(500)]
         [Required]
         [Display(Name = "Week Days")]
-        public string WeekDayEnumIds { get; set; }
+        public List<string> WeekDayEnumIds { get; set; }
 
         [Required]
         [Display(Name = "Room Name")]

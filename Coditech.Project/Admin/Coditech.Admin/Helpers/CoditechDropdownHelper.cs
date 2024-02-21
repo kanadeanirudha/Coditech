@@ -4,7 +4,6 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-using Coditech.Common.API.Model.Responses.EmployeeMaster;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -386,7 +385,7 @@ namespace Coditech.Admin.Helpers
                     Selected = "2023" == dropdownViewModel.DropdownSelectedValue
                 });
             }
-            
+
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuilding.ToString()))
             {
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Building-------" });
@@ -408,28 +407,27 @@ namespace Coditech.Admin.Helpers
                     }
                 }
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Employee.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UnAssociatedEmployeeList.ToString()))
             {
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Employee-------" });
 
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
-                    FilterCollection filters = new FilterCollection();
-                    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
-                    EmployeeMasterListResponse response = new EmployeeMasterClient().List(null, filters, null, 1, int.MaxValue);
-                    EmployeeMasterListModel list = new EmployeeMasterListModel() { EmployeeMasterList = response.EmployeeMasterList };
-                    foreach (var item in list?.EmployeeMasterList)
+                    string cc = dropdownViewModel.Parameter.Split("~")[0];
+                    short di = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                    HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(cc, di, false, null, null, null, 1, int.MaxValue);
+                    HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
+                    foreach (var item in list?.HospitalDoctorsList)
                     {
                         dropdownList.Add(new SelectListItem()
                         {
-                            Text = string.Concat(item.FirstName, " (", item.LastName, ")"),
+                            Text = $"{item.FirstName} {item.LastName} ({item.MedicalSpecilization})",
                             Value = item.EmployeeId.ToString(),
                             Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmployeeId)
                         });
                     }
                 }
             }
-         
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuildingRooms.ToString()))
             {
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Room-------" });

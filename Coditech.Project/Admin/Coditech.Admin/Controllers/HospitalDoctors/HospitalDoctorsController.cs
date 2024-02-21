@@ -100,13 +100,25 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
-        public virtual ActionResult GetEmployeeMasterByCentreCode(string selectedCentreCode)
+        public virtual ActionResult GetEmployeeMasterList(string selectedCentreCode, int selectedDepartmentId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
             {
-                DropdownType = DropdownTypeEnum.Employee.ToString(),
+                DropdownType = DropdownTypeEnum.UnAssociatedEmployeeList.ToString(),
                 DropdownName = "EmployeeId",
-                Parameter = selectedCentreCode,
+                Parameter = $"{selectedCentreCode}~{selectedDepartmentId}",
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
+
+        public ActionResult GetDepartmentsByCentreCode(string centreCode)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(),
+                DropdownName = "SelectedDepartmentId",
+                Parameter = centreCode,
+                ChangeEvent= "GetEmployeeMasterList()"
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
@@ -118,6 +130,7 @@ namespace Coditech.Admin.Controllers
                 DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(),
                 DropdownName = "OrganisationCentrewiseBuildingMasterId",
                 Parameter = selectedCentreCode,
+                ChangeEvent=""
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", buildingDropdown);
         }

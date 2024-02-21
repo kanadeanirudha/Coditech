@@ -26,7 +26,7 @@
         GymGroup,
         GymSource,
         MeasurementUnit,
-        Employee,
+        UnAssociatedEmployeeList,
         GymPlanType,
         FinancialYear,
         GeneralRunningNumberFor,
