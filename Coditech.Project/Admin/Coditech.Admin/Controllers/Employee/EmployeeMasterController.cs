@@ -83,6 +83,7 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
         }
 
+
         [HttpPost]
         public virtual ActionResult UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
         {
@@ -91,10 +92,27 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_employeeMasterAgent.UpdateEmployeeOtherDetail(employeeMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetEmployeeOtherDetail", new { gymMemberDetailId = employeeMasterViewModel.EmployeeId, personId = employeeMasterViewModel.PersonId });
+                return RedirectToAction("GetEmployeeOtherDetail", new { employeeId = employeeMasterViewModel.EmployeeId, personId = employeeMasterViewModel.PersonId });
             }
-            return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", employeeMasterViewModel);
+            return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
         }
+
+
+        //[HttpPost]
+        //public virtual ActionResult UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        SetNotificationMessage(_employeeMasterAgent.UpdateEmployeeOtherDetail(employeeMasterViewModel).HasError
+        //        ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+        //        : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+        //        return RedirectToAction("GetEmployeeOtherDetail", new { gymMemberDetailId = employeeMasterViewModel.EmployeeId, personId = employeeMasterViewModel.PersonId });
+        //    }
+        //    return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", employeeMasterViewModel);
+        //}
+
+
+
         public virtual ActionResult Delete(string employeeIds)
         {
             string message = string.Empty;
