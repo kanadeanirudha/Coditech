@@ -77,7 +77,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult GetEmployeeOtherDetail(long employeeId)
+        public virtual ActionResult GetEmployeeOtherDetail(long employeeId, long personId)
         {
             EmployeeMasterViewModel employeeMasterViewModel = _employeeMasterAgent.GetEmployeeOtherDetail(employeeId);
             return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
@@ -96,23 +96,6 @@ namespace Coditech.Admin.Controllers
             }
             return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
         }
-
-
-        //[HttpPost]
-        //public virtual ActionResult UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        SetNotificationMessage(_employeeMasterAgent.UpdateEmployeeOtherDetail(employeeMasterViewModel).HasError
-        //        ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-        //        : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-        //        return RedirectToAction("GetEmployeeOtherDetail", new { gymMemberDetailId = employeeMasterViewModel.EmployeeId, personId = employeeMasterViewModel.PersonId });
-        //    }
-        //    return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", employeeMasterViewModel);
-        //}
-
-
-
         public virtual ActionResult Delete(string employeeIds)
         {
             string message = string.Empty;

@@ -18,7 +18,6 @@ namespace Coditech.Admin.ViewModel
         public string PersonCode { get; set; }
 
         [MaxLength(50)]
-        [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
@@ -27,7 +26,6 @@ namespace Coditech.Admin.ViewModel
         public string MiddleName { get; set; }
 
         [MaxLength(50)]
-        [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -70,9 +68,6 @@ namespace Coditech.Admin.ViewModel
 
         public string ImagePath { get; set; }
 
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Please enter valid mobile number")]
-        [MaxLength(10)]
-        [Required]
         [Display(Name = "Mobile Number")]
         public string MobileNumber { get; set; }
 
@@ -81,7 +76,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Email Id")]
         public string EmailId { get; set; }
         
-        [Required]
         [Display(Name = "Gender")]
         public string Gender { get; set; }
 
