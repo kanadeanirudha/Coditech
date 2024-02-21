@@ -17,8 +17,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Person Code")]
         public string PersonCode { get; set; }
 
-        [MaxLength(50)]
-        [Required]
+        [MaxLength(50)]        
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
@@ -26,8 +25,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Middle Name")]
         public string MiddleName { get; set; }
 
-        [MaxLength(50)]
-        [Required]
+        [MaxLength(50)]        
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -97,6 +95,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Bank IFSC Code")]
         public string BankIFSCCode { get; set; }
 
+        [Required]
         public bool IsActive { get; set; }
     }
 
