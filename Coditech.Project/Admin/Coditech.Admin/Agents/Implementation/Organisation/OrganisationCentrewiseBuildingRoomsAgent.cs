@@ -142,14 +142,14 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Building",
-                ColumnCode = "OrganisationCentrewiseBuildingMasterId",
+                ColumnName = "Building Name",
+                ColumnCode = "BuildingName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Floor",
-                ColumnCode = "BuildingFloorEnumId",
+                ColumnName = "Building Floor",
+                ColumnCode = "BuildingFloor",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()

@@ -8,11 +8,11 @@ namespace Coditech.Admin.ViewModel
         public short OrganisationCentrewiseBuildingRoomId { get; set; }
 
         [Required]
-        [Display(Name = "Building")]
+        [Display(Name = "Building Name")]
         public short OrganisationCentrewiseBuildingMasterId { get; set; }
 
         [Required]
-        [Display(Name = "Floor")]
+        [Display(Name = "Building Floor")]
         public int BuildingFloorEnumId { get; set; }
 
         [MaxLength(100)]
@@ -28,7 +28,6 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Centre")]
         public string CentreCode { get; set; }
-
         public string BuildingName { get; set; }
         public string BuildingFloor { get; set; }
     }

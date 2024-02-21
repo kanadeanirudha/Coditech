@@ -3,7 +3,7 @@
     ViewBag.Title = Model.OrganisationCentrewiseBuildingRoomId > 0 ? "Update Building" : "Add Building ";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingByCentreCode()" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingByCentreCode()", IsDisabled = Model.OrganisationCentrewiseBuildingRoomId > 0};
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
