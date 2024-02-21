@@ -1,8 +1,8 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
@@ -46,7 +46,7 @@ namespace Coditech.Admin.Controllers
                 if (!hospitalDoctorsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new { hospitalDoctorId = hospitalDoctorsViewModel.HospitalDoctorId });
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = hospitalDoctorsViewModel.CentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorsViewModel.ErrorMessage));
@@ -73,23 +73,54 @@ namespace Coditech.Admin.Controllers
             return View(createEdit, hospitalDoctorsViewModel);
         }
 
-        //public virtual ActionResult Delete(string hospitalDoctorIds)
-        //{
-        //    string message = string.Empty;
-        //    bool status = false;
-        //    if (!string.IsNullOrEmpty(hospitalDoctorIds))
-        //    {
-        //        status = _hospitalDoctorsAgent.DeleteHospitalDoctors(hospitalDoctorIds, out message);
-        //        SetNotificationMessage(!status
-        //        ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
-        //        : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-        //        return RedirectToAction<HospitalDoctorsController>(x => x.List(null));
-        //    }
+        public virtual ActionResult Delete(string hospitalDoctorIds)
+        {
+            string message = string.Empty;
+            bool status = false;
+            if (!string.IsNullOrEmpty(hospitalDoctorIds))
+            {
+                status = _hospitalDoctorsAgent.DeleteHospitalDoctors(hospitalDoctorIds, out message);
+                SetNotificationMessage(!status
+                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
+                return RedirectToAction("List", CreateActionDataTable());
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
+            return RedirectToAction("List", CreateActionDataTable());
+        }
 
-        //    SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-        //    return RedirectToAction<HospitalDoctorsController>(x => x.List(null));
-        //}
+        public virtual ActionResult GetOrganisationCentrewiseBuildingRoomsByCentreCode(string selectedCentreCode)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(),
+                DropdownName = "OrganisationCentrewiseBuildingRoomId",
+                Parameter = selectedCentreCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
 
+        public virtual ActionResult GetEmployeeMasterByCentreCode(string selectedCentreCode)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.Employee.ToString(),
+                DropdownName = "EmployeeId",
+                Parameter = selectedCentreCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
+
+        public virtual ActionResult GetOrganisationCentrewiseBuildingByCentreCode(string selectedCentreCode)
+        {
+            DropdownViewModel buildingDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(),
+                DropdownName = "OrganisationCentrewiseBuildingMasterId",
+                Parameter = selectedCentreCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", buildingDropdown);
+        }
         #region Protected
 
         #endregion

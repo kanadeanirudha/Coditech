@@ -34,21 +34,20 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
 
+        [Required]
+        [Display(Name = "Building Name")]
+        public short OrganisationCentrewiseBuildingMasterId { get; set; }
+
         public string ImagePath { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        [Required]
-        [Display(Name = "Mobile Number")]
+        public string MedicalSpecilization { get; set; }
         public string MobileNumber { get; set; }
-
-        [Display(Name = "Email")]
         public string EmailId { get; set; }
         public bool IsAssociated { get; set; }
         public short OrganisationCentrewiseDepartmentId { get; set; }
-
-        public short GeneralDepartmentMasterId { get; set; }
-
         public string DepartmentName { get; set; }
+        public string CentreCode { get; set; }
+        public string BuildingRoomName { get; set; }
     }
 }

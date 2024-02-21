@@ -136,7 +136,6 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
-
         #endregion
         #endregion
 
@@ -176,19 +175,14 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Medical Specilization",
-                ColumnCode = "MedicalSpecilizationEnumId",
+                ColumnCode = "MedicalSpecilization",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Room Name",
-                ColumnCode = "OrganisationCentrewiseBuildingRoomId",
+                ColumnName = "Building Room Name",
+                ColumnCode = "BuildingRoomName",
                 IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Is Associated",
-                ColumnCode = "IsAssociated",
             });
             return datatableColumnList;
         }

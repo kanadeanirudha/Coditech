@@ -29,10 +29,12 @@ namespace Coditech.Common.API.Model
         public string ImagePath { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        [Required]
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public bool IsAssociated { get; set; }
+        public short OrganisationCentrewiseBuildingMasterId { get; set; }
+        public string CentreCode { get; set; }
+        public string MedicalSpecilization { get; set; }
+        public string BuildingRoomName { get; set; }
     }
 }
