@@ -118,12 +118,14 @@ namespace Coditech.API.Service
 
         protected virtual void BindEmployeeOtherDetail(EmployeeMasterModel employeeMasterModel, EmployeeMaster employeeMaster)
         {
+            employeeMaster.EmployeeDesignationMasterId = employeeMasterModel.EmployeeDesignationMasterId;
             employeeMaster.IsEmployeeSmoker = employeeMasterModel.IsEmployeeSmoker;
             employeeMaster.ReportingEmployeeId = employeeMasterModel.ReportingEmployeeId;
             employeeMaster.PANCardNumber = employeeMasterModel.PANCardNumber;
             employeeMaster.UANNumber = employeeMasterModel.UANNumber;
             employeeMaster.PassportNumber = employeeMasterModel.PassportNumber;
             employeeMaster.AdharCardNumber = employeeMasterModel.AdharCardNumber;
+            employeeMaster.BankAccountNumber = employeeMasterModel.BankAccountNumber;
             employeeMaster.BankName = employeeMasterModel.BankName;
             employeeMaster.BankIFSCCode = employeeMasterModel.BankIFSCCode;
             employeeMaster.IsActive = employeeMasterModel.IsActive;
