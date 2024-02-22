@@ -57,8 +57,20 @@
                                         @Html.TextBoxFor(x => x.UserType, new { @class = "form-control", type = "number" })
                                         @Html.ValidationMessageFor(x => x.UserType)
                                     </div>
-                                </div>  *@                                                               
-                                                           
+                                </div>  *@
+
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.EmployeeDesignationMasterId, new { @class = "form-label" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                                        {
+                                            DropdownType = DropdownTypeEnum.Designation.ToString(),
+                                            DropdownName = "EmployeeDesignationMasterId",
+                                            DropdownSelectedValue = Model.EmployeeDesignationMasterId.ToString()
+                                         })
+                                        @Html.ValidationMessageFor(x => x.EmployeeDesignationMasterId)
+                                    </div>
+                                </div>                                                           
                                 <div class="col-lg-4">
                                         <div class="mb-3">
                                             @Html.LabelFor(x => x.PANCardNumber, new { @class = "form-label" })
