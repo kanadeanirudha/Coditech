@@ -73,45 +73,50 @@
 
     SaveManualAttendance: function () {
         $("#frmGymMemberManualAttendance").validate();
-        $("#errorGeneralAttendanceStateEnumId").text('').text("").removeClass("field-validation-error").hide();
-        $("#errorAttendancedate").text('').text("").removeClass("field-validation-error").hide();
-        $("#errorLoginTime").text('').text("").removeClass("field-validation-error").hide();
-        $("#errorLogoutTime").text('').text("").removeClass("field-validation-error").hide();
+        $("#errorGeneralAttendanceStateEnumId").text('').removeClass("field-validation-error").hide();
+        $("#errorAttendancedate").text('').removeClass("field-validation-error").hide();
+        $("#errorLoginTime").text('').removeClass("field-validation-error").hide();
+        $("#errorLogoutTime").text('').removeClass("field-validation-error").hide();
 
         var selectedOption = $("#GeneralAttendanceStateEnumId").val();
-       
+
         if (!selectedOption) {
-            $("#errorGeneralAttendanceStateEnumId").text('').text("Please Select Attendance State.").addClass("field-validation-error").show();
+            $("#errorGeneralAttendanceStateEnumId").text("Please Select Attendance State.").addClass("field-validation-error").show();
             return false;
         }
-        
+
         if ($("#frmGymMemberManualAttendance").valid()) {
             // Check LogoutTime field using showLogoutTimeField logic
             var loginTimeValue = $("#LoginTime").val();
             var logoutTimeValue = $("#LogoutTime").val();
 
             if (loginTimeValue === '' && (selectedOption === 'CheckIn' || selectedOption === 'Both')) {
-                $("#errorLogoutTime").text("Please enter Login Time first.").addClass("field-validation-error").show();
+                $("#errorLoginTime").text("Please enter Check-In Time.").addClass("field-validation-error").show();
                 return false;
-            } else if (logoutTimeValue !== '' && loginTimeValue >= logoutTimeValue) {
-                $("#errorLogoutTime").text("Logout Time must be greater than Login Time.").addClass("field-validation-error").show();
-                return false;
-            } else {
-                $("#errorLogoutTime").hide();
             }
+
+            if (logoutTimeValue === '' && (selectedOption === 'CheckOut' || selectedOption === 'Both')) {
+                $("#errorLogoutTime").text("Please enter Check-Out Time.").addClass("field-validation-error").show();
+                return false;
+            }
+
+            if (logoutTimeValue !== '' && loginTimeValue >= logoutTimeValue) {
+                $("#errorLogoutTime").text("Check-Out Time must be greater than Check-In Time.").addClass("field-validation-error").show();
+                return false;
+            }
+
             $("#frmGymMemberManualAttendance").submit();
         }
     },
 
-
-
     DisplayCheckInCheckOutDiv: function () {
         console.log("Selected Value:", $("#GeneralAttendanceStateEnumId").val());
-   
+
         var selectedOption = $("#GeneralAttendanceStateEnumId").val();
-        
+
         $("#errorGeneralAttendanceStateEnumId").text('').removeClass("field-validation-error").hide();
         $("#errorLoginTime").text('').removeClass("field-validation-error").hide();
+        $("#errorLogoutTime").text('').removeClass("field-validation-error").hide();
 
         var showLoginField = function () {
             $("#LoginTimeDivId").show();
@@ -128,7 +133,7 @@
         var hideLogoutField = function () {
             $("#LogoutTimeDivId").hide();
         };
-        
+
         switch (selectedOption) {
             case "CheckIn":
                 showLoginField();
@@ -150,11 +155,10 @@
         }
     },
 
-
     IsSetReminder: function () {
         debugger
         $("#ReminderDate").val("");
-        if ($("#IsSetReminder").is(':checked')) {   
+        if ($("#IsSetReminder").is(':checked')) {
             // Code in the case checkbox is checked.
             $("#ReminderDateDivId").show();
         } else {
@@ -163,7 +167,7 @@
         }
     },
 
-     AddGymMemberBodyMeasurement: function (modelPopContentId, gymMemberDetailId, gymBodyMeasurementTypeId, bodyMeasurementType, measurementUnitShortCode, personId) {
+    AddGymMemberBodyMeasurement: function (modelPopContentId, gymMemberDetailId, gymBodyMeasurementTypeId, bodyMeasurementType, measurementUnitShortCode, personId) {
         CoditechCommon.ShowLodder();
         let gymMemberBodyMeasurementViewModel = {
             GymMemberDetailId: gymMemberDetailId,
