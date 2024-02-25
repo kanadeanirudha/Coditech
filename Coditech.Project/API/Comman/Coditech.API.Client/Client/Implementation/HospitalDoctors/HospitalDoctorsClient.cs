@@ -119,17 +119,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual HospitalDoctorsResponse GetHospitalDoctors(int hospitalDoctorId)
+        public virtual HospitalDoctorsResponse GetHospitalDoctors(int doctorId)
         {
-            return Task.Run(async () => await GetHospitalDoctorsAsync(hospitalDoctorId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetHospitalDoctorsAsync(doctorId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalDoctorsResponse> GetHospitalDoctorsAsync(int hospitalDoctorId, CancellationToken cancellationToken)
+        public virtual async Task<HospitalDoctorsResponse> GetHospitalDoctorsAsync(int doctorId, CancellationToken cancellationToken)
         {
-            if (hospitalDoctorId <= 0)
-                throw new System.ArgumentNullException("hospitalDoctorId");
+            if (doctorId <= 0)
+                throw new System.ArgumentNullException("doctorId");
 
-            string endpoint = hospitalDoctorsEndpoint.GetHospitalDoctorsAsync(hospitalDoctorId);
+            string endpoint = hospitalDoctorsEndpoint.GetHospitalDoctorsAsync(doctorId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

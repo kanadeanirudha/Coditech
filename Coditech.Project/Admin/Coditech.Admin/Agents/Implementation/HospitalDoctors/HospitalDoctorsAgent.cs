@@ -81,9 +81,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get HospitalDoctors by hospital Doctor id.
-        public virtual HospitalDoctorsViewModel GetHospitalDoctors(int hospitalDoctorId)
+        public virtual HospitalDoctorsViewModel GetHospitalDoctors(int doctorId)
         {
-            HospitalDoctorsResponse response = _hospitalDoctorsClient.GetHospitalDoctors(hospitalDoctorId);
+            HospitalDoctorsResponse response = _hospitalDoctorsClient.GetHospitalDoctors(doctorId);
             return response?.HospitalDoctorsModel.ToViewModel<HospitalDoctorsViewModel>();
         }
 

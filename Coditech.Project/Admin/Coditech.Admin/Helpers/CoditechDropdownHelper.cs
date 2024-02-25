@@ -413,9 +413,9 @@ namespace Coditech.Admin.Helpers
 
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
-                    string cc = dropdownViewModel.Parameter.Split("~")[0];
-                    short di = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
-                    HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(cc, di, false, null, null, null, 1, int.MaxValue);
+                    string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
+                    short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                    HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId, false, null, null, null, 1, int.MaxValue);
                     HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
                     foreach (var item in list?.HospitalDoctorsList)
                     {
@@ -428,6 +428,9 @@ namespace Coditech.Admin.Helpers
                     }
                 }
             }
+
+
+
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuildingRooms.ToString()))
             {
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Room-------" });

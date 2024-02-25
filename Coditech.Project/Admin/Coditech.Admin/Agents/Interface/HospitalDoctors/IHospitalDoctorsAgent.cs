@@ -21,11 +21,11 @@ namespace Coditech.Admin.Agents
 
 
         /// <summary>
-        /// Get HospitalDoctors by hospitalDoctorId.
+        /// Get HospitalDoctors by doctorId.
         /// </summary>
-        /// <param name="hospitalDoctorId">hospitalDoctorId</param>
+        /// <param name="doctorId">doctorId</param>
         /// <returns>Returns HospitalDoctorsViewModel.</returns>
-        HospitalDoctorsViewModel GetHospitalDoctors(int hospitalDoctorId);
+        HospitalDoctorsViewModel GetHospitalDoctors(int doctorId);
 
         /// <summary>
         /// Update Hospital Doctors.
