@@ -6,7 +6,8 @@
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("GymMemberDetailId", Model.GymMemberDetailId.ToString());
     keyValuePairs.Add("PersonId", Model.PersonId.ToString());
-    ModelPopUpViewModel addAttendanceModel = new ModelPopUpViewModel() { ModelPopUpId = "AddUpdateAttendanceModelPopupId", ModalContentId = "AddUpdateAttendanceModelPopupContentId" };
+    ModelPopUpViewModel manualAttendanceModel = new ModelPopUpViewModel() { ModelPopUpId = "ManualAttendanceModelPopupId", ModalContentId = "ManualAttendanceModelPopupContentId" };
+
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -19,7 +20,7 @@
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">Member Attendance List- @Model.FirstName @Model.LastName</span>
-                        <a class="btn btn-sm btn-soft-primary float-end" data-bs-toggle="modal" data-bs-target="#@addAttendanceModel.ModelPopUpId" href="void javascritp(0)" onclick="GymMemberDetails.GetMemberAttendance('@addAttendanceModel.ModalContentId','@Model.GymMemberDetailId','0','@Model.PersonId')" title="Add Attendance">
+                        <a class="btn btn-sm btn-soft-primary float-end" data-bs-toggle="modal" data-bs-target="#@manualAttendanceModel.ModelPopUpId" href="javascript:void(0)" onclick="GymMemberDetails.CreatEditGeneralPersonAttendanceDetails('@manualAttendanceModel.ModalContentId','@Model.GymMemberDetailId','0','@Model.PersonId')" title="Add Attendance">
                             <i class="fas fa-plus me-2"></i>Add Attendance
                         </a>
                         <p class="text-muted mb-0"></p>
@@ -35,4 +36,4 @@
     </div>
 </div>
 <!-- end page content -->
-@Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", addAttendanceModel)
+@Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", manualAttendanceModel)

@@ -1,5 +1,4 @@
-﻿@using Coditech.Admin.Utilities;
-@model GeneralPersonAttendanceDetailsViewModel
+﻿@model GeneralPersonAttendanceDetailsViewModel
 @{
     Layout = null;
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
@@ -20,9 +19,6 @@
     ;
     @Html.HiddenFor(x => x.GymMemberDetailId)
     @Html.HiddenFor(x => x.GeneralPersonAttendanceDetailId)
-    @Html.HiddenFor(x => x.EntityId)
-    @Html.HiddenFor(x => x.UserType)
-
     <div class="modal-body">
         <div class="row">
             <div class="col-lg-12">
@@ -42,18 +38,28 @@
            IsTextValueSame = true,
            ChangeEvent = "GymMemberDetails.DisplayCheckInCheckOutDiv()"
        })
+
                 @Html.ValidationMessageFor(x => x.GeneralAttendanceStateEnumId, null, new { id = "errorGeneralAttendanceStateEnumId" })
             </div>
+
             <div class="mb-3" id="LoginTimeDivId" style="display: none;">
                 @Html.LabelFor(x => x.LoginTime, new { @class = "form-label" })
-                @Html.TextBoxFor(x => x.LoginTime, new { @class = "form-control", type = "time", onchange = "SaveManualAttendance()" })
-                @Html.ValidationMessageFor(x => x.LoginTime)
+                @Html.TextBoxFor(x => x.LoginTime, new { @class = "form-control form-time", type = "time", onchange = "SaveManualAttendance()" })
+                @Html.ValidationMessageFor(x => x.LoginTime, null, new { id = "errorLoginTime" })
             </div>
 
             <div class="mb-3" id="LogoutTimeDivId" style="display: none;">
                 @Html.LabelFor(x => x.LogoutTime, new { @class = "form-label" })
-                @Html.TextBoxFor(x => x.LogoutTime, new { @class = "form-control", type = "time", onchange = "SaveManualAttendance()" })
+                @Html.TextBoxFor(x => x.LogoutTime, new { @class = "form-control form-time", type = "time", onchange = "SaveManualAttendance()" })
                 @Html.ValidationMessageFor(x => x.LogoutTime, null, new { id = "errorLogoutTime" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Remark, new { @class = "form-label" })
+                <div class="position-relative">
+                    <textarea id="Remark" name="Remark" class="form-control" maxlength="150"></textarea>
+                </div>
+                <div id="charCount" class="mb-3 text-end">0/150</div>
             </div>
 
         </div>
@@ -63,6 +69,7 @@
         <a id="saveDraft" class="btn btn-success" data-test-selector="linkSave" onclick="GymMemberDetails.SaveManualAttendance()">@AdminResources.LabelSave</a>
     </div>
 }
+
 <!-- Your custom scripts -->
 @Html.Partial("_ValidationScriptsPartial")
 <script src="~/js/layout/daterangepicker.js"></script>
@@ -115,7 +122,14 @@
             endDate: moment(),
         },
             function (start, end, label) { });
+
+        // Add an event listener to the textarea
+        $('#Remark').on('input', function () {
+            // Get the current character count
+            var count = this.value.length;
+
+            // Update the character count display
+            $('#charCount').text(count + '/150');
+        });
     });
-
 </script>
-
