@@ -1,5 +1,6 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API.Model;
+using Coditech.Common.Enum;
 using Coditech.Common.Logger;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -74,6 +75,16 @@ namespace Coditech.Common.Service
             return generalPerson;
         }
 
+        protected virtual GeneralPerson GetGeneralPersonDetailsByEntityType(long entityId, string entityType)
+        {
+            long personId = 0;
+            if (entityType == UserTypeEnum.GymMember.ToString())
+            {
+                personId = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId).FirstOrDefault().PersonId;
+            }
+            return GetGeneralPersonDetails(personId);
+        }
+
         protected virtual string GetEnumCodeByEnumId(int generalEnumaratorId)
         {
             GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).GetById(generalEnumaratorId);
@@ -90,8 +101,8 @@ namespace Coditech.Common.Service
         {
             string registrationCode = string.Empty;
             int generalEnumaratorId = GetEnumIdByEnumCode(enumCode);
-            CoditechRepository<GeneralRunningNumbers> _generalRunningNumbersRepository =   new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>());
-            GeneralRunningNumbers generalRunningNumbers = _generalRunningNumbersRepository.Table.FirstOrDefault(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode== centreCode);
+            CoditechRepository<GeneralRunningNumbers> _generalRunningNumbersRepository = new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>());
+            GeneralRunningNumbers generalRunningNumbers = _generalRunningNumbersRepository.Table.FirstOrDefault(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode == centreCode);
             if (generalRunningNumbers != null)
             {
                 DateTime dateTime = DateTime.Now;
