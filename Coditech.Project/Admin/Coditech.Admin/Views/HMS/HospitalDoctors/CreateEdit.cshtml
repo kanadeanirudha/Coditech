@@ -4,7 +4,7 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctors.GetDepartmentAndBuildingByCentreCode()" };
-    DropdownViewModel departmentDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(), DropdownName = "SelectedDepartmentId", DropdownSelectedValue = Convert.ToString(Model.SelectedDepartmentId), Parameter = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctors.GetDepartmentByCentreCode()" };
+    DropdownViewModel departmentDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(), DropdownName = "SelectedDepartmentId", DropdownSelectedValue = Convert.ToString(Model.SelectedDepartmentId), Parameter = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctors.GetDepartmentAndEmployeeListByCentreCode()" };
 
 
 }
