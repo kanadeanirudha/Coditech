@@ -92,7 +92,7 @@
                                        DropdownName = "EmployeeId",
                                        DropdownSelectedValue = Model.EmployeeId
                                         .ToString(),
-                                       Parameter = $"{Model.SelectedCentreCode}~{Model.SelectedDepartmentId}"
+                                       Parameter = !string.IsNullOrEmpty(Model.SelectedCentreCode)? $"{Model.SelectedCentreCode}~{Model.SelectedDepartmentId}" : ""
 
                                    })
                                                 @Html.ValidationMessageFor(x => x.EmployeeId)
