@@ -421,16 +421,13 @@ namespace Coditech.Admin.Helpers
                     {
                         dropdownList.Add(new SelectListItem()
                         {
-                            Text = $"{item.FirstName} {item.LastName} ({item.MedicalSpecilization})",
+                            Text = $"{item.FirstName} {item.LastName}",
                             Value = item.EmployeeId.ToString(),
                             Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmployeeId)
                         });
                     }
                 }
             }
-
-
-
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuildingRooms.ToString()))
             {
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Room-------" });
@@ -438,7 +435,7 @@ namespace Coditech.Admin.Helpers
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
                     FilterCollection filters = new FilterCollection();
-                    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+                    filters.Add(FilterKeys.OrganisationCentrewiseBuildingMasterId, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
                     OrganisationCentrewiseBuildingRoomsListResponse response = new OrganisationCentrewiseBuildingRoomsClient().List(null, filters, null, 1, int.MaxValue);
                     OrganisationCentrewiseBuildingRoomsListModel list = new OrganisationCentrewiseBuildingRoomsListModel() { OrganisationCentrewiseBuildingRoomsList = response.OrganisationCentrewiseBuildingRoomsList };
                     foreach (var item in list?.OrganisationCentrewiseBuildingRoomsList)

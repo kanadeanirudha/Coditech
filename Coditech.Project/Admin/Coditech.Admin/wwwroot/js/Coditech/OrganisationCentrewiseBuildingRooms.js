@@ -6,10 +6,13 @@
     constructor: function () {
     },
 
-    GetOrganisationCentrewiseBuildingRoomsByCentreCode: function () {
+    GetBuildingRoomsByBuildingMasterId: function () {
         $('#DataTables_SearchById').val("")
         if ($("#SelectedCentreCode").val() == "") {
             CoditechNotification.DisplayNotificationMessage("Please select centre.", "error");
+        }
+        else if ($("#SelectedParameter1").val() == "") {
+            CoditechNotification.DisplayNotificationMessage("Please select building.", "error");
         }
         else {
             CoditechDataTable.LoadList("OrganisationCentrewiseBuildingRooms", "List");
@@ -17,7 +20,7 @@
     },
 
     GetOrganisationCentrewiseBuildingByCentreCode: function () {
-        var selectedItem = $("#CentreCode").val();
+        var selectedItem = $("#SelectedCentreCode").val();
         if (selectedItem != "") {
             CoditechCommon.ShowLodder();
             $.ajax({
@@ -28,17 +31,17 @@
                 data: { "centreCode": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    $("#OrganisationCentrewiseBuildingMasterId").html("").html(data);
+                    $("#SelectedParameter1").html("").html(data);
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve City.", "error")
+                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Building Name.", "error")
                     CoditechCommon.HideLodder();
                 }
             });
         }
         else {
-            $("#OrganisationCentrewiseBuildingMasterId").html("");
+            $("#SelectedParameter1").html("");
         }
     },
 }
