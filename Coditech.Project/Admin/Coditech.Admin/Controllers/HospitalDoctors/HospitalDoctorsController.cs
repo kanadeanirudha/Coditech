@@ -54,9 +54,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(int hospitalDoctorId)
+        public virtual ActionResult Edit(int doctorId)
         {
-            HospitalDoctorsViewModel hospitalDoctorsViewModel = _hospitalDoctorsAgent.GetHospitalDoctors(hospitalDoctorId);
+            HospitalDoctorsViewModel hospitalDoctorsViewModel = _hospitalDoctorsAgent.GetHospitalDoctors(doctorId);
             return ActionView(createEdit, hospitalDoctorsViewModel);
         }
 
@@ -68,7 +68,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_hospitalDoctorsAgent.UpdateHospitalDoctors(hospitalDoctorsViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { hospitalDoctorId = hospitalDoctorsViewModel.HospitalDoctorId });
+                return RedirectToAction("Edit", new { doctorId = hospitalDoctorsViewModel.HospitalDoctorId });
             }
             return View(createEdit, hospitalDoctorsViewModel);
         }
@@ -89,18 +89,41 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", CreateActionDataTable());
         }
 
-        public virtual ActionResult GetOrganisationCentrewiseBuildingRoomsByCentreCode(string selectedCentreCode)
+        public virtual ActionResult GetDepartmentsByCentreCode(string centreCode)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(),
+                DropdownName = "SelectedDepartmentId",
+                Parameter = centreCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
+
+        public virtual ActionResult GetOrganisationCentrewiseBuildingByCentreCode(string centreCode)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(),
+                DropdownName = "OrganisationCentrewiseBuildingMasterId",
+                Parameter = centreCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
+
+
+        public virtual ActionResult GetOrganisationCentrewiseRoomByBuildingId(string buildingMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(),
                 DropdownName = "OrganisationCentrewiseBuildingRoomId",
-                Parameter = selectedCentreCode,
+                Parameter = buildingMasterId,
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
-        public virtual ActionResult GetEmployeeMasterList(string selectedCentreCode, int selectedDepartmentId)
+        public virtual ActionResult GetEmployeeList(string selectedCentreCode, string selectedDepartmentId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
             {
@@ -111,29 +134,6 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
-        public ActionResult GetDepartmentsByCentreCode(string centreCode)
-        {
-            DropdownViewModel departmentDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(),
-                DropdownName = "SelectedDepartmentId",
-                Parameter = centreCode,
-                ChangeEvent= "GetEmployeeMasterList()"
-            };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
-        }
-
-        public virtual ActionResult GetOrganisationCentrewiseBuildingByCentreCode(string selectedCentreCode)
-        {
-            DropdownViewModel buildingDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(),
-                DropdownName = "OrganisationCentrewiseBuildingMasterId",
-                Parameter = selectedCentreCode,
-                ChangeEvent=""
-            };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", buildingDropdown);
-        }
         #region Protected
 
         #endregion

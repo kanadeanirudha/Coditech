@@ -82,6 +82,12 @@ function BindDataTableModel(PageIndex) {
         PageSize: $('#DataTables_PageSizeId').val(),
         SelectedCentreCode: $("#SelectedCentreCode").length > 0 ? $("#SelectedCentreCode").val() : "",
         SelectedDepartmentId: $("#SelectedDepartmentId").length > 0 ? $("#SelectedDepartmentId").val() : 0,
+        SelectedParameter1: $("#SelectedParameter1").length > 0 ? $("#SelectedParameter1").val() : "",
+        SelectedParameter2: $("#SelectedParameter2").length > 0 ? $("#SelectedParameter2").val() : "",
+        SelectedParameter3: $("#SelectedParameter3").length > 0 ? $("#SelectedParameter3").val() : "",
+        SelectedParameter4: $("#SelectedParameter4").length > 0 ? $("#SelectedParameter4").val() : "",
+        SelectedParameter5: $("#SelectedParameter5").length > 0 ? $("#SelectedParameter5").val() : "",
+
     }
     $("#DataTables_PageSizeId").attr("disabled", true);
     $("#DataTables_SearchById").attr("disabled", true);

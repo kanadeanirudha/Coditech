@@ -413,15 +413,15 @@ namespace Coditech.Admin.Helpers
 
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
-                    string cc = dropdownViewModel.Parameter.Split("~")[0];
-                    short di = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
-                    HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(cc, di, false, null, null, null, 1, int.MaxValue);
+                    string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
+                    short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                    HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId, false, null, null, null, 1, int.MaxValue);
                     HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
                     foreach (var item in list?.HospitalDoctorsList)
                     {
                         dropdownList.Add(new SelectListItem()
                         {
-                            Text = $"{item.FirstName} {item.LastName} ({item.MedicalSpecilization})",
+                            Text = $"{item.FirstName} {item.LastName}",
                             Value = item.EmployeeId.ToString(),
                             Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmployeeId)
                         });
@@ -435,7 +435,7 @@ namespace Coditech.Admin.Helpers
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
                 {
                     FilterCollection filters = new FilterCollection();
-                    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+                    filters.Add(FilterKeys.OrganisationCentrewiseBuildingMasterId, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
                     OrganisationCentrewiseBuildingRoomsListResponse response = new OrganisationCentrewiseBuildingRoomsClient().List(null, filters, null, 1, int.MaxValue);
                     OrganisationCentrewiseBuildingRoomsListModel list = new OrganisationCentrewiseBuildingRoomsListModel() { OrganisationCentrewiseBuildingRoomsList = response.OrganisationCentrewiseBuildingRoomsList };
                     foreach (var item in list?.OrganisationCentrewiseBuildingRoomsList)

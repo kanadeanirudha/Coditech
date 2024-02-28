@@ -20,7 +20,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             OrganisationCentrewiseBuildingRoomsListViewModel list = new OrganisationCentrewiseBuildingRoomsListViewModel();
-            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableViewModel.SelectedParameter1))
             {
                 list = _organisationCentrewiseBuildingRoomsAgent.GetOrganisationCentrewiseBuildingRoomsList(dataTableViewModel);
             }

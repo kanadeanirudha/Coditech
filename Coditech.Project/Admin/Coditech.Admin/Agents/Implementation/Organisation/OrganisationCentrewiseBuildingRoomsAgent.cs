@@ -36,9 +36,8 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("RoomName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("BuildingName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
+            filters.Add(FilterKeys.OrganisationCentrewiseBuildingMasterId, ProcedureFilterOperators.Equals, dataTableModel.SelectedParameter1);
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "RoomName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
@@ -142,20 +141,14 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Building Name",
-                ColumnCode = "BuildingName",
+                ColumnName = "Room Name",
+                ColumnCode = "RoomName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Building Floor",
                 ColumnCode = "BuildingFloor",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Room Name",
-                ColumnCode = "RoomName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()

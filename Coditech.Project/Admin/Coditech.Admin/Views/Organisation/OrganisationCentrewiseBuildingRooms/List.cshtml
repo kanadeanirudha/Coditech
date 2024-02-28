@@ -3,7 +3,8 @@
     ViewBag.Title = "Organisation Centrewise Building Rooms List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.LoadListByCentreCode('" + @controllerName + "','" + @actionName + "')" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingByCentreCode()" };
+    DropdownViewModel bulidingDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(), DropdownName = "SelectedParameter1", DropdownSelectedValue = Convert.ToString( Model.OrganisationCentrewiseBuildingMasterId), ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetBuildingRoomsByBuildingMasterId('" + @controllerName + "','" + @actionName + "')" };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -25,7 +26,13 @@
                                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
                             </div>
                             <div class="col-md-1">
-                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="CoditechCommon.LoadListByCentreCode('@controllerName','@actionName')" "   />
+                                <label>Building Name</label>
+                            </div>
+                            <div class="col-md-3">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", bulidingDropdown)
+                            </div>
+                            <div class="col-md-1">
+                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="OrganisationCentrewiseBuildingRooms.GetBuildingRoomsByBuildingMasterId('@controllerName','@actionName')" "     />
                             </div>
                         </div>
                     </div>
@@ -40,4 +47,3 @@
     </div>
 </div>
 <!-- end page content -->
-

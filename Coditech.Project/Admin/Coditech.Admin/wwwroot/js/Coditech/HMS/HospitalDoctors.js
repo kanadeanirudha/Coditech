@@ -47,19 +47,19 @@
     },
 
 
-    GetOrganisationCentrewiseBuildingAndRoomByCentreCode: function () {
-        var selectedItem = $("#SelectedCentreCode").val();
+    GetOrganisationCentrewiseRoomByBuildingId: function () {
+        var selectedItem = $("#OrganisationCentrewiseBuildingMasterId").val();
         if (selectedItem != "") {
             CoditechCommon.ShowLodder();
             $.ajax({
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/HospitalDoctors/GetOrganisationCentrewiseBuildingByCentreCode",
-                data: { "centreCode": selectedItem },
+                url: "/HospitalDoctors/GetOrganisationCentrewiseRoomByBuildingId",
+                data: { "buildingMasterId": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    $("#OrganisationCentrewiseBuildingMasterId").html("").html(data);
+                    $("#OrganisationCentrewiseBuildingRoomId").html("").html(data);
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -67,56 +67,22 @@
                     CoditechCommon.HideLodder();
                 }
             });
-
-            $.ajax({
-                cache: false,
-                type: "GET",
-                dataType: "html",
-                url: "/HospitalDoctors/GetOrganisationCentrewiseBuildingRoomByCentreCode",
-                data: { "centreCode": selectedItem },
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    $("#OrganisationCentrewiseBuildingRoomId").html("").html(data);
-                    CoditechCommon.HideLodder();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Building Room.", "error")
-                    CoditechCommon.HideLodder();
-                }
-            });
-
         }
     },
 
 
-    GetDepartmentAndEmployeeListByCentreCode: function () {
-        var selectedItem = $("#SelectedCentreCode").val();
+    GetEmployeeListByCentreCodeAndDepartmentId: function () {
+        var selectedCentreCode = $("#SelectedCentreCode").val();
+        var selectedDepartmentId = $("#SelectedDepartmentId").val();
 
-        if (selectedItem != "") {
-                CoditechCommon.ShowLodder();
-                $.ajax({
-                    cache: false,
-                    type: "GET",
-                    dataType: "html",
-                    url: "/HospitalDoctors/GetDepartmentsByCentreCode",
-                    data: { "centreCode": selectedItem },
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        $("#SelectedDepartmentId").html("").html(data);
-                        CoditechCommon.HideLodder();
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Departments.", "error")
-                        CoditechCommon.HideLodder();
-                    }
-                });
-
+        if (selectedCentreCode != "" && selectedDepartmentId != "") {
+            CoditechCommon.ShowLodder();
             $.ajax({
                 cache: false,
                 type: "GET",
                 dataType: "html",
                 url: "/HospitalDoctors/GetEmployeeList",
-                data: { "selectedCentreCode": selectedCentreCode, "selectedDepartmentId": selectedDepartmentId,selectedItem },
+                data: { "selectedCentreCode": selectedCentreCode, "selectedDepartmentId": selectedDepartmentId },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     $("#EmployeeId").html("").html(data);
@@ -127,7 +93,7 @@
                     CoditechCommon.HideLodder();
                 }
             });
-         
+
         }
     },
 
