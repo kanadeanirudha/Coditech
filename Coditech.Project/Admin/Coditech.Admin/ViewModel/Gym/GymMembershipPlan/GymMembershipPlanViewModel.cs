@@ -55,5 +55,7 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Is Active")]
         public Boolean IsActive { get; set; }
+        [Display(Name = "Is Tax Exclusive")]
+        public Boolean IsTaxExclusive { get; set; }
     }
 }

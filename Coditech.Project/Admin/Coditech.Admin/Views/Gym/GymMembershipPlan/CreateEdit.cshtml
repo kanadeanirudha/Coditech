@@ -124,6 +124,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.IsTaxExclusive, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.IsTaxExclusive, new { @class = "form-check-input" })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>

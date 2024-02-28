@@ -16,6 +16,7 @@ namespace Coditech.API.Data
         public short? PlanDurationInSession { get; set; }
         public bool IsRenewable { get; set; }
         public bool IsTimebaseBiometricAccess { get; set; }
+        public bool IsTaxExclusive { get; set; }
         public TimeSpan? FromTime { get; set; }
         public TimeSpan? ToTime { get; set; }
         public bool IsActive { get; set; }
