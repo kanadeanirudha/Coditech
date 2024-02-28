@@ -6,13 +6,13 @@
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingRoomsByCentreCode()" };
 }
 <!-- Page Content-->
-<div class="page-content">
+<div class="page-content mt-5">
     <div class="container-fluid">
-        <!-- Page-Title -->
         <div class="row">
             <div class="col-sm-12">
-                <div class="page-title-box">
-                    <div class="row">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
                         <div class="col">
                             @if (Model.OrganisationCentrewiseBuildingMasterId > 0)
                             {
@@ -24,10 +24,7 @@
                             }
                         </div><!--end col-->
                     </div><!--end row-->
-                </div><!--end page-title-box-->
-            </div><!--end col-->
-        </div><!--end row-->
-        <!-- end page title end breadcrumb -->
+                </div>
         <div class="row">
             <div class="col-lg-10">
                 <div class="card">

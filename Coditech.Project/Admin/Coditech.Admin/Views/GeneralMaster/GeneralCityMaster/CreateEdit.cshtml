@@ -7,13 +7,13 @@
     DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Model.GeneralCountryMasterId, IsDisabled = Model.GeneralCityMasterId > 0 };
 }
 <!-- Page Content-->
-<div class="page-content">
+<div class="page-content mt-5">
     <div class="container-fluid">
-        <!-- Page-Title -->
         <div class="row">
-            <div class="col-sm-12">
-                <div class="page-title-box">
-                    <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                    <div class="row align-item-center">
                         <div class="col">
                             @if (Model.GeneralCityMasterId > 0)
                             {
@@ -25,13 +25,7 @@
                             }
                         </div><!--end col-->
                     </div><!--end row-->
-                </div><!--end page-title-box-->
-            </div><!--end col-->
-        </div><!--end row-->
-        <!-- end page title end breadcrumb -->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
+                </div>
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
