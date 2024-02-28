@@ -12,11 +12,11 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                            <span class="card-title">@AdminResources.LabelOrganisationCentrewiseBuildingList</span>
+                           <span class="card-title">@AdminResources.LabelOrganisationCentrewiseBuildingList</span>
                             <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Building</a>
-                    </div>
-                    <div class="card-header">
                         <p class="text-muted mb-0"></p>
+                        </div>
+                    <div class="card-header">
                         <div class="row">
                             <div class="col-md-1">
                                 <label>@AdminResources.LabelCentre</label>
@@ -29,6 +29,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
                             @Html.Partial("~/Views/Organisation/OrganisationCentrewiseBuilding/_List.cshtml", Model)
