@@ -26,23 +26,25 @@ namespace Coditech.API.Service
             _gymMembershipPlanRepository = new CoditechRepository<GymMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual GymMembershipPlanListModel GetGymMembershipPlanList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual GymMembershipPlanListModel GetGymMembershipPlanList(string SelectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging shipPlan.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GymMembershipPlanModel> objStoredProc = new CoditechViewRepository<GymMembershipPlanModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@CentreCode", SelectedCentreCode, ParameterDirection.Input, DbType.String); 
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GymMembershipPlanModel> gymMemberList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMembershipPlanList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GymMembershipPlanModel> gymMembershipPlanList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMembershipPlanList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             GymMembershipPlanListModel listModel = new GymMembershipPlanListModel();
 
-            listModel.GymMembershipPlanList = gymMemberList?.Count > 0 ? gymMemberList : new List<GymMembershipPlanModel>();
+            listModel.GymMembershipPlanList = gymMembershipPlanList?.Count > 0 ? gymMembershipPlanList : new List<GymMembershipPlanModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
+
 
         //Create Gym Membership Plan.
         public virtual GymMembershipPlanModel CreateGymMembershipPlan(GymMembershipPlanModel gymMembershipPlanModel)

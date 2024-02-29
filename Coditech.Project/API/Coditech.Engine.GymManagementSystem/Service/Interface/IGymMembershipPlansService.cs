@@ -7,7 +7,7 @@ namespace Coditech.API.Service
 {
     public interface IGymMembershipPlanService
     {
-        GymMembershipPlanListModel GetGymMembershipPlanList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        GymMembershipPlanListModel GetGymMembershipPlanList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         GymMembershipPlanModel CreateGymMembershipPlan(GymMembershipPlanModel model);
         GymMembershipPlanModel GetGymMembershipPlan(int gymMemberDetailId);
         bool UpdateGymMembershipPlan(GymMembershipPlanModel model);

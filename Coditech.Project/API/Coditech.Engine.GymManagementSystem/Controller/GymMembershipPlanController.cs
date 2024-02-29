@@ -28,11 +28,11 @@ namespace Coditech.API.Controllers
         [Route("/GymMembershipPlan/GetGymMembershipPlanList")]
         [Produces(typeof(GymMembershipPlanListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetGymMembershipPlanList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetGymMembershipPlanList(string selectedCentreCode, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                GymMembershipPlanListModel list = _generalGymMembershipPlanService.GetGymMembershipPlanList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                GymMembershipPlanListModel list = _generalGymMembershipPlanService.GetGymMembershipPlanList(selectedCentreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize); // Removed 'string' from 'string selectedCentreCode'
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMembershipPlanListResponse>(data) : CreateNoContentResponse();
             }
@@ -47,6 +47,7 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new GymMembershipPlanListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
 
         [Route("/GymMembershipPlan/CreateGymMembershipPlan")]
         [HttpPost, ValidateModel]
