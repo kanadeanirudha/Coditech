@@ -18,14 +18,14 @@ namespace Coditech.API.Client
         {
             gymMembershipPlanEndpoint = new GymMembershipPlanEndpoint();
         }
-        public virtual GymMembershipPlanListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual GymMembershipPlanListResponse List(string SelectedCentreCode, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(SelectedCentreCode, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymMembershipPlanListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<GymMembershipPlanListResponse> ListAsync(string SelectedCentreCode, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = gymMembershipPlanEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
+            string endpoint = gymMembershipPlanEndpoint.ListAsync(SelectedCentreCode, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

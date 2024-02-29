@@ -20,12 +20,19 @@ namespace Coditech.Admin.Controllers
         #region GymMembershipPlan
         public ActionResult List(DataTableViewModel dataTableModel)
         {
-            GymMembershipPlanListViewModel list = _gymMembershipPlanAgent.GetGymMembershipPlanList(dataTableModel);
+            GymMembershipPlanListViewModel list = new GymMembershipPlanListViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
+            {
+                list = _gymMembershipPlanAgent.GetGymMembershipPlanList(dataTableModel);
+            }
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMembershipPlan/_List.cshtml", list);
             }
-            return View($"~/Views/Gym/GymMembershipPlan/List.cshtml", list);
+
+            return View("~/Views/Gym/GymMembershipPlan/List.cshtml", list);
         }
 
         [HttpGet]

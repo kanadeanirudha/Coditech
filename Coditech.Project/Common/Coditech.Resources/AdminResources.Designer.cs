@@ -203,18 +203,7 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralRegionMaster", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete hospital Doctors due to associate record..
-        /// </summary>
-        public static string ErrorDeleteHospitalDoctorsDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteHospitalDoctorsDetails", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete General Running Numbers due to associate record..
         /// </summary>
@@ -275,6 +264,15 @@ namespace Coditech.Resources {
         public static string ErrorDeleteGymMembershipPlan {
             get {
                 return ResourceManager.GetString("ErrorDeleteGymMembershipPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Doctors details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalDoctorsDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalDoctorsDetails", resourceCulture);
             }
         }
         
@@ -412,18 +410,7 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelDepartments", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Hospital.
-        /// </summary>
-        public static string LabelHospitalList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelHospitalList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Designation List.
         /// </summary>
@@ -502,6 +489,15 @@ namespace Coditech.Resources {
         public static string LabelMeasurementUnitList {
             get {
                 return ResourceManager.GetString("LabelMeasurementUnitList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Membership Plan.
+        /// </summary>
+        public static string LabelMembershipPlanList {
+            get {
+                return ResourceManager.GetString("LabelMembershipPlanList", resourceCulture);
             }
         }
         
