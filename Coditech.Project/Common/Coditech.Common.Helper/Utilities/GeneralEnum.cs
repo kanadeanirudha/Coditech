@@ -28,6 +28,7 @@
         MeasurementUnit,
         UnAssociatedEmployeeList,
         GymPlanType,
+        GymPlanDurationType,
         FinancialYear,
         GeneralRunningNumberFor,
         GymFollowupTypes,

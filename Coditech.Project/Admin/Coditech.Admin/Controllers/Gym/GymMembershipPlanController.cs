@@ -20,12 +20,19 @@ namespace Coditech.Admin.Controllers
         #region GymMembershipPlan
         public ActionResult List(DataTableViewModel dataTableModel)
         {
-            GymMembershipPlanListViewModel list = _gymMembershipPlanAgent.GetGymMembershipPlanList(dataTableModel);
+            GymMembershipPlanListViewModel list = new GymMembershipPlanListViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
+            {
+                list = _gymMembershipPlanAgent.GetGymMembershipPlanList(dataTableModel);
+            }
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMembershipPlan/_List.cshtml", list);
             }
-            return View($"~/Views/Gym/GymMembershipPlan/List.cshtml", list);
+
+            return View("~/Views/Gym/GymMembershipPlan/List.cshtml", list);
         }
 
         [HttpGet]
@@ -45,7 +52,7 @@ namespace Coditech.Admin.Controllers
                 if (!gymMembershipPlanViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GymMembershipPlanController>(x => x.List(null));
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = gymMembershipPlanViewModel.CentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymMembershipPlanViewModel.ErrorMessage));

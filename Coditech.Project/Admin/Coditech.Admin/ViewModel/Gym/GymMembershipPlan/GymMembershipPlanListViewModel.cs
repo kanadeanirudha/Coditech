@@ -9,5 +9,6 @@ namespace Coditech.Admin.ViewModel
         {
             GymMembershipPlanList = new List<GymMembershipPlanViewModel>();
         }
+        public string SelectedCentreCode { get; set; } = string.Empty;
     }
 }

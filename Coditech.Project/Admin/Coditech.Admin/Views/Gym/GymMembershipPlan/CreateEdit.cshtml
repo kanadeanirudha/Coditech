@@ -4,6 +4,14 @@
     ViewBag.Title = Model.GymMembershipPlanId > 0 ? "Update Gym Membership Plan" : "Create Gym Membership Plan";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel centreDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(),
+                DropdownName = "CentreCode",
+                DropdownSelectedValue = Model.CentreCode,
+                ChangeEvent = "",
+                IsDisabled = Model.GymMembershipPlanId > 0
+            };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -30,6 +38,38 @@
                         {
                             @Html.HiddenFor(m => m.GymMembershipPlanId)
                             <div class="row">
+                                @if (Model.GymMembershipPlanId == 0)
+                                {
+
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.CentreCode, new { @class = "form-label required" })
+                                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                                            @Html.ValidationMessageFor(x => x.CentreCode)
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    @Html.HiddenFor(m => m.CentreCode)
+                                }
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PlanTypeEnumId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.PlanTypeEnumId.ToString(),
+                                   DropdownName = "PlanTypeEnumId",
+                                   GroupCode = DropdownTypeEnum.GymPlanType.ToString(),
+                                   AddSelectItem = true,
+                                   IsDisabled = Model.GymMembershipPlanId > 0
+                               })
+                                        @Html.ValidationMessageFor(x => x.PlanTypeEnumId, null, new { id = "errorPlanTypeEnumId" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.MembershipPlanName, new { @class = "form-label required" })
@@ -53,18 +93,20 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.PlanTypeEnumId, new { @class = "form-label required" })
+                                        @Html.LabelFor(x => x.PlanDurationTypeEnumId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
-                                   DropdownSelectedValue = Model.PlanTypeEnumId.ToString(),
-                                   DropdownName = "PlanTypeEnumId",
-                                   GroupCode = DropdownTypeEnum.GymPlanType.ToString(),
+                                   DropdownSelectedValue = Model.PlanDurationTypeEnumId.ToString(),
+                                   DropdownName = "PlanDurationTypeEnumId",
+                                   GroupCode = DropdownTypeEnum.GymPlanDurationType.ToString(),
                                    AddSelectItem = false,
-                                   ChangeEvent = "GymMembershipPlan.ChangePlanType()"
+                                   ChangeEvent = "GymMembershipPlan.ChangePlanType()",
+                                   IsDisabled = Model.GymMembershipPlanId > 0
                                })
-                                        @Html.ValidationMessageFor(x => x.PlanTypeEnumId, null, new { id = "errorPlanTypeEnumId" })
+                                        @Html.ValidationMessageFor(x => x.PlanDurationTypeEnumId, null, new { id = "errorPlanDurationTypeEnumId" })
                                     </div>
                                 </div>
+
                                 <div class="col-lg-4" id="PlanDurationInMonthDivId">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PlanDurationInMonth, new { @class = "form-label required" })
@@ -115,7 +157,7 @@
                                         @Html.TextBoxFor(x => x.ToTime, new { @class = "form-control", type = "time" })
                                         @Html.ValidationMessageFor(x => x.ToTime)
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.IsActive, new { @class = "form-label" })

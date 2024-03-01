@@ -57,5 +57,14 @@ namespace Coditech.Admin.ViewModel
         public Boolean IsActive { get; set; }
         [Display(Name = "Is Tax Exclusive")]
         public Boolean IsTaxExclusive { get; set; }
+
+        [Required]
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
+        public string CentreCode { get; set; }
+
+        [Required]
+        [Display(Name = "Plan Duration Type")]
+        public int PlanDurationTypeEnumId { get; set; }
+        public bool IsEditable { get; set; }
     }
 }

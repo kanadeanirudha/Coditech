@@ -45,7 +45,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "MembershipPlanName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GymMembershipPlanListResponse response = _gymMembershipPlanClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMembershipPlanListResponse response = _gymMembershipPlanClient.List(dataTableModel.SelectedCentreCode,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GymMembershipPlanListModel gymMemberList = new GymMembershipPlanListModel { GymMembershipPlanList = response?.GymMembershipPlanList };
             GymMembershipPlanListViewModel listViewModel = new GymMembershipPlanListViewModel();
             listViewModel.GymMembershipPlanList = gymMemberList?.GymMembershipPlanList?.ToViewModel<GymMembershipPlanViewModel>().ToList();
