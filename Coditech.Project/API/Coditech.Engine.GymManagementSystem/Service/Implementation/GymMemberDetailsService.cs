@@ -20,12 +20,16 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<GymMemberFollowUp> _gymMemberFollowUpRepository;
+        private readonly ICoditechRepository<GymMemberMembershipPlan> _gymMemberMembershipPlanRepository;
+        private readonly ICoditechRepository<GymMembershipPlan> _gymMembershipPlanRepository;
         public GymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberFollowUpRepository = new CoditechRepository<GymMemberFollowUp>(_serviceProvider.GetService<Coditech_Entities>());
+            _gymMemberMembershipPlanRepository = new CoditechRepository<GymMemberMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
+            _gymMembershipPlanRepository = new CoditechRepository<GymMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GymMemberDetailsListModel GetGymMemberDetailsList(string SelectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -198,6 +202,49 @@ namespace Coditech.API.Service
         #region Gym Member Attendance
 
 
+        #endregion
+
+        #region GymMemberMembershipPlan
+        public virtual GymMemberMembershipPlanListModel GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId)
+        {
+            if (gymMemberDetailId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymMemberDetailId"));
+
+            List<GymMemberMembershipPlan> gymMemberMembershipPlanList = _gymMemberMembershipPlanRepository.Table.Where(x => x.GymMemberDetailId == gymMemberDetailId)?.ToList();
+            GymMemberMembershipPlanListModel gymMemberDetailsModel = new GymMemberMembershipPlanListModel();
+
+            foreach (GymMemberMembershipPlan item in gymMemberMembershipPlanList)
+            {
+                GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(item.GymMembershipPlanId);
+
+                if (IsNotNull(gymMembershipPlan))
+                {
+                    GymMembershipPlanModel gymMembershipPlanModel = gymMembershipPlan.FromEntityToModel<GymMembershipPlanModel>();
+                    gymMembershipPlanModel.PlanType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanTypeEnumId);
+                    gymMembershipPlanModel.PlanDurationType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanDurationTypeEnumId);
+                    gymMemberDetailsModel.GymMemberMembershipPlanList.Add(new GymMemberMembershipPlanModel()
+                    {
+                        GymMembershipPlan = gymMembershipPlanModel,
+                        GymMemberMembershipPlanId = item.GymMemberMembershipPlanId,
+                        GymMembershipPlanId = item.GymMembershipPlanId,
+                        GymMemberDetailId = item.GymMemberDetailId,
+                        PlanStartDate = item.PlanStartDate,
+                        PlanDurationExpirationDate = item.PlanDurationExpirationDate,
+                        RemainingSessionCount = item.RemainingSessionCount,
+                        PlanAmount = item.PlanAmount,
+                        IsExpired = item.IsExpired,
+                        IsActive = item.IsActive,
+                    });
+                }
+            }
+            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
+            if (IsNotNull(gymMemberDetailsModel))
+            {
+                gymMemberDetailsModel.FirstName = generalPerson.FirstName;
+                gymMemberDetailsModel.LastName = generalPerson.LastName;
+            }
+            return gymMemberDetailsModel;
+        }
         #endregion
     }
 }

@@ -39,5 +39,12 @@ namespace Coditech.API.Endpoint
                   $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/DeleteGymMemberFollowUp";
         #endregion
 
+        #region Gym Member FollowUp
+        public string GetGymMemberMembershipPlanListAsync(int gymMemberDetailId, long personId)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GetGymMemberMembershipPlanList?gymMemberDetailId={gymMemberDetailId}&personId={personId}";
+            return endpoint;
+        }
+        #endregion
     }
 }

@@ -359,6 +359,24 @@ namespace Coditech.Admin.Agents
         }
         #endregion
 
+        #region Gym Member Membership Plan
+        public virtual GymMemberMembershipPlanListViewModel GetGymMemberMembershipPlan(int gymMemberDetailId, long personId)
+        {
+            GymMemberMembershipPlanListResponse response = _gymMemberDetailsClient.GetGymMemberMembershipPlanList(gymMemberDetailId, personId);
+            GymMemberMembershipPlanListModel gymMemberMembershipPlanList = response?.GymMemberMembershipPlanList;
+
+            GymMemberMembershipPlanListViewModel listViewModel = new GymMemberMembershipPlanListViewModel()
+            {
+                PersonId = gymMemberMembershipPlanList.PersonId,
+                GymMemberDetailId = gymMemberDetailId,
+                FirstName = gymMemberMembershipPlanList?.FirstName,
+                LastName = gymMemberMembershipPlanList?.LastName
+            };
+            listViewModel.GymMemberMembershipPlanList = gymMemberMembershipPlanList?.GymMemberMembershipPlanList?.ToViewModel<GymMemberMembershipPlanViewModel>().ToList();
+            return listViewModel;
+        }
+
+        #endregion
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {

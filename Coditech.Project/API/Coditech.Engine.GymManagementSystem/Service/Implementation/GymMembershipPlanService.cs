@@ -19,11 +19,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GymMembershipPlan> _gymMembershipPlanRepository;
+        private readonly ICoditechRepository<GymMemberMembershipPlan> _gymMemberMembershipPlanRepository;
         public GymMembershipPlanService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _gymMembershipPlanRepository = new CoditechRepository<GymMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
+            _gymMemberMembershipPlanRepository = new CoditechRepository<GymMemberMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GymMembershipPlanListModel GetGymMembershipPlanList(string SelectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -76,7 +78,7 @@ namespace Coditech.API.Service
 
             GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.Table.FirstOrDefault(x => x.GymMembershipPlanId == gymMembershipPlanId);
             GymMembershipPlanModel gymMembershipPlanModel = gymMembershipPlan?.FromEntityToModel<GymMembershipPlanModel>();
-            gymMembershipPlanModel.IsEditable = false;
+            gymMembershipPlanModel.IsEditable = !_gymMemberMembershipPlanRepository.Table.Any(x=>x.GymMembershipPlanId == gymMembershipPlanModel.GymMembershipPlanId);
             return gymMembershipPlanModel;
         }
 

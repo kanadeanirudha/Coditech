@@ -86,7 +86,7 @@ namespace Coditech.Admin.Agents
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>GeneralPersonAttendanceDetailsListViewModel</returns>
         GeneralPersonAttendanceDetailsListViewModel GeneralPersonAttendanceDetailsList(int gymMemberDetailId, long personId, string userType, DataTableViewModel dataTableModel);
-                                                    
+
         /// <summary>
         /// Get GetGeneralPersonAttendanceDetails by generalPersonAttendanceDetailsId.
         /// </summary>
@@ -107,6 +107,11 @@ namespace Coditech.Admin.Agents
         /// <param name="generalPersonAttendanceDetailsIdIds">generalPersonAttendanceDetailsIdIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteGeneralPersonAttendanceDetails(string generalPersonAttendanceDetailsIdIds, out string errorMessage);
-    }
 
+        /// <summary>
+        /// Get list of Gym Member Membership Plan.
+        /// </summary>
+        /// <returns>GymMemberMembershipPlanListViewModel</returns>
+        GymMemberMembershipPlanListViewModel GetGymMemberMembershipPlan(int gymMemberDetailId, long personId);
+    }
 }

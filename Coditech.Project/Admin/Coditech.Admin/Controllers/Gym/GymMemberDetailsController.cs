@@ -316,5 +316,15 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel);
         }
         #endregion
+
+        #region GymMemberMembershipPlan
+        [HttpGet]
+        public virtual ActionResult GetGymMemberMembershipPlan(int gymMemberDetailId, long personId)
+        {
+            GymMemberMembershipPlanListViewModel gymMemberMembershipPlanListViewModel = _gymMemberDetailsAgent.GetGymMemberMembershipPlan(gymMemberDetailId, personId);
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan.cshtml", gymMemberMembershipPlanListViewModel);
+        }
+
+        #endregion
     }
 }

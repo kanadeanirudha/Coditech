@@ -1,0 +1,91 @@
+﻿@model GymMemberMembershipPlanListViewModel
+@{
+    ViewBag.Title = "Membership Plan";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("GymMemberDetailId", Model.GymMemberDetailId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", keyValuePairs)
+            </div>
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Membership Plan List- @Model.FirstName @Model.LastName</span>
+                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/CreateGymMemberMembershipPlan" role="button"><i class="fas fa-plus me-2"></i>Add Membership Plan</a>
+                        <p class="text-muted mb-0"></p>
+                    </div>
+                    <div class="card-body">
+                        @foreach (GymMemberMembershipPlanViewModel item in Model?.GymMemberMembershipPlanList)
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <span class="card-title">@item.GymMembershipPlan.MembershipPlanName (@item.GymMembershipPlan.PlanType)</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 row">
+                                                        <label class="form-label" style="font-weight:bold !important">Paid Amount</label>
+                                                        <label class="form-label">@item.PlanAmount</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 row">
+                                                        <label class="form-label" style="font-weight:bold !important">Plan Duration Type</label>
+                                                        <label class="form-label">@item.GymMembershipPlan.PlanDurationType</label>
+                                                    </div>
+                                                </div>
+                                                @if (string.Equals(item.GymMembershipPlan.PlanDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
+                                                {
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3 row">
+                                                            <label class="form-label" style="font-weight:bold !important">Start Date</label>
+                                                            <label class="form-label">@item.PlanStartDate</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3 row">
+                                                            <label class="form-label" style="font-weight:bold !important">Expiration Date</label>
+                                                            <label class="form-label">@item.PlanDurationExpirationDate</label>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (string.Equals(item.GymMembershipPlan.PlanDurationType, "session", StringComparison.InvariantCultureIgnoreCase))
+                                                {
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3 row">
+                                                            <label class="form-label" style="font-weight:bold !important">Total Session</label>
+                                                            <label class="form-label">@item.GymMembershipPlan.PlanDurationInSession</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3 row">
+                                                            <label class="form-label" style="font-weight:bold !important">Remaining Session</label>
+                                                            <label class="form-label">@item.RemainingSessionCount</label>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end page content -->

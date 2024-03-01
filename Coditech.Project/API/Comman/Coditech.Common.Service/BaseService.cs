@@ -87,6 +87,9 @@ namespace Coditech.Common.Service
 
         protected virtual string GetEnumCodeByEnumId(int generalEnumaratorId)
         {
+            if (generalEnumaratorId == 0)
+                return string.Empty;
+
             GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).GetById(generalEnumaratorId);
             return generalEnumaratorMaster.EnumName;
         }

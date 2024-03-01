@@ -11,6 +11,7 @@ namespace Coditech.API.Data
         public decimal MaxCost { get; set; }
         public decimal MinCost { get; set; }
         public int PlanTypeEnumId { get; set; }
+        public int PlanDurationTypeEnumId { get; set; }
         public byte? PlanDurationInMonth { get; set; }
         public short? PlanDurationInDays { get; set; }
         public short? PlanDurationInSession { get; set; }

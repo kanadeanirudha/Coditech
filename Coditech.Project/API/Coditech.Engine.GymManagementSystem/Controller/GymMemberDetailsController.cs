@@ -1,3 +1,4 @@
+using Coditech.API.Data;
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
@@ -202,6 +203,30 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        #endregion
+
+        #region GymMemberMembershipPlan
+        [HttpGet]
+        [Route("/GymMemberDetails/GetGymMemberMembershipPlanList")]
+        [Produces(typeof(GymMemberMembershipPlanListResponse))]
+        public virtual IActionResult GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId)
+        {
+            try
+            {
+                GymMemberMembershipPlanListModel list = _generalGymMemberDetailsService.GetGymMemberMembershipPlanList(gymMemberDetailId, personId);
+                return IsNotNull(list) ? CreateOKResponse(new GymMemberMembershipPlanListResponse { GymMemberMembershipPlanList = list }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberMembershipPlanListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberMembershipPlanListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
         #endregion

@@ -60,5 +60,11 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteGymMemberFollowUp(ParameterModel body);
+
+        /// <summary>
+        /// Get list of Gym Member Membership Plan.
+        /// </summary>
+        /// <returns>GymMemberMembershipPlanListResponse</returns>
+        GymMemberMembershipPlanListResponse GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId);
     }
 }

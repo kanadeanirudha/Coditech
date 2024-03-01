@@ -7,6 +7,5 @@
         {
             GymMembershipPlanList = new List<GymMembershipPlanModel>();
         }
-
     }
 }
