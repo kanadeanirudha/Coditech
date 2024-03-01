@@ -37,7 +37,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GymMembershipPlanModel> gymMembershipPlanList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMembershipPlanList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GymMembershipPlanModel> gymMembershipPlanList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMembershipPlanList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             GymMembershipPlanListModel listModel = new GymMembershipPlanListModel();
 
             listModel.GymMembershipPlanList = gymMembershipPlanList?.Count > 0 ? gymMembershipPlanList : new List<GymMembershipPlanModel>();
@@ -76,6 +76,7 @@ namespace Coditech.API.Service
 
             GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.Table.FirstOrDefault(x => x.GymMembershipPlanId == gymMembershipPlanId);
             GymMembershipPlanModel gymMembershipPlanModel = gymMembershipPlan?.FromEntityToModel<GymMembershipPlanModel>();
+            gymMembershipPlanModel.IsEditable = false;
             return gymMembershipPlanModel;
         }
 

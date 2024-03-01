@@ -52,7 +52,7 @@ namespace Coditech.Admin.Controllers
                 if (!gymMembershipPlanViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GymMembershipPlanController>(x => x.List(null));
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = gymMembershipPlanViewModel.CentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymMembershipPlanViewModel.ErrorMessage));

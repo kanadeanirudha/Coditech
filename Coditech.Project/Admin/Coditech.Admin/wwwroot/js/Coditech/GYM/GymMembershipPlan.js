@@ -6,7 +6,7 @@
     },
 
     ChangePlanType: function () {
-        var planType = $("#PlanTypeEnumId option:selected").text();
+        var planType = $("#PlanDurationTypeEnumId option:selected").text();
         if (planType == "Duration") {
             $("#PlanDurationInMonthDivId").show();
             $("#PlanDurationInDaysDivId").show();

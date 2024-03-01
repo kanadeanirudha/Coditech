@@ -60,6 +60,11 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
-        public string SelectedCentreCode { get; set; }
+        public string CentreCode { get; set; }
+
+        [Required]
+        [Display(Name = "Plan Duration Type")]
+        public int PlanDurationTypeEnumId { get; set; }
+        public bool IsEditable { get; set; }
     }
 }
