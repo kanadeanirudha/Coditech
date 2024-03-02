@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanId>0</GymMembershipPlanId>
+  <MembershipPlanName>2M</MembershipPlanName>
+  <MaxCost>2000.0</MaxCost>
+  <MinCost>1500.0</MinCost>
+  <PlanTypeEnumId>30</PlanTypeEnumId>
+  <PlanDurationInMonth>2</PlanDurationInMonth>
+  <PlanDurationInDays>0</PlanDurationInDays>
+  <PlanDurationInSession>0</PlanDurationInSession>
+  <IsRenewable>false</IsRenewable>
+  <IsTimebaseBiometricAccess>false</IsTimebaseBiometricAccess>
+  <IsTaxExclusive>false</IsTaxExclusive>
+  <FromTime>PT0S</FromTime>
+  <ToTime>PT0S</ToTime>
+  <IsActive>false</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-03-01T14:56:27.2423992+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-03-01T14:56:27.2423992+05:30</ModifiedDate>
+</GymMembershipPlan><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanId>0</GymMembershipPlanId>
+  <MembershipPlanName>2M</MembershipPlanName>
+  <MaxCost>2000.0</MaxCost>
+  <MinCost>1500.0</MinCost>
+  <PlanTypeEnumId>30</PlanTypeEnumId>
+  <PlanDurationInMonth>2</PlanDurationInMonth>
+  <PlanDurationInDays>0</PlanDurationInDays>
+  <PlanDurationInSession>0</PlanDurationInSession>
+  <IsRenewable>false</IsRenewable>
+  <IsTimebaseBiometricAccess>false</IsTimebaseBiometricAccess>
+  <IsTaxExclusive>false</IsTaxExclusive>
+  <FromTime>PT0S</FromTime>
+  <ToTime>PT0S</ToTime>
+  <IsActive>false</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-03-01T14:58:07.2165305+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-03-01T14:58:07.2165305+05:30</ModifiedDate>
+</GymMembershipPlan><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanId>0</GymMembershipPlanId>
+  <MembershipPlanName>2M</MembershipPlanName>
+  <MaxCost>2000.0</MaxCost>
+  <MinCost>1500.0</MinCost>
+  <PlanTypeEnumId>30</PlanTypeEnumId>
+  <PlanDurationInMonth>2</PlanDurationInMonth>
+  <PlanDurationInDays>0</PlanDurationInDays>
+  <PlanDurationInSession>0</PlanDurationInSession>
+  <IsRenewable>false</IsRenewable>
+  <IsTimebaseBiometricAccess>false</IsTimebaseBiometricAccess>
+  <IsTaxExclusive>false</IsTaxExclusive>
+  <FromTime>PT0S</FromTime>
+  <ToTime>PT0S</ToTime>
+  <IsActive>false</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-03-01T14:58:15.1768854+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-03-01T14:58:15.1768854+05:30</ModifiedDate>
+</GymMembershipPlan><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanId>0</GymMembershipPlanId>
+  <MembershipPlanName>2M</MembershipPlanName>
+  <MaxCost>1900.0</MaxCost>
+  <MinCost>1400.0</MinCost>
+  <PlanTypeEnumId>31</PlanTypeEnumId>
+  <PlanDurationInMonth>2</PlanDurationInMonth>
+  <PlanDurationInDays>0</PlanDurationInDays>
+  <PlanDurationInSession>0</PlanDurationInSession>
+  <IsRenewable>false</IsRenewable>
+  <IsTimebaseBiometricAccess>false</IsTimebaseBiometricAccess>
+  <IsTaxExclusive>false</IsTaxExclusive>
+  <FromTime>PT0S</FromTime>
+  <ToTime>PT0S</ToTime>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-03-01T14:58:52.6493894+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-03-01T14:58:52.6493894+05:30</ModifiedDate>
+</GymMembershipPlan><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanId>0</GymMembershipPlanId>
+  <MembershipPlanName>2M</MembershipPlanName>
+  <MaxCost>4000.0</MaxCost>
+  <MinCost>3500.0</MinCost>
+  <PlanTypeEnumId>30</PlanTypeEnumId>
+  <PlanDurationInMonth>2</PlanDurationInMonth>
+  <PlanDurationInDays>0</PlanDurationInDays>
+  <PlanDurationInSession>0</PlanDurationInSession>
+  <IsRenewable>false</IsRenewable>
+  <IsTimebaseBiometricAccess>false</IsTimebaseBiometricAccess>
+  <IsTaxExclusive>false</IsTaxExclusive>
+  <FromTime>PT0S</FromTime>
+  <ToTime>PT16H</ToTime>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-03-01T14:59:42.5645801+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-03-01T14:59:42.5645801+05:30</ModifiedDate>
+</GymMembershipPlan><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanId>0</GymMembershipPlanId>
+  <MembershipPlanName>2M</MembershipPlanName>
+  <MaxCost>4000.0</MaxCost>
+  <MinCost>3500.0</MinCost>
+  <PlanTypeEnumId>30</PlanTypeEnumId>
+  <PlanDurationInMonth>2</PlanDurationInMonth>
+  <PlanDurationInDays>0</PlanDurationInDays>
+  <PlanDurationInSession>0</PlanDurationInSession>
+  <IsRenewable>false</IsRenewable>
+  <IsTimebaseBiometricAccess>false</IsTimebaseBiometricAccess>
+  <IsTaxExclusive>false</IsTaxExclusive>
+  <FromTime>PT0S</FromTime>
+  <ToTime>PT16H</ToTime>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-03-01T14:59:55.846236+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-03-01T14:59:55.846236+05:30</ModifiedDate>
+</GymMembershipPlan><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanId>0</GymMembershipPlanId>
+  <MembershipPlanName>2M</MembershipPlanName>
+  <MaxCost>4000.0</MaxCost>
+  <MinCost>3500.0</MinCost>
+  <PlanTypeEnumId>30</PlanTypeEnumId>
+  <PlanDurationInMonth>2</PlanDurationInMonth>
+  <PlanDurationInDays>0</PlanDurationInDays>
+  <PlanDurationInSession>0</PlanDurationInSession>
+  <IsRenewable>false</IsRenewable>
+  <IsTimebaseBiometricAccess>false</IsTimebaseBiometricAccess>
+  <IsTaxExclusive>false</IsTaxExclusive>
+  <FromTime>PT0S</FromTime>
+  <ToTime>PT16H</ToTime>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-03-01T15:00:09.5952442+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-03-01T15:00:09.5952442+05:30</ModifiedDate>
+</GymMembershipPlan><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanId>0</GymMembershipPlanId>
+  <MembershipPlanName>2M</MembershipPlanName>
+  <MaxCost>4000.0</MaxCost>
+  <MinCost>3500.0</MinCost>
+  <PlanTypeEnumId>30</PlanTypeEnumId>
+  <PlanDurationInMonth>2</PlanDurationInMonth>
+  <PlanDurationInDays>0</PlanDurationInDays>
+  <PlanDurationInSession>0</PlanDurationInSession>
+  <IsRenewable>false</IsRenewable>
+  <IsTimebaseBiometricAccess>false</IsTimebaseBiometricAccess>
+  <IsTaxExclusive>false</IsTaxExclusive>
+  <FromTime>PT0S</FromTime>
+  <ToTime>PT16H</ToTime>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-03-01T15:00:37.7325518+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-03-01T15:00:37.7325518+05:30</ModifiedDate>
+</GymMembershipPlan>
