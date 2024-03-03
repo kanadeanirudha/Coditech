@@ -367,7 +367,7 @@ namespace Coditech.Admin.Agents
 
             GymMemberMembershipPlanListViewModel listViewModel = new GymMemberMembershipPlanListViewModel()
             {
-                PersonId = gymMemberMembershipPlanList.PersonId,
+                PersonId = personId,
                 GymMemberDetailId = gymMemberDetailId,
                 FirstName = gymMemberMembershipPlanList?.FirstName,
                 LastName = gymMemberMembershipPlanList?.LastName
@@ -376,6 +376,23 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
+        //Associate Gym Member Membership Plan
+        public virtual GymMemberMembershipPlanViewModel AssociateGymMemberMembershipPlan(GymMemberMembershipPlanViewModel gymMemberMembershipPlanViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                GymMemberMembershipPlanResponse response = _gymMemberDetailsClient.AssociateGymMemberMembershipPlan(gymMemberMembershipPlanViewModel.ToModel<GymMemberMembershipPlanModel>());
+                GymMemberMembershipPlanModel gymMemberMembershipPlanModel = response?.GymMemberMembershipPlanModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
+                return IsNotNull(gymMemberMembershipPlanModel) ? gymMemberMembershipPlanModel.ToViewModel<GymMemberMembershipPlanViewModel>() : (GymMemberMembershipPlanViewModel)GetViewModelWithErrorMessage(new GymMemberMembershipPlanViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return (GymMemberMembershipPlanViewModel)GetViewModelWithErrorMessage(gymMemberMembershipPlanViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
         #region protected
         protected virtual List<DatatableColumns> BindColumns()

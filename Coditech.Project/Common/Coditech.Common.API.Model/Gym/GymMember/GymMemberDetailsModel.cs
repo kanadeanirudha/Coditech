@@ -3,6 +3,7 @@
     public class GymMemberDetailsModel : BaseModel
     {
         public int GymMemberDetailId { get; set; }
+        public string CentreCode { get; set; }
         public long PersonId { get; set; }
         public string PersonCode { get; set; }
         public string FirstName { get; set; }

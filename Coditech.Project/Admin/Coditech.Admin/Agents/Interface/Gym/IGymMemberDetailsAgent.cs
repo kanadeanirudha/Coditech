@@ -113,5 +113,12 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <returns>GymMemberMembershipPlanListViewModel</returns>
         GymMemberMembershipPlanListViewModel GetGymMemberMembershipPlan(int gymMemberDetailId, long personId);
+
+        /// <summary>
+        /// Associate Gym Member Membership Plan
+        /// </summary>
+        /// <param name="GymMemberMembershipPlanViewModel">GymMemberMembershipPlanViewModel.</param>
+        /// <returns>Returns updated GymMemberMembershipPlanViewModel</returns>
+        GymMemberMembershipPlanViewModel AssociateGymMemberMembershipPlan(GymMemberMembershipPlanViewModel gymMemberMembershipPlanViewModel);
     }
 }

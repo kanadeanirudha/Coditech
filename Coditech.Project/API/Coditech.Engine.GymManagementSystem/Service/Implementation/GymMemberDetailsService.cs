@@ -222,6 +222,25 @@ namespace Coditech.API.Service
                     GymMembershipPlanModel gymMembershipPlanModel = gymMembershipPlan.FromEntityToModel<GymMembershipPlanModel>();
                     gymMembershipPlanModel.PlanType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanTypeEnumId);
                     gymMembershipPlanModel.PlanDurationType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanDurationTypeEnumId);
+                    if (!item.IsExpired)
+                    {
+                        if (string.Equals(gymMembershipPlanModel.PlanDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            if(item.PlanDurationExpirationDate <= DateTime.Now)
+                            {
+                                item.IsExpired = true;
+                                _gymMemberMembershipPlanRepository.Update(item);
+                            }
+                        }
+                        else if (string.Equals(gymMembershipPlanModel.PlanDurationType, "session", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            if (item.RemainingSessionCount == 0)
+                            {
+                                item.IsExpired = true;
+                                _gymMemberMembershipPlanRepository.Update(item);
+                            }
+                        }
+                    }
                     gymMemberDetailsModel.GymMemberMembershipPlanList.Add(new GymMemberMembershipPlanModel()
                     {
                         GymMembershipPlan = gymMembershipPlanModel,
@@ -244,6 +263,31 @@ namespace Coditech.API.Service
                 gymMemberDetailsModel.LastName = generalPerson.LastName;
             }
             return gymMemberDetailsModel;
+        }
+
+        //Associate Gym Member Membership Plan.
+        public virtual GymMemberMembershipPlanModel AssociateGymMemberMembershipPlan(GymMemberMembershipPlanModel gymMemberMembershipPlanModel)
+        {
+            if (IsNull(gymMemberMembershipPlanModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            //if (IsCountryCodeAlreadyExist(gymMemberMembershipPlanModel.CountryCode))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
+
+            GymMemberMembershipPlan gymMemberMembershipPlan = gymMemberMembershipPlanModel.FromModelToEntity<GymMemberMembershipPlan>();
+
+            //Create new Country and return it.
+            GymMemberMembershipPlan gymMemberMembershipPlanData = _gymMemberMembershipPlanRepository.Insert(gymMemberMembershipPlan);
+            if (gymMemberMembershipPlanData?.GymMemberMembershipPlanId > 0)
+            {
+                gymMemberMembershipPlanModel.GymMemberMembershipPlanId = gymMemberMembershipPlanData.GymMemberMembershipPlanId;
+            }
+            else
+            {
+                gymMemberMembershipPlanModel.HasError = true;
+                gymMemberMembershipPlanModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return gymMemberMembershipPlanModel;
         }
         #endregion
     }

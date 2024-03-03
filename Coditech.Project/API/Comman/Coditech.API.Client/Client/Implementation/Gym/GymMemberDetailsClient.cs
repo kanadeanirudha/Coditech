@@ -7,6 +7,8 @@ using Coditech.Common.Helper.Utilities;
 
 using Newtonsoft.Json;
 
+using System.Net;
+
 namespace Coditech.API.Client
 {
     public class GymMemberDetailsClient : BaseClient, IGymMemberDetailsClient
@@ -438,6 +440,62 @@ namespace Coditech.API.Client
             {
                 if (disposeResponse)
                     response.Dispose();
+            }
+        }
+       
+        public virtual GymMemberMembershipPlanResponse AssociateGymMemberMembershipPlan(GymMemberMembershipPlanModel body)
+        {
+            return Task.Run(async () => await AssociateGymMemberMembershipPlanAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<GymMemberMembershipPlanResponse> AssociateGymMemberMembershipPlanAsync(GymMemberMembershipPlanModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = gymMemberDetailsEndpoint.AssociateGymMemberMembershipPlanAsync();
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<GymMemberMembershipPlanResponse> objectResponseResult2 = await ReadObjectResponseAsync<GymMemberMembershipPlanResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<GymMemberMembershipPlanResponse> objectResponseResult = await ReadObjectResponseAsync<GymMemberMembershipPlanResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            GymMemberMembershipPlanResponse result = JsonConvert.DeserializeObject<GymMemberMembershipPlanResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
             }
         }
         #endregion

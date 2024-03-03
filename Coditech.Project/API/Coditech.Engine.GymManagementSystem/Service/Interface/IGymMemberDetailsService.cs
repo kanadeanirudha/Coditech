@@ -18,5 +18,7 @@ namespace Coditech.API.Service
         bool DeleteGymMemberFollowUp(ParameterModel parameterModel);
 
         GymMemberMembershipPlanListModel GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId);
+
+        GymMemberMembershipPlanModel AssociateGymMemberMembershipPlan(GymMemberMembershipPlanModel gymMemberMembershipPlanModel);
     }
 }

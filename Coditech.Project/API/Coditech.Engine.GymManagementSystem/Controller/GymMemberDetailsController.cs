@@ -229,6 +229,28 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new GymMemberMembershipPlanListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/GymMemberDetails/AssociateGymMemberMembershipPlan")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(GymMemberMembershipPlanResponse))]
+        public virtual IActionResult AssociateGymMemberMembershipPlan([FromBody] GymMemberMembershipPlanModel model)
+        {
+            try
+            {
+                GymMemberMembershipPlanModel gymMemberMembershipPlan = _generalGymMemberDetailsService.AssociateGymMemberMembershipPlan(model);
+                return IsNotNull(gymMemberMembershipPlan) ? CreateCreatedResponse(new GymMemberMembershipPlanResponse { GymMemberMembershipPlanModel = gymMemberMembershipPlan }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GymMemberMembershipPlanResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberMembershipPlanResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
         #endregion
     }
 }
