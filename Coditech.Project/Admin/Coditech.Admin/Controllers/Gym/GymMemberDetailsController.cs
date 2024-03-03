@@ -220,9 +220,9 @@ namespace Coditech.Admin.Controllers
             GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, UserTypeEnum.GymMember.ToString(), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/Gym/GymMemberDetails/_GeneralPersonAttendanceDetailsList.cshtml", list);
+                return PartialView("~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetails/_GeneralPersonAttendanceDetailsList.cshtml", list);
             }
-            return View($"~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetailsList.cshtml", list);
+            return View($"~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetails/GeneralPersonAttendanceDetailsList.cshtml", list);
         }
         [HttpGet]
         public virtual ActionResult GetGeneralPersonAttendanceDetails(int gymMemberDetailId, long generalPersonAttendanceDetailId)
@@ -232,7 +232,7 @@ namespace Coditech.Admin.Controllers
             {
                 gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetGeneralPersonAttendanceDetails(generalPersonAttendanceDetailId);
                 gymMemberDetailsViewModel.GymMemberDetailId = gymMemberDetailId;
-                
+
             }
             else
             {
@@ -251,7 +251,7 @@ namespace Coditech.Admin.Controllers
                 gymMemberDetailsViewModel.LastName = gymMemberDetailModel.LastName;
             }
 
-            return PartialView($"~/Views/Gym/GymMemberDetails/_CreateEditGeneralPersonAttendanceDetails.cshtml", gymMemberDetailsViewModel);
+            return PartialView($"~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetails/_CreateEditGeneralPersonAttendanceDetails.cshtml", gymMemberDetailsViewModel);
         }
 
         [HttpPost]
@@ -290,14 +290,14 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult GetBodyMeasurementTypeListByMemberId(int gymMemberDetailId, long personId)
         {
             GymMemberBodyMeasurementListViewModel list = _gymMemberBodyMeasurementAgent.GetBodyMeasurementTypeListByMemberId(gymMemberDetailId, personId, 4);
-            return ActionView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement.cshtml", list);
+            return ActionView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement/GymMemberBodyMeasurement.cshtml", list);
         }
 
         [HttpGet]
         public virtual ActionResult GetGymMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
         {
             gymMemberBodyMeasurementViewModel.CreatedDate = DateTime.Now.ToShortDateString();
-            return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel);
+            return PartialView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel);
         }
 
         [HttpPost]
@@ -322,9 +322,40 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult GetGymMemberMembershipPlan(int gymMemberDetailId, long personId)
         {
             GymMemberMembershipPlanListViewModel gymMemberMembershipPlanListViewModel = _gymMemberDetailsAgent.GetGymMemberMembershipPlan(gymMemberDetailId, personId);
-            return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan.cshtml", gymMemberMembershipPlanListViewModel);
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/GymMemberMembershipPlan.cshtml", gymMemberMembershipPlanListViewModel);
         }
 
+        [HttpGet]
+        public virtual ActionResult AssociateGymMemberMembershipPlan(int gymMemberDetailId, long personId)
+        {
+            GymMemberDetailsViewModel gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetGymMemberOtherDetails(gymMemberDetailId);
+            GymMemberMembershipPlanViewModel gymMemberMembershipPlanViewModel = new GymMemberMembershipPlanViewModel()
+            {
+                CentreCode = gymMemberDetailsViewModel.CentreCode,
+                FirstName = gymMemberDetailsViewModel.FirstName,
+                LastName = gymMemberDetailsViewModel.LastName,
+                GymMemberDetailId = gymMemberDetailId,
+                PersonId = personId
+            };
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/AssociateGymMemberMembershipPlan.cshtml", gymMemberMembershipPlanViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual ActionResult AssociateGymMemberMembershipPlan(GymMemberMembershipPlanViewModel gymMemberMembershipPlanViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                gymMemberMembershipPlanViewModel = _gymMemberDetailsAgent.AssociateGymMemberMembershipPlan(gymMemberMembershipPlanViewModel);
+                if (!gymMemberMembershipPlanViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("GetGymMemberMembershipPlan", new { gymMemberDetailId = gymMemberMembershipPlanViewModel.GymMemberDetailId, personId = gymMemberMembershipPlanViewModel.PersonId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(gymMemberMembershipPlanViewModel.ErrorMessage));
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/AssociateGymMemberMembershipPlan.cshtml", gymMemberMembershipPlanViewModel);
+        }
         #endregion
     }
 }

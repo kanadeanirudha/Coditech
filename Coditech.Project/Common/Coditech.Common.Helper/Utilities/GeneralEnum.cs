@@ -39,7 +39,9 @@
         WeekDays,
         CentrewiseBuildingRooms,
         Floors,
-        AttendanceState
+        AttendanceState,
+        GymMembershipPlan,
+        PaymentType
     }
 
     public enum GeneralSystemGlobleSettingEnum

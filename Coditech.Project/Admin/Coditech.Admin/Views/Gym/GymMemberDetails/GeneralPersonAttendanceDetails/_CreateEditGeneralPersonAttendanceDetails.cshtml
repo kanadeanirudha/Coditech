@@ -56,9 +56,7 @@
 
             <div class="mb-3">
                 @Html.LabelFor(x => x.Remark, new { @class = "form-label" })
-                <div class="position-relative">
-                    <textarea id="Remark" name="Remark" class="form-control" maxlength="150"></textarea>
-                </div>
+                @Html.TextAreaFor(x => x.Remark, new { @class = "form-control", @maxlength = "150" })
                 <div id="charCount" class="mb-3 text-end">0/150</div>
             </div>
 

@@ -66,5 +66,12 @@ namespace Coditech.API.Client
         /// </summary>
         /// <returns>GymMemberMembershipPlanListResponse</returns>
         GymMemberMembershipPlanListResponse GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId);
+
+        /// <summary>
+        /// Associate Gym Member Membership Plan
+        /// </summary>
+        /// <param name="GymMemberMembershipPlanModel">GymMemberMembershipPlanModel.</param>
+        /// <returns>Returns updated GymMemberMembershipPlanResponse</returns>
+        GymMemberMembershipPlanResponse AssociateGymMemberMembershipPlan(GymMemberMembershipPlanModel body);
     }
 }

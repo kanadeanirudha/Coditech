@@ -14,6 +14,10 @@ namespace Coditech.API.Data
         public decimal PlanAmount { get; set; }
         public bool IsActive { get; set; }
         public bool IsExpired { get; set; }
+        public decimal DiscountAmount { get; set; } = 0;
+        public int PaymentTypeEnumId { get; set; }
+        public string TransactionReference { get; set; }
+        public string Remark { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

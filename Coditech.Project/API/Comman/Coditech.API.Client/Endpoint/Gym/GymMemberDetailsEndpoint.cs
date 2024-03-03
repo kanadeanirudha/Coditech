@@ -45,6 +45,9 @@ namespace Coditech.API.Endpoint
             string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GetGymMemberMembershipPlanList?gymMemberDetailId={gymMemberDetailId}&personId={personId}";
             return endpoint;
         }
+
+        public string AssociateGymMemberMembershipPlanAsync() =>
+            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/AssociateGymMemberMembershipPlan";
         #endregion
     }
 }
