@@ -80,13 +80,13 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.MaxCost, new { @class = "form-label required" })
-                                        @if (Model.GymMembershipPlanId > 0)
+                                        @if (Model.IsEditable)
                                         {
-                                            @Html.TextBoxFor(x => x.MaxCost, new { @class = "form-control", @readonly = "true" })
+                                            @Html.TextBoxFor(x => x.MaxCost, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.MaxCost, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                            @Html.TextBoxFor(x => x.MaxCost, new { @class = "form-control", @readonly = "true" })
                                         }
                                         @Html.ValidationMessageFor(x => x.MaxCost)
                                     </div>
@@ -94,13 +94,13 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.MinCost, new { @class = "form-label required" })
-                                        @if (Model.GymMembershipPlanId > 0)
+                                        @if (Model.IsEditable)
                                         {
-                                            @Html.TextBoxFor(x => x.MinCost, new { @class = "form-control", @readonly = "true" })
+                                            @Html.TextBoxFor(x => x.MinCost, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.MinCost, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                            @Html.TextBoxFor(x => x.MinCost, new { @class = "form-control", @readonly = "true" })
                                         }
                                         @Html.ValidationMessageFor(x => x.MinCost)
                                     </div>
@@ -121,45 +121,45 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4" id="PlanDurationInMonthDivId">
+                                <div class="col-lg-4" id="PlanDurationInMonthDivId" style="display: @(Model.GymMembershipPlanId == 0 || string.Equals(Model.PlanDurationType,"duration",StringComparison.InvariantCultureIgnoreCase)? "block" : "none")">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PlanDurationInMonth, new { @class = "form-label required" })
-                                        @if (Model.GymMembershipPlanId > 0)
+                                        @if (Model.IsEditable)
                                         {
-                                            @Html.TextBoxFor(x => x.PlanDurationInMonth, new { @class = "form-control", @readonly = "true" })
+                                            @Html.TextBoxFor(x => x.PlanDurationInMonth, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.PlanDurationInMonth, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                            @Html.TextBoxFor(x => x.PlanDurationInMonth, new { @class = "form-control", @readonly = "true" })
                                         }
                                         @Html.ValidationMessageFor(x => x.PlanDurationInMonth)
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4" id="PlanDurationInDaysDivId">
+                                <div class="col-lg-4" id="PlanDurationInDaysDivId" style="display: @(Model.GymMembershipPlanId == 0 || string.Equals(Model.PlanDurationType,"duration",StringComparison.InvariantCultureIgnoreCase)? "block" : "none")">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PlanDurationInDays, new { @class = "form-label required" })
-                                        @if (Model.GymMembershipPlanId > 0)
+                                        @if (Model.IsEditable)
                                         {
-                                            @Html.TextBoxFor(x => x.PlanDurationInDays, new { @class = "form-control", @readonly = "true" })
+                                            @Html.TextBoxFor(x => x.PlanDurationInDays, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.PlanDurationInDays, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                            @Html.TextBoxFor(x => x.PlanDurationInDays, new { @class = "form-control", @readonly = "true" })
                                         }
                                         @Html.ValidationMessageFor(x => x.PlanDurationInDays)
                                     </div>
                                 </div>
-                                <div class="col-lg-4" id="PlanDurationInSessionDivId" style="display: @(Model.GymMembershipPlanId > 0 ? "none" : "block")">
+                                <div class="col-lg-4" id="PlanDurationInSessionDivId" style="display: @(Model.GymMembershipPlanId > 0 && string.Equals(Model.PlanDurationType,"session",StringComparison.InvariantCultureIgnoreCase)? "block" : "none")">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PlanDurationInSession, new { @class = "form-label required" })
-                                        @if (Model.GymMembershipPlanId > 0)
+                                        @if (Model.IsEditable)
                                         {
-                                            @Html.TextBoxFor(x => x.PlanDurationInSession, new { @class = "form-control", @readonly = "true" })
+                                            @Html.TextBoxFor(x => x.PlanDurationInSession, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.PlanDurationInSession, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                            @Html.TextBoxFor(x => x.PlanDurationInSession, new { @class = "form-control", @readonly = "true" })
                                         }
                                         @Html.ValidationMessageFor(x => x.PlanDurationInSession)
                                     </div>

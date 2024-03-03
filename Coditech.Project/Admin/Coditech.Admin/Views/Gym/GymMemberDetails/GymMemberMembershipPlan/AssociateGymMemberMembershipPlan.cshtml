@@ -23,7 +23,7 @@
                         @using (Html.BeginForm("AssociateGymMemberMembershipPlan", controllerName, FormMethod.Post, new { id = "frmAssociateGymMemberMembershipPlan" }))
                         {
                             <input type="hidden" id="hdnMaximunDiscount" value="0" />
-                            <input type="hidden" id="GymMembershipPlanId" value="" />
+                            @Html.HiddenFor(x => x.GymMembershipPlanId)
                             @Html.HiddenFor(x => x.GymMemberDetailId)
                             @Html.HiddenFor(x => x.PersonId)
                             <div class="row">

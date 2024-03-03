@@ -9,7 +9,7 @@
         $("#errorGymMembershipPlanId").text('').text("").removeClass("field-validation-error").hide();
         var membershipPlan = $("#SelectedGymMembershipPlanId option:selected").val();
         if (membershipPlan == '') {
-            $("#GymMembershipPlanId").val("");
+            $("#GymMembershipPlanId").val("0");
             $("#PlanAmount").val("");
             $("#hdnMaximunDiscount").val("0");
         }

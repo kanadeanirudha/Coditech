@@ -33,7 +33,8 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Transaction Reference")]
         public string TransactionReference { get; set; }
         public string Remark { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsTransfered { get; set; }
+        public int? TransferedGymMemberDetailId { get; set; }
         public bool IsExpired { get; set; }
         public long PersonId { get; set; }
         public string FirstName { get; set; }

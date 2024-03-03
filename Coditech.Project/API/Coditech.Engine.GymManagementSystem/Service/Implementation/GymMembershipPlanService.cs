@@ -33,7 +33,7 @@ namespace Coditech.API.Service
             //Bind the Filter, sorts & Paging shipPlan.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GymMembershipPlanModel> objStoredProc = new CoditechViewRepository<GymMembershipPlanModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@CentreCode", SelectedCentreCode, ParameterDirection.Input, DbType.String); 
+            objStoredProc.SetParameter("@CentreCode", SelectedCentreCode, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
@@ -78,7 +78,9 @@ namespace Coditech.API.Service
 
             GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.Table.FirstOrDefault(x => x.GymMembershipPlanId == gymMembershipPlanId);
             GymMembershipPlanModel gymMembershipPlanModel = gymMembershipPlan?.FromEntityToModel<GymMembershipPlanModel>();
-            gymMembershipPlanModel.IsEditable = !_gymMemberMembershipPlanRepository.Table.Any(x=>x.GymMembershipPlanId == gymMembershipPlanModel.GymMembershipPlanId);
+            gymMembershipPlanModel.PlanDurationType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanDurationTypeEnumId);
+            gymMembershipPlanModel.PlanType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanTypeEnumId);
+            gymMembershipPlanModel.IsEditable = !_gymMemberMembershipPlanRepository.Table.Any(x => x.GymMembershipPlanId == gymMembershipPlanModel.GymMembershipPlanId);
             return gymMembershipPlanModel;
         }
 

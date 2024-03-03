@@ -226,7 +226,7 @@ namespace Coditech.API.Service
                     {
                         if (string.Equals(gymMembershipPlanModel.PlanDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            if(item.PlanDurationExpirationDate <= DateTime.Now)
+                            if (item.PlanDurationExpirationDate <= DateTime.Now)
                             {
                                 item.IsExpired = true;
                                 _gymMemberMembershipPlanRepository.Update(item);
@@ -252,7 +252,8 @@ namespace Coditech.API.Service
                         RemainingSessionCount = item.RemainingSessionCount,
                         PlanAmount = item.PlanAmount,
                         IsExpired = item.IsExpired,
-                        IsActive = item.IsActive,
+                        IsTransfered = item.IsTransfered,
+                        TransferedGymMemberDetailId = item.TransferedGymMemberDetailId,
                     });
                 }
             }
@@ -271,10 +272,20 @@ namespace Coditech.API.Service
             if (IsNull(gymMemberMembershipPlanModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
+            GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(gymMemberMembershipPlanModel.GymMembershipPlanId);
+
             //if (IsCountryCodeAlreadyExist(gymMemberMembershipPlanModel.CountryCode))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
-
+            string planDurationType = GetEnumCodeByEnumId(gymMembershipPlan.PlanDurationTypeEnumId);
             GymMemberMembershipPlan gymMemberMembershipPlan = gymMemberMembershipPlanModel.FromModelToEntity<GymMemberMembershipPlan>();
+            if (string.Equals(planDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
+            {
+                gymMemberMembershipPlan.PlanDurationExpirationDate = Convert.ToDateTime(gymMemberMembershipPlanModel.PlanStartDate).AddMonths(Convert.ToInt32(gymMembershipPlan.PlanDurationInMonth)).AddDays(-1).AddDays(Convert.ToInt32(gymMembershipPlan.PlanDurationInDays));
+            }
+            else if (string.Equals(planDurationType, "session", StringComparison.InvariantCultureIgnoreCase))
+            {
+                gymMemberMembershipPlan.RemainingSessionCount = Convert.ToInt16(gymMembershipPlan.PlanDurationInSession);
+            }
 
             //Create new Country and return it.
             GymMemberMembershipPlan gymMemberMembershipPlanData = _gymMemberMembershipPlanRepository.Insert(gymMemberMembershipPlan);

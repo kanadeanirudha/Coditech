@@ -66,5 +66,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Plan Duration Type")]
         public int PlanDurationTypeEnumId { get; set; }
         public bool IsEditable { get; set; }
+        public string PlanDurationType { get; set; }
     }
 }
