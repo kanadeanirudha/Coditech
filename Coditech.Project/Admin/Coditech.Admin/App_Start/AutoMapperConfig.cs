@@ -98,7 +98,7 @@ namespace Coditech.Admin
             CreateMap<GeneralPersonFollowUpViewModel, GeneralPersonFollowUpModel>().ReverseMap();
             #endregion
 
-            #region HospitalDoctors
+            #region HMS
             CreateMap<HospitalDoctorsModel, HospitalDoctorsViewModel>().ReverseMap();
             CreateMap<HospitalDoctorsListModel, HospitalDoctorsListViewModel>().ReverseMap();
             #endregion

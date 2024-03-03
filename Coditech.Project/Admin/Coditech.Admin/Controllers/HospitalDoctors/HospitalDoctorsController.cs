@@ -1,9 +1,12 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
+
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -34,7 +37,12 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
-            return View(createEdit, new HospitalDoctorsViewModel());
+            List<GeneralEnumaratorModel> weekDays = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList?.Where(x => x.EnumGroupCode == DropdownTypeEnum.WeekDays.ToString())?.ToList();
+            HospitalDoctorsViewModel hospitalDoctorsViewModel = new HospitalDoctorsViewModel()
+            {
+                AllWeekDays = weekDays
+            };
+            return View(createEdit, hospitalDoctorsViewModel);
         }
 
         [HttpPost]
@@ -46,7 +54,7 @@ namespace Coditech.Admin.Controllers
                 if (!hospitalDoctorsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = hospitalDoctorsViewModel.CentreCode });
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = hospitalDoctorsViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(hospitalDoctorsViewModel.SelectedDepartmentId) });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorsViewModel.ErrorMessage));

@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using Coditech.Resources;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,7 +21,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(500)]
         [Required]
         [Display(Name = "Week Days")]
-        public List<string> WeekDayEnumIds { get; set; }
+        public List<string> SelectedWeekDayEnumIds { get; set; }
 
         [Required]
         [Display(Name = "Room Name")]
@@ -49,5 +50,6 @@ namespace Coditech.Admin.ViewModel
         public string DepartmentName { get; set; }
         public string CentreCode { get; set; }
         public string BuildingRoomName { get; set; }
+        public List<GeneralEnumaratorModel> AllWeekDays { get; set; }
     }
 }

@@ -58,8 +58,10 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                HospitalDoctorsResponse response = _hospitalDoctorsClient.CreateHospitalDoctors(hospitalDoctorsViewModel.ToModel<HospitalDoctorsModel>());
-                HospitalDoctorsModel hospitalDoctorsModel = response?.HospitalDoctorsModel;
+                HospitalDoctorsModel hospitalDoctorsModel = hospitalDoctorsViewModel.ToModel<HospitalDoctorsModel>();
+                hospitalDoctorsModel.WeekDayEnumIds = string.Join(',', hospitalDoctorsViewModel.SelectedWeekDayEnumIds);
+                HospitalDoctorsResponse response = _hospitalDoctorsClient.CreateHospitalDoctors(hospitalDoctorsModel);
+                hospitalDoctorsModel = response?.HospitalDoctorsModel;
                 return HelperUtility.IsNotNull(hospitalDoctorsModel) ? hospitalDoctorsModel.ToViewModel<HospitalDoctorsViewModel>() : new HospitalDoctorsViewModel();
             }
             catch (CoditechException ex)
