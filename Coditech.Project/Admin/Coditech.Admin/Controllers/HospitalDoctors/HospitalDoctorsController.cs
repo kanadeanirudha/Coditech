@@ -20,13 +20,15 @@ namespace Coditech.Admin.Controllers
             _hospitalDoctorsAgent = hospitalDoctorsAgent;
         }
 
-        public virtual ActionResult List(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             HospitalDoctorsListViewModel list = new HospitalDoctorsListViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
             {
-                list = _hospitalDoctorsAgent.GetHospitalDoctorsList(selectedCentreCode, selectedDepartmentId, true, dataTableModel);
+                list = _hospitalDoctorsAgent.GetHospitalDoctorsList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, true, dataTableModel);
             }
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+            list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/HMS/HospitalDoctors/_List.cshtml", list);

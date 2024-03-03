@@ -101,7 +101,7 @@ namespace Coditech.Admin.Controllers
             return View(viewName, model);
         }
 
-        protected DataTableViewModel CreateActionDataTable(string centreCode = null, int selectedDepartmentId = 0)
+        protected DataTableViewModel CreateActionDataTable(string centreCode = null, short selectedDepartmentId = 0)
         {
             return new DataTableViewModel()
             {
@@ -112,7 +112,7 @@ namespace Coditech.Admin.Controllers
             };
         }
 
-        protected DataTableViewModel UpdateActionDataTable(string centreCode = null, int selectedDepartmentId = 0)
+        protected DataTableViewModel UpdateActionDataTable(string centreCode = null, short selectedDepartmentId = 0)
         {
             return new DataTableViewModel()
             {

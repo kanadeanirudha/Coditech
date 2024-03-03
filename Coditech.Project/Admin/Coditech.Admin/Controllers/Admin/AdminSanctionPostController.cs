@@ -51,7 +51,7 @@ namespace Coditech.Admin.Controllers
                 if (!adminSanctionPostViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.CentreCode, SelectedDepartmentId = Convert.ToInt32(adminSanctionPostViewModel.DepartmentId) });
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.CentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.DepartmentId) });
                 }
             }
             BindDropdown(adminSanctionPostViewModel);
@@ -82,14 +82,14 @@ namespace Coditech.Admin.Controllers
 
                 if (!status)
                 {
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt32(adminSanctionPostViewModel.SelectedDepartmentId) });
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.SelectedDepartmentId) });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminSanctionPostViewModel.ErrorMessage));
             return View("~/Views/Admin/AdminSanctionPost/Edit.cshtml", adminSanctionPostViewModel);
         }
 
-        public virtual ActionResult Delete(string departmentIds, string centreCode, int selectedDepartmentId)
+        public virtual ActionResult Delete(string departmentIds, string centreCode, short selectedDepartmentId)
         {
             string message = string.Empty;
             bool status = false;
@@ -106,7 +106,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = centreCode, SelectedDepartmentId = selectedDepartmentId });
         }
 
-        public virtual ActionResult Cancel(string SelectedCentreCode, int SelectedDepartmentId)
+        public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = SelectedDepartmentId };
             return RedirectToAction("List", dataTableViewModel);

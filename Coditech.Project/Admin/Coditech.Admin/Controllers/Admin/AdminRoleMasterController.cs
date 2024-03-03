@@ -52,7 +52,7 @@ namespace Coditech.Admin.Controllers
 
                 if (!status)
                 {
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminRoleViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt32(adminRoleViewModel.SelectedDepartmentId) });
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminRoleViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminRoleViewModel.SelectedDepartmentId) });
                 }
             }
             BindDropdown(adminRoleViewModel);
@@ -66,7 +66,7 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
         }
 
-        public virtual ActionResult Cancel(string SelectedCentreCode, int SelectedDepartmentId)
+        public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = SelectedDepartmentId };
             return RedirectToAction("List", dataTableViewModel);
