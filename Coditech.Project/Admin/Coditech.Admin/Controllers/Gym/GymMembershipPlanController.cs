@@ -79,7 +79,7 @@ namespace Coditech.Admin.Controllers
             return View(createEdit, gymMembershipPlanViewModel);
         }
 
-        public virtual ActionResult Delete(string gymMembershipPlanIds)
+        public virtual ActionResult Delete(string gymMembershipPlanIds, string selectedCentreCode)
         {
             string message = string.Empty;
             bool status = false;
@@ -89,11 +89,13 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<GymMembershipPlanController>(x => x.List(null));
+                // Redirect to the List action with the selectedCentreCode
+                return RedirectToAction("List", new { selectedCentreCode });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<GymMembershipPlanController>(x => x.List(null));
+            // Redirect to the List action with the selectedCentreCode
+            return RedirectToAction("List", new { selectedCentreCode });
         }
         #endregion
     }
