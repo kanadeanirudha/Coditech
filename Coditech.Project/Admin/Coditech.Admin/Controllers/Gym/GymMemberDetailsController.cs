@@ -123,22 +123,29 @@ namespace Coditech.Admin.Controllers
             }
             return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", gymMemberDetailsViewModel);
         }
-        public virtual ActionResult Delete(string gymMemberDetailIds)
+        public virtual ActionResult Delete(string gymMemberDetailIds, string selectedCentreCode)
         {
             string message = string.Empty;
             bool status = false;
+
             if (!string.IsNullOrEmpty(gymMemberDetailIds))
             {
                 status = _gymMemberDetailsAgent.DeleteGymMembers(gymMemberDetailIds, out message);
+
                 SetNotificationMessage(!status
-                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+                    ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
+                    : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
+
+                // Redirect to the List action with the selectedCentreCode
+                return RedirectToAction("List", new { selectedCentreCode });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+
+            // Redirect to the List action with the selectedCentreCode
+            return RedirectToAction("List", new { selectedCentreCode });
         }
+
 
         [HttpGet]
         public virtual ActionResult CreateEditGymMemberAddress(int gymMemberDetailId, long personId)
