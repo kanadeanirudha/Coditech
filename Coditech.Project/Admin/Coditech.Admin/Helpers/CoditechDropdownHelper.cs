@@ -294,12 +294,12 @@ namespace Coditech.Admin.Helpers
         {
             GeneralFinancialYearListResponse response = new GeneralFinancialYearClient().List(null, null, null, 1, int.MaxValue);
             GeneralFinancialYearListModel list = new GeneralFinancialYearListModel() { GeneralFinancialYearList = response.GeneralFinancialYearList };
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Financial Year-------" });
             foreach (var item in list?.GeneralFinancialYearList)
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = string.Concat(item.FromDate, "-", item.ToDate),
+                    Text = string.Concat(item.FromDate.ToShortDateString(), " To ", item.ToDate.ToShortDateString()),
                     Value = Convert.ToString(item.GeneralFinancialYearId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
                 });

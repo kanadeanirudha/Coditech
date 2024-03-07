@@ -8,6 +8,7 @@
     ChangeMembershipPlan: function () {
         $("#errorGymMembershipPlanId").text('').text("").removeClass("field-validation-error").hide();
         var membershipPlan = $("#SelectedGymMembershipPlanId option:selected").val();
+        $("#DiscountAmount").val("0");
         if (membershipPlan == '') {
             $("#GymMembershipPlanId").val("0");
             $("#PlanAmount").val("");
