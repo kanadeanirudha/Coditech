@@ -15,18 +15,15 @@
                         <div class="col">
                             @if (Model.GeneralSystemGlobleSettingMasterId > 0)
                             {
-                                <h4 class="page-title">Update Globle Setting</h4>
+                                <h4 class="card-title">Update Globle Setting</h4>
                             }
                             else
                             {
-                                <h4 class="page-title">Create Globle Setting</h4>
+                                <h4 class="card-title">Create Globle Setting</h4>
                             }
                         </div><!--end col-->
                     </div><!--end row-->
                 </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {

@@ -15,22 +15,16 @@
                         <div class="col">
                             @if (Model.OrganisationCentreMasterId > 0)
                             {
-                                <h4 class="page-title">Update Organisation Centre</h4>
+                                <h4 class="card-title">Update Organisation Centre</h4>
                             }
                             else
                             {
-                                <h4 class="page-title">Create Organisation Centre</h4>
+                                <h4 class="card-title">Create Organisation Centre</h4>
                             }
                         </div><!--end col-->
                     </div><!--end row-->
                 </div>
-        <div class="row">
-            <div class="col-lg-2">
-                @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentreMasterId.ToString())
-            </div>
-            <div class="col-lg-10">
-                <div class="card">
-                    <div class="card-body">
+                <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.OrganisationCentreMasterId)
