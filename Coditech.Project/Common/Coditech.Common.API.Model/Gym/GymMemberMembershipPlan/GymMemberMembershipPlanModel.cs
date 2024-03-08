@@ -17,6 +17,7 @@
         public string Remark { get; set; }
         public bool IsTransfered { get; set; }
         public int? TransferedGymMemberDetailId { get; set; }
+        public int SalesInvoiceMasterId { get; set; }
         public bool IsExpired { get; set; }
     }
 }

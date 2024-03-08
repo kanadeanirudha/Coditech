@@ -7,6 +7,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="DataModel\NewFolder\**" />
+	  <EmbeddedResource Remove="DataModel\NewFolder\**" />
+	  <EntityDeploy Remove="DataModel\NewFolder\**" />
+	  <None Remove="DataModel\NewFolder\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.0.138" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />

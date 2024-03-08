@@ -276,8 +276,11 @@ namespace Coditech.API.Service
 
             //if (IsCountryCodeAlreadyExist(gymMemberMembershipPlanModel.CountryCode))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
+
             string planDurationType = GetEnumCodeByEnumId(gymMembershipPlan.PlanDurationTypeEnumId);
             GymMemberMembershipPlan gymMemberMembershipPlan = gymMemberMembershipPlanModel.FromModelToEntity<GymMemberMembershipPlan>();
+            gymMemberMembershipPlan.PlanAmount = gymMembershipPlan.MaxCost;
+            gymMemberMembershipPlan.DiscountAmount = gymMembershipPlan.MaxCost- gymMemberMembershipPlanModel.DiscountAmount;
             if (string.Equals(planDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
             {
                 gymMemberMembershipPlan.PlanDurationExpirationDate = Convert.ToDateTime(gymMemberMembershipPlanModel.PlanStartDate).AddMonths(Convert.ToInt32(gymMembershipPlan.PlanDurationInMonth)).AddDays(-1).AddDays(Convert.ToInt32(gymMembershipPlan.PlanDurationInDays));

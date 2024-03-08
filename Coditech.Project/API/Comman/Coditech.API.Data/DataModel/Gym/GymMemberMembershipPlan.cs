@@ -19,6 +19,7 @@ namespace Coditech.API.Data
         public string Remark { get; set; }
         public bool IsTransfered { get; set; }
         public Nullable<int> TransferedGymMemberDetailId { get; set; }
+        public int SalesInvoiceMasterId { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

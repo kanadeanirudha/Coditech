@@ -91,6 +91,12 @@ namespace Coditech.API.Data
         #region GeneralPerson
         public DbSet<GeneralPersonFollowUp> GeneralPersonFollowUp { get; set; }
         #endregion
+
+        #region SalesAndPurchase
+        public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
+        public DbSet<SalesInvoiceMaster> SalesInvoiceMaster { get; set; }
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }
