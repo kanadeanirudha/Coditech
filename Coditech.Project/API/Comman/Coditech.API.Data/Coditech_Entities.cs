@@ -72,6 +72,7 @@ namespace Coditech.API.Data
         public DbSet<GymMemberBodyMeasurement> GymMemberBodyMeasurement { get; set; }
         public DbSet<GeneralPersonAttendanceDetails> GeneralPersonAttendanceDetails { get; set; }
         public DbSet<GymMemberMembershipPlan> GymMemberMembershipPlan { get; set; }
+        public DbSet<GymMembershipPlanPackage> GymMembershipPlanPackage { get; set; }
         #endregion
 
         #region MediaManager
@@ -95,6 +96,12 @@ namespace Coditech.API.Data
         #region SalesAndPurchase
         public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
         public DbSet<SalesInvoiceMaster> SalesInvoiceMaster { get; set; }
+        #endregion
+
+        #region Inventory
+        public DbSet<InventoryCategory> InventoryCategory { get; set; }
+        public DbSet<InventoryGeneralItemMaster> InventoryGeneralItemMaster { get; set; }
+        public DbSet<InventoryGeneralItemLine> InventoryGeneralItemLine { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -22,6 +22,9 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GymMemberFollowUp> _gymMemberFollowUpRepository;
         private readonly ICoditechRepository<GymMemberMembershipPlan> _gymMemberMembershipPlanRepository;
         private readonly ICoditechRepository<GymMembershipPlan> _gymMembershipPlanRepository;
+        private readonly ICoditechRepository<GymMembershipPlanPackage> _gymMembershipPlanPackageRepository;
+        private readonly ICoditechRepository<SalesInvoiceMaster> _salesInvoiceMasterRepository;
+        private readonly ICoditechRepository<SalesInvoiceDetails> _salesInvoiceDetailsRepository;
         public GymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -30,6 +33,9 @@ namespace Coditech.API.Service
             _gymMemberFollowUpRepository = new CoditechRepository<GymMemberFollowUp>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberMembershipPlanRepository = new CoditechRepository<GymMemberMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMembershipPlanRepository = new CoditechRepository<GymMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
+            _gymMembershipPlanPackageRepository = new CoditechRepository<GymMembershipPlanPackage>(_serviceProvider.GetService<Coditech_Entities>());
+            _salesInvoiceMasterRepository = new CoditechRepository<SalesInvoiceMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _salesInvoiceDetailsRepository = new CoditechRepository<SalesInvoiceDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GymMemberDetailsListModel GetGymMemberDetailsList(string SelectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -272,15 +278,19 @@ namespace Coditech.API.Service
             if (IsNull(gymMemberMembershipPlanModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(gymMemberMembershipPlanModel.GymMembershipPlanId);
-
             //if (IsCountryCodeAlreadyExist(gymMemberMembershipPlanModel.CountryCode))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
 
+            GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(gymMemberMembershipPlanModel.GymMembershipPlanId);
+
+            long salesInvoiceMasterId = SaveSalesInvoiceDetails(gymMemberMembershipPlanModel, gymMembershipPlan);
+
             string planDurationType = GetEnumCodeByEnumId(gymMembershipPlan.PlanDurationTypeEnumId);
+
             GymMemberMembershipPlan gymMemberMembershipPlan = gymMemberMembershipPlanModel.FromModelToEntity<GymMemberMembershipPlan>();
             gymMemberMembershipPlan.PlanAmount = gymMembershipPlan.MaxCost;
-            gymMemberMembershipPlan.DiscountAmount = gymMembershipPlan.MaxCost- gymMemberMembershipPlanModel.DiscountAmount;
+            gymMemberMembershipPlan.DiscountAmount = gymMembershipPlan.MaxCost - gymMemberMembershipPlanModel.DiscountAmount;
+            gymMemberMembershipPlan.SalesInvoiceMasterId = salesInvoiceMasterId;
             if (string.Equals(planDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
             {
                 gymMemberMembershipPlan.PlanDurationExpirationDate = Convert.ToDateTime(gymMemberMembershipPlanModel.PlanStartDate).AddMonths(Convert.ToInt32(gymMembershipPlan.PlanDurationInMonth)).AddDays(-1).AddDays(Convert.ToInt32(gymMembershipPlan.PlanDurationInDays));
@@ -302,6 +312,58 @@ namespace Coditech.API.Service
                 gymMemberMembershipPlanModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
             return gymMemberMembershipPlanModel;
+        }
+
+        protected virtual long SaveSalesInvoiceDetails(GymMemberMembershipPlanModel gymMemberMembershipPlanModel, GymMembershipPlan gymMembershipPlan)
+        {
+            string invoiceNumber = GenerateRegistrationCode(GeneralRunningNumberFor.InvoiceNumber.ToString(), gymMembershipPlan.CentreCode);
+            if (string.IsNullOrEmpty(invoiceNumber))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            List<GymMembershipPlanPackage> gymMembershipPlanPackageList = _gymMembershipPlanPackageRepository.Table.Where(x => x.GymMembershipPlanId == gymMemberMembershipPlanModel.GymMembershipPlanId)?.ToList();
+
+            if (gymMembershipPlanPackageList?.Count <= 0)
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            List<SalesInvoiceDetails> salesInvoiceDetailList = new List<SalesInvoiceDetails>();
+            foreach (GymMembershipPlanPackage gymMembershipPlanPackage in gymMembershipPlanPackageList)
+            {
+                InventoryGeneralItemLineDetails inventoryGeneralItemLineDetails = GetInventoryGeneralItemLineDetails(gymMembershipPlanPackage.InventoryGeneralItemLineId);
+                decimal totalItemLineTaxAmount = 0;
+                if (gymMembershipPlanPackage.ServiceCost > 0)
+                {
+                    totalItemLineTaxAmount = ItemLineTaxAmount(inventoryGeneralItemLineDetails.GeneralTaxGroupMasterId, gymMembershipPlanPackage.ServiceCost);
+                }
+                salesInvoiceDetailList.Add(new SalesInvoiceDetails()
+                {
+                    InventoryGeneralItemLineId = gymMembershipPlanPackage.InventoryGeneralItemLineId,
+                    ItemQuantity = 1,
+                    ItemAmount = gymMembershipPlan.IsTaxExclusive ? gymMembershipPlanPackage.ServiceCost - totalItemLineTaxAmount : gymMembershipPlanPackage.ServiceCost,
+                    ItemTaxAmount = totalItemLineTaxAmount,
+                    GeneralTaxGroupMasterId = inventoryGeneralItemLineDetails.GeneralTaxGroupMasterId
+                });
+            }
+
+            SalesInvoiceMaster salesInvoiceMaster = new SalesInvoiceMaster()
+            {
+                InvoiceNumber = invoiceNumber,
+                TransactionDate = DateTime.Now,
+                EntityId = gymMemberMembershipPlanModel.GymMemberDetailId,
+                UserType = UserTypeEnum.GymMember.ToString(),
+                NetAmount = salesInvoiceDetailList.Sum(x => x.ItemAmount),
+                TaxAmount = salesInvoiceDetailList.Sum(x => x.ItemTaxAmount),
+                DiscountAmount = gymMemberMembershipPlanModel.DiscountAmount,
+
+            };
+            salesInvoiceMaster.BillAmount = salesInvoiceMaster.NetAmount - salesInvoiceMaster.DiscountAmount;
+            salesInvoiceMaster.TotalAmount = salesInvoiceMaster.NetAmount + salesInvoiceMaster.TaxAmount;
+
+            long salesInvoiceMasterId = _salesInvoiceMasterRepository.Insert(salesInvoiceMaster).SalesInvoiceMasterId;
+            salesInvoiceDetailList.ForEach(x => x.SalesInvoiceMasterId = salesInvoiceMasterId);
+
+            _salesInvoiceDetailsRepository.Insert(salesInvoiceDetailList);
+
+            return salesInvoiceMasterId;
         }
         #endregion
     }

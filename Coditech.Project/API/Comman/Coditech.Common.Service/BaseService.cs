@@ -127,5 +127,41 @@ namespace Coditech.Common.Service
             return registrationCode;
         }
 
+        protected virtual InventoryGeneralItemLineDetails GetInventoryGeneralItemLineDetails(long inventoryGeneralItemLineId)
+        {
+            CoditechRepository<InventoryGeneralItemMaster> _inventoryGeneralItemMasterRepository = new CoditechRepository<InventoryGeneralItemMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            CoditechRepository<InventoryGeneralItemLine> _inventoryGeneralItemLineRepository = new CoditechRepository<InventoryGeneralItemLine>(_serviceProvider.GetService<Coditech_Entities>());
+
+            InventoryGeneralItemLineDetails itemLineDetails = null;
+            itemLineDetails = (from a in _inventoryGeneralItemMasterRepository.Table
+                               join b in _inventoryGeneralItemLineRepository.Table
+                               on a.InventoryGeneralItemMasterId equals b.InventoryGeneralItemMasterId
+                               where (b.InventoryGeneralItemLineId == inventoryGeneralItemLineId)
+                               select new InventoryGeneralItemLineDetails()
+                               {
+                                   InventoryGeneralItemMasterId = a.InventoryGeneralItemMasterId,
+                                   InventoryGeneralItemLineId = b.InventoryGeneralItemLineId,
+                                   ItemNumber = a.ItemNumber,
+                                   ItemDescription = a.ItemDescription,
+                                   GeneralTaxGroupMasterId = a.GeneralTaxGroupMasterId,
+                                   HSNSACCode = a.HSNSACCode,
+                                   ItemName = b.ItemName,
+                                   SKU = b.SKU,
+
+                               })?.FirstOrDefault();
+            return itemLineDetails;
+        }
+        protected virtual decimal ItemLineTaxAmount(byte generalTaxGroupMasterId, decimal amount)
+        {
+            CoditechRepository<GeneralTaxGroupMasterDetails> _generalTaxGroupMasterDetailsRepository = new CoditechRepository<GeneralTaxGroupMasterDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            CoditechRepository<GeneralTaxMaster> _generalTaxMasterRepository = new CoditechRepository<GeneralTaxMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            decimal? taxInPercentage = (from a in _generalTaxGroupMasterDetailsRepository.Table
+                                        join b in _generalTaxMasterRepository.Table
+                                        on a.GeneralTaxMasterId equals b.GeneralTaxMasterId
+                                        where (a.GeneralTaxGroupMasterId == generalTaxGroupMasterId)
+                                        select b.TaxRate).Sum();
+
+            return Convert.ToDecimal(amount * (taxInPercentage / 100));
+        }
     }
 }

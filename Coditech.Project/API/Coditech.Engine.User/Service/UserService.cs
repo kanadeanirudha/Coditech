@@ -130,7 +130,7 @@ namespace Coditech.API.Service
                 generalPersonModel.Password = MD5Hash(password);
                 if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    generalPersonModel.PersonCode = GenerateRegistrationCode("GymMemberRegistration", generalPersonModel.SelectedCentreCode);
+                    generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberFor.GymMemberRegistration.ToString(), generalPersonModel.SelectedCentreCode);
                     GymMemberDetails gymMemberDetails = new GymMemberDetails()
                     {
                         CentreCode = generalPersonModel.SelectedCentreCode,
@@ -148,7 +148,7 @@ namespace Coditech.API.Service
                 }
                 else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    generalPersonModel.PersonCode = GenerateRegistrationCode("EmployeeRegistration", generalPersonModel.SelectedCentreCode);
+                    generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberFor.EmployeeRegistration.ToString(), generalPersonModel.SelectedCentreCode);
                     EmployeeMaster employeeMaster = new EmployeeMaster()
                     {
                         PersonId = generalPersonModel.PersonId,

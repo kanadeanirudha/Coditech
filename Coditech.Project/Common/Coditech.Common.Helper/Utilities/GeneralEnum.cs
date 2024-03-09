@@ -81,4 +81,10 @@
         CorrespondanceAddress,
         BusinessAddress        
     }
+    public enum GeneralRunningNumberFor
+    {
+        GymMemberRegistration,
+        EmployeeRegistration,
+        InvoiceNumber
+    }
 }

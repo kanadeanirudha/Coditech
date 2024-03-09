@@ -55,6 +55,7 @@ namespace Coditech.API.Service
             if (IsCentreCodeAlreadyExist(generalRunningNumbersModel.CentreCode, generalRunningNumbersModel.KeyFieldEnumId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
 
+            generalRunningNumbersModel.DisplayFormat = generalRunningNumbersModel.DisplayFormat.ToLower();
             GeneralRunningNumbers generalRunningNumbers = generalRunningNumbersModel.FromModelToEntity<GeneralRunningNumbers>();
 
             //Create new GeneralRunningNumbers and return it.
@@ -94,7 +95,8 @@ namespace Coditech.API.Service
 
             if (IsCentreCodeAlreadyExist(generalRunningNumbersModel.CentreCode, generalRunningNumbersModel.KeyFieldEnumId, generalRunningNumbersModel.GeneralRunningNumberId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
-
+            
+            generalRunningNumbersModel.DisplayFormat = generalRunningNumbersModel.DisplayFormat.ToLower();
             GeneralRunningNumbers generalRunningNumbers = generalRunningNumbersModel.FromModelToEntity<GeneralRunningNumbers>();
 
             //Update GeneralRunningNumbers
