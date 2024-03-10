@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.API.Data
+﻿namespace Coditech.Common.API.Model
 {
-    public partial class InventoryGeneralItemMaster
+    public class InventoryGeneralItemMasterModel : BaseModel
     {
-        [Key]
         public int InventoryGeneralItemMasterId { get; set; }
+        public long InventoryGeneralItemLineId { get; set; }
         public short InventoryCategoryId { get; set; }
         public string ItemNumber { get; set; }
         public string ItemName { get; set; }
@@ -20,10 +18,6 @@ namespace Coditech.API.Data
         public int InventoryStorageDimentionGroupId { get; set; }
         public int InventoryTrackingDimentionGroupId { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<long> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<long> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }
 

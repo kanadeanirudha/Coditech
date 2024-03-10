@@ -26,6 +26,7 @@ namespace Coditech.Admin.ViewModel
         public bool IsLoginAllowFromOutside { get; set; }
         [Display(Name = "Is Attendace Allow From Out side")]
         public bool IsAttendaceAllowFromOutside { get; set; }
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
         public string SelectedCentreCodeForSelf { get; set; }
         public string SelectedCentreNameForSelf { get; set; }
@@ -33,5 +34,7 @@ namespace Coditech.Admin.ViewModel
         public List<UserAccessibleCentreModel> AllCentreList { get; set; }
         [Display(Name = "Accesible Centre")]
         public List<string> SelectedRoleWiseCentres { get; set; }
-    }
+		[Display(Name = "Dashboard")]
+		public int DashboardFormEnumId { get; set; }
+	}
 }

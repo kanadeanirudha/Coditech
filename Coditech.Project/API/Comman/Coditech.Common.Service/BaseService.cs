@@ -127,17 +127,17 @@ namespace Coditech.Common.Service
             return registrationCode;
         }
 
-        protected virtual InventoryGeneralItemLineDetails GetInventoryGeneralItemLineDetails(long inventoryGeneralItemLineId)
+        protected virtual InventoryGeneralItemLineDetailsModel GetInventoryGeneralItemLineDetails(long inventoryGeneralItemLineId)
         {
             CoditechRepository<InventoryGeneralItemMaster> _inventoryGeneralItemMasterRepository = new CoditechRepository<InventoryGeneralItemMaster>(_serviceProvider.GetService<Coditech_Entities>());
             CoditechRepository<InventoryGeneralItemLine> _inventoryGeneralItemLineRepository = new CoditechRepository<InventoryGeneralItemLine>(_serviceProvider.GetService<Coditech_Entities>());
 
-            InventoryGeneralItemLineDetails itemLineDetails = null;
+            InventoryGeneralItemLineDetailsModel itemLineDetails = null;
             itemLineDetails = (from a in _inventoryGeneralItemMasterRepository.Table
                                join b in _inventoryGeneralItemLineRepository.Table
                                on a.InventoryGeneralItemMasterId equals b.InventoryGeneralItemMasterId
                                where (b.InventoryGeneralItemLineId == inventoryGeneralItemLineId)
-                               select new InventoryGeneralItemLineDetails()
+                               select new InventoryGeneralItemLineDetailsModel()
                                {
                                    InventoryGeneralItemMasterId = a.InventoryGeneralItemMasterId,
                                    InventoryGeneralItemLineId = b.InventoryGeneralItemLineId,

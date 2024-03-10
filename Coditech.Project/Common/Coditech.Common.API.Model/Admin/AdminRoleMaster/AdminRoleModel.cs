@@ -18,5 +18,6 @@ namespace Coditech.Common.API.Model
         public List<UserAccessibleCentreModel> AllCentreList { get; set; }
         public string SelectedCentreCode { get; set; }
         public string SelectedDepartmentId { get; set; }
-    }
+		public int DashboardFormEnumId { get; set; }
+	}
 }

@@ -18,7 +18,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Specilization")]
         public int MedicalSpecilizationEnumId { get; set; }
 
-        [MaxLength(500)]
         [Required]
         [Display(Name = "Week Days")]
         public List<string> SelectedWeekDayEnumIds { get; set; }

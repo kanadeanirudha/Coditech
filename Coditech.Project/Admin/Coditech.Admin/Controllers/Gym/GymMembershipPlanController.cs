@@ -39,6 +39,7 @@ namespace Coditech.Admin.Controllers
         public ActionResult CreateGymMembershipPlan()
         {
             GymMembershipPlanViewModel viewModel = new GymMembershipPlanViewModel();
+            viewModel.AllGeneralServices = _gymMembershipPlanAgent.AllGeneralServices();
             return View(createEdit, viewModel);
         }
 
@@ -55,7 +56,8 @@ namespace Coditech.Admin.Controllers
                     return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = gymMembershipPlanViewModel.CentreCode });
                 }
             }
-            SetNotificationMessage(GetErrorNotificationMessage(gymMembershipPlanViewModel.ErrorMessage));
+			gymMembershipPlanViewModel.AllGeneralServices = _gymMembershipPlanAgent.AllGeneralServices();
+			SetNotificationMessage(GetErrorNotificationMessage(gymMembershipPlanViewModel.ErrorMessage));
             return View(createEdit, gymMembershipPlanViewModel);
         }
 
@@ -63,7 +65,8 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult UpdateGymMembershipPlan(int gymMembershipPlanId)
         {
             GymMembershipPlanViewModel gymMembershipPlanViewModel = _gymMembershipPlanAgent.GetGymMembershipPlan(gymMembershipPlanId);
-            return ActionView(createEdit, gymMembershipPlanViewModel);
+			gymMembershipPlanViewModel.AllGeneralServices = _gymMembershipPlanAgent.AllGeneralServices();
+			return ActionView(createEdit, gymMembershipPlanViewModel);
         }
 
         [HttpPost]
@@ -76,7 +79,8 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("UpdateGymMembershipPlan", new { gymMembershipPlanId = gymMembershipPlanViewModel.GymMembershipPlanId});
             }
-            return View(createEdit, gymMembershipPlanViewModel);
+			gymMembershipPlanViewModel.AllGeneralServices = _gymMembershipPlanAgent.AllGeneralServices();
+			return View(createEdit, gymMembershipPlanViewModel);
         }
 
         public virtual ActionResult Delete(string gymMembershipPlanIds, string selectedCentreCode)
