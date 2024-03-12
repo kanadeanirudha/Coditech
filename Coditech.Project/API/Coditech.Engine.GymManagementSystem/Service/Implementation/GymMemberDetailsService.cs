@@ -301,33 +301,40 @@ namespace Coditech.API.Service
             return gymMemberMembershipPlanModel;
         }
 
-        public virtual GymMemberMembershipPlanListModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        // Your existing code...
+
+
+        public virtual GymMemberMembershipPlanListModel GymMemberPaymentHistoryList(int gymMemberDetailId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            //Bind the Filter, sorts & Paging Payment History.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+
             CoditechViewRepository<GymMemberMembershipPlanModel> objStoredProc = new CoditechViewRepository<GymMemberMembershipPlanModel>(_serviceProvider.GetService<Coditech_Entities>());
+
             objStoredProc.SetParameter("@GymMemberDetailId", gymMemberDetailId, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GymMemberMembershipPlanModel> gymMemberList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberFollowUpList @GymMemberDetailId, @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
-            GymMemberMembershipPlanListModel listModel = new GymMemberMembershipPlanListModel();
 
-            listModel.GymMemberMembershipPlanList = gymMemberList?.Count > 0 ? gymMemberList : new List<GymMemberMembershipPlanModel>();
+            // Execute the stored procedure and retrieve Gym Member Payment History list.
+            List<GymMemberMembershipPlanModel> paymentHistoryList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberInvoiceList @GymMemberDetailId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+
+            // Create and populate the GymMemberMembershipPlanListModel.
+            GymMemberMembershipPlanListModel listModel = new GymMemberMembershipPlanListModel();
+            listModel.GymMemberMembershipPlanList = paymentHistoryList?.Count > 0 ? paymentHistoryList : new List<GymMemberMembershipPlanModel>();
             listModel.BindPageListModel(pageListModel);
 
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
-            if (IsNotNull(generalPerson))
-            {
-                listModel.FirstName = generalPerson.FirstName;
-                listModel.LastName = generalPerson.LastName;
-            }
             listModel.GymMemberDetailId = gymMemberDetailId;
-            listModel.PersonId = personId;
+
             return listModel;
         }
+
+
+
+
+
+
         #endregion
     }
 }

@@ -126,6 +126,6 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>GymMemberMembershipPlanListViewModel</returns>
-        GymMemberMembershipPlanListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel);
+        GymMemberMembershipPlanListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, DataTableViewModel dataTableModel);
     }
 }

@@ -395,7 +395,7 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        public virtual GymMemberMembershipPlanListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public virtual GymMemberMembershipPlanListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -408,7 +408,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GymMemberMembershipPlanListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberMembershipPlanListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GymMemberMembershipPlanListModel gymMemberList = new GymMemberMembershipPlanListModel { GymMemberMembershipPlanList = response?.GymMemberMembershipPlanList };
 
             GymMemberMembershipPlanListViewModel listViewModel = new GymMemberMembershipPlanListViewModel()
