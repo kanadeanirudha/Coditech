@@ -40,13 +40,213 @@
     padding: 2%;
     width: 150px;
 }
+
 .required:after {
     content: ' * ';
     color: #ea2f25;
 }
+
 .field-validation-error, .error-msg {
     color: #CC0000;
 }
+
 .input-validation-error {
     border: 1px solid #FC5961 !important;
+}
+
+/*Custom CSS*/
+body {
+    font-size: 14px !important;
+    background-color: #fff;
+    color: #222222 !important;
+    letter-spacing: 0.1px;
+    line-height: 1.5;
+}
+
+.account-body.accountbg {
+    background-color: rgba(255, 255, 255, 1) !important;
+}
+
+.card {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+    border-radius: 4px !important;
+}
+
+@font-face {
+    font-family: "dripicons-v2";
+    src: url("../fonts/dripicons-v2.eot'");
+    src: url("../fonts/dripicons-v2.eot?#iefix") format("embedded-opentype"), url("../fonts/dripicons-v2.woff") format("woff"), url("../fonts/dripicons-v2.ttf") format("truetype"), url("../fonts/dripicons-v2.svg#dripicons-v2") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, html {
+    overflow: hidden;
+}
+
+.page-wrapper {
+    height: calc((100vh) - 80px);
+    overflow-y: auto;
+    margin: 2% auto 0 !important;
+    padding-top: 0 !important;
+}
+
+.card .card-header:first-child {
+    background: #0c213a !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .card .card-header:first-child span {
+        color: #ffffff;
+    }
+
+.btn-soft-primary {
+    background-color: #1761fd !important;
+    color: #ffffff !important;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 5px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-success, .btn-success:hover {
+    color: #fff;
+    background-color: #1761fd !important;
+    border-color: #1761fd !important;
+}
+
+label {
+    font-weight: 600 !important;
+    font-size: 13px !important;
+}
+
+.card .card-header [class*="col-"] {
+    display: flex;
+    align-items: center;
+}
+
+/*Scroll CSS*/
+*::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #0c213a !important;
+    background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #0c213a !important;
+}
+
+.boxed-footer {
+    color: #0c213a !important;
+    font-weight: 600;
+}
+
+    .boxed-footer a {
+        color: #1761fd !important;
+        margin-left: 12px;
+        border-left: 1px solid #303e67;
+        padding-left: 12px;
+    }
+
+#LogIn_Tab button {
+    color: #ffffff;
+    background-color: #1452d7;
+    border-color: #124eca;
+}
+
+.title-text, .card-title {
+    color: #ffffff;
+}
+
+#notificationDivId {
+    position: absolute;
+    width: 95%;
+    top: 15%;
+    z-index: 99;
+    margin: 0 auto;
+    left: 2.3%;
+}
+
+.btn-secondary {
+    color: #ffffff;
+    background-color: #848eac;
+    border-color: #7c86a2;
+}
+
+.page-wrapper .page-content {
+    padding: 26px 8px 52px 8px;
+}
+
+.navbar-custom-menu ul.navigation-menu li.has-submenu.active ul li.active a {
+    background: #0c213a !important;
+    color: #ffffff !important;
+}
+
+    .navbar-custom-menu ul.navigation-menu li.has-submenu.active ul li.active a i {
+        color: #ffffff !important;
+    }
+
+[data-layout="horizontal"] .page-wrapper {
+    width: 100%;
+}
+
+.loader-spinner {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.inner-div {
+    background-color: transparent !important;
+}
+.login-page-wrapper .card-body.auth-header-box {
+    border-radius: 4px 4px 0 0;
+}
+.login-page-wrapper .card-body.auth-footer {
+    border-radius: 0 0 4px 4px;
+}
+/*Responsive*/
+@media only screen and (max-width:768px) {
+    #barchart, .apex-charts {
+        margin-left: 0;
+        overflow-x: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    body.dark-topbar .topbar .navbar-custom-menu .has-submenu.active a span {
+        border: 1px solid #c2cbe2;
+    }
 }
