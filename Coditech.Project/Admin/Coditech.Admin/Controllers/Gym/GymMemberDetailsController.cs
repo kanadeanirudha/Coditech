@@ -365,9 +365,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult MemberPaymentHistoryList(int gymMemberDetailId, DataTableViewModel dataTableModel)
+        public ActionResult MemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
-            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId, dataTableModel);
+            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId,personId, dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberPaymentHistory.cshtml", list);

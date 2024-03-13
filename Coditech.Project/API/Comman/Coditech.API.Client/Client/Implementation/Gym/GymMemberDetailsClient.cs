@@ -499,14 +499,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GymMemberSalesInvoiceListResponse GymMemberPaymentHistoryList(int gymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual GymMemberSalesInvoiceListResponse GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await GymMemberPaymentHistoryListAsync(gymMemberDetailId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GymMemberPaymentHistoryListAsync(gymMemberDetailId,personId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymMemberSalesInvoiceListResponse> GymMemberPaymentHistoryListAsync(int gymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<GymMemberSalesInvoiceListResponse> GymMemberPaymentHistoryListAsync(int gymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = gymMemberDetailsEndpoint.GymMemberPaymentHistoryListAsync(gymMemberDetailId, expand, filter, sort, pageIndex, pageSize);
+            string endpoint = gymMemberDetailsEndpoint.GymMemberPaymentHistoryListAsync(gymMemberDetailId,personId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

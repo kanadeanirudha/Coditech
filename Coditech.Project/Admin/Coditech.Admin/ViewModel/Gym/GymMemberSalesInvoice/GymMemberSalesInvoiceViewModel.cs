@@ -68,7 +68,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Plan Duration Expiration Date")]
         public DateTime PlanDurationExpirationDate { get; set; }
 
-        [Display(Name = "Plan Duration in Session")]
+        [Display(Name = "Session")]
         public short PlanDurationInSession { get; set; }
 
         [Display(Name = "Remaining Session Count")]
