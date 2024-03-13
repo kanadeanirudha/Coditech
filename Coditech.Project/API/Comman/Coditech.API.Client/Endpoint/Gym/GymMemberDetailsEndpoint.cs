@@ -39,7 +39,7 @@ namespace Coditech.API.Endpoint
                   $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/DeleteGymMemberFollowUp";
         #endregion
 
-        #region Gym Member FollowUp
+        #region Gym Member Membership Plan
         public string GetGymMemberMembershipPlanListAsync(int gymMemberDetailId, long personId)
         {
             string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GetGymMemberMembershipPlanList?gymMemberDetailId={gymMemberDetailId}&personId={personId}";
@@ -48,6 +48,12 @@ namespace Coditech.API.Endpoint
 
         public string AssociateGymMemberMembershipPlanAsync() =>
             $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/AssociateGymMemberMembershipPlan";
+
+        public string GymMemberPaymentHistoryListAsync(int gymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GymMemberPaymentHistoryList?gymMemberDetailId={gymMemberDetailId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
+        }
         #endregion
     }
 }

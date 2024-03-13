@@ -120,5 +120,12 @@ namespace Coditech.Admin.Agents
         /// <param name="GymMemberMembershipPlanViewModel">GymMemberMembershipPlanViewModel.</param>
         /// <returns>Returns updated GymMemberMembershipPlanViewModel</returns>
         GymMemberMembershipPlanViewModel AssociateGymMemberMembershipPlan(GymMemberMembershipPlanViewModel gymMemberMembershipPlanViewModel);
+
+        /// <summary>
+        /// Get list of Gym Member Payment History.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GymMemberSalesInvoiceListViewModel</returns>
+        GymMemberSalesInvoiceListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, DataTableViewModel dataTableModel);
     }
 }

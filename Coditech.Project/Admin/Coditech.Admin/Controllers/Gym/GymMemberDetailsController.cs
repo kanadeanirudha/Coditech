@@ -363,6 +363,17 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(gymMemberMembershipPlanViewModel.ErrorMessage));
             return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/AssociateGymMemberMembershipPlan.cshtml", gymMemberMembershipPlanViewModel);
         }
+
+        [HttpGet]
+        public ActionResult MemberPaymentHistoryList(int gymMemberDetailId, DataTableViewModel dataTableModel)
+        {
+            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId, dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberPaymentHistory.cshtml", list);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory.cshtml", list);
+        }
         #endregion
     }
 }

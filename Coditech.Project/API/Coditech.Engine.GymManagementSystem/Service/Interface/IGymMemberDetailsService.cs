@@ -20,5 +20,7 @@ namespace Coditech.API.Service
         GymMemberMembershipPlanListModel GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId);
 
         GymMemberMembershipPlanModel AssociateGymMemberMembershipPlan(GymMemberMembershipPlanModel gymMemberMembershipPlanModel);
+        GymMemberSalesInvoiceListModel GymMemberPaymentHistoryList(int gymMemberDetailId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+
     }
 }
