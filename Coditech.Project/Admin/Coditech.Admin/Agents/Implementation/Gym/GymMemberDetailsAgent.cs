@@ -394,7 +394,7 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        public virtual GymMemberSalesInvoiceListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, DataTableViewModel dataTableModel)
+        public virtual GymMemberSalesInvoiceListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -407,7 +407,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GymMemberSalesInvoiceListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberSalesInvoiceListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId,personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GymMemberSalesInvoiceListModel gymMemberList = new GymMemberSalesInvoiceListModel { GymMemberSalesInvoiceList = response?.GymMemberSalesInvoiceList };
 
             GymMemberSalesInvoiceListViewModel listViewModel = new GymMemberSalesInvoiceListViewModel()
@@ -556,16 +556,6 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Start Date",
-                ColumnCode = "PlanStartDate",
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Expiration Date",
-                ColumnCode = "PlanDurationExpirationDate",
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
                 ColumnName = "Paid Amount",
                 ColumnCode = "BillAmount",
             });
@@ -573,6 +563,11 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Payment Mode",
                 ColumnCode = "PaymentType",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Payment Received By",
+                ColumnCode = "PaymentReceivedBy",
             });
             return datatableColumnList;
         }
