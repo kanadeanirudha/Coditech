@@ -47,6 +47,7 @@ namespace Coditech.Admin
 			builder.Services.AddScoped<IGeneralPersonFollowUpAgent, GeneralPersonFollowUpAgent>();
 			builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
 			builder.Services.AddScoped<IGymMemberBodyMeasurementAgent, GymMemberBodyMeasurementAgent>();
+			builder.Services.AddScoped<IGymSalesInvoiceAgent, GymSalesInvoiceAgent>();
 			#endregion
 
 			#region Client
@@ -86,6 +87,7 @@ namespace Coditech.Admin
 			builder.Services.AddScoped<IGymMemberBodyMeasurementClient, GymMemberBodyMeasurementClient>();
 			builder.Services.AddScoped<IGeneralPersonAttendanceDetailsClient, GeneralPersonAttendanceDetailsClient>();
 			builder.Services.AddScoped<IInventoryGeneralItemMasterClient, InventoryGeneralItemMasterClient>();
+			builder.Services.AddScoped<IGymSalesInvoiceClient, GymSalesInvoiceClient>();
 			#endregion
 		}
 	}
