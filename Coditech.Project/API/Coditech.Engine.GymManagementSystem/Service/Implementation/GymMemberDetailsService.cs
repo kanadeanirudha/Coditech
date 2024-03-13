@@ -304,11 +304,11 @@ namespace Coditech.API.Service
         // Your existing code...
 
 
-        public virtual GymMemberMembershipPlanListModel GymMemberPaymentHistoryList(int gymMemberDetailId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual GymMemberSalesInvoiceListModel GymMemberPaymentHistoryList(int gymMemberDetailId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
 
-            CoditechViewRepository<GymMemberMembershipPlanModel> objStoredProc = new CoditechViewRepository<GymMemberMembershipPlanModel>(_serviceProvider.GetService<Coditech_Entities>());
+            CoditechViewRepository<GymMemberSalesInvoiceModel> objStoredProc = new CoditechViewRepository<GymMemberSalesInvoiceModel>(_serviceProvider.GetService<Coditech_Entities>());
 
             objStoredProc.SetParameter("@GymMemberDetailId", gymMemberDetailId, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
@@ -318,23 +318,17 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
 
             // Execute the stored procedure and retrieve Gym Member Payment History list.
-            List<GymMemberMembershipPlanModel> paymentHistoryList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberInvoiceList @GymMemberDetailId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<GymMemberSalesInvoiceModel> paymentHistoryList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberInvoiceList @GymMemberDetailId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
 
             // Create and populate the GymMemberMembershipPlanListModel.
-            GymMemberMembershipPlanListModel listModel = new GymMemberMembershipPlanListModel();
-            listModel.GymMemberMembershipPlanList = paymentHistoryList?.Count > 0 ? paymentHistoryList : new List<GymMemberMembershipPlanModel>();
+            GymMemberSalesInvoiceListModel listModel = new GymMemberSalesInvoiceListModel();
+            listModel.GymMemberSalesInvoiceList = paymentHistoryList?.Count > 0 ? paymentHistoryList : new List<GymMemberSalesInvoiceModel>();
             listModel.BindPageListModel(pageListModel);
 
             listModel.GymMemberDetailId = gymMemberDetailId;
 
             return listModel;
         }
-
-
-
-
-
-
         #endregion
     }
 }

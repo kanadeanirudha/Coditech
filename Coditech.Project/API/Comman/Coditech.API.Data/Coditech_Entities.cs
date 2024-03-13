@@ -72,6 +72,7 @@ namespace Coditech.API.Data
         public DbSet<GymMemberBodyMeasurement> GymMemberBodyMeasurement { get; set; }
         public DbSet<GeneralPersonAttendanceDetails> GeneralPersonAttendanceDetails { get; set; }
         public DbSet<GymMemberMembershipPlan> GymMemberMembershipPlan { get; set; }
+        public DbSet<GymMemberSalesInvoice> GymMemberSalesInvoice { get; set; }
         #endregion
 
         #region MediaManager

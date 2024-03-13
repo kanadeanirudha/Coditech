@@ -254,25 +254,25 @@ namespace Coditech.API.Controllers
 
         [HttpGet]
         [Route("/GymMemberDetails/GymMemberPaymentHistoryList")]
-        [Produces(typeof(GymMemberMembershipPlanListResponse))]
+        [Produces(typeof(GymMemberSalesInvoiceListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
         public virtual IActionResult GymMemberPaymentHistoryList(int gymMemberDetailId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                GymMemberMembershipPlanListModel list = _generalGymMemberDetailsService.GymMemberPaymentHistoryList(gymMemberDetailId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                GymMemberSalesInvoiceListModel list = _generalGymMemberDetailsService.GymMemberPaymentHistoryList(gymMemberDetailId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
-                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberMembershipPlanListResponse>(data) : CreateNoContentResponse();
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberSalesInvoiceListResponse>(data) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GymMemberMembershipPlanListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new GymMemberSalesInvoiceListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new GymMemberMembershipPlanListResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new GymMemberSalesInvoiceListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
         #endregion

@@ -499,12 +499,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GymMemberMembershipPlanListResponse GymMemberPaymentHistoryList(int gymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual GymMemberSalesInvoiceListResponse GymMemberPaymentHistoryList(int gymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await GymMemberPaymentHistoryListAsync(gymMemberDetailId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymMemberMembershipPlanListResponse> GymMemberPaymentHistoryListAsync(int gymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<GymMemberSalesInvoiceListResponse> GymMemberPaymentHistoryListAsync(int gymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
             string endpoint = gymMemberDetailsEndpoint.GymMemberPaymentHistoryListAsync(gymMemberDetailId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
@@ -518,7 +518,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<GymMemberMembershipPlanListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<GymMemberSalesInvoiceListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -527,12 +527,12 @@ namespace Coditech.API.Client
                 }
                 else if (status_ == 204)
                 {
-                    return new GymMemberMembershipPlanListResponse();
+                    return new GymMemberSalesInvoiceListResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    GymMemberMembershipPlanListResponse typedBody = JsonConvert.DeserializeObject<GymMemberMembershipPlanListResponse>(responseData);
+                    GymMemberSalesInvoiceListResponse typedBody = JsonConvert.DeserializeObject<GymMemberSalesInvoiceListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }

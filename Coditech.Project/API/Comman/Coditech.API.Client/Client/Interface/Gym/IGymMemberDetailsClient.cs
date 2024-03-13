@@ -77,8 +77,8 @@ namespace Coditech.API.Client
         /// <summary>
         /// Get list of Gym Member Payment History.
         /// </summary>
-        /// <returns>GymMemberMembershipPlanListResponse</returns>
-        GymMemberMembershipPlanListResponse GymMemberPaymentHistoryList(int GymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        /// <returns>GymMemberSalesInvoiceListResponse</returns>
+        GymMemberSalesInvoiceListResponse GymMemberPaymentHistoryList(int GymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
     }
 }

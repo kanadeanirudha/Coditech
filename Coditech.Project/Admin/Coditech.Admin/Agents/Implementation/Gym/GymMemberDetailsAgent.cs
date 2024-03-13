@@ -395,32 +395,32 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        public virtual GymMemberMembershipPlanListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, DataTableViewModel dataTableModel)
+        public virtual GymMemberSalesInvoiceListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("FollowupType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("FollowupComment", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("InvoiceNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MembershipPlanName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GymMemberMembershipPlanListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GymMemberMembershipPlanListModel gymMemberList = new GymMemberMembershipPlanListModel { GymMemberMembershipPlanList = response?.GymMemberMembershipPlanList };
+            GymMemberSalesInvoiceListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberSalesInvoiceListModel gymMemberList = new GymMemberSalesInvoiceListModel { GymMemberSalesInvoiceList = response?.GymMemberSalesInvoiceList };
 
-            GymMemberMembershipPlanListViewModel listViewModel = new GymMemberMembershipPlanListViewModel()
+            GymMemberSalesInvoiceListViewModel listViewModel = new GymMemberSalesInvoiceListViewModel()
             {
-                PersonId = response.PersonId,
+               
                 GymMemberDetailId = response.GymMemberDetailId,
                 FirstName = response?.FirstName,
                 LastName = response?.LastName
             };
-            listViewModel.GymMemberMembershipPlanList = gymMemberList?.GymMemberMembershipPlanList?.ToViewModel<GymMemberMembershipPlanViewModel>().ToList();
+            listViewModel.GymMemberSalesInvoiceList = gymMemberList?.GymMemberSalesInvoiceList?.ToViewModel<GymMemberSalesInvoiceViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberMembershipPlanList.Count, BindGymMemberMembershipPlanColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberSalesInvoiceList.Count, BindGymMemberSalesInvoiceColumns());
             return listViewModel;
         }
         #endregion
@@ -528,31 +528,31 @@ namespace Coditech.Admin.Agents
             return datatableColumnList;
         }
 
-        protected virtual List<DatatableColumns> BindGymMemberMembershipPlanColumns()
+        protected virtual List<DatatableColumns> BindGymMemberSalesInvoiceColumns()
         {
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Membership Plan",
-                ColumnCode = "PlanType",
+                ColumnName = "Invoice Number",
+                ColumnCode = "InvoiceNumber",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Transaction Date",
-                ColumnCode = "CreatedDate",
+                ColumnCode = "TransactionDate",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Paid Amount",
-                ColumnCode = "PlanAmount",
+                ColumnName = "Plan Type",
+                ColumnCode = "PlanType",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Plan Duration Type",
-                ColumnCode = "PlanDurationType",
+                ColumnName = "Plan Name",
+                ColumnCode = "MembershipPlanName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -567,8 +567,13 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Paid Amount",
+                ColumnCode = "BillAmount",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Payment Mode",
-                ColumnCode = "PaymentTypeEnumId",
+                ColumnCode = "PaymentType",
             });
             return datatableColumnList;
         }
