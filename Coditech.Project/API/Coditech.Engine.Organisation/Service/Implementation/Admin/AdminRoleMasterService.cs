@@ -22,6 +22,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleMaster> _adminRoleMasterRepository;
         private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
         private readonly ICoditechRepository<AdminSanctionPost> _adminSanctionPostRepository;
+        private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         public AdminRoleMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -29,6 +30,7 @@ namespace Coditech.API.Service
             _adminRoleMasterRepository = new CoditechRepository<AdminRoleMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
             _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual AdminRoleListModel GetAdminRoleList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -62,7 +64,7 @@ namespace Coditech.API.Service
         public virtual AdminRoleModel GetAdminRoleDetailsById(int adminRoleMasterId)
         {
             if (adminRoleMasterId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             //Get the adminRoleMaster Details based on id.
             AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
@@ -83,7 +85,7 @@ namespace Coditech.API.Service
             if (IsNull(adminRoleMasterModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
             if (adminRoleMasterModel.AdminRoleMasterId < 1)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId);
             adminRoleMasterData.MonitoringLevel = adminRoleMasterModel.MonitoringLevel;
@@ -156,13 +158,13 @@ namespace Coditech.API.Service
         public virtual bool DeleteAdminRoleMaster(ParameterModel parameterModel)
         {
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("AdminRoleMasterID", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("AdminRoleMasterId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAdminRoleMaster @AdminRoleMasterID,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAdminRoleMaster @AdminRoleMasterId,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
 
@@ -170,18 +172,27 @@ namespace Coditech.API.Service
         public virtual AdminRoleMenuDetailsModel GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode)
         {
             if (adminRoleMasterId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             //Get the adminRoleMaster Details based on id.
             AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
             AdminRoleMenuDetailsModel adminRoleMenuDetailsModel = new AdminRoleMenuDetailsModel();
             if (IsNotNull(adminRoleMasterData))
             {
+                adminRoleMenuDetailsModel.AdminRoleMasterId = adminRoleMasterData.AdminRoleMasterId;
                 adminRoleMenuDetailsModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
                 adminRoleMenuDetailsModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
+
+                AdminSanctionPost adminSanctionPost = _adminSanctionPostRepository.GetById(adminRoleMasterData.AdminSanctionPostId);
+                if (IsNotNull(adminSanctionPost))
+                {
+                    adminRoleMenuDetailsModel.SelectedCentreCode = adminSanctionPost.CentreCode;
+                    adminRoleMenuDetailsModel.SelectedDepartmentId = Convert.ToString(adminSanctionPost.DepartmentId);
+                }
                 if (!string.IsNullOrEmpty(moduleCode))
                 {
-                    adminRoleMenuDetailsModel.MenuList = GetActiveMenuList(moduleCode);
+                    List<AdminRoleMenuDetails> associatedMenuCodeList = _adminRoleMenuDetailsRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMenuDetailsModel.AdminRoleMasterId)?.ToList();
+                    adminRoleMenuDetailsModel.MenuList = GetActiveMenuList(moduleCode, associatedMenuCodeList);
                 }
             }
             return adminRoleMenuDetailsModel;
@@ -190,14 +201,77 @@ namespace Coditech.API.Service
         //Update adminRoleMaster.
         public virtual bool InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel adminRoleMenuDetailsModel)
         {
+            if (IsNull(adminRoleMenuDetailsModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+            if (adminRoleMenuDetailsModel.AdminRoleMasterId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            List<AdminRoleMenuDetails> associatedMenuCodeList = _adminRoleMenuDetailsRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMenuDetailsModel.AdminRoleMasterId && x.ModuleCode == adminRoleMenuDetailsModel.ModuleCode)?.ToList();
+            List<AdminRoleMenuDetails> insertList = new List<AdminRoleMenuDetails>();
+            List<AdminRoleMenuDetails> updateList = new List<AdminRoleMenuDetails>();
+            if (associatedMenuCodeList?.Count > 0)
+            {
+                if (string.IsNullOrEmpty(adminRoleMenuDetailsModel.SelectedMenuList))
+                {
+                    associatedMenuCodeList.ForEach(x => { x.IsActive = false; x.DisableDate = DateTime.Now; });
+                    _adminRoleMenuDetailsRepository.BatchUpdate(associatedMenuCodeList);
+                }
+                else
+                {
+                    List<string> selectedMenuList = adminRoleMenuDetailsModel.SelectedMenuList.Split(',')?.ToList();
+                    foreach (AdminRoleMenuDetails item in associatedMenuCodeList)
+                    {
+                        if (!selectedMenuList.Where(x => x == item.MenuCode).Any())
+                        {
+                            item.IsActive = false;
+                            item.DisableDate = DateTime.Now;
+                            updateList.Add(item);
+                        }
+                        else
+                        {
+                            item.IsActive = true;
+                            item.EnableDate = DateTime.Now;
+                            updateList.Add(item);
+                        }
+                    }
+
+                    foreach (string item in selectedMenuList)
+                    {
+                        if (!associatedMenuCodeList.Where(x => x.MenuCode == item).Any())
+                        {
+                            BindAdminRoleMenuDetails(adminRoleMenuDetailsModel, insertList, item);
+                        }
+                    }
+
+                    if (updateList?.Count > 0)
+                    {
+                        _adminRoleMenuDetailsRepository.BatchUpdate(updateList);
+                    }
+                    if (insertList?.Count > 0)
+                    {
+                        _adminRoleMenuDetailsRepository.Insert(insertList);
+                    }
+                }
+            }
+            else
+            {
+
+                foreach (string item in adminRoleMenuDetailsModel.SelectedMenuList.Split(','))
+                {
+                    BindAdminRoleMenuDetails(adminRoleMenuDetailsModel, insertList, item);
+                }
+                _adminRoleMenuDetailsRepository.Insert(insertList);
+            }
+
             return true;
         }
 
-        public virtual List<UserMenuModel> GetActiveMenuList(string moduleCodel)
+        protected virtual List<UserMenuModel> GetActiveMenuList(string moduleCodel, List<AdminRoleMenuDetails> associatedMenuCodeList)
         {
             List<UserMenuModel> menuList = new List<UserMenuModel>();
             foreach (UserMainMenuMaster item in base.GetAllActiveMenuList(moduleCodel))
             {
+                bool isAssociatedToAdminRole = associatedMenuCodeList?.Count > 0 ? associatedMenuCodeList.Any(x => x.MenuCode == item.MenuCode && x.IsActive) : false;
                 menuList.Add(new UserMenuModel()
                 {
                     UserMainMenuMasterId = item.UserMainMenuMasterId,
@@ -206,9 +280,23 @@ namespace Coditech.API.Service
                     MenuName = item.MenuName,
                     ParentMenuId = item.ParentMenuId,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
+                    IsAssociatedToAdminRole = isAssociatedToAdminRole
                 });
             }
             return menuList;
         }
+        protected virtual void BindAdminRoleMenuDetails(AdminRoleMenuDetailsModel adminRoleMenuDetailsModel, List<AdminRoleMenuDetails> insertList, string item)
+        {
+            insertList.Add(new AdminRoleMenuDetails()
+            {
+                AdminRoleMasterId = adminRoleMenuDetailsModel.AdminRoleMasterId,
+                AdminRoleCode = adminRoleMenuDetailsModel.AdminRoleCode,
+                ModuleCode = adminRoleMenuDetailsModel.ModuleCode,
+                MenuCode = item,
+                EnableDate = DateTime.Now,
+                IsActive = true
+            });
+        }
+
     }
 }

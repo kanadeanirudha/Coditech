@@ -2,7 +2,7 @@
 @using Coditech.Common.API.Model;
 @model AdminRoleMenuDetailsViewModel
 @{
-    ViewBag.Title = "Update Admin Role";
+    ViewBag.Title = "Allocate Access Rights";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel moduleDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.ModuleList.ToString(), DropdownName = "ModuleCode", DropdownSelectedValue = Convert.ToString(Model.ModuleCode), ChangeEvent = "" };
@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="col">
-                            <h4 class="card-title"><span>Update Admin Role</span></h4>
+                            <h4 class="card-title"><span>Allocate Access Rights</span></h4>
                         </div>
                     </div>
                     <div class="card-body">
@@ -30,7 +30,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.AdminRoleCode, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.AdminRoleCode, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.TextBoxFor(x => x.AdminRoleCode, new { @class = "form-control", @readonly = "true" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -56,12 +56,12 @@
                                             <ul>
                                                 @foreach (UserMenuModel item in Model?.MenuList?.Where(x => x.ParentMenuId == 0))
                                                 {
-                                                    <li id="@item.UserMainMenuMasterId" data-jstree='{"opened":true,"selected":true}'>
+                                                    <li id="@item.MenuCode" data-jstree='{"opened":true}'>
                                                         @item.MenuName
                                                         <ul>
                                                             @foreach (UserMenuModel childNode in Model?.MenuList?.Where(x => x.ParentMenuId != 0 && x.ParentMenuId == item.UserMainMenuMasterId))
                                                             {
-                                                                <li id="@childNode.UserMainMenuMasterId">@childNode.MenuName</li>
+                                                                <li id="@childNode.MenuCode" data-jstree='{"selected":@Convert.ToString(@childNode.IsAssociatedToAdminRole).ToLower()}'>@childNode.MenuName</li>
                                                             }
                                                         </ul>
                                                     </li>
@@ -94,9 +94,6 @@
                 console.log(data.selected);
                 if (data.selected != "" && data.selected != null) {
                     $("#SaveAdminRoleMenuDetailsId").removeAttr('disabled');
-                }
-                else {
-                    $("#SaveAdminRoleMenuDetailsId").attr('disabled', 'disabled');
                 }
                 $('#SelectedMenuList').val(data.selected);
             });

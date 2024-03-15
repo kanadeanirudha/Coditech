@@ -18,8 +18,8 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly ICoditechRepository<AdminRoleApplicableDetail> _adminRoleApplicableDetailsRepository;
-        private readonly ICoditechRepository<AdminRoleMenuDetail> _adminRoleMenuDetailsRepository;
+        private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
+        private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
         private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
         private readonly ICoditechRepository<GeneralEnumaratorMaster> _generalEnumaratorRepository;
@@ -32,8 +32,8 @@ namespace Coditech.API.Service
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetail>(_serviceProvider.GetService<Coditech_Entities>());
-            _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetail>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEnumaratorRepository = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>());
@@ -66,7 +66,7 @@ namespace Coditech.API.Service
 
             List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
             List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
-            List<AdminRoleMenuDetail> userRoleMenuList = new List<AdminRoleMenuDetail>();
+            List<AdminRoleMenuDetails> userRoleMenuList = new List<AdminRoleMenuDetails>();
             if (!userModel.IsAdminUser)
             {
                 userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedRoleId)?.ToList();
@@ -328,7 +328,7 @@ namespace Coditech.API.Service
         {
             if (!userModel.IsAdminUser)
             {
-                List<AdminRoleApplicableDetail> roleList = _adminRoleApplicableDetailsRepository.Table.Where(x => x.EmployeeId == userModel.UserMasterId && x.IsActive)?.ToList();
+                List<AdminRoleApplicableDetails> roleList = _adminRoleApplicableDetailsRepository.Table.Where(x => x.EmployeeId == userModel.UserMasterId && x.IsActive)?.ToList();
                 if (roleList?.Count() == 0)
                 {
                     throw new CoditechException(ErrorCodes.ContactAdministrator, null);
@@ -337,7 +337,7 @@ namespace Coditech.API.Service
                 {
                     userModel.SelectedRoleId = roleList.FirstOrDefault(x => x.RoleType == APIConstant.Regular).AdminRoleMasterId;
                     //userModel.SelectedRoleCode = roleList.FirstOrDefault(x => x.RoleType == RARIndiaConstant.Regular). AdminRoleCode;
-                    foreach (AdminRoleApplicableDetail item in roleList)
+                    foreach (AdminRoleApplicableDetails item in roleList)
                     {
                         userModel.RoleList.Add(new AdminRoleDetailsModel()
                         {
@@ -387,10 +387,10 @@ namespace Coditech.API.Service
         }
 
         //Bind Menu And Modules For Non Admin User
-        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetail> userRoleMenuList)
+        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetails> userRoleMenuList)
         {
             //Bind Menu & Module for non admin user
-            foreach (AdminRoleMenuDetail item in userRoleMenuList)
+            foreach (AdminRoleMenuDetails item in userRoleMenuList)
             {
                 UserMainMenuMaster userMenuModel = userAllMenuList.FirstOrDefault(x => x.MenuCode == item.MenuCode);
                 if (IsNotNull(userMenuModel))

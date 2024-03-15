@@ -13,7 +13,7 @@ namespace Coditech.API.Endpoint
         }
 
         public string GetAdminRoleDetailsByIdAsync(int adminRoleMasterId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAdminRoleMenuDetailsById?adminRoleMasterId={adminRoleMasterId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAdminRoleDetailsById?adminRoleMasterId={adminRoleMasterId}";
        
         public string UpdateAdminRoleAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/UpdateAdminRole";

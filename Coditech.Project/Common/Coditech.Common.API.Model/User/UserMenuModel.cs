@@ -13,6 +13,6 @@
         public string MenuLink { get; set; }
         public string MenuToolTip { get; set; }
         public string MenuIconName { get; set; }
-        public string IsAssociatedToAdminRole { get; set; }
+        public bool IsAssociatedToAdminRole { get; set; }
     }
 }

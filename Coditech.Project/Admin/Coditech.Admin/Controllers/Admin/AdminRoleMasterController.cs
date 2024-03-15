@@ -93,20 +93,23 @@ namespace Coditech.Admin.Controllers
         #region Protected
         protected virtual void BindDropdown(AdminRoleViewModel adminRoleViewModel)
         {
-            adminRoleViewModel.MonitoringLevelList = new List<SelectListItem>();
-            adminRoleViewModel.MonitoringLevelList.Add(new SelectListItem { Text = AdminConstants.Self, Value = AdminConstants.Self });
-            if (adminRoleViewModel?.AllCentreList?.Count > 1)
+            if (adminRoleViewModel != null)
             {
-                adminRoleViewModel.MonitoringLevelList.Add(new SelectListItem { Text = AdminConstants.Other, Value = AdminConstants.Other });
-            }
+                adminRoleViewModel.MonitoringLevelList = new List<SelectListItem>();
+                adminRoleViewModel.MonitoringLevelList.Add(new SelectListItem { Text = AdminConstants.Self, Value = AdminConstants.Self });
+                if (adminRoleViewModel?.AllCentreList?.Count > 1)
+                {
+                    adminRoleViewModel.MonitoringLevelList.Add(new SelectListItem { Text = AdminConstants.Other, Value = AdminConstants.Other });
+                }
 
-            if (adminRoleViewModel?.AllCentreList == null || adminRoleViewModel?.AllCentreList?.Count == 0)
-            {
-                adminRoleViewModel.AllCentreList = adminRoleViewModel.AllCentreList;
-                adminRoleViewModel.AdminRoleCode = adminRoleViewModel.AdminRoleCode;
+                if (adminRoleViewModel?.AllCentreList == null || adminRoleViewModel?.AllCentreList?.Count == 0)
+                {
+                    adminRoleViewModel.AllCentreList = adminRoleViewModel.AllCentreList;
+                    adminRoleViewModel.AdminRoleCode = adminRoleViewModel.AdminRoleCode;
+                }
+                adminRoleViewModel.SelectedCentreNameForSelf = adminRoleViewModel.AllCentreList?.FirstOrDefault(x => x.CentreCode == adminRoleViewModel.SelectedCentreCodeForSelf)?.CentreName;
+                adminRoleViewModel?.AllCentreList?.RemoveAll(x => x.CentreCode == adminRoleViewModel.SelectedCentreCodeForSelf);
             }
-            adminRoleViewModel.SelectedCentreNameForSelf = adminRoleViewModel.AllCentreList?.FirstOrDefault(x => x.CentreCode == adminRoleViewModel.SelectedCentreCodeForSelf)?.CentreName;
-            adminRoleViewModel?.AllCentreList?.RemoveAll(x => x.CentreCode == adminRoleViewModel.SelectedCentreCodeForSelf);
         }
         #endregion
     }
