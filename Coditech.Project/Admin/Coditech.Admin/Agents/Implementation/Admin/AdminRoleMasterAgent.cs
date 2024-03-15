@@ -111,6 +111,32 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+
+
+        //Get Admin Role Menu Details By AadminRoleMasterId
+        public virtual AdminRoleMenuDetailsViewModel GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode)
+        {
+            AdminRoleMenuDetailsResponse response = _adminRoleMasterClient.GetAdminRoleMenuDetailsById(adminRoleMasterId, moduleCode);
+            return response?.AdminRoleMenuDetailsModel.ToViewModel<AdminRoleMenuDetailsViewModel>();
+        }
+
+        //Insert Update Admin Role Menu Details
+        public virtual AdminRoleMenuDetailsViewModel InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsViewModel adminRoleMenuDetailsViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                AdminRoleMenuDetailsResponse response = _adminRoleMasterClient.InsertUpdateAdminRoleMenuDetails(adminRoleMenuDetailsViewModel.ToModel<AdminRoleMenuDetailsModel>());
+                AdminRoleMenuDetailsModel adminRoleMenuDetailsModel = response?.AdminRoleMenuDetailsModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                return IsNotNull(adminRoleMenuDetailsModel) ? adminRoleMenuDetailsModel.ToViewModel<AdminRoleMenuDetailsViewModel>() : (AdminRoleMenuDetailsViewModel)GetViewModelWithErrorMessage(new AdminRoleMenuDetailsViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return (AdminRoleMenuDetailsViewModel)GetViewModelWithErrorMessage(adminRoleMenuDetailsViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
 
         #region protected

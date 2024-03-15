@@ -21,9 +21,9 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Update AdminRole.
         /// </summary>
-        /// <param name="generalAdminRoleViewModel">generalAdminRoleViewModel.</param>
+        /// <param name="adminRoleViewModel">adminRoleViewModel.</param>
         /// <returns>Returns updated AdminRoleViewModel</returns>
-        AdminRoleViewModel UpdateAdminRole(AdminRoleViewModel generalAdminRoleViewModel);
+        AdminRoleViewModel UpdateAdminRole(AdminRoleViewModel adminRoleViewModel);
 
         /// <summary>
         /// Delete AdminRole.
@@ -31,5 +31,19 @@ namespace Coditech.Admin.Agents
         /// <param name="adminRoleId">adminRoleId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteAdminRole(string adminRoleIds, out string errorMessage);
+
+        /// <summary>
+        /// Get Admin Role Menu Details by adminRoleId.
+        /// </summary>
+        /// <param name="adminRoleId">adminRoleId</param>
+        /// <returns>Returns AdminRoleMenuDetailsViewModel.</returns>
+        AdminRoleMenuDetailsViewModel GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode);
+
+        /// <summary>
+        /// Insert Update Admin Role Menu Details
+        /// </summary>
+        /// <param name="adminRoleViewModel">adminRoleMenuDetailsViewModel.</param>
+        /// <returns>Returns updated adminRoleMenuDetailsViewModel</returns>
+        AdminRoleMenuDetailsViewModel InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsViewModel adminRoleMenuDetailsViewModel);
     }
 }

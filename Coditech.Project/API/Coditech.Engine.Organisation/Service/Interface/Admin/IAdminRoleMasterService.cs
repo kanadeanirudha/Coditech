@@ -11,5 +11,8 @@ namespace Coditech.API.Service
         AdminRoleModel GetAdminRoleDetailsById(int adminRoleMasterId);
         bool UpdateAdminRole(AdminRoleModel model);
         bool DeleteAdminRoleMaster(ParameterModel parameterModel);
+
+        AdminRoleMenuDetailsModel GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode);
+        bool InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel adminRoleMenuDetailsModel);
     }
 }

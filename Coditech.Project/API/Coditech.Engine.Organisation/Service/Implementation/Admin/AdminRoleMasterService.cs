@@ -165,5 +165,50 @@ namespace Coditech.API.Service
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAdminRoleMaster @AdminRoleMasterID,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
+
+        //Get Admin Role Menu Details By Id.
+        public virtual AdminRoleMenuDetailsModel GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode)
+        {
+            if (adminRoleMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
+
+            //Get the adminRoleMaster Details based on id.
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            AdminRoleMenuDetailsModel adminRoleMenuDetailsModel = new AdminRoleMenuDetailsModel();
+            if (IsNotNull(adminRoleMasterData))
+            {
+                adminRoleMenuDetailsModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
+                adminRoleMenuDetailsModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
+                if (!string.IsNullOrEmpty(moduleCode))
+                {
+                    adminRoleMenuDetailsModel.MenuList = GetActiveMenuList(moduleCode);
+                }
+            }
+            return adminRoleMenuDetailsModel;
+        }
+
+        //Update adminRoleMaster.
+        public virtual bool InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel adminRoleMenuDetailsModel)
+        {
+            return true;
+        }
+
+        public virtual List<UserMenuModel> GetActiveMenuList(string moduleCodel)
+        {
+            List<UserMenuModel> menuList = new List<UserMenuModel>();
+            foreach (UserMainMenuMaster item in base.GetAllActiveMenuList(moduleCodel))
+            {
+                menuList.Add(new UserMenuModel()
+                {
+                    UserMainMenuMasterId = item.UserMainMenuMasterId,
+                    ModuleCode = item.ModuleCode,
+                    MenuCode = item.MenuCode,
+                    MenuName = item.MenuName,
+                    ParentMenuId = item.ParentMenuId,
+                    MenuDisplaySeqNo = item.MenuDisplaySeqNo,
+                });
+            }
+            return menuList;
+        }
     }
 }

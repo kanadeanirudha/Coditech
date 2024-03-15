@@ -33,5 +33,19 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteAdminRole(ParameterModel body);
+
+        /// <summary>
+        /// Get Admin Role Menu Details by AdminRoleMasterId.
+        /// </summary>
+        /// <param name="adminRoleMasterId">adminRoleMasterId</param>
+        /// <returns>Returns AdminRoleResponse.</returns>
+        AdminRoleMenuDetailsResponse GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode);
+
+        /// <summary>
+        /// Insert Update Admin Role Menu Details
+        /// </summary>
+        /// <param name="AdminRoleModel">AdminRoleMenuDetailsModel.</param>
+        /// <returns>Returns updated AdminRoleMenuDetailsResponse</returns>
+        AdminRoleMenuDetailsResponse InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel body);
     }
 }

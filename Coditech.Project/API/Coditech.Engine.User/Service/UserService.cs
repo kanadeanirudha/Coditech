@@ -7,8 +7,6 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 
-using Microsoft.IdentityModel.Tokens;
-
 using System.Data;
 using System.Diagnostics;
 
@@ -98,14 +96,37 @@ namespace Coditech.API.Service
 
             return userModel;
         }
-        public virtual List<UserModuleMaster> GetActiveModuleList()
+        public virtual List<UserModuleModel> GetActiveModuleList()
         {
-            return base.GetAllActiveModuleList();
+            List<UserModuleModel> moduleList = new List<UserModuleModel>();
+            foreach (UserModuleMaster item in base.GetAllActiveModuleList())
+            {
+                moduleList.Add(new UserModuleModel()
+                {
+                    UserModuleMasterId = item.UserModuleMasterId,
+                    ModuleCode = item.ModuleCode,
+                    ModuleName = item.ModuleName,
+                });
+            }
+            return moduleList;
         }
 
-        public virtual List<UserMainMenuMaster> GetActiveMenuList(string moduleCodel)
+        public virtual List<UserMenuModel> GetActiveMenuList(string moduleCodel)
         {
-            return base.GetAllActiveMenuList(moduleCodel);
+            List<UserMenuModel> menuList = new List<UserMenuModel>();
+            foreach (UserMainMenuMaster item in base.GetAllActiveMenuList(moduleCodel))
+            {
+                menuList.Add(new UserMenuModel()
+                {
+                    UserMainMenuMasterId = item.UserMainMenuMasterId,
+                    ModuleCode = item.ModuleCode,
+                    MenuCode = item.MenuCode,
+                    MenuName = item.MenuName,
+                    ParentMenuId = item.ParentMenuId,
+                    MenuDisplaySeqNo = item.MenuDisplaySeqNo,
+                });
+            }
+            return menuList;
         }
 
         #region General Person
@@ -354,7 +375,7 @@ namespace Coditech.API.Service
                     ModuleCode = item.ModuleCode,
                     MenuCode = item.MenuCode,
                     MenuName = item.MenuName,
-                    ParentMenuID = item.ParentMenuId,
+                    ParentMenuId = item.ParentMenuId,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
                     ControllerName = item.ControllerName?.ToLower(),
                     ActionName = item.ActionName?.ToLower(),
@@ -380,7 +401,7 @@ namespace Coditech.API.Service
                         ModuleCode = userMenuModel.ModuleCode,
                         MenuCode = userMenuModel.MenuCode,
                         MenuName = userMenuModel.MenuName,
-                        ParentMenuID = userMenuModel.ParentMenuId,
+                        ParentMenuId = userMenuModel.ParentMenuId,
                         MenuDisplaySeqNo = userMenuModel.MenuDisplaySeqNo,
                         ControllerName = userMenuModel.ControllerName?.ToLower(),
                         ActionName = userMenuModel.ActionName?.ToLower(),

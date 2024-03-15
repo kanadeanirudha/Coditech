@@ -27,6 +27,7 @@
     <Folder Include="MediaFolder\" />
     <Folder Include="Views\Inventory\" />
     <Folder Include="Views\Shared\Control\" />
+    <Folder Include="wwwroot\assets\images\jstree\" />
     <Folder Include="wwwroot\css\login\" />
     <Folder Include="wwwroot\js\Coditech\GeneralMaster\" />
     <Folder Include="wwwroot\js\Coditech\Organisation\" />

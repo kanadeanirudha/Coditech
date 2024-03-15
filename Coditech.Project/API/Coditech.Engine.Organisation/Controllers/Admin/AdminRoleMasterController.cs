@@ -114,5 +114,49 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/AdminRoleMaster/GetAdminRoleMenuDetailsById")]
+        [HttpGet]
+        [Produces(typeof(AdminRoleMenuDetailsResponse))]
+        public virtual IActionResult GetAdminRoleMenuDetailsById(short adminRoleMasterId, string moduleCode)
+        {
+            try
+            {
+                AdminRoleMenuDetailsModel adminRoleMenuDetailsModel = _adminRoleMasterService.GetAdminRoleMenuDetailsById(adminRoleMasterId, moduleCode);
+                return IsNotNull(adminRoleMenuDetailsModel) ? CreateOKResponse(new AdminRoleMenuDetailsResponse() { AdminRoleMenuDetailsModel = adminRoleMenuDetailsModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new AdminRoleMenuDetailsResponse { HasError = true, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AdminRoleMenuDetailsResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/AdminRoleMaster/InsertUpdateAdminRoleMenuDetails")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(AdminRoleMenuDetailsResponse))]
+        public virtual IActionResult InsertUpdateAdminRoleMenuDetails([FromBody] AdminRoleMenuDetailsModel model)
+        {
+            try
+            {
+                bool isUpdated = _adminRoleMasterService.InsertUpdateAdminRoleMenuDetails(model);
+                return isUpdated ? CreateOKResponse(new AdminRoleMenuDetailsResponse { AdminRoleMenuDetailsModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new AdminRoleMenuDetailsResponse { HasError = true, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AdminRoleMenuDetailsResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

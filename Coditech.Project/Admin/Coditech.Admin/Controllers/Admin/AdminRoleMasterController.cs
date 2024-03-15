@@ -59,11 +59,29 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleViewModel.ErrorMessage));
             return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
         }
-        public virtual ActionResult AllocateAccessRights(int adminRoleMasterId)
+        public virtual ActionResult AllocateAccessRights(int adminRoleMasterId, string moduleCode = null)
         {
-            AdminRoleViewModel adminRoleViewModel = _adminRoleMasterAgent.GetAdminRoleDetailsById(adminRoleMasterId);
-            BindDropdown(adminRoleViewModel);
-            return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
+            AdminRoleMenuDetailsViewModel adminRoleMenuDetailsViewModel = _adminRoleMasterAgent.GetAdminRoleMenuDetailsById(adminRoleMasterId, moduleCode);
+            return View("~/Views/Admin/AdminRoleMaster/AllocateAccessRights.cshtml", adminRoleMenuDetailsViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult AllocateAccessRights(AdminRoleMenuDetailsViewModel adminRoleMenuDetailsViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bool status = _adminRoleMasterAgent.InsertUpdateAdminRoleMenuDetails(adminRoleMenuDetailsViewModel).HasError;
+                SetNotificationMessage(status
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+
+                if (!status)
+                {
+                    return RedirectToAction("AllocateAccessRights", new { adminRoleMasterId = adminRoleMenuDetailsViewModel.AdminRoleMasterId, moduleCode= adminRoleMenuDetailsViewModel.ModuleCode });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(adminRoleMenuDetailsViewModel.ErrorMessage));
+            return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleMenuDetailsViewModel);
         }
 
         public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)

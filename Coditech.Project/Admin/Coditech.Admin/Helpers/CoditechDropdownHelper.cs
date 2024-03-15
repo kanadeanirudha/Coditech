@@ -246,14 +246,14 @@ namespace Coditech.Admin.Helpers
         private static void GetModuleList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             UserModuleListResponse response = new UserClient().GetActiveModuleList();
-            dropdownList.Add(new SelectListItem() { Text = "-------Select-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
             foreach (var item in response?.ModuleList)
             {
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = item.ModuleName,
-                    Value = Convert.ToString(item.UserModuleMasterId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.UserModuleMasterId)
+                    Value = Convert.ToString(item.ModuleCode),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.ModuleCode)
                 });
             }
         }

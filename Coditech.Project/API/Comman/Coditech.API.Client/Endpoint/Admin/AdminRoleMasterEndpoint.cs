@@ -13,12 +13,18 @@ namespace Coditech.API.Endpoint
         }
 
         public string GetAdminRoleDetailsByIdAsync(int adminRoleMasterId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAdminRoleDetailsById?adminRoleMasterId={adminRoleMasterId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAdminRoleMenuDetailsById?adminRoleMasterId={adminRoleMasterId}";
        
         public string UpdateAdminRoleAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/UpdateAdminRole";
 
         public string DeleteAdminRoleAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/DeleteAdminRole";
+        
+        public string GetAdminRoleMenuDetailsByIdAsync(int adminRoleMasterId, string moduleCode) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAdminRoleMenuDetailsById?adminRoleMasterId={adminRoleMasterId}&moduleCode={moduleCode}";
+
+        public string InsertUpdateAdminRoleMenuDetailsAsync() =>
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/InsertUpdateAdminRoleMenuDetails";
     }
 }
