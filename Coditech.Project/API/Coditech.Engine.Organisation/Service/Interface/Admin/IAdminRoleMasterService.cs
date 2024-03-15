@@ -14,5 +14,6 @@ namespace Coditech.API.Service
 
         AdminRoleMenuDetailsModel GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode);
         bool InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel adminRoleMenuDetailsModel);
+        AdminRoleApplicableDetailsListModel RoleAllocatedToUserList(int adminRoleMasterId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
     }
 }

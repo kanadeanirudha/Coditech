@@ -1,4 +1,5 @@
-﻿using Coditech.API.Service;
+﻿using Coditech.API.Data;
+using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -27,7 +28,7 @@ namespace Coditech.API.Controllers
 
         [HttpGet]
         [Route("/AdminRoleMaster/GetAdminRoleList")]
-        [Produces(typeof(AdminRoleListResponse))]
+        [Produces(typeof(AdminRoleApplicableDetailsListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
         public virtual IActionResult GetAdminRoleList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
@@ -35,17 +36,17 @@ namespace Coditech.API.Controllers
             {
                 AdminRoleListModel list = _adminRoleMasterService.GetAdminRoleList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
-                return !string.IsNullOrEmpty(data) ? CreateOKResponse<AdminRoleListResponse>(data) : CreateNoContentResponse();
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<AdminRoleApplicableDetailsListResponse>(data) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new AdminRoleListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new AdminRoleApplicableDetailsListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new AdminRoleListResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new AdminRoleApplicableDetailsListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
@@ -57,7 +58,7 @@ namespace Coditech.API.Controllers
             try
             {
                 AdminRoleModel adminRoleModel = _adminRoleMasterService.GetAdminRoleDetailsById(adminRoleMasterId);
-                return IsNotNull(adminRoleModel) ? CreateOKResponse(new AdminRoleResponse(){ AdminRoleModel = adminRoleModel }) : NotFound();
+                return IsNotNull(adminRoleModel) ? CreateOKResponse(new AdminRoleResponse() { AdminRoleModel = adminRoleModel }) : NotFound();
             }
             catch (CoditechException ex)
             {
@@ -156,6 +157,29 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new AdminRoleMenuDetailsResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("/AdminRoleMaster/RoleAllocatedToUserList")]
+        [Produces(typeof(AdminRoleApplicableDetailsListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult RoleAllocatedToUserList(int adminRoleMasterId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                AdminRoleApplicableDetailsListModel list = _adminRoleMasterService.RoleAllocatedToUserList(adminRoleMasterId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                return IsNotNull(list) ? CreateOKResponse(new AdminRoleApplicableDetailsListResponse() { AdminRoleApplicableDetailsList = list }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AdminRoleApplicableDetailsListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AdminRoleApplicableDetailsListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

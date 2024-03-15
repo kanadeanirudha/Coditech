@@ -47,5 +47,11 @@ namespace Coditech.API.Client
         /// <param name="AdminRoleModel">AdminRoleMenuDetailsModel.</param>
         /// <returns>Returns updated AdminRoleMenuDetailsResponse</returns>
         AdminRoleMenuDetailsResponse InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel body);
+
+        /// <summary>
+        /// Role Allocated To User List.
+        /// </summary>
+        /// <returns>AdminRoleApplicableDetailsListResponse</returns>
+        AdminRoleApplicableDetailsListResponse RoleAllocatedToUserList(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
     }
 }

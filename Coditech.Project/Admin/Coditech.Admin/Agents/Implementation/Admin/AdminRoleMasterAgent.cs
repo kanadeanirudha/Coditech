@@ -137,6 +137,33 @@ namespace Coditech.Admin.Agents
                 return (AdminRoleMenuDetailsViewModel)GetViewModelWithErrorMessage(adminRoleMenuDetailsViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+
+
+        public virtual AdminRoleApplicableDetailsListViewModel RoleAllocatedToUserList(int adminRoleMasterId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = new FilterCollection();
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            AdminRoleApplicableDetailsListResponse response = _adminRoleMasterClient.RoleAllocatedToUserList(adminRoleMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            AdminRoleApplicableDetailsListModel adminRoleApplicableDetailsList = response?.AdminRoleApplicableDetailsList;
+            AdminRoleApplicableDetailsListViewModel listViewModel = new AdminRoleApplicableDetailsListViewModel();
+            listViewModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.AdminRoleApplicableDetailsList?.ToViewModel<AdminRoleApplicableDetailsViewModel>()?.ToList();
+            listViewModel.AdminRoleCode = response?.AdminRoleApplicableDetailsList?.AdminRoleCode;
+            listViewModel.SanctionPostName = response?.AdminRoleApplicableDetailsList?.SanctionPostName;
+            listViewModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.AdminRoleApplicableDetailsList?.ToViewModel<AdminRoleApplicableDetailsViewModel>()?.ToList();
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AdminRoleApplicableDetailsList.Count, BindRoleAllocatedToUserListColumns());
+            return listViewModel;
+        }
+
         #endregion
 
         #region protected
@@ -160,6 +187,52 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Monitoring Level",
                 ColumnCode = "MonitoringLevel",
                 IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindRoleAllocatedToUserListColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "PersonCode",
+                ColumnCode = "Person Code",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Email Id",
+                ColumnCode = "EmailId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Work To Date",
+                ColumnCode = "WorkToDate",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Work From Date",
+                ColumnCode = "WorkFromDate",
             });
             datatableColumnList.Add(new DatatableColumns()
             {

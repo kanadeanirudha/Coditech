@@ -14,17 +14,23 @@ namespace Coditech.API.Endpoint
 
         public string GetAdminRoleDetailsByIdAsync(int adminRoleMasterId) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAdminRoleDetailsById?adminRoleMasterId={adminRoleMasterId}";
-       
+
         public string UpdateAdminRoleAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/UpdateAdminRole";
 
         public string DeleteAdminRoleAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/DeleteAdminRole";
-        
+
         public string GetAdminRoleMenuDetailsByIdAsync(int adminRoleMasterId, string moduleCode) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAdminRoleMenuDetailsById?adminRoleMasterId={adminRoleMasterId}&moduleCode={moduleCode}";
 
         public string InsertUpdateAdminRoleMenuDetailsAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/InsertUpdateAdminRoleMenuDetails";
+
+        public string RoleAllocatedToUserListAsync(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/RoleAllocatedToUserList?adminRoleMasterId={adminRoleMasterId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
+        }
     }
 }
