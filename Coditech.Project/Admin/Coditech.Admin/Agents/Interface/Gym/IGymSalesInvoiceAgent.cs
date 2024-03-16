@@ -9,6 +9,6 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>GymMemberSalesInvoiceListViewModel</returns>
-        GymMemberSalesInvoiceListViewModel GymMemberServiceSalesInvoiceList(DateTime? toDate, DateTime? fromDate, DataTableViewModel dataTableModel);
+        GymMemberSalesInvoiceListViewModel GymMemberServiceSalesInvoiceList(DataTableViewModel dataTableModel);
     }
 }

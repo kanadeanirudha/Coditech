@@ -2,16 +2,9 @@
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
-using Coditech.Common.API.Model.Responses;
-using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using Coditech.Resources;
-
-using System.Diagnostics;
-
-using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
 {
@@ -31,7 +24,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual GymMemberSalesInvoiceListViewModel GymMemberServiceSalesInvoiceList(DateTime? toDate, DateTime? fromDate, DataTableViewModel dataTableModel)
+        public virtual GymMemberSalesInvoiceListViewModel GymMemberServiceSalesInvoiceList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -39,11 +32,13 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("InvoiceNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GymMemberSalesInvoiceListResponse response = _gymSalesInvoiceClient.GymMemberServiceSalesInvoiceList(dataTableModel.SelectedCentreCode, toDate, fromDate, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberSalesInvoiceListResponse response = _gymSalesInvoiceClient.GymMemberServiceSalesInvoiceList(dataTableModel.SelectedCentreCode, Convert.ToDateTime(dataTableModel.SelectedParameter2), Convert.ToDateTime(dataTableModel.SelectedParameter1), null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GymMemberSalesInvoiceListModel gymMemberSalesInvoiceList = new GymMemberSalesInvoiceListModel { GymMemberSalesInvoiceList = response?.GymMemberSalesInvoiceList };
             GymMemberSalesInvoiceListViewModel listViewModel = new GymMemberSalesInvoiceListViewModel();
             listViewModel.GymMemberSalesInvoiceList = gymMemberSalesInvoiceList?.GymMemberSalesInvoiceList?.ToViewModel<GymMemberSalesInvoiceViewModel>().ToList();

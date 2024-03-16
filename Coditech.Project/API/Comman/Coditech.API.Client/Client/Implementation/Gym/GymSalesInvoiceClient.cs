@@ -14,14 +14,14 @@ namespace Coditech.API.Client
         {
             gymSalesInvoiceEndpoint = new GymSalesInvoiceEndpoint();
         }
-        public virtual GymMemberSalesInvoiceListResponse GymMemberServiceSalesInvoiceList(string SelectedCentreCode, DateTime? toDate, DateTime? fromDate, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual GymMemberSalesInvoiceListResponse GymMemberServiceSalesInvoiceList(string SelectedCentreCode, DateTime fromDate, DateTime toDate, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await GymMemberServiceSalesInvoiceListAsync(SelectedCentreCode, toDate, fromDate, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GymMemberServiceSalesInvoiceListAsync(SelectedCentreCode, fromDate, toDate, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymMemberSalesInvoiceListResponse> GymMemberServiceSalesInvoiceListAsync(string SelectedCentreCode, DateTime? toDate, DateTime? fromDate, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<GymMemberSalesInvoiceListResponse> GymMemberServiceSalesInvoiceListAsync(string SelectedCentreCode, DateTime toDate, DateTime fromDate, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = gymSalesInvoiceEndpoint.GymMemberServiceSalesInvoiceListAsync(SelectedCentreCode, toDate, fromDate, expand, filter, sort, pageIndex, pageSize);
+            string endpoint = gymSalesInvoiceEndpoint.GymMemberServiceSalesInvoiceListAsync(SelectedCentreCode, fromDate, toDate, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

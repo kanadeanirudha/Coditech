@@ -6,9 +6,9 @@ namespace Coditech.API.Endpoint
 {
     public class GymSalesInvoiceEndpoint : BaseEndpoint
     {
-        public string GymMemberServiceSalesInvoiceListAsync(string selectedCentreCode, DateTime? toDate, DateTime? fromDate, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string GymMemberServiceSalesInvoiceListAsync(string selectedCentreCode, DateTime fromDate, DateTime toDate, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymSalesInvoice/GymMemberServiceSalesInvoiceList?selectedCentreCode={selectedCentreCode}&toDate={toDate}&fromDate={fromDate}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymSalesInvoice/GymMemberServiceSalesInvoiceList?selectedCentreCode={selectedCentreCode}&fromDate={fromDate}&toDate={toDate}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
     }

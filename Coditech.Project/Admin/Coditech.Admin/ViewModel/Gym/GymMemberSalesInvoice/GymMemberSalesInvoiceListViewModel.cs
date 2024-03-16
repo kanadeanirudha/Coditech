@@ -14,7 +14,7 @@ namespace Coditech.Admin.ViewModel
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string SelectedCentreCode { get; set; }
-        public string FromDate { get; set; }
-        public string ToDate { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
     }
 }

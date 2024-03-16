@@ -1,9 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model;
-using Coditech.Common.Enum;
-using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,23 +17,24 @@ namespace Coditech.Admin.Controllers
 
         #region GymMemberSaleInvoice
 
-        [HttpGet]
-        public ActionResult SaleInvoiceList(DataTableViewModel dataTableModel, DateTime? toDate = null, DateTime? fromDate = null)
+        public ActionResult SaleInvoiceList(DataTableViewModel dataTableModel)
         {
-
             GymMemberSalesInvoiceListViewModel list = new GymMemberSalesInvoiceListViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
             {
-                list = _gymSaleInvoiceAgent.GymMemberServiceSalesInvoiceList(toDate, fromDate, dataTableModel);
+                list = _gymSaleInvoiceAgent.GymMemberServiceSalesInvoiceList(dataTableModel);
             }
-            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
-
+            else
+            {
+                list.FromDate = Convert.ToDateTime(DateTime.Now.AddMonths(-1).ToShortDateString());
+                list.ToDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+            }
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/Gym/GymSalesInvoice/_List.cshtml", list);
+                return PartialView("~/Views/Gym/GymSalesInvoice/_SaleInvoiceList.cshtml", list);
             }
 
-            return View($"~/Views/Gym/GymSalesInvoice/List.cshtml", list);
+            return View($"~/Views/Gym/GymSalesInvoice/SaleInvoiceList.cshtml", list);
         }
         #endregion
     }
