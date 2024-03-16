@@ -38,6 +38,7 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
+                filters.Add("InvoiceNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -58,45 +59,48 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Membership Plan",
-                ColumnCode = "MembershipPlanName",
+                ColumnName = "Invoice Number",
+                ColumnCode = "InvoiceNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Gym Member",
+                ColumnCode = "FirstName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Transaction Date",
+                ColumnCode = "TransactionDate",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Plan Type",
                 ColumnCode = "PlanType",
-            });
-
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Duration In Month & Days",
-                ColumnCode = "PlanDurationInMonth",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Duration In Session",
-                ColumnCode = "PlanDurationInSession",
+                ColumnName = "Plan Name",
+                ColumnCode = "MembershipPlanName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Max Cost",
-                ColumnCode = "MaxCost",
-                IsSortable = true,
+                ColumnName = "Paid Amount",
+                ColumnCode = "BillAmount",
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Min Cost",
-                ColumnCode = "MinCost",
-                IsSortable = true,
+                ColumnName = "Payment Mode",
+                ColumnCode = "PaymentType",
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Active",
-                ColumnCode = "IsActive",
-                IsSortable = true,
+                ColumnName = "Payment Received By",
+                ColumnCode = "PaymentReceivedBy",
             });
             return datatableColumnList;
         }

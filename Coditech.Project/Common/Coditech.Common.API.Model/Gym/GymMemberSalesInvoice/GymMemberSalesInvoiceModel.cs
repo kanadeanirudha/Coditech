@@ -1,4 +1,6 @@
-﻿namespace Coditech.Common.API.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.Common.API.Model
 {
     public class GymMemberSalesInvoiceModel : BaseModel
     {
@@ -27,5 +29,8 @@
         public short RemainingSessionCount { get; set; }
         public string PaymentType { get; set; }
         public string PaymentReceivedBy { get; set; }
+        public string SelectedCentreCode { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
     }
 }
