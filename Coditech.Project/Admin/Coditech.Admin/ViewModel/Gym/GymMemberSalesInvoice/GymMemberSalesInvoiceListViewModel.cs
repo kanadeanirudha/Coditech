@@ -13,5 +13,8 @@ namespace Coditech.Admin.ViewModel
         public int GymMemberDetailId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string SelectedCentreCode { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
     }
 }

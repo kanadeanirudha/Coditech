@@ -1,0 +1,70 @@
+﻿@model GymMemberSalesInvoiceListViewModel
+@{
+    ViewBag.Title = "Gym Sale Invoice List";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.LoadListByCentreCode('" + @controllerName + "','" + @actionName + "')" };
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">@AdminResources.LabelSalesInvoiceList</span>
+                    </div>
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-1">
+                                <label>@AdminResources.LabelCentre</label>
+                            </div>
+                            <div class="col-md-3">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <div class="mb-4">
+                                            <div class="ps-4 pe-4">
+                                                @Html.LabelFor(x => x.FromDate, "FromDate", new { @class = "form-label" })
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <div class="ps-4 pe-4">
+                                                @Html.TextBoxFor(x => x.FromDate, new { @class = "form-control", type = "date" })
+                                                @Html.ValidationMessageFor(x => x.FromDate)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-4">
+                                            <div class="ps-4 pe-4">
+                                                @Html.LabelFor(x => x.ToDate, "ToDate", new { @class = "form-label" })
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <div class="ps-4 pe-4">
+                                                @Html.TextBoxFor(x => x.ToDate, new { @class = "form-control", type = "date" })
+                                                @Html.ValidationMessageFor(x => x.ToDate)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="CoditechCommon.LoadListByCentreCode('@controllerName','@actionName')" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            @Html.Partial("~/Views/Gym/GymSalesInvoice/_List.cshtml", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end page content -->
