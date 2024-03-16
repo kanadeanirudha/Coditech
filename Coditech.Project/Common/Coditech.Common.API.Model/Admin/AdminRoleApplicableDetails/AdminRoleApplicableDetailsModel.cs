@@ -17,5 +17,9 @@
         public string ImagePath { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+        public string AdminRoleCode { get; set; }
+        public string SanctionPostName { get; set; }
+        public List<EmployeeMasterModel> EmployeeList { get; set; }
+
     }
 }

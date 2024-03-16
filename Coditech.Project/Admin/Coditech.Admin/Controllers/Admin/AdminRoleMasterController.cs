@@ -1,6 +1,8 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -81,7 +83,7 @@ namespace Coditech.Admin.Controllers
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleMenuDetailsViewModel.ErrorMessage));
-            return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleMenuDetailsViewModel);
+            return RedirectToAction("AllocateAccessRights", new { adminRoleMasterId = adminRoleMenuDetailsViewModel.AdminRoleMasterId, moduleCode = adminRoleMenuDetailsViewModel.ModuleCode });
         }
 
         public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)
@@ -104,6 +106,41 @@ namespace Coditech.Admin.Controllers
                 return PartialView("~/Views/Admin/AdminRoleMaster/_RoleAllocatedToUserList.cshtml", list);
             }
             return View($"~/Views/Admin/AdminRoleMaster/RoleAllocatedToUserList.cshtml", list);
+        }
+
+        public virtual ActionResult GetAssociateUnAssociateAdminRoleToUser(int adminRoleMasterId, int adminRoleApplicableDetailId)
+        {
+            AdminRoleApplicableDetailsViewModel adminRoleApplicableDetailsViewModel = _adminRoleMasterAgent.GetAssociateUnAssociateAdminRoleToUser(adminRoleMasterId, adminRoleApplicableDetailId);
+            List<SelectListItem> employeeList = new List<SelectListItem>();
+            if (adminRoleApplicableDetailsViewModel.EmployeeId == 0)
+                employeeList.Add(new SelectListItem { Text = "--------Select--------", Value = "" });
+
+            foreach (EmployeeMasterModel item in adminRoleApplicableDetailsViewModel?.EmployeeList)
+            {
+                employeeList.Add(new SelectListItem { Text = !string.IsNullOrEmpty(item.FullNameWithPersonCode) ? item.FullNameWithPersonCode : item.FullName, Value = item.EmployeeId.ToString() });
+            }
+
+            ViewData["EmployeeList"] = employeeList;
+            return View("~/Views/Admin/AdminRoleMaster/AssociateUnAssociateAdminRoleToUser.cshtml", adminRoleApplicableDetailsViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsViewModel adminRoleApplicableDetailsViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bool status = _adminRoleMasterAgent.AssociateUnAssociateAdminRoleToUser(adminRoleApplicableDetailsViewModel).HasError;
+                SetNotificationMessage(status
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+
+                if (!status)
+                {
+                    return RedirectToAction("RoleAllocatedToUserList", new { adminRoleMasterId = adminRoleApplicableDetailsViewModel.AdminRoleMasterId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(adminRoleApplicableDetailsViewModel.ErrorMessage));
+            return View("~/Views/Admin/AdminRoleMaster/AssociateUnAssociateAdminRoleToUser.cshtml", adminRoleApplicableDetailsViewModel);
         }
         #region Protected
         protected virtual void BindDropdown(AdminRoleViewModel adminRoleViewModel)

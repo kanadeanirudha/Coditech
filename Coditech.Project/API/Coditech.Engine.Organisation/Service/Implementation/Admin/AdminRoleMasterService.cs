@@ -23,6 +23,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
         private readonly ICoditechRepository<AdminSanctionPost> _adminSanctionPostRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
+        private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
         public AdminRoleMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -31,6 +32,7 @@ namespace Coditech.API.Service
             _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
             _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -199,7 +201,7 @@ namespace Coditech.API.Service
             return adminRoleMenuDetailsModel;
         }
 
-        //Update adminRoleMaster.
+        //Insert Update Admin Role Menu Details
         public virtual bool InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel adminRoleMenuDetailsModel)
         {
             if (IsNull(adminRoleMenuDetailsModel))
@@ -271,23 +273,92 @@ namespace Coditech.API.Service
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<AdminRoleApplicableDetailsModel> objStoredProc = new CoditechViewRepository<AdminRoleApplicableDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@AdminRoleMasterId", adminRoleMasterId, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<AdminRoleApplicableDetailsModel> adminRoleApplicableDetailsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAdminRoleApplicableDetailsList @AdminRoleMasterId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
-            AdminRoleApplicableDetailsListModel listModel = new AdminRoleApplicableDetailsListModel();
 
-            listModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.Count > 0 ? adminRoleApplicableDetailsList : new List<AdminRoleApplicableDetailsModel>();
+            AdminRoleApplicableDetailsListModel listModel = GetAssociateUnAssociatedRoleUserList(adminRoleMasterId, true, pageListModel);
             listModel.BindPageListModel(pageListModel);
 
             AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
             listModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
             listModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
             return listModel;
+        }
+
+        public virtual AdminRoleApplicableDetailsModel GetAssociateUnAssociateAdminRoleToUser(int adminRoleMasterId, int adminRoleApplicableDetailId)
+        {
+            if (adminRoleMasterId < 1 && adminRoleApplicableDetailId == 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            AdminRoleApplicableDetailsModel adminRoleApplicableDetailsModel = new AdminRoleApplicableDetailsModel();
+            if (adminRoleApplicableDetailId > 0)
+            {
+                AdminRoleApplicableDetails adminRoleApplicableDetails = _adminRoleApplicableDetailsRepository.GetById(adminRoleApplicableDetailId);
+                if (IsNotNull(adminRoleApplicableDetailsModel))
+                {
+                    adminRoleApplicableDetailsModel = adminRoleApplicableDetails.FromEntityToModel<AdminRoleApplicableDetailsModel>();
+                    adminRoleMasterId = adminRoleApplicableDetailsModel.AdminRoleMasterId;
+                    GeneralPerson generalPerson = GetGeneralPersonDetailsByEntityType(adminRoleApplicableDetails.EmployeeId, UserTypeEnum.Employee.ToString());
+                    if (IsNotNull(generalPerson))
+                    {
+                        adminRoleApplicableDetailsModel.EmployeeList = new List<EmployeeMasterModel>();
+                        adminRoleApplicableDetailsModel.EmployeeList.Add(new EmployeeMasterModel()
+                        {
+                            EmployeeId = adminRoleApplicableDetailsModel.EmployeeId,
+                            FullName = $"{generalPerson.FirstName} {generalPerson.LastName}"
+                        });
+                    }
+                }
+            }
+
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            if (IsNotNull(adminRoleMasterData))
+            {
+                //Bind the Filter, sorts & Paging details.
+                adminRoleApplicableDetailsModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
+                adminRoleApplicableDetailsModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
+                adminRoleApplicableDetailsModel.AdminRoleMasterId = adminRoleMasterData.AdminRoleMasterId;
+
+                if (adminRoleMasterId > 0 && adminRoleApplicableDetailId == 0)
+                {
+                    //Bind the Filter, sorts & Paging details.
+                    PageListModel pageListModel = new PageListModel(null, null, 1, int.MaxValue);
+
+                    AdminRoleApplicableDetailsListModel listModel = GetAssociateUnAssociatedRoleUserList(adminRoleMasterId, false, pageListModel);
+                    if (listModel?.AdminRoleApplicableDetailsList?.Count > 0)
+                    {
+                        adminRoleApplicableDetailsModel.EmployeeList = new List<EmployeeMasterModel>();
+                        foreach (AdminRoleApplicableDetailsModel item in listModel.AdminRoleApplicableDetailsList)
+                        {
+                            adminRoleApplicableDetailsModel.EmployeeList.Add(new EmployeeMasterModel()
+                            {
+                                EmployeeId = item.EmployeeId,
+                                FullName = $"{item.FirstName} {item.LastName}",
+                                FullNameWithPersonCode = $"{item.FirstName} {item.LastName} ({item.PersonCode})",
+                            });
+                        }
+                    }
+                }
+            }
+            return adminRoleApplicableDetailsModel;
+        }
+
+        //Associate UnAssociate Admin Role To User
+        public virtual bool AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsModel adminRoleApplicableDetailsModel)
+        {
+            if (IsNull(adminRoleApplicableDetailsModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+            if (adminRoleApplicableDetailsModel.AdminRoleMasterId < 1 && adminRoleApplicableDetailsModel.AdminRoleApplicableDetailId == 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            AdminRoleApplicableDetails adminRoleApplicableDetails = adminRoleApplicableDetailsModel.FromModelToEntity<AdminRoleApplicableDetails>();
+            if (adminRoleApplicableDetailsModel.AdminRoleApplicableDetailId > 0)
+                return _adminRoleApplicableDetailsRepository.Update(adminRoleApplicableDetails);
+            else
+            {
+                AdminSanctionPost adminSanctionPost = _adminSanctionPostRepository.GetById(adminRoleApplicableDetailsModel.AdminRoleMasterId);
+                adminRoleApplicableDetails.RoleType = adminSanctionPost.DesignationType;
+                adminRoleApplicableDetails = _adminRoleApplicableDetailsRepository.Insert(adminRoleApplicableDetails);
+            }
+            return adminRoleApplicableDetails?.AdminRoleApplicableDetailId > 0 ? true : false;
         }
 
         #endregion
@@ -323,6 +394,21 @@ namespace Coditech.API.Service
                 EnableDate = DateTime.Now,
                 IsActive = true
             });
+        }
+        protected virtual AdminRoleApplicableDetailsListModel GetAssociateUnAssociatedRoleUserList(int adminRoleMasterId, bool isAssociated, PageListModel pageListModel)
+        {
+            CoditechViewRepository<AdminRoleApplicableDetailsModel> objStoredProc = new CoditechViewRepository<AdminRoleApplicableDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@AdminRoleMasterId", adminRoleMasterId, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@IsAssociated", isAssociated, ParameterDirection.Input, DbType.Boolean);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<AdminRoleApplicableDetailsModel> adminRoleApplicableDetailsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAdminRoleApplicableDetailsList @AdminRoleMasterId,@IsAssociated,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            AdminRoleApplicableDetailsListModel listModel = new AdminRoleApplicableDetailsListModel();
+            listModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.Count > 0 ? adminRoleApplicableDetailsList : new List<AdminRoleApplicableDetailsModel>();
+            return listModel;
         }
         #endregion
     }

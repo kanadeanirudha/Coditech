@@ -82,6 +82,10 @@ namespace Coditech.Common.Service
             {
                 personId = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId).FirstOrDefault().PersonId;
             }
+            else if (entityType == UserTypeEnum.Employee.ToString())
+            {
+                personId = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmployeeId == entityId).FirstOrDefault().PersonId;
+            }
             return GetGeneralPersonDetails(personId);
         }
 

@@ -52,5 +52,20 @@ namespace Coditech.Admin.Agents
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>AdminRoleApplicableDetailsListViewModel</returns>
         AdminRoleApplicableDetailsListViewModel RoleAllocatedToUserList(int adminRoleMasterId, DataTableViewModel dataTableModel);
+
+        /// <summary>
+        /// Get Admin Role Menu Details by AdminRoleMasterId.
+        /// </summary>
+        /// <param name="adminRoleMasterId">adminRoleMasterId</param>
+        /// <param name="adminRoleApplicableDetailId">adminRoleApplicableDetailId</param>
+        /// <returns>Returns AdminRoleApplicableDetailsViewModel.</returns>
+        AdminRoleApplicableDetailsViewModel GetAssociateUnAssociateAdminRoleToUser(int adminRoleMasterId, int adminRoleApplicableDetailId);
+
+        /// <summary>
+        /// Associate UnAssociate Admin Role To User
+        /// </summary>
+        /// <param name="adminRoleViewModel">AdminRoleApplicableDetailsViewModel.</param>
+        /// <returns>Returns AdminRoleApplicableDetailsViewModel</returns>
+        AdminRoleApplicableDetailsViewModel AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsViewModel adminRoleApplicableDetailsViewModel);
     }
 }

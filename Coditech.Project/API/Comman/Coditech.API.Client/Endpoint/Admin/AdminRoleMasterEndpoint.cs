@@ -29,8 +29,15 @@ namespace Coditech.API.Endpoint
 
         public string RoleAllocatedToUserListAsync(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/RoleAllocatedToUserList?adminRoleMasterId={adminRoleMasterId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/RoleAllocatedToUserList?adminRoleMasterId={adminRoleMasterId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
+
+        public string GetAssociateUnAssociateAdminRoleToUserAsync(int adminRoleMasterId, int adminRoleApplicableDetailId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAssociateUnAssociateAdminRoleToUser?adminRoleMasterId={adminRoleMasterId}&adminRoleApplicableDetailId={adminRoleApplicableDetailId}";
+
+        public string AssociateUnAssociateAdminRoleToUserAsync() =>
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/AssociateUnAssociateAdminRoleToUser";
+
     }
 }

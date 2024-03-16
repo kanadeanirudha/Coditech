@@ -138,7 +138,6 @@ namespace Coditech.Admin.Agents
             }
         }
 
-
         public virtual AdminRoleApplicableDetailsListViewModel RoleAllocatedToUserList(int adminRoleMasterId, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
@@ -162,6 +161,31 @@ namespace Coditech.Admin.Agents
             listViewModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.AdminRoleApplicableDetailsList?.ToViewModel<AdminRoleApplicableDetailsViewModel>()?.ToList();
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AdminRoleApplicableDetailsList.Count, BindRoleAllocatedToUserListColumns());
             return listViewModel;
+        }
+
+        //Get Associate UnAssociate Admin Role To User
+        public virtual AdminRoleApplicableDetailsViewModel GetAssociateUnAssociateAdminRoleToUser(int adminRoleMasterId, int adminRoleApplicableDetailId)
+        {
+            AdminRoleApplicableDetailsResponse response = _adminRoleMasterClient.GetAssociateUnAssociateAdminRoleToUser(adminRoleMasterId, adminRoleApplicableDetailId);
+            return response?.AdminRoleApplicableDetailsModel.ToViewModel<AdminRoleApplicableDetailsViewModel>();
+        }
+
+        //Associate UnAssociate Admin Role To User
+        public virtual AdminRoleApplicableDetailsViewModel AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsViewModel adminRoleApplicableDetailsViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                AdminRoleApplicableDetailsResponse response = _adminRoleMasterClient.AssociateUnAssociateAdminRoleToUser(adminRoleApplicableDetailsViewModel.ToModel<AdminRoleApplicableDetailsModel>());
+                AdminRoleApplicableDetailsModel adminRoleApplicableDetailsModel = response?.AdminRoleApplicableDetailsModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                return IsNotNull(adminRoleApplicableDetailsModel) ? adminRoleApplicableDetailsModel.ToViewModel<AdminRoleApplicableDetailsViewModel>() : (AdminRoleApplicableDetailsViewModel)GetViewModelWithErrorMessage(new AdminRoleApplicableDetailsViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return (AdminRoleApplicableDetailsViewModel)GetViewModelWithErrorMessage(adminRoleApplicableDetailsViewModel, GeneralResources.UpdateErrorMessage);
+            }
         }
 
         #endregion
