@@ -336,7 +336,7 @@ namespace Coditech.API.Service
                 else
                 {
                     userModel.SelectedRoleId = roleList.FirstOrDefault(x => x.RoleType == APIConstant.Regular).AdminRoleMasterId;
-                    //userModel.SelectedRoleCode = roleList.FirstOrDefault(x => x.RoleType == RARIndiaConstant.Regular). AdminRoleCode;
+                    //userModel.SelectedRoleCode = roleList.FirstOrDefault(x => x.RoleType == APIConstant.Regular). AdminRoleCode;
                     foreach (AdminRoleApplicableDetails item in roleList)
                     {
                         userModel.RoleList.Add(new AdminRoleDetailsModel()
