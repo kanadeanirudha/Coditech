@@ -19,12 +19,13 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns created model.</returns>
         HospitalDoctorsViewModel CreateHospitalDoctors(HospitalDoctorsViewModel hospitalDoctorsViewModel);
 
+
         /// <summary>
-        /// Get Employee Details by employeeId.
+        /// Get HospitalDoctors by doctorId.
         /// </summary>
-        /// <param name="employeeId">hospitalDoctorId</param>
-        /// <returns>Returns HospitalDoctorEditViewModel.</returns>
-        HospitalDoctorEditViewModel GetEmployeeDetails(int hospitalDoctorId, long employeeId);
+        /// <param name="doctorId">doctorId</param>
+        /// <returns>Returns HospitalDoctorsViewModel.</returns>
+        HospitalDoctorsViewModel GetHospitalDoctors(int doctorId);
 
         /// <summary>
         /// Update Hospital Doctors.

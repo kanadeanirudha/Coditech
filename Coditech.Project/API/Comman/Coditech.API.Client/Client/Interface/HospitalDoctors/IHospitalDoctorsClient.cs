@@ -21,11 +21,11 @@ namespace Coditech.API.Client
         HospitalDoctorsResponse CreateHospitalDoctors(HospitalDoctorsModel body);
 
         /// <summary>
-        /// Get Hospital Doctors by hospitalDoctorId.
+        /// Get Hospital Doctors by doctorId.
         /// </summary>
-        /// <param name="hospitalDoctorId">hospitalDoctorId</param>
+        /// <param name="doctorId">doctorId</param>
         /// <returns>Returns HospitalDoctorsResponse.</returns>
-        HospitalDoctorsResponse GetHospitalDoctors(int hospitalDoctorId);
+        HospitalDoctorsResponse GetHospitalDoctors(int doctorId);
 
         /// <summary>
         /// Update Hospital Doctors.

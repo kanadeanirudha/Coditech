@@ -13,7 +13,7 @@ namespace Coditech.Admin.Controllers
     public class HospitalDoctorsController : BaseController
     {
         private readonly IHospitalDoctorsAgent _hospitalDoctorsAgent;
-        private const string create = "~/Views/HMS/HospitalDoctors/Create.cshtml";
+        private const string createEdit = "~/Views/HMS/HospitalDoctors/CreateEdit.cshtml";
 
         public HospitalDoctorsController(IHospitalDoctorsAgent hospitalDoctorsAgent)
         {
@@ -44,7 +44,7 @@ namespace Coditech.Admin.Controllers
             {
                 AllWeekDays = weekDays
             };
-            return View(create, hospitalDoctorsViewModel);
+            return View(createEdit, hospitalDoctorsViewModel);
         }
 
         [HttpPost]
@@ -60,27 +60,27 @@ namespace Coditech.Admin.Controllers
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorsViewModel.ErrorMessage));
-            return View(create, hospitalDoctorsViewModel);
+            return View(createEdit, hospitalDoctorsViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult GetHospitalDoctors(int hospitalDoctorId, long employeeId)
+        public virtual ActionResult Edit(int doctorId)
         {
-            HospitalDoctorEditViewModel hospitalDoctorEditViewModel = _hospitalDoctorsAgent.GetEmployeeDetails(hospitalDoctorId, employeeId);
-            return ActionView("~/Views/HMS/HospitalDoctors/Edit.cshtml", hospitalDoctorEditViewModel);
+            HospitalDoctorsViewModel hospitalDoctorsViewModel = _hospitalDoctorsAgent.GetHospitalDoctors(doctorId);
+            return ActionView(createEdit, hospitalDoctorsViewModel);
         }
 
         [HttpPost]
-        public virtual ActionResult GetHospitalDoctors(HospitalDoctorsViewModel hospitalDoctorsViewModel)
+        public virtual ActionResult Edit(HospitalDoctorsViewModel hospitalDoctorsViewModel)
         {
             if (ModelState.IsValid)
             {
                 SetNotificationMessage(_hospitalDoctorsAgent.UpdateHospitalDoctors(hospitalDoctorsViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetHospitalDoctors", new { hospitalDoctorId = hospitalDoctorsViewModel.HospitalDoctorId });
+                return RedirectToAction("Edit", new { doctorId = hospitalDoctorsViewModel.HospitalDoctorId });
             }
-            return View("~/Views/HMS/HospitalDoctors/Edit.cshtml", hospitalDoctorsViewModel);
+            return View(createEdit, hospitalDoctorsViewModel);
         }
 
         public virtual ActionResult Delete(string hospitalDoctorIds)

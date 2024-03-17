@@ -18,15 +18,13 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IHospitalDoctorsClient _hospitalDoctorsClient;
-        private readonly IEmployeeMasterClient _employeeMasterClient;
         #endregion
 
         #region Public Constructor
-        public HospitalDoctorsAgent(ICoditechLogging coditechLogging, IHospitalDoctorsClient hospitalDoctorsClient, IUserClient userClient , IEmployeeMasterClient employeeMasterClient)
+        public HospitalDoctorsAgent(ICoditechLogging coditechLogging, IHospitalDoctorsClient hospitalDoctorsClient, IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
             _hospitalDoctorsClient = GetClient<IHospitalDoctorsClient>(hospitalDoctorsClient);
-            _employeeMasterClient = GetClient<IEmployeeMasterClient>(employeeMasterClient);
         }
         #endregion
 
@@ -85,22 +83,10 @@ namespace Coditech.Admin.Agents
         }
 
         //Get HospitalDoctors by hospital Doctor id.
-        public virtual HospitalDoctorEditViewModel GetEmployeeDetails(int hospitalDoctorId, long employeeId)
+        public virtual HospitalDoctorsViewModel GetHospitalDoctors(int doctorId)
         {
-            HospitalDoctorsResponse response = _hospitalDoctorsClient.GetHospitalDoctors(hospitalDoctorId);
-            HospitalDoctorEditViewModel hospitalDoctorEditViewModel = response?.HospitalDoctorsModel.ToViewModel<HospitalDoctorEditViewModel>();
-            if (HelperUtility.IsNotNull(hospitalDoctorEditViewModel))
-            {
-                EmployeeMasterResponse employeeMasterResponse = _employeeMasterClient.GetEmployeeOtherDetail(employeeId);
-                if (HelperUtility.IsNotNull(employeeMasterResponse))
-                {
-                    hospitalDoctorEditViewModel.SelectedCentreCode = employeeMasterResponse.EmployeeMasterModel.CentreCode;
-                    hospitalDoctorEditViewModel.SelectedDepartmentId = Convert.ToString(employeeMasterResponse.EmployeeMasterModel.GeneralDepartmentMasterId);
-                }
-                hospitalDoctorEditViewModel.EmployeeId = employeeId;
-                hospitalDoctorEditViewModel.HospitalDoctorId = hospitalDoctorId;
-            }
-            return hospitalDoctorEditViewModel;
+            HospitalDoctorsResponse response = _hospitalDoctorsClient.GetHospitalDoctors(doctorId);
+            return response?.HospitalDoctorsModel.ToViewModel<HospitalDoctorsViewModel>();
         }
 
         //Update  Hospital Doctors.
