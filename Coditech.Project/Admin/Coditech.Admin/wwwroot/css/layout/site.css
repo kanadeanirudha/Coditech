@@ -99,7 +99,7 @@ body, html {
 }
 
     .card .card-header:first-child span {
-        color: #ffffff;
+        color: #c2cbe2 !important;
     }
 
 .btn-soft-primary {
@@ -249,7 +249,10 @@ label {
 }
 
 @media (min-width: 992px) {
-    body.dark-topbar .topbar .navbar-custom-menu .has-submenu.active a span {
+   /* body.dark-topbar .topbar .navbar-custom-menu .has-submenu.active a span {
         border: 1px solid #c2cbe2;
-    }
+    }*/
+}
+td.text-center a.btn {
+    padding: 5px;
 }
