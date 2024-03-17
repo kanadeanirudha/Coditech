@@ -25,6 +25,7 @@ namespace Coditech.Common.API.Model
         public TimeSpan? ToTime { get; set; }
         public bool IsActive { get; set; }
         public bool IsEditable { get; set; }
+		public List<string> SelectedGeneralServicesIds { get; set; }
 
-    }
+	}
 }

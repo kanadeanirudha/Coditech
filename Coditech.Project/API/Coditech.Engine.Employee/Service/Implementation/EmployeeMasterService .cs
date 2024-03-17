@@ -63,11 +63,11 @@ namespace Coditech.API.Service
             EmployeeMasterModel employeeMasterModel = IsNotNull(employeeMaster) ? employeeMaster?.FromEntityToModel<EmployeeMasterModel>() : new EmployeeMasterModel();
             if (IsNotNull(employeeMasterModel))
             {
-                GeneralPerson generalPerson = GetGeneralPersonDetails(employeeMasterModel.PersonId);
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(employeeMasterModel.PersonId);
                 if (IsNotNull(employeeMasterModel))
                 {
-                    employeeMasterModel.FirstName = generalPerson.FirstName;
-                    employeeMasterModel.LastName = generalPerson.LastName;
+                    employeeMasterModel.FirstName = generalPersonModel.FirstName;
+                    employeeMasterModel.LastName = generalPersonModel.LastName;
                 }
             }
             return employeeMasterModel;

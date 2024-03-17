@@ -83,9 +83,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get HospitalDoctors by hospital Doctor id.
-        public virtual HospitalDoctorsViewModel GetHospitalDoctors(int doctorId)
+        public virtual HospitalDoctorsViewModel GetHospitalDoctors(int hospitalDoctorId)
         {
-            HospitalDoctorsResponse response = _hospitalDoctorsClient.GetHospitalDoctors(doctorId);
+            HospitalDoctorsResponse response = _hospitalDoctorsClient.GetHospitalDoctors(hospitalDoctorId);
             return response?.HospitalDoctorsModel.ToViewModel<HospitalDoctorsViewModel>();
         }
 
@@ -95,6 +95,7 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalDoctors.ToString(), TraceLevel.Info);
+                hospitalDoctorsViewModel.WeekDayEnumIds = string.Join(',', hospitalDoctorsViewModel.SelectedWeekDayEnumIds);
                 HospitalDoctorsResponse response = _hospitalDoctorsClient.UpdateHospitalDoctors(hospitalDoctorsViewModel.ToModel<HospitalDoctorsModel>());
                 HospitalDoctorsModel hospitalDoctorsModel = response?.HospitalDoctorsModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalDoctors.ToString(), TraceLevel.Info);

@@ -89,7 +89,7 @@ namespace Coditech.API.Service
             if (generalTaxMasterModel.GeneralTaxMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaxMasterId"));
            
-            if (IsTaxNameAlreadyExist(generalTaxMasterModel.TaxName))
+            if (IsTaxNameAlreadyExist(generalTaxMasterModel.TaxName, generalTaxMasterModel.GeneralTaxMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Tax Name"));
 
             GeneralTaxMaster generalTaxMaster = generalTaxMasterModel.FromModelToEntity<GeneralTaxMaster>();

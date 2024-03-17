@@ -6,7 +6,7 @@ namespace Coditech.API.Data
     {
         [Key]
         public int GymMembershipPlanId { get; set; }
-
+        public string CentreCode { get; set; }
         public string MembershipPlanName { get; set; }
         public decimal MaxCost { get; set; }
         public decimal MinCost { get; set; }
@@ -25,7 +25,6 @@ namespace Coditech.API.Data
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public string CentreCode { get; set; }
     }
 }
 

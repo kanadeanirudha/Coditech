@@ -31,5 +31,7 @@ namespace Coditech.Common.API.Model
         public string BankAccountNumber { get; set; }
         public string BankIFSCCode { get; set; }
         public bool IsActive { get; set; }
+        public string FullName { get; set; }
+        public string FullNameWithPersonCode { get; set; }
     }
 }

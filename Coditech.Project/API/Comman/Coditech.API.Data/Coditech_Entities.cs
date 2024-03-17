@@ -44,10 +44,10 @@ namespace Coditech.API.Data
         #endregion
 
         #region Admin
-        public DbSet<AdminRoleApplicableDetail> AdminRoleApplicableDetail { get; set; }
+        public DbSet<AdminRoleApplicableDetails> AdminRoleApplicableDetails { get; set; }
         public DbSet<AdminRoleCentreRights> AdminRoleCentreRights { get; set; }
         public DbSet<AdminRoleMaster> AdminRoleMaster { get; set; }
-        public DbSet<AdminRoleMenuDetail> AdminRoleMenuDetail { get; set; }
+        public DbSet<AdminRoleMenuDetails> AdminRoleMenuDetails { get; set; }
         public DbSet<AdminSanctionPost> AdminSanctionPost { get; set; }
         #endregion
 
@@ -72,6 +72,7 @@ namespace Coditech.API.Data
         public DbSet<GymMemberBodyMeasurement> GymMemberBodyMeasurement { get; set; }
         public DbSet<GeneralPersonAttendanceDetails> GeneralPersonAttendanceDetails { get; set; }
         public DbSet<GymMemberMembershipPlan> GymMemberMembershipPlan { get; set; }
+        public DbSet<GymMembershipPlanPackage> GymMembershipPlanPackage { get; set; }
         #endregion
 
         #region MediaManager
@@ -91,6 +92,18 @@ namespace Coditech.API.Data
         #region GeneralPerson
         public DbSet<GeneralPersonFollowUp> GeneralPersonFollowUp { get; set; }
         #endregion
+
+        #region SalesAndPurchase
+        public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
+        public DbSet<SalesInvoiceMaster> SalesInvoiceMaster { get; set; }
+        #endregion
+
+        #region Inventory
+        public DbSet<InventoryCategory> InventoryCategory { get; set; }
+        public DbSet<InventoryGeneralItemMaster> InventoryGeneralItemMaster { get; set; }
+        public DbSet<InventoryGeneralItemLine> InventoryGeneralItemLine { get; set; }
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }

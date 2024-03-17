@@ -20,5 +20,10 @@ namespace Coditech.API.Endpoint
         public string InsertUpdateGeneralPersonAddressAsync() =>
             $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/InsertUpdateGeneralPersonAddress";
 
+        public string GetActiveMenuListAsync(string moduleCode) =>
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/GetActiveMenuList?moduleCode={moduleCode}";
+        public string GetActiveModuleAsync() =>
+           $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/GetActiveModuleList";
+
     }
 }

@@ -13,8 +13,8 @@ namespace Coditech.API.Endpoint
         }
         public string CreateHospitalDoctorsAsync() =>
             $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctors/CreateHospitalDoctors";
-        public string GetHospitalDoctorsAsync(int doctorId) =>
-            $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctors/GetHospitalDoctors?hospitalDoctorId={doctorId}";
+        public string GetHospitalDoctorsAsync(int hospitalDoctorId) =>
+            $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctors/GetHospitalDoctors?hospitalDoctorId={hospitalDoctorId}";
 
         public string UpdateHospitalDoctorsAsync() =>
                $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctors/UpdateHospitalDoctors";

@@ -393,6 +393,35 @@ namespace Coditech.Admin.Agents
                 return (GymMemberMembershipPlanViewModel)GetViewModelWithErrorMessage(gymMemberMembershipPlanViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+
+        public virtual GymMemberSalesInvoiceListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("InvoiceNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MembershipPlanName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GymMemberSalesInvoiceListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId,personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberSalesInvoiceListModel gymMemberList = new GymMemberSalesInvoiceListModel { GymMemberSalesInvoiceList = response?.GymMemberSalesInvoiceList };
+
+            GymMemberSalesInvoiceListViewModel listViewModel = new GymMemberSalesInvoiceListViewModel()
+            {
+                GymMemberDetailId = response.GymMemberDetailId,
+                PersonId = response.PersonId,
+                FirstName = response?.FirstName,
+                LastName = response?.LastName
+            };
+            listViewModel.GymMemberSalesInvoiceList = gymMemberList?.GymMemberSalesInvoiceList?.ToViewModel<GymMemberSalesInvoiceViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberSalesInvoiceList.Count, BindGymMemberSalesInvoiceColumns(), false);
+            return listViewModel;
+        }
         #endregion
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
@@ -494,6 +523,51 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Remark",
                 ColumnCode = "Remark",
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindGymMemberSalesInvoiceColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Invoice Number",
+                ColumnCode = "InvoiceNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Transaction Date",
+                ColumnCode = "TransactionDate",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Plan Type",
+                ColumnCode = "PlanType",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Plan Name",
+                ColumnCode = "MembershipPlanName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Paid Amount",
+                ColumnCode = "BillAmount",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Payment Mode",
+                ColumnCode = "PaymentType",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Payment Received By",
+                ColumnCode = "PaymentReceivedBy",
             });
             return datatableColumnList;
         }

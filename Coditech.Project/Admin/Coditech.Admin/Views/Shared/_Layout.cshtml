@@ -20,11 +20,7 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/favicon.ico">
 
-    <!-- jvectormap -->
-    @*<link href="~/css/layout/jquery-jvectormap-2.0.2.css" rel="stylesheet">*@
-
     <!-- App css -->
-    <link href="~/css/layout/site.css" rel="stylesheet" />
     <link href="~/css/layout/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="~/css/layout/icons.min.css" rel="stylesheet" type="text/css"/>
     <link href="~/css/layout/metisMenu.min.css" rel="stylesheet" type="text/css" />
@@ -33,78 +29,84 @@
     <link href="~/css/layout/datatables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/layout/buttons.bootstrap5.min.css" rel="stylesheet" />
     <link href="~/css/layout/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/css/layout/site.css" rel="stylesheet" />
+    <link href="~/css/layout/jstree.css" rel="stylesheet" />
 </head>
 
 <body data-layout="horizontal" class="dark-topbar" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="">
     @Html.Partial("~/Views/Shared/_Loader.cshtml")
-    <!-- Top Bar Start -->
-    <div class="topbar">
-        <!-- LOGO -->
-        <div class="brand">
-            <a href="~/Dashboard/Index" class="logo">
-                <span>
-                    <img src="~/assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
-                </span>
-                <span>
-                    <img src="~/assets/images/logo.png" alt="logo-large" class="logo-lg logo-light">
-                    <img src="~/assets/images/logo-dark.png" alt="logo-large" class="logo-lg logo-dark">
-                </span>
-            </a>
-        </div>
-        <!--end logo-->
-        <!-- Navbar -->
-        <nav class="navbar-custom">
-            <ul class="list-unstyled topbar-nav float-end mb-0">
-                <li class="dropdown hide-phone">
-                    <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search topbar-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </a>
 
-                    <div class="dropdown-menu dropdown-menu-end dropdown-lg p-0">
-                        <!-- Top Search Bar -->
-                        <div class="app-search-topbar">
-                            <form action="" method="get">
-                                <input type="search" name="search" class="from-control top-search mb-0" placeholder="Type text...">
-                                <button type="submit"><i class="ti-search"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </li>
-                @Html.Partial("~/Views/Shared/_NotificationCount.cshtml", userData.UserMasterId)
-                @Html.Partial("~/Views/Shared/_Profile.cshtml", userData)
-                <li class="menu-item">
-                    <!-- Mobile menu toggle-->
-                    <a class="navbar-toggle nav-link" id="mobileToggle">
-                        <div class="lines">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </a><!-- End mobile menu toggle-->
-                </li> <!--end menu item-->
-            </ul><!--end topbar-nav-->
-
-            <div class="navbar-custom-menu">
-                <div id="navigation">
-                    <!-- Navigation Menu-->
-                    <ul class="navigation-menu">
-                        @Html.Partial("~/Views/Shared/_ModuleList.cshtml", userData)
-
-                        <!-- END: Main Menu-->
-                    </ul><!-- End navigation menu -->
-                </div> <!-- end navigation -->
+    @if(userData != null)
+    {
+        <!-- Top Bar Start -->
+        <div class="topbar">
+            <!-- LOGO -->
+            <div class="brand">
+                <a href="~/Dashboard/Index" class="logo">
+                    <span>
+                        <img src="~/assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
+                    </span>
+                    <span>
+                        <img src="~/assets/images/logo.png" alt="logo-large" class="logo-lg logo-light">
+                        <img src="~/assets/images/logo-dark.png" alt="logo-large" class="logo-lg logo-dark">
+                    </span>
+                </a>
             </div>
+            <!--end logo-->
             <!-- Navbar -->
-        </nav>
-        <!-- end navbar-->
-    </div>
-    <!-- Top Bar End -->
-    <div class="page-wrapper">
-        @Html.Partial("~/Views/Shared/_NotificationMessage.cshtml", @messageData)
-        <!-- Page Content-->
-        @RenderBody()
-        <!-- end page content -->
-    </div>
+            <nav class="navbar-custom">
+                <ul class="list-unstyled topbar-nav float-end mb-0">
+                    <li class="dropdown hide-phone">
+                        <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search topbar-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end dropdown-lg p-0">
+                            <!-- Top Search Bar -->
+                            <div class="app-search-topbar">
+                                <form action="" method="get">
+                                    <input type="search" name="search" class="from-control top-search mb-0" placeholder="Type text...">
+                                    <button type="submit"><i class="ti-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    @Html.Partial("~/Views/Shared/_NotificationCount.cshtml", userData.UserMasterId)
+                    @Html.Partial("~/Views/Shared/_Profile.cshtml", userData)
+                    <li class="menu-item">
+                        <!-- Mobile menu toggle-->
+                        <a class="navbar-toggle nav-link" id="mobileToggle">
+                            <div class="lines">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </a><!-- End mobile menu toggle-->
+                    </li> <!--end menu item-->
+                </ul><!--end topbar-nav-->
+
+                <div class="navbar-custom-menu">
+                    <div id="navigation">
+                        <!-- Navigation Menu-->
+                        <ul class="navigation-menu">
+                            @Html.Partial("~/Views/Shared/_ModuleList.cshtml", userData)
+
+                            <!-- END: Main Menu-->
+                        </ul><!-- End navigation menu -->
+                    </div> <!-- end navigation -->
+                </div>
+                <!-- Navbar -->
+            </nav>
+            <!-- end navbar-->
+        </div>
+        <!-- Top Bar End -->
+        <div class="page-wrapper">
+            @Html.Partial("~/Views/Shared/_NotificationMessage.cshtml", @messageData)
+            <!-- Page Content-->
+            @RenderBody()
+            <!-- end page content -->
+        </div>
+    }
     <!-- end page-wrapper -->
     <footer class="footer text-center text-sm-start">
         <div class="boxed-footer">

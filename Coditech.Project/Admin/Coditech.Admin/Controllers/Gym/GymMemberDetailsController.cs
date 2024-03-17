@@ -1,8 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model;
-using Coditech.Common.Enum;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -123,22 +122,29 @@ namespace Coditech.Admin.Controllers
             }
             return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", gymMemberDetailsViewModel);
         }
-        public virtual ActionResult Delete(string gymMemberDetailIds)
+        public virtual ActionResult Delete(string gymMemberDetailIds, string selectedCentreCode)
         {
             string message = string.Empty;
             bool status = false;
+
             if (!string.IsNullOrEmpty(gymMemberDetailIds))
             {
                 status = _gymMemberDetailsAgent.DeleteGymMembers(gymMemberDetailIds, out message);
+
                 SetNotificationMessage(!status
-                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+                    ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
+                    : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
+
+                // Redirect to the List action with the selectedCentreCode
+                return RedirectToAction("List", new { selectedCentreCode });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<GymMemberDetailsController>(x => x.List(null));
+
+            // Redirect to the List action with the selectedCentreCode
+            return RedirectToAction("List", new { selectedCentreCode });
         }
+
 
         [HttpGet]
         public virtual ActionResult CreateEditGymMemberAddress(int gymMemberDetailId, long personId)
@@ -355,6 +361,17 @@ namespace Coditech.Admin.Controllers
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymMemberMembershipPlanViewModel.ErrorMessage));
             return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/AssociateGymMemberMembershipPlan.cshtml", gymMemberMembershipPlanViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult MemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId,personId, dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberPaymentHistory.cshtml", list);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory.cshtml", list);
         }
         #endregion
     }

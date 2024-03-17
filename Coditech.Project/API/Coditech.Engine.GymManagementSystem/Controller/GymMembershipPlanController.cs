@@ -32,7 +32,7 @@ namespace Coditech.API.Controllers
         {
             try
             {
-                GymMembershipPlanListModel list = _generalGymMembershipPlanService.GetGymMembershipPlanList(selectedCentreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize); // Removed 'string' from 'string selectedCentreCode'
+                GymMembershipPlanListModel list = _generalGymMembershipPlanService.GetGymMembershipPlanList(selectedCentreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMembershipPlanListResponse>(data) : CreateNoContentResponse();
             }

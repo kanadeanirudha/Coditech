@@ -17,6 +17,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
         public Int16 AdminRoleMasterId { get; set; }
+        [Display(Name = "Admin Role Code")]
         public string AdminRoleCode { get; set; }
         [Display(Name = "Role Description")]
         public string SanctionPostName { get; set; }
@@ -26,6 +27,7 @@ namespace Coditech.Admin.ViewModel
         public bool IsLoginAllowFromOutside { get; set; }
         [Display(Name = "Is Attendace Allow From Out side")]
         public bool IsAttendaceAllowFromOutside { get; set; }
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
         public string SelectedCentreCodeForSelf { get; set; }
         public string SelectedCentreNameForSelf { get; set; }
@@ -33,5 +35,7 @@ namespace Coditech.Admin.ViewModel
         public List<UserAccessibleCentreModel> AllCentreList { get; set; }
         [Display(Name = "Accesible Centre")]
         public List<string> SelectedRoleWiseCentres { get; set; }
-    }
+		[Display(Name = "Dashboard")]
+		public int DashboardFormEnumId { get; set; }
+	}
 }

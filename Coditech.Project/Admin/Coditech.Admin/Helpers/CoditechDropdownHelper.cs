@@ -113,6 +113,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetGymMembershipPlanList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryGeneralServiecs.ToString()))
+            {
+                GetGeneralServicesList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -242,14 +246,14 @@ namespace Coditech.Admin.Helpers
         private static void GetModuleList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             UserModuleListResponse response = new UserClient().GetActiveModuleList();
-            dropdownList.Add(new SelectListItem() { Text = "-------Select-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
             foreach (var item in response?.ModuleList)
             {
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = item.ModuleName,
-                    Value = Convert.ToString(item.UserModuleMasterId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.UserModuleMasterId)
+                    Value = Convert.ToString(item.ModuleCode),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.ModuleCode)
                 });
             }
         }
@@ -294,12 +298,12 @@ namespace Coditech.Admin.Helpers
         {
             GeneralFinancialYearListResponse response = new GeneralFinancialYearClient().List(null, null, null, 1, int.MaxValue);
             GeneralFinancialYearListModel list = new GeneralFinancialYearListModel() { GeneralFinancialYearList = response.GeneralFinancialYearList };
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Financial Year-------" });
             foreach (var item in list?.GeneralFinancialYearList)
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = string.Concat(item.FromDate, "-", item.ToDate),
+                    Text = string.Concat(item.FromDate.ToShortDateString(), " To ", item.ToDate.ToShortDateString()),
                     Value = Convert.ToString(item.GeneralFinancialYearId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
                 });
@@ -388,7 +392,7 @@ namespace Coditech.Admin.Helpers
                     dropdownList.Add(new SelectListItem()
                     {
                         Text = $"{item.MembershipPlanName}-{item.PlanType}-{planDuration}",
-                        Value = $"{item.GymMembershipPlanId.ToString()}~{item.PlanDurationType}~{item.MaxCost}~{(item.MaxCost - item.MinCost)}",
+                        Value = $"{item.GymMembershipPlanId.ToString()}~{item.PlanDurationType}~{item.MaxCost}~{item.MinCost}",
                     });
                 }
             }
@@ -575,6 +579,21 @@ namespace Coditech.Admin.Helpers
             }
         }
 
+        private static void GetGeneralServicesList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Service-------", Value = "" });
+
+            InventoryGeneralItemMasterListResponse response = new InventoryGeneralItemMasterClient().GetGeneralServicesList(dropdownViewModel.Parameter);
+            InventoryGeneralItemMasterListModel list = new InventoryGeneralItemMasterListModel() { InventoryGeneralItemMasterList = response.InventoryGeneralItemMasterList };
+            foreach (var item in list?.InventoryGeneralItemMasterList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = $"{item.ItemName}({item.HSNSACCode})",
+                    Value = item.InventoryGeneralItemLineId.ToString(),
+                });
+            }
+        }
         private static string SpiltCentreCode(string centreCode)
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;

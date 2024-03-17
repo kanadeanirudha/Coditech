@@ -11,12 +11,14 @@ namespace Coditech.API.Mapper
         public AutoMapperConfig()
         {
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
+            CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<GymMemberDetailsModel, GymMemberDetails>().ReverseMap();
             CreateMap<GymMemberFollowUpModel, GymMemberFollowUp>().ReverseMap();
             CreateMap<GymBodyMeasurementType, GymBodyMeasurementTypeModel>().ReverseMap();
             CreateMap<GymMembershipPlanModel, GymMembershipPlan>().ReverseMap();
             CreateMap<GymMemberBodyMeasurement, GymMemberBodyMeasurementModel>().ReverseMap();
             CreateMap<GymMemberMembershipPlanModel, GymMemberMembershipPlan>().ReverseMap();
+            CreateMap<GymMemberSalesInvoiceModel, GymMemberSalesInvoice>().ReverseMap();
         }
     }
 }

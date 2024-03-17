@@ -8,6 +8,7 @@
     ChangeMembershipPlan: function () {
         $("#errorGymMembershipPlanId").text('').text("").removeClass("field-validation-error").hide();
         var membershipPlan = $("#SelectedGymMembershipPlanId option:selected").val();
+        $("#DiscountAmount").val("0");
         if (membershipPlan == '') {
             $("#GymMembershipPlanId").val("0");
             $("#PlanAmount").val("");
@@ -18,7 +19,7 @@
             $("#GymMembershipPlanId").val(membershipPlanArray[0]);
             $("#PlanAmount").val(membershipPlanArray[2]);
             $("#hdnMaximunDiscount").val(membershipPlanArray[3]);
-            if (membershipPlanArray[3] == "0") {
+            if (parseInt(membershipPlanArray[3]) == 0) {
                 $("#DiscountAmount").attr('disabled', 'disabled');
             }
             else {
@@ -53,7 +54,7 @@
                 $("#errorTransactionReference").text('').text("Please enter Transaction Reference").addClass("field-validation-error").show();
                 return false;
             }
-            
+
             $("#frmAssociateGymMemberMembershipPlan").submit();
         }
     },
