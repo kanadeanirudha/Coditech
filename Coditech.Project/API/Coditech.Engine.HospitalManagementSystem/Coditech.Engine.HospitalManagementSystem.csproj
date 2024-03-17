@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\Common\Coditech.Resources\Coditech.Resources.csproj" />
     <ProjectReference Include="..\Comman\Coditech.API.Data\Coditech.API.Data.csproj" />
     <ProjectReference Include="..\Comman\Coditech.Common.API\Coditech.Common.API.csproj" />
+    <ProjectReference Include="..\Comman\Coditech.Common.Service\Coditech.Common.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -296,14 +296,15 @@ namespace Coditech.API.Service
                 {
                     adminRoleApplicableDetailsModel = adminRoleApplicableDetails.FromEntityToModel<AdminRoleApplicableDetailsModel>();
                     adminRoleMasterId = adminRoleApplicableDetailsModel.AdminRoleMasterId;
-                    GeneralPerson generalPerson = GetGeneralPersonDetailsByEntityType(adminRoleApplicableDetails.EmployeeId, UserTypeEnum.Employee.ToString());
-                    if (IsNotNull(generalPerson))
+                    GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(adminRoleApplicableDetails.EmployeeId, UserTypeEnum.Employee.ToString());
+                    if (IsNotNull(generalPersonModel))
                     {
                         adminRoleApplicableDetailsModel.EmployeeList = new List<EmployeeMasterModel>();
                         adminRoleApplicableDetailsModel.EmployeeList.Add(new EmployeeMasterModel()
                         {
                             EmployeeId = adminRoleApplicableDetailsModel.EmployeeId,
-                            FullName = $"{generalPerson.FirstName} {generalPerson.LastName}"
+                            FullName = $"{generalPersonModel.FirstName} {generalPersonModel.LastName}",
+                            FullNameWithPersonCode = $"{generalPersonModel.FirstName} {generalPersonModel.LastName}({generalPersonModel.PersonCode})"
                         });
                     }
                 }

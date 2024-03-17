@@ -46,12 +46,12 @@ namespace Coditech.API.Service
 
             listModel.GeneralPersonAttendanceDetailsList = PersonAttendanceList?.Count > 0 ? PersonAttendanceList : new List<GeneralPersonAttendanceDetailsModel>();
             listModel.BindPageListModel(pageListModel);
-            GeneralPerson generalPerson = GetGeneralPersonDetailsByEntityType(entityId, userType);
-            if (IsNotNull(generalPerson))
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(entityId, userType);
+            if (IsNotNull(generalPersonModel))
             {
-                listModel.PersonId = generalPerson.PersonId;
-                listModel.FirstName = generalPerson.FirstName;
-                listModel.LastName = generalPerson.LastName;
+                listModel.PersonId = generalPersonModel.PersonId;
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
             }
             listModel.EntityId = entityId;
             return listModel;

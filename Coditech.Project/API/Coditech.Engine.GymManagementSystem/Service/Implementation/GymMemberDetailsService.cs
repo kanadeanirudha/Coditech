@@ -67,11 +67,11 @@ namespace Coditech.API.Service
             GymMemberDetailsModel gymMemberDetailsModel = gymMemberDetails?.FromEntityToModel<GymMemberDetailsModel>();
             if (IsNotNull(gymMemberDetailsModel))
             {
-                GeneralPerson generalPerson = GetGeneralPersonDetails(gymMemberDetailsModel.PersonId);
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(gymMemberDetailsModel.PersonId);
                 if (IsNotNull(gymMemberDetailsModel))
                 {
-                    gymMemberDetailsModel.FirstName = generalPerson.FirstName;
-                    gymMemberDetailsModel.LastName = generalPerson.LastName;
+                    gymMemberDetailsModel.FirstName = generalPersonModel.FirstName;
+                    gymMemberDetailsModel.LastName = generalPersonModel.LastName;
                 }
             }
             return gymMemberDetailsModel;
@@ -142,11 +142,11 @@ namespace Coditech.API.Service
             listModel.GymMemberFollowUpList = gymMemberList?.Count > 0 ? gymMemberList : new List<GymMemberFollowUpModel>();
             listModel.BindPageListModel(pageListModel);
 
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
-            if (IsNotNull(generalPerson))
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNotNull(generalPersonModel))
             {
-                listModel.FirstName = generalPerson.FirstName;
-                listModel.LastName = generalPerson.LastName;
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
             }
             listModel.GymMemberDetailId = gymMemberDetailId;
             listModel.PersonId = personId;
@@ -264,11 +264,11 @@ namespace Coditech.API.Service
                     });
                 }
             }
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
             if (IsNotNull(gymMemberDetailsModel))
             {
-                gymMemberDetailsModel.FirstName = generalPerson.FirstName;
-                gymMemberDetailsModel.LastName = generalPerson.LastName;
+                gymMemberDetailsModel.FirstName = generalPersonModel.FirstName;
+                gymMemberDetailsModel.LastName = generalPersonModel.LastName;
             }
             return gymMemberDetailsModel;
         }
@@ -316,7 +316,6 @@ namespace Coditech.API.Service
         }
         #endregion
 
-
         #region Gym Member Payment History
         public virtual GymMemberSalesInvoiceListModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
@@ -339,17 +338,18 @@ namespace Coditech.API.Service
             listModel.GymMemberSalesInvoiceList = paymentHistoryList?.Count > 0 ? paymentHistoryList : new List<GymMemberSalesInvoiceModel>();
             listModel.BindPageListModel(pageListModel);
             
-            GeneralPerson generalPerson = GetGeneralPersonDetails(100001);
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(100001);
             if (IsNotNull(listModel))
             {
-                listModel.FirstName = generalPerson.FirstName;
-                listModel.LastName = generalPerson.LastName;
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
             }
             listModel.GymMemberDetailId = gymMemberDetailId;
             listModel.PersonId = personId;
             return listModel;
         }
         #endregion
+
         #region Protected Method
         protected virtual long SaveSalesInvoiceDetails(GymMemberMembershipPlanModel gymMemberMembershipPlanModel, GymMembershipPlan gymMembershipPlan)
         {

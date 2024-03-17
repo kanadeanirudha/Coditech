@@ -3,7 +3,6 @@
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
-using Coditech.Model;
 
 namespace Coditech.API.Mapper
 {
@@ -12,6 +11,7 @@ namespace Coditech.API.Mapper
         public AutoMapperConfig()
         {
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
+            CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<HospitalDoctors, HospitalDoctorsModel>().ReverseMap();
         }
     }
