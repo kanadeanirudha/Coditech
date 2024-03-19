@@ -338,7 +338,7 @@ namespace Coditech.API.Service
             listModel.GymMemberSalesInvoiceList = paymentHistoryList?.Count > 0 ? paymentHistoryList : new List<GymMemberSalesInvoiceModel>();
             listModel.BindPageListModel(pageListModel);
             
-            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(100001);
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
             if (IsNotNull(listModel))
             {
                 listModel.FirstName = generalPersonModel.FirstName;

@@ -90,7 +90,7 @@ namespace Coditech.API.Service
                 BindMenuAndModulesForAdminUser(userModel, userAllModuleList, userAllMenuList);
                 userModel.AccessibleCentreList = OrganisationCentreList();
             }
-            userModel.SelectedCentreCode = userModel.AccessibleCentreList?.FirstOrDefault().CentreCode;
+            userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
 
             userModel.GeneralEnumaratorList = BindEnumarator();
 

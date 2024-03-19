@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
     public class GymMemberSalesInvoiceModel : BaseModel
     {
-        public GymMemberSalesInvoiceModel GymMemberSalesInvoice;
         public long SalesInvoiceMasterId { get; set; }
         public long PersonId { get; set; }
         public int GymMemberDetailId { get; set; }

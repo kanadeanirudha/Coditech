@@ -298,7 +298,11 @@ namespace Coditech.Admin.Helpers
         {
             GeneralFinancialYearListResponse response = new GeneralFinancialYearClient().List(null, null, null, 1, int.MaxValue);
             GeneralFinancialYearListModel list = new GeneralFinancialYearListModel() { GeneralFinancialYearList = response.GeneralFinancialYearList };
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Financial Year-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+
             foreach (var item in list?.GeneralFinancialYearList)
             {
                 dropdownList.Add(new SelectListItem()
@@ -392,7 +396,7 @@ namespace Coditech.Admin.Helpers
                     dropdownList.Add(new SelectListItem()
                     {
                         Text = $"{item.MembershipPlanName}-{item.PlanType}-{planDuration}",
-                        Value = $"{item.GymMembershipPlanId.ToString()}~{item.PlanDurationType}~{item.MaxCost}~{item.MinCost}",
+                        Value = $"{item.GymMembershipPlanId.ToString()}~{item.PlanDurationType}~{item.MaxCost}~{(item.MaxCost - item.MinCost)}",
                     });
                 }
             }
@@ -491,8 +495,8 @@ namespace Coditech.Admin.Helpers
         private static void GetAccessibleCentreList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             List<UserAccessibleCentreModel> accessibleCentreList = AccessibleCentreList();
-            if (accessibleCentreList?.Count != 1)
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------", Value = "" });
+            //if (accessibleCentreList?.Count != 1)
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------", Value = "" });
 
             foreach (var item in accessibleCentreList)
             {
@@ -508,8 +512,8 @@ namespace Coditech.Admin.Helpers
         private static void GetNationalityList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             GeneralNationalityListResponse response = new GeneralNationalityClient().List(null, null, null, 1, int.MaxValue);
-            if (response?.GeneralNationalityList?.Count != 1)
-                dropdownList.Add(new SelectListItem() { Text = "-------Select -------" });
+            //if (response?.GeneralNationalityList?.Count != 1)
+            dropdownList.Add(new SelectListItem() { Text = "-------Select -------" });
 
             GeneralNationalityListModel list = new GeneralNationalityListModel { GeneralNationalityList = response?.GeneralNationalityList };
             foreach (var item in list.GeneralNationalityList)
@@ -526,8 +530,8 @@ namespace Coditech.Admin.Helpers
         private static void GetCountryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             GeneralCountryListResponse response = new GeneralCountryClient().List(null, null, null, 1, int.MaxValue);
-            if (response?.GeneralCountryList?.Count != 1)
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Country-------" });
+            //if (response?.GeneralCountryList?.Count != 1)
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Country-------" });
 
             GeneralCountryListModel list = new GeneralCountryListModel { GeneralCountryList = response.GeneralCountryList };
             foreach (var item in list.GeneralCountryList)
