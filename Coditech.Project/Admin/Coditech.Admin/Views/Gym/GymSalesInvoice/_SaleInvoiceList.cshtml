@@ -19,7 +19,9 @@
 					{
 						<tr>
 							<td><i class="fas fa-file-invoice"></i> @item.InvoiceNumber</td>
-							<td>@item.FirstName</td>
+							<td>
+								<i class="fas fa-user"></i> @item.FirstName @item.LastName
+							</td>
 							<td class="date"><i class="fa fa-calendar icon"></i> @item.TransactionDate.ToShortDateString()</td>
 							<td>@item.PlanType</td>
 							<td>
@@ -31,13 +33,12 @@
 											<i class="fa fa-calendar-alt icon"></i> @item.PlanStartDate.ToShortDateString() to @item.PlanDurationExpirationDate.ToShortDateString()
 										</span>
 									}
-									else
+									else if (item.PlanDurationType.Equals("Session", StringComparison.InvariantCultureIgnoreCase))
 									{
 										<span style="font-size: 12px; font-style: italic;">
-											<i class="fa fa-clock icon"></i> Session: @item.PlanDurationInSession by @item.RemainingSessionCount
-										</span>
+                                            <i class="fa fa-clock icon"></i> Session: @item.PlanDurationInSession by @item.RemainingSessionCount
+                                        </span>
 									}
-									@item.PlanDurationType
 								</div>
 							</td>
 							<td>@item.BillAmount</td>
@@ -67,8 +68,10 @@
 								}
 								@item.PaymentReceivedBy
 							</td>
-							<td>
-								Print
+							<td style="vertical-align: middle; text-align: center; width: 50px; height: 50px;">
+								<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+									<i class="fas fa-print" style="font-size: 20px; color: #333;"></i>
+								</div>
 							</td>
 						</tr>
 					}
