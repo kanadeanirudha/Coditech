@@ -12,7 +12,7 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [Display(Name = "Employee List")]
-        public int EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
         [Display(Name = "Work From Date")]
         public DateTime? WorkFromDate { get; set; }
         [Display(Name = "Work To Date")]

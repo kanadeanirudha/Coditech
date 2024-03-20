@@ -26,7 +26,6 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
         private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
-        private readonly ICoditechRepository<UserType> _userTypeRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -40,7 +39,6 @@ namespace Coditech.API.Service
             _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
             _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
-            _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
@@ -81,7 +79,7 @@ namespace Coditech.API.Service
                     BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
 
                     //Bind Balance Sheet
-                    userModel.BalanceSheetList = BindAccountBalanceSheetByRoleID(userModel);
+                    userModel.BalanceSheetList = BindAccountBalanceSheetByRoleId(userModel);
                 }
             }
             else
@@ -96,6 +94,7 @@ namespace Coditech.API.Service
 
             return userModel;
         }
+
         public virtual List<UserModuleModel> GetActiveModuleList()
         {
             List<UserModuleModel> moduleList = new List<UserModuleModel>();
@@ -164,7 +163,7 @@ namespace Coditech.API.Service
                     //Check Is Gym Member need to Login
                     if (gymMemberDetails?.GymMemberDetailId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                     {
-                        InsertUserMasterDetails(generalPersonModel);
+                        InsertUserMasterDetails(generalPersonModel, gymMemberDetails.GymMemberDetailId);
                     }
                 }
                 else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
@@ -183,7 +182,7 @@ namespace Coditech.API.Service
                     //Check Is Employee need to Login
                     if (employeeMaster?.EmployeeId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                     {
-                        InsertUserMasterDetails(generalPersonModel);
+                        InsertUserMasterDetails(generalPersonModel, employeeMaster.EmployeeId);
                     }
                 }
             }
@@ -221,7 +220,7 @@ namespace Coditech.API.Service
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
             if (isPersonUpdated)
             {
-                UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.PersonId == generalPersonModel.PersonId);
+                UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == generalPersonModel.PersonId);
                 if (userMasterData.EmailId != generalPersonModel.EmailId)
                 {
                     userMasterData.EmailId = generalPersonModel.EmailId;
@@ -303,7 +302,7 @@ namespace Coditech.API.Service
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
             if (isPersonUpdated)
             {
-                UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.PersonId == generalPersonAddressModel.PersonId);
+                UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == generalPersonAddressModel.PersonId);
                 if (userMasterData.EmailId != generalPersonAddressModel.EmailAddress)
                 {
                     userMasterData.EmailId = generalPersonAddressModel.EmailAddress;
@@ -328,7 +327,7 @@ namespace Coditech.API.Service
         {
             if (!userModel.IsAdminUser)
             {
-                List<AdminRoleApplicableDetails> roleList = _adminRoleApplicableDetailsRepository.Table.Where(x => x.EmployeeId == userModel.UserMasterId && x.IsActive)?.ToList();
+                List<AdminRoleApplicableDetails> roleList = _adminRoleApplicableDetailsRepository.Table.Where(x => x.EmployeeId == userModel.EntityId && x.IsActive)?.ToList();
                 if (roleList?.Count() == 0)
                 {
                     throw new CoditechException(ErrorCodes.ContactAdministrator, null);
@@ -410,16 +409,19 @@ namespace Coditech.API.Service
                         MenuIconName = userMenuModel.MenuIconName
                     });
 
-                    if (!userModel.ModuleList.Any(x => x.ModuleCode == userMenuModel.ModuleCode))
+                    if (!userModel.ModuleList.Any(x => x.ModuleCode == userMenuModel.ModuleCode) && !string.IsNullOrEmpty(userMenuModel.ControllerName))
                     {
-                        userModel.ModuleList.Add(userAllModuleList.FirstOrDefault(x => x.ModuleCode == userMenuModel.ModuleCode).FromEntityToModel<UserModuleModel>());
+                        UserModuleModel userModuleModel = userAllModuleList.FirstOrDefault(x => x.ModuleCode == userMenuModel.ModuleCode).FromEntityToModel<UserModuleModel>();
+                        userModuleModel.DefaultMenuLink = $"{userMenuModel?.ControllerName?.ToLower()}/{userMenuModel?.ActionName?.ToLower()}";
+                        userModel.ModuleList.Add(userModuleModel);
                     }
                 }
             }
         }
 
-        protected virtual List<UserBalanceSheetModel> BindAccountBalanceSheetByRoleID(UserModel userModel)
+        protected virtual List<UserBalanceSheetModel> BindAccountBalanceSheetByRoleId(UserModel userModel)
         {
+            return new List<UserBalanceSheetModel>();
             int errorCode = 0;
             CoditechViewRepository<UserBalanceSheetModel> objStoredProc = new CoditechViewRepository<UserBalanceSheetModel>();
             objStoredProc.SetParameter("@iAdminRoleId", userModel.SelectedRoleId, ParameterDirection.Input, DbType.Int32);
@@ -433,9 +435,9 @@ namespace Coditech.API.Service
             return accountBalanceSheetList;
         }
 
-        protected virtual void UpdateUserMasterDetails(GeneralPersonModel model)
+        protected virtual void UpdateUserMasterDetails(GeneralPersonModel model, long entityId)
         {
-            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.PersonId == model.PersonId);
+            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == entityId);
             if (userMaster != null)
             {
                 userMaster.FirstName = model.FirstName;
@@ -465,9 +467,11 @@ namespace Coditech.API.Service
             return generalEnumaratorList;
         }
 
-        protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel)
+        protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId)
         {
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
+            userMaster.EntityId = entityId;
+            //Make it generic
             userMaster.UserName = generalPersonModel.PersonCode;
             userMaster = _userMasterRepository.Insert(userMaster);
         }
@@ -487,7 +491,7 @@ namespace Coditech.API.Service
                     _coditechLogging.LogMessage("SelectedCentreCode or SelectedDepartmentId is null", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
                 }
 
-                generalEnumaratorId = GetEnumIdByEnumCode("GymMemberRegistration");
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberFor.GymMemberRegistration.ToString());
                 if (generalEnumaratorId == 0)
                 {
                     _coditechLogging.LogMessage("EmployeeRegistration is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
@@ -502,7 +506,7 @@ namespace Coditech.API.Service
                     _coditechLogging.LogMessage("SelectedCentreCode or SelectedDepartmentId is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
                 }
 
-                generalEnumaratorId = GetEnumIdByEnumCode("EmployeeRegistration");
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberFor.EmployeeRegistration.ToString());
                 if (generalEnumaratorId == 0)
                 {
                     _coditechLogging.LogMessage("EmployeeRegistration is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);

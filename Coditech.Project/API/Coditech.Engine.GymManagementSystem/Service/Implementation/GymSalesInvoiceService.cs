@@ -22,7 +22,7 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
         }
 
-        public virtual GymMemberSalesInvoiceListModel GymMemberServiceSalesInvoiceList(string SelectedCentreCode, DateTime? fromDate, DateTime? toDate,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual GymMemberSalesInvoiceListModel GymMemberServiceSalesInvoiceList(string SelectedCentreCode, DateTime? fromDate, DateTime? toDate, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             if (toDate == null && fromDate == null)
             {
@@ -55,6 +55,15 @@ namespace Coditech.API.Service
             listModel.GymMemberSalesInvoiceList = gymMemberSalesInvoiceList?.Count > 0 ? gymMemberSalesInvoiceList : new List<GymMemberSalesInvoiceModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
+        }
+
+        public virtual SalesInvoiceModel GetSalesInvoiceDetails(long SalesInvoiceMasterId)
+        {
+            SalesInvoiceModel salesInvoiceModel = new SalesInvoiceModel()
+            {
+
+            };
+            return salesInvoiceModel;
         }
     }
 }

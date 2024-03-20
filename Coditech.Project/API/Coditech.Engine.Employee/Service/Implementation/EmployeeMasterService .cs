@@ -92,6 +92,9 @@ namespace Coditech.API.Service
                 employeeMasterModel.HasError = true;
                 employeeMasterModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
+            else { 
+            
+            }
             return isEmployeeUpdated;
         }
 

@@ -4,7 +4,7 @@
     {
         public int AdminRoleApplicableDetailId { get; set; }
         public int AdminRoleMasterId { get; set; }
-        public int EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
         public DateTime? WorkFromDate { get; set; }
         public DateTime? WorkToDate { get; set; }
         public string RoleType { get; set; }
