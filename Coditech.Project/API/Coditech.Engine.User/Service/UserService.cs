@@ -214,18 +214,24 @@ namespace Coditech.API.Service
             if (generalPersonModel.PersonId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
 
+            if (generalPersonModel.EntityId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EntityId"));
+
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
             //Update Gym Member
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
             if (isPersonUpdated)
             {
-                UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == generalPersonModel.PersonId);
-                if (userMasterData.EmailId != generalPersonModel.EmailId)
+                UserMaster userMaster = new UserMaster()
                 {
-                    userMasterData.EmailId = generalPersonModel.EmailId;
-                    _userMasterRepository.Update(userMasterData);
-                }
+                    EntityId = generalPersonModel.EntityId,
+                    FirstName = generalPersonModel.FirstName,
+                    MiddleName = generalPersonModel.MiddleName,
+                    LastName = generalPersonModel.LastName,
+                    EmailId = generalPersonModel.EmailId,
+                };
+                UpdateUserMasterDetails(userMaster);
             }
             else
             {
@@ -435,15 +441,17 @@ namespace Coditech.API.Service
             return accountBalanceSheetList;
         }
 
-        protected virtual void UpdateUserMasterDetails(GeneralPersonModel model, long entityId)
+        protected virtual void UpdateUserMasterDetails(UserMaster model)
         {
-            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == entityId);
+            CoditechRepository<UserMaster> _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
+
+            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == model.EntityId);
             if (userMaster != null)
             {
-                userMaster.FirstName = model.FirstName;
-                userMaster.MiddleName = model.MiddleName;
-                userMaster.LastName = model.LastName;
-                userMaster.EmailId = model.EmailId;
+                userMaster.FirstName = model.FirstName ?? userMaster.FirstName;
+                userMaster.MiddleName = model.MiddleName ?? userMaster.MiddleName;
+                userMaster.LastName = model.LastName ?? userMaster.LastName;
+                userMaster.EmailId = model.EmailId ?? userMaster.EmailId ?? userMaster.EmailId;
                 _userMasterRepository.Update(userMaster);
             }
         }

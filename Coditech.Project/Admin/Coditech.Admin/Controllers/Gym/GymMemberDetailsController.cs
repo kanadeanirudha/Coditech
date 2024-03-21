@@ -84,8 +84,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult UpdateMemberPersonalDetails(int gymMemberDetailId, long personId)
         {
-            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberPersonalDetails(personId);
-            gymCreateEditMemberViewModel.GymMemberDetailId = gymMemberDetailId;
+            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberPersonalDetails(gymMemberDetailId, personId);
             return ActionView(createEditGymMember, gymCreateEditMemberViewModel);
         }
 
@@ -366,7 +365,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public ActionResult MemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
-            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId,personId, dataTableModel);
+            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId, personId, dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberPaymentHistory.cshtml", list);

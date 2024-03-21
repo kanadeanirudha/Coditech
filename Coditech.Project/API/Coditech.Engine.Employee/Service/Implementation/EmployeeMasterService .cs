@@ -87,13 +87,14 @@ namespace Coditech.API.Service
 
             //Update Employee
             bool isEmployeeUpdated = _employeeMasterRepository.Update(employeeMaster);
-            if (!isEmployeeUpdated)
+            if (isEmployeeUpdated)
+            {
+                ActiveInActiveUserLogin(employeeMasterModel.IsActive, employeeMasterModel.EmployeeId);
+            }
+            else
             {
                 employeeMasterModel.HasError = true;
                 employeeMasterModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
-            }
-            else { 
-            
             }
             return isEmployeeUpdated;
         }

@@ -101,7 +101,11 @@ namespace Coditech.API.Service
             gymMemberDetails.IsActive = gymMemberDetailsModel.IsActive;
 
             isUpdated = _gymMemberDetailsRepository.Update(gymMemberDetails);
-            if (!isUpdated)
+            if (isUpdated)
+            {
+                ActiveInActiveUserLogin(gymMemberDetails.IsActive, Convert.ToInt64( gymMemberDetails.GymMemberDetailId));
+            }
+            else
             {
                 gymMemberDetailsModel.HasError = true;
                 gymMemberDetailsModel.ErrorMessage = GeneralResources.UpdateErrorMessage;

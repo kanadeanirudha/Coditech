@@ -23,7 +23,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="personId">personId</param>
         /// <returns>Returns GymCreateEditMemberViewModel.</returns>
-        GymCreateEditMemberViewModel GetMemberPersonalDetails(long personId);
+        GymCreateEditMemberViewModel GetMemberPersonalDetails(int gymMemberDetailId, long personId);
 
         /// <summary>
         /// Update Member Personal Details.

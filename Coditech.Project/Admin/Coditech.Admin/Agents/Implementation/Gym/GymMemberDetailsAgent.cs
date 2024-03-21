@@ -97,10 +97,21 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Member Personal Details by personId.
-        public virtual GymCreateEditMemberViewModel GetMemberPersonalDetails(long personId)
+        public virtual GymCreateEditMemberViewModel GetMemberPersonalDetails(int gymMemberDetailId, long personId)
         {
             GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
-            return response?.GeneralPersonModel.ToViewModel<GymCreateEditMemberViewModel>();
+            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = response?.GeneralPersonModel.ToViewModel<GymCreateEditMemberViewModel>();
+            if (IsNotNull(gymCreateEditMemberViewModel))
+            {
+                GymMemberDetailsResponse gymMemberDetailsResponse = _gymMemberDetailsClient.GetGymMemberOtherDetails(gymMemberDetailId);
+                if (IsNotNull(gymMemberDetailsResponse))
+                {
+                    gymCreateEditMemberViewModel.SelectedCentreCode = gymMemberDetailsResponse.GymMemberDetailsModel.CentreCode;
+                }
+                gymCreateEditMemberViewModel.GymMemberDetailId = gymMemberDetailId;
+                gymCreateEditMemberViewModel.PersonId = personId;
+            }
+            return gymCreateEditMemberViewModel;
         }
 
         //Update Member Details
@@ -109,8 +120,10 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                GeneralPersonResponse response = _userClient.UpdatePersonInformation(gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>());
-                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
+                GeneralPersonModel generalPersonModel = gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>();
+                generalPersonModel.EntityId = gymCreateEditMemberViewModel.GymMemberDetailId;
+                GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
+                generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
                 return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<GymCreateEditMemberViewModel>() : (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(new GymCreateEditMemberViewModel(), GeneralResources.UpdateErrorMessage);
             }
@@ -407,7 +420,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GymMemberSalesInvoiceListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId,personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberSalesInvoiceListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GymMemberSalesInvoiceListModel gymMemberList = new GymMemberSalesInvoiceListModel { GymMemberSalesInvoiceList = response?.GymMemberSalesInvoiceList };
 
             GymMemberSalesInvoiceListViewModel listViewModel = new GymMemberSalesInvoiceListViewModel()
