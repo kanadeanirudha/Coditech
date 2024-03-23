@@ -16,16 +16,6 @@ namespace Coditech.Admin.Agents
         /// </summary>
         Task Logout();
 
-        /// Get Active Module List
-        UserModuleListViewModel GetActiveModuleList();
-
-        /// <summary>
-        /// Get Active Menu List by moduleCode.
-        /// </summary>
-        /// <param name="moduleCode">moduleCode</param>
-        /// <returns>Returns UserMenuListViewModel.</returns>
-        UserMenuListViewModel GetActiveMenuList(string moduleCode);
-
         /// <summary>
         /// Get Person Address Details by personId.
         /// </summary>

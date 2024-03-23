@@ -11,6 +11,7 @@
             AccessibleCentreList = new List<UserAccessibleCentreModel>();
         }
         public long UserMasterId { get; set; }
+        public long EntityId { get; set; }
         public bool IsAdminUser { get; set; }
         public short UserTypeID { get; set; }
         public string UserType { get; set; }

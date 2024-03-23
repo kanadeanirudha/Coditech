@@ -118,8 +118,10 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
-                GeneralPersonResponse response = _userClient.UpdatePersonInformation(employeeCreateEditViewModel.ToModel<GeneralPersonModel>());
-                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
+                GeneralPersonModel generalPersonModel = employeeCreateEditViewModel.ToModel<GeneralPersonModel>();
+                generalPersonModel.EntityId = employeeCreateEditViewModel.EmployeeId;
+                GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
+                generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
                 return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<EmployeeCreateEditViewModel>() : (EmployeeCreateEditViewModel)GetViewModelWithErrorMessage(new EmployeeCreateEditViewModel(), GeneralResources.UpdateErrorMessage);
             }

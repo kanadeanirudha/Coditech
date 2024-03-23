@@ -22,7 +22,7 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Departments.", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Departments.", "error")
                     CoditechCommon.HideLodder();
                 }
             });
@@ -39,7 +39,7 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Building.", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Building.", "error")
                     CoditechCommon.HideLodder();
                 }
             });
@@ -63,7 +63,7 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Building.", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Building.", "error")
                     CoditechCommon.HideLodder();
                 }
             });
@@ -89,7 +89,7 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Employee List", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Employee List", "error")
                     CoditechCommon.HideLodder();
                 }
             });

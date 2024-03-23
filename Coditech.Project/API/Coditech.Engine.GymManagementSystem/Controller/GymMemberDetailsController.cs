@@ -251,6 +251,30 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new GymMemberMembershipPlanResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("/GymMemberDetails/GymMemberPaymentHistoryList")]
+        [Produces(typeof(GymMemberSalesInvoiceListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                GymMemberSalesInvoiceListModel list = _generalGymMemberDetailsService.GymMemberPaymentHistoryList(gymMemberDetailId,personId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberSalesInvoiceListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberSalesInvoiceListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymMemberSalesInvoiceListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
         #endregion
     }
 }

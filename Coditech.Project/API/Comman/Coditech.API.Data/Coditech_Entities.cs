@@ -44,10 +44,10 @@ namespace Coditech.API.Data
         #endregion
 
         #region Admin
-        public DbSet<AdminRoleApplicableDetail> AdminRoleApplicableDetail { get; set; }
+        public DbSet<AdminRoleApplicableDetails> AdminRoleApplicableDetails { get; set; }
         public DbSet<AdminRoleCentreRights> AdminRoleCentreRights { get; set; }
         public DbSet<AdminRoleMaster> AdminRoleMaster { get; set; }
-        public DbSet<AdminRoleMenuDetail> AdminRoleMenuDetail { get; set; }
+        public DbSet<AdminRoleMenuDetails> AdminRoleMenuDetails { get; set; }
         public DbSet<AdminSanctionPost> AdminSanctionPost { get; set; }
         #endregion
 

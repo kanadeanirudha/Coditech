@@ -41,7 +41,9 @@
         Floors,
         AttendanceState,
         GymMembershipPlan,
-        PaymentType
+        PaymentType,
+        InventoryGeneralServiecs,
+        DashboardForm
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -58,7 +60,6 @@
         Employee,
         Customer,
         GymMember
-
     }
 
     public enum ActiveProjectNameEnum

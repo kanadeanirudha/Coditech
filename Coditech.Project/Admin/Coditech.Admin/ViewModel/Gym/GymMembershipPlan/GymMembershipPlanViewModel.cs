@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using Coditech.Resources;
 
 using System.ComponentModel.DataAnnotations;
@@ -67,5 +68,10 @@ namespace Coditech.Admin.ViewModel
         public int PlanDurationTypeEnumId { get; set; }
         public bool IsEditable { get; set; }
         public string PlanDurationType { get; set; }
+
+        [Required]
+        [Display(Name = "Services")]
+        public List<string> SelectedGeneralServicesIds { get; set; }
+        public List<InventoryGeneralItemMasterModel> AllGeneralServices { get; set; }
     }
 }

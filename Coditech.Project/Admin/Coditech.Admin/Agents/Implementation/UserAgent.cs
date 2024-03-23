@@ -78,26 +78,6 @@ namespace Coditech.Admin.Agents
             SessionHelper.Clear();
         }
 
-        //Get Active Module List .
-        public virtual UserModuleListViewModel GetActiveModuleList()
-        {
-            UserModuleListResponse response = _userClient.GetActiveModuleList();
-            UserModuleListModel moduleList = new UserModuleListModel { ModuleList = response?.ModuleList };
-            UserModuleListViewModel listViewModel = new UserModuleListViewModel();
-            listViewModel.ModuleList = moduleList?.ModuleList?.ToViewModel<UserModuleViewModel>().ToList();
-            return listViewModel;
-        }
-
-        //Get Active Menu List .
-        public virtual UserMenuListViewModel GetActiveMenuList(string moduleCode)
-        {
-            UserMenuListResponse response = _userClient.GetActiveMenuList(moduleCode);
-            UserMenuListModel menuList = new UserMenuListModel { MenuList = response?.MenuList };
-            UserMenuListViewModel listViewModel = new UserMenuListViewModel();
-            listViewModel.MenuList = menuList?.MenuList?.ToViewModel<UserMenuViewModel>().ToList();
-            return listViewModel;
-        }
-
         //Get Member Address Details by personID
         public virtual GeneralPersonAddressListViewModel GetGeneralPersonAddresses(long personId)
         {

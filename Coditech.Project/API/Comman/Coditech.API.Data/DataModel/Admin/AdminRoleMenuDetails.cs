@@ -1,10 +1,14 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
-    public partial class AdminRoleMenuDetail
+    public partial class AdminRoleMenuDetails
     {
+        [Key]
         public int AdminRoleMenuDetailId { get; set; }
         public int AdminRoleMasterId { get; set; }
         public string AdminRoleCode { get; set; }
+        public string ModuleCode { get; set; }
         public string MenuCode { get; set; }
         public Nullable<System.DateTime> EnableDate { get; set; }
         public Nullable<System.DateTime> DisableDate { get; set; }

@@ -97,10 +97,21 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Member Personal Details by personId.
-        public virtual GymCreateEditMemberViewModel GetMemberPersonalDetails(long personId)
+        public virtual GymCreateEditMemberViewModel GetMemberPersonalDetails(int gymMemberDetailId, long personId)
         {
             GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
-            return response?.GeneralPersonModel.ToViewModel<GymCreateEditMemberViewModel>();
+            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = response?.GeneralPersonModel.ToViewModel<GymCreateEditMemberViewModel>();
+            if (IsNotNull(gymCreateEditMemberViewModel))
+            {
+                GymMemberDetailsResponse gymMemberDetailsResponse = _gymMemberDetailsClient.GetGymMemberOtherDetails(gymMemberDetailId);
+                if (IsNotNull(gymMemberDetailsResponse))
+                {
+                    gymCreateEditMemberViewModel.SelectedCentreCode = gymMemberDetailsResponse.GymMemberDetailsModel.CentreCode;
+                }
+                gymCreateEditMemberViewModel.GymMemberDetailId = gymMemberDetailId;
+                gymCreateEditMemberViewModel.PersonId = personId;
+            }
+            return gymCreateEditMemberViewModel;
         }
 
         //Update Member Details
@@ -109,8 +120,10 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
-                GeneralPersonResponse response = _userClient.UpdatePersonInformation(gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>());
-                GeneralPersonModel generalPersonModel = response?.GeneralPersonModel;
+                GeneralPersonModel generalPersonModel = gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>();
+                generalPersonModel.EntityId = gymCreateEditMemberViewModel.GymMemberDetailId;
+                GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
+                generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
                 return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<GymCreateEditMemberViewModel>() : (GymCreateEditMemberViewModel)GetViewModelWithErrorMessage(new GymCreateEditMemberViewModel(), GeneralResources.UpdateErrorMessage);
             }
@@ -393,6 +406,35 @@ namespace Coditech.Admin.Agents
                 return (GymMemberMembershipPlanViewModel)GetViewModelWithErrorMessage(gymMemberMembershipPlanViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+
+        public virtual GymMemberSalesInvoiceListViewModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("InvoiceNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MembershipPlanName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GymMemberSalesInvoiceListResponse response = _gymMemberDetailsClient.GymMemberPaymentHistoryList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberSalesInvoiceListModel gymMemberList = new GymMemberSalesInvoiceListModel { GymMemberSalesInvoiceList = response?.GymMemberSalesInvoiceList };
+
+            GymMemberSalesInvoiceListViewModel listViewModel = new GymMemberSalesInvoiceListViewModel()
+            {
+                GymMemberDetailId = response.GymMemberDetailId,
+                PersonId = response.PersonId,
+                FirstName = response?.FirstName,
+                LastName = response?.LastName
+            };
+            listViewModel.GymMemberSalesInvoiceList = gymMemberList?.GymMemberSalesInvoiceList?.ToViewModel<GymMemberSalesInvoiceViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberSalesInvoiceList.Count, BindGymMemberSalesInvoiceColumns(), false);
+            return listViewModel;
+        }
         #endregion
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
@@ -494,6 +536,51 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Remark",
                 ColumnCode = "Remark",
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindGymMemberSalesInvoiceColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Invoice Number",
+                ColumnCode = "InvoiceNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Transaction Date",
+                ColumnCode = "TransactionDate",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Plan Type",
+                ColumnCode = "PlanType",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Plan Name",
+                ColumnCode = "MembershipPlanName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Paid Amount",
+                ColumnCode = "BillAmount",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Payment Mode",
+                ColumnCode = "PaymentType",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Payment Received By",
+                ColumnCode = "PaymentReceivedBy",
             });
             return datatableColumnList;
         }

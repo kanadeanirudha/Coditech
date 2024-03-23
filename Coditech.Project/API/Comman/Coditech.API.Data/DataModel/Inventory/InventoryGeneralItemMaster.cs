@@ -11,6 +11,7 @@ namespace Coditech.API.Data
         public string ItemName { get; set; }
         public string ItemDescription { get; set; }
         public string HSNSACCode { get; set; }
+        public int ProductTypeEnumId { get; set; }
         public int ProductSubTypeEnumId { get; set; }
         public byte GeneralTaxGroupMasterId { get; set; }
         public int InventoryModelEnumId { get; set; }

@@ -3,6 +3,7 @@
     public class GeneralPersonModel : BaseModel
     {
         public long PersonId { get; set; }
+        public long EntityId { get; set; }
         public string UserType { get; set; }
         public string Password { get; set; }
         public string PersonCode { get; set; }

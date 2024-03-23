@@ -1,8 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model;
-using Coditech.Common.Enum;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -85,8 +84,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult UpdateMemberPersonalDetails(int gymMemberDetailId, long personId)
         {
-            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberPersonalDetails(personId);
-            gymCreateEditMemberViewModel.GymMemberDetailId = gymMemberDetailId;
+            GymCreateEditMemberViewModel gymCreateEditMemberViewModel = _gymMemberDetailsAgent.GetMemberPersonalDetails(gymMemberDetailId, personId);
             return ActionView(createEditGymMember, gymCreateEditMemberViewModel);
         }
 
@@ -362,6 +360,17 @@ namespace Coditech.Admin.Controllers
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymMemberMembershipPlanViewModel.ErrorMessage));
             return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/AssociateGymMemberMembershipPlan.cshtml", gymMemberMembershipPlanViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult MemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId, personId, dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberPaymentHistory.cshtml", list);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory.cshtml", list);
         }
         #endregion
     }

@@ -50,7 +50,8 @@
             PersonFollowUp,
             HospitalDoctors,
             MemberBodyMeasurement,
-            PersonAttendance
+            PersonAttendance,
+            Inventoty
         }
     }
 }

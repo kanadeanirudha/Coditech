@@ -15,14 +15,10 @@ namespace Coditech.API.Client
     {
         private System.Lazy<JsonSerializerSettings> _settings;
         UserEndpoint userEndpoint = null;
-        UserMenuEndpoint userMenuEndpoint = null;
-        UserModuleEndpoint userModuleEndpoint = null;
         public UserClient()
         {
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
             userEndpoint = new UserEndpoint();
-            userMenuEndpoint = new UserMenuEndpoint();
-            userModuleEndpoint = new UserModuleEndpoint();
         }
         private JsonSerializerSettings CreateSerializerSettings()
         {
@@ -154,7 +150,7 @@ namespace Coditech.API.Client
 
         public virtual async Task<UserModuleListResponse> GetActiveModuleAsync(System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = userModuleEndpoint.GetActiveModuleAsync();
+            string endpoint = userEndpoint.GetActiveModuleAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -205,7 +201,7 @@ namespace Coditech.API.Client
                 throw new System.ArgumentNullException("moduleCode");
             }
 
-            string endpoint = userMenuEndpoint.GetActiveMenuListAsync(moduleCode);
+            string endpoint = userEndpoint.GetActiveMenuListAsync(moduleCode);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

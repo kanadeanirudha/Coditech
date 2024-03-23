@@ -12,6 +12,12 @@ namespace Coditech.API.Mapper
         public AutoMapperConfig()
         {
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
+            CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
+
+            CreateMap<AdminSanctionPost, AdminSanctionPostModel>().ReverseMap();
+            CreateMap<AdminRoleMaster, AdminRoleModel>().ReverseMap();
+            CreateMap<AdminRoleApplicableDetails, AdminRoleApplicableDetailsModel>().ReverseMap();
+
             CreateMap<GeneralDepartmentMaster, GeneralDepartmentModel>().ReverseMap();
             CreateMap<GeneralCountryMaster, GeneralCountryModel>().ReverseMap();
             CreateMap<GeneralFinancialYear, GeneralFinancialYearModel>().ReverseMap();
@@ -22,8 +28,7 @@ namespace Coditech.API.Mapper
             CreateMap<EmployeeDesignationMaster, GeneralDesignationModel>().ReverseMap();
             CreateMap<OrganisationCentreMaster, OrganisationCentreModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseBuildingMaster, OrganisationCentrewiseBuildingModel>().ReverseMap();
-            CreateMap<AdminSanctionPost, AdminSanctionPostModel>().ReverseMap();
-            CreateMap<AdminRoleMaster, AdminRoleModel>().ReverseMap();
+           
             CreateMap<OrganisationMaster, OrganisationModel>().ReverseMap();
             CreateMap<GeneralRegionMaster, GeneralRegionModel>().ReverseMap();
             CreateMap<OrganisationCentrePrintingFormat, OrganisationCentrePrintingFormatModel>().ReverseMap();

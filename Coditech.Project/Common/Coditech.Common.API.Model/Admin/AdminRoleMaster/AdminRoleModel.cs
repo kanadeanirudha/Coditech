@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Security.AccessControl;
-using System.Xml.Linq;
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
     public class AdminRoleModel : BaseModel
     {
@@ -18,5 +14,6 @@ namespace Coditech.Common.API.Model
         public List<UserAccessibleCentreModel> AllCentreList { get; set; }
         public string SelectedCentreCode { get; set; }
         public string SelectedDepartmentId { get; set; }
-    }
+		public int DashboardFormEnumId { get; set; }
+	}
 }
