@@ -48,5 +48,27 @@ namespace Coditech.API.Controllers
             }
         }
 
+
+        [Route("/GymSalesInvoice/GetSalesInvoiceDetails")]
+        [HttpGet]
+        [Produces(typeof(SalesInvoicePrintResponse))]
+        public virtual IActionResult GetSalesInvoiceDetails(long salesInvoiceMasterId)
+        {
+            try
+            {
+                SalesInvoicePrintModel salesInvoicePrintModel = _gymSalesInvoiceService.GetSalesInvoiceDetails(salesInvoiceMasterId);
+                return IsNotNull(salesInvoicePrintModel) ? CreateOKResponse(new SalesInvoicePrintResponse { SalesInvoicePrintModel = salesInvoicePrintModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SalesAndPurchase.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new SalesInvoicePrintResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SalesAndPurchase.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new SalesInvoicePrintResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

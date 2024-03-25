@@ -1,12 +1,13 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
 {
-    public class GymMemberSalesInvoiceController : BaseController
+	public class GymMemberSalesInvoiceController : BaseController
     {
         private readonly IGymSalesInvoiceAgent _gymSaleInvoiceAgent;
 
@@ -16,7 +17,6 @@ namespace Coditech.Admin.Controllers
         }
 
         #region GymMemberSaleInvoice
-
         public ActionResult SaleInvoiceList(DataTableViewModel dataTableModel)
         {
             GymMemberSalesInvoiceListViewModel list = new GymMemberSalesInvoiceListViewModel();
@@ -35,6 +35,13 @@ namespace Coditech.Admin.Controllers
             }
 
             return View($"~/Views/Gym/GymSalesInvoice/SaleInvoiceList.cshtml", list);
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetSalesInvoiceDetails(long salesInvoiceMasterId)
+        {
+            SalesInvoicePrintModel salesInvoicePrintModel = _gymSaleInvoiceAgent.GetSalesInvoiceDetails(salesInvoiceMasterId);
+            return View($"~/Views/Gym/GymSalesInvoice/SalesInvoicePrint.cshtml", salesInvoicePrintModel);
         }
         #endregion
     }

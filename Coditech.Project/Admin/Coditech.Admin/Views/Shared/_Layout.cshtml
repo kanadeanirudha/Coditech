@@ -4,6 +4,7 @@
     //string title = System.Convert.ToString(RARIndiaSetting.ProjectTitle);
     string messageData = Convert.ToString(TempData["Notifications"]);
     UserModel userData = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
+    string applicationLogoPath = CoditechAdminSettings.ApplicationLogoPath;
     TempData.Remove("Notifications");
 }
 <!DOCTYPE html>
@@ -21,8 +22,8 @@
     <link rel="shortcut icon" href="~/favicon.ico">
 
     <!-- App css -->
-    <link href="~/css/layout/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="~/css/layout/icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="~/css/layout/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/layout/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/layout/metisMenu.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/layout/daterangepicker.css" rel="stylesheet" type="text/css" />
     <link href="~/css/layout/app.min.css" rel="stylesheet" type="text/css">
@@ -36,7 +37,7 @@
 <body data-layout="horizontal" class="dark-topbar" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="">
     @Html.Partial("~/Views/Shared/_Loader.cshtml")
 
-    @if(userData != null)
+    @if (userData != null)
     {
         <!-- Top Bar Start -->
         <div class="topbar">
@@ -44,11 +45,10 @@
             <div class="brand">
                 <a href="~/Dashboard/Index" class="logo">
                     <span>
-                        <img src="~/assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
+                        <img src="@applicationLogoPath" alt="logo-small" class="logo-sm">
                     </span>
                     <span>
-                        <img src="~/assets/images/logo.png" alt="logo-large" class="logo-lg logo-light">
-                        <img src="~/assets/images/logo-dark.png" alt="logo-large" class="logo-lg logo-dark">
+                        <img src="@applicationLogoPath" alt="logo-large" class="logo-lg logo-dark">
                     </span>
                 </a>
             </div>
@@ -56,7 +56,7 @@
             <!-- Navbar -->
             <nav class="navbar-custom">
                 <ul class="list-unstyled topbar-nav float-end mb-0">
-                    <li class="dropdown hide-phone">
+                   @*  <li class="dropdown hide-phone">
                         <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search topbar-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         </a>
@@ -70,8 +70,8 @@
                                 </form>
                             </div>
                         </div>
-                    </li>
-                    @Html.Partial("~/Views/Shared/_NotificationCount.cshtml", userData.UserMasterId)
+                    </li> *@
+                    @* @Html.Partial("~/Views/Shared/_NotificationCount.cshtml", userData.UserMasterId) *@
                     @Html.Partial("~/Views/Shared/_Profile.cshtml", userData)
                     <li class="menu-item">
                         <!-- Mobile menu toggle-->

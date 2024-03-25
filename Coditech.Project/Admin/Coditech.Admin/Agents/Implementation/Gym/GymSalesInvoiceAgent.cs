@@ -2,6 +2,7 @@
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
@@ -46,6 +47,15 @@ namespace Coditech.Admin.Agents
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberSalesInvoiceList.Count, BindColumns());
             return listViewModel;
         }
+
+        //Get Sales Invoice Details
+        public virtual SalesInvoicePrintModel GetSalesInvoiceDetails(long salesInvoiceMasterId)
+        {
+            SalesInvoicePrintResponse response = _gymSalesInvoiceClient.GetSalesInvoiceDetails(salesInvoiceMasterId);
+            SalesInvoicePrintModel salesInvoicePrintModel = response?.SalesInvoicePrintModel;
+            return salesInvoicePrintModel;
+        }
+
         #endregion
 
         #region protected

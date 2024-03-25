@@ -10,9 +10,13 @@ namespace Coditech.Admin.ViewModel
 {
     public class UserLoginViewModel : BaseViewModel
     {
+        [MaxLength(100)]
         [Required]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
+        [MaxLength(100)]
         [Required]
+        [Display(Name = "Password")]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
         public string ReturnUrl

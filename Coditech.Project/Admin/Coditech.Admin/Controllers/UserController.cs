@@ -57,13 +57,13 @@ namespace Coditech.Admin.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("ErrorMessage", "Invalid Email Address or Password");
+                        ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
                     }
                     ModelState.AddModelError("ErrorMessage", loginviewModel.ErrorMessage);
                 }
                 else
                 {
-                    ModelState.AddModelError("ErrorMessage", "Invalid Email Address or Password");
+                    ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
                 }
             }
             return View(model);
@@ -121,7 +121,6 @@ namespace Coditech.Admin.Controllers
             if ((HttpContextHelper.Request.Cookies?.Count > 0))
             {
                 CookieHelper.SetCookie(AdminConstants.LoginCookieNameValue, userId, (Convert.ToDouble(CoditechAdminSettings.CookieExpiresValue) * AdminConstants.MinutesInADay), true);
-
             }
         }
         protected virtual void GetLoginRememberMeCookie()

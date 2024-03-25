@@ -3,12 +3,20 @@
     ViewBag.Title = Model.OrganisationCentreMasterId > 0 ? "Update Organisation Centre" : "Add Organisation Centre";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string css = Model.OrganisationCentreMasterId > 0 ? "col-lg-10" : "col-lg-12";
+
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
+            @if (Model.OrganisationCentreMasterId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentreMasterId.ToString())
+                </div>
+            }
+            <div class="@css">
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">

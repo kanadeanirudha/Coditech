@@ -91,7 +91,7 @@ namespace Coditech.API.Service
             userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
 
             userModel.GeneralEnumaratorList = BindEnumarator();
-
+            userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();
             return userModel;
         }
 
@@ -145,7 +145,7 @@ namespace Coditech.API.Service
             if (personData?.PersonId > 0)
             {
                 generalPersonModel.PersonId = personData.PersonId;
-                List<GeneralSystemGlobleSettingMaster> settingMasterList = GetSystemGlobleSettingList();
+                List<GeneralSystemGlobleSettingModel> settingMasterList = GetSystemGlobleSettingList();
                 string password = settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.DefaultPassword.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue;
                 generalPersonModel.Password = MD5Hash(password);
                 if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))

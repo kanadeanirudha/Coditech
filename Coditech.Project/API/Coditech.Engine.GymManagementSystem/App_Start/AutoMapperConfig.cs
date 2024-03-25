@@ -11,6 +11,7 @@ namespace Coditech.API.Mapper
         public AutoMapperConfig()
         {
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
+            CreateMap<OrganisationCentreMaster, OrganisationCentreModel>().ReverseMap();
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<GymMemberDetailsModel, GymMemberDetails>().ReverseMap();
             CreateMap<GymMemberFollowUpModel, GymMemberFollowUp>().ReverseMap();

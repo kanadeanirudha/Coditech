@@ -37,6 +37,6 @@
         public List<UserBalanceSheetModel> BalanceSheetList { get; set; }
         public List<UserAccessibleCentreModel> AccessibleCentreList { get; set; }
         public List<GeneralEnumaratorModel> GeneralEnumaratorList { get; set; }
-
+        public List<GeneralSystemGlobleSettingModel> GeneralSystemGlobleSettingList { get; set; }
     }
 }

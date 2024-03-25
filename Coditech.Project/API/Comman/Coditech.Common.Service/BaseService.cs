@@ -64,10 +64,20 @@ namespace Coditech.Common.Service
             return userAllMenuList;
         }
 
-        protected virtual List<GeneralSystemGlobleSettingMaster> GetSystemGlobleSettingList(string featureName = null)
+        protected virtual List<GeneralSystemGlobleSettingModel> GetSystemGlobleSettingList(string featureName = null)
         {
             List<GeneralSystemGlobleSettingMaster> settingList = new CoditechRepository<GeneralSystemGlobleSettingMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.FeatureName == featureName || featureName == null)?.ToList();
-            return settingList;
+            List<GeneralSystemGlobleSettingModel> list = new List<GeneralSystemGlobleSettingModel>();
+            foreach (GeneralSystemGlobleSettingMaster item in settingList)
+            {
+                list.Add(new GeneralSystemGlobleSettingModel()
+                {
+                    GeneralSystemGlobleSettingMasterId = item.GeneralSystemGlobleSettingMasterId,
+                    FeatureName = item.FeatureName,
+                    FeatureValue = item.FeatureValue
+                });
+            }
+            return list;
         }
 
         protected virtual GeneralPersonModel GetGeneralPersonDetails(long personId)
@@ -116,6 +126,15 @@ namespace Coditech.Common.Service
 
             GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).GetById(generalEnumaratorId);
             return generalEnumaratorMaster.EnumName;
+        }
+
+        protected virtual string GetEnumDisplayTextByEnumId(int generalEnumaratorId)
+        {
+            if (generalEnumaratorId == 0)
+                return string.Empty;
+
+            GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).GetById(generalEnumaratorId);
+            return generalEnumaratorMaster.EnumDisplayText;
         }
 
         protected virtual int GetEnumIdByEnumCode(string enumCode)
@@ -197,6 +216,13 @@ namespace Coditech.Common.Service
                 userMaster.IsActive = flag;
                 _userMasterRepository.Update(userMaster);
             }
+        }
+
+        protected virtual short GetOrganisationCentreMasterIdByCentreCode(string centreCode)
+        {
+            CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == centreCode).OrganisationCentreMasterId;
+            return organisationCentreMasterId;
         }
     }
 }
