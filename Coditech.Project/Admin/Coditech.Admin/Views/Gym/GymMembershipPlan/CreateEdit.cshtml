@@ -157,7 +157,7 @@
 										@Html.ValidationMessageFor(x => x.PlanDurationInDays)
 									</div>
 								</div>
-								<div class="col-lg-4" id="PlanDurationInSessionDivId" style="display: @(Model.GymMembershipPlanId > 0 && string.Equals(Model.PlanDurationType,"session",StringComparison.InvariantCultureIgnoreCase)? "block" : "none")">
+								<div class="col-lg-4" id="PlanDurationInSessionDivId" style="display: @(Model.GymMembershipPlanId > 0 && string.Equals(Model.PlanDurationType,AdminConstants.PlanSessionType,StringComparison.InvariantCultureIgnoreCase)? "block" : "none")">
 									<div class="mb-3">
 										@Html.LabelFor(x => x.PlanDurationInSession, new { @class = "form-label required" })
 										@if (Model.IsEditable || Model.GymMembershipPlanId == 0)

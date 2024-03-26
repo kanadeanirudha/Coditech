@@ -13,7 +13,7 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Membership Plan")]
         public int GymMembershipPlanId { get; set; }
-
+       
         [Required]
         [Display(Name = "Plan Start Date")]
         public DateTime? PlanStartDate { get; set; }
@@ -40,5 +40,9 @@ namespace Coditech.Admin.ViewModel
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CentreCode { get; set; }
+		public string PlanType { get; set; }
+		public string MembershipPlanName { get; set; }
+		public string PlanDurationType { get; set; }
+        public short PlanDurationInSession { get; set; }
     }
 }

@@ -111,8 +111,9 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Get list of Gym Member Membership Plan.
         /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>GymMemberMembershipPlanListViewModel</returns>
-        GymMemberMembershipPlanListViewModel GetGymMemberMembershipPlan(int gymMemberDetailId, long personId);
+        GymMemberMembershipPlanListViewModel GetGymMemberMembershipPlan(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel);
 
         /// <summary>
         /// Associate Gym Member Membership Plan

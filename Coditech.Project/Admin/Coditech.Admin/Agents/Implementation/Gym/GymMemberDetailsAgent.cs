@@ -373,20 +373,31 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Gym Member Membership Plan
-        public virtual GymMemberMembershipPlanListViewModel GetGymMemberMembershipPlan(int gymMemberDetailId, long personId)
+        public virtual GymMemberMembershipPlanListViewModel GetGymMemberMembershipPlan(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
-            GymMemberMembershipPlanListResponse response = _gymMemberDetailsClient.GetGymMemberMembershipPlanList(gymMemberDetailId, personId);
-            GymMemberMembershipPlanListModel gymMemberMembershipPlanList = response?.GymMemberMembershipPlanList;
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("MembershipPlanName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GymMemberMembershipPlanListResponse response = _gymMemberDetailsClient.GetGymMemberMembershipPlanList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMemberMembershipPlanListModel gymMemberMembershipPlanList = new GymMemberMembershipPlanListModel {GymMemberMembershipPlanList =  response?.GymMemberMembershipPlanList };
 
             GymMemberMembershipPlanListViewModel listViewModel = new GymMemberMembershipPlanListViewModel()
             {
                 PersonId = personId,
                 GymMemberDetailId = gymMemberDetailId,
-                FirstName = gymMemberMembershipPlanList?.FirstName,
-                LastName = gymMemberMembershipPlanList?.LastName
+                FirstName = response?.FirstName,
+                LastName = response?.LastName
             };
             listViewModel.GymMemberMembershipPlanList = gymMemberMembershipPlanList?.GymMemberMembershipPlanList?.ToViewModel<GymMemberMembershipPlanViewModel>().ToList();
-            return listViewModel;
+			SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberMembershipPlanList.Count, BindGymMemberMembershipPlanColumns(), false);
+			return listViewModel;
         }
 
         //Associate Gym Member Membership Plan
@@ -584,7 +595,31 @@ namespace Coditech.Admin.Agents
             });
             return datatableColumnList;
         }
-        #endregion
-    }
+
+		protected virtual List<DatatableColumns> BindGymMemberMembershipPlanColumns()
+		{
+			List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+			datatableColumnList.Add(new DatatableColumns()
+			{
+				ColumnName = "Plan Type",
+				ColumnCode = "PlanType",
+				IsSortable = true,
+			});
+			datatableColumnList.Add(new DatatableColumns()
+			{
+				ColumnName = "Plan Name",
+				ColumnCode = "MembershipPlanName",
+				IsSortable = true,
+			});
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Expired",
+                ColumnCode = "IsExpired",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+		}
+		#endregion
+	}
 }
 #endregion

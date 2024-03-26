@@ -19,5 +19,9 @@
         public int? TransferedGymMemberDetailId { get; set; }
         public int SalesInvoiceMasterId { get; set; }
         public bool IsExpired { get; set; }
+        public string PlanType { get; set; }
+        public string MembershipPlanName { get; set; }
+        public string PlanDurationType { get; set; }
+        public short PlanDurationInSession { get; set; }
     }
 }

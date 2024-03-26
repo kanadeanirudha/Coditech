@@ -323,11 +323,16 @@ namespace Coditech.Admin.Controllers
         #endregion
 
         #region GymMemberMembershipPlan
+      
         [HttpGet]
-        public virtual ActionResult GetGymMemberMembershipPlan(int gymMemberDetailId, long personId)
+        public ActionResult GetGymMemberMembershipPlan(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
         {
-            GymMemberMembershipPlanListViewModel gymMemberMembershipPlanListViewModel = _gymMemberDetailsAgent.GetGymMemberMembershipPlan(gymMemberDetailId, personId);
-            return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/GymMemberMembershipPlan.cshtml", gymMemberMembershipPlanListViewModel);
+            GymMemberMembershipPlanListViewModel list = _gymMemberDetailsAgent.GetGymMemberMembershipPlan(gymMemberDetailId, personId, dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/_GymMemberMembershipPlanList.cshtml", list);
+            }
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/GymMemberMembershipPlanList.cshtml", list);
         }
 
         [HttpGet]
@@ -368,9 +373,9 @@ namespace Coditech.Admin.Controllers
             GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId, personId, dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberPaymentHistory.cshtml", list);
+                return PartialView("~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory/_GymMemberPaymentHistory.cshtml", list);
             }
-            return View($"~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory.cshtml", list);
+            return View($"~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory/GymMemberPaymentHistory.cshtml", list);
         }
         #endregion
     }

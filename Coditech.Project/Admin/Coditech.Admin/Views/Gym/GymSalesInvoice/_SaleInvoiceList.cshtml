@@ -27,13 +27,13 @@
 							<td>
 								<div class="plan-details">
 									@item.MembershipPlanName<br />
-									@if (item.PlanDurationType.Equals("Duration", StringComparison.InvariantCultureIgnoreCase))
+									@if (item.PlanDurationType.Equals(AdminConstants.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
 									{
 										<span style="font-size: 12px; font-style: italic;">
 											<i class="fa fa-calendar-alt icon"></i> @item.PlanStartDate.ToShortDateString() to @item.PlanDurationExpirationDate.ToShortDateString()
 										</span>
 									}
-									else if (item.PlanDurationType.Equals("Session", StringComparison.InvariantCultureIgnoreCase))
+									else if (item.PlanDurationType.Equals(AdminConstants.PlanSessionType, StringComparison.InvariantCultureIgnoreCase))
 									{
 										<span style="font-size: 12px; font-style: italic;">
                                             <i class="fa fa-clock icon"></i> Session: @item.PlanDurationInSession by @item.RemainingSessionCount
