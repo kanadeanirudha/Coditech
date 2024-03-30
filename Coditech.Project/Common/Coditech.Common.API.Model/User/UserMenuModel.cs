@@ -6,7 +6,7 @@
         public string ModuleCode { get; set; }
         public string MenuCode { get; set; }
         public string MenuName { get; set; }
-        public short? ParentMenuId { get; set; }
+        public string ParentMenuCode { get; set; }
         public int? MenuDisplaySeqNo { get; set; }
         public string ControllerName { get; set; }
         public string ActionName { get; set; }

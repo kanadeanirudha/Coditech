@@ -54,12 +54,12 @@
                                         @Html.LabelFor(x => x.MenuList, new { @class = "form-label" })
                                         <div id="jstree">
                                             <ul>
-                                                @foreach (UserMenuModel item in Model?.MenuList?.Where(x => x.ParentMenuId == 0))
+                                                @foreach (UserMenuModel item in Model?.MenuList?.Where(x => x.ParentMenuCode == null))
                                                 {
                                                     <li id="@item.MenuCode" data-jstree='{"opened":true}'>
                                                         @item.MenuName
                                                         <ul>
-                                                            @foreach (UserMenuModel childNode in Model?.MenuList?.Where(x => x.ParentMenuId != 0 && x.ParentMenuId == item.UserMainMenuMasterId))
+                                                            @foreach (UserMenuModel childNode in Model?.MenuList?.Where(x => x.ParentMenuCode != null && x.ParentMenuCode == item.MenuCode))
                                                             {
                                                                 <li id="@childNode.MenuCode" data-jstree='{"selected":@Convert.ToString(@childNode.IsAssociatedToAdminRole).ToLower()}'>@childNode.MenuName</li>
                                                             }

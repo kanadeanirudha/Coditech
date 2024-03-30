@@ -19,12 +19,7 @@ namespace Coditech.Admin.ViewModel
 
         public short? MenuInnerLevel { get; set; }
 
-        public short? ParentMenuId { get; set; }
-
         public int? MenuDisplaySeqNo { get; set; }
-
-        [MaxLength(60)]
-        public string MenuVerNo { get; set; }
 
         public bool? MenuInstalledFlag { get; set; }
 
@@ -45,9 +40,6 @@ namespace Coditech.Admin.ViewModel
         public string MenuToolTip { get; set; }
 
         [MaxLength(100)]
-        public string ParentMenuName { get; set; }
-
-        [MaxLength(50)]
         public string ParentMenuCode { get; set; }
 
         [MaxLength(50)]

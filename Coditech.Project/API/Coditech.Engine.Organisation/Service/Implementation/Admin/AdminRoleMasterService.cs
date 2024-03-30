@@ -377,7 +377,7 @@ namespace Coditech.API.Service
                     ModuleCode = item.ModuleCode,
                     MenuCode = item.MenuCode,
                     MenuName = item.MenuName,
-                    ParentMenuId = item.ParentMenuId,
+                    ParentMenuCode = item.ParentMenuCode,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
                     IsAssociatedToAdminRole = isAssociatedToAdminRole
                 });
