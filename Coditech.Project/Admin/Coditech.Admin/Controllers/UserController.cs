@@ -106,6 +106,45 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", generalPersonAddressViewModel);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public virtual ActionResult ResetPassword()
+        {
+            return View(new ResetPasswordViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public virtual ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //UserLoginViewModel loginviewModel = _userAgent.Login(model);
+                //if (HelperUtility.IsNotNull(loginviewModel))
+                //{
+                //    if (!loginviewModel.HasError)
+                //    {
+                //        _authenticationHelper.SetAuthCookie(model.UserName, model.RememberMe);
+
+                //        if (model.RememberMe)
+                //            SaveLoginRememberMeCookie(model.UserName);
+
+                //        return RedirectToLocal(returnUrl);
+                //    }
+                //    else
+                //    {
+                //        ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
+                //    }
+                //    ModelState.AddModelError("ErrorMessage", loginviewModel.ErrorMessage);
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
+                //}
+            }
+            return View(model);
+        }
         #region Protected
         protected virtual ActionResult RedirectToLocal(string returnUrl)
         {
