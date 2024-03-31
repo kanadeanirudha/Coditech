@@ -277,6 +277,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory category due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryCategory {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
         public static string ErrorDeleteOccupationMaster {
@@ -466,6 +475,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to InventoryCategoryy List.
+        /// </summary>
+        public static string LabelInventoryCategoryList {
+            get {
+                return ResourceManager.GetString("LabelInventoryCategoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Active.
         /// </summary>
         public static string LabelIsActive {
@@ -606,15 +624,6 @@ namespace Coditech.Resources {
         public static string LabelTaxList {
             get {
                 return ResourceManager.GetString("LabelTaxList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -----Select Centre-----.
-        /// </summary>
-        public static string SelectCentre {
-            get {
-                return ResourceManager.GetString("SelectCentre", resourceCulture);
             }
         }
     }

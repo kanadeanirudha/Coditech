@@ -189,6 +189,9 @@
   <data name="ErrorDeleteHospitalDoctorsDetails" xml:space="preserve">
     <value>Failed to delete Hospital Doctors details due to associate record.</value>
   </data>
+  <data name="ErrorDeleteInventoryCategory" xml:space="preserve">
+    <value>Failed to delete inventory category due to associate record.</value>
+  </data>
   <data name="ErrorDeleteOccupationMaster" xml:space="preserve">
     <value>Failed to delete Occupation due to associate record.</value>
   </data>
@@ -252,6 +255,9 @@
   <data name="LabelGymBodyMeasurementTypeList" xml:space="preserve">
     <value>Body Measurement Type List</value>
   </data>
+  <data name="LabelInventoryCategoryList" xml:space="preserve">
+    <value>InventoryCategoryy List</value>
+  </data>
   <data name="LabelIsActive" xml:space="preserve">
     <value>Is Active</value>
   </data>
@@ -299,8 +305,5 @@
   </data>
   <data name="LabelTaxList" xml:space="preserve">
     <value>Tax List</value>
-  </data>
-  <data name="SelectCentre" xml:space="preserve">
-    <value>-----Select Centre-----</value>
   </data>
 </root>

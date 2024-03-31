@@ -51,7 +51,8 @@
             HospitalDoctors,
             MemberBodyMeasurement,
             PersonAttendance,
-            Inventoty
+            Inventory,
+            InventoryCategory
         }
     }
 }

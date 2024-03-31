@@ -14,6 +14,7 @@ namespace Coditech.API.Mapper
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
             CreateMap<InventoryGeneralItemLineModel, InventoryGeneralItemLine>().ReverseMap();
             CreateMap<InventoryGeneralItemMasterModel, InventoryGeneralItemMaster>().ReverseMap();
+            CreateMap<InventoryCategoryModel, InventoryCategory>().ReverseMap();
         }
     }
 }

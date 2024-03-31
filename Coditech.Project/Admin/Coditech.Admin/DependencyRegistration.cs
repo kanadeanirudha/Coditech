@@ -21,7 +21,8 @@ namespace Coditech.Admin
 			builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
 			builder.Services.AddScoped<IUserAgent, UserAgent>();
 			builder.Services.AddScoped<IGeneralDepartmentAgent, GeneralDepartmentAgent>();
-			builder.Services.AddScoped<IGeneralCountryAgent, GeneralCountryAgent>();
+			builder.Services.AddScoped<IGeneralCountryAgent, GeneralCountryAgent>();		
+			builder.Services.AddScoped<IInventoryCategoryAgent, InventoryCategoryAgent>();
 			builder.Services.AddScoped<IGeneralFinancialYearAgent, GeneralFinancialYearAgent>();
 			builder.Services.AddScoped<IGeneralNationalityAgent, GeneralNationalityAgent>();
 			builder.Services.AddScoped<IGeneralDesignationAgent, GeneralDesignationAgent>();
@@ -50,13 +51,13 @@ namespace Coditech.Admin
 			builder.Services.AddScoped<IGymSalesInvoiceAgent, GymSalesInvoiceAgent>();
 			#endregion
 
-			#region Client
+			
 			#region Admin
 			builder.Services.AddScoped<IAdminSanctionPostClient, AdminSanctionPostClient>();
 			builder.Services.AddScoped<IAdminRoleMasterClient, AdminRoleMasterClient>();
-			#endregion
-
-			builder.Services.AddScoped<IUserClient, UserClient>();
+            #endregion
+            #region Client
+            builder.Services.AddScoped<IUserClient, UserClient>();
 			builder.Services.AddScoped<IGeneralDepartmentClient, GeneralDepartmentClient>();
 			builder.Services.AddScoped<IGeneralCountryClient, GeneralCountryClient>();
 			builder.Services.AddScoped<IGeneralFinancialYearClient, GeneralFinancialYearClient>();
@@ -87,6 +88,7 @@ namespace Coditech.Admin
 			builder.Services.AddScoped<IGymMemberBodyMeasurementClient, GymMemberBodyMeasurementClient>();
 			builder.Services.AddScoped<IGeneralPersonAttendanceDetailsClient, GeneralPersonAttendanceDetailsClient>();
 			builder.Services.AddScoped<IInventoryGeneralItemMasterClient, InventoryGeneralItemMasterClient>();
+			builder.Services.AddScoped<IInventoryCategoryClient, InventoryCategoryClient>();
 			builder.Services.AddScoped<IGymSalesInvoiceClient, GymSalesInvoiceClient>();
 			#endregion
 		}

@@ -39,12 +39,12 @@ namespace Coditech.API.Controllers
 			}
 			catch (CoditechException ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Error);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Error);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
 			}
 			catch (Exception ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Error);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Error);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterListResponse { HasError = true, ErrorMessage = ex.Message });
 			}
 		}
@@ -56,17 +56,17 @@ namespace Coditech.API.Controllers
 		{
 			try
 			{
-				InventoryGeneralItemMasterModel Inventoty = _inventoryGeneralItemMasterService.CreateInventoryGeneralItemMaster(model);
-				return IsNotNull(Inventoty) ? CreateCreatedResponse(new InventoryGeneralItemMasterResponse { InventoryGeneralItemMasterModel = Inventoty }) : CreateInternalServerErrorResponse();
+				InventoryGeneralItemMasterModel Inventory = _inventoryGeneralItemMasterService.CreateInventoryGeneralItemMaster(model);
+				return IsNotNull(Inventory) ? CreateCreatedResponse(new InventoryGeneralItemMasterResponse { InventoryGeneralItemMasterModel = Inventory }) : CreateInternalServerErrorResponse();
 			}
 			catch (CoditechException ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Warning);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Warning);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
 			}
 			catch (Exception ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Error);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Error);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterResponse { HasError = true, ErrorMessage = ex.Message });
 			}
 		}
@@ -83,12 +83,12 @@ namespace Coditech.API.Controllers
 			}
 			catch (CoditechException ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Warning);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Warning);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
 			}
 			catch (Exception ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Error);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Error);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterResponse { HasError = true, ErrorMessage = ex.Message });
 			}
 		}
@@ -105,12 +105,12 @@ namespace Coditech.API.Controllers
 			}
 			catch (CoditechException ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Warning);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Warning);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
 			}
 			catch (Exception ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Error);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Error);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterResponse { HasError = true, ErrorMessage = ex.Message });
 			}
 		}
@@ -127,12 +127,12 @@ namespace Coditech.API.Controllers
 			}
 			catch (CoditechException ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Warning);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Warning);
 				return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
 			}
 			catch (Exception ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Error);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Error);
 				return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
 			}
 		}
@@ -150,12 +150,12 @@ namespace Coditech.API.Controllers
 			}
 			catch (CoditechException ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Error);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Error);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
 			}
 			catch (Exception ex)
 			{
-				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventoty.ToString(), TraceLevel.Error);
+				_coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Inventory.ToString(), TraceLevel.Error);
 				return CreateInternalServerErrorResponse(new InventoryGeneralItemMasterListResponse { HasError = true, ErrorMessage = ex.Message });
 			}
 		}

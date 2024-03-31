@@ -221,6 +221,7 @@ namespace Coditech.API.Common
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterService, InventoryGeneralItemMasterService>();
+            builder.Services.AddScoped<IInventoryCategoryService, InventoryCategoryService>();
         }
         #endregion
     }

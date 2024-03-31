@@ -43,7 +43,8 @@
         GymMembershipPlan,
         PaymentType,
         InventoryGeneralServiecs,
-        DashboardForm
+        DashboardForm,
+        InventoryCategory
     }
 
     public enum GeneralSystemGlobleSettingEnum
