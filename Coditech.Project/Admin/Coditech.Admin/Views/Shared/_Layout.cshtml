@@ -140,3 +140,8 @@
 </body>
 @await RenderSectionAsync("Scripts", required: false)
 </html>
+<script>
+    if (performance.navigation.type == 2) {
+        location.reload();
+    }
+</script>

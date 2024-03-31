@@ -121,7 +121,7 @@ namespace Coditech.API.Service
                     ModuleCode = item.ModuleCode,
                     MenuCode = item.MenuCode,
                     MenuName = item.MenuName,
-                    ParentMenuId = item.ParentMenuId,
+                    ParentMenuCode = item.ParentMenuCode,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
                 });
             }
@@ -380,7 +380,7 @@ namespace Coditech.API.Service
                     ModuleCode = item.ModuleCode,
                     MenuCode = item.MenuCode,
                     MenuName = item.MenuName,
-                    ParentMenuId = item.ParentMenuId,
+                    ParentMenuCode = item.ParentMenuCode,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
                     ControllerName = item.ControllerName?.ToLower(),
                     ActionName = item.ActionName?.ToLower(),
@@ -406,7 +406,7 @@ namespace Coditech.API.Service
                         ModuleCode = userMenuModel.ModuleCode,
                         MenuCode = userMenuModel.MenuCode,
                         MenuName = userMenuModel.MenuName,
-                        ParentMenuId = userMenuModel.ParentMenuId,
+                        ParentMenuCode = userMenuModel.ParentMenuCode,
                         MenuDisplaySeqNo = userMenuModel.MenuDisplaySeqNo,
                         ControllerName = userMenuModel.ControllerName?.ToLower(),
                         ActionName = userMenuModel.ActionName?.ToLower(),
