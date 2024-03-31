@@ -23,12 +23,11 @@ namespace Coditech.Admin.ViewModel
         {
             get
             {
-                if (!string.Equals(HttpContextHelper.Current.Request.Query["returnUrl"].ToString(), Convert.ToString(HttpContextHelper.Request.Headers[HeaderNames.Referer]), StringComparison.OrdinalIgnoreCase))
+                if (HttpContextHelper.Current.Request.Query.Count > 0 && !string.Equals(HttpContextHelper.Current.Request.Query["returnUrl"].ToString(), Convert.ToString(HttpContextHelper.Request.Headers[HeaderNames.Referer]), StringComparison.OrdinalIgnoreCase))
                 {
                     SessionHelper.SaveDataInSession<string>("returnUrl", Convert.ToString(HttpContextHelper.Request.Headers[HeaderNames.Referer]));
                 }
-                return WebUtility.UrlEncode(SessionHelper.GetDataFromSession<string>("returnUrl") ?? HttpContextHelper.Request.Headers[HeaderNames.Referer].ToString());
-
+                return WebUtility.UrlEncode(SessionHelper.GetDataFromSession<string>("returnUrl"));
             }
         }
     }

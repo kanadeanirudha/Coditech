@@ -469,10 +469,10 @@ namespace Coditech.Admin.Helpers
 
         private static void GetCentrewiseDepartmentList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            if (AccessibleCentreList()?.Count == 1 && string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            {
-                dropdownViewModel.Parameter = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).SelectedCentreCode;
-            }
+            //if (AccessibleCentreList()?.Count == 1 && string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            //{
+            //    dropdownViewModel.Parameter = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).SelectedCentreCode;
+            //}
             GeneralDepartmentListModel list = new GeneralDepartmentListModel();
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {

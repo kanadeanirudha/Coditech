@@ -77,6 +77,7 @@ namespace Coditech.Admin.Controllers
             if (User.Identity.IsAuthenticated)
                 _userAgent.Logout();
 
+            SessionHelper.RemoveDataFromSession("returnUrl");
             return RedirectToAction<UserController>(x => x.Login(string.Empty));
         }
 

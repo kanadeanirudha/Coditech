@@ -46,7 +46,7 @@
         }
         else {
             $('#DataTablesDivId tbody').html('');
-            $("#SelectedDepartmentID").html("");
+            $("#SelectedDepartmentId").html("");
         }
     },
     LoadListByCentreCodeAndDepartmentId: function (controllerName, methodName) {
