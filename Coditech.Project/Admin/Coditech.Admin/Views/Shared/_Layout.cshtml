@@ -144,4 +144,13 @@
     if (performance.navigation.type == 2) {
         location.reload();
     }
+
+    window.onbeforeunload = function () {
+        var inputs = document.getElementsByTagName("button");
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "button" || inputs[i].type == "submit") {
+                inputs[i].disabled = true;
+            }
+        }
+    };
 </script>
