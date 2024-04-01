@@ -52,6 +52,8 @@
             PersonAttendance,
             EmployeeMaster,
             EmployeeService
+            PersonAttendance,
+            Inventoty
         }
     }
 }

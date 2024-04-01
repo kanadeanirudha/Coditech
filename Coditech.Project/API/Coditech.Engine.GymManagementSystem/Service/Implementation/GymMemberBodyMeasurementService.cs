@@ -68,11 +68,11 @@ namespace Coditech.API.Service
                     }
                 }
             }
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
-            if (IsNotNull(generalPerson))
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNotNull(generalPersonModel))
             {
-                listModel.FirstName = generalPerson.FirstName;
-                listModel.LastName = generalPerson.LastName;
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
             }
             listModel.GymMemberDetailId = gymMemberDetailId;
             listModel.PersonId = personId;

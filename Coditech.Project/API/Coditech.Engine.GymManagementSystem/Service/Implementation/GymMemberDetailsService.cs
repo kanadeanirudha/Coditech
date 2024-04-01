@@ -67,11 +67,11 @@ namespace Coditech.API.Service
             GymMemberDetailsModel gymMemberDetailsModel = gymMemberDetails?.FromEntityToModel<GymMemberDetailsModel>();
             if (IsNotNull(gymMemberDetailsModel))
             {
-                GeneralPerson generalPerson = GetGeneralPersonDetails(gymMemberDetailsModel.PersonId);
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(gymMemberDetailsModel.PersonId);
                 if (IsNotNull(gymMemberDetailsModel))
                 {
-                    gymMemberDetailsModel.FirstName = generalPerson.FirstName;
-                    gymMemberDetailsModel.LastName = generalPerson.LastName;
+                    gymMemberDetailsModel.FirstName = generalPersonModel.FirstName;
+                    gymMemberDetailsModel.LastName = generalPersonModel.LastName;
                 }
             }
             return gymMemberDetailsModel;
@@ -101,7 +101,11 @@ namespace Coditech.API.Service
             gymMemberDetails.IsActive = gymMemberDetailsModel.IsActive;
 
             isUpdated = _gymMemberDetailsRepository.Update(gymMemberDetails);
-            if (!isUpdated)
+            if (isUpdated)
+            {
+                ActiveInActiveUserLogin(gymMemberDetails.IsActive, Convert.ToInt64( gymMemberDetails.GymMemberDetailId));
+            }
+            else
             {
                 gymMemberDetailsModel.HasError = true;
                 gymMemberDetailsModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
@@ -142,11 +146,11 @@ namespace Coditech.API.Service
             listModel.GymMemberFollowUpList = gymMemberList?.Count > 0 ? gymMemberList : new List<GymMemberFollowUpModel>();
             listModel.BindPageListModel(pageListModel);
 
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
-            if (IsNotNull(generalPerson))
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNotNull(generalPersonModel))
             {
-                listModel.FirstName = generalPerson.FirstName;
-                listModel.LastName = generalPerson.LastName;
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
             }
             listModel.GymMemberDetailId = gymMemberDetailId;
             listModel.PersonId = personId;
@@ -160,6 +164,7 @@ namespace Coditech.API.Service
 
             GymMemberFollowUp gymMemberFollowUp = _gymMemberFollowUpRepository.Table.FirstOrDefault(x => x.GymMemberFollowUpId == gymMemberFollowUpId);
             GymMemberFollowUpModel gymMemberFollowUpModel = gymMemberFollowUp?.FromEntityToModel<GymMemberFollowUpModel>();
+
             return gymMemberFollowUpModel;
         }
 
@@ -263,11 +268,11 @@ namespace Coditech.API.Service
                     });
                 }
             }
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
             if (IsNotNull(gymMemberDetailsModel))
             {
-                gymMemberDetailsModel.FirstName = generalPerson.FirstName;
-                gymMemberDetailsModel.LastName = generalPerson.LastName;
+                gymMemberDetailsModel.FirstName = generalPersonModel.FirstName;
+                gymMemberDetailsModel.LastName = generalPersonModel.LastName;
             }
             return gymMemberDetailsModel;
         }
@@ -289,7 +294,7 @@ namespace Coditech.API.Service
 
             GymMemberMembershipPlan gymMemberMembershipPlan = gymMemberMembershipPlanModel.FromModelToEntity<GymMemberMembershipPlan>();
             gymMemberMembershipPlan.PlanAmount = gymMembershipPlan.MaxCost;
-            gymMemberMembershipPlan.DiscountAmount = gymMembershipPlan.MaxCost - gymMemberMembershipPlanModel.DiscountAmount;
+            gymMemberMembershipPlan.DiscountAmount = gymMemberMembershipPlanModel.DiscountAmount;
             gymMemberMembershipPlan.SalesInvoiceMasterId = salesInvoiceMasterId;
             if (string.Equals(planDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -313,7 +318,43 @@ namespace Coditech.API.Service
             }
             return gymMemberMembershipPlanModel;
         }
+        #endregion
 
+        #region Gym Member Payment History
+        public virtual GymMemberSalesInvoiceListModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        {
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+
+            CoditechViewRepository<GymMemberSalesInvoiceModel> objStoredProc = new CoditechViewRepository<GymMemberSalesInvoiceModel>(_serviceProvider.GetService<Coditech_Entities>());
+
+            objStoredProc.SetParameter("@GymMemberDetailId", gymMemberDetailId, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+
+            // Execute the stored procedure and retrieve Gym Member Payment History list.
+            List<GymMemberSalesInvoiceModel> paymentHistoryList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberInvoiceList @GymMemberDetailId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 7, out pageListModel.TotalRowCount)?.ToList();
+
+            // Create and populate the GymMemberMembershipPlanListModel.
+            GymMemberSalesInvoiceListModel listModel = new GymMemberSalesInvoiceListModel();
+            listModel.GymMemberSalesInvoiceList = paymentHistoryList?.Count > 0 ? paymentHistoryList : new List<GymMemberSalesInvoiceModel>();
+            listModel.BindPageListModel(pageListModel);
+            
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNotNull(listModel))
+            {
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
+            }
+            listModel.GymMemberDetailId = gymMemberDetailId;
+            listModel.PersonId = personId;
+            return listModel;
+        }
+        #endregion
+
+        #region Protected Method
         protected virtual long SaveSalesInvoiceDetails(GymMemberMembershipPlanModel gymMemberMembershipPlanModel, GymMembershipPlan gymMembershipPlan)
         {
             string invoiceNumber = GenerateRegistrationCode(GeneralRunningNumberFor.InvoiceNumber.ToString(), gymMembershipPlan.CentreCode);
@@ -328,7 +369,7 @@ namespace Coditech.API.Service
             List<SalesInvoiceDetails> salesInvoiceDetailList = new List<SalesInvoiceDetails>();
             foreach (GymMembershipPlanPackage gymMembershipPlanPackage in gymMembershipPlanPackageList)
             {
-                InventoryGeneralItemLineDetails inventoryGeneralItemLineDetails = GetInventoryGeneralItemLineDetails(gymMembershipPlanPackage.InventoryGeneralItemLineId);
+                InventoryGeneralItemLineDetailsModel inventoryGeneralItemLineDetails = GetInventoryGeneralItemLineDetails(gymMembershipPlanPackage.InventoryGeneralItemLineId);
                 decimal totalItemLineTaxAmount = 0;
                 if (gymMembershipPlanPackage.ServiceCost > 0)
                 {
@@ -338,7 +379,7 @@ namespace Coditech.API.Service
                 {
                     InventoryGeneralItemLineId = gymMembershipPlanPackage.InventoryGeneralItemLineId,
                     ItemQuantity = 1,
-                    ItemAmount = gymMembershipPlan.IsTaxExclusive ? gymMembershipPlanPackage.ServiceCost - totalItemLineTaxAmount : gymMembershipPlanPackage.ServiceCost,
+                    ItemAmount = gymMembershipPlan.IsTaxExclusive ? gymMembershipPlanPackage.ServiceCost : gymMembershipPlanPackage.ServiceCost - totalItemLineTaxAmount,
                     ItemTaxAmount = totalItemLineTaxAmount,
                     GeneralTaxGroupMasterId = inventoryGeneralItemLineDetails.GeneralTaxGroupMasterId
                 });
@@ -355,7 +396,7 @@ namespace Coditech.API.Service
                 DiscountAmount = gymMemberMembershipPlanModel.DiscountAmount,
 
             };
-            salesInvoiceMaster.BillAmount = salesInvoiceMaster.NetAmount - salesInvoiceMaster.DiscountAmount;
+            salesInvoiceMaster.BillAmount = gymMemberMembershipPlanModel.PlanAmount - salesInvoiceMaster.DiscountAmount;
             salesInvoiceMaster.TotalAmount = salesInvoiceMaster.NetAmount + salesInvoiceMaster.TaxAmount;
 
             long salesInvoiceMasterId = _salesInvoiceMasterRepository.Insert(salesInvoiceMaster).SalesInvoiceMasterId;
@@ -366,5 +407,6 @@ namespace Coditech.API.Service
             return salesInvoiceMasterId;
         }
         #endregion
+
     }
 }

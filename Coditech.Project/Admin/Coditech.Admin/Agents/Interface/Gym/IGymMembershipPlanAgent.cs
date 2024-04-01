@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 
 namespace Coditech.Admin.Agents
 {
@@ -38,5 +39,11 @@ namespace Coditech.Admin.Agents
         /// <param name="gymMembershipPlanlIds">gymMembershipPlanlIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteGymMembershipPlan(string gymMembershipPlanlIds, out string errorMessage);
+
+        /// <summary>
+        /// Get All General Services
+        /// </summary>
+        /// <returns>Returns  List<InventoryGeneralItemMasterModel></returns>
+        List<InventoryGeneralItemMasterModel> AllGeneralServices();
     }
 }

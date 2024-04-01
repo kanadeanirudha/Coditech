@@ -35,7 +35,7 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Building Name.", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Building Name.", "error")
                     CoditechCommon.HideLodder();
                 }
             });

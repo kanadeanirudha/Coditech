@@ -6,7 +6,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -39,11 +38,8 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
-            List<GeneralEnumaratorModel> weekDays = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList?.Where(x => x.EnumGroupCode == DropdownTypeEnum.WeekDays.ToString())?.ToList();
-            HospitalDoctorsViewModel hospitalDoctorsViewModel = new HospitalDoctorsViewModel()
-            {
-                AllWeekDays = weekDays
-            };
+            HospitalDoctorsViewModel hospitalDoctorsViewModel = new HospitalDoctorsViewModel();
+            BindDropdown(hospitalDoctorsViewModel);
             return View(createEdit, hospitalDoctorsViewModel);
         }
 
@@ -60,13 +56,15 @@ namespace Coditech.Admin.Controllers
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorsViewModel.ErrorMessage));
+            BindDropdown(hospitalDoctorsViewModel);
             return View(createEdit, hospitalDoctorsViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(int doctorId)
+        public virtual ActionResult Edit(int hospitalDoctorId)
         {
-            HospitalDoctorsViewModel hospitalDoctorsViewModel = _hospitalDoctorsAgent.GetHospitalDoctors(doctorId);
+            HospitalDoctorsViewModel hospitalDoctorsViewModel = _hospitalDoctorsAgent.GetHospitalDoctors(hospitalDoctorId);
+            BindDropdown(hospitalDoctorsViewModel);
             return ActionView(createEdit, hospitalDoctorsViewModel);
         }
 
@@ -78,8 +76,9 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_hospitalDoctorsAgent.UpdateHospitalDoctors(hospitalDoctorsViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { doctorId = hospitalDoctorsViewModel.HospitalDoctorId });
+                return RedirectToAction("Edit", new { hospitalDoctorId = hospitalDoctorsViewModel.HospitalDoctorId });
             }
+            BindDropdown(hospitalDoctorsViewModel);
             return View(createEdit, hospitalDoctorsViewModel);
         }
 
@@ -145,7 +144,19 @@ namespace Coditech.Admin.Controllers
         }
 
         #region Protected
-
+        protected virtual void BindDropdown(HospitalDoctorsViewModel hospitalDoctorsViewModel)
+        {
+            List<GeneralEnumaratorModel> weekDays = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList?.Where(x => x.EnumGroupCode == DropdownTypeEnum.WeekDays.ToString())?.ToList();
+            hospitalDoctorsViewModel.AllWeekDays = weekDays;
+            if (hospitalDoctorsViewModel?.HospitalDoctorId > 0)
+            {
+                hospitalDoctorsViewModel.SelectedWeekDayEnumIds = new List<string>();
+                foreach (string item in hospitalDoctorsViewModel.WeekDayEnumIds?.Split(','))
+                {
+                    hospitalDoctorsViewModel.SelectedWeekDayEnumIds.Add(item);
+                }
+            }
+        }
         #endregion
     }
 }

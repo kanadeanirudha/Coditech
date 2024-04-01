@@ -111,6 +111,83 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+
+
+        //Get Admin Role Menu Details By AadminRoleMasterId
+        public virtual AdminRoleMenuDetailsViewModel GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode)
+        {
+            AdminRoleMenuDetailsResponse response = _adminRoleMasterClient.GetAdminRoleMenuDetailsById(adminRoleMasterId, moduleCode);
+            return response?.AdminRoleMenuDetailsModel.ToViewModel<AdminRoleMenuDetailsViewModel>();
+        }
+
+        //Insert Update Admin Role Menu Details
+        public virtual AdminRoleMenuDetailsViewModel InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsViewModel adminRoleMenuDetailsViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                AdminRoleMenuDetailsResponse response = _adminRoleMasterClient.InsertUpdateAdminRoleMenuDetails(adminRoleMenuDetailsViewModel.ToModel<AdminRoleMenuDetailsModel>());
+                AdminRoleMenuDetailsModel adminRoleMenuDetailsModel = response?.AdminRoleMenuDetailsModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                return IsNotNull(adminRoleMenuDetailsModel) ? adminRoleMenuDetailsModel.ToViewModel<AdminRoleMenuDetailsViewModel>() : (AdminRoleMenuDetailsViewModel)GetViewModelWithErrorMessage(new AdminRoleMenuDetailsViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return (AdminRoleMenuDetailsViewModel)GetViewModelWithErrorMessage(adminRoleMenuDetailsViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        public virtual AdminRoleApplicableDetailsListViewModel RoleAllocatedToUserList(int adminRoleMasterId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = new FilterCollection();
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            AdminRoleApplicableDetailsListResponse response = _adminRoleMasterClient.RoleAllocatedToUserList(adminRoleMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            AdminRoleApplicableDetailsListModel adminRoleApplicableDetailsList = response?.AdminRoleApplicableDetailsList;
+            AdminRoleApplicableDetailsListViewModel listViewModel = new AdminRoleApplicableDetailsListViewModel();
+            listViewModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.AdminRoleApplicableDetailsList?.ToViewModel<AdminRoleApplicableDetailsViewModel>()?.ToList();
+            listViewModel.AdminRoleCode = response?.AdminRoleApplicableDetailsList?.AdminRoleCode;
+            listViewModel.SanctionPostName = response?.AdminRoleApplicableDetailsList?.SanctionPostName;
+            listViewModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.AdminRoleApplicableDetailsList?.ToViewModel<AdminRoleApplicableDetailsViewModel>()?.ToList();
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AdminRoleApplicableDetailsList.Count, BindRoleAllocatedToUserListColumns());
+            return listViewModel;
+        }
+
+        //Get Associate UnAssociate Admin Role To User
+        public virtual AdminRoleApplicableDetailsViewModel GetAssociateUnAssociateAdminRoleToUser(int adminRoleMasterId, int adminRoleApplicableDetailId)
+        {
+            AdminRoleApplicableDetailsResponse response = _adminRoleMasterClient.GetAssociateUnAssociateAdminRoleToUser(adminRoleMasterId, adminRoleApplicableDetailId);
+            return response?.AdminRoleApplicableDetailsModel.ToViewModel<AdminRoleApplicableDetailsViewModel>();
+        }
+
+        //Associate UnAssociate Admin Role To User
+        public virtual AdminRoleApplicableDetailsViewModel AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsViewModel adminRoleApplicableDetailsViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                AdminRoleApplicableDetailsResponse response = _adminRoleMasterClient.AssociateUnAssociateAdminRoleToUser(adminRoleApplicableDetailsViewModel.ToModel<AdminRoleApplicableDetailsModel>());
+                AdminRoleApplicableDetailsModel adminRoleApplicableDetailsModel = response?.AdminRoleApplicableDetailsModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                return IsNotNull(adminRoleApplicableDetailsModel) ? adminRoleApplicableDetailsModel.ToViewModel<AdminRoleApplicableDetailsViewModel>() : (AdminRoleApplicableDetailsViewModel)GetViewModelWithErrorMessage(new AdminRoleApplicableDetailsViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return (AdminRoleApplicableDetailsViewModel)GetViewModelWithErrorMessage(adminRoleApplicableDetailsViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
         #endregion
 
         #region protected
@@ -134,6 +211,52 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Monitoring Level",
                 ColumnCode = "MonitoringLevel",
                 IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindRoleAllocatedToUserListColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "PersonCode",
+                ColumnCode = "Person Code",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Email Id",
+                ColumnCode = "EmailId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Work To Date",
+                ColumnCode = "WorkToDate",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Work From Date",
+                ColumnCode = "WorkFromDate",
             });
             datatableColumnList.Add(new DatatableColumns()
             {

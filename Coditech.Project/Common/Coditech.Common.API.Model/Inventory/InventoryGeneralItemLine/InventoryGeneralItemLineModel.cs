@@ -1,17 +1,11 @@
 ﻿namespace Coditech.Common.API.Model
 {
-    public class InventoryGeneralItemLineDetails : BaseModel
+    public class InventoryGeneralItemLineModel : BaseModel
     {
-        public int InventoryGeneralItemMasterId { get; set; }
-        public short InventoryCategoryId { get; set; }
-        public string ItemNumber { get; set; }
-        public string ItemName { get; set; }
-        public string ItemDescription { get; set; }
-        public string HSNSACCode { get; set; }
-        public int ProductSubTypeEnumId { get; set; }
-        public byte GeneralTaxGroupMasterId { get; set; }
         public long InventoryGeneralItemLineId { get; set; }
+        public int InventoryGeneralItemMasterId { get; set; }
         public string SKU { get; set; }
+        public string ItemName { get; set; }
         public string BarCode { get; set; }
         public decimal Price { get; set; }
         public bool IsBaseUom { get; set; }
@@ -26,5 +20,7 @@
         public decimal Height { get; set; }
         public decimal Volume { get; set; }
         public string InventoryUOM { get; set; }
+        public bool IsActive { get; set; }
     }
 }
+

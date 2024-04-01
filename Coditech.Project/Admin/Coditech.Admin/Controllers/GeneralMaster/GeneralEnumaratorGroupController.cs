@@ -44,8 +44,8 @@ namespace Coditech.Admin.Controllers
                 if (!generalEnumaratorGroupViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralEnumaratorGroupController>(x => x.List(null));
-                }
+					return RedirectToAction("Edit", new { generalEnumaratorGroupId = generalEnumaratorGroupViewModel.GeneralEnumaratorGroupId });
+				}
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalEnumaratorGroupViewModel.ErrorMessage));
             return View(createEdit, generalEnumaratorGroupViewModel);

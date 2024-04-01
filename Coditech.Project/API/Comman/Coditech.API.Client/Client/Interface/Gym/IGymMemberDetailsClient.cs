@@ -73,5 +73,12 @@ namespace Coditech.API.Client
         /// <param name="GymMemberMembershipPlanModel">GymMemberMembershipPlanModel.</param>
         /// <returns>Returns updated GymMemberMembershipPlanResponse</returns>
         GymMemberMembershipPlanResponse AssociateGymMemberMembershipPlan(GymMemberMembershipPlanModel body);
+
+        /// <summary>
+        /// Get list of Gym Member Payment History.
+        /// </summary>
+        /// <returns>GymMemberSalesInvoiceListResponse</returns>
+        GymMemberSalesInvoiceListResponse GymMemberPaymentHistoryList(int GymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
     }
 }

@@ -20,13 +20,15 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IGymMembershipPlanClient _gymMembershipPlanClient;
+        private readonly IInventoryGeneralItemMasterClient _inventoryGeneralItemMasterClient;
         #endregion
 
         #region Public Constructor
-        public GymMembershipPlanAgent(ICoditechLogging coditechLogging, IGymMembershipPlanClient gymMembershipPlanClient, IUserClient userClient)
+        public GymMembershipPlanAgent(ICoditechLogging coditechLogging, IGymMembershipPlanClient gymMembershipPlanClient, IUserClient userClient, IInventoryGeneralItemMasterClient inventoryGeneralItemMasterClient)
         {
             _coditechLogging = coditechLogging;
             _gymMembershipPlanClient = GetClient<IGymMembershipPlanClient>(gymMembershipPlanClient);
+            _inventoryGeneralItemMasterClient = GetClient<IInventoryGeneralItemMasterClient>(inventoryGeneralItemMasterClient);
         }
         #endregion
 
@@ -45,7 +47,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "MembershipPlanName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GymMembershipPlanListResponse response = _gymMembershipPlanClient.List(dataTableModel.SelectedCentreCode,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymMembershipPlanListResponse response = _gymMembershipPlanClient.List(dataTableModel.SelectedCentreCode, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GymMembershipPlanListModel gymMemberList = new GymMembershipPlanListModel { GymMembershipPlanList = response?.GymMembershipPlanList };
             GymMembershipPlanListViewModel listViewModel = new GymMembershipPlanListViewModel();
             listViewModel.GymMembershipPlanList = gymMemberList?.GymMembershipPlanList?.ToViewModel<GymMembershipPlanViewModel>().ToList();
@@ -138,6 +140,11 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+
+        public virtual List<InventoryGeneralItemMasterModel> AllGeneralServices()
+        {
+            return _inventoryGeneralItemMasterClient.GetGeneralServicesList(string.Empty)?.InventoryGeneralItemMasterList;
+        }
         #endregion
 
         #endregion
@@ -157,7 +164,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Plan Type",
                 ColumnCode = "PlanType",
             });
-           
+
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Duration In Month & Days",

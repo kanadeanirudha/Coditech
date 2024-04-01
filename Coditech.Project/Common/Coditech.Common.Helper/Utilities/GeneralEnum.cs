@@ -42,6 +42,9 @@
         AttendanceState,
         GymMembershipPlan,
         PaymentType,
+        InventoryGeneralServiecs,
+        DashboardForm
+        PaymentType,
         EmployeeMaster,
         EmployeeService
     }
@@ -60,7 +63,6 @@
         Employee,
         Customer,
         GymMember
-
     }
 
     public enum ActiveProjectNameEnum

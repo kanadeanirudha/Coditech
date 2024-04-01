@@ -14,7 +14,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual IActionResult Index()
         {
-            return View();
+            return View("~/Views/Dashboard/GeneralDashboard.cshtml");
         }
         [AllowAnonymous]
         public virtual ActionResult TokenError(Exception exception)

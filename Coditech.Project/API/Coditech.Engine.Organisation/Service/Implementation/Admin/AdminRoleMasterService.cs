@@ -22,6 +22,8 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleMaster> _adminRoleMasterRepository;
         private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
         private readonly ICoditechRepository<AdminSanctionPost> _adminSanctionPostRepository;
+        private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
+        private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
         public AdminRoleMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -29,8 +31,11 @@ namespace Coditech.API.Service
             _adminRoleMasterRepository = new CoditechRepository<AdminRoleMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
             _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
+        #region Public
         public virtual AdminRoleListModel GetAdminRoleList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             int selectedDepartmentId = 0;
@@ -62,7 +67,7 @@ namespace Coditech.API.Service
         public virtual AdminRoleModel GetAdminRoleDetailsById(int adminRoleMasterId)
         {
             if (adminRoleMasterId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             //Get the adminRoleMaster Details based on id.
             AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
@@ -83,7 +88,7 @@ namespace Coditech.API.Service
             if (IsNull(adminRoleMasterModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
             if (adminRoleMasterModel.AdminRoleMasterId < 1)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId);
             adminRoleMasterData.MonitoringLevel = adminRoleMasterModel.MonitoringLevel;
@@ -91,6 +96,7 @@ namespace Coditech.API.Service
             adminRoleMasterData.IsLoginAllowFromOutside = adminRoleMasterModel.IsLoginAllowFromOutside;
             adminRoleMasterData.IsAttendaceAllowFromOutside = adminRoleMasterModel.IsAttendaceAllowFromOutside;
             adminRoleMasterData.IsActive = adminRoleMasterModel.IsActive;
+            adminRoleMasterData.DashboardFormEnumId = adminRoleMasterModel.DashboardFormEnumId;
             adminRoleMasterData.ModifiedBy = adminRoleMasterModel.ModifiedBy;
 
             //Update adminRoleMaster
@@ -155,14 +161,256 @@ namespace Coditech.API.Service
         public virtual bool DeleteAdminRoleMaster(ParameterModel parameterModel)
         {
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterID"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("AdminRoleMasterID", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("AdminRoleMasterId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAdminRoleMaster @AdminRoleMasterID,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAdminRoleMaster @AdminRoleMasterId,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
+
+        //Get Admin Role Menu Details By Id.
+        public virtual AdminRoleMenuDetailsModel GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode)
+        {
+            if (adminRoleMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            //Get the adminRoleMaster Details based on id.
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            AdminRoleMenuDetailsModel adminRoleMenuDetailsModel = new AdminRoleMenuDetailsModel();
+            if (IsNotNull(adminRoleMasterData))
+            {
+                adminRoleMenuDetailsModel.AdminRoleMasterId = adminRoleMasterData.AdminRoleMasterId;
+                adminRoleMenuDetailsModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
+                adminRoleMenuDetailsModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
+
+                AdminSanctionPost adminSanctionPost = _adminSanctionPostRepository.GetById(adminRoleMasterData.AdminSanctionPostId);
+                if (IsNotNull(adminSanctionPost))
+                {
+                    adminRoleMenuDetailsModel.SelectedCentreCode = adminSanctionPost.CentreCode;
+                    adminRoleMenuDetailsModel.SelectedDepartmentId = Convert.ToString(adminSanctionPost.DepartmentId);
+                }
+                if (!string.IsNullOrEmpty(moduleCode))
+                {
+                    List<AdminRoleMenuDetails> associatedMenuCodeList = _adminRoleMenuDetailsRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMenuDetailsModel.AdminRoleMasterId)?.ToList();
+                    adminRoleMenuDetailsModel.MenuList = GetActiveMenuList(moduleCode, associatedMenuCodeList);
+                }
+            }
+            return adminRoleMenuDetailsModel;
+        }
+
+        //Insert Update Admin Role Menu Details
+        public virtual bool InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel adminRoleMenuDetailsModel)
+        {
+            if (IsNull(adminRoleMenuDetailsModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+            if (adminRoleMenuDetailsModel.AdminRoleMasterId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            List<AdminRoleMenuDetails> associatedMenuCodeList = _adminRoleMenuDetailsRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMenuDetailsModel.AdminRoleMasterId && x.ModuleCode == adminRoleMenuDetailsModel.ModuleCode)?.ToList();
+            List<AdminRoleMenuDetails> insertList = new List<AdminRoleMenuDetails>();
+            List<AdminRoleMenuDetails> updateList = new List<AdminRoleMenuDetails>();
+            if (associatedMenuCodeList?.Count > 0)
+            {
+                if (string.IsNullOrEmpty(adminRoleMenuDetailsModel.SelectedMenuList))
+                {
+                    associatedMenuCodeList.ForEach(x => { x.IsActive = false; x.DisableDate = DateTime.Now; });
+                    _adminRoleMenuDetailsRepository.BatchUpdate(associatedMenuCodeList);
+                }
+                else
+                {
+                    List<string> selectedMenuList = adminRoleMenuDetailsModel.SelectedMenuList.Split(',')?.ToList();
+                    foreach (AdminRoleMenuDetails item in associatedMenuCodeList)
+                    {
+                        if (!selectedMenuList.Where(x => x == item.MenuCode).Any())
+                        {
+                            item.IsActive = false;
+                            item.DisableDate = DateTime.Now;
+                            updateList.Add(item);
+                        }
+                        else
+                        {
+                            item.IsActive = true;
+                            item.EnableDate = DateTime.Now;
+                            updateList.Add(item);
+                        }
+                    }
+
+                    foreach (string item in selectedMenuList)
+                    {
+                        if (!associatedMenuCodeList.Where(x => x.MenuCode == item).Any())
+                        {
+                            BindAdminRoleMenuDetails(adminRoleMenuDetailsModel, insertList, item);
+                        }
+                    }
+
+                    if (updateList?.Count > 0)
+                    {
+                        _adminRoleMenuDetailsRepository.BatchUpdate(updateList);
+                    }
+                    if (insertList?.Count > 0)
+                    {
+                        _adminRoleMenuDetailsRepository.Insert(insertList);
+                    }
+                }
+            }
+            else
+            {
+
+                foreach (string item in adminRoleMenuDetailsModel.SelectedMenuList.Split(','))
+                {
+                    BindAdminRoleMenuDetails(adminRoleMenuDetailsModel, insertList, item);
+                }
+                _adminRoleMenuDetailsRepository.Insert(insertList);
+            }
+
+            return true;
+        }
+
+        public virtual AdminRoleApplicableDetailsListModel RoleAllocatedToUserList(int adminRoleMasterId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        {
+            //Bind the Filter, sorts & Paging details.
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+
+            AdminRoleApplicableDetailsListModel listModel = GetAssociateUnAssociatedRoleUserList(adminRoleMasterId, true, pageListModel);
+            listModel.BindPageListModel(pageListModel);
+
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            listModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
+            listModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
+            return listModel;
+        }
+
+        public virtual AdminRoleApplicableDetailsModel GetAssociateUnAssociateAdminRoleToUser(int adminRoleMasterId, int adminRoleApplicableDetailId)
+        {
+            if (adminRoleMasterId < 1 && adminRoleApplicableDetailId == 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            AdminRoleApplicableDetailsModel adminRoleApplicableDetailsModel = new AdminRoleApplicableDetailsModel();
+            if (adminRoleApplicableDetailId > 0)
+            {
+                AdminRoleApplicableDetails adminRoleApplicableDetails = _adminRoleApplicableDetailsRepository.GetById(adminRoleApplicableDetailId);
+                if (IsNotNull(adminRoleApplicableDetailsModel))
+                {
+                    adminRoleApplicableDetailsModel = adminRoleApplicableDetails.FromEntityToModel<AdminRoleApplicableDetailsModel>();
+                    adminRoleMasterId = adminRoleApplicableDetailsModel.AdminRoleMasterId;
+                    GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(adminRoleApplicableDetails.EmployeeId, UserTypeEnum.Employee.ToString());
+                    if (IsNotNull(generalPersonModel))
+                    {
+                        adminRoleApplicableDetailsModel.EmployeeList = new List<EmployeeMasterModel>();
+                        adminRoleApplicableDetailsModel.EmployeeList.Add(new EmployeeMasterModel()
+                        {
+                            EmployeeId = adminRoleApplicableDetailsModel.EmployeeId,
+                            FullName = $"{generalPersonModel.FirstName} {generalPersonModel.LastName}",
+                            FullNameWithPersonCode = $"{generalPersonModel.FirstName} {generalPersonModel.LastName}({generalPersonModel.PersonCode})"
+                        });
+                    }
+                }
+            }
+
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            if (IsNotNull(adminRoleMasterData))
+            {
+                //Bind the Filter, sorts & Paging details.
+                adminRoleApplicableDetailsModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
+                adminRoleApplicableDetailsModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
+                adminRoleApplicableDetailsModel.AdminRoleMasterId = adminRoleMasterData.AdminRoleMasterId;
+
+                if (adminRoleMasterId > 0 && adminRoleApplicableDetailId == 0)
+                {
+                    //Bind the Filter, sorts & Paging details.
+                    PageListModel pageListModel = new PageListModel(null, null, 1, int.MaxValue);
+
+                    AdminRoleApplicableDetailsListModel listModel = GetAssociateUnAssociatedRoleUserList(adminRoleMasterId, false, pageListModel);
+                    if (listModel?.AdminRoleApplicableDetailsList?.Count > 0)
+                    {
+                        adminRoleApplicableDetailsModel.EmployeeList = new List<EmployeeMasterModel>();
+                        foreach (AdminRoleApplicableDetailsModel item in listModel.AdminRoleApplicableDetailsList)
+                        {
+                            adminRoleApplicableDetailsModel.EmployeeList.Add(new EmployeeMasterModel()
+                            {
+                                EmployeeId = item.EmployeeId,
+                                FullName = $"{item.FirstName} {item.LastName}",
+                                FullNameWithPersonCode = $"{item.FirstName} {item.LastName} ({item.PersonCode})",
+                            });
+                        }
+                    }
+                }
+            }
+            return adminRoleApplicableDetailsModel;
+        }
+
+        //Associate UnAssociate Admin Role To User
+        public virtual bool AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsModel adminRoleApplicableDetailsModel)
+        {
+            if (IsNull(adminRoleApplicableDetailsModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+            if (adminRoleApplicableDetailsModel.AdminRoleMasterId < 1 && adminRoleApplicableDetailsModel.AdminRoleApplicableDetailId == 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            AdminRoleApplicableDetails adminRoleApplicableDetails = adminRoleApplicableDetailsModel.FromModelToEntity<AdminRoleApplicableDetails>();
+            if (adminRoleApplicableDetailsModel.AdminRoleApplicableDetailId > 0)
+                return _adminRoleApplicableDetailsRepository.Update(adminRoleApplicableDetails);
+            else
+            {
+                AdminSanctionPost adminSanctionPost = _adminSanctionPostRepository.GetById(adminRoleApplicableDetailsModel.AdminRoleMasterId);
+                adminRoleApplicableDetails.RoleType = adminSanctionPost.DesignationType;
+                adminRoleApplicableDetails = _adminRoleApplicableDetailsRepository.Insert(adminRoleApplicableDetails);
+            }
+            return adminRoleApplicableDetails?.AdminRoleApplicableDetailId > 0 ? true : false;
+        }
+
+        #endregion
+
+        #region protected
+        protected virtual List<UserMenuModel> GetActiveMenuList(string moduleCodel, List<AdminRoleMenuDetails> associatedMenuCodeList)
+        {
+            List<UserMenuModel> menuList = new List<UserMenuModel>();
+            foreach (UserMainMenuMaster item in base.GetAllActiveMenuList(moduleCodel))
+            {
+                bool isAssociatedToAdminRole = associatedMenuCodeList?.Count > 0 ? associatedMenuCodeList.Any(x => x.MenuCode == item.MenuCode && x.IsActive) : false;
+                menuList.Add(new UserMenuModel()
+                {
+                    UserMainMenuMasterId = item.UserMainMenuMasterId,
+                    ModuleCode = item.ModuleCode,
+                    MenuCode = item.MenuCode,
+                    MenuName = item.MenuName,
+                    ParentMenuId = item.ParentMenuId,
+                    MenuDisplaySeqNo = item.MenuDisplaySeqNo,
+                    IsAssociatedToAdminRole = isAssociatedToAdminRole
+                });
+            }
+            return menuList;
+        }
+        protected virtual void BindAdminRoleMenuDetails(AdminRoleMenuDetailsModel adminRoleMenuDetailsModel, List<AdminRoleMenuDetails> insertList, string item)
+        {
+            insertList.Add(new AdminRoleMenuDetails()
+            {
+                AdminRoleMasterId = adminRoleMenuDetailsModel.AdminRoleMasterId,
+                AdminRoleCode = adminRoleMenuDetailsModel.AdminRoleCode,
+                ModuleCode = adminRoleMenuDetailsModel.ModuleCode,
+                MenuCode = item,
+                EnableDate = DateTime.Now,
+                IsActive = true
+            });
+        }
+        protected virtual AdminRoleApplicableDetailsListModel GetAssociateUnAssociatedRoleUserList(int adminRoleMasterId, bool isAssociated, PageListModel pageListModel)
+        {
+            CoditechViewRepository<AdminRoleApplicableDetailsModel> objStoredProc = new CoditechViewRepository<AdminRoleApplicableDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@AdminRoleMasterId", adminRoleMasterId, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@IsAssociated", isAssociated, ParameterDirection.Input, DbType.Boolean);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<AdminRoleApplicableDetailsModel> adminRoleApplicableDetailsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAdminRoleApplicableDetailsList @AdminRoleMasterId,@IsAssociated,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            AdminRoleApplicableDetailsListModel listModel = new AdminRoleApplicableDetailsListModel();
+            listModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.Count > 0 ? adminRoleApplicableDetailsList : new List<AdminRoleApplicableDetailsModel>();
+            return listModel;
+        }
+        #endregion
     }
 }

@@ -13,17 +13,14 @@ namespace Coditech.Common.API.Model
         [Required]
         public int MedicalSpecilizationEnumId { get; set; }
 
-        [MaxLength(500)]
         [Required]
         public string WeekDayEnumIds { get; set; }
 
         [Required]
         public short OrganisationCentrewiseBuildingRoomId { get; set; }
 
-        [Required]
         public string SelectedCentreCode { get; set; }
 
-        [Required]
         public string SelectedDepartmentId { get; set; }
 
         public string ImagePath { get; set; }

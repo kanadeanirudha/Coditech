@@ -1,10 +1,11 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API.Model;
-using Coditech.Common.Enum;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Common.Service
 {
     public abstract class BaseService
@@ -69,20 +70,43 @@ namespace Coditech.Common.Service
             return settingList;
         }
 
-        protected virtual GeneralPerson GetGeneralPersonDetails(long personId)
+        protected virtual GeneralPersonModel GetGeneralPersonDetails(long personId)
         {
             GeneralPerson generalPerson = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).GetById(personId);
-            return generalPerson;
+            return generalPerson.FromEntityToModel<GeneralPersonModel>();
         }
 
-        protected virtual GeneralPerson GetGeneralPersonDetailsByEntityType(long entityId, string entityType)
+        protected virtual GeneralPersonModel GetGeneralPersonDetailsByEntityType(long entityId, string entityType)
         {
             long personId = 0;
+            string centreCode = string.Empty;
+            short generalDepartmentMasterId = 0;
             if (entityType == UserTypeEnum.GymMember.ToString())
             {
-                personId = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId).FirstOrDefault().PersonId;
+                GymMemberDetails gymMemberDetails = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.GymMemberDetailId == entityId);
+                if (IsNotNull(gymMemberDetails))
+                {
+                    personId = gymMemberDetails.PersonId;
+                    centreCode = gymMemberDetails.CentreCode;
+                }
             }
-            return GetGeneralPersonDetails(personId);
+            else if (entityType == UserTypeEnum.Employee.ToString())
+            {
+                EmployeeMaster employeeMaster = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EmployeeId == entityId);
+                if (IsNotNull(employeeMaster))
+                {
+                    personId = employeeMaster.PersonId;
+                    centreCode = employeeMaster.CentreCode;
+                    generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
+                }
+            }
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNotNull(generalPersonModel))
+            {
+                generalPersonModel.SelectedCentreCode = centreCode;
+                generalPersonModel.SelectedDepartmentId = Convert.ToString(generalDepartmentMasterId);
+            }
+            return generalPersonModel;
         }
 
         protected virtual string GetEnumCodeByEnumId(int generalEnumaratorId)
@@ -127,17 +151,17 @@ namespace Coditech.Common.Service
             return registrationCode;
         }
 
-        protected virtual InventoryGeneralItemLineDetails GetInventoryGeneralItemLineDetails(long inventoryGeneralItemLineId)
+        protected virtual InventoryGeneralItemLineDetailsModel GetInventoryGeneralItemLineDetails(long inventoryGeneralItemLineId)
         {
             CoditechRepository<InventoryGeneralItemMaster> _inventoryGeneralItemMasterRepository = new CoditechRepository<InventoryGeneralItemMaster>(_serviceProvider.GetService<Coditech_Entities>());
             CoditechRepository<InventoryGeneralItemLine> _inventoryGeneralItemLineRepository = new CoditechRepository<InventoryGeneralItemLine>(_serviceProvider.GetService<Coditech_Entities>());
 
-            InventoryGeneralItemLineDetails itemLineDetails = null;
+            InventoryGeneralItemLineDetailsModel itemLineDetails = null;
             itemLineDetails = (from a in _inventoryGeneralItemMasterRepository.Table
                                join b in _inventoryGeneralItemLineRepository.Table
                                on a.InventoryGeneralItemMasterId equals b.InventoryGeneralItemMasterId
                                where (b.InventoryGeneralItemLineId == inventoryGeneralItemLineId)
-                               select new InventoryGeneralItemLineDetails()
+                               select new InventoryGeneralItemLineDetailsModel()
                                {
                                    InventoryGeneralItemMasterId = a.InventoryGeneralItemMasterId,
                                    InventoryGeneralItemLineId = b.InventoryGeneralItemLineId,
@@ -162,6 +186,17 @@ namespace Coditech.Common.Service
                                         select b.TaxRate).Sum();
 
             return Convert.ToDecimal(amount * (taxInPercentage / 100));
+        }
+
+        protected virtual void ActiveInActiveUserLogin(bool flag, long entityId)
+        {
+            CoditechRepository<UserMaster> _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == entityId);
+            if (userMaster != null && userMaster.IsActive != flag)
+            {
+                userMaster.IsActive = flag;
+                _userMasterRepository.Update(userMaster);
+            }
         }
     }
 }

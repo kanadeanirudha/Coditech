@@ -4,19 +4,21 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
+
 using System.Collections.Specialized;
 using System.Data;
 
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class HospitalDoctorsService : IHospitalDoctorsService
+    public class HospitalDoctorsService : BaseService, IHospitalDoctorsService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<HospitalDoctors> _hospitalDoctorsRepository;
-        public HospitalDoctorsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public HospitalDoctorsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -78,6 +80,18 @@ namespace Coditech.API.Service
             //Get the HospitalDoctors Details based on id.
             HospitalDoctors hospitalDoctors = _hospitalDoctorsRepository.Table.FirstOrDefault(x => x.HospitalDoctorId == hospitalDoctorId);
             HospitalDoctorsModel hospitalDoctorsModel = hospitalDoctors?.FromEntityToModel<HospitalDoctorsModel>();
+            if (hospitalDoctorsModel?.EmployeeId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(hospitalDoctorsModel.EmployeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    hospitalDoctorsModel.FirstName = generalPersonModel.FirstName;
+                    hospitalDoctorsModel.LastName = generalPersonModel.LastName;
+                    hospitalDoctorsModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+                    hospitalDoctorsModel.SelectedDepartmentId = generalPersonModel.SelectedDepartmentId;
+                }
+                hospitalDoctorsModel.OrganisationCentrewiseBuildingMasterId = Convert.ToInt16(new CoditechRepository<OrganisationCentrewiseBuildingRooms>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.OrganisationCentrewiseBuildingRoomId == hospitalDoctorsModel.OrganisationCentrewiseBuildingRoomId)?.FirstOrDefault()?.OrganisationCentrewiseBuildingMasterId);
+            }
             return hospitalDoctorsModel;
         }
 
