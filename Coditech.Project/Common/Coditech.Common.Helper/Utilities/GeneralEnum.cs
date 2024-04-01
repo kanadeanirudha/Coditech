@@ -43,8 +43,7 @@
         GymMembershipPlan,
         PaymentType,
         InventoryGeneralServiecs,
-        DashboardForm
-        PaymentType,
+        DashboardForm,        
         EmployeeMaster,
         EmployeeService
     }
