@@ -39,14 +39,14 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Departments.", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Departments.", "error")
                     CoditechCommon.HideLodder();
                 }
             });
         }
         else {
             $('#DataTablesDivId tbody').html('');
-            $("#SelectedDepartmentID").html("");
+            $("#SelectedDepartmentId").html("");
         }
     },
     LoadListByCentreCodeAndDepartmentId: function (controllerName, methodName) {
@@ -78,7 +78,7 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve Region.", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Region.", "error")
                     CoditechCommon.HideLodder();
                 }
             });
@@ -104,7 +104,7 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    RARIndiaNotification.DisplayNotificationMessage("Failed to retrieve City.", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve City.", "error")
                     CoditechCommon.HideLodder();
                 }
             });

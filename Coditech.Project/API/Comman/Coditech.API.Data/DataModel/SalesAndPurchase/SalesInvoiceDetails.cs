@@ -12,7 +12,7 @@ namespace Coditech.API.Data
         public decimal ItemAmount { get; set; }
         public decimal ItemTaxAmount { get; set; }
         public decimal ItemShippingAmount { get; set; }
-        public short GeneralTaxGroupMasterId { get; set; }
+        public byte GeneralTaxGroupMasterId { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

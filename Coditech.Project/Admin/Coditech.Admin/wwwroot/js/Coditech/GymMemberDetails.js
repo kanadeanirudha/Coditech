@@ -110,10 +110,7 @@
     },
 
     DisplayCheckInCheckOutDiv: function () {
-        console.log("Selected Value:", $("#GeneralAttendanceStateEnumId").val());
-
         var selectedOption = $("#GeneralAttendanceStateEnumId").val();
-
         $("#errorGeneralAttendanceStateEnumId").text('').removeClass("field-validation-error").hide();
         $("#errorLoginTime").text('').removeClass("field-validation-error").hide();
         $("#errorLogoutTime").text('').removeClass("field-validation-error").hide();

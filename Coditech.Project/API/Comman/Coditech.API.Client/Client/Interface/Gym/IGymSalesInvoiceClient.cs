@@ -11,6 +11,13 @@ namespace Coditech.API.Client
         /// Get Gym Service Sales Invoice List
         /// </summary>
         /// <returns>GymMemberSalesInvoiceListResponse</returns>
-        GymMemberSalesInvoiceListResponse GymMemberServiceSalesInvoiceList(string selectedCentreCode, DateTime? toDate, DateTime? fromDate, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        GymMemberSalesInvoiceListResponse GymMemberServiceSalesInvoiceList(string selectedCentreCode, DateTime fromDate, DateTime toDate, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+        /// <summary>
+        /// Get Sales Invoice Details by salesInvoiceMasterId.
+        /// </summary>
+        /// <param name="gymMembershipPlanId">salesInvoiceMasterId</param>
+        /// <returns>Returns SalesInvoicePrintResponse.</returns>
+        SalesInvoicePrintResponse GetSalesInvoiceDetails(long salesInvoiceMasterId);
     }
 }

@@ -19,8 +19,6 @@ namespace Coditech.Admin.ViewModel
 
         public short? MenuInnerLevel { get; set; }
 
-        public short? ParentMenuId { get; set; }
-
         public int? MenuDisplaySeqNo { get; set; }
 
         [MaxLength(60)]

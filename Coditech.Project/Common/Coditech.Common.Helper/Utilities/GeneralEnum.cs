@@ -49,10 +49,16 @@
 
     public enum GeneralSystemGlobleSettingEnum
     {
+        GSTEInvoiceCancellationPeriodInMinute,
+        CoditechModules,
         IsGymMemberLogin,
         IsEmployeeLogin,
         ActiveProjectName,
-        DefaultPassword
+        DefaultPassword,
+        DefaultCultureName,
+        PriceRoundOff,
+        InventoryRoundOff,
+        DateFormat,
     }
 
     public enum UserTypeEnum

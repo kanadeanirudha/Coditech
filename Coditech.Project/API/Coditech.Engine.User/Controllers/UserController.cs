@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
 
+using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Controllers
 {
     [ApiController]
@@ -61,14 +62,12 @@ namespace Coditech.API.Controllers
         [HttpGet]
         [Route("/User/GetActiveModuleList")]
         [Produces(typeof(UserModuleListResponse))]
-        [TypeFilter(typeof(BindQueryFilter))]
         public virtual IActionResult GetActiveModuleList()
         {
             try
             {
-                List<UserModuleMaster> list = _userService.GetActiveModuleList();
-                string data = ApiHelper.ToJson(list);
-                return !string.IsNullOrEmpty(data) ? CreateOKResponse<UserModuleListResponse>(data) : CreateNoContentResponse();
+                List<UserModuleModel> list = _userService.GetActiveModuleList();
+                return IsNotNull(list) ? CreateOKResponse(new UserModuleListResponse { ModuleList = list }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
@@ -89,9 +88,8 @@ namespace Coditech.API.Controllers
         {
             try
             {
-                List<UserMainMenuMaster> list = _userService.GetActiveMenuList(moduleCode);
-                string data = ApiHelper.ToJson(list);
-                return !string.IsNullOrEmpty(data) ? CreateOKResponse<UserMenuListResponse>(data) : CreateNoContentResponse();
+                List<UserMenuModel> list = _userService.GetActiveMenuList(moduleCode);
+                return IsNotNull(list) ? CreateOKResponse(new UserMenuListResponse { MenuList = list }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {

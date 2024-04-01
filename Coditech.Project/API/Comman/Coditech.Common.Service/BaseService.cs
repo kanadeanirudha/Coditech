@@ -1,10 +1,11 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API.Model;
-using Coditech.Common.Enum;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Common.Service
 {
     public abstract class BaseService
@@ -63,26 +64,59 @@ namespace Coditech.Common.Service
             return userAllMenuList;
         }
 
-        protected virtual List<GeneralSystemGlobleSettingMaster> GetSystemGlobleSettingList(string featureName = null)
+        protected virtual List<GeneralSystemGlobleSettingModel> GetSystemGlobleSettingList(string featureName = null)
         {
             List<GeneralSystemGlobleSettingMaster> settingList = new CoditechRepository<GeneralSystemGlobleSettingMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.FeatureName == featureName || featureName == null)?.ToList();
-            return settingList;
+            List<GeneralSystemGlobleSettingModel> list = new List<GeneralSystemGlobleSettingModel>();
+            foreach (GeneralSystemGlobleSettingMaster item in settingList)
+            {
+                list.Add(new GeneralSystemGlobleSettingModel()
+                {
+                    GeneralSystemGlobleSettingMasterId = item.GeneralSystemGlobleSettingMasterId,
+                    FeatureName = item.FeatureName,
+                    FeatureValue = item.FeatureValue
+                });
+            }
+            return list;
         }
 
-        protected virtual GeneralPerson GetGeneralPersonDetails(long personId)
+        protected virtual GeneralPersonModel GetGeneralPersonDetails(long personId)
         {
             GeneralPerson generalPerson = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).GetById(personId);
-            return generalPerson;
+            return generalPerson.FromEntityToModel<GeneralPersonModel>();
         }
 
-        protected virtual GeneralPerson GetGeneralPersonDetailsByEntityType(long entityId, string entityType)
+        protected virtual GeneralPersonModel GetGeneralPersonDetailsByEntityType(long entityId, string entityType)
         {
             long personId = 0;
+            string centreCode = string.Empty;
+            short generalDepartmentMasterId = 0;
             if (entityType == UserTypeEnum.GymMember.ToString())
             {
-                personId = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId).FirstOrDefault().PersonId;
+                GymMemberDetails gymMemberDetails = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.GymMemberDetailId == entityId);
+                if (IsNotNull(gymMemberDetails))
+                {
+                    personId = gymMemberDetails.PersonId;
+                    centreCode = gymMemberDetails.CentreCode;
+                }
             }
-            return GetGeneralPersonDetails(personId);
+            else if (entityType == UserTypeEnum.Employee.ToString())
+            {
+                EmployeeMaster employeeMaster = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EmployeeId == entityId);
+                if (IsNotNull(employeeMaster))
+                {
+                    personId = employeeMaster.PersonId;
+                    centreCode = employeeMaster.CentreCode;
+                    generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
+                }
+            }
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNotNull(generalPersonModel))
+            {
+                generalPersonModel.SelectedCentreCode = centreCode;
+                generalPersonModel.SelectedDepartmentId = Convert.ToString(generalDepartmentMasterId);
+            }
+            return generalPersonModel;
         }
 
         protected virtual string GetEnumCodeByEnumId(int generalEnumaratorId)
@@ -92,6 +126,15 @@ namespace Coditech.Common.Service
 
             GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).GetById(generalEnumaratorId);
             return generalEnumaratorMaster.EnumName;
+        }
+
+        protected virtual string GetEnumDisplayTextByEnumId(int generalEnumaratorId)
+        {
+            if (generalEnumaratorId == 0)
+                return string.Empty;
+
+            GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).GetById(generalEnumaratorId);
+            return generalEnumaratorMaster.EnumDisplayText;
         }
 
         protected virtual int GetEnumIdByEnumCode(string enumCode)
@@ -162,6 +205,24 @@ namespace Coditech.Common.Service
                                         select b.TaxRate).Sum();
 
             return Convert.ToDecimal(amount * (taxInPercentage / 100));
+        }
+
+        protected virtual void ActiveInActiveUserLogin(bool flag, long entityId, string userType)
+        {
+            CoditechRepository<UserMaster> _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == entityId && x.UserType == userType);
+            if (userMaster != null && userMaster.IsActive != flag)
+            {
+                userMaster.IsActive = flag;
+                _userMasterRepository.Update(userMaster);
+            }
+        }
+
+        protected virtual short GetOrganisationCentreMasterIdByCentreCode(string centreCode)
+        {
+            CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == centreCode).OrganisationCentreMasterId;
+            return organisationCentreMasterId;
         }
     }
 }

@@ -33,5 +33,40 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteAdminRole(ParameterModel body);
+
+        /// <summary>
+        /// Get Admin Role Menu Details by AdminRoleMasterId.
+        /// </summary>
+        /// <param name="adminRoleMasterId">adminRoleMasterId</param>
+        /// <returns>Returns AdminRoleMenuDetailsResponse.</returns>
+        AdminRoleMenuDetailsResponse GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode);
+
+        /// <summary>
+        /// Insert Update Admin Role Menu Details
+        /// </summary>
+        /// <param name="AdminRoleMenuDetailsModel">AdminRoleMenuDetailsModel.</param>
+        /// <returns>Returns updated AdminRoleMenuDetailsResponse</returns>
+        AdminRoleMenuDetailsResponse InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel body);
+
+        /// <summary>
+        /// Role Allocated To User List.
+        /// </summary>
+        /// <returns>AdminRoleApplicableDetailsListResponse</returns>
+        AdminRoleApplicableDetailsListResponse RoleAllocatedToUserList(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+        /// <summary>
+        /// Get Admin Role Menu Details by AdminRoleMasterId.
+        /// </summary>
+        /// <param name="adminRoleMasterId">adminRoleMasterId</param>
+        /// <param name="adminRoleApplicableDetailId">adminRoleApplicableDetailId</param>
+        /// <returns>Returns AdminRoleApplicableDetailsResponse.</returns>
+        AdminRoleApplicableDetailsResponse GetAssociateUnAssociateAdminRoleToUser(int adminRoleMasterId, int adminRoleApplicableDetailId);
+
+        /// <summary>
+        /// Associat eUnAssociate Admin Role To User
+        /// </summary>
+        /// <param name="AdminRoleApplicableDetailsModel">AdminRoleApplicableDetailsModel.</param>
+        /// <returns>Returns updated AdminRoleApplicableDetailsResponse</returns>
+        AdminRoleApplicableDetailsResponse AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsModel body);
     }
 }

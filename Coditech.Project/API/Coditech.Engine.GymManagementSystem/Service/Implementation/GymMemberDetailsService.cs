@@ -1,5 +1,6 @@
 ﻿
 using Coditech.API.Data;
+using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
@@ -67,11 +68,11 @@ namespace Coditech.API.Service
             GymMemberDetailsModel gymMemberDetailsModel = gymMemberDetails?.FromEntityToModel<GymMemberDetailsModel>();
             if (IsNotNull(gymMemberDetailsModel))
             {
-                GeneralPerson generalPerson = GetGeneralPersonDetails(gymMemberDetailsModel.PersonId);
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(gymMemberDetailsModel.PersonId);
                 if (IsNotNull(gymMemberDetailsModel))
                 {
-                    gymMemberDetailsModel.FirstName = generalPerson.FirstName;
-                    gymMemberDetailsModel.LastName = generalPerson.LastName;
+                    gymMemberDetailsModel.FirstName = generalPersonModel.FirstName;
+                    gymMemberDetailsModel.LastName = generalPersonModel.LastName;
                 }
             }
             return gymMemberDetailsModel;
@@ -101,7 +102,11 @@ namespace Coditech.API.Service
             gymMemberDetails.IsActive = gymMemberDetailsModel.IsActive;
 
             isUpdated = _gymMemberDetailsRepository.Update(gymMemberDetails);
-            if (!isUpdated)
+            if (isUpdated)
+            {
+                ActiveInActiveUserLogin(gymMemberDetails.IsActive, Convert.ToInt64(gymMemberDetails.GymMemberDetailId), UserTypeEnum.GymMember.ToString());
+            }
+            else
             {
                 gymMemberDetailsModel.HasError = true;
                 gymMemberDetailsModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
@@ -142,11 +147,11 @@ namespace Coditech.API.Service
             listModel.GymMemberFollowUpList = gymMemberList?.Count > 0 ? gymMemberList : new List<GymMemberFollowUpModel>();
             listModel.BindPageListModel(pageListModel);
 
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
-            if (IsNotNull(generalPerson))
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNotNull(generalPersonModel))
             {
-                listModel.FirstName = generalPerson.FirstName;
-                listModel.LastName = generalPerson.LastName;
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
             }
             listModel.GymMemberDetailId = gymMemberDetailId;
             listModel.PersonId = personId;
@@ -212,65 +217,41 @@ namespace Coditech.API.Service
         #endregion
 
         #region GymMemberMembershipPlan
-        public virtual GymMemberMembershipPlanListModel GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId)
+        public virtual GymMemberMembershipPlanListModel GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             if (gymMemberDetailId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymMemberDetailId"));
 
-            List<GymMemberMembershipPlan> gymMemberMembershipPlanList = _gymMemberMembershipPlanRepository.Table.Where(x => x.GymMemberDetailId == gymMemberDetailId)?.ToList();
-            GymMemberMembershipPlanListModel gymMemberDetailsModel = new GymMemberMembershipPlanListModel();
+            //Update Runtime Memeber Membership Plan
+            UpdateRuntimeMemeberMembershipPlan(gymMemberDetailId);
 
-            foreach (GymMemberMembershipPlan item in gymMemberMembershipPlanList)
-            {
-                GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(item.GymMembershipPlanId);
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
 
-                if (IsNotNull(gymMembershipPlan))
-                {
-                    GymMembershipPlanModel gymMembershipPlanModel = gymMembershipPlan.FromEntityToModel<GymMembershipPlanModel>();
-                    gymMembershipPlanModel.PlanType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanTypeEnumId);
-                    gymMembershipPlanModel.PlanDurationType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanDurationTypeEnumId);
-                    if (!item.IsExpired)
-                    {
-                        if (string.Equals(gymMembershipPlanModel.PlanDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            if (item.PlanDurationExpirationDate <= DateTime.Now)
-                            {
-                                item.IsExpired = true;
-                                _gymMemberMembershipPlanRepository.Update(item);
-                            }
-                        }
-                        else if (string.Equals(gymMembershipPlanModel.PlanDurationType, "session", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            if (item.RemainingSessionCount == 0)
-                            {
-                                item.IsExpired = true;
-                                _gymMemberMembershipPlanRepository.Update(item);
-                            }
-                        }
-                    }
-                    gymMemberDetailsModel.GymMemberMembershipPlanList.Add(new GymMemberMembershipPlanModel()
-                    {
-                        GymMembershipPlan = gymMembershipPlanModel,
-                        GymMemberMembershipPlanId = item.GymMemberMembershipPlanId,
-                        GymMembershipPlanId = item.GymMembershipPlanId,
-                        GymMemberDetailId = item.GymMemberDetailId,
-                        PlanStartDate = item.PlanStartDate,
-                        PlanDurationExpirationDate = item.PlanDurationExpirationDate,
-                        RemainingSessionCount = item.RemainingSessionCount,
-                        PlanAmount = item.PlanAmount,
-                        IsExpired = item.IsExpired,
-                        IsTransfered = item.IsTransfered,
-                        TransferedGymMemberDetailId = item.TransferedGymMemberDetailId,
-                    });
-                }
-            }
-            GeneralPerson generalPerson = GetGeneralPersonDetails(personId);
-            if (IsNotNull(gymMemberDetailsModel))
+            CoditechViewRepository<GymMemberMembershipPlanModel> objStoredProc = new CoditechViewRepository<GymMemberMembershipPlanModel>(_serviceProvider.GetService<Coditech_Entities>());
+
+            objStoredProc.SetParameter("@GymMemberDetailId", gymMemberDetailId, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+
+            List<GymMemberMembershipPlanModel> gymMemberMembershipPlanList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberMembershipPlanList @GymMemberDetailId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+
+            GymMemberMembershipPlanListModel listModel = new GymMemberMembershipPlanListModel();
+            listModel.GymMemberMembershipPlanList = gymMemberMembershipPlanList?.Count > 0 ? gymMemberMembershipPlanList : new List<GymMemberMembershipPlanModel>();
+            listModel.BindPageListModel(pageListModel);
+
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNotNull(listModel))
             {
-                gymMemberDetailsModel.FirstName = generalPerson.FirstName;
-                gymMemberDetailsModel.LastName = generalPerson.LastName;
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
             }
-            return gymMemberDetailsModel;
+            listModel.GymMemberDetailId = gymMemberDetailId;
+            listModel.PersonId = personId;
+
+            return listModel;
         }
 
         //Associate Gym Member Membership Plan.
@@ -292,11 +273,11 @@ namespace Coditech.API.Service
             gymMemberMembershipPlan.PlanAmount = gymMembershipPlan.MaxCost;
             gymMemberMembershipPlan.DiscountAmount = gymMemberMembershipPlanModel.DiscountAmount;
             gymMemberMembershipPlan.SalesInvoiceMasterId = salesInvoiceMasterId;
-            if (string.Equals(planDurationType, "duration", StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(planDurationType, APIConstant.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
             {
                 gymMemberMembershipPlan.PlanDurationExpirationDate = Convert.ToDateTime(gymMemberMembershipPlanModel.PlanStartDate).AddMonths(Convert.ToInt32(gymMembershipPlan.PlanDurationInMonth)).AddDays(-1).AddDays(Convert.ToInt32(gymMembershipPlan.PlanDurationInDays));
             }
-            else if (string.Equals(planDurationType, "session", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(planDurationType, APIConstant.PlanSessionType, StringComparison.InvariantCultureIgnoreCase))
             {
                 gymMemberMembershipPlan.RemainingSessionCount = Convert.ToInt16(gymMembershipPlan.PlanDurationInSession);
             }
@@ -316,9 +297,8 @@ namespace Coditech.API.Service
         }
         #endregion
 
-
         #region Gym Member Payment History
-        public virtual GymMemberSalesInvoiceListModel GymMemberPaymentHistoryList(int gymMemberDetailId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual GymMemberSalesInvoiceListModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
 
@@ -332,24 +312,25 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
 
             // Execute the stored procedure and retrieve Gym Member Payment History list.
-            List<GymMemberSalesInvoiceModel> paymentHistoryList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberInvoiceList @GymMemberDetailId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<GymMemberSalesInvoiceModel> paymentHistoryList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberInvoiceList @GymMemberDetailId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
 
             // Create and populate the GymMemberMembershipPlanListModel.
             GymMemberSalesInvoiceListModel listModel = new GymMemberSalesInvoiceListModel();
             listModel.GymMemberSalesInvoiceList = paymentHistoryList?.Count > 0 ? paymentHistoryList : new List<GymMemberSalesInvoiceModel>();
             listModel.BindPageListModel(pageListModel);
-            
-            GeneralPerson generalPerson = GetGeneralPersonDetails(100001);
+
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
             if (IsNotNull(listModel))
             {
-                listModel.FirstName = generalPerson.FirstName;
-                listModel.LastName = generalPerson.LastName;
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
             }
             listModel.GymMemberDetailId = gymMemberDetailId;
-            listModel.PersonId = 100001;
+            listModel.PersonId = personId;
             return listModel;
         }
         #endregion
+
         #region Protected Method
         protected virtual long SaveSalesInvoiceDetails(GymMemberMembershipPlanModel gymMemberMembershipPlanModel, GymMembershipPlan gymMembershipPlan)
         {
@@ -402,7 +383,47 @@ namespace Coditech.API.Service
 
             return salesInvoiceMasterId;
         }
-        #endregion
 
+        protected virtual void UpdateRuntimeMemeberMembershipPlan(int gymMemberDetailId)
+        {
+            List<GymMemberMembershipPlan> gymMemberMembershipPlanList = _gymMemberMembershipPlanRepository.Table.Where(x => x.GymMemberDetailId == gymMemberDetailId)?.ToList();
+            List<long> updatedGymMemberMembershipPlanIds = new List<long>();
+            foreach (GymMemberMembershipPlan item in gymMemberMembershipPlanList)
+            {
+                GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(item.GymMembershipPlanId);
+
+                if (IsNotNull(gymMembershipPlan))
+                {
+                    GymMembershipPlanModel gymMembershipPlanModel = gymMembershipPlan.FromEntityToModel<GymMembershipPlanModel>();
+                    gymMembershipPlanModel.PlanDurationType = GetEnumCodeByEnumId(gymMembershipPlanModel.PlanDurationTypeEnumId);
+                    if (!item.IsExpired)
+                    {
+                        if (string.Equals(gymMembershipPlanModel.PlanDurationType, APIConstant.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            if (item.PlanDurationExpirationDate <= DateTime.Now)
+                            {
+                                item.IsExpired = true;
+                                updatedGymMemberMembershipPlanIds.Add(item.GymMemberMembershipPlanId);
+                            }
+                        }
+                        else if (string.Equals(gymMembershipPlanModel.PlanDurationType, APIConstant.PlanSessionType, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            if (item.RemainingSessionCount == 0)
+                            {
+                                item.IsExpired = true;
+                                updatedGymMemberMembershipPlanIds.Add(item.GymMemberMembershipPlanId);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (updatedGymMemberMembershipPlanIds.Count > 0)
+            {
+                List<GymMemberMembershipPlan> UpdateGymMemberMembershipPlanList = gymMemberMembershipPlanList.Where(x => updatedGymMemberMembershipPlanIds.Contains(x.GymMemberMembershipPlanId))?.ToList();
+                _gymMemberMembershipPlanRepository.BatchUpdate(UpdateGymMemberMembershipPlanList);
+            }
+        }
+        #endregion
     }
 }

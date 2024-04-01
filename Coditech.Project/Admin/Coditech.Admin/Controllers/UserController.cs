@@ -57,13 +57,13 @@ namespace Coditech.Admin.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("ErrorMessage", "Invalid Email Address or Password");
+                        ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
                     }
                     ModelState.AddModelError("ErrorMessage", loginviewModel.ErrorMessage);
                 }
                 else
                 {
-                    ModelState.AddModelError("ErrorMessage", "Invalid Email Address or Password");
+                    ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
                 }
             }
             return View(model);
@@ -77,6 +77,7 @@ namespace Coditech.Admin.Controllers
             if (User.Identity.IsAuthenticated)
                 _userAgent.Logout();
 
+            SessionHelper.RemoveDataFromSession("returnUrl");
             return RedirectToAction<UserController>(x => x.Login(string.Empty));
         }
 
@@ -106,6 +107,45 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", generalPersonAddressViewModel);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public virtual ActionResult ResetPassword()
+        {
+            return View(new ResetPasswordViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public virtual ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //UserLoginViewModel loginviewModel = _userAgent.Login(model);
+                //if (HelperUtility.IsNotNull(loginviewModel))
+                //{
+                //    if (!loginviewModel.HasError)
+                //    {
+                //        _authenticationHelper.SetAuthCookie(model.UserName, model.RememberMe);
+
+                //        if (model.RememberMe)
+                //            SaveLoginRememberMeCookie(model.UserName);
+
+                //        return RedirectToLocal(returnUrl);
+                //    }
+                //    else
+                //    {
+                //        ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
+                //    }
+                //    ModelState.AddModelError("ErrorMessage", loginviewModel.ErrorMessage);
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
+                //}
+            }
+            return View(model);
+        }
         #region Protected
         protected virtual ActionResult RedirectToLocal(string returnUrl)
         {
@@ -121,7 +161,6 @@ namespace Coditech.Admin.Controllers
             if ((HttpContextHelper.Request.Cookies?.Count > 0))
             {
                 CookieHelper.SetCookie(AdminConstants.LoginCookieNameValue, userId, (Convert.ToDouble(CoditechAdminSettings.CookieExpiresValue) * AdminConstants.MinutesInADay), true);
-
             }
         }
         protected virtual void GetLoginRememberMeCookie()

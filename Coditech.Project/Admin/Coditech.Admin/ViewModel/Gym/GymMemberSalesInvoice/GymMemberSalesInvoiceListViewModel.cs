@@ -1,5 +1,7 @@
 ﻿using Coditech.Common.Helper;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Coditech.Admin.ViewModel
 {
     public class GymMemberSalesInvoiceListViewModel : BaseViewModel
@@ -13,5 +15,10 @@ namespace Coditech.Admin.ViewModel
         public int GymMemberDetailId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string SelectedCentreCode { get; set; }
+        [Display(Name = "From Date")]
+        public DateTime FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public DateTime ToDate { get; set; }
     }
 }

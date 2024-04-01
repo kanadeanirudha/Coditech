@@ -28,11 +28,11 @@ namespace Coditech.API.Controllers
         [Route("/GymSalesInvoice/GymMemberServiceSalesInvoiceList")]
         [Produces(typeof(GymMemberSalesInvoiceListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GymServiceSalesInvoiceList(string selectedCentreCode, DateTime? toDate, DateTime? fromDate, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GymServiceSalesInvoiceList(string selectedCentreCode, DateTime? fromDate, DateTime? toDate, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                GymMemberSalesInvoiceListModel list = _gymSalesInvoiceService.GymMemberServiceSalesInvoiceList(selectedCentreCode, toDate, fromDate, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                GymMemberSalesInvoiceListModel list = _gymSalesInvoiceService.GymMemberServiceSalesInvoiceList(selectedCentreCode, fromDate, toDate, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberSalesInvoiceListResponse>(data) : CreateNoContentResponse();
             }
@@ -48,5 +48,27 @@ namespace Coditech.API.Controllers
             }
         }
 
+
+        [Route("/GymSalesInvoice/GetSalesInvoiceDetails")]
+        [HttpGet]
+        [Produces(typeof(SalesInvoicePrintResponse))]
+        public virtual IActionResult GetSalesInvoiceDetails(long salesInvoiceMasterId)
+        {
+            try
+            {
+                SalesInvoicePrintModel salesInvoicePrintModel = _gymSalesInvoiceService.GetSalesInvoiceDetails(salesInvoiceMasterId);
+                return IsNotNull(salesInvoicePrintModel) ? CreateOKResponse(new SalesInvoicePrintResponse { SalesInvoicePrintModel = salesInvoicePrintModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SalesAndPurchase.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new SalesInvoicePrintResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SalesAndPurchase.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new SalesInvoicePrintResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

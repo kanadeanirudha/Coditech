@@ -99,7 +99,7 @@ body, html {
 }
 
     .card .card-header:first-child span {
-        color: #ffffff;
+        color: #c2cbe2 !important;
     }
 
 .btn-soft-primary {
@@ -174,16 +174,17 @@ label {
 }
 
 .title-text, .card-title {
-    color: #ffffff;
+    color: #c2cbe2 !important;
 }
 
 #notificationDivId {
     position: absolute;
-    width: 95%;
-    top: 15%;
-    z-index: 99;
+    top: 10%;
+    padding: 5px;
+    width: 80%;
     margin: 0 auto;
-    left: 2.3%;
+    height: 31px;
+    left:10%;
 }
 
 .btn-secondary {
@@ -194,7 +195,9 @@ label {
 
 .page-wrapper .page-content {
     padding: 26px 8px 52px 8px;
+    min-height: calc(100vh - 52px - 2px - 31px) !important;
 }
+
 
 .navbar-custom-menu ul.navigation-menu li.has-submenu.active ul li.active a {
     background: #0c213a !important;
@@ -246,7 +249,13 @@ label {
 }
 
 @media (min-width: 992px) {
-    body.dark-topbar .topbar .navbar-custom-menu .has-submenu.active a span {
+   /* body.dark-topbar .topbar .navbar-custom-menu .has-submenu.active a span {
         border: 1px solid #c2cbe2;
-    }
+    }*/
+}
+td.text-center a.btn {
+    padding: 5px;
+}
+.navigation-menu > li a i {
+    font-size: 12px !important;
 }

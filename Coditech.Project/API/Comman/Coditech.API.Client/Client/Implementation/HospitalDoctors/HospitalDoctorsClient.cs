@@ -124,12 +124,12 @@ namespace Coditech.API.Client
             return Task.Run(async () => await GetHospitalDoctorsAsync(doctorId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalDoctorsResponse> GetHospitalDoctorsAsync(int doctorId, CancellationToken cancellationToken)
+        public virtual async Task<HospitalDoctorsResponse> GetHospitalDoctorsAsync(int hospitalDoctorId, CancellationToken cancellationToken)
         {
-            if (doctorId <= 0)
-                throw new System.ArgumentNullException("doctorId");
+            if (hospitalDoctorId <= 0)
+                throw new System.ArgumentNullException("hospitalDoctorId");
 
-            string endpoint = hospitalDoctorsEndpoint.GetHospitalDoctorsAsync(doctorId);
+            string endpoint = hospitalDoctorsEndpoint.GetHospitalDoctorsAsync(hospitalDoctorId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

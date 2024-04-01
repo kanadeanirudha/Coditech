@@ -601,6 +601,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sales Invoice List.
+        /// </summary>
+        public static string LabelSalesInvoiceList {
+            get {
+                return ResourceManager.GetString("LabelSalesInvoiceList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string LabelSave {

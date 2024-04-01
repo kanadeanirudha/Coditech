@@ -98,5 +98,12 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["CoditechHospitalManagementSystemApiRootUri"]);
             }
         }
+        public static string ApplicationLogoPath
+        {
+            get
+            {
+                return Convert.ToString(settings["ApplicationLogoPath"]);
+            }
+        }
     }
 }

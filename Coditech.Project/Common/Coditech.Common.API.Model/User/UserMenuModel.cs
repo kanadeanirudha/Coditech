@@ -6,12 +6,13 @@
         public string ModuleCode { get; set; }
         public string MenuCode { get; set; }
         public string MenuName { get; set; }
-        public short? ParentMenuID { get; set; }
+        public string ParentMenuCode { get; set; }
         public int? MenuDisplaySeqNo { get; set; }
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
         public string MenuLink { get; set; }
         public string MenuToolTip { get; set; }
         public string MenuIconName { get; set; }
+        public bool IsAssociatedToAdminRole { get; set; }
     }
 }

@@ -24,6 +24,8 @@
         public const double MinutesInAYear = 365 * 24 * 60;
         public const double MinutesInADay = 24 * 60;
         public const double MinutesInAHour = 60;
+        public const string PlanDurationType = "duration";
+        public const string PlanSessionType = "session";
         #endregion
     }
 }

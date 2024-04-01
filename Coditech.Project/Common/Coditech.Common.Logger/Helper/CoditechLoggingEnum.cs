@@ -52,6 +52,7 @@
             MemberBodyMeasurement,
             PersonAttendance,
             Inventory,
+            SalesAndPurchase,
             InventoryCategory
         }
     }

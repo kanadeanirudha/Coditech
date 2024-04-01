@@ -17,10 +17,10 @@ namespace Coditech.API.Service
         bool InserUpdateGymMemberFollowUp(GymMemberFollowUpModel model);
         bool DeleteGymMemberFollowUp(ParameterModel parameterModel);
 
-        GymMemberMembershipPlanListModel GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId);
+        GymMemberMembershipPlanListModel GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
 
         GymMemberMembershipPlanModel AssociateGymMemberMembershipPlan(GymMemberMembershipPlanModel gymMemberMembershipPlanModel);
-        GymMemberSalesInvoiceListModel GymMemberPaymentHistoryList(int gymMemberDetailId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        GymMemberSalesInvoiceListModel GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
 
     }
 }

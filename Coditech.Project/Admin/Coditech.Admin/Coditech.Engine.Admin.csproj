@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="MediaFolder\" />
     <Folder Include="Views\Shared\Control\" />
+    <Folder Include="wwwroot\assets\images\jstree\" />
     <Folder Include="wwwroot\css\login\" />
     <Folder Include="wwwroot\js\Coditech\GeneralMaster\" />
     <Folder Include="wwwroot\js\Coditech\Organisation\" />

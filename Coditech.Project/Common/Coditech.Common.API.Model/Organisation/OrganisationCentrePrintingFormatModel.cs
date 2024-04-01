@@ -1,9 +1,8 @@
-﻿using Coditech.Common.API.Model;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.Model
+namespace Coditech.Common.API.Model
 {
-    public partial class OrganisationCentrePrintingFormatModel : BaseModel
+    public class OrganisationCentrePrintingFormatModel : BaseModel
     {
         [Required]
         public short OrganisationCentrePrintingFormatId { get; set; }

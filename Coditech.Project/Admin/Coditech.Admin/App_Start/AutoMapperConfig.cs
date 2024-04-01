@@ -13,6 +13,9 @@ namespace Coditech.Admin
             #region Admin 
             CreateMap<AdminSanctionPostModel, AdminSanctionPostViewModel>().ReverseMap();
             CreateMap<AdminRoleModel, AdminRoleViewModel>().ReverseMap();
+            CreateMap<AdminRoleMenuDetailsModel, AdminRoleMenuDetailsViewModel>().ReverseMap();
+            CreateMap<AdminRoleApplicableDetailsModel, AdminRoleApplicableDetailsViewModel>().ReverseMap();
+            CreateMap<AdminRoleApplicableDetailsListModel, AdminRoleApplicableDetailsListViewModel>().ReverseMap();
             #endregion
 
 #region General Master

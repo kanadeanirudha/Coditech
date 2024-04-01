@@ -40,18 +40,18 @@ namespace Coditech.API.Endpoint
         #endregion
 
         #region Gym Member Membership Plan
-        public string GetGymMemberMembershipPlanListAsync(int gymMemberDetailId, long personId)
+        public string GetGymMemberMembershipPlanListAsync(int gymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GetGymMemberMembershipPlanList?gymMemberDetailId={gymMemberDetailId}&personId={personId}";
+            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GetGymMemberMembershipPlanList?gymMemberDetailId={gymMemberDetailId}&personId={personId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string AssociateGymMemberMembershipPlanAsync() =>
             $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/AssociateGymMemberMembershipPlan";
 
-        public string GymMemberPaymentHistoryListAsync(int gymMemberDetailId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string GymMemberPaymentHistoryListAsync(int gymMemberDetailId, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GymMemberPaymentHistoryList?gymMemberDetailId={gymMemberDetailId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymMemberDetails/GymMemberPaymentHistoryList?gymMemberDetailId={gymMemberDetailId}&personId={personId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         #endregion

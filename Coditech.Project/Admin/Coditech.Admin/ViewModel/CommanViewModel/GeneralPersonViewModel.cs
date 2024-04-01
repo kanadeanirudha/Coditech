@@ -67,10 +67,10 @@ namespace Coditech.Admin.ViewModel
         public string MaritalStatus { get; set; } 
 
         [MaxLength(50)]
-        [Display(Name = "Indentification Number")]
+        [Display(Name = "Identification Number")]
         public string IndentificationNumber { get; set; }
 
-        [Display(Name = "Indentification Type")]
+        [Display(Name = "Identification Type")]
         public int IndentificationEnumId { get; set; }
 
         [MaxLength(50)]
@@ -81,11 +81,11 @@ namespace Coditech.Admin.ViewModel
         public long PhotoMediaId { get; set; }
 
         [MaxLength(100)]
-        [Display(Name = "Birth Mark")]
+        [Display(Name = "Birthmark")]
         public string BirthMark { get; set; }
 
         [MaxLength(100)]
-        [Display(Name = "Attendance Integration Id")]
+        [Display(Name = "Attendance Integration ID")]
         public string AttendanceIntegrationId { get; set; }
 
         [Display(Name = "Occupation")]

@@ -17,6 +17,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
         public Int16 AdminRoleMasterId { get; set; }
+        [Display(Name = "Admin Role Code")]
         public string AdminRoleCode { get; set; }
         [Display(Name = "Role Description")]
         public string SanctionPostName { get; set; }

@@ -1,13 +1,13 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
-
+using Coditech.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
 {
     public class GymMemberSalesInvoiceViewModel : BaseViewModel
     {
-        public GymMembershipPlanModel GymMembershipPlan;
+        public GymMemberSalesInvoiceModel GymMemberSalesInvoice;
         [Display(Name = "Sales Invoice Master ID")]
         public long SalesInvoiceMasterId { get; set; }
 
@@ -68,7 +68,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Plan Duration Expiration Date")]
         public DateTime PlanDurationExpirationDate { get; set; }
 
-        [Display(Name = "Plan Duration in Session")]
+        [Display(Name = "Session")]
         public short PlanDurationInSession { get; set; }
 
         [Display(Name = "Remaining Session Count")]
@@ -79,5 +79,15 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Payment Received By")]
         public string PaymentReceivedBy { get; set; }
+        [Required]
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
+        public string SelectedCentreCode { get; set; }
+        [Display(Name = "From Date")]
+        public DateTime FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public DateTime ToDate { get; set; }
+
+
+
     }
 }

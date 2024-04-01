@@ -297,6 +297,9 @@
   <data name="LabelRunningNumbersList" xml:space="preserve">
     <value>Running Numbers List</value>
   </data>
+  <data name="LabelSalesInvoiceList" xml:space="preserve">
+    <value>Sales Invoice List</value>
+  </data>
   <data name="LabelSave" xml:space="preserve">
     <value>Save</value>
   </data>

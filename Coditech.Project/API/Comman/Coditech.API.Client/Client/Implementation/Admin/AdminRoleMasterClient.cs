@@ -210,5 +210,260 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+
+        public virtual AdminRoleMenuDetailsResponse GetAdminRoleMenuDetailsById(int adminRoleMasterId, string moduleCode)
+        {
+            return Task.Run(async () => await GetAdminRoleMenuDetailsByIdAsync(adminRoleMasterId, moduleCode, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<AdminRoleMenuDetailsResponse> GetAdminRoleMenuDetailsByIdAsync(int adminRoleMasterId, string moduleCode, CancellationToken cancellationToken)
+        {
+            if (adminRoleMasterId <= 0)
+                throw new System.ArgumentNullException("adminRoleMasterId");
+
+            string endpoint = adminRoleMasterEndpoint.GetAdminRoleMenuDetailsByIdAsync(adminRoleMasterId, moduleCode);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleMenuDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new AdminRoleMenuDetailsResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    AdminRoleMenuDetailsResponse typedBody = JsonConvert.DeserializeObject<AdminRoleMenuDetailsResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual AdminRoleMenuDetailsResponse InsertUpdateAdminRoleMenuDetails(AdminRoleMenuDetailsModel body)
+        {
+            return Task.Run(async () => await InsertUpdateAdminRoleMenuDetailsAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<AdminRoleMenuDetailsResponse> InsertUpdateAdminRoleMenuDetailsAsync(AdminRoleMenuDetailsModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = adminRoleMasterEndpoint.InsertUpdateAdminRoleMenuDetailsAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleMenuDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleMenuDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    AdminRoleMenuDetailsResponse typedBody = JsonConvert.DeserializeObject<AdminRoleMenuDetailsResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual AdminRoleApplicableDetailsListResponse RoleAllocatedToUserList(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            return Task.Run(async () => await RoleAllocatedToUserListAsync(adminRoleMasterId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<AdminRoleApplicableDetailsListResponse> RoleAllocatedToUserListAsync(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        {
+            string endpoint = adminRoleMasterEndpoint.RoleAllocatedToUserListAsync(adminRoleMasterId, expand, filter, sort, pageIndex, pageSize);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleApplicableDetailsListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else if (status_ == 204)
+                {
+                    return new AdminRoleApplicableDetailsListResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    AdminRoleApplicableDetailsListResponse typedBody = JsonConvert.DeserializeObject<AdminRoleApplicableDetailsListResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual AdminRoleApplicableDetailsResponse GetAssociateUnAssociateAdminRoleToUser(int adminRoleMasterId, int adminRoleApplicableDetailId)
+        {
+            return Task.Run(async () => await GetAssociateUnAssociateAdminRoleToUserAsync(adminRoleMasterId, adminRoleApplicableDetailId, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<AdminRoleApplicableDetailsResponse> GetAssociateUnAssociateAdminRoleToUserAsync(int adminRoleMasterId, int adminRoleApplicableDetailId, CancellationToken cancellationToken)
+        {
+            if (adminRoleMasterId <= 0 && adminRoleApplicableDetailId == 0)
+                throw new System.ArgumentNullException("adminRoleMasterId");
+
+            string endpoint = adminRoleMasterEndpoint.GetAssociateUnAssociateAdminRoleToUserAsync(adminRoleMasterId, adminRoleApplicableDetailId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleApplicableDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new AdminRoleApplicableDetailsResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    AdminRoleApplicableDetailsResponse typedBody = JsonConvert.DeserializeObject<AdminRoleApplicableDetailsResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual AdminRoleApplicableDetailsResponse AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsModel body)
+        {
+            return Task.Run(async () => await AssociateUnAssociateAdminRoleToUserAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<AdminRoleApplicableDetailsResponse> AssociateUnAssociateAdminRoleToUserAsync(AdminRoleApplicableDetailsModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = adminRoleMasterEndpoint.AssociateUnAssociateAdminRoleToUserAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleApplicableDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleApplicableDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    AdminRoleApplicableDetailsResponse typedBody = JsonConvert.DeserializeObject<AdminRoleApplicableDetailsResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
     }
 }

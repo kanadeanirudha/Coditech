@@ -211,12 +211,14 @@ namespace Coditech.API.Controllers
         [HttpGet]
         [Route("/GymMemberDetails/GetGymMemberMembershipPlanList")]
         [Produces(typeof(GymMemberMembershipPlanListResponse))]
-        public virtual IActionResult GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId)
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetGymMemberMembershipPlanList(int gymMemberDetailId, long personId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                GymMemberMembershipPlanListModel list = _generalGymMemberDetailsService.GetGymMemberMembershipPlanList(gymMemberDetailId, personId);
-                return IsNotNull(list) ? CreateOKResponse(new GymMemberMembershipPlanListResponse { GymMemberMembershipPlanList = list }) : CreateNoContentResponse();
+                GymMemberMembershipPlanListModel list = _generalGymMemberDetailsService.GetGymMemberMembershipPlanList(gymMemberDetailId, personId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberMembershipPlanListResponse>(data) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
@@ -256,11 +258,11 @@ namespace Coditech.API.Controllers
         [Route("/GymMemberDetails/GymMemberPaymentHistoryList")]
         [Produces(typeof(GymMemberSalesInvoiceListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GymMemberPaymentHistoryList(int gymMemberDetailId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GymMemberPaymentHistoryList(int gymMemberDetailId, long personId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                GymMemberSalesInvoiceListModel list = _generalGymMemberDetailsService.GymMemberPaymentHistoryList(gymMemberDetailId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                GymMemberSalesInvoiceListModel list = _generalGymMemberDetailsService.GymMemberPaymentHistoryList(gymMemberDetailId, personId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymMemberSalesInvoiceListResponse>(data) : CreateNoContentResponse();
             }
