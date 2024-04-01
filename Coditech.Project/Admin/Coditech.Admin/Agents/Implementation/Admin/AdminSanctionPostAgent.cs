@@ -155,7 +155,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Sactioned Post Description",
+                ColumnName = "Sanctioned Post Description",
                 ColumnCode = "SanctionedPostDescription",
                 IsSortable = true,
             });

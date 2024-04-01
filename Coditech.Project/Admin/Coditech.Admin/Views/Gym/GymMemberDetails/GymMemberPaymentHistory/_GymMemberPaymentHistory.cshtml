@@ -24,22 +24,21 @@
 							<td>
 								<div class="plan-details">
 									@item.MembershipPlanName<br />
-									@if (item.PlanDurationType.Equals("Duration", StringComparison.InvariantCultureIgnoreCase))
+									@if (item.PlanDurationType.Equals(AdminConstants.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
 									{
 										<span style="font-size: 12px; font-style: italic;">
 											<i class="fa fa-calendar-alt icon"></i> @item.PlanStartDate.ToShortDateString() to @item.PlanDurationExpirationDate.ToShortDateString()
 										</span>
 									}
-									else
+									else if (item.PlanDurationType.Equals(AdminConstants.PlanSessionType, StringComparison.InvariantCultureIgnoreCase))
 									{
 										<span style="font-size: 12px; font-style: italic;">
 											<i class="fa fa-clock icon"></i> Session: @item.PlanDurationInSession by @item.RemainingSessionCount
 										</span>
 									}
-									@item.PlanDurationType
 								</div>
 							</td>
-							<td>@item.BillAmount</td>
+							<td>@AdminGeneralHelper.FormatPriceWithCurrency(@item.BillAmount)</td>
 							<td>
 								@if (item.PaymentType.Equals("Cash", StringComparison.InvariantCultureIgnoreCase))
 								{
@@ -62,7 +61,7 @@
 								}
 								else
 								{
-									<i class="fas fa-user"></i>
+									<i class="fas fa-user-tie"></i>
 								}
 								@item.PaymentReceivedBy
 							</td>
