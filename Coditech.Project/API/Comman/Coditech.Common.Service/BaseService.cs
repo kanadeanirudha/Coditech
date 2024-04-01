@@ -207,10 +207,10 @@ namespace Coditech.Common.Service
             return Convert.ToDecimal(amount * (taxInPercentage / 100));
         }
 
-        protected virtual void ActiveInActiveUserLogin(bool flag, long entityId)
+        protected virtual void ActiveInActiveUserLogin(bool flag, long entityId, string userType)
         {
             CoditechRepository<UserMaster> _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == entityId);
+            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == entityId && x.UserType == userType);
             if (userMaster != null && userMaster.IsActive != flag)
             {
                 userMaster.IsActive = flag;
