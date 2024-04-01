@@ -95,7 +95,10 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("GetEmployeeOtherDetail", new { employeeId = employeeMasterViewModel.EmployeeId, personId = employeeMasterViewModel.PersonId });
             }
             return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
-        }
+        }   
+
+
+
         public virtual ActionResult Delete(string employeeIds)
         {
             string message = string.Empty;

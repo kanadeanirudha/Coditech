@@ -155,7 +155,7 @@ namespace Coditech.Admin.Agents
                 return (EmployeeMasterViewModel)GetViewModelWithErrorMessage(employeeMasterViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
-
+              
         //Delete Employee.
         public virtual bool DeleteEmployee(string employeeIds, out string errorMessage)
         {

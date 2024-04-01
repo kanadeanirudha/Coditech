@@ -1,0 +1,77 @@
+﻿@model EmployeeServiceListViewModel
+@{
+    ViewBag.Title = "Membership Plan";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("EmployeeId", Model.EmployeeServiceId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/EmployeeMaster/_EmployeeServiceSidePannel.cshtml", keyValuePairs)
+            </div>
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Employee Service List- @Model.FirstName @Model.LastName</span>
+                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/GetEmployeeService?EmployeeId=@Model.EmployeeServiceId&personId=@Model.PersonId" role="button"><i class="fas fa-plus me-2"></i>Add/Upgrade Service</a>
+                        <p class="text-muted mb-0"></p>
+                    </div>
+                    <div class="card-body">
+                        @foreach (EmployeeServiceViewModel item in Model?.EmployeeServiceList)
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <span class="card-title">@item.GeneralDesignation.Description</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 row">
+                                                        <label class="form-label" style="font-weight:bold !important">Joining Date</label>
+                                                        <label class="form-label">@item.JoiningDate</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 row">
+                                                        <label class="form-label" style="font-weight:bold !important">Promotion Demotion Date</label>
+                                                        <label class="form-label">@item.PromotionDemotionDate</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 row">
+                                                        <label class="form-label" style="font-weight:bold !important">Employee Stage</label>
+                                                        <label class="form-label">@item.GeneralEnumarator.EnumName</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 row">
+                                                        <label class="form-label" style="font-weight:bold !important">Date Of Leaving</label>
+                                                        <label class="form-label">@item.DateOfLeaving</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 row">
+                                                        <label class="form-label" style="font-weight:bold !important">IsCurrentPosition</label>
+                                                        <label class="form-label">@item.IsCurrentPosition</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end page content -->

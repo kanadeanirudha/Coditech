@@ -25,7 +25,7 @@ namespace Coditech.Admin
             CreateMap<GeneralNationalityModel, GeneralNationalityViewModel>().ReverseMap();
             CreateMap<GeneralNationalityListModel, GeneralNationalityListViewModel>().ReverseMap();
             CreateMap<GeneralDesignationModel, GeneralDesignationViewModel>().ReverseMap();
-            CreateMap<GeneralDesignationListModel, GeneralDesignationListViewModel>().ReverseMap();
+            CreateMap<GeneralDesignationListModel, GeneralDesignationListViewModel>().ReverseMap();            
             CreateMap<GeneralCityModel, GeneralCityViewModel>().ReverseMap();
             CreateMap<GeneralCityListModel, GeneralCityListViewModel>().ReverseMap();
             CreateMap<GeneralTaxMasterModel, GeneralTaxMasterViewModel>().ReverseMap();
@@ -74,6 +74,8 @@ namespace Coditech.Admin
             CreateMap<EmployeeCreateEditViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<EmployeeMasterListModel, EmployeeMasterListViewModel>().ReverseMap();
             CreateMap<EmployeeMasterModel, EmployeeMasterViewModel>().ReverseMap();
+            CreateMap<EmployeeServiceModel, EmployeeServiceViewModel>().ReverseMap();
+            CreateMap<EmployeeServiceListModel, EmployeeServiceListViewModel>().ReverseMap();
             #endregion
 
             #region Gym

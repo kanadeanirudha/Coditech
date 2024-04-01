@@ -19,7 +19,13 @@
       },
       {
         "Name": "API\\Coditech.Engine.Employee\\Coditech.Engine.Employee.csproj",
-        "Action": "Start"
+        "Action": "Start",
+        "DebugTarget": ""
+      },
+      {
+        "Name": "API\\Coditech.Engine.GymManagementSystem\\Coditech.Engine.GymManagementSystem.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
       }
     ]
   }

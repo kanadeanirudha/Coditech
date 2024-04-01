@@ -1,5 +1,6 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Client
@@ -25,6 +26,7 @@ namespace Coditech.API.Client
         /// <param name="EmployeeMasterModel">EmployeeMasterModel.</param>
         /// <returns>Returns updated EmployeeMasterResponse</returns>
         EmployeeMasterResponse UpdateEmployeeOtherDetail(EmployeeMasterModel model);
+             
 
         /// <summary>
         /// Delete Employee.
@@ -32,5 +34,8 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteEmployee(ParameterModel body);
+
+
+
     }
 }

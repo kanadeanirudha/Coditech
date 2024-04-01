@@ -32,8 +32,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentreAgent, OrganisationCentreAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingAgent, OrganisationCentrewiseBuildingAgent>();
             builder.Services.AddScoped<IGeneralRegionAgent, GeneralRegionAgent>();
-            builder.Services.AddScoped<IGeneralSystemGlobleSettingAgent, GeneralSystemGlobleSettingAgent>();
-            builder.Services.AddScoped<IEmployeeMasterAgent, EmployeeMasterAgent>();
+            builder.Services.AddScoped<IGeneralSystemGlobleSettingAgent, GeneralSystemGlobleSettingAgent>();            
             builder.Services.AddScoped<IGymMemberDetailsAgent, GymMemberDetailsAgent>();
             builder.Services.AddScoped<IGymMembershipPlanAgent, GymMembershipPlanAgent>();
             builder.Services.AddScoped<IGeneralEnumaratorGroupAgent, GeneralEnumaratorGroupAgent>();
@@ -47,6 +46,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralPersonFollowUpAgent, GeneralPersonFollowUpAgent>();
             builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
             builder.Services.AddScoped<IGymMemberBodyMeasurementAgent, GymMemberBodyMeasurementAgent>();
+            builder.Services.AddScoped<IEmployeeMasterAgent, EmployeeMasterAgent>();
+            builder.Services.AddScoped<IEmployeeServiceAgent, EmployeeServiceAgent>();
             #endregion
 
             #region Client
@@ -68,8 +69,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentreClient, OrganisationCentreClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingClient, OrganisationCentrewiseBuildingClient>();
             builder.Services.AddScoped<IGeneralRegionClient, GeneralRegionClient>();
-            builder.Services.AddScoped<IGeneralSystemGlobleSettingClient, GeneralSystemGlobleSettingClient>();
-            builder.Services.AddScoped<IEmployeeMasterClient, EmployeeMasterClient>();
+            builder.Services.AddScoped<IGeneralSystemGlobleSettingClient, GeneralSystemGlobleSettingClient>();            
             builder.Services.AddScoped<IGymMemberDetailsClient, GymMemberDetailsClient>();
             builder.Services.AddScoped<IGymMembershipPlanClient, GymMembershipPlanClient>();
             builder.Services.AddScoped<IMediaManagerClient, MediaManagerClient>();
@@ -83,8 +83,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsClient, OrganisationCentrewiseBuildingRoomsClient>();
             builder.Services.AddScoped<IGeneralPersonFollowUpClient, GeneralPersonFollowUpClient>();
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();
-             builder.Services.AddScoped<IGymMemberBodyMeasurementClient, GymMemberBodyMeasurementClient>();
-             builder.Services.AddScoped<IGeneralPersonAttendanceDetailsClient, GeneralPersonAttendanceDetailsClient>();
+            builder.Services.AddScoped<IGymMemberBodyMeasurementClient, GymMemberBodyMeasurementClient>();
+            builder.Services.AddScoped<IGeneralPersonAttendanceDetailsClient, GeneralPersonAttendanceDetailsClient>();
+            builder.Services.AddScoped<IEmployeeMasterClient, EmployeeMasterClient>();
+            builder.Services.AddScoped<IEmployeeServiceClient, EmployeeServiceClient>();
             #endregion
         }
     }

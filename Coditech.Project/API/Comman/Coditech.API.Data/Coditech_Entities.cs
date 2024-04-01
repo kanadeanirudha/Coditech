@@ -22,7 +22,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralTaxGroupMasterDetails> GeneralTaxGroupMasterDetails { get; set; }
         public DbSet<GeneralCityMaster> GeneralCityMaster { get; set; }
         public DbSet<GeneralNationalityMaster> GeneralNationalityMaster { get; set; }
-        public DbSet<EmployeeDesignationMaster> EmployeeDesignationMaster { get; set; }
+        public DbSet<EmployeeDesignationMaster> EmployeeDesignationMaster { get; set; }        
         public DbSet<GeneralRegionMaster> GeneralRegionMaster { get; set; }
         public DbSet<GeneralEnumaratorMaster> GeneralEnumaratorMaster { get; set; }
         public DbSet<GeneralEnumaratorGroup> GeneralEnumaratorGroup { get; set; }
@@ -61,7 +61,8 @@ namespace Coditech.API.Data
         #endregion
 
         #region Employee
-        public DbSet<EmployeeMaster> EmployeeMaster { get; set; }        
+        public DbSet<EmployeeMaster> EmployeeMaster { get; set; }
+        public DbSet<EmployeeService> EmployeeService { get; set; }
         #endregion
 
         #region Gym

@@ -122,7 +122,19 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralDesignationMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to Employee Service due to associate record..
+        /// </summary>
+        public static string ErrorDeleteEmployeeService
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteEmployeeService", resourceCulture);
+            }
+        }
+
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete enum due to associate record..
         /// </summary>

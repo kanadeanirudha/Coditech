@@ -21,7 +21,7 @@
             TaxGroupMaster,
             City,
             Nationality,
-            Designation,
+            Designation,            
             EnumaratorGroup,
             Enumarator,
             OrganisationCentre,
@@ -36,8 +36,7 @@
             Person,
             GlobleSettingMaster,
             MediaManager,
-            Gym,
-            EmployeeMaster,
+            Gym,            
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,
@@ -50,7 +49,9 @@
             PersonFollowUp,
             HospitalDoctors,
             MemberBodyMeasurement,
-            PersonAttendance
+            PersonAttendance,
+            EmployeeMaster,
+            EmployeeService
         }
     }
 }

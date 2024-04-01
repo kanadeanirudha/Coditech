@@ -41,7 +41,9 @@
         Floors,
         AttendanceState,
         GymMembershipPlan,
-        PaymentType
+        PaymentType,
+        EmployeeMaster,
+        EmployeeService
     }
 
     public enum GeneralSystemGlobleSettingEnum
