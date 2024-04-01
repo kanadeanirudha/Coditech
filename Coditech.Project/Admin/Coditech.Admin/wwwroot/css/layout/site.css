@@ -256,3 +256,6 @@ label {
 td.text-center a.btn {
     padding: 5px;
 }
+.navigation-menu > li a i {
+    font-size: 12px !important;
+}
