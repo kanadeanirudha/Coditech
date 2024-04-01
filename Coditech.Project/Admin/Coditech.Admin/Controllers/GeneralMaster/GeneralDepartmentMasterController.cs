@@ -42,12 +42,15 @@ namespace Coditech.Admin.Controllers
                 if (!generalDepartmentViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralDepartmentMasterController>(x => x.List(null));
+                    // Redirect to the list action method instead of directly to the view
+                    return RedirectToAction("List");
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalDepartmentViewModel.ErrorMessage));
             return View(createEdit, generalDepartmentViewModel);
         }
+
+
 
         [HttpGet]
         public virtual ActionResult Edit(int generalDepartmentId)
