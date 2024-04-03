@@ -237,6 +237,9 @@
   <data name="LabelDepartments" xml:space="preserve">
     <value>Departments</value>
   </data>
+  <data name="LabelDesignationId" xml:space="preserve">
+    <value>Designation ID</value>
+  </data>
   <data name="LabelDesignationList" xml:space="preserve">
     <value>Designation List</value>
   </data>
@@ -273,6 +276,9 @@
   <data name="LabelNationalityList" xml:space="preserve">
     <value>NationalityList</value>
   </data>
+  <data name="LabelNoOfPost" xml:space="preserve">
+    <value>Number of Post</value>
+  </data>
   <data name="LabelOccupationList" xml:space="preserve">
     <value>Occupation List</value>
   </data>
@@ -299,6 +305,12 @@
   </data>
   <data name="LabelSalesInvoiceList" xml:space="preserve">
     <value>Sales Invoice List</value>
+  </data>
+  <data name="LabelSanctionedPostDescription" xml:space="preserve">
+    <value>Sanction Post Description</value>
+  </data>
+  <data name="LabelSanctionPostCode" xml:space="preserve">
+    <value>Sanction Post Code</value>
   </data>
   <data name="LabelSave" xml:space="preserve">
     <value>Save</value>

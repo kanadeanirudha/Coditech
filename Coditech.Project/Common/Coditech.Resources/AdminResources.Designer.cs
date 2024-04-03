@@ -421,6 +421,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Designation ID.
+        /// </summary>
+        public static string LabelDesignationId {
+            get {
+                return ResourceManager.GetString("LabelDesignationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Designation List.
         /// </summary>
         public static string LabelDesignationList {
@@ -529,6 +538,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of Post.
+        /// </summary>
+        public static string LabelNoOfPost {
+            get {
+                return ResourceManager.GetString("LabelNoOfPost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Occupation List.
         /// </summary>
         public static string LabelOccupationList {
@@ -606,6 +624,24 @@ namespace Coditech.Resources {
         public static string LabelSalesInvoiceList {
             get {
                 return ResourceManager.GetString("LabelSalesInvoiceList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sanction Post Description.
+        /// </summary>
+        public static string LabelSanctionedPostDescription {
+            get {
+                return ResourceManager.GetString("LabelSanctionedPostDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sanction Post Code.
+        /// </summary>
+        public static string LabelSanctionPostCode {
+            get {
+                return ResourceManager.GetString("LabelSanctionPostCode", resourceCulture);
             }
         }
         

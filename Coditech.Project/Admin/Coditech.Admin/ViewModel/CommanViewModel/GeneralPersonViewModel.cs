@@ -14,7 +14,6 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(50)]
         [MinLength(1)]
-        [Required]
         [Display(Name = "Title")]
         public string PersonTitle { get; set; }
 

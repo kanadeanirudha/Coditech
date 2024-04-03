@@ -18,12 +18,12 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Membership Plan Name")]
         public string MembershipPlanName { get; set; }
 
-        [Range(1, double.MaxValue, ErrorMessage = "Please enter Max Cost bigger than {1}")]
+        [Range(1, double.MaxValue, ErrorMessage = "Maximum cost must be greater than zero.")]
         [Required]
         [Display(Name = "Max Cost")]
         public decimal MaxCost { get; set; }
 
-        [Range(1, double.MaxValue, ErrorMessage = "Please enter Min Cost bigger than {1}")]
+        [Range(1, double.MaxValue, ErrorMessage = "Minimum cost must be greater than zero.")]
         [Required]
         [Display(Name = "Min Cost")]
         public decimal MinCost { get; set; }

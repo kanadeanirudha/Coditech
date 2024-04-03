@@ -48,18 +48,21 @@ namespace Coditech.Admin.Controllers
             {
                 bool status = _adminRoleMasterAgent.UpdateAdminRole(adminRoleViewModel).HasError;
                 SetNotificationMessage(status
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                    ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                    : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
 
                 if (!status)
                 {
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminRoleViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminRoleViewModel.SelectedDepartmentId) });
+                    // Redirect back to the Edit action with the same adminRoleMasterId
+                    return RedirectToAction("Edit", new { adminRoleMasterId = adminRoleViewModel.AdminRoleMasterId });
                 }
             }
+
             BindDropdown(adminRoleViewModel);
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleViewModel.ErrorMessage));
             return View("~/Views/Admin/AdminRoleMaster/Edit.cshtml", adminRoleViewModel);
         }
+
         public virtual ActionResult AllocateAccessRights(int adminRoleMasterId, string moduleCode = null)
         {
             AdminRoleMenuDetailsViewModel adminRoleMenuDetailsViewModel = _adminRoleMasterAgent.GetAdminRoleMenuDetailsById(adminRoleMasterId, moduleCode);

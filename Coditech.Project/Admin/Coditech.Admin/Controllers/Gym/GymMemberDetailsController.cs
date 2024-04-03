@@ -74,7 +74,7 @@ namespace Coditech.Admin.Controllers
                 if (!gymCreateEditMemberViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    return RedirectToAction("List", new { selectedCentreCode = gymCreateEditMemberViewModel.SelectedCentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymCreateEditMemberViewModel.ErrorMessage));
