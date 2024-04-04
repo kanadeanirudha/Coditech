@@ -41,7 +41,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult CreateEmployee(EmployeeCreateEditViewModel employeeCreateEditViewModel)
+        public virtual ActionResult CreateEmployee(EmployeeCreateEditViewModel employeeCreateEditViewModel, string selectedCentreCode, int selectedDepartmentId)
         {
             if (ModelState.IsValid)
             {
@@ -49,12 +49,14 @@ namespace Coditech.Admin.Controllers
                 if (!employeeCreateEditViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    // Redirect to the List action with selectedCentreCode and selectedDepartmentId
+                    return RedirectToAction("List", new { selectedCentreCode, selectedDepartmentId });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(employeeCreateEditViewModel.ErrorMessage));
             return View(createEditEmployee, employeeCreateEditViewModel);
         }
+
 
         [HttpGet]
         public virtual ActionResult UpdateEmployeePersonalDetails(long employeeId, long personId)

@@ -11,10 +11,11 @@
 <!-- Page Content-->
 <div class="page-content mt-5">
     <div class="container-fluid">
-        <div class="row">
-                <div class="col-lg-2">
-                    @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", keyValuePairs)
-                </div>
+        <div class="row" style="display: flex; align-items: center;">
+            <!-- Use flexbox for vertical centering -->
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", keyValuePairs)
+            </div>
             <div class="col-lg-10">
                 <div class="card">
                     <div class="card-header">
@@ -22,7 +23,6 @@
                         <a class="btn btn-sm btn-soft-primary float-end" data-bs-toggle="modal" data-bs-target="#@addFollowUpModel.ModelPopUpId" href="void javascritp(0)" onclick="GymMemberDetails.GetMemberFollowUp('@addFollowUpModel.ModalContentId','@Model.GymMemberDetailId','0','@Model.PersonId')" title="Add Follow-Up">
                             <i class="fas fa-plus me-2"></i>Add Follow-Up
                         </a>
-                        
                     </div>
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -34,5 +34,7 @@
         </div>
     </div>
 </div>
+
+
 <!-- end page content -->
 @Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", addFollowUpModel)
