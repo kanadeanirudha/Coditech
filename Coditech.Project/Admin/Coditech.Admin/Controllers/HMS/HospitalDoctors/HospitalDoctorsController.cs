@@ -13,6 +13,7 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IHospitalDoctorsAgent _hospitalDoctorsAgent;
         private const string createEdit = "~/Views/HMS/HospitalDoctors/CreateEdit.cshtml";
+        private const string doctorSchedule = "~/Views/HMS/HospitalDoctors/DoctorSchedule.cshtml";
 
         public HospitalDoctorsController(IHospitalDoctorsAgent hospitalDoctorsAgent)
         {
@@ -141,6 +142,27 @@ namespace Coditech.Admin.Controllers
                 Parameter = $"{selectedCentreCode}~{selectedDepartmentId}",
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
+
+        [HttpGet]
+        public virtual ActionResult HospitalDoctorSchedule(int hospitalDoctorId)
+        {
+            HospitalDoctorsSchedulesViewModel hospitalDoctorsSchedulesViewModel = _hospitalDoctorsAgent.GetHospitalDoctorSchedule(hospitalDoctorId);
+            //BindDropdown(hospitalDoctorsViewModel);
+            return ActionView(doctorSchedule, hospitalDoctorsSchedulesViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult HospitalDoctorSchedule(HospitalDoctorsSchedulesViewModel hospitalDoctorsSchedulesViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_hospitalDoctorsAgent.UpdateHospitalDoctorSchedule(hospitalDoctorsSchedulesViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("HospitalDoctorSchedule", new { hospitalDoctorScheduleId = hospitalDoctorsSchedulesViewModel.HospitalDoctorScheduleId });
+            }
+            return View(doctorSchedule, hospitalDoctorsSchedulesViewModel);
         }
 
         #region Protected

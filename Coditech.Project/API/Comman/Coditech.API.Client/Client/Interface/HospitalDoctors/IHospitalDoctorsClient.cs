@@ -40,5 +40,19 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteHospitalDoctors(ParameterModel body);
+
+        /// <summary>
+        /// Get HospitalDoctorSchedule by hospitalDoctorId.
+        /// </summary>
+        /// <param name="hospitalDoctorId">hospitalDoctorId</param>
+        /// <returns>Returns HospitalDoctorScheduleResponse.</returns>
+        HospitalDoctorScheduleResponse GetHospitalDoctorSchedule(int hospitalDoctorId);
+
+        /// <summary>
+        /// Update HospitalDoctorSchedule.
+        /// </summary>
+        /// <param name="HospitalDoctorScheduleModel">HospitalDoctorScheduleModel.</param>
+        /// <returns>Returns updated HospitalDoctorScheduleResponse</returns>
+        HospitalDoctorScheduleResponse UpdateHospitalDoctorSchedule(HospitalDoctorScheduleModel model);
     }
 }

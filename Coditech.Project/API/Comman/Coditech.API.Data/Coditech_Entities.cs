@@ -87,6 +87,7 @@ namespace Coditech.API.Data
 
         #region HospitalDoctors
         public DbSet<HospitalDoctors> HospitalDoctors { get; set; }
+        public DbSet<HospitalDoctorsSchedules> HospitalDoctorsSchedules { get; set; }
         #endregion
 
         #region GeneralPerson

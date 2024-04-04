@@ -5,6 +5,7 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
+using Coditech.Model;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -18,11 +19,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<HospitalDoctors> _hospitalDoctorsRepository;
+        private readonly ICoditechRepository<HospitalDoctorsSchedules> _hospitalDoctorsSchedulesRepository;
         public HospitalDoctorsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _hospitalDoctorsRepository = new CoditechRepository<HospitalDoctors>(_serviceProvider.GetService<Coditech_Entities>());
+            _hospitalDoctorsSchedulesRepository = new CoditechRepository<HospitalDoctorsSchedules>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual HospitalDoctorsListModel GetHospitalDoctorsList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -133,9 +136,62 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        //Get HospitalDoctorSchedule by hospitalDoctorScheduleId.
+        public virtual HospitalDoctorScheduleModel GetHospitalDoctorSchedule(int hospitalDoctorId)
+        {
+            if (hospitalDoctorId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorId"));
+
+            //Get the DoctorSchedule Details based on id.
+            HospitalDoctorsSchedules hospitalDoctorsSchedules = _hospitalDoctorsSchedulesRepository.Table.FirstOrDefault(x => x.HospitalDoctorId == hospitalDoctorId);
+            HospitalDoctorScheduleModel hospitalDoctorScheduleModel = IsNotNull(hospitalDoctorsSchedules) ? hospitalDoctorsSchedules?.FromEntityToModel<HospitalDoctorScheduleModel>() : new HospitalDoctorScheduleModel();
+            //if (IsNotNull(hospitalDoctorScheduleModel))
+            //{
+            //    GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(hospitalDoctorScheduleModel.PersonId);
+            //    if (IsNotNull(hospitalDoctorScheduleModel))
+            //    {
+            //        hospitalDoctorScheduleModel.FirstName = generalPersonModel.FirstName;
+            //        hospitalDoctorScheduleModel.LastName = generalPersonModel.LastName;
+            //    }
+            //}
+            
+            return hospitalDoctorScheduleModel;
+        }
+
+        //Update HospitalDoctorSchedule.
+        public virtual bool UpdateHospitalDoctorSchedule(HospitalDoctorScheduleModel hospitalDoctorScheduleModel)
+        {
+            if (IsNull(hospitalDoctorScheduleModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (hospitalDoctorScheduleModel.HospitalDoctorId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorId"));
+
+            if (IsEmployeeAlreadyExist(hospitalDoctorScheduleModel.EmployeeId, hospitalDoctorScheduleModel.HospitalDoctorId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EmployeeId"));
+
+            bool isHospitalDoctorScheduleUpdated = false;
+            HospitalDoctorsSchedules hospitalDoctorsSchedules = hospitalDoctorScheduleModel.FromModelToEntity<HospitalDoctorsSchedules>();
+
+            if (hospitalDoctorScheduleModel.HospitalDoctorScheduleId > 0)
+                isHospitalDoctorScheduleUpdated = _hospitalDoctorsSchedulesRepository.Update(hospitalDoctorsSchedules);
+            else
+            {
+                hospitalDoctorsSchedules = _hospitalDoctorsSchedulesRepository.Insert(hospitalDoctorsSchedules);
+                isHospitalDoctorScheduleUpdated = hospitalDoctorsSchedules.HospitalDoctorScheduleId > 0;
+            }
+
+            if (!isHospitalDoctorScheduleUpdated)
+            {
+                hospitalDoctorScheduleModel.HasError = true;
+                hospitalDoctorScheduleModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isHospitalDoctorScheduleUpdated;
+        }
+
         #region Protected Method
         //Check if EmployeeId is already present or not.
-        protected virtual bool IsEmployeeAlreadyExist(long employeeId, long hospitalDoctorId = 0)
+        protected virtual bool IsEmployeeAlreadyExist(long employeeId, int hospitalDoctorId = 0)
          => _hospitalDoctorsRepository.Table.Any(x => x.EmployeeId == employeeId && (x.HospitalDoctorId != hospitalDoctorId || hospitalDoctorId == 0));
         #endregion
     }

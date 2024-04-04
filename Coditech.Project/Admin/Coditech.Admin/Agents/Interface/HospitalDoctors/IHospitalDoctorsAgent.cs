@@ -40,5 +40,19 @@ namespace Coditech.Admin.Agents
         /// <param name="hospitalDoctorIds">hospitalDoctorIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteHospitalDoctors(string hospitalDoctorIds, out string errorMessage);
+
+        // <summary>
+        /// Get HospitalDoctorSchedule by hospitalDoctorScheduleId.
+        /// </summary>
+        /// <param name="hospitalDoctorScheduleId">hospitalDoctorScheduleId</param>
+        /// <returns>Returns HospitalDoctorsSchedulesViewModel.</returns>
+        HospitalDoctorsSchedulesViewModel GetHospitalDoctorSchedule(int hospitalDoctorId);
+
+        /// <summary>
+        /// Update HospitalDoctorSchedule.
+        /// </summary>
+        /// <param name="hospitalDoctorsSchedulesViewModel">hospitalDoctorsSchedulesViewModel.</param>
+        /// <returns>Returns updated HospitalDoctorsSchedulesViewModel</returns>
+        HospitalDoctorsSchedulesViewModel UpdateHospitalDoctorSchedule(HospitalDoctorsSchedulesViewModel hospitalDoctorsSchedulesViewModel);
     }
 }
