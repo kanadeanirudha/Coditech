@@ -139,31 +139,6 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
-
-        //Get HospitalDoctorSchedule by hospitalDoctorScheduleId.
-        public virtual HospitalDoctorsSchedulesViewModel GetHospitalDoctorSchedule(int hospitalDoctorId)
-        {
-            HospitalDoctorScheduleResponse response = _hospitalDoctorsClient.GetHospitalDoctorSchedule(hospitalDoctorId);
-            return response?.HospitalDoctorScheduleModel.ToViewModel<HospitalDoctorsSchedulesViewModel>();
-        }
-
-        //Update HospitalDoctorSchedule.
-        public virtual HospitalDoctorsSchedulesViewModel UpdateHospitalDoctorSchedule(HospitalDoctorsSchedulesViewModel hospitalDoctorsSchedulesViewModel)
-        {
-            try
-            {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalDoctorSchedule.ToString(), TraceLevel.Info);
-                HospitalDoctorScheduleResponse response = _hospitalDoctorsClient.UpdateHospitalDoctorSchedule(hospitalDoctorsSchedulesViewModel.ToModel<HospitalDoctorScheduleModel>());
-                HospitalDoctorScheduleModel hospitalDoctorScheduleModel = response?.HospitalDoctorScheduleModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalDoctorSchedule.ToString(), TraceLevel.Info);
-                return HelperUtility.IsNotNull(hospitalDoctorScheduleModel) ? hospitalDoctorScheduleModel.ToViewModel<HospitalDoctorsSchedulesViewModel>() : (HospitalDoctorsSchedulesViewModel)GetViewModelWithErrorMessage(new HospitalDoctorsSchedulesViewModel(), GeneralResources.UpdateErrorMessage);
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorSchedule.ToString(), TraceLevel.Error);
-                return (HospitalDoctorsSchedulesViewModel)GetViewModelWithErrorMessage(hospitalDoctorsSchedulesViewModel, GeneralResources.UpdateErrorMessage);
-            }
-        }
         #endregion
         #endregion
 

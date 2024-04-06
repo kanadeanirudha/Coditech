@@ -136,49 +136,5 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
-
-        [Route("/HospitalDoctors/GetHospitalDoctorSchedule")]
-        [HttpGet]
-        [Produces(typeof(HospitalDoctorScheduleResponse))]
-        public virtual IActionResult GetHospitalDoctorSchedule(int hospitalDoctorId)
-        {
-            try
-            {
-                HospitalDoctorScheduleModel hospitalDoctorScheduleModel = _hospitalDoctorsService.GetHospitalDoctorSchedule(hospitalDoctorId);
-                return IsNotNull(hospitalDoctorScheduleModel) ? CreateOKResponse(new HospitalDoctorScheduleResponse { HospitalDoctorScheduleModel = hospitalDoctorScheduleModel }) : CreateNoContentResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorSchedule.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new HospitalDoctorScheduleResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorSchedule.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new HospitalDoctorScheduleResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
-        [Route("/HospitalDoctors/UpdateHospitalDoctorSchedule")]
-        [HttpPut, ValidateModel]
-        [Produces(typeof(HospitalDoctorScheduleResponse))]
-        public virtual IActionResult UpdateHospitalDoctorSchedule([FromBody] HospitalDoctorScheduleModel model)
-        {
-            try
-            {
-                bool isUpdated = _hospitalDoctorsService.UpdateHospitalDoctorSchedule(model);
-                return isUpdated ? CreateOKResponse(new HospitalDoctorScheduleResponse { HospitalDoctorScheduleModel = model }) : CreateInternalServerErrorResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorSchedule.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new HospitalDoctorScheduleResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorSchedule.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new HospitalDoctorsResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
     }
 }

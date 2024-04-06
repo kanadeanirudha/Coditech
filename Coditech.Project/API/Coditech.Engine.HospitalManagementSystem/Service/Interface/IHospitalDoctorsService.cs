@@ -12,7 +12,5 @@ namespace Coditech.API.Service
         HospitalDoctorsModel GetHospitalDoctors(int hospitalDoctorId);
         bool UpdateHospitalDoctors(HospitalDoctorsModel model);
         bool DeleteHospitalDoctors(ParameterModel parameterModel);
-        HospitalDoctorScheduleModel GetHospitalDoctorSchedule(int hospitalDoctorId);
-        bool UpdateHospitalDoctorSchedule(HospitalDoctorScheduleModel model);
     }
 }

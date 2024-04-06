@@ -51,8 +51,7 @@
             HospitalDoctors,
             MemberBodyMeasurement,
             PersonAttendance,
-            Inventoty,
-            HospitalDoctorSchedule
+            Inventoty
         }
     }
 }
