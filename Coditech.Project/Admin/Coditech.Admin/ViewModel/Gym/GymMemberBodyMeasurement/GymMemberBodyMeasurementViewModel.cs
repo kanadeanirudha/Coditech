@@ -17,7 +17,7 @@ namespace Coditech.Admin.ViewModel
         public short GymBodyMeasurementTypeId { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(8)]
         [Display(Name = "Body Measurement Value")]
         public string BodyMeasurementValue { get; set; }
 

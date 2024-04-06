@@ -105,5 +105,13 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["ApplicationLogoPath"]);
             }
         }
+
+        public static string ApplicationTitle
+        {
+            get
+            {
+                return Convert.ToString(settings["ApplicationTitle"]);
+            }
+        }
     }
 }

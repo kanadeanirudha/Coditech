@@ -5,6 +5,7 @@
     string messageData = Convert.ToString(TempData["Notifications"]);
     UserModel userData = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
     string applicationLogoPath = CoditechAdminSettings.ApplicationLogoPath;
+    string applicationTitle = CoditechAdminSettings.ApplicationTitle;
     TempData.Remove("Notifications");
 }
 <!DOCTYPE html>
@@ -12,7 +13,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>@ViewData["Title"] | Admin Application</title>
+    <title>@ViewData["Title"] | @applicationTitle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="" name="description">
     <meta content="" name="author">
