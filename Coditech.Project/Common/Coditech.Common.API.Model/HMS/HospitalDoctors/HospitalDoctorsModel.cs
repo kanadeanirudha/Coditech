@@ -13,12 +13,6 @@ namespace Coditech.Common.API.Model
         [Required]
         public int MedicalSpecilizationEnumId { get; set; }
 
-        [Required]
-        public string WeekDayEnumIds { get; set; }
-
-        [Required]
-        public short OrganisationCentrewiseBuildingRoomId { get; set; }
-
         public string SelectedCentreCode { get; set; }
 
         public string SelectedDepartmentId { get; set; }
@@ -29,9 +23,7 @@ namespace Coditech.Common.API.Model
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public bool IsAssociated { get; set; }
-        public short OrganisationCentrewiseBuildingMasterId { get; set; }
         public string CentreCode { get; set; }
         public string MedicalSpecilization { get; set; }
-        public string BuildingRoomName { get; set; }
     }
 }

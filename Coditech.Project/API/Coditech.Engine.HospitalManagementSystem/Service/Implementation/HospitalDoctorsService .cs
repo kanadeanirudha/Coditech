@@ -90,7 +90,6 @@ namespace Coditech.API.Service
                     hospitalDoctorsModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
                     hospitalDoctorsModel.SelectedDepartmentId = generalPersonModel.SelectedDepartmentId;
                 }
-                hospitalDoctorsModel.OrganisationCentrewiseBuildingMasterId = Convert.ToInt16(new CoditechRepository<OrganisationCentrewiseBuildingRooms>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.OrganisationCentrewiseBuildingRoomId == hospitalDoctorsModel.OrganisationCentrewiseBuildingRoomId)?.FirstOrDefault()?.OrganisationCentrewiseBuildingMasterId);
             }
             return hospitalDoctorsModel;
         }

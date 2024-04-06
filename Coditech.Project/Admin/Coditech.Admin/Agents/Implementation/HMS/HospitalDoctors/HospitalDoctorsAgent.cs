@@ -59,7 +59,6 @@ namespace Coditech.Admin.Agents
             try
             {
                 HospitalDoctorsModel hospitalDoctorsModel = hospitalDoctorsViewModel.ToModel<HospitalDoctorsModel>();
-                hospitalDoctorsModel.WeekDayEnumIds = string.Join(',', hospitalDoctorsViewModel.SelectedWeekDayEnumIds);
                 HospitalDoctorsResponse response = _hospitalDoctorsClient.CreateHospitalDoctors(hospitalDoctorsModel);
                 hospitalDoctorsModel = response?.HospitalDoctorsModel;
                 return HelperUtility.IsNotNull(hospitalDoctorsModel) ? hospitalDoctorsModel.ToViewModel<HospitalDoctorsViewModel>() : new HospitalDoctorsViewModel();
@@ -95,7 +94,6 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalDoctors.ToString(), TraceLevel.Info);
-                hospitalDoctorsViewModel.WeekDayEnumIds = string.Join(',', hospitalDoctorsViewModel.SelectedWeekDayEnumIds);
                 HospitalDoctorsResponse response = _hospitalDoctorsClient.UpdateHospitalDoctors(hospitalDoctorsViewModel.ToModel<HospitalDoctorsModel>());
                 HospitalDoctorsModel hospitalDoctorsModel = response?.HospitalDoctorsModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalDoctors.ToString(), TraceLevel.Info);
@@ -181,15 +179,8 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "MedicalSpecilization",
                 IsSortable = true,
             });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Building Room Name",
-                ColumnCode = "BuildingRoomName",
-                IsSortable = true,
-            });
             return datatableColumnList;
         }
-
     }
 }
 #endregion

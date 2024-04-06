@@ -3,7 +3,7 @@
     ViewBag.Title = Model.HospitalDoctorId > 0 ? "Update Hospital Doctor" : "Add Hospital Doctor";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctors.GetDepartmentAndBuildingByCentreCode()", IsDisabled = Model.HospitalDoctorId > 0 };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()", IsDisabled = Model.HospitalDoctorId > 0 };
     DropdownViewModel departmentDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(), DropdownName = "SelectedDepartmentId", DropdownSelectedValue = Convert.ToString(Model.SelectedDepartmentId), Parameter = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctors.GetEmployeeListByCentreCodeAndDepartmentId()", IsDisabled = Model.HospitalDoctorId > 0 };
 }
 <!-- Page Content-->
@@ -31,49 +31,21 @@
                         {
                             @Html.HiddenFor(m => m.HospitalDoctorId)
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.SelectedCentreCode, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
                                         @Html.ValidationMessageFor(x => x.SelectedCentreCode)
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.SelectedDepartmentId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown)
                                         @Html.ValidationMessageFor(x => x.SelectedDepartmentId)
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.OrganisationCentrewiseBuildingMasterId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(),
-                                   DropdownName = "OrganisationCentrewiseBuildingMasterId",
-                                   DropdownSelectedValue = Model.OrganisationCentrewiseBuildingMasterId.ToString(),
-                                   Parameter = Model.SelectedCentreCode,
-                                   ChangeEvent = "HospitalDoctors.GetOrganisationCentrewiseRoomByBuildingId()"
-                               })
-                                        @Html.ValidationMessageFor(x => x.OrganisationCentrewiseBuildingMasterId)
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.OrganisationCentrewiseBuildingRoomId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(),
-                                   DropdownName = "OrganisationCentrewiseBuildingRoomId",
-                                   DropdownSelectedValue = Model.OrganisationCentrewiseBuildingRoomId
-                                    .ToString(),
-                                   Parameter = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId)
-                               })
-                                        @Html.ValidationMessageFor(x => x.OrganisationCentrewiseBuildingRoomId)
-                                    </div>
-                                </div>
-
+                               
                                 <div class="row">
                                     @if (Model.HospitalDoctorId > 0)
                                     {
@@ -81,7 +53,7 @@
                                     }
                                     else
                                     {
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-6">
                                             <div class="md-3">
                                                 @Html.LabelFor(x => x.EmployeeId, new { @class = "form-label required" })
                                                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
@@ -97,7 +69,7 @@
                                             </div>
                                         </div>
                                     }
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
                                             @Html.LabelFor(x => x.MedicalSpecilizationEnumId, new { @class = "form-label required " })
                                             @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
@@ -107,13 +79,6 @@
                                        GroupCode = DropdownTypeEnum.MedicalSpecilization.ToString()
                                    })
                                             @Html.ValidationMessageFor(x => x.MedicalSpecilizationEnumId)
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            @Html.LabelFor(x => x.SelectedWeekDayEnumIds, new { @class = "form-label required" })
-                                            @Html.ListBoxFor(m => m.SelectedWeekDayEnumIds, new SelectList(Model.AllWeekDays, "GeneralEnumaratorId", "EnumDisplayText"), new { @class = "selectpicker form-control " })
-                                            @Html.ValidationMessageFor(x => x.SelectedWeekDayEnumIds)
                                         </div>
                                     </div>
                                 </div>

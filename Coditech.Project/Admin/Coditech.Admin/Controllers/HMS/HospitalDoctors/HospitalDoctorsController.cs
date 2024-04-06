@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -39,7 +38,6 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult Create()
         {
             HospitalDoctorsViewModel hospitalDoctorsViewModel = new HospitalDoctorsViewModel();
-            BindDropdown(hospitalDoctorsViewModel);
             return View(createEdit, hospitalDoctorsViewModel);
         }
 
@@ -56,7 +54,6 @@ namespace Coditech.Admin.Controllers
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorsViewModel.ErrorMessage));
-            BindDropdown(hospitalDoctorsViewModel);
             return View(createEdit, hospitalDoctorsViewModel);
         }
 
@@ -64,7 +61,6 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult Edit(int hospitalDoctorId)
         {
             HospitalDoctorsViewModel hospitalDoctorsViewModel = _hospitalDoctorsAgent.GetHospitalDoctors(hospitalDoctorId);
-            BindDropdown(hospitalDoctorsViewModel);
             return ActionView(createEdit, hospitalDoctorsViewModel);
         }
 
@@ -78,7 +74,6 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { hospitalDoctorId = hospitalDoctorsViewModel.HospitalDoctorId });
             }
-            BindDropdown(hospitalDoctorsViewModel);
             return View(createEdit, hospitalDoctorsViewModel);
         }
 
@@ -98,40 +93,6 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", CreateActionDataTable());
         }
 
-        public virtual ActionResult GetDepartmentsByCentreCode(string centreCode)
-        {
-            DropdownViewModel departmentDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(),
-                DropdownName = "SelectedDepartmentId",
-                Parameter = centreCode,
-            };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
-        }
-
-        public virtual ActionResult GetOrganisationCentrewiseBuildingByCentreCode(string centreCode)
-        {
-            DropdownViewModel departmentDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(),
-                DropdownName = "OrganisationCentrewiseBuildingMasterId",
-                Parameter = centreCode,
-            };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
-        }
-
-
-        public virtual ActionResult GetOrganisationCentrewiseRoomByBuildingId(string buildingMasterId)
-        {
-            DropdownViewModel departmentDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(),
-                DropdownName = "OrganisationCentrewiseBuildingRoomId",
-                Parameter = buildingMasterId,
-            };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
-        }
-
         public virtual ActionResult GetEmployeeList(string selectedCentreCode, string selectedDepartmentId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
@@ -142,21 +103,5 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
-
-        #region Protected
-        protected virtual void BindDropdown(HospitalDoctorsViewModel hospitalDoctorsViewModel)
-        {
-            List<GeneralEnumaratorModel> weekDays = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList?.Where(x => x.EnumGroupCode == DropdownTypeEnum.WeekDays.ToString())?.ToList();
-            hospitalDoctorsViewModel.AllWeekDays = weekDays;
-            if (hospitalDoctorsViewModel?.HospitalDoctorId > 0)
-            {
-                hospitalDoctorsViewModel.SelectedWeekDayEnumIds = new List<string>();
-                foreach (string item in hospitalDoctorsViewModel.WeekDayEnumIds?.Split(','))
-                {
-                    hospitalDoctorsViewModel.SelectedWeekDayEnumIds.Add(item);
-                }
-            }
-        }
-        #endregion
     }
 }

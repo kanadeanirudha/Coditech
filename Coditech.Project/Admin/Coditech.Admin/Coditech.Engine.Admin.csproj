@@ -26,7 +26,6 @@
     <Folder Include="wwwroot\assets\images\jstree\" />
     <Folder Include="wwwroot\css\login\" />
     <Folder Include="wwwroot\js\Coditech\GeneralMaster\" />
-    <Folder Include="wwwroot\js\Coditech\Organisation\" />
     <Folder Include="wwwroot\js\login\" />
   </ItemGroup>
 
