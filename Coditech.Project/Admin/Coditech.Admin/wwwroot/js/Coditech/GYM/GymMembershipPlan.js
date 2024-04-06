@@ -16,5 +16,8 @@
             $("#PlanDurationInDaysDivId").hide();
             $("#PlanDurationInSessionDivId").show();
         }
+    },
+    ChangeMaxCost: function () {
+        $("#MinCost").val($("#MaxCost").val());
     }
 }

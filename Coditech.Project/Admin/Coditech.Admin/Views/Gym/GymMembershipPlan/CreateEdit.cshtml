@@ -89,7 +89,7 @@
 										@Html.LabelFor(x => x.MaxCost, new { @class = "form-label required" })
 										@if (Model.IsEditable || Model.GymMembershipPlanId == 0)
 										{
-											@Html.TextBoxFor(x => x.MaxCost, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+											@Html.TextBoxFor(x => x.MaxCost, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()", @onchange = "GymMembershipPlan.ChangeMaxCost()" })
 										}
 										else
 										{
