@@ -41,6 +41,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrePrintingFormat> OrganisationCentrePrintingFormat { get; set; }
         public DbSet<OrganisationCentrewiseGSTCredential> OrganisationCentrewiseGSTCredential { get; set; }
         public DbSet<OrganisationCentrewiseBuildingRooms> OrganisationCentrewiseBuildingRooms { get; set; }
+        public DbSet<OrganisationCentrewiseSmtpSetting> OrganisationCentrewiseSmtpSetting { get; set; }
         #endregion
 
         #region Admin

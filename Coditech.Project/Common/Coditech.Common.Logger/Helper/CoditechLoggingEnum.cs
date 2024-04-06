@@ -53,7 +53,8 @@
             PersonAttendance,
             Inventory,
             SalesAndPurchase,
-            InventoryCategory
+            InventoryCategory,
+            EmailService
         }
     }
 }
