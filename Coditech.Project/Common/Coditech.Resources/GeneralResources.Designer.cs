@@ -230,5 +230,16 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("UpdateMessage", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Change Password successfully..
+        /// </summary>
+        public static string ChangePasswordSuccessMessage
+        {
+            get
+            {
+                return ResourceManager.GetString("ChangePasswordSuccessMessage", resourceCulture);
+            }
+        }
     }
 }

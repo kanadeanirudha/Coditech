@@ -70,6 +70,35 @@ namespace Coditech.Admin.Agents
             }
         }
 
+        // This method is used to Change Password the user.
+        public virtual ChangePasswordViewModel ChangePassword(ChangePasswordViewModel changePasswordViewModel)
+        {
+            long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+
+            try
+            {
+                ChangePasswordResponse response = _userClient.ChangePassword(changePasswordViewModel.ToModel<ChangePasswordModel>());
+                ChangePasswordModel changePasswordModel = response?.ChangePasswordModel;
+                return IsNotNull(changePasswordModel) ? changePasswordModel.ToViewModel<ChangePasswordViewModel>() : new ChangePasswordViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ChangePassword.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (ChangePasswordViewModel)GetViewModelWithErrorMessage(changePasswordViewModel, ex.ErrorMessage);
+                    default:
+                        return (ChangePasswordViewModel)GetViewModelWithErrorMessage(changePasswordViewModel, GeneralResources.UpdateErrorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ChangePassword.ToString(), TraceLevel.Error);
+                return (ChangePasswordViewModel)GetViewModelWithErrorMessage(changePasswordViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
 
         // This method is used to logout the user.
         public virtual async Task Logout()

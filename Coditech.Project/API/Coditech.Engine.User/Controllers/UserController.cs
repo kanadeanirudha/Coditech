@@ -59,6 +59,28 @@ namespace Coditech.API.Controllers
 
         }
 
+        [Route("/User/ChangePassword")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(ChangePasswordResponse))]
+        public virtual IActionResult ChangePassword([FromBody] ChangePasswordModel model)
+        {
+            try
+            {
+                ChangePasswordModel changePassword = _userService.ChangePassword(model);
+                return IsNotNull(changePassword) ? CreateCreatedResponse(new ChangePasswordResponse { ChangePasswordModel = changePassword }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ChangePassword.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new ChangePasswordResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ChangePassword.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new ChangePasswordResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("/User/GetActiveModuleList")]
         [Produces(typeof(UserModuleListResponse))]
@@ -200,7 +222,7 @@ namespace Coditech.API.Controllers
         {
             try
             {
-                GeneralPersonAddressModel generalPersonAddress= _userService.InsertUpdateGeneralPersonAddress(model);
+                GeneralPersonAddressModel generalPersonAddress = _userService.InsertUpdateGeneralPersonAddress(model);
                 return HelperUtility.IsNotNull(generalPersonAddress) ? CreateCreatedResponse(new GeneralPersonAddressResponse { GeneralPersonAddressModel = generalPersonAddress }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)

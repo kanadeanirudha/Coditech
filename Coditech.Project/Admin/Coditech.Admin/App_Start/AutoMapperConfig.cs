@@ -107,6 +107,10 @@ namespace Coditech.Admin
             CreateMap<HospitalDoctorsModel, HospitalDoctorsViewModel>().ReverseMap();
             CreateMap<HospitalDoctorsListModel, HospitalDoctorsListViewModel>().ReverseMap();
             #endregion
+
+            #region Password
+            CreateMap<ChangePasswordModel, ChangePasswordViewModel>().ReverseMap();
+            #endregion
         }
     }
 }
