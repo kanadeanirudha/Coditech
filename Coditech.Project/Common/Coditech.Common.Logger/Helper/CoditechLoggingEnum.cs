@@ -54,7 +54,8 @@
             Inventory,
             SalesAndPurchase,
             InventoryCategory,
-            EmailService
+            EmailService,
+            ChangePassword
         }
     }
 }

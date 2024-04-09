@@ -15,6 +15,13 @@ namespace Coditech.API.Client
         UserModel Login(IEnumerable<string> expand, UserLoginModel body);
 
         /// <summary>
+        /// Change Password.
+        /// </summary>
+        /// <param name="ChangePasswordModel">ChangePasswordModel.</param>
+        /// <returns>Returns ChangePasswordResponse.</returns>
+        ChangePasswordResponse ChangePassword(ChangePasswordModel body);
+
+        /// <summary>
         /// Get Active Module List.
         /// </summary>
         /// <returns>Returns UserModuleListResponse.</returns>
