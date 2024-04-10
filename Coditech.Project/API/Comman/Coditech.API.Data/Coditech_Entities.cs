@@ -62,7 +62,8 @@ namespace Coditech.API.Data
         #endregion
 
         #region Employee
-        public DbSet<EmployeeMaster> EmployeeMaster { get; set; }        
+        public DbSet<EmployeeMaster> EmployeeMaster { get; set; }
+        public DbSet<EmployeeService> EmployeeService { get; set; }
         #endregion
 
         #region Gym
