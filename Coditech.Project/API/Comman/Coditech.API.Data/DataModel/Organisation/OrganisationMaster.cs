@@ -19,8 +19,6 @@
         public string OfficePhone1 { get; set; }
         public string OfficePhone2 { get; set; }
         public string OrganisationCode { get; set; }
-        public string PFNumber { get; set; }
-        public string ESICNumber { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

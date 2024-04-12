@@ -117,6 +117,11 @@ namespace Coditech.Admin.Helpers
             {
                 GetGeneralServicesList(dropdownViewModel, dropdownList);
             }
+
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AllCities.ToString()))
+            {
+                GetAllCityList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -598,6 +603,22 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
+        private static void GetAllCityList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralCityListResponse response = new GeneralCityClient().GetAllCities();
+            dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
+            GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response?.GeneralCityList };
+            foreach (var item in list.GeneralCityList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text =item.CityName,
+                    Value = Convert.ToString(item.GeneralCityMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCityMasterId)
+                });
+            }
+        }
+
         private static string SpiltCentreCode(string centreCode)
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
