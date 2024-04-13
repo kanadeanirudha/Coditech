@@ -13,6 +13,6 @@ namespace Coditech.API.Service
         bool UpdateCity(GeneralCityModel model);
         bool DeleteCity(ParameterModel parameterModel);
         GeneralCityListModel GetCityByRegionWise(int generalRegionMasterId);
-
+        GeneralCityListModel GetAllCities();
     }
 }
