@@ -12,6 +12,13 @@ namespace Coditech.Admin.Agents
         UserLoginViewModel Login(UserLoginViewModel model);
 
         /// <summary>
+        /// This method is used to ChangePassword the user.
+        /// </summary>
+        /// <param name="changePasswordViewModel">Change Password View Model.</param>
+        /// <returns>Returns created model.</returns>
+        ChangePasswordViewModel ChangePassword(ChangePasswordViewModel changePasswordViewModel);
+
+        /// <summary>
         /// This method is used to logout the user.
         /// </summary>
         Task Logout();

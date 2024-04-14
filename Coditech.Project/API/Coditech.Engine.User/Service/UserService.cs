@@ -105,6 +105,26 @@ namespace Coditech.API.Service
             return userModel;
         }
 
+        //Change Password.
+        public virtual ChangePasswordModel ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            if (IsNull(changePasswordModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserMasterId == changePasswordModel.UserMasterId);
+            if (IsNotNull(userMasterData) && userMasterData.Password == MD5Hash(changePasswordModel.CurrentPassword))
+            {
+                userMasterData.Password = MD5Hash(changePasswordModel.NewPassword);
+                _userMasterRepository.Update(userMasterData);
+            }
+            else
+            {
+                changePasswordModel.HasError = true;
+                changePasswordModel.ErrorMessage = "Current Password DoesNot Match ";
+            }
+            return changePasswordModel;
+        }
+
         public virtual List<UserModuleModel> GetActiveModuleList()
         {
             List<UserModuleModel> moduleList = new List<UserModuleModel>();

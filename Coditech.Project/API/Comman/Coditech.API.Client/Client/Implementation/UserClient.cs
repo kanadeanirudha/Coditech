@@ -143,6 +143,62 @@ namespace Coditech.API.Client
         //    }
         //}
 
+        public virtual ChangePasswordResponse ChangePassword(ChangePasswordModel body)
+        {
+            return Task.Run(async () => await ChangePasswordAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<ChangePasswordResponse> ChangePasswordAsync(ChangePasswordModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = userEndpoint.ChangePasswordAsync();
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<ChangePasswordResponse> objectResponseResult2 = await ReadObjectResponseAsync<ChangePasswordResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<ChangePasswordResponse> objectResponseResult = await ReadObjectResponseAsync<ChangePasswordResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            ChangePasswordResponse result = JsonConvert.DeserializeObject<ChangePasswordResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
+        }
+
         public virtual UserModuleListResponse GetActiveModuleList()
         {
             return Task.Run(async () => await GetActiveModuleAsync(System.Threading.CancellationToken.None)).GetAwaiter().GetResult();

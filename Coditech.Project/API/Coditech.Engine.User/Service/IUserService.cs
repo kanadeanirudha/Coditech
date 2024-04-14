@@ -9,9 +9,10 @@ namespace Coditech.API.Service
         List<UserModuleModel> GetActiveModuleList();
         List<UserMenuModel> GetActiveMenuList(string moduleCode);
         GeneralPersonModel InsertPersonInformation(GeneralPersonModel model);
-        GeneralPersonModel GetPersonInformation(long personId);        
+        GeneralPersonModel GetPersonInformation(long personId);
         bool UpdatePersonInformation(GeneralPersonModel model);
         GeneralPersonAddressListModel GetGeneralPersonAddresses(long personId);
         GeneralPersonAddressModel InsertUpdateGeneralPersonAddress(GeneralPersonAddressModel model);
+        ChangePasswordModel ChangePassword(ChangePasswordModel model);
     }
 }
