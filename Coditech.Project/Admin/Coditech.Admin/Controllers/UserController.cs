@@ -3,6 +3,7 @@ using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Authorization;
@@ -111,9 +112,11 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult GetGeneralPersonAddressess(long personId)
+        public virtual ActionResult GetGeneralPersonAddressess(long personId, long entityId, string entityType)
         {
             GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
+            model.EntityId = entityId;
+            model.EntityType = entityType;
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", model);
         }
 
@@ -125,9 +128,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetGeneralPersonAddressess", new { personId = generalPersonAddressViewModel.PersonId });
             }
-            return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", generalPersonAddressViewModel);
+            if (generalPersonAddressViewModel.EntityType == UserTypeEnum.GymMember.ToString())
+                return RedirectToAction("CreateEditGymMemberAddress", "GymMemberDetails", new { gymMemberDetailId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+            else
+                return null;
         }
 
         [HttpGet]
