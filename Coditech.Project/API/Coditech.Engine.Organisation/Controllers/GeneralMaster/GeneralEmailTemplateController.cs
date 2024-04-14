@@ -139,9 +139,4 @@ namespace Coditech.API.Controllers
             }
         }
     }
-
-    public interface IGeneralEmailTemplateService
-    {
-        GeneralEmailTemplateListModel GetEmailTemplateList(FilterCollection filter, NameValueCollection nameValueCollection1, NameValueCollection nameValueCollection2, int pageIndex, int pageSize);
-    }
 }

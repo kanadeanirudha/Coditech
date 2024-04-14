@@ -10,11 +10,12 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [MaxLength(100)]
-        [Display(Name = "Email Code")]
+        [Display(Name = "Email Template Code")]
         public string EmailTemplateCode { get; set; }
 
         [Required]
-        [Display(Name = "Email Name")]
+        [MaxLength(100)]
+        [Display(Name = "Email Template Name")]
         public string EmailTemplateName { get; set; }
 
         [Required]

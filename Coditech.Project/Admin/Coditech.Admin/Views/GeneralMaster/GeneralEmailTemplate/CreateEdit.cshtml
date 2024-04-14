@@ -1,6 +1,6 @@
 ﻿@model GeneralEmailTemplateViewModel
 @{
-    ViewBag.Title = Model.GeneralEmailTemplateId > 0 ? "Update Email" : "Add Email";
+    ViewBag.Title = Model.GeneralEmailTemplateId > 0 ? "Update Email Template" : "Add Email Template";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
@@ -16,11 +16,11 @@
                             <div class="col">
                                 @if (Model.GeneralEmailTemplateId > 0)
                                 {
-                                    <h4 class="card-title">Update Email</h4>
+                                    <h4 class="card-title">Update Email Template</h4>
                                 }
                                 else
                                 {
-                                    <h4 class="card-title">Create Emaily</h4>
+                                    <h4 class="card-title">Create Email Template</h4>
                                 }
                             </div><!--end col-->
                         </div>  <!--end row-->
@@ -30,28 +30,34 @@
                         {
                             @Html.HiddenFor(m => m.GeneralEmailTemplateId)
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.EmailTemplateName, new { @class = "form-label required" })
                                         @Html.TextBoxFor(x => x.EmailTemplateName, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.EmailTemplateName)
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.EmailTemplateCode, new { @class = "form-label required" })
                                         @Html.TextBoxFor(x => x.EmailTemplateCode, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.EmailTemplateCode)
                                     </div>
                                 </div>
-                               @* <div class="col-lg-4">
+                                <div class="col-lg-12">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.SeqNo, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.SeqNo, new { @class = "form-control", type = "number" })
-                                        @Html.ValidationMessageFor(x => x.SeqNo)
+                                        @Html.LabelFor(x => x.Subject, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.Subject, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Subject)
                                     </div>
                                 </div>
-                                *@
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.EmailTemplate, new { @class = "form-label required" })
+                                        @Html.TextAreaFor(x => x.EmailTemplate, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.EmailTemplate)
+                                    </div>
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.IsActive, new { @class = "form-label" })

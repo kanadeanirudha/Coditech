@@ -40,6 +40,5 @@ namespace Coditech.Admin.Agents
         /// <param name="generalEmailTemplateId">generalEmailTemplateId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteEmailTemplate(string generalEmailTemplateId, out string errorMessage);
-        GeneralEmailTemplateListResponse GetEmailTemplateList();
     }
 }

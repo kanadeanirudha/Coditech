@@ -138,6 +138,9 @@
   <data name="ErrorDeleteGeneralDesignationMaster" xml:space="preserve">
     <value>Failed to delete designation due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralEmailTemplate" xml:space="preserve">
+    <value>Failed to delete email due to associate record.</value>
+  </data>
   <data name="ErrorDeleteGeneralEnumarator" xml:space="preserve">
     <value>Failed to delete enum due to associate record.</value>
   </data>
@@ -242,6 +245,9 @@
   </data>
   <data name="LabelDesignationList" xml:space="preserve">
     <value>Designation List</value>
+  </data>
+  <data name="LabelEmailTemplateList" xml:space="preserve">
+    <value>Email Template List</value>
   </data>
   <data name="LabelEmployeeList" xml:space="preserve">
     <value>Employee List</value>

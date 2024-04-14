@@ -15,7 +15,7 @@ namespace Coditech.Admin.Agents
 {
     public class GeneralEmailTemplateAgent : BaseAgent, IGeneralEmailTemplateAgent
     {
-    
+
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IGeneralEmailTemplateClient _generalEmailTemplateClient;
@@ -37,11 +37,11 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("EmailName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailTemplateName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailTemplateCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "EmailName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GeneralEmailTemplateListResponse response = _generalEmailTemplateClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralEmailTemplateListModel EmailTemplateList = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response?.GeneralEmailTemplateList };
@@ -143,14 +143,14 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Email Name",
-                ColumnCode = "EmailName",
+                ColumnName = "Email Template Name",
+                ColumnCode = "EmailTemplateName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Email Code",
-                ColumnCode = "EmailCode",
+                ColumnName = "Email Template Code",
+                ColumnCode = "EmailTemplateCode",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -159,14 +159,6 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "IsActive",
             });
             return datatableColumnList;
-        }
-        #endregion
-        #region
-        // it will return get all email list from database 
-        public virtual GeneralEmailTemplateListResponse GetEmailTemplateList()
-        {
-            GeneralEmailTemplateListResponse EmailTemplateList = _generalEmailTemplateClient.List(null, null, null, 1, int.MaxValue);
-            return EmailTemplateList?.GeneralEmailTemplateList?.Count > 0 ? EmailTemplateList : new GeneralEmailTemplateListResponse();
         }
         #endregion
     }

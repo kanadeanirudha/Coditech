@@ -5,7 +5,6 @@ using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace Coditech.Admin.Controllers
 {
     public class GeneralEmailTemplateController : BaseController
