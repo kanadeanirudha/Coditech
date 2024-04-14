@@ -143,11 +143,13 @@ namespace Coditech.API.Service
         public virtual GeneralCityListModel GetAllCities()
         {
             GeneralCityListModel list = new GeneralCityListModel();
-            list.GeneralCityList = (from a in _generalCityMasterRepository.Table
+            list.GeneralCityList = (from a in _generalCityMasterRepository.Table 
+                                    join b in _generalRegionMasterRepository.Table 
+                                    on a.GeneralRegionMasterId equals b.GeneralRegionMasterId
                                     select new GeneralCityModel()
                                     {
                                         GeneralCityMasterId = a.GeneralCityMasterId,
-                                        CityName = a.CityName,
+                                        CityName = $"{a.CityName}({b.RegionName})",
                                     })?.ToList();
             return list;
         }
