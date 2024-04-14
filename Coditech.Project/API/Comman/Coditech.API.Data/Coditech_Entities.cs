@@ -16,6 +16,7 @@ namespace Coditech.API.Data
         #region General Master
         public DbSet<GeneralDepartmentMaster> GeneralDepartmentMaster { get; set; }
         public DbSet<GeneralCountryMaster> GeneralCountryMaster { get; set; }
+        public DbSet<GeneralEmailTemplate> GeneralEmailTemplate { get; set; }
         public DbSet<GeneralFinancialYear> GeneralFinancialYear { get; set; }
         public DbSet<GeneralTaxMaster> GeneralTaxMaster { get; set; }
         public DbSet<GeneralTaxGroupMaster> GeneralTaxGroupMaster { get; set; }

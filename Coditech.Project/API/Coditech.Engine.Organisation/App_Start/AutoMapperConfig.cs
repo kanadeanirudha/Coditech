@@ -20,6 +20,7 @@ namespace Coditech.API.Mapper
 
             CreateMap<GeneralDepartmentMaster, GeneralDepartmentModel>().ReverseMap();
             CreateMap<GeneralCountryMaster, GeneralCountryModel>().ReverseMap();
+            CreateMap<GeneralEmailTemplate, GeneralEmailTemplateModel>().ReverseMap();
             CreateMap<GeneralFinancialYear, GeneralFinancialYearModel>().ReverseMap();
             CreateMap<GeneralTaxMaster, GeneralTaxMasterModel>().ReverseMap();
             CreateMap<GeneralTaxGroupMaster, GeneralTaxGroupModel>().ReverseMap();

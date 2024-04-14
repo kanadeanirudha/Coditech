@@ -22,6 +22,8 @@ namespace Coditech.Admin
             CreateMap<GeneralDepartmentModel, GeneralDepartmentViewModel>().ReverseMap();
             CreateMap<GeneralDepartmentListModel, GeneralDepartmentListViewModel>().ReverseMap();
             CreateMap<GeneralCountryModel, GeneralCountryViewModel>().ReverseMap();
+            CreateMap<GeneralEmailTemplateModel, GeneralEmailTemplateViewModel>().ReverseMap();
+            CreateMap<GeneralEmailTemplateListModel, GeneralEmailTemplateListViewModel>().ReverseMap();
             CreateMap<GeneralFinancialYearModel, GeneralFinancialYearViewModel>().ReverseMap();
             CreateMap<GeneralCountryListModel, GeneralCountryListViewModel>().ReverseMap();
             CreateMap<GeneralFinancialYearListModel, GeneralFinancialYearListViewModel>().ReverseMap();

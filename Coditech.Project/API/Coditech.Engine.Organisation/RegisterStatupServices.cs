@@ -6,7 +6,6 @@ using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -226,6 +225,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralDepartmentMasterService, GeneralDepartmentMasterService>();
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IGeneralCountryMasterService, GeneralCountryMasterService>();
+            builder.Services.AddScoped<IGeneralEmailTemplateService, GeneralEmailTemplateService>();
             builder.Services.AddScoped<IGeneralFinancialYearMasterService, GeneralFinancialYearMasterService>();
             builder.Services.AddScoped<IGeneralTaxMasterService, GeneralTaxMasterService>();
             builder.Services.AddScoped<IGeneralTaxGroupMasterService, GeneralTaxGroupMasterService>();

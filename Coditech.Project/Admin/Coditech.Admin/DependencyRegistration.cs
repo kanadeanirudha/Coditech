@@ -6,7 +6,7 @@ using Coditech.Common.Logger;
 
 namespace Coditech.Admin
 {
-	public static class DependencyRegistration
+    public static class DependencyRegistration
 	{
 		public static void RegisterDI(this WebApplicationBuilder builder)
 		{
@@ -21,8 +21,9 @@ namespace Coditech.Admin
 			builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
 			builder.Services.AddScoped<IUserAgent, UserAgent>();
 			builder.Services.AddScoped<IGeneralDepartmentAgent, GeneralDepartmentAgent>();
-			builder.Services.AddScoped<IGeneralCountryAgent, GeneralCountryAgent>();		
-			builder.Services.AddScoped<IInventoryCategoryAgent, InventoryCategoryAgent>();
+			builder.Services.AddScoped<IGeneralCountryAgent, GeneralCountryAgent>();
+            builder.Services.AddScoped<IGeneralEmailTemplateAgent, GeneralEmailTemplateAgent>();
+            builder.Services.AddScoped<IInventoryCategoryAgent, InventoryCategoryAgent>();
 			builder.Services.AddScoped<IGeneralFinancialYearAgent, GeneralFinancialYearAgent>();
 			builder.Services.AddScoped<IGeneralNationalityAgent, GeneralNationalityAgent>();
 			builder.Services.AddScoped<IGeneralDesignationAgent, GeneralDesignationAgent>();
@@ -60,7 +61,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IUserClient, UserClient>();
 			builder.Services.AddScoped<IGeneralDepartmentClient, GeneralDepartmentClient>();
 			builder.Services.AddScoped<IGeneralCountryClient, GeneralCountryClient>();
-			builder.Services.AddScoped<IGeneralFinancialYearClient, GeneralFinancialYearClient>();
+            builder.Services.AddScoped<IGeneralEmailTemplateClient, GeneralEmailTemplateClient>();
+            builder.Services.AddScoped<IGeneralFinancialYearClient, GeneralFinancialYearClient>();
 			builder.Services.AddScoped<IGeneralNationalityClient, GeneralNationalityClient>();
 			builder.Services.AddScoped<IGeneralDesignationClient, GeneralDesignationClient>();
 			builder.Services.AddScoped<IGeneralCityClient, GeneralCityClient>();

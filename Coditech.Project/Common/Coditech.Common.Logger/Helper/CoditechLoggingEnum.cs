@@ -16,6 +16,7 @@
             Organisation,
             DepartmentMaster,
             CountryMaster,
+            EmailTemplate,
             FinancialYearMaster,
             TaxMaster,
             TaxGroupMaster,

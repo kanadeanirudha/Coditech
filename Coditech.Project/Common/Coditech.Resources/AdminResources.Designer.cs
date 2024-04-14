@@ -104,7 +104,19 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
             }
         }
-        
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete email due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEmailTemplate { 
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralEmailTemplate", resourceCulture);
+            }
+        }
+
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete department due to associate record..
         /// </summary>
@@ -401,7 +413,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Email List.
+        /// </summary>
+        public static string LabelEmailTemplateList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelEmailTemplateList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>
