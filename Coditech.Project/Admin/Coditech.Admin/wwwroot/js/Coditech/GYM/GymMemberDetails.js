@@ -34,7 +34,7 @@
         $("#errorGymFollowupTypesEnumId").text('').text("").removeClass("field-validation-error").hide();
         $("#errorReminderDate").text('').text("").removeClass("field-validation-error").hide();
         if ($("#frmGymMemberFollowUp").valid()) {
-            if ($("#GymFollowupTypesEnumId").val() == "") {
+            if ($("#GymFollowupTypesEnumId").val() == "" || $("#GymFollowupTypesEnumId").val().includes("select") || $("#GymFollowupTypesEnumId").val().includes("Select")) {
                 $("#errorGymFollowupTypesEnumId").text('').text("Please Select Follow-up Type.").addClass("field-validation-error").show();
                 return false;
             }

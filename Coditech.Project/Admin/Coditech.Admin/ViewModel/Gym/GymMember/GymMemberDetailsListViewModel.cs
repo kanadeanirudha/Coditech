@@ -10,6 +10,7 @@ namespace Coditech.Admin.ViewModel
             GymMemberDetailsList = new List<GymMemberDetailsViewModel>();
         }
         public string SelectedCentreCode { get; set; } = string.Empty;
+        public string ListType { get; set; }
         public int SelectedDepartmentId { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace Coditech.Admin.ViewModel
         public int GenderEnumId { get; set; }
 
         [MaxLength(200)]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         [Display(Name = "Email Id")]
         public string EmailId { get; set; }
 
