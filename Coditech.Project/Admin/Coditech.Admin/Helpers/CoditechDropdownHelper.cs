@@ -271,7 +271,7 @@ namespace Coditech.Admin.Helpers
                 GeneralRegionListResponse response = new GeneralRegionClient().GetRegionByCountryWise(Convert.ToInt16(dropdownViewModel.Parameter));
                 list = new GeneralRegionListModel { GeneralRegionList = response?.GeneralRegionList };
             }
-            dropdownList.Add(new SelectListItem() { Text = "-------- Select State --------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------- Select Region --------" });
             foreach (var item in list?.GeneralRegionList)
             {
                 dropdownList.Add(new SelectListItem()

@@ -73,7 +73,7 @@ namespace Coditech.Admin.Agents
         // This method is used to Change Password the user.
         public virtual ChangePasswordViewModel ChangePassword(ChangePasswordViewModel changePasswordViewModel)
         {
-           
+
             try
             {
                 changePasswordViewModel.UserMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
@@ -114,6 +114,8 @@ namespace Coditech.Admin.Agents
             GeneralPersonAddressListModel generalPersonAddressListModel = new GeneralPersonAddressListModel() { PersonAddressList = response?.GeneralPersonAddressList };
             GeneralPersonAddressListViewModel generalPersonAddressListViewModel = new GeneralPersonAddressListViewModel();
             generalPersonAddressListViewModel.GeneralPersonAddressList = generalPersonAddressListModel.PersonAddressList.ToViewModel<GeneralPersonAddressViewModel>()?.ToList();
+            generalPersonAddressListViewModel.FirstName = response.FirstName;
+            generalPersonAddressListViewModel.LastName = response.LastName;
             return generalPersonAddressListViewModel;
         }
 

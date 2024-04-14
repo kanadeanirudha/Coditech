@@ -7,6 +7,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Logger;
+
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
@@ -201,7 +202,7 @@ namespace Coditech.API.Controllers
             try
             {
                 GeneralPersonAddressListModel generalPersonAddressList = _userService.GetGeneralPersonAddresses(personId);
-                return HelperUtility.IsNotNull(generalPersonAddressList) ? CreateOKResponse(new GeneralPersonAddressListResponse() { GeneralPersonAddressList = generalPersonAddressList.PersonAddressList }) : NotFound();
+                return HelperUtility.IsNotNull(generalPersonAddressList) ? CreateOKResponse(new GeneralPersonAddressListResponse() { GeneralPersonAddressList = generalPersonAddressList.PersonAddressList, FirstName = generalPersonAddressList.FirstName, LastName = generalPersonAddressList.LastName }) : NotFound();
             }
             catch (CoditechException ex)
             {

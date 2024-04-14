@@ -161,8 +161,9 @@ namespace Coditech.Admin.Controllers
         {
             GeneralPersonAddressListViewModel model = new GeneralPersonAddressListViewModel()
             {
-                GymMemberDetailId = gymMemberDetailId,
-                PersonId = personId
+                EntityId = gymMemberDetailId,
+                PersonId = personId,
+                EntityType = UserTypeEnum.GymMember.ToString()
             };
             return ActionView("~/Views/Gym/GymMemberDetails/CreateEditGymMemberAddress.cshtml", model);
         }

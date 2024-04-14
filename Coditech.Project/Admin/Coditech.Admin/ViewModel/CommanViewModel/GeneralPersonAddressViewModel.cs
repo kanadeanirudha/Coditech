@@ -6,6 +6,8 @@ namespace Coditech.Admin.ViewModel
     public class GeneralPersonAddressViewModel : BaseViewModel
     {
         public long GeneralPersonAddressId { get; set; }
+        public long EntityId { get; set; }
+        public string EntityType { get; set; }
         public string AddressTypeEnum { get; set; }
         public long PersonId { get; set; }
 
@@ -36,18 +38,23 @@ namespace Coditech.Admin.ViewModel
         [Display(Name ="Company Name")]
         public string CompanyName { get; set; }
 
-        [Display(Name = "Country")]
         [Required]
+        [Display(Name = "Country")]
         public short GeneralCountryMasterId { get; set; }
 
+        [Required]
         [Display(Name = "Region")]
-        [Required]
         public short GeneralRegionMasterId { get; set; }
-        [Display(Name = "City")]
+
         [Required]
+        [Display(Name = "City")]
         public int GeneralCityMasterId { get; set; }
+
+        [Required]
         [MaxLength(10)]
+        [Display(Name = "Postal Code")]
         public string Postalcode { get; set; }
+
         [MaxLength(50)]
         [Display(Name = "Telephone Number")]
         public string PhoneNumber { get; set; }
@@ -56,11 +63,14 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(15)]
         [Display(Name = "Mobile Number")]
         public string MobileNumber { get; set; }
+
         [MaxLength(250)]
         [EmailAddress]
         [Display(Name = "Email Id")]
         public string EmailAddress { get; set; }
+
         public bool IsActive { get; set; }
+
         [Display(Name ="Same as Permanent Address")]
         public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }
         public bool IsDefault { get; set; }

@@ -2,10 +2,12 @@
 {
     public class GeneralPersonAddressListModel : BaseModel
     {
-        public List<GeneralPersonAddressModel> PersonAddressList { get; set; }
         public GeneralPersonAddressListModel()
         {
             PersonAddressList = new List<GeneralPersonAddressModel>();
         }
+        public List<GeneralPersonAddressModel> PersonAddressList { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

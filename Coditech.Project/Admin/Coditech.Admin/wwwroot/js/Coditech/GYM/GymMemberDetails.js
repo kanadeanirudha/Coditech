@@ -30,7 +30,6 @@
     },
     SaveFollowup: function () {
         $("#frmGymMemberFollowUp").validate();
-        debugger
         $("#errorGymFollowupTypesEnumId").text('').text("").removeClass("field-validation-error").hide();
         $("#errorReminderDate").text('').text("").removeClass("field-validation-error").hide();
         if ($("#frmGymMemberFollowUp").valid()) {
@@ -153,7 +152,6 @@
     },
 
     IsSetReminder: function () {
-        debugger
         $("#ReminderDate").val("");
         if ($("#IsSetReminder").is(':checked')) {
             // Code in the case checkbox is checked.

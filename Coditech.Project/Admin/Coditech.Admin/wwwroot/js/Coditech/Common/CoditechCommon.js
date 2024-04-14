@@ -62,58 +62,6 @@
         }
     },
 
-    GetRegionListByCountryId: function () {
-        var selectedItem = $("#GeneralCountryMasterId").val();
-        if (selectedItem != "") {
-            CoditechCommon.ShowLodder();
-            $.ajax({
-                cache: false,
-                type: "GET",
-                dataType: "html",
-                url: "/GeneralCommanData/GetRegionListByCountryId",
-                data: { "generalCountryMasterId": selectedItem },
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    $("#GeneralRegionMasterId").html("").html(data);
-                    CoditechCommon.HideLodder();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Region.", "error")
-                    CoditechCommon.HideLodder();
-                }
-            });
-        }
-        else {
-            $("#GeneralRegionMasterId").html("");
-        }
-    },
-
-    GetCityListByRegionId: function () {
-        var selectedItem = $("#GeneralRegionMasterId").val();
-        if (selectedItem != "") {
-            CoditechCommon.ShowLodder();
-            $.ajax({
-                cache: false,
-                type: "GET",
-                dataType: "html",
-                url: "/GeneralCommanData/GetCityListByRegionId",
-                data: { "generalRegionMasterId": selectedItem },
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    $("#GeneralCityMasterId").html("").html(data);
-                    CoditechCommon.HideLodder();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve City.", "error")
-                    CoditechCommon.HideLodder();
-                }
-            });
-        }
-        else {
-            $("#GeneralRegionMasterId").html("");
-        }
-    },
-
     ValidNumeric: function () {
         var charCode = (event.which) ? event.which : event.keyCode;
         if (charCode >= 48 && charCode <= 57) { return true; }
