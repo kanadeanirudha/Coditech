@@ -90,6 +90,7 @@ namespace Coditech.Common.Service
         {
             long personId = 0;
             string centreCode = string.Empty;
+            string personCode = string.Empty;
             short generalDepartmentMasterId = 0;
             if (entityType == UserTypeEnum.GymMember.ToString())
             {
@@ -107,6 +108,7 @@ namespace Coditech.Common.Service
                 {
                     personId = employeeMaster.PersonId;
                     centreCode = employeeMaster.CentreCode;
+                    personCode = employeeMaster.PersonCode;
                     generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
                 }
             }
@@ -115,6 +117,7 @@ namespace Coditech.Common.Service
             {
                 generalPersonModel.SelectedCentreCode = centreCode;
                 generalPersonModel.SelectedDepartmentId = Convert.ToString(generalDepartmentMasterId);
+                generalPersonModel.PersonCode = personCode;
             }
             return generalPersonModel;
         }

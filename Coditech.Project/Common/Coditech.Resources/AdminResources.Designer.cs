@@ -430,7 +430,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Designation ID.
+        ///   Looks up a localized string similar to Designation.
         /// </summary>
         public static string LabelDesignationId {
             get {

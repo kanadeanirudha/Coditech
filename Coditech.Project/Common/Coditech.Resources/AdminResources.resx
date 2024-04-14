@@ -241,7 +241,7 @@
     <value>Departments</value>
   </data>
   <data name="LabelDesignationId" xml:space="preserve">
-    <value>Designation ID</value>
+    <value>Designation</value>
   </data>
   <data name="LabelDesignationList" xml:space="preserve">
     <value>Designation List</value>

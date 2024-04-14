@@ -128,9 +128,9 @@
         return true;
     },
 
-    AllowOnlyAlphabets: function () {
+    AvoidSpacing: function () {
         var charCode = (event.which) ? event.which : event.keyCode;
-        if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123)) {
+        if (charCode != 32) {
             return true;
         }
         else {

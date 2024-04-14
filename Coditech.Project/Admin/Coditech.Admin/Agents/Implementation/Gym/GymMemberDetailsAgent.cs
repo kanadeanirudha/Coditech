@@ -202,7 +202,7 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("FollowupType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                //filters.Add("FollowupType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("FollowupComment", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
@@ -386,7 +386,7 @@ namespace Coditech.Admin.Agents
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GymMemberMembershipPlanListResponse response = _gymMemberDetailsClient.GetGymMemberMembershipPlanList(gymMemberDetailId, personId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GymMemberMembershipPlanListModel gymMemberMembershipPlanList = new GymMemberMembershipPlanListModel {GymMemberMembershipPlanList =  response?.GymMemberMembershipPlanList };
+            GymMemberMembershipPlanListModel gymMemberMembershipPlanList = new GymMemberMembershipPlanListModel { GymMemberMembershipPlanList = response?.GymMemberMembershipPlanList };
 
             GymMemberMembershipPlanListViewModel listViewModel = new GymMemberMembershipPlanListViewModel()
             {
@@ -396,8 +396,8 @@ namespace Coditech.Admin.Agents
                 LastName = response?.LastName
             };
             listViewModel.GymMemberMembershipPlanList = gymMemberMembershipPlanList?.GymMemberMembershipPlanList?.ToViewModel<GymMemberMembershipPlanViewModel>().ToList();
-			SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberMembershipPlanList.Count, BindGymMemberMembershipPlanColumns(), false);
-			return listViewModel;
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberMembershipPlanList.Count, BindGymMemberMembershipPlanColumns(), false);
+            return listViewModel;
         }
 
         //Associate Gym Member Membership Plan
@@ -501,7 +501,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Follow-Up Type",
                 ColumnCode = "FollowupType",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
@@ -596,21 +595,21 @@ namespace Coditech.Admin.Agents
             return datatableColumnList;
         }
 
-		protected virtual List<DatatableColumns> BindGymMemberMembershipPlanColumns()
-		{
-			List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
-			datatableColumnList.Add(new DatatableColumns()
-			{
-				ColumnName = "Plan Type",
-				ColumnCode = "PlanType",
-				IsSortable = true,
-			});
-			datatableColumnList.Add(new DatatableColumns()
-			{
-				ColumnName = "Plan Name",
-				ColumnCode = "MembershipPlanName",
-				IsSortable = true,
-			});
+        protected virtual List<DatatableColumns> BindGymMemberMembershipPlanColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Plan Type",
+                ColumnCode = "PlanType",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Plan Name",
+                ColumnCode = "MembershipPlanName",
+                IsSortable = true,
+            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Expired",
@@ -618,8 +617,8 @@ namespace Coditech.Admin.Agents
                 IsSortable = true,
             });
             return datatableColumnList;
-		}
-		#endregion
-	}
+        }
+        #endregion
+    }
 }
 #endregion
