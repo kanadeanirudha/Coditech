@@ -19,6 +19,7 @@ namespace Coditech.Admin.Controllers
             _organisationCentreAgent = organisationCentreAgent;
         }
 
+        #region OrganisationCentre 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             OrganisationCentreListViewModel list = _organisationCentreAgent.GetOrganisationCentreList(dataTableModel);
@@ -88,6 +89,9 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<OrganisationCentreMasterController>(x => x.List(null));
         }
 
+        #endregion
+
+        #region Centre Printing Format
         [HttpGet]
         public virtual ActionResult PrintingFormat(short organisationCentreId)
         {
@@ -107,7 +111,9 @@ namespace Coditech.Admin.Controllers
             }
             return View(OrganisationCentrePrintingFormat, organisationCentrePrintingFormatViewModel);
         }
+        #endregion
 
+        #region CentrewiseGSTSetup
         [HttpGet]
         public virtual ActionResult CentrewiseGSTSetup(short organisationCentreId)
         {
@@ -127,5 +133,12 @@ namespace Coditech.Admin.Controllers
             }
             return View(OrganisationCentrewiseGSTCredential, organisationCentrewiseGSTCredentialViewModel);
         }
+        #endregion
+
+        #region CentrewiseSmtpSetting
+        //public virtual ActionResult CentrewiseSmtpSetting(string CentreCode) { 
+        
+        //}
+        #endregion
     }
 }
