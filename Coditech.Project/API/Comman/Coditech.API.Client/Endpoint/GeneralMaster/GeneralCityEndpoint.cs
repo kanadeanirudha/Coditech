@@ -28,5 +28,11 @@ namespace Coditech.API.Endpoint
             string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCityMaster/GetCityByRegionWise?generalRegionMasterId={generalRegionMasterId}";
             return endpoint;
         }
+
+        public string AllCitiesAsync()
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCityMaster/GetAllCities";
+            return endpoint;
+        }
     }
 }

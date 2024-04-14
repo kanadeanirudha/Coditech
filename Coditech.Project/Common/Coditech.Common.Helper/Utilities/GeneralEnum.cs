@@ -44,7 +44,8 @@
         PaymentType,
         InventoryGeneralServiecs,
         DashboardForm,
-        InventoryCategory
+        InventoryCategory,
+        AllCities
     }
 
     public enum GeneralSystemGlobleSettingEnum

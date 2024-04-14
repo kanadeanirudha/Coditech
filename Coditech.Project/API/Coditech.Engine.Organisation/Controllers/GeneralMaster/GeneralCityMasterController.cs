@@ -158,5 +158,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new GeneralCityListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/GeneralCityMaster/GetAllCities")]
+        [HttpGet]
+        [Produces(typeof(GeneralCityResponse))]
+        public virtual IActionResult GetAllCities()
+        {
+            try
+            {
+                GeneralCityListModel list = _generalCityMasterService.GetAllCities();
+                return IsNotNull(list) ? CreateOKResponse(new GeneralCityListResponse { GeneralCityList = list.GeneralCityList }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.City.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralCityListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.City.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralCityListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }
