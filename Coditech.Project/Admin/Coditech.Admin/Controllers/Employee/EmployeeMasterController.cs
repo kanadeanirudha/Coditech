@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -113,6 +114,18 @@ namespace Coditech.Admin.Controllers
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<EmployeeMasterController>(x => x.List(null));
+        }
+
+        [HttpGet]
+        public virtual ActionResult CreateEditEmployeeAddress(long employeeId, long personId)
+        {
+            GeneralPersonAddressListViewModel model = new GeneralPersonAddressListViewModel()
+            {
+                EntityId = employeeId,
+                PersonId = personId,
+                EntityType = UserTypeEnum.Employee.ToString()
+            };
+            return ActionView("~/Views/EmployeeMaster/CreateEditEmployeeAddress.cshtml", model);
         }
     }
 }
