@@ -63,6 +63,15 @@ namespace Coditech.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete admin role due to associate record..
         /// </summary>
+        public static string ___ {
+            get {
+                return ResourceManager.GetString("+-+", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Admin Role Master due to associate record..
+        /// </summary>
         public static string ErrorDeleteAdminRoleMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteAdminRoleMaster", resourceCulture);
@@ -295,6 +304,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory Item Model Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryItemModelGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryItemModelGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
         public static string ErrorDeleteOccupationMaster {
@@ -516,6 +534,15 @@ namespace Coditech.Resources {
         public static string LabelIsActive {
             get {
                 return ResourceManager.GetString("LabelIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Model Group List.
+        /// </summary>
+        public static string LabelItemModelGroupList {
+            get {
+                return ResourceManager.GetString("LabelItemModelGroupList", resourceCulture);
             }
         }
         

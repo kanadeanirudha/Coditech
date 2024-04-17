@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data</ItemModelGroupName>
+  <ItemModelGroupCode>Test Data</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>false</StockedProduct>
+  <PostPhysicalInventory>true</PostPhysicalInventory>
+  <PostFinancialInventory>true</PostFinancialInventory>
+  <IsIncludePhysicalValue>true</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>true</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>true</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>true</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T10:15:01.9718044+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T10:15:01.9718044+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data</ItemModelGroupName>
+  <ItemModelGroupCode>Test Data</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>false</StockedProduct>
+  <PostPhysicalInventory>true</PostPhysicalInventory>
+  <PostFinancialInventory>true</PostFinancialInventory>
+  <IsIncludePhysicalValue>true</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>true</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>true</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>true</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T10:20:01.6206376+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T10:20:01.6206376+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data</ItemModelGroupName>
+  <ItemModelGroupCode>Test Data</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>false</StockedProduct>
+  <PostPhysicalInventory>true</PostPhysicalInventory>
+  <PostFinancialInventory>true</PostFinancialInventory>
+  <IsIncludePhysicalValue>true</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>true</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>true</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>true</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T10:23:31.7148218+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T10:23:31.7148218+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data</ItemModelGroupName>
+  <ItemModelGroupCode>Test Data</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>true</StockedProduct>
+  <PostPhysicalInventory>true</PostPhysicalInventory>
+  <PostFinancialInventory>false</PostFinancialInventory>
+  <IsIncludePhysicalValue>true</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>false</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>false</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>true</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T10:52:18.7102684+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T10:52:18.7102684+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data</ItemModelGroupName>
+  <ItemModelGroupCode>Test Data</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>true</StockedProduct>
+  <PostPhysicalInventory>true</PostPhysicalInventory>
+  <PostFinancialInventory>true</PostFinancialInventory>
+  <IsIncludePhysicalValue>true</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>true</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>true</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>true</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T14:20:17.8240845+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T14:20:17.8240845+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data 21</ItemModelGroupName>
+  <ItemModelGroupCode>Test Data 21</ItemModelGroupCode>
+  <InventoryModelEnum>77</InventoryModelEnum>
+  <StockedProduct>true</StockedProduct>
+  <PostPhysicalInventory>true</PostPhysicalInventory>
+  <PostFinancialInventory>true</PostFinancialInventory>
+  <IsIncludePhysicalValue>true</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>true</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>true</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>true</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T14:32:18.8750952+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T14:32:18.8750952+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data 21</ItemModelGroupName>
+  <ItemModelGroupCode>Test Data 21</ItemModelGroupCode>
+  <InventoryModelEnum>77</InventoryModelEnum>
+  <StockedProduct>true</StockedProduct>
+  <PostPhysicalInventory>true</PostPhysicalInventory>
+  <PostFinancialInventory>true</PostFinancialInventory>
+  <IsIncludePhysicalValue>true</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>true</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>true</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>true</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T14:34:37.1031829+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T14:34:37.1031829+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test F</ItemModelGroupName>
+  <ItemModelGroupCode>Test F</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>true</StockedProduct>
+  <PostPhysicalInventory>true</PostPhysicalInventory>
+  <PostFinancialInventory>true</PostFinancialInventory>
+  <IsIncludePhysicalValue>true</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>true</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>true</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>true</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T14:38:44.1507108+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T14:38:44.1507108+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test q</ItemModelGroupName>
+  <ItemModelGroupCode>Test q</ItemModelGroupCode>
+  <InventoryModelEnum>77</InventoryModelEnum>
+  <StockedProduct>false</StockedProduct>
+  <PostPhysicalInventory>false</PostPhysicalInventory>
+  <PostFinancialInventory>false</PostFinancialInventory>
+  <IsIncludePhysicalValue>false</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>false</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>false</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>false</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T15:06:16.1897333+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T15:06:16.1897333+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data</ItemModelGroupName>
+  <ItemModelGroupCode>Test 1</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>false</StockedProduct>
+  <PostPhysicalInventory>false</PostPhysicalInventory>
+  <PostFinancialInventory>false</PostFinancialInventory>
+  <IsIncludePhysicalValue>false</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>false</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>false</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>false</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T15:35:53.8603573+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T15:35:53.8603573+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test Data</ItemModelGroupName>
+  <ItemModelGroupCode>Test 1</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>false</StockedProduct>
+  <PostPhysicalInventory>false</PostPhysicalInventory>
+  <PostFinancialInventory>false</PostFinancialInventory>
+  <IsIncludePhysicalValue>false</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>false</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>false</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>false</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T15:36:11.6127518+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T15:36:11.6127518+05:30</ModifiedDate>
+</InventoryItemModelGroup><?xml version="1.0" encoding="utf-16"?>
+<InventoryItemModelGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <InventoryItemModelGroupId>0</InventoryItemModelGroupId>
+  <ItemModelGroupName>Test11</ItemModelGroupName>
+  <ItemModelGroupCode>Test 1</ItemModelGroupCode>
+  <InventoryModelEnum>78</InventoryModelEnum>
+  <StockedProduct>false</StockedProduct>
+  <PostPhysicalInventory>false</PostPhysicalInventory>
+  <PostFinancialInventory>false</PostFinancialInventory>
+  <IsIncludePhysicalValue>false</IsIncludePhysicalValue>
+  <IsFixedReceiptPrice>false</IsFixedReceiptPrice>
+  <PostDeferredRevenueAccountOnSale>false</PostDeferredRevenueAccountOnSale>
+  <AccrueLiabilityOnProductReceipt>false</AccrueLiabilityOnProductReceipt>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-04-17T20:35:42.1276229+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-04-17T20:35:42.1276229+05:30</ModifiedDate>
+</InventoryItemModelGroup>

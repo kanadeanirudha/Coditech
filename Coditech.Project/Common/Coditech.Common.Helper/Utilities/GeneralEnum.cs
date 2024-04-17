@@ -45,7 +45,8 @@
         InventoryGeneralServiecs,
         DashboardForm,
         InventoryCategory,
-        AllCities
+        AllCities,
+        InventoryModel
     }
 
     public enum GeneralSystemGlobleSettingEnum

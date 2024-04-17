@@ -113,6 +113,8 @@ namespace Coditech.Admin
             #region Inventory
             CreateMap<InventoryCategoryModel, InventoryCategoryViewModel>().ReverseMap();
             CreateMap<InventoryCategoryListModel, InventoryCategoryListViewModel>().ReverseMap();
+            CreateMap<InventoryItemModelGroupModel, InventoryItemModelGroupViewModel>().ReverseMap();
+            CreateMap<InventoryItemModelGroupListModel, InventoryItemModelGroupListViewModel>().ReverseMap();
             #endregion            
 
             #region Password
