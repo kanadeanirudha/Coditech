@@ -309,7 +309,7 @@ namespace Coditech.Admin.Agents
             };
             listViewModel.GeneralPersonAttendanceDetailsList = gymMemberList?.GeneralPersonAttendanceDetailsList?.ToViewModel<GeneralPersonAttendanceDetailsViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralPersonAttendanceDetailsList.Count, BindGymMemberAttendanceDeatailsColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralPersonAttendanceDetailsList.Count, BindGymMemberAttendanceDeatailsColumns(), false);
             return listViewModel;
         }
 

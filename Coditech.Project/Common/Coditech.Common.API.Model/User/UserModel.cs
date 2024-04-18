@@ -26,7 +26,7 @@
         public bool IsActive { get; set; }
         public string DeviceToken { get; set; }
         public string LastModuleCode { get; set; }
-        public int SelectedRoleId { get; set; }
+        public int SelectedAdminRoleMasterId { get; set; }
         public string SelectedRoleCode { get; set; }
         public string SelectedBalanceSheet { get; set; }
         public int SelectedBalanceId { get; set; }
