@@ -213,7 +213,7 @@ namespace Coditech.Common.Service
         protected virtual void ActiveInActiveUserLogin(bool flag, long entityId, string userType)
         {
             CoditechRepository<UserMaster> _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == entityId && x.UserType == userType);
+            UserMaster userMaster = _userMasterRepository.Table.Where(x => x.EntityId == entityId && x.UserType == userType)?.FirstOrDefault();
             if (userMaster != null && userMaster.IsActive != flag)
             {
                 userMaster.IsActive = flag;
@@ -224,8 +224,15 @@ namespace Coditech.Common.Service
         protected virtual short GetOrganisationCentreMasterIdByCentreCode(string centreCode)
         {
             CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == centreCode).OrganisationCentreMasterId;
+            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.Where(x => x.CentreCode == centreCode).Select( y=> y.OrganisationCentreMasterId).FirstOrDefault();
             return organisationCentreMasterId;
+        }
+
+        protected virtual string GetOrganisationCentreCodeByOrganisationCentreMasterId(short organisationCentreMasterId)
+        {
+            CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            string CentreCode = _organisationCentreMasterRepository.Table.Where(x => x.OrganisationCentreMasterId == organisationCentreMasterId).Select(y => y.CentreCode).FirstOrDefault();
+            return CentreCode;
         }
     }
 }
