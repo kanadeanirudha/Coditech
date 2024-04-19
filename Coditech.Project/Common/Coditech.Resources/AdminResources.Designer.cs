@@ -520,7 +520,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to InventoryCategoryy List.
+        ///   Looks up a localized string similar to Inventory Category List.
         /// </summary>
         public static string LabelInventoryCategoryList {
             get {

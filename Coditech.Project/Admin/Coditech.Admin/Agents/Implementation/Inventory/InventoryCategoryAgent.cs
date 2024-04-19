@@ -8,8 +8,9 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Diagnostics;
-using System.Xml.Linq;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -145,31 +146,19 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Parent Inventory",
-                ColumnCode = "ParentInventoryCategoryId",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Category Code",
-                ColumnCode = "CategoryCode",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Category Code",
-                ColumnCode = "CategoryCode",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
                 ColumnName = "Category Name",
                 ColumnCode = "CategoryName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Item",
+                ColumnName = "Category Code",
+                ColumnCode = "CategoryCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Item Prefix",
                 ColumnCode = "ItemPrefix",
             });
             return datatableColumnList;

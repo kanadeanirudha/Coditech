@@ -28,6 +28,7 @@
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
+                            @Html.HiddenFor(x => x.InventoryItemModelGroupId)
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">

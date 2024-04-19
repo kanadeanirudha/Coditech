@@ -55,9 +55,10 @@
             SalesAndPurchase,
             InventoryCategory,
             EmailService,
+            ChangePassword,
+            Dashboard,
             InventoryItemModelGroup,
             EmailTemplate,
-            ChangePassword
         }
     }
 }
