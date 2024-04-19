@@ -36,5 +36,6 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Accrue Liability On Product Receipt")]
         public bool AccrueLiabilityOnProductReceipt { get; set; }
+        public string InventoryModel { get; set; }
     }
 }

@@ -10,6 +10,7 @@
         public string ItemModelGroupName { get; set; }
         public string ItemModelGroupCode { get; set; }
         public int InventoryModelEnumId { get; set; }
+        public string InventoryModel { get; set; }
         public bool StockedProduct { get; set; }
         public bool PostPhysicalInventory { get; set; }
         public bool PostFinancialInventory { get; set; }
