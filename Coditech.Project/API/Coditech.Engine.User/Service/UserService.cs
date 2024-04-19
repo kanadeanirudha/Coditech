@@ -180,7 +180,7 @@ namespace Coditech.API.Service
                 generalPersonModel.Password = MD5Hash(password);
                 if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberFor.GymMemberRegistration.ToString(), generalPersonModel.SelectedCentreCode);
+                    generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString(), generalPersonModel.SelectedCentreCode);
                     GymMemberDetails gymMemberDetails = new GymMemberDetails()
                     {
                         CentreCode = generalPersonModel.SelectedCentreCode,
@@ -198,7 +198,7 @@ namespace Coditech.API.Service
                 }
                 else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberFor.EmployeeRegistration.ToString(), generalPersonModel.SelectedCentreCode);
+                    generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberForEnum.EmployeeRegistration.ToString(), generalPersonModel.SelectedCentreCode);
                     EmployeeMaster employeeMaster = new EmployeeMaster()
                     {
                         PersonId = generalPersonModel.PersonId,
@@ -537,7 +537,7 @@ namespace Coditech.API.Service
                     _coditechLogging.LogMessage("SelectedCentreCode or SelectedDepartmentId is null", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
                 }
 
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberFor.GymMemberRegistration.ToString());
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString());
                 if (generalEnumaratorId == 0)
                 {
                     _coditechLogging.LogMessage("EmployeeRegistration is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
@@ -552,7 +552,7 @@ namespace Coditech.API.Service
                     _coditechLogging.LogMessage("SelectedCentreCode or SelectedDepartmentId is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
                 }
 
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberFor.EmployeeRegistration.ToString());
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.EmployeeRegistration.ToString());
                 if (generalEnumaratorId == 0)
                 {
                     _coditechLogging.LogMessage("EmployeeRegistration is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);

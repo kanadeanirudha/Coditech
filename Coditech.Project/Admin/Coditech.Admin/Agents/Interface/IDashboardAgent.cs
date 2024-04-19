@@ -5,10 +5,9 @@ namespace Coditech.Admin.Agents
     public interface IDashboardAgent
     {
         /// <summary>
-        /// Get Dashboard by selectedAdminRoleMasterId.
+        /// Get GetDashboardDetails.
         /// </summary>
-        /// <param name="selectedAdminRoleMasterId">selectedAdminRoleMasterId</param>
         /// <returns>Returns DashboardViewModel.</returns>
-        DashboardViewModel GetDashboardDetails(int selectedAdminRoleMasterId);
+        DashboardViewModel GetDashboardDetails();
     }
 }

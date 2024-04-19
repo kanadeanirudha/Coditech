@@ -1,6 +1,7 @@
 ﻿using Coditech.API.Endpoint;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+
 using Newtonsoft.Json;
 
 namespace Coditech.API.Client
@@ -13,17 +14,17 @@ namespace Coditech.API.Client
             dashboardEndpoint = new DashboardEndpoint();
         }
 
-        public virtual DashboardResponse GetDashboardDetails(int selectedAdminRoleMasterId)
+        public virtual DashboardResponse GetDashboardDetails(int selectedAdminRoleMasterId, long userMasterId)
         {
-            return Task.Run(async () => await GetDashboardAsync(selectedAdminRoleMasterId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetDashboardDetailsAsync(selectedAdminRoleMasterId, userMasterId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<DashboardResponse> GetDashboardAsync(int selectedAdminRoleMasterId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<DashboardResponse> GetDashboardDetailsAsync(int selectedAdminRoleMasterId, long userMasterId, System.Threading.CancellationToken cancellationToken)
         {
             if (selectedAdminRoleMasterId <= 0)
                 throw new System.ArgumentNullException("selectedAdminRoleMasterId");
 
-            string endpoint = dashboardEndpoint.GetDashboardAsync(selectedAdminRoleMasterId);
+            string endpoint = dashboardEndpoint.GetDashboardDetailsAsync(selectedAdminRoleMasterId, userMasterId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

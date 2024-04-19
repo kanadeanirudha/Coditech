@@ -91,10 +91,15 @@
         CorrespondanceAddress,
         BusinessAddress        
     }
-    public enum GeneralRunningNumberFor
+    public enum GeneralRunningNumberForEnum
     {
         GymMemberRegistration,
         EmployeeRegistration,
         InvoiceNumber
+    }
+    public enum DashboardFormEnum
+    {
+        GymOwnerDashboard,
+        GymOperatorDashboard
     }
 }
