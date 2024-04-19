@@ -7,10 +7,10 @@ namespace Coditech.Admin.ViewModel
     {
         public short InventoryItemModelGroupId { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Item Model Group Name")]
         public string ItemModelGroupName { get; set; }
 
-        [Display(Name = "Item Model Group")]
+        [Display(Name = "Item Model Group Code")]
         public string ItemModelGroupCode { get; set; }
 
         [Display(Name = "Inventory Model")]

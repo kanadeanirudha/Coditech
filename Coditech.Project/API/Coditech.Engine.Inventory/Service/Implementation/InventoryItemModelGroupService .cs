@@ -120,8 +120,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if InventoryItemModelGroup code is already present or not.
-        protected virtual bool IsInventoryItemModelGroupCodeAlreadyExist(string inventoryItemModelGroupName, short inventoryItemModelGroupId = 0)
-         => _inventoryItemModelGroupRepository.Table.Any(x => x.ItemModelGroupName == inventoryItemModelGroupName && (x.InventoryItemModelGroupId != inventoryItemModelGroupId || inventoryItemModelGroupId == 0));
+        protected virtual bool IsInventoryItemModelGroupCodeAlreadyExist(string inventoryItemModelGroupCode, short inventoryItemModelGroupId = 0)
+         => _inventoryItemModelGroupRepository.Table.Any(x => x.ItemModelGroupCode == inventoryItemModelGroupCode && (x.InventoryItemModelGroupId != inventoryItemModelGroupId || inventoryItemModelGroupId == 0));
         #endregion
     }
 }
