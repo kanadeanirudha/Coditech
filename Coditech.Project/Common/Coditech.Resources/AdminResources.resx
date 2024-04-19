@@ -265,7 +265,7 @@
     <value>Body Measurement Type List</value>
   </data>
   <data name="LabelInventoryCategoryList" xml:space="preserve">
-    <value>InventoryCategoryy List</value>
+    <value>Inventory Category List</value>
   </data>
   <data name="LabelIsActive" xml:space="preserve">
     <value>Is Active</value>

@@ -122,6 +122,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetAllCityList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryCategory.ToString()))
+            {
+                GetInventoryCategoryList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -612,7 +616,7 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text =item.CityName,
+                    Text = item.CityName,
                     Value = Convert.ToString(item.GeneralCityMasterId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCityMasterId)
                 });
@@ -623,6 +627,27 @@ namespace Coditech.Admin.Helpers
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
             return centreCode;
+        }
+
+        private static void GetInventoryCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryCategoryListResponse response = new InventoryCategoryClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Inventory Category-------" });
+
+            InventoryCategoryListModel list = new InventoryCategoryListModel { InventoryCategoryList = response.InventoryCategoryList };
+            foreach (var item in list.InventoryCategoryList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.InventoryCategoryId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.CategoryName, " (", item.CategoryCode, ")"),
+                    Value = Convert.ToString(item.InventoryCategoryId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryCategoryId)
+                });
+            }
         }
     }
 }

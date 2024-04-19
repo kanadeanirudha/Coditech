@@ -145,31 +145,19 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Parent Inventory",
-                ColumnCode = "ParentInventoryCategoryId",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Category Code",
-                ColumnCode = "CategoryCode",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Category Code",
-                ColumnCode = "CategoryCode",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
                 ColumnName = "Category Name",
                 ColumnCode = "CategoryName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Item",
+                ColumnName = "Category Code",
+                ColumnCode = "CategoryCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Item Prefix",
                 ColumnCode = "ItemPrefix",
             });
             return datatableColumnList;
