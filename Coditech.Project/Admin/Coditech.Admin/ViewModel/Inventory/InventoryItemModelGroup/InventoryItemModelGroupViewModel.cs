@@ -14,7 +14,7 @@ namespace Coditech.Admin.ViewModel
         public string ItemModelGroupCode { get; set; }
 
         [Display(Name = "Inventory Model")]
-        public int InventoryModelEnum { get; set; }
+        public int InventoryModelEnumId { get; set; }
 
         [Display(Name = "Stocked Product")]
         public bool StockedProduct { get; set; }

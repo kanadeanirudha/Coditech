@@ -154,8 +154,8 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Inventory Model Enum",
-                ColumnCode = "InventoryModelEnum",
+                ColumnName = "Inventory Model",
+                ColumnCode = "InventoryModelEnumId",
             });
             return datatableColumnList;
         }

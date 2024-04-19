@@ -48,11 +48,11 @@
                                         <label class="form-label">Inventory Model</label>
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
-                                   DropdownSelectedValue = Model.InventoryModelEnum.ToString(),
-                                   DropdownName = "InventoryModelEnum",
+                                   DropdownSelectedValue = Model.InventoryModelEnumId.ToString(),
+                                   DropdownName = "InventoryModelEnumId",
                                    GroupCode = DropdownTypeEnum.InventoryModel.ToString()
                                })
-                                        @Html.ValidationMessageFor(x => x.InventoryModelEnum, null)
+                                        @Html.ValidationMessageFor(x => x.InventoryModelEnumId, null)
                                     </div>
                                 </div>
                             </div>

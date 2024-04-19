@@ -9,7 +9,7 @@
         public short InventoryItemModelGroupId { get; set; }
         public string ItemModelGroupName { get; set; }
         public string ItemModelGroupCode { get; set; }
-        public int InventoryModelEnum { get; set; }
+        public int InventoryModelEnumId { get; set; }
         public bool StockedProduct { get; set; }
         public bool PostPhysicalInventory { get; set; }
         public bool PostFinancialInventory { get; set; }
