@@ -69,7 +69,7 @@ namespace Coditech.API.Service
             List<AdminRoleMenuDetails> userRoleMenuList = new List<AdminRoleMenuDetails>();
             if (!userModel.IsAdminUser)
             {
-                userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedRoleId)?.ToList();
+                userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.ToList();
                 if (userRoleMenuList?.Count == 0)
                 {
                     throw new CoditechException(ErrorCodes.ContactAdministrator, null);
@@ -84,7 +84,7 @@ namespace Coditech.API.Service
                     userModel.BalanceSheetList = BindAccountBalanceSheetByRoleId(userModel);
 
                     //Bind accessible Centre
-                    List<string> centreCodeList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == userModel.SelectedRoleId)?.Select(y => y.CentreCode)?.ToList();
+                    List<string> centreCodeList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.Select(y => y.CentreCode)?.ToList();
                     List<UserAccessibleCentreModel> allCentreList = OrganisationCentreList();
                     foreach (string centreCode in centreCodeList)
                     {
@@ -378,7 +378,7 @@ namespace Coditech.API.Service
                 }
                 else
                 {
-                    userModel.SelectedRoleId = roleList.FirstOrDefault(x => x.RoleType == APIConstant.Regular).AdminRoleMasterId;
+                    userModel.SelectedAdminRoleMasterId = roleList.FirstOrDefault(x => x.RoleType == APIConstant.Regular).AdminRoleMasterId;
                     //userModel.SelectedRoleCode = roleList.FirstOrDefault(x => x.RoleType == APIConstant.Regular). AdminRoleCode;
                     foreach (AdminRoleApplicableDetails item in roleList)
                     {
@@ -468,7 +468,7 @@ namespace Coditech.API.Service
             return new List<UserBalanceSheetModel>();
             int errorCode = 0;
             CoditechViewRepository<UserBalanceSheetModel> objStoredProc = new CoditechViewRepository<UserBalanceSheetModel>();
-            objStoredProc.SetParameter("@iAdminRoleId", userModel.SelectedRoleId, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@iAdminRoleId", userModel.SelectedAdminRoleMasterId, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@iErrorCode", userModel.ErrorCode, ParameterDirection.Output, DbType.Int32);
             List<UserBalanceSheetModel> accountBalanceSheetList = objStoredProc.ExecuteStoredProcedureList("USP_GetBalancesheetList @iAdminRoleId,@iErrorCode OUT", 1, out errorCode)?.ToList();
             if (errorCode == 0 && accountBalanceSheetList?.Count > 0)
