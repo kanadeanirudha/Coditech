@@ -45,7 +45,8 @@
         InventoryGeneralServiecs,
         DashboardForm,
         InventoryCategory,
-        AllCities
+        AllCities,
+        InventoryModel
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -90,10 +91,15 @@
         CorrespondanceAddress,
         BusinessAddress        
     }
-    public enum GeneralRunningNumberFor
+    public enum GeneralRunningNumberForEnum
     {
         GymMemberRegistration,
         EmployeeRegistration,
         InvoiceNumber
+    }
+    public enum DashboardFormEnum
+    {
+        GymOwnerDashboard,
+        GymOperatorDashboard
     }
 }

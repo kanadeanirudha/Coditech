@@ -36,17 +36,19 @@ namespace Coditech.Admin.ViewModel
         public int Port { get; set; }
 
         [Required]
-        [Display(Name = "Is Enable Ssl")]
+        [Display(Name = "Is Enable SSL")]
         public bool IsEnableSsl { get; set; }
 
         [MaxLength(256)]
         [Display(Name = "From Display Name")]
         public string FromDisplayName { get; set; }
 
+        [EmailAddress]
         [MaxLength(256)]
         [Display(Name = "From Email Address")]
         public string FromEmailAddress { get; set; }
 
+        [EmailAddress]
         [MaxLength(256)]
         [Display(Name = "Bcc Email Address")]
         public string BccEmailAddress { get; set; }

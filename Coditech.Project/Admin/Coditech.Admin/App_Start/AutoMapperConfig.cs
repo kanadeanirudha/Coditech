@@ -18,7 +18,7 @@ namespace Coditech.Admin
             CreateMap<AdminRoleApplicableDetailsListModel, AdminRoleApplicableDetailsListViewModel>().ReverseMap();
             #endregion
 
-#region General Master
+            #region General Master
             CreateMap<GeneralDepartmentModel, GeneralDepartmentViewModel>().ReverseMap();
             CreateMap<GeneralDepartmentListModel, GeneralDepartmentListViewModel>().ReverseMap();
             CreateMap<GeneralCountryModel, GeneralCountryViewModel>().ReverseMap();
@@ -114,10 +114,16 @@ namespace Coditech.Admin
             #region Inventory
             CreateMap<InventoryCategoryModel, InventoryCategoryViewModel>().ReverseMap();
             CreateMap<InventoryCategoryListModel, InventoryCategoryListViewModel>().ReverseMap();
+            CreateMap<InventoryItemModelGroupModel, InventoryItemModelGroupViewModel>().ReverseMap();
+            CreateMap<InventoryItemModelGroupListModel, InventoryItemModelGroupListViewModel>().ReverseMap();
             #endregion            
 
             #region Password
             CreateMap<ChangePasswordModel, ChangePasswordViewModel>().ReverseMap();
+            #endregion
+
+            #region Dashboard
+            CreateMap<DashboardModel, DashboardViewModel>().ReverseMap();
             #endregion
         }
     }

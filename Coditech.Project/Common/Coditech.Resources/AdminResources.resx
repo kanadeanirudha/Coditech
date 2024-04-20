@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrorDeleteAdminRoleMaster" xml:space="preserve">
+  <data name="+-+" xml:space="preserve">
     <value>Failed to delete admin role due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteAdminRoleMaster" xml:space="preserve">
+    <value>Failed to delete Admin Role Master due to associate record.</value>
   </data>
   <data name="ErrorDeleteAdminSanctionPost" xml:space="preserve">
     <value>Failed to delete admin saction post due to associate record.</value>
@@ -195,6 +198,9 @@
   <data name="ErrorDeleteInventoryCategory" xml:space="preserve">
     <value>Failed to delete inventory category due to associate record.</value>
   </data>
+  <data name="ErrorDeleteInventoryItemModelGroup" xml:space="preserve">
+    <value>Failed to delete Inventory Item Model Group due to associate record.</value>
+  </data>
   <data name="ErrorDeleteOccupationMaster" xml:space="preserve">
     <value>Failed to delete Occupation due to associate record.</value>
   </data>
@@ -265,10 +271,13 @@
     <value>Body Measurement Type List</value>
   </data>
   <data name="LabelInventoryCategoryList" xml:space="preserve">
-    <value>InventoryCategoryy List</value>
+    <value>Inventory Category List</value>
   </data>
   <data name="LabelIsActive" xml:space="preserve">
     <value>Is Active</value>
+  </data>
+  <data name="LabelItemModelGroupList" xml:space="preserve">
+    <value>Item Model Group List</value>
   </data>
   <data name="LabelLeadGenerationList" xml:space="preserve">
     <value>Lead Generation List</value>
