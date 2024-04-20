@@ -1,9 +1,9 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
 using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.Admin.ViewModel
+namespace Coditech.Model
 {
-    public class OrganisationCentrewiseSmtpSettingViewModel : BaseViewModel
+    public partial class OrganisationCentrewiseSmtpSettingModel : BaseModel
     {
         [Required]
         public short OrganisationCentrewiseSmtpSettingId { get; set; }
@@ -13,49 +13,38 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [MaxLength(15)]
-        [Display(Name = "Centre Code")]
         public string CentreCode { get; set; }
 
         [Required]
         [MaxLength(200)]
-        [Display(Name = "Server Name")]
         public string ServerName { get; set; }
 
         [Required]
         [MaxLength(200)]
-        [Display(Name = "User Name")]
         public string UserName { get; set; }
 
         [Required]
         [MaxLength(200)]
-        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [Required]
-        [Display(Name = "Port")]
         public int Port { get; set; }
 
         [Required]
-        [Display(Name = "Is Enable Ssl")]
         public bool IsEnableSsl { get; set; }
 
         [MaxLength(256)]
-        [Display(Name = "From Display Name")]
         public string FromDisplayName { get; set; }
 
         [MaxLength(256)]
-        [Display(Name = "From Email Address")]
         public string FromEmailAddress { get; set; }
 
         [MaxLength(256)]
-        [Display(Name = "Bcc Email Address")]
-        public string BccEmailAddress { get; set; }
+         public string BccEmailAddress { get; set; }
 
         [Required]
-        [Display(Name = "Disable All Emails")]
         public bool DisableAllEmails { get; set; }
 
-        [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
     }
 }

@@ -56,7 +56,8 @@
             SalesAndPurchase,
             InventoryCategory,
             EmailService,
-            ChangePassword
+            ChangePassword,
+            CentrewiseSmtp
         }
     }
 }
