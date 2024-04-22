@@ -4,7 +4,8 @@
     {
         public DashboardModel()
         {
-
         }
+        public string DashboardFormEnumCode { get; set; }
+        public GymDashboardModel GymDashboardModel { get; set; }
     }
 }

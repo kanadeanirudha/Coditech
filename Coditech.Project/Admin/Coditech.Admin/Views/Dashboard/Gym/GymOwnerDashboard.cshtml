@@ -1,0 +1,137 @@
+﻿@using Coditech.Admin.Utilities;
+@using Coditech.Common.API.Model;
+@model DashboardViewModel
+@{
+    ViewBag.Title = "Dashboard";
+}
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="row">
+                        <div class="col">
+                            @*    <h4 class="page-title">Dasboard</h4> *@
+                            @* <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Dastone</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Analytics</li>
+                            </ol> *@
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div><!--end page-title-box-->
+            </div><!--end col-->
+        </div><!--end row-->
+        <!-- end page title end breadcrumb -->
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-3">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-0 fw-semibold">Active Member</p>
+                                <h3 class="m-0">@Model.GymDashboardModel.ActiveMemberCount</h3>
+                                <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users align-self-center text-muted icon-sm"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div> <!--end col-->
+            <div class="col-md-6 col-lg-3">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-0 fw-semibold">InActive Member</p>
+                                <h3 class="m-0">@Model.GymDashboardModel.InActiveMemberCount</h3>
+                                <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div> <!--end col-->
+            <div class="col-md-6 col-lg-3">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-0 fw-semibold">Total Register Member</p>
+                                <h3 class="m-0">@Model.GymDashboardModel.TotalMemberCount</h3>
+                                <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div> <!--end col-->
+            <div class="col-md-6 col-lg-3">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-0 fw-semibold">Toady's Collection</p>
+                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.GymDashboardModel.ToadysTotalCollection)</h3>
+                                <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div> <!--end col-->
+            <div class="col-md-6 col-lg-3">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-0 fw-semibold">Weekly Collection</p>
+                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.GymDashboardModel.WeekTotalCollection)</h3>
+                                <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div> <!--end col-->
+            <div class="col-md-6 col-lg-3">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-0 fw-semibold">Last 30 Day's Collection</p>
+                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.GymDashboardModel.MonthTotalCollection)</h3>
+                                <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div> <!--end col-->
+        </div><!--end row-->
+    </div><!-- container -->
+</div>

@@ -13,12 +13,14 @@ namespace Coditech.Admin.Controllers
         private const string createEdit = "~/Views/Organisation/OrganisationCentre/CreateEdit.cshtml";
         private const string OrganisationCentrePrintingFormat = "~/Views/Organisation/OrganisationCentre/OrganisationCentrePrintingFormat.cshtml";
         private const string OrganisationCentrewiseGSTCredential = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseGSTCredential.cshtml";
+        private const string OrganisationCentrewiseSmtpSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSmtpSetting.cshtml";
 
         public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
         {
             _organisationCentreAgent = organisationCentreAgent;
         }
 
+        #region OrganisationCentre 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             OrganisationCentreListViewModel list = _organisationCentreAgent.GetOrganisationCentreList(dataTableModel);
@@ -88,6 +90,9 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<OrganisationCentreMasterController>(x => x.List(null));
         }
 
+        #endregion
+
+        #region Centre Printing Format
         [HttpGet]
         public virtual ActionResult PrintingFormat(short organisationCentreId)
         {
@@ -107,7 +112,9 @@ namespace Coditech.Admin.Controllers
             }
             return View(OrganisationCentrePrintingFormat, organisationCentrePrintingFormatViewModel);
         }
+        #endregion
 
+        #region CentrewiseGSTSetup
         [HttpGet]
         public virtual ActionResult CentrewiseGSTSetup(short organisationCentreId)
         {
@@ -127,5 +134,28 @@ namespace Coditech.Admin.Controllers
             }
             return View(OrganisationCentrewiseGSTCredential, organisationCentrewiseGSTCredentialViewModel);
         }
+        #endregion
+
+        #region CentrewiseSMTPSetting
+        [HttpGet]
+        public virtual ActionResult CentrewiseSmtpSetup(short organisationCentreId) {
+            OrganisationCentrewiseSmtpSettingViewModel organisationCentrewiseSmtpSettingViewModel = _organisationCentreAgent.GetCentrewiseSmtpSetup(organisationCentreId);
+            return ActionView(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
+
+        }
+
+        [HttpPost]
+        public virtual ActionResult CentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingViewModel organisationCentrewiseSmtpSettingViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmtpSetup(organisationCentrewiseSmtpSettingViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("CentrewiseSMTPSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentrewiseSmtpSettingId});
+            }
+            return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
+        }
+        #endregion
     }
 }

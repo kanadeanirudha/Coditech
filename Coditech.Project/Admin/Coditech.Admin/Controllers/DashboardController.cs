@@ -1,10 +1,12 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Admin.Controllers
 {
     public class DashboardController : BaseController
@@ -18,8 +20,22 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual IActionResult Index()
         {
+            DashboardViewModel dashboardViewModel = _dashboardAgent.GetDashboardDetails();
+            if (IsNotNull(dashboardViewModel) && !string.IsNullOrEmpty(dashboardViewModel.DashboardFormEnumCode))
+            {
+                if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return View("~/Views/Dashboard/Gym/GymOwnerDashboard.cshtml", dashboardViewModel);
+                }
+                else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return View("~/Views/Dashboard/Gym/GymOwnerDashboard.cshtml", dashboardViewModel);
+                }
+            }
+
             return View("~/Views/Dashboard/GeneralDashboard.cshtml");
         }
+
         [AllowAnonymous]
         public virtual ActionResult TokenError(Exception exception)
         {
@@ -38,13 +54,6 @@ namespace Coditech.Admin.Controllers
             CoditechException coditechException = exception as CoditechException;
             ViewBag.ErrorMessage = coditechException?.ErrorMessage ?? exception.Message;
             return View("UnAuthorized");
-        }
-
-        [HttpGet]
-        public virtual ActionResult Dashboard(int selectedAdminRoleMasterId)
-        {
-            DashboardViewModel generalCountryViewModel = _dashboardAgent.GetDashboardDetails(selectedAdminRoleMasterId);
-            return View(generalCountryViewModel);
         }
     }
 }

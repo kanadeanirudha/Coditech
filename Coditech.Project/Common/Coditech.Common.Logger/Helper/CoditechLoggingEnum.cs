@@ -16,7 +16,6 @@
             Organisation,
             DepartmentMaster,
             CountryMaster,
-            EmailTemplate,
             FinancialYearMaster,
             TaxMaster,
             TaxGroupMaster,
@@ -58,6 +57,9 @@
             EmailService,
             ChangePassword,
             Dashboard,
+            InventoryItemModelGroup,
+            EmailTemplate,
+            CentrewiseSmtp,
             InventoryItemStorageDimension
         }
     }

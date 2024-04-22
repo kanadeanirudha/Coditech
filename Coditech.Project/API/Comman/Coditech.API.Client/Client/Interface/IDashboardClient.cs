@@ -7,7 +7,8 @@ namespace Coditech.API.Client
         /// Get Dashboard by selectedAdminRoleMasterId.
         /// </summary>
         /// <param name="selectedAdminRoleMasterId">selectedAdminRoleMasterId</param>
+        /// <param name="userMasterId">userMasterId</param>
         /// <returns>Returns DashboardResponse.</returns>
-        DashboardResponse GetDashboardDetails(int selectedAdminRoleMasterId);
+        DashboardResponse GetDashboardDetails(int selectedAdminRoleMasterId, long userMasterId);
     }
 }

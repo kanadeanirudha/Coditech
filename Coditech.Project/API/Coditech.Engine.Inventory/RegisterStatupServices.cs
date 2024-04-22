@@ -222,6 +222,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterService, InventoryGeneralItemMasterService>();
             builder.Services.AddScoped<IInventoryCategoryService, InventoryCategoryService>();
+            builder.Services.AddScoped<IInventoryItemModelGroupService, InventoryItemModelGroupService>();
             builder.Services.AddScoped<IInventoryItemStorageDimensionService, InventoryItemStorageDimensionService>();
         }
         #endregion

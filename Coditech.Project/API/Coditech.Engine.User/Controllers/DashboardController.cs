@@ -26,14 +26,14 @@ namespace Coditech.API.Controllers
             _coditechLogging = coditechLogging;
         }
 
-        [Route("/DashboardController/GetDashboard")]
+        [Route("/DashboardController/GetDashboardDetails")]
         [HttpGet]
         [Produces(typeof(DashboardResponse))]
-        public virtual IActionResult GetDashboard(int selectedAdminRoleMasterId)
+        public virtual IActionResult GetDashboardDetails(int selectedAdminRoleMasterId,long userMasterId)
         {
             try
             {
-                DashboardModel dashboardModel = _dashboardService.GetDashboard(selectedAdminRoleMasterId);
+                DashboardModel dashboardModel = _dashboardService.GetDashboardDetails(selectedAdminRoleMasterId, userMasterId);
                 return IsNotNull(dashboardModel) ? CreateOKResponse(new DashboardResponse { DashboardModel = dashboardModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

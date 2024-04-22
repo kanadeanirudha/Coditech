@@ -44,6 +44,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralRunningNumbers, GeneralRunningNumbersModel>().ReverseMap();
             CreateMap<GeneralLeadGenerationMaster, GeneralLeadGenerationModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseBuildingRooms, OrganisationCentrewiseBuildingRoomsModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseSmtpSetting, OrganisationCentrewiseSmtpSettingModel>().ReverseMap();
         }
     }
 }

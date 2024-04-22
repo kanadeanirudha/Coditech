@@ -222,5 +222,49 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseGSTCredentialResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/OrganisationCentreMaster/GetCentrewiseSmtpSetup")]
+        [HttpGet]
+        [Produces(typeof(OrganisationCentrewiseSmtpSettingResponse))]
+        public virtual IActionResult GetCentrewiseSmtpSetup(short organisationCentreMasterId)
+        {
+            try
+            {
+                OrganisationCentrewiseSmtpSettingModel organisationCentrewiseSmtpSettingModel = _organisationCentreMasterService.GetCentrewiseSmtpSetup(organisationCentreMasterId);
+                return IsNotNull(organisationCentrewiseSmtpSettingModel) ? CreateOKResponse(new OrganisationCentrewiseSmtpSettingResponse() { OrganisationCentrewiseSmtpSettingModel = organisationCentrewiseSmtpSettingModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSmtp.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmtpSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSmtp.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmtpSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/UpdateCentrewiseSmtpSetup")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseSmtpSettingResponse))]
+        public virtual IActionResult UpdateCentrewiseSmtpSetup([FromBody] OrganisationCentrewiseSmtpSettingModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdateCentrewiseSmtpSetup(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseSmtpSettingResponse { OrganisationCentrewiseSmtpSettingModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSmtp.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmtpSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSmtp.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmtpSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }
