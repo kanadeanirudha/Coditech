@@ -42,7 +42,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("CategoryCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "ParentInventoryItemStorageDimensionId" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             InventoryItemStorageDimensionListResponse response = _inventoryItemStorageDimensionClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             InventoryItemStorageDimensionListModel InventoryItemStorageDimensionList = new InventoryItemStorageDimensionListModel { InventoryItemStorageDimensionList = response?.InventoryItemStorageDimensionList };
