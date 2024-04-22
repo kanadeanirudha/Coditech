@@ -1,0 +1,18 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
+{
+    public partial class InventoryItemStorageDimension
+    {
+        [Key]
+        public short InventoryItemStorageDimensionId { get; set; }
+        public string CategoryName { get; set; }
+        public string CategoryCode { get; set; }
+        public long? CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public long? ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+
+    }
+}
+

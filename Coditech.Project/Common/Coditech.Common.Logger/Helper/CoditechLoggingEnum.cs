@@ -57,7 +57,8 @@
             InventoryCategory,
             EmailService,
             ChangePassword,
-            Dashboard
+            Dashboard,
+            InventoryItemStorageDimension
         }
     }
 }

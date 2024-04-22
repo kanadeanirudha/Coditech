@@ -120,11 +120,17 @@
   <data name="CancelButton" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ChangePasswordSuccessMessage" xml:space="preserve">
+    <value>Record Change Password Success Message updated successfully.</value>
+  </data>
   <data name="DeleteErrorMessage" xml:space="preserve">
     <value>Failed to delete the record.</value>
   </data>
   <data name="DeleteInventoryCategory" xml:space="preserve">
     <value>Record deleted Inventory Category successfully.</value>
+  </data>
+  <data name="DeleteInventoryItemStorageDimension" xml:space="preserve">
+    <value>Record deleted Inventory Item Storage Dimension successfully.</value>
   </data>
   <data name="DeleteMessage" xml:space="preserve">
     <value>Record deleted successfully.</value>
@@ -178,6 +184,6 @@
     <value>Record updated Inventory Category successfully.</value>
   </data>
   <data name="UpdateMessage" xml:space="preserve">
-    <value>Record updated successfully.</value>
+    <value>Failed to update record</value>
   </data>
 </root>
