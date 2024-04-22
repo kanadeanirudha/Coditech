@@ -67,3 +67,13 @@
 /Coditech.Project/API/Coditech.Engine.Inventory/Properties/PublishProfiles
 /Coditech.Project/API/Coditech.Engine.Organisation/Properties/PublishProfiles
 /Coditech.Project/API/Coditech.Engine.User/Properties/PublishProfiles
+/Coditech.Project/Admin/Coditech.Admin/Coditech.Engine.Admin.csproj.user
+/Coditech.Project/API/Coditech.Engine.Employee/Coditech.Engine.Employee.csproj.user
+/Coditech.Project/API/Coditech.Engine.GymManagementSystem/Coditech.Engine.GymManagementSystem.csproj.user
+/Coditech.Project/API/Coditech.Engine.Organisation/Coditech.Engine.Organisation.csproj.user
+/Coditech.Project/API/Coditech.Engine.Inventory/Coditech.Engine.Inventory.csproj.user
+/Coditech.Project/API/Coditech.Engine.User/Coditech.Engine.User.csproj.user
+/Coditech.Project/API/Coditech.Engine.GymManagementSystem/.config/dotnet-tools.json
+/Coditech.Project/API/Coditech.Engine.Inventory/.config/dotnet-tools.json
+/Coditech.Project/API/Coditech.Engine.Organisation/.config/dotnet-tools.json
+/Coditech.Project/API/Coditech.Engine.User/.config/dotnet-tools.json
