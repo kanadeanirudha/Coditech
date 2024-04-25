@@ -212,6 +212,31 @@ namespace Coditech.Admin.Agents
                 return (OrganisationCentrewiseSmtpSettingViewModel)GetViewModelWithErrorMessage(organisationCentrewiseSmtpSettingViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+
+        //Get Organisation Centrewise Email Template by organisationCentreId.
+        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(short organisationCentreId)
+        {
+            OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.GetCentrewiseEmailTemplateSetup(organisationCentreId);
+            return response?.OrganisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>();
+        }
+
+        //Update Organisation Centrewise Email Template.
+        public virtual OrganisationCentrewiseEmailTemplateViewModel UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Info);
+                OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.UpdateCentrewiseEmailTemplateSetup(organisationCentrewiseEmailTemplateViewModel.ToModel<OrganisationCentrewiseEmailTemplateModel>());
+                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = response?.OrganisationCentrewiseEmailTemplateModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CentrewiseSmtp.ToString(), TraceLevel.Info);
+                return IsNotNull(organisationCentrewiseEmailTemplateModel) ? organisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>() : (OrganisationCentrewiseEmailTemplateViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseEmailTemplateViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSmtp.ToString(), TraceLevel.Error);
+                return (OrganisationCentrewiseEmailTemplateViewModel)GetViewModelWithErrorMessage(organisationCentrewiseEmailTemplateViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
 
         #region protected

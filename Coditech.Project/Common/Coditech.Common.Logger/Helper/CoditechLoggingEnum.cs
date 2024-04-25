@@ -59,7 +59,8 @@
             Dashboard,
             InventoryItemModelGroup,
             EmailTemplate,
-            CentrewiseSmtp
+            CentrewiseSmtp,
+            CentrewiseEmailTemplate
         }
     }
 }
