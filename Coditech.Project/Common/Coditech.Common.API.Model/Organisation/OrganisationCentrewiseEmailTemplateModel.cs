@@ -5,10 +5,8 @@ namespace Coditech.Model
 {
     public partial class OrganisationCentrewiseEmailTemplateModel : BaseModel
     {
-        [Required]
         public short OrganisationCentrewiseEmailTemplateId { get; set; }
 
-        [Required]
         public short OrganisationCentreMasterId { get; set; }
 
         [Required]
@@ -28,5 +26,7 @@ namespace Coditech.Model
 
         [Required]
         public bool IsActive { get; set; }
+
+        public string CentreName { get; set; }
     }
 }

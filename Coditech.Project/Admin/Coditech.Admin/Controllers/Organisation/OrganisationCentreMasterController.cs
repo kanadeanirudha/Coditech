@@ -168,6 +168,13 @@ namespace Coditech.Admin.Controllers
 
         }
 
+        [HttpGet]
+        public virtual ActionResult GetEmailTemplateByCentreCode(short organisationCentreId, string emailTemplateCode)
+        {
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel =  _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId);
+            return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseEmailTemplate.cshtml", organisationCentrewiseEmailTemplateViewModel);
+        }
+
         [HttpPost]
         public virtual ActionResult CentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel)
         {

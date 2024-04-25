@@ -33,5 +33,6 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+        public string CentreName { get; set; }
     }
 }

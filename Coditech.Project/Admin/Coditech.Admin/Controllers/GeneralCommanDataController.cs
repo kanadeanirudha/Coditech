@@ -40,17 +40,5 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
-
-        //Get EmailTemplate By CentreCode
-        public ActionResult GetEmailTemplateByCentreCode(string centreCode)
-        {
-            DropdownViewModel departmentDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.EmailTemplate.ToString(),
-                DropdownName = "SelectedEmailTemplate",
-                Parameter = centreCode,
-            };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
-        }
     }
 }

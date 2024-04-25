@@ -6,19 +6,19 @@
     },
 
 
-    GetEmailTemplateByCentreCode: function (centreCode) {
-        var selectedItem = $(".EmailTemplate_" + centreCode).val();
+    GetEmailTemplateByCentreCode: function (organisationCentreMasterId) {
+        var selectedItem = $("#EmailTemplateCode").val();
         if (selectedItem != "") {
             CoditechCommon.ShowLodder();
             $.ajax({
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetEmailTemplateByCentreCode",
-                data: { "emailTemplate": selectedItem },
+                url: "/OrganisationCentreMaster/GetEmailTemplateByCentreCode",
+                data: { "organisationCentreId": organisationCentreMasterId, "emailTemplateCode": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    $(".EmailTemplate_" + centreCode).html("").html(data);
+                    $("#emailTemplateId").html("").html(data);
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -28,7 +28,7 @@
             });
         }
         else {
-            $(".EmailTemplate_" + centreCode).html("");
+            $("#EmailTemplateCode").html("");
         }
     },
 }

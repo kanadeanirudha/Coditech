@@ -7,8 +7,11 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Model;
+
 using Microsoft.AspNetCore.Mvc;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Controllers
@@ -270,11 +273,11 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
-        public virtual IActionResult GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId)
+        public virtual IActionResult GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode)
         {
             try
             {
-                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = _organisationCentreMasterService.GetCentrewiseEmailTemplateSetup(organisationCentreMasterId);
+                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = _organisationCentreMasterService.GetCentrewiseEmailTemplateSetup(organisationCentreMasterId, emailTemplateCode);
                 return IsNotNull(organisationCentrewiseEmailTemplateModel) ? CreateOKResponse(new OrganisationCentrewiseEmailTemplateResponse() { OrganisationCentrewiseEmailTemplateModel = organisationCentrewiseEmailTemplateModel }) : NotFound();
             }
             catch (CoditechException ex)
