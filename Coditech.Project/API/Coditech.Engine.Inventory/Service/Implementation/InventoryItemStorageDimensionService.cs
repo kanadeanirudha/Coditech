@@ -48,7 +48,7 @@ namespace Coditech.API.Service
             if (IsNull(inventoryItemStorageDimensionModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsInventoryItemStorageDimensionCodeAlreadyExist(inventoryItemStorageDimensionModel.CategoryCode))
+            if (IsInventoryItemStorageDimensionCodeAlreadyExist(inventoryItemStorageDimensionModel.StorageDimensionCode))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "InventoryItemStorageDimension Code"));
 
             InventoryItemStorageDimension inventoryItemStorageDimension = inventoryItemStorageDimensionModel.FromModelToEntity<InventoryItemStorageDimension>();
@@ -88,7 +88,7 @@ namespace Coditech.API.Service
             if (inventoryItemStorageDimensionModel.InventoryItemStorageDimensionId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "InventoryItemStorageDimensionID"));
 
-            if (IsInventoryItemStorageDimensionCodeAlreadyExist(inventoryItemStorageDimensionModel.CategoryCode, inventoryItemStorageDimensionModel.InventoryItemStorageDimensionId))
+            if (IsInventoryItemStorageDimensionCodeAlreadyExist(inventoryItemStorageDimensionModel.StorageDimensionCode, inventoryItemStorageDimensionModel.InventoryItemStorageDimensionId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "InventoryItemStorageDimension Code"));
 
             InventoryItemStorageDimension inventoryItemStorageDimension = inventoryItemStorageDimensionModel.FromModelToEntity<InventoryItemStorageDimension>();
@@ -120,8 +120,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if InventoryItemStorageDimension code is already present or not.
-        protected virtual bool IsInventoryItemStorageDimensionCodeAlreadyExist(string categoryName, short inventoryItemStorageDimensionId = 0)
-         => _inventoryItemStorageDimensionRepository.Table.Any(x => x.CategoryName == categoryName && (x.InventoryItemStorageDimensionId != inventoryItemStorageDimensionId || inventoryItemStorageDimensionId == 0));
+        protected virtual bool IsInventoryItemStorageDimensionCodeAlreadyExist(string storageDimensionCode, short inventoryItemStorageDimensionId = 0)
+         => _inventoryItemStorageDimensionRepository.Table.Any(x => x.StorageDimensionCode == storageDimensionCode && (x.InventoryItemStorageDimensionId != inventoryItemStorageDimensionId || inventoryItemStorageDimensionId == 0));
         #endregion
     }
 }

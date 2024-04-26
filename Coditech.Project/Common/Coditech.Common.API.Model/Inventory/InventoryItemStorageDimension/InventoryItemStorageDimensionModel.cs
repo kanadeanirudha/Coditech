@@ -7,8 +7,8 @@
 
         }
         public short InventoryItemStorageDimensionId { get; set; }
-        public string CategoryCode { get; set; }
-        public string CategoryName { get; set; }      
+        public string StorageDimensionName { get; set; }
+        public string StorageDimensionCode { get; set; }      
     
     }
 }

@@ -37,9 +37,8 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("ParentInventoryItemStorageDimensionId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("CategoryName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("CategoryCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("StorageDimensionName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("StorageDimensionCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -151,7 +150,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Storage Dimension Code",
-                ColumnCode = "Storage Dimension Code",
+                ColumnCode = "StorageDimensionCode",
                 IsSortable = true,
             });
             return datatableColumnList;
