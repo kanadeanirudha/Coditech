@@ -1,17 +1,15 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
-    public partial class GeneralEmailTemplate
+    public partial class OrganisationCentrewiseEmailTemplate
     {
-        public short GeneralEmailTemplateId { get; set; }
-        
-        public string EmailTemplateCode { get; set; }
-        
-        public string EmailTemplateName { get; set; }
-        
+        [Key]
+        public short OrganisationCentrewiseEmailTemplateId { get; set; }      
+        public string CentreCode { get; set; }
+        public string EmailTemplateCode { get; set; }        
         public string Subject { get; set; }
-        
         public string EmailTemplate { get; set; }
-        
         public bool IsActive { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

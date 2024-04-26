@@ -60,6 +60,7 @@
             InventoryItemModelGroup,
             EmailTemplate,
             CentrewiseSmtp,
+            CentrewiseEmailTemplate,
             InventoryItemStorageDimension
         }
     }

@@ -14,6 +14,7 @@ namespace Coditech.Admin.Controllers
         private const string OrganisationCentrePrintingFormat = "~/Views/Organisation/OrganisationCentre/OrganisationCentrePrintingFormat.cshtml";
         private const string OrganisationCentrewiseGSTCredential = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseGSTCredential.cshtml";
         private const string OrganisationCentrewiseSmtpSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSmtpSetting.cshtml";
+        private const string OrganisationCentrewiseEmailTemplate = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseEmailTemplate.cshtml";
 
         public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
         {
@@ -155,6 +156,36 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("CentrewiseSMTPSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentrewiseSmtpSettingId});
             }
             return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
+        }
+        #endregion
+
+        #region CentrewiseEmailTemplate
+        [HttpGet]
+        public virtual ActionResult CentrewiseEmailTemplateSetup(short organisationCentreId)
+        {
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId);
+            return ActionView(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
+
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetEmailTemplateByCentreCode(short organisationCentreId, string emailTemplateCode)
+        {
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel =  _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId);
+            return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseEmailTemplate.cshtml", organisationCentrewiseEmailTemplateViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult CentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseEmailTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentrewiseEmailTemplateId });
+            }
+            return View(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
         #endregion
     }

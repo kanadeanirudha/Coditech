@@ -77,9 +77,23 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Update Organisation Centrewise Smtp Setting.
         /// </summary>
-        /// <param name="organisationCentrewiseSmtpSettingViewModel">organisationCentrePrintingFormatViewModel.</param>
+        /// <param name="organisationCentrewiseSmtpSettingViewModel">organisationCentrewiseSmtpSettingViewModel.</param>
         /// <returns>Returns updated OrganisationCentrewiseSmtpSettingViewModel</returns>
         OrganisationCentrewiseSmtpSettingViewModel UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingViewModel organisationCentrewiseSmtpSettingViewModel);
+
+        /// <summary>
+        /// Get Organisation Centrewise Email Template by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseEmailTemplateViewModel.</returns>
+        OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(short organisationCentreId);
+
+        /// <summary>
+        /// Update Organisation Centrewise Email Template.
+        /// </summary>
+        /// <param name="organisationCentrewiseEmailTemplateViewModel">organisationCentrewiseEmailTemplateViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseEmailTemplateViewModel</returns>
+        OrganisationCentrewiseEmailTemplateViewModel UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel);
     }
 }
 
