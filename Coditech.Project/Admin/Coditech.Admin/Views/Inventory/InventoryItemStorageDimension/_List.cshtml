@@ -18,8 +18,8 @@
                     foreach (var item in Model?.InventoryItemStorageDimensionList)
                     {
                         <tr>
-                            <td>@item.CategoryName</td>
-                            <td>@item.CategoryCode</td>
+                            <td>@item.StorageDimensionName</td>
+                            <td>@item.StorageDimensionCode</td>
                             <td class="text-center">
                                 <a href="../@controllerName/Edit?inventoryItemStorageDimensionId=@item.InventoryItemStorageDimensionId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
                                 <a href="../@controllerName/Delete?InventoryItemStorageDimensionId=@item.InventoryItemStorageDimensionId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
