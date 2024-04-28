@@ -51,7 +51,7 @@ namespace Coditech.API.Service
             {
                 toDate = DateTime.Now;
             }
-
+            toDate = DateTime.Now.AddDays(1);
             // Bind the Filter, sorts & Paging shipPlan.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GymMemberSalesInvoiceModel> objStoredProc = new CoditechViewRepository<GymMemberSalesInvoiceModel>(_serviceProvider.GetService<Coditech_Entities>());
