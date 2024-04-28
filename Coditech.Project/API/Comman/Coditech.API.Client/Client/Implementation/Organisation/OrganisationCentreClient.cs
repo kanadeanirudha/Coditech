@@ -565,17 +565,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
         {
-            return Task.Run(async () => await GetCentrewiseEmailTemplateSetupAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetCentrewiseEmailTemplateSetupAsync(organisationCentreId,emailTemplateCode, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseEmailTemplateSetupAsync(short organisationCentreId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseEmailTemplateSetupAsync(short organisationCentreId, string emailTemplateCode, System.Threading.CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
 
-            string endpoint = organisationCentreEndpoint.GetCentrewiseEmailTemplateSetupAsync(organisationCentreId);
+            string endpoint = organisationCentreEndpoint.GetCentrewiseEmailTemplateSetupAsync(organisationCentreId,emailTemplateCode);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
