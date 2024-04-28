@@ -102,7 +102,6 @@ namespace Coditech.API.Data
         #endregion
 
         #region Inventory
-        public DbSet<InventoryProductDimensionGroup> InventoryProductDimensionGroup { get; set; }
         public DbSet<InventoryCategory> InventoryCategory { get; set; }
         public DbSet<InventoryItemStorageDimension> InventoryItemStorageDimension { get; set; }
         public DbSet<InventoryGeneralItemMaster> InventoryGeneralItemMaster { get; set; }
@@ -110,6 +109,8 @@ namespace Coditech.API.Data
         public DbSet<InventoryItemModelGroup> InventoryItemModelGroup { get; set; }
         public DbSet<InventoryItemTrackingDimension> InventoryItemTrackingDimension { get; set; }
         public DbSet<InventoryProductDimension> InventoryProductDimension { get; set; }
+        public DbSet<InventoryProductDimensionGroup> InventoryProductDimensionGroup { get; set; }
+        public DbSet<InventoryProductDimensionGroupMapper> InventoryProductDimensionGroupMapper { get; set; }
         
         #endregion
 

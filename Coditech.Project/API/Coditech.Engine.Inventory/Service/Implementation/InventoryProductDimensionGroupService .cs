@@ -18,11 +18,15 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<InventoryProductDimensionGroup> _inventoryProductDimensionGroupRepository;
+        private readonly ICoditechRepository<InventoryProductDimensionGroupMapper> _inventoryProductDimensionGroupMapperRepository;
+        private readonly ICoditechRepository<InventoryProductDimension> _inventoryProductDimensionRepository;
         public InventoryProductDimensionGroupService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _inventoryProductDimensionGroupRepository = new CoditechRepository<InventoryProductDimensionGroup>(_serviceProvider.GetService<Coditech_Entities>());
+            _inventoryProductDimensionGroupMapperRepository = new CoditechRepository<InventoryProductDimensionGroupMapper>(_serviceProvider.GetService<Coditech_Entities>());
+            _inventoryProductDimensionRepository = new CoditechRepository<InventoryProductDimension>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual InventoryProductDimensionGroupListModel GetInventoryProductDimensionGroupList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -70,12 +74,40 @@ namespace Coditech.API.Service
         //Get InventoryProductDimensionGroup by InventoryProductDimensionGroup id.
         public virtual InventoryProductDimensionGroupModel GetInventoryProductDimensionGroup(int inventoryProductDimensionGroupId)
         {
-            if (inventoryProductDimensionGroupId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "InventoryProductDimensionGroupID"));
-
+            InventoryProductDimensionGroupModel inventoryProductDimensionGroupModel = new InventoryProductDimensionGroupModel();
+            List<InventoryProductDimensionGroupMapper> inventoryProductDimensionGroupMapperList = new List<InventoryProductDimensionGroupMapper>();
             //Get the InventoryProductDimensionGroup Details based on id.
-            InventoryProductDimensionGroup inventoryProductDimensionGroup = _inventoryProductDimensionGroupRepository.Table.FirstOrDefault(x => x.InventoryProductDimensionGroupId == inventoryProductDimensionGroupId);
-            InventoryProductDimensionGroupModel inventoryProductDimensionGroupModel = inventoryProductDimensionGroup?.FromEntityToModel<InventoryProductDimensionGroupModel>();
+            if (inventoryProductDimensionGroupId > 0)
+            {
+                InventoryProductDimensionGroup inventoryProductDimensionGroup = _inventoryProductDimensionGroupRepository.Table.Where(x => x.InventoryProductDimensionGroupId == inventoryProductDimensionGroupId)?.FirstOrDefault();
+                inventoryProductDimensionGroupModel = inventoryProductDimensionGroup?.FromEntityToModel<InventoryProductDimensionGroupModel>();
+                inventoryProductDimensionGroupMapperList = _inventoryProductDimensionGroupMapperRepository.Table.Where(x => x.InventoryProductDimensionGroupId == inventoryProductDimensionGroupId)?.ToList();
+            }
+
+            List<InventoryProductDimension> inventoryProductDimensionList = _inventoryProductDimensionRepository.Table.ToList();
+            foreach (InventoryProductDimension inventoryProductDimension in inventoryProductDimensionList)
+            {
+                InventoryProductDimensionGroupMapperModel inventoryProductDimensionGroupMapperModel = new InventoryProductDimensionGroupMapperModel()
+                {
+                    InventoryProductDimensionId = inventoryProductDimension.InventoryProductDimensionId,
+                    ProductDimensionName = inventoryProductDimension.ProductDimensionName
+                };
+
+                if (inventoryProductDimensionGroupMapperList?.Count > 0)
+                {
+                    InventoryProductDimensionGroupMapper inventoryProductDimensionGroupMapper = inventoryProductDimensionGroupMapperList.FirstOrDefault(x => x.InventoryProductDimensionId == inventoryProductDimension.InventoryProductDimensionId);
+                    if (IsNotNull(inventoryProductDimensionGroupMapper))
+                    {
+                        inventoryProductDimensionGroupMapperModel.ForPurchase = inventoryProductDimensionGroupMapper.ForPurchase;
+                        inventoryProductDimensionGroupMapperModel.ForSale = inventoryProductDimensionGroupMapper.ForSale;
+                        inventoryProductDimensionGroupMapperModel.IsActive = inventoryProductDimensionGroupMapper.IsActive;
+                        inventoryProductDimensionGroupMapperModel.DisplayOrder = inventoryProductDimensionGroupMapper.DisplayOrder;
+                    }
+                }
+
+                inventoryProductDimensionGroupModel.InventoryProductDimensionGroupMapperList.Add(inventoryProductDimensionGroupMapperModel);
+            }
+
             return inventoryProductDimensionGroupModel;
         }
 

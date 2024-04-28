@@ -152,12 +152,6 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "ProductDimensionGroupCode",
                 IsSortable = true,
             });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Display Order",
-                ColumnCode = "DisplayOrder",
-                IsSortable = true,
-            });
             return datatableColumnList;
         }
         #endregion

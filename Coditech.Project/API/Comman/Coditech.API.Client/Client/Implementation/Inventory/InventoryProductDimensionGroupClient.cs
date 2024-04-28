@@ -124,9 +124,6 @@ namespace Coditech.API.Client
 
         public virtual async Task<InventoryProductDimensionGroupResponse> GetInventoryProductDimensionGroupAsync(int inventoryProductDimensionGroupId, System.Threading.CancellationToken cancellationToken)
         {
-            if (inventoryProductDimensionGroupId <= 0)
-                throw new System.ArgumentNullException("inventoryProductDimensionGroupId");
-
             string endpoint = inventoryProductDimensionGroupEndpoint.GetInventoryProductDimensionGroupAsync(inventoryProductDimensionGroupId);
             HttpResponseMessage response = null;
             var disposeResponse = true;

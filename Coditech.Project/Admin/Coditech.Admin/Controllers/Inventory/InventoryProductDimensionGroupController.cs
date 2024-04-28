@@ -30,7 +30,8 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
-            return View(createEdit, new InventoryProductDimensionGroupViewModel());
+            InventoryProductDimensionGroupViewModel inventoryProductDimensionGroupViewModel = _inventoryProductDimensionGroupAgent.GetInventoryProductDimensionGroup(0);
+            return View(createEdit, inventoryProductDimensionGroupViewModel);
         }
 
         [HttpPost]
