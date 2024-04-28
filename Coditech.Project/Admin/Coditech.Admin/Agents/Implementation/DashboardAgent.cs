@@ -1,5 +1,7 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
@@ -24,10 +26,17 @@ namespace Coditech.Admin.Agents
         #region Public Methods
 
         //Get Dashboard by general selected Admin Role Master id.
-        public virtual DashboardViewModel GetDashboardDetails(int selectedAdminRoleMasterId)
+        public virtual DashboardViewModel GetDashboardDetails()
         {
-            DashboardResponse response = _dashboardClient.GetDashboardDetails(selectedAdminRoleMasterId);
-            return response?.DashboardModel.ToViewModel<DashboardViewModel>();
+            int selectedAdminRoleMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedAdminRoleMasterId ?? 0;
+            long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+            DashboardViewModel dashboardViewModel = new DashboardViewModel();
+            if (selectedAdminRoleMasterId > 0 && userMasterId > 0)
+            {
+                DashboardResponse response = _dashboardClient.GetDashboardDetails(selectedAdminRoleMasterId, userMasterId);
+                dashboardViewModel = response?.DashboardModel?.ToViewModel<DashboardViewModel>();
+            }
+            return dashboardViewModel;
         }
 
         #endregion

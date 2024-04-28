@@ -70,6 +70,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record Change Password Success Message updated successfully..
+        /// </summary>
+        public static string ChangePasswordSuccessMessage {
+            get {
+                return ResourceManager.GetString("ChangePasswordSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete the record..
         /// </summary>
         public static string DeleteErrorMessage {
@@ -84,6 +93,15 @@ namespace Coditech.Resources {
         public static string DeleteInventoryCategory {
             get {
                 return ResourceManager.GetString("DeleteInventoryCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record deleted Inventory Item Storage Dimension successfully..
+        /// </summary>
+        public static string DeleteInventoryItemStorageDimension {
+            get {
+                return ResourceManager.GetString("DeleteInventoryItemStorageDimension", resourceCulture);
             }
         }
         
@@ -241,22 +259,11 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record updated successfully..
+        ///   Looks up a localized string similar to Failed to update record.
         /// </summary>
         public static string UpdateMessage {
             get {
                 return ResourceManager.GetString("UpdateMessage", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Change Password successfully..
-        /// </summary>
-        public static string ChangePasswordSuccessMessage
-        {
-            get
-            {
-                return ResourceManager.GetString("ChangePasswordSuccessMessage", resourceCulture);
             }
         }
     }

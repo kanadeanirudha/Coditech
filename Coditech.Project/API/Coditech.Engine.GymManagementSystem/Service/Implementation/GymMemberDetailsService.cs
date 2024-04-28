@@ -344,7 +344,7 @@ namespace Coditech.API.Service
         #region Protected Method
         protected virtual long SaveSalesInvoiceDetails(GymMemberMembershipPlanModel gymMemberMembershipPlanModel, GymMembershipPlan gymMembershipPlan)
         {
-            string invoiceNumber = GenerateRegistrationCode(GeneralRunningNumberFor.InvoiceNumber.ToString(), gymMembershipPlan.CentreCode);
+            string invoiceNumber = GenerateRegistrationCode(GeneralRunningNumberForEnum.InvoiceNumber.ToString(), gymMembershipPlan.CentreCode);
             if (string.IsNullOrEmpty(invoiceNumber))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 

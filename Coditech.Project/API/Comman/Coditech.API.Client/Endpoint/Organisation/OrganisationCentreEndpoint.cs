@@ -34,5 +34,17 @@ namespace Coditech.API.Endpoint
 
         public string UpdateCentrewiseGSTSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseGSTSetup";
+
+        public string GetCentrewiseSmtpSetupAsync(short organisationCentreId) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseSmtpSetup?organisationCentreMasterId={organisationCentreId}";
+
+        public string UpdateCentrewiseSmtpSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseSmtpSetup";
+
+        public string GetCentrewiseEmailTemplateSetupAsync(short organisationCentreId) =>
+          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup?organisationCentreMasterId={organisationCentreId}";
+
+        public string UpdateCentrewiseEmailTemplateSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseEmailTemplateSetup";
     }
 }

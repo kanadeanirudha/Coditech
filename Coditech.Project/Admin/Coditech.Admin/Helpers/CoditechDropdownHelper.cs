@@ -126,6 +126,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetInventoryCategoryList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.EmailTemplate.ToString()))
+            {
+                GetEmailTemplateCodeList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -646,6 +650,30 @@ namespace Coditech.Admin.Helpers
                     Text = string.Concat(item.CategoryName, " (", item.CategoryCode, ")"),
                     Value = Convert.ToString(item.InventoryCategoryId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryCategoryId)
+                });
+            }
+        }
+
+        private static void GetEmailTemplateCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralEmailTemplateListResponse response = new GeneralEmailTemplateClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Email Template-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Email Template-------" });
+
+            GeneralEmailTemplateListModel list = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response.GeneralEmailTemplateList };
+            foreach (var item in list.GeneralEmailTemplateList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.GeneralEmailTemplateId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.EmailTemplateName),
+                    Value = Convert.ToString(item.EmailTemplateCode),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmailTemplateCode)
                 });
             }
         }

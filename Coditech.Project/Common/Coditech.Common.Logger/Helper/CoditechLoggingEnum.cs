@@ -59,6 +59,9 @@
             Dashboard,
             InventoryItemModelGroup,
             EmailTemplate,
+            CentrewiseSmtp,
+            CentrewiseEmailTemplate,
+            InventoryItemStorageDimension,
             InventoryProductDimension,
         }
     }

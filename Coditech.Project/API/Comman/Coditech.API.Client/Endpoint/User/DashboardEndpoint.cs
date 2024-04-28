@@ -5,7 +5,7 @@ namespace Coditech.API.Endpoint
 {
     public class DashboardEndpoint : BaseEndpoint
     {
-        public string GetDashboardAsync(int selectedAdminRoleMasterId) =>
-            $"{CoditechAdminSettings.CoditechUserApiRootUri}/DashboardController/GetDashboardDetails?selectedAdminRoleMasterId={selectedAdminRoleMasterId}";
+        public string GetDashboardDetailsAsync(int selectedAdminRoleMasterId,long userMasterId) =>
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/DashboardController/GetDashboardDetails?selectedAdminRoleMasterId={selectedAdminRoleMasterId}&userMasterId={userMasterId}";
     }
 }

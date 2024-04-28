@@ -56,6 +56,7 @@ namespace Coditech.Admin
             #region Inventory
             builder.Services.AddScoped<IInventoryItemModelGroupAgent, InventoryItemModelGroupAgent>();
             builder.Services.AddScoped<IInventoryCategoryAgent, InventoryCategoryAgent>();
+            builder.Services.AddScoped<IInventoryItemStorageDimensionAgent, InventoryItemStorageDimensionAgent>();
             #endregion
             #endregion
 
@@ -103,6 +104,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGymSalesInvoiceClient, GymSalesInvoiceClient>();
             builder.Services.AddScoped<IDashboardClient, DashboardClient>();
             builder.Services.AddScoped<IInventoryItemModelGroupClient, InventoryItemModelGroupClient>();
+            builder.Services.AddScoped<IInventoryItemStorageDimensionClient, InventoryItemStorageDimensionClient>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionClient, InventoryItemTrackingDimensionClient>();
             builder.Services.AddScoped<IInventoryProductDimensionClient, InventoryProductDimensionClient>();
 

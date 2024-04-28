@@ -43,6 +43,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrewiseGSTCredential> OrganisationCentrewiseGSTCredential { get; set; }
         public DbSet<OrganisationCentrewiseBuildingRooms> OrganisationCentrewiseBuildingRooms { get; set; }
         public DbSet<OrganisationCentrewiseSmtpSetting> OrganisationCentrewiseSmtpSetting { get; set; }
+        public DbSet<OrganisationCentrewiseEmailTemplate> OrganisationCentrewiseEmailTemplate { get; set; }
         #endregion
 
         #region Admin
@@ -102,6 +103,7 @@ namespace Coditech.API.Data
 
         #region Inventory
         public DbSet<InventoryCategory> InventoryCategory { get; set; }
+        public DbSet<InventoryItemStorageDimension> InventoryItemStorageDimension { get; set; }
         public DbSet<InventoryGeneralItemMaster> InventoryGeneralItemMaster { get; set; }
         public DbSet<InventoryGeneralItemLine> InventoryGeneralItemLine { get; set; }
         public DbSet<InventoryItemModelGroup> InventoryItemModelGroup { get; set; }
