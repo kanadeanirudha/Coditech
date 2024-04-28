@@ -105,6 +105,9 @@ namespace Coditech.API.Data
         public DbSet<InventoryGeneralItemMaster> InventoryGeneralItemMaster { get; set; }
         public DbSet<InventoryGeneralItemLine> InventoryGeneralItemLine { get; set; }
         public DbSet<InventoryItemModelGroup> InventoryItemModelGroup { get; set; }
+        public DbSet<InventoryItemTrackingDimension> InventoryItemTrackingDimension { get; set; }
+        public DbSet<InventoryProductDimension> InventoryProductDimension { get; set; }
+        
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

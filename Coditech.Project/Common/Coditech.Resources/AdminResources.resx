@@ -201,6 +201,9 @@
   <data name="ErrorDeleteInventoryItemModelGroup" xml:space="preserve">
     <value>Failed to delete Inventory Item Model Group due to associate record.</value>
   </data>
+  <data name="ErrorDeleteInventoryProductDimension" xml:space="preserve">
+    <value>Failed to delete inventory product dimension due to associate record.</value>
+  </data>
   <data name="ErrorDeleteOccupationMaster" xml:space="preserve">
     <value>Failed to delete Occupation due to associate record.</value>
   </data>
@@ -272,6 +275,9 @@
   </data>
   <data name="LabelInventoryCategoryList" xml:space="preserve">
     <value>Inventory Category List</value>
+  </data>
+  <data name="LabelInventoryProductDimensionList" xml:space="preserve">
+    <value>Inventory Product Dimension List</value>
   </data>
   <data name="LabelIsActive" xml:space="preserve">
     <value>Is Active</value>
