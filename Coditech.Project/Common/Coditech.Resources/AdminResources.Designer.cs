@@ -313,6 +313,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory Product Dimension Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryProductDimensionGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryProductDimensionGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory Item Storage Dimension due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryItemStorageDimension {
@@ -543,6 +552,15 @@ namespace Coditech.Resources {
         public static string LabelInventoryCategoryList {
             get {
                 return ResourceManager.GetString("LabelInventoryCategoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Product Dimension Group List.
+        /// </summary>
+        public static string LabelInventoryProductDimensionGroupList {
+            get {
+                return ResourceManager.GetString("LabelInventoryProductDimensionGroupList", resourceCulture);
             }
         }
         

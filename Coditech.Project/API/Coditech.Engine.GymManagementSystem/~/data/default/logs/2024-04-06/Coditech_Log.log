@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlanPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanPackageId>0</GymMembershipPlanPackageId>
+  <GymMembershipPlanId>7</GymMembershipPlanId>
+  <InventoryGeneralItemLineId>0</InventoryGeneralItemLineId>
+  <ServiceCost>0</ServiceCost>
+  <CreatedBy xsi:nil="true" />
+  <CreatedDate xsi:nil="true" />
+  <ModifiedBy xsi:nil="true" />
+  <ModifiedDate xsi:nil="true" />
+</GymMembershipPlanPackage><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlanPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanPackageId>0</GymMembershipPlanPackageId>
+  <GymMembershipPlanId>7</GymMembershipPlanId>
+  <InventoryGeneralItemLineId>0</InventoryGeneralItemLineId>
+  <ServiceCost>0</ServiceCost>
+  <CreatedBy xsi:nil="true" />
+  <CreatedDate xsi:nil="true" />
+  <ModifiedBy xsi:nil="true" />
+  <ModifiedDate xsi:nil="true" />
+</GymMembershipPlanPackage><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlanPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanPackageId>0</GymMembershipPlanPackageId>
+  <GymMembershipPlanId>7</GymMembershipPlanId>
+  <InventoryGeneralItemLineId>0</InventoryGeneralItemLineId>
+  <ServiceCost>0</ServiceCost>
+  <CreatedBy xsi:nil="true" />
+  <CreatedDate xsi:nil="true" />
+  <ModifiedBy xsi:nil="true" />
+  <ModifiedDate xsi:nil="true" />
+</GymMembershipPlanPackage><?xml version="1.0" encoding="utf-16"?>
+<GymMembershipPlanPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GymMembershipPlanPackageId>0</GymMembershipPlanPackageId>
+  <GymMembershipPlanId>9</GymMembershipPlanId>
+  <InventoryGeneralItemLineId>0</InventoryGeneralItemLineId>
+  <ServiceCost>0</ServiceCost>
+  <CreatedBy xsi:nil="true" />
+  <CreatedDate xsi:nil="true" />
+  <ModifiedBy xsi:nil="true" />
+  <ModifiedDate xsi:nil="true" />
+</GymMembershipPlanPackage>
