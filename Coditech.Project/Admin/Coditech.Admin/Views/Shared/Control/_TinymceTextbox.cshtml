@@ -1,9 +1,9 @@
-﻿@model string
-<textarea id="@Model" class="form-control"></textarea>
+﻿@model TinymceTextboxViewModel
+<textarea id="@Model.Id" class="form-control">@Model.Data</textarea>
 <script src="https://cdn.tiny.cloud/1/o0x444idw8ayjhdnx713uvfpluef0dkh1n7geywd93dubpw1/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     tinymce.init({
-        selector: 'textarea#@Model',
+        selector: 'textarea#@Model.Id',
         // height: 500,
         plugins: [
             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
