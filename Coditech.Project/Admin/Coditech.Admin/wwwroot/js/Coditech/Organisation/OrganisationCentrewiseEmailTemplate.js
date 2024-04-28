@@ -28,7 +28,7 @@
             });
         }
         else {
-            $("#EmailTemplateCode").html("");
+            $("#emailTemplateId").html("");
         }
     },
 }

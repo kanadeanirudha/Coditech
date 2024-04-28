@@ -90,6 +90,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Bank IFSC Code")]
         public string BankIFSCCode { get; set; }
 
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
     }
 
