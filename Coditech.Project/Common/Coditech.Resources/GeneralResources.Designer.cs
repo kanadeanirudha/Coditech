@@ -88,24 +88,6 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record deleted Inventory Category successfully..
-        /// </summary>
-        public static string DeleteInventoryCategory {
-            get {
-                return ResourceManager.GetString("DeleteInventoryCategory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Record deleted Inventory Item Storage Dimension successfully..
-        /// </summary>
-        public static string DeleteInventoryItemStorageDimension {
-            get {
-                return ResourceManager.GetString("DeleteInventoryItemStorageDimension", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Record deleted successfully..
         /// </summary>
         public static string DeleteMessage {
@@ -124,7 +106,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to create.
+        ///   Looks up a localized string similar to Failed to create..
         /// </summary>
         public static string ErrorFailedToCreate {
             get {
@@ -250,16 +232,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record updated Inventory Category successfully..
-        /// </summary>
-        public static string UpdateInventoryCategory {
-            get {
-                return ResourceManager.GetString("UpdateInventoryCategory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to update record.
+        ///   Looks up a localized string similar to Record updated successfully..
         /// </summary>
         public static string UpdateMessage {
             get {
