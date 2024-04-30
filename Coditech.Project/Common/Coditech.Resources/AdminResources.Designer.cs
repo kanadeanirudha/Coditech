@@ -356,7 +356,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete hospitalDoctorAllocatedOPDRoom due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalDoctorAllocatedOPDRoom
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalDoctorAllocatedOPDRoom", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
         /// </summary>

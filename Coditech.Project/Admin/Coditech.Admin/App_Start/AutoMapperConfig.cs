@@ -108,6 +108,8 @@ namespace Coditech.Admin
             #region HMS
             CreateMap<HospitalDoctorsModel, HospitalDoctorsViewModel>().ReverseMap();
             CreateMap<HospitalDoctorsListModel, HospitalDoctorsListViewModel>().ReverseMap();
+            CreateMap<HospitalDoctorAllocatedOPDRoomModel, HospitalDoctorAllocatedOPDRoomViewModel>().ReverseMap();
+            CreateMap<HospitalDoctorAllocatedOPDRoomListModel, HospitalDoctorAllocatedOPDRoomListViewModel>().ReverseMap();
             #endregion
 
             #region Inventory
