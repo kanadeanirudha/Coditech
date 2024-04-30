@@ -204,6 +204,9 @@
   <data name="ErrorDeleteInventoryItemStorageDimension" xml:space="preserve">
     <value>Failed to delete Inventory Item Storage Dimension due to associate record.</value>
   </data>
+  <data name="ErrorDeleteInventoryItemTrackingDimension" xml:space="preserve">
+    <value>Failed to delete inventory item tracking dimension due to associate record.</value>
+  </data>
   <data name="ErrorDeleteInventoryProductDimension" xml:space="preserve">
     <value>Failed to delete inventory product dimension due to associate record.</value>
   </data>
@@ -281,6 +284,9 @@
   </data>
   <data name="LabelInventoryItemStorageDimensionList" xml:space="preserve">
     <value>Inventory Item Storage Dimension List</value>
+  </data>
+  <data name="LabelInventoryItemTrackingDimensionList" xml:space="preserve">
+    <value>Label Inventory Item Tracking Dimension List</value>
   </data>
   <data name="LabelInventoryProductDimensionList" xml:space="preserve">
     <value>Inventory Product Dimension List</value>

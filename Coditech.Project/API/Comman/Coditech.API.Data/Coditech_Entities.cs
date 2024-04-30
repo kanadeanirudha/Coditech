@@ -1,4 +1,5 @@
 ﻿using Coditech.API.Data.DataModel.Gym;
+using Coditech.API.Data.DataModel.Inventory;
 using Microsoft.EntityFrameworkCore;
 
 namespace Coditech.API.Data

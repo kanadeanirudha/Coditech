@@ -322,6 +322,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory item tracking dimension due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryItemTrackingDimension {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryItemTrackingDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory product dimension due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryProductDimension {
@@ -552,6 +561,15 @@ namespace Coditech.Resources {
         public static string LabelInventoryItemStorageDimensionList {
             get {
                 return ResourceManager.GetString("LabelInventoryItemStorageDimensionList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Label Inventory Item Tracking Dimension List.
+        /// </summary>
+        public static string LabelInventoryItemTrackingDimensionList {
+            get {
+                return ResourceManager.GetString("LabelInventoryItemTrackingDimensionList", resourceCulture);
             }
         }
         
