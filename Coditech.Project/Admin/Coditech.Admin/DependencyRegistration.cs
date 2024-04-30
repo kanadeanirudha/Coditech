@@ -50,11 +50,12 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGymMemberBodyMeasurementAgent, GymMemberBodyMeasurementAgent>();
             builder.Services.AddScoped<IGymSalesInvoiceAgent, GymSalesInvoiceAgent>();
             builder.Services.AddScoped<IDashboardAgent, DashboardAgent>();
-            builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomAgent, HospitalDoctorAllocatedOPDRoomAgent>();
-
-            #region Inventory
+           #region Inventory
             builder.Services.AddScoped<IInventoryItemModelGroupAgent, InventoryItemModelGroupAgent>();
             builder.Services.AddScoped<IInventoryCategoryAgent, InventoryCategoryAgent>();
+            builder.Services.AddScoped<IInventoryItemTrackingDimensionAgent, InventoryItemTrackingDimensionAgent>();
+            builder.Services.AddScoped<IInventoryProductDimensionAgent, InventoryProductDimensionAgent>();
+            builder.Services.AddScoped<IInventoryItemStorageDimensionAgent, InventoryItemStorageDimensionAgent>();
             #endregion
             #endregion
 
@@ -102,6 +103,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGymSalesInvoiceClient, GymSalesInvoiceClient>();
             builder.Services.AddScoped<IDashboardClient, DashboardClient>();
             builder.Services.AddScoped<IInventoryItemModelGroupClient, InventoryItemModelGroupClient>();
+            builder.Services.AddScoped<IInventoryItemStorageDimensionClient, InventoryItemStorageDimensionClient>();
+            builder.Services.AddScoped<IInventoryItemTrackingDimensionClient, InventoryItemTrackingDimensionClient>();
+            builder.Services.AddScoped<IInventoryProductDimensionClient, InventoryProductDimensionClient>();
+
             builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomClient, HospitalDoctorAllocatedOPDRoomClient>();
             #endregion
         }

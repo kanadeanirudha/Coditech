@@ -70,20 +70,20 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record Change Password Success Message updated successfully..
+        /// </summary>
+        public static string ChangePasswordSuccessMessage {
+            get {
+                return ResourceManager.GetString("ChangePasswordSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete the record..
         /// </summary>
         public static string DeleteErrorMessage {
             get {
                 return ResourceManager.GetString("DeleteErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Record deleted Inventory Category successfully..
-        /// </summary>
-        public static string DeleteInventoryCategory {
-            get {
-                return ResourceManager.GetString("DeleteInventoryCategory", resourceCulture);
             }
         }
         
@@ -106,7 +106,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to create.
+        ///   Looks up a localized string similar to Failed to create..
         /// </summary>
         public static string ErrorFailedToCreate {
             get {
@@ -232,31 +232,11 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record updated Inventory Category successfully..
-        /// </summary>
-        public static string UpdateInventoryCategory {
-            get {
-                return ResourceManager.GetString("UpdateInventoryCategory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Record updated successfully..
         /// </summary>
         public static string UpdateMessage {
             get {
                 return ResourceManager.GetString("UpdateMessage", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Change Password successfully..
-        /// </summary>
-        public static string ChangePasswordSuccessMessage
-        {
-            get
-            {
-                return ResourceManager.GetString("ChangePasswordSuccessMessage", resourceCulture);
             }
         }
     }

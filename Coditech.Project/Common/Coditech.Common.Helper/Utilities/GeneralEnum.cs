@@ -46,7 +46,8 @@
         DashboardForm,
         InventoryCategory,
         AllCities,
-        InventoryModel
+        InventoryModel,
+        EmailTemplate
     }
 
     public enum GeneralSystemGlobleSettingEnum

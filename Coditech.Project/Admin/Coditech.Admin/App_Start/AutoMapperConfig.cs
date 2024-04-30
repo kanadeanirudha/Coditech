@@ -72,6 +72,8 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseDepartmentListModel, OrganisationCentrewiseDepartmentListViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseBuildingRoomsModel, OrganisationCentrewiseBuildingRoomsViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseBuildingRoomsListModel, OrganisationCentrewiseBuildingRoomsListViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseSmtpSettingModel, OrganisationCentrewiseSmtpSettingViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseEmailTemplateModel, OrganisationCentrewiseEmailTemplateViewModel>().ReverseMap();
             #endregion
 
             #region Employee            
@@ -114,9 +116,14 @@ namespace Coditech.Admin
 
             #region Inventory
             CreateMap<InventoryCategoryModel, InventoryCategoryViewModel>().ReverseMap();
+            CreateMap<InventoryItemStorageDimensionModel, InventoryItemStorageDimensionViewModel>().ReverseMap();
             CreateMap<InventoryCategoryListModel, InventoryCategoryListViewModel>().ReverseMap();
             CreateMap<InventoryItemModelGroupModel, InventoryItemModelGroupViewModel>().ReverseMap();
             CreateMap<InventoryItemModelGroupListModel, InventoryItemModelGroupListViewModel>().ReverseMap();
+            CreateMap<InventoryItemTrackingDimensionModel, InventoryItemTrackingDimensionViewModel>().ReverseMap();
+            CreateMap<InventoryProductDimensionModel, InventoryProductDimensionViewModel>().ReverseMap();
+            CreateMap<InventoryProductDimensionListModel, InventoryProductDimensionListViewModel>().ReverseMap();
+
             #endregion            
 
             #region Password

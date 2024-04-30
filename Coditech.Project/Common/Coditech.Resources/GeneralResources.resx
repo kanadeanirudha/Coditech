@@ -120,11 +120,11 @@
   <data name="CancelButton" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ChangePasswordSuccessMessage" xml:space="preserve">
+    <value>Record Change Password Success Message updated successfully.</value>
+  </data>
   <data name="DeleteErrorMessage" xml:space="preserve">
     <value>Failed to delete the record.</value>
-  </data>
-  <data name="DeleteInventoryCategory" xml:space="preserve">
-    <value>Record deleted Inventory Category successfully.</value>
   </data>
   <data name="DeleteMessage" xml:space="preserve">
     <value>Record deleted successfully.</value>
@@ -133,7 +133,7 @@
     <value>{0} already exists.</value>
   </data>
   <data name="ErrorFailedToCreate" xml:space="preserve">
-    <value>Failed to create</value>
+    <value>Failed to create.</value>
   </data>
   <data name="ErrorFailedToDelete" xml:space="preserve">
     <value>Failed to delete the selected record.</value>
@@ -173,9 +173,6 @@
   </data>
   <data name="UpdateErrorMessage" xml:space="preserve">
     <value>Failed to update record.</value>
-  </data>
-  <data name="UpdateInventoryCategory" xml:space="preserve">
-    <value>Record updated Inventory Category successfully.</value>
   </data>
   <data name="UpdateMessage" xml:space="preserve">
     <value>Record updated successfully.</value>

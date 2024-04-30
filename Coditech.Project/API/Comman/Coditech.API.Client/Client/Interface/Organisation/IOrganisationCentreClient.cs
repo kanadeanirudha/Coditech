@@ -69,5 +69,34 @@ namespace Coditech.API.Client
         /// <param name="OrganisationCentrewiseGSTCredentialModel">OrganisationCentrewiseGSTCredentialModel.</param>
         /// <returns>Returns updated OrganisationCentrewiseGSTCredentialResponse</returns>
         OrganisationCentrewiseGSTCredentialResponse UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialModel body);
+
+        /// <summary>
+        /// Get OrganisationCentrewiseSmtpSetting by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseSmtpSettingResponse.</returns>
+        OrganisationCentrewiseSmtpSettingResponse GetCentrewiseSmtpSetup(short organisationCentreId);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseSmtpSetting.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseSmtpSettingModel">OrganisationCentrewiseSmtpSettingModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseSmtpSettingResponse</returns>
+        OrganisationCentrewiseSmtpSettingResponse UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingModel body);
+
+        /// <summary>
+        /// Get OrganisationCentrewiseEmailTemplate by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <param name="emailTemplateCode">emailTemplateCode</param>
+        /// <returns>Returns OrganisationCentrewiseEmailTemplateResponse.</returns>
+        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId,string emailTemplateCode);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseEmailTemplate.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseEmailTemplateModel">OrganisationCentrewiseEmailTemplateModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseEmailTemplateResponse</returns>
+        OrganisationCentrewiseEmailTemplateResponse UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateModel body);
     }
 }

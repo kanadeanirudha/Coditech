@@ -59,7 +59,11 @@
             Dashboard,
             InventoryItemModelGroup,
             EmailTemplate,
-            HospitalDoctorAllocatedOPDRoom
+            CentrewiseSmtp,
+            CentrewiseEmailTemplate,
+            InventoryItemStorageDimension,
+            InventoryProductDimension,
+            HospitalDoctorAllocatedOPDRoom,
         }
     }
 }
