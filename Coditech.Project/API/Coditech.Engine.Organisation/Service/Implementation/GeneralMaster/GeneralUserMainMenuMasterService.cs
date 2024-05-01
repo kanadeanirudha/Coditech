@@ -17,12 +17,12 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly ICoditechRepository<GeneralUserMainMenuMaster> _generalUserMainMenuMasterRepository;
+        private readonly ICoditechRepository<UserMainMenuMaster> _generalUserMainMenuMasterRepository;
         public GeneralUserMainMenuMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _generalUserMainMenuMasterRepository = new CoditechRepository<GeneralUserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalUserMainMenuMasterRepository = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralUserMainMenuListModel GetUserMainMenuList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -51,10 +51,10 @@ namespace Coditech.API.Service
             if (IsUserMainMenuCodeAlreadyExist(generalUserMainMenuModel.MenuCode))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Menu Code"));
 
-            GeneralUserMainMenuMaster generalUserMainMenuMaster = generalUserMainMenuModel.FromModelToEntity<GeneralUserMainMenuMaster>();
+            UserMainMenuMaster generalUserMainMenuMaster = generalUserMainMenuModel.FromModelToEntity<UserMainMenuMaster>();
 
             //Create new UserMainMenu and return it.
-            GeneralUserMainMenuMaster userMainMenuData = _generalUserMainMenuMasterRepository.Insert(generalUserMainMenuMaster);
+            UserMainMenuMaster userMainMenuData = _generalUserMainMenuMasterRepository.Insert(generalUserMainMenuMaster);
             if (userMainMenuData?.UserMainMenuMasterId > 0)
             {
                 generalUserMainMenuModel.UserMainMenuMasterId = userMainMenuData.UserMainMenuMasterId;
@@ -74,7 +74,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "UserMainMenuID"));
 
             //Get the UserMainMenu Details based on id.
-            GeneralUserMainMenuMaster generalUserMainMenuMaster = _generalUserMainMenuMasterRepository.Table.FirstOrDefault(x => x.UserMainMenuMasterId == userMainMenuId);
+            UserMainMenuMaster generalUserMainMenuMaster = _generalUserMainMenuMasterRepository.Table.FirstOrDefault(x => x.UserMainMenuMasterId == userMainMenuId);
             GeneralUserMainMenuModel generalUserMainMenuModel = generalUserMainMenuMaster?.FromEntityToModel<GeneralUserMainMenuModel>();
             return generalUserMainMenuModel;
         }
@@ -91,7 +91,7 @@ namespace Coditech.API.Service
             if (IsUserMainMenuCodeAlreadyExist(generalUserMainMenuModel.MenuCode, generalUserMainMenuModel.UserMainMenuMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Menu Code"));
 
-            GeneralUserMainMenuMaster generalUserMainMenuMaster = generalUserMainMenuModel.FromModelToEntity<GeneralUserMainMenuMaster>();
+            UserMainMenuMaster generalUserMainMenuMaster = generalUserMainMenuModel.FromModelToEntity<UserMainMenuMaster>();
 
             //Update UserMainMenu
             bool isUserMainMenuUpdated = _generalUserMainMenuMasterRepository.Update(generalUserMainMenuMaster);

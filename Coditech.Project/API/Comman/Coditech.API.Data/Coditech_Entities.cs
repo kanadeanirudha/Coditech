@@ -33,7 +33,6 @@ namespace Coditech.API.Data
         public DbSet<GeneralMeasurementUnitMaster> GeneralMeasurementUnitMaster { get; set; }
         public DbSet<GeneralRunningNumbers> GeneralRunningNumbers { get; set; }
         public DbSet<GeneralLeadGenerationMaster> GeneralLeadGenerationMaster { get; set; }
-        public DbSet<GeneralUserMainMenuMaster> GeneralUserMainMenuMaster { get; set; }
         #endregion
 
         #region Organisation
