@@ -29,7 +29,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual GeneralUserMainMenuListViewModel GetUserMainMenuList(DataTableViewModel dataTableModel)
+        public virtual UserMainMenuListViewModel GetUserMainMenuList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -37,28 +37,28 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("MenuName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("MenuCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("ModuleCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GeneralUserMainMenuListResponse response = _generalUserMainMenuClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralUserMainMenuListModel userMainMenuList = new GeneralUserMainMenuListModel { GeneralUserMainMenuList = response?.GeneralUserMainMenuList };
-            GeneralUserMainMenuListViewModel listViewModel = new GeneralUserMainMenuListViewModel();
-            listViewModel.GeneralUserMainMenuList = userMainMenuList?.GeneralUserMainMenuList?.ToViewModel<GeneralUserMainnMenuViewModel>().ToList();
+            UserMainMenuListModel userMainMenuList = new UserMainMenuListModel { GeneralUserMainMenuList = response?.GeneralUserMainMenuList };
+            UserMainMenuListViewModel listViewModel = new UserMainMenuListViewModel();
+            listViewModel.MenuList = userMainMenuList?.GeneralUserMainMenuList?.ToViewModel<UserMainMenuViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralUserMainMenuList.Count, BindColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.MenuList.Count, BindColumns());
             return listViewModel;
         }
 
         //Create General UserMainMenu.
-        public virtual GeneralUserMainnMenuViewModel CreateUserMainMenu(GeneralUserMainnMenuViewModel generalUserMainnMenuViewModel)
+        public virtual UserMainMenuViewModel CreateUserMainMenu(UserMainMenuViewModel generalUserMainnMenuViewModel)
         {
             try
             {
-                GeneralUserMainMenuResponse response = _generalUserMainMenuClient.CreateUserMainMenu(generalUserMainnMenuViewModel.ToModel<GeneralUserMainMenuModel>());
-                GeneralUserMainMenuModel generalUserMainMenuModel = response?.GeneralUserMainMenuModel;
-                return IsNotNull(generalUserMainMenuModel) ? generalUserMainMenuModel.ToViewModel<GeneralUserMainnMenuViewModel>() : new GeneralUserMainnMenuViewModel();
+                GeneralUserMainMenuResponse response = _generalUserMainMenuClient.CreateUserMainMenu(generalUserMainnMenuViewModel.ToModel<UserMainMenuModel>());
+                UserMainMenuModel generalUserMainMenuModel = response?.GeneralUserMainMenuModel;
+                return IsNotNull(generalUserMainMenuModel) ? generalUserMainMenuModel.ToViewModel<UserMainMenuViewModel>() : new UserMainMenuViewModel();
             }
             catch (CoditechException ex)
             {
@@ -66,40 +66,40 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
-                        return (GeneralUserMainnMenuViewModel)GetViewModelWithErrorMessage(generalUserMainnMenuViewModel, ex.ErrorMessage);
+                        return (UserMainMenuViewModel)GetViewModelWithErrorMessage(generalUserMainnMenuViewModel, ex.ErrorMessage);
                     default:
-                        return (GeneralUserMainnMenuViewModel)GetViewModelWithErrorMessage(generalUserMainnMenuViewModel, GeneralResources.ErrorFailedToCreate);
+                        return (UserMainMenuViewModel)GetViewModelWithErrorMessage(generalUserMainnMenuViewModel, GeneralResources.ErrorFailedToCreate);
                 }
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenuMaster.ToString(), TraceLevel.Error);
-                return (GeneralUserMainnMenuViewModel)GetViewModelWithErrorMessage(generalUserMainnMenuViewModel, GeneralResources.ErrorFailedToCreate);
+                return (UserMainMenuViewModel)GetViewModelWithErrorMessage(generalUserMainnMenuViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 
         //Get general UserMainMenu by general UserMainMenu master id.
-        public virtual GeneralUserMainnMenuViewModel GetUserMainMenu(short generalUserMainMenuId)
+        public virtual UserMainMenuViewModel GetUserMainMenu(short generalUserMainMenuId)
         {
             GeneralUserMainMenuResponse response = _generalUserMainMenuClient.GetUserMainMenu(generalUserMainMenuId);
-            return response?.GeneralUserMainMenuModel.ToViewModel<GeneralUserMainnMenuViewModel>();
+            return response?.GeneralUserMainMenuModel.ToViewModel<UserMainMenuViewModel>();
         }
 
         //Update generalUserMainMenu.
-        public virtual GeneralUserMainnMenuViewModel UpdateUserMainMenu(GeneralUserMainnMenuViewModel generalUserMainnMenuViewModel)
+        public virtual UserMainMenuViewModel UpdateUserMainMenu(UserMainMenuViewModel generalUserMainnMenuViewModel)
         {
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.UserMainMenuMaster.ToString(), TraceLevel.Info);
-                GeneralUserMainMenuResponse response = _generalUserMainMenuClient.UpdateUserMainMenu(generalUserMainnMenuViewModel.ToModel<GeneralUserMainMenuModel>());
-                GeneralUserMainMenuModel generalUserMainMenuModel = response?.GeneralUserMainMenuModel;
+                GeneralUserMainMenuResponse response = _generalUserMainMenuClient.UpdateUserMainMenu(generalUserMainnMenuViewModel.ToModel<UserMainMenuModel>());
+                UserMainMenuModel generalUserMainMenuModel = response?.GeneralUserMainMenuModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Info);
-                return IsNotNull(generalUserMainMenuModel) ? generalUserMainMenuModel.ToViewModel<GeneralUserMainnMenuViewModel>() : (GeneralUserMainnMenuViewModel)GetViewModelWithErrorMessage(new GeneralUserMainnMenuViewModel(), GeneralResources.UpdateErrorMessage);
+                return IsNotNull(generalUserMainMenuModel) ? generalUserMainMenuModel.ToViewModel<UserMainMenuViewModel>() : (UserMainMenuViewModel)GetViewModelWithErrorMessage(new UserMainMenuViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenuMaster.ToString(), TraceLevel.Error);
-                return (GeneralUserMainnMenuViewModel)GetViewModelWithErrorMessage(generalUserMainnMenuViewModel, GeneralResources.UpdateErrorMessage);
+                return (UserMainMenuViewModel)GetViewModelWithErrorMessage(generalUserMainnMenuViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
 

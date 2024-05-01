@@ -19,22 +19,22 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            GeneralUserMainMenuListViewModel list = _generalUserMainMenuAgent.GetUserMainMenuList(dataTableModel);
+            UserMainMenuListViewModel list = _generalUserMainMenuAgent.GetUserMainMenuList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/GeneralMaster/GeneralUserMainMenuMaster/_List.cshtml", list);
+                return PartialView("~/Views/GeneralMaster/GeneralUserMainMenu/_List.cshtml", list);
             }
-            return View($"~/Views/GeneralMaster/GeneralUserMainMenuMaster/List.cshtml", list);
+            return View($"~/Views/GeneralMaster/GeneralUserMainMenu/List.cshtml", list);
         }
 
         [HttpGet]
         public virtual ActionResult Create()
         {
-            return View(createEdit, new GeneralUserMainnMenuViewModel());
+            return View(createEdit, new UserMainMenuViewModel());
         }
 
         [HttpPost]
-        public virtual ActionResult Create(GeneralUserMainnMenuViewModel generalUserMainnMenuViewModel)
+        public virtual ActionResult Create(UserMainMenuViewModel generalUserMainnMenuViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -52,12 +52,12 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Edit(short generalUserMainMenuId)
         {
-            GeneralUserMainnMenuViewModel generalUserMainnMenuViewModel = _generalUserMainMenuAgent.GetUserMainMenu(generalUserMainMenuId);
+            UserMainMenuViewModel generalUserMainnMenuViewModel = _generalUserMainMenuAgent.GetUserMainMenu(generalUserMainMenuId);
             return ActionView(createEdit, generalUserMainnMenuViewModel);
         }
 
         [HttpPost]
-        public virtual ActionResult Edit(GeneralUserMainnMenuViewModel generalUserMainnMenuViewModel)
+        public virtual ActionResult Edit(UserMainMenuViewModel generalUserMainnMenuViewModel)
         {
             if (ModelState.IsValid)
             {

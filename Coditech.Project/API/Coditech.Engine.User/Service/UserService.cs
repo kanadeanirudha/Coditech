@@ -140,12 +140,12 @@ namespace Coditech.API.Service
             return moduleList;
         }
 
-        public virtual List<UserMenuModel> GetActiveMenuList(string moduleCodel)
+        public virtual List<UserMainMenuModel> GetActiveMenuList(string moduleCodel)
         {
-            List<UserMenuModel> menuList = new List<UserMenuModel>();
+            List<UserMainMenuModel> menuList = new List<UserMainMenuModel>();
             foreach (UserMainMenuMaster item in base.GetAllActiveMenuList(moduleCodel))
             {
-                menuList.Add(new UserMenuModel()
+                menuList.Add(new UserMainMenuModel()
                 {
                     UserMainMenuMasterId = item.UserMainMenuMasterId,
                     ModuleCode = item.ModuleCode,
@@ -412,7 +412,7 @@ namespace Coditech.API.Service
 
             foreach (UserMainMenuMaster item in userAllMenuList)
             {
-                userModel.MenuList.Add(new UserMenuModel()
+                userModel.MenuList.Add(new UserMainMenuModel()
                 {
                     UserMainMenuMasterId = item.UserMainMenuMasterId,
                     ModuleCode = item.ModuleCode,
@@ -438,7 +438,7 @@ namespace Coditech.API.Service
                 UserMainMenuMaster userMenuModel = userAllMenuList.FirstOrDefault(x => x.MenuCode == item.MenuCode);
                 if (IsNotNull(userMenuModel))
                 {
-                    userModel.MenuList.Add(new UserMenuModel()
+                    userModel.MenuList.Add(new UserMainMenuModel()
                     {
                         UserMainMenuMasterId = userMenuModel.UserMainMenuMasterId,
                         ModuleCode = userMenuModel.ModuleCode,

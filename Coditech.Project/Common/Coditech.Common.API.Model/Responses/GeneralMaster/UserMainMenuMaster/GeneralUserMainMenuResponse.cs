@@ -2,7 +2,7 @@
 {
     public class GeneralUserMainMenuResponse : BaseResponse
     {
-        public GeneralUserMainMenuModel GeneralUserMainMenuModel { get; set; }
+        public UserMainMenuModel GeneralUserMainMenuModel { get; set; }
     }
 }
 

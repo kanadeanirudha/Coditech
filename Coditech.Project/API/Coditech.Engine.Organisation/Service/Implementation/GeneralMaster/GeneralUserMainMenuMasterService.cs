@@ -25,25 +25,25 @@ namespace Coditech.API.Service
             _generalUserMainMenuMasterRepository = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual GeneralUserMainMenuListModel GetUserMainMenuList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual UserMainMenuListModel GetUserMainMenuList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<GeneralUserMainMenuModel> objStoredProc = new CoditechViewRepository<GeneralUserMainMenuModel>(_serviceProvider.GetService<Coditech_Entities>());
+            CoditechViewRepository<UserMainMenuModel> objStoredProc = new CoditechViewRepository<UserMainMenuModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralUserMainMenuModel> UserMainMenuList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetUserMainMenuList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
-            GeneralUserMainMenuListModel listModel = new GeneralUserMainMenuListModel();
+            List<UserMainMenuModel> UserMainMenuList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetUserMainMenuList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            UserMainMenuListModel listModel = new UserMainMenuListModel();
 
-            listModel.GeneralUserMainMenuList = UserMainMenuList?.Count > 0 ? UserMainMenuList : new List<GeneralUserMainMenuModel>();
+            listModel.GeneralUserMainMenuList = UserMainMenuList?.Count > 0 ? UserMainMenuList : new List<UserMainMenuModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
         //Create UserMainMenu.
-        public virtual GeneralUserMainMenuModel CreateUserMainMenu(GeneralUserMainMenuModel generalUserMainMenuModel)
+        public virtual UserMainMenuModel CreateUserMainMenu(UserMainMenuModel generalUserMainMenuModel)
         {
             if (IsNull(generalUserMainMenuModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -68,19 +68,19 @@ namespace Coditech.API.Service
         }
 
         //Get UserMainMenu by UserMainMenu id.
-        public virtual GeneralUserMainMenuModel GetUserMainMenu(short userMainMenuId)
+        public virtual UserMainMenuModel GetUserMainMenu(short userMainMenuId)
         {
             if (userMainMenuId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "UserMainMenuID"));
 
             //Get the UserMainMenu Details based on id.
             UserMainMenuMaster generalUserMainMenuMaster = _generalUserMainMenuMasterRepository.Table.FirstOrDefault(x => x.UserMainMenuMasterId == userMainMenuId);
-            GeneralUserMainMenuModel generalUserMainMenuModel = generalUserMainMenuMaster?.FromEntityToModel<GeneralUserMainMenuModel>();
+            UserMainMenuModel generalUserMainMenuModel = generalUserMainMenuMaster?.FromEntityToModel<UserMainMenuModel>();
             return generalUserMainMenuModel;
         }
 
         //Update UserMainMenu.
-        public virtual bool UpdateUserMainMenu(GeneralUserMainMenuModel generalUserMainMenuModel)
+        public virtual bool UpdateUserMainMenu(UserMainMenuModel generalUserMainMenuModel)
         {
             if (IsNull(generalUserMainMenuModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);

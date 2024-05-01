@@ -24,7 +24,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(60)]
         public string MenuVerNo { get; set; }
 
-        public bool? MenuInstalledFlag { get; set; }
+        public bool MenuInstalledFlag { get; set; }
 
         [MaxLength(1000)]
         public string ControllerName { get; set; }

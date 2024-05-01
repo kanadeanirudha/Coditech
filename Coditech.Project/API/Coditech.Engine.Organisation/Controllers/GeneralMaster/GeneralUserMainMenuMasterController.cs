@@ -34,7 +34,7 @@ namespace Coditech.API.Controllers
         {
             try
             {
-                GeneralUserMainMenuListModel list = _generalUserMainMenuMasterService.GetUserMainMenuList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                UserMainMenuListModel list = _generalUserMainMenuMasterService.GetUserMainMenuList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GeneralUserMainMenuListResponse>(data) : CreateNoContentResponse();
             }
@@ -53,11 +53,11 @@ namespace Coditech.API.Controllers
         [Route("/GeneralUserMainMenuMaster/CreateUserMainMenu")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralUserMainMenuResponse))]
-        public virtual IActionResult CreateUserMainMenu([FromBody] GeneralUserMainMenuModel model)
+        public virtual IActionResult CreateUserMainMenu([FromBody] UserMainMenuModel model)
         {
             try
             {
-                GeneralUserMainMenuModel userMainMenuMaster = _generalUserMainMenuMasterService.CreateUserMainMenu(model);
+                UserMainMenuModel userMainMenuMaster = _generalUserMainMenuMasterService.CreateUserMainMenu(model);
                 return IsNotNull(userMainMenuMaster) ? CreateCreatedResponse(new GeneralUserMainMenuResponse { GeneralUserMainMenuModel = userMainMenuMaster }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
@@ -79,7 +79,7 @@ namespace Coditech.API.Controllers
         {
             try
             {
-                GeneralUserMainMenuModel generalUserMainMenuMasterModel = _generalUserMainMenuMasterService.GetUserMainMenu(generalUserMainMenuMasterId);
+                UserMainMenuModel generalUserMainMenuMasterModel = _generalUserMainMenuMasterService.GetUserMainMenu(generalUserMainMenuMasterId);
                 return IsNotNull(generalUserMainMenuMasterModel) ? CreateOKResponse(new GeneralUserMainMenuResponse { GeneralUserMainMenuModel = generalUserMainMenuMasterModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -97,7 +97,7 @@ namespace Coditech.API.Controllers
         [Route("/GeneralUserMainMenuMaster/UpdateUserMainMenu")]
         [HttpPut, ValidateModel]
         [Produces(typeof(GeneralUserMainMenuResponse))]
-        public virtual IActionResult UpdateUserMainMenu([FromBody] GeneralUserMainMenuModel model)
+        public virtual IActionResult UpdateUserMainMenu([FromBody] UserMainMenuModel model)
         {
             try
             {

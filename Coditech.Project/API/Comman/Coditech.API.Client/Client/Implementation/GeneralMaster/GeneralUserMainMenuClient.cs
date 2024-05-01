@@ -61,12 +61,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralUserMainMenuResponse CreateUserMainMenu(GeneralUserMainMenuModel body)
+        public virtual GeneralUserMainMenuResponse CreateUserMainMenu(UserMainMenuModel body)
         {
             return Task.Run(async () => await CreateUserMainMenuAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralUserMainMenuResponse> CreateUserMainMenuAsync(GeneralUserMainMenuModel body, CancellationToken cancellationToken)
+        public virtual async Task<GeneralUserMainMenuResponse> CreateUserMainMenuAsync(UserMainMenuModel body, CancellationToken cancellationToken)
         {
             string endpoint = generalUserMainMenuEndpoint.CreateUserMainMenuAsync();
             HttpResponseMessage response = null;
@@ -166,12 +166,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralUserMainMenuResponse UpdateUserMainMenu(GeneralUserMainMenuModel body)
+        public virtual GeneralUserMainMenuResponse UpdateUserMainMenu(UserMainMenuModel body)
         {
             return Task.Run(async () => await UpdateUserMainMenuAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralUserMainMenuResponse> UpdateUserMainMenuAsync(GeneralUserMainMenuModel body, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GeneralUserMainMenuResponse> UpdateUserMainMenuAsync(UserMainMenuModel body, System.Threading.CancellationToken cancellationToken)
         {
             string endpoint = generalUserMainMenuEndpoint.UpdateUserMainMenuAsync();
             HttpResponseMessage response = null;

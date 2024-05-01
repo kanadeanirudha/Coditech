@@ -32,7 +32,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="moduleCode">moduleCode</param>
         /// <returns>Returns UserMainMenuResponse.</returns>
-        UserMenuListResponse GetActiveMenuList(string moduleCode);
+        UserMainMenuListResponse GetActiveMenuList(string moduleCode);
 
         /// <summary>
         /// Create Person.

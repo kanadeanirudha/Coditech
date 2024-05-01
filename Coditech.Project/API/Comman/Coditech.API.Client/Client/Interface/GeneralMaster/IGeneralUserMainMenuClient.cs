@@ -18,7 +18,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="GeneralUserMainMenuModel">GeneralUserMainMenuModel.</param>
         /// <returns>Returns GeneralUserMainMenuResponse.</returns>
-        GeneralUserMainMenuResponse CreateUserMainMenu(GeneralUserMainMenuModel body);
+        GeneralUserMainMenuResponse CreateUserMainMenu(UserMainMenuModel body);
 
         /// <summary>
         /// Get UserMainMenu by generalUserMainMenuId.
@@ -32,7 +32,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="GeneralUserMainMenuModel">GeneralUserMainMenuModel.</param>
         /// <returns>Returns updated GeneralUserMainMenuResponse</returns>
-        GeneralUserMainMenuResponse UpdateUserMainMenu(GeneralUserMainMenuModel body);
+        GeneralUserMainMenuResponse UpdateUserMainMenu(UserMainMenuModel body);
 
         /// <summary>
         /// Delete UserMainMenu.

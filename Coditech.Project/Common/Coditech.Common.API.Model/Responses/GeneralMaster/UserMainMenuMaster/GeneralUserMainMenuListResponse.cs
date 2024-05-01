@@ -2,6 +2,6 @@
 {
     public class GeneralUserMainMenuListResponse : BaseListResponse
     {
-        public List<GeneralUserMainMenuModel> GeneralUserMainMenuList { get; set; }
+        public List<UserMainMenuModel> GeneralUserMainMenuList { get; set; }
     }
 }

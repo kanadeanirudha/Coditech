@@ -1,4 +1,4 @@
-﻿@model GeneralUserMainMenuListViewModel
+﻿@model UserMainMenuListViewModel
 @{
     ViewBag.Title = "UserMainMenu List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
@@ -17,7 +17,7 @@
                     </div>
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                            @Html.Partial("~/Views/GeneralMaster/GeneralUserMainMenuMaster/_List.cshtml", Model)
+                            @Html.Partial("~/Views/GeneralMaster/GeneralUserMainMenu/_List.cshtml", Model)
                         </div>
                     </div>
                 </div>

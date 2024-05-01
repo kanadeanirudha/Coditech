@@ -1,16 +1,18 @@
-﻿using Coditech.Common.Helper;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.Admin.ViewModel
+namespace Coditech.Common.API.Model
 {
-    public class GeneralUserMainnMenuViewModel : BaseViewModel
+    public class UserMainMenuModel : BaseModel
     {
+        public UserMainMenuModel()
+        {
+
+        }
         [Required]
         public short UserMainMenuMasterId { get; set; }
 
         [MaxLength(50)]
         [Required]
-        [Display(Name = "ModuleCode")]
         public string ModuleCode { get; set; }
 
         [MaxLength(50)]
@@ -18,12 +20,10 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(255)]
         [Required]
-        [Display(Name = "MenuCode")]
         public string MenuCode { get; set; }
 
         [MaxLength(100)]
         [Required]
-        [Display(Name = "MenuName")]
         public string MenuName { get; set; }
 
         public short MenuInnerLevel { get; set; }
@@ -36,7 +36,6 @@ namespace Coditech.Admin.ViewModel
         public string ControllerName { get; set; }
 
         [MaxLength(1000)]
-        [Display(Name = "ActionName")]
         public string ActionName { get; set; }
 
         public bool IsEnable { get; set; }
@@ -50,7 +49,8 @@ namespace Coditech.Admin.ViewModel
         public string MenuToolTip { get; set; }
 
         [MaxLength(50)]
-        [Display(Name = "MenuIconName")]
         public string MenuIconName { get; set; }
+        public string MenuLink { get; set; }
+        public bool IsAssociatedToAdminRole { get; set; }
     }
 }
