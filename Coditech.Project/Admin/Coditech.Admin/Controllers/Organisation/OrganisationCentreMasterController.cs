@@ -183,7 +183,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseEmailTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentrewiseEmailTemplateId });
+                return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
             }
             return View(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
