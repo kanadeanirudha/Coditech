@@ -63,7 +63,8 @@
             CentrewiseEmailTemplate,
             InventoryItemStorageDimension,
             InventoryProductDimension,
-            InventoryItemTrackingDimension
+            InventoryItemTrackingDimension,
+            InventoryItemGroup
         }
     }
 }

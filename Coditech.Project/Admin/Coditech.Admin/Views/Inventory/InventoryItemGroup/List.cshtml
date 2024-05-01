@@ -1,6 +1,6 @@
-﻿@model InventoryItemTrackingDimensionListViewModel
+﻿@model InventoryItemGroupListViewModel
 @{
-    ViewBag.Title = "Inventory Item Tracking Dimension List";
+    ViewBag.Title = "Inventory Item Group List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
@@ -11,13 +11,13 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <span class="card-title">@AdminResources.LabelInventoryItemTrackingDimensionList</span>
-                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Inventory Item Tracking Dimension</a>
+                        <span class="card-title">@AdminResources.LabelInventoryItemGroupList</span>
+                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Inventory Item Group</a>
                         
                     </div>
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                            @Html.Partial("~/Views/Inventory/InventoryItemTrackingDimension/_List.cshtml", Model)
+                            @Html.Partial("~/Views/Inventory/InventoryItemGroup/_List.cshtml", Model)
                         </div>
                     </div>
                 </div>

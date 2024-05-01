@@ -110,6 +110,7 @@ namespace Coditech.API.Data
         public DbSet<InventoryItemModelGroup> InventoryItemModelGroup { get; set; }
         public DbSet<InventoryItemTrackingDimension> InventoryItemTrackingDimension { get; set; }
         public DbSet<InventoryProductDimension> InventoryProductDimension { get; set; }
+        public DbSet<InventoryItemGroup> InventoryItemGroup { get; set; }
         
         #endregion
 

@@ -304,6 +304,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory item group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryItemGroupMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryItemGroupMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory Item Model Group due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryItemModelGroup {
@@ -552,6 +561,15 @@ namespace Coditech.Resources {
         public static string LabelInventoryCategoryList {
             get {
                 return ResourceManager.GetString("LabelInventoryCategoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Item Group List.
+        /// </summary>
+        public static string LabelInventoryItemGroupList {
+            get {
+                return ResourceManager.GetString("LabelInventoryItemGroupList", resourceCulture);
             }
         }
         
