@@ -63,6 +63,7 @@
             CentrewiseEmailTemplate,
             InventoryItemStorageDimension,
             InventoryProductDimension,
+            UserMainMenuMaster
         }
     }
 }

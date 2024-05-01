@@ -113,7 +113,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete userMainMenu due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralUserMainMenuMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralUserMainMenuMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete department due to associate record..
         /// </summary>
@@ -446,7 +457,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to UserMainMenu List.
+        /// </summary>
+        public static string LabelUserMainMenuList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelUserMainMenuList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>
