@@ -63,8 +63,9 @@
             CentrewiseEmailTemplate,
             InventoryItemStorageDimension,
             InventoryProductDimension,
+            HospitalDoctorAllocatedOPDRoom,
             InventoryItemTrackingDimension,
-            InventoryItemGroup
+            InventoryItemGroup,
         }
     }
 }

@@ -85,8 +85,9 @@ namespace Coditech.Admin.Agents
         /// Get Organisation Centrewise Email Template by organisationCentreId.
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <param name="emailTemplateCode">emailTemplateCode</param>
         /// <returns>Returns OrganisationCentrewiseEmailTemplateViewModel.</returns>
-        OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(short organisationCentreId);
+        OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode);
 
         /// <summary>
         /// Update Organisation Centrewise Email Template.

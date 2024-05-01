@@ -214,9 +214,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise Email Template by organisationCentreId.
-        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
         {
-            OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.GetCentrewiseEmailTemplateSetup(organisationCentreId);
+            OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.GetCentrewiseEmailTemplateSetup(organisationCentreId, emailTemplateCode);
             return response?.OrganisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>();
         }
 
