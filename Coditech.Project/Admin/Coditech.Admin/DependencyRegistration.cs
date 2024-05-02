@@ -47,7 +47,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralLeadGenerationAgent, GeneralLeadGenerationAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsAgent, OrganisationCentrewiseBuildingRoomsAgent>();
             builder.Services.AddScoped<IGeneralPersonFollowUpAgent, GeneralPersonFollowUpAgent>();
-            builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
             builder.Services.AddScoped<IGymMemberBodyMeasurementAgent, GymMemberBodyMeasurementAgent>();
             builder.Services.AddScoped<IGymSalesInvoiceAgent, GymSalesInvoiceAgent>();
             builder.Services.AddScoped<IDashboardAgent, DashboardAgent>();
@@ -55,6 +54,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryProductDimensionAgent, InventoryProductDimensionAgent>();
             builder.Services.AddScoped<IGeneralUserMainMenuAgent, GeneralUserMainMenuAgent>();
 
+            #region HMS
+            builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
+            builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomAgent, HospitalDoctorAllocatedOPDRoomAgent>();
+            #endregion
 
             #region Inventory
             builder.Services.AddScoped<IInventoryItemModelGroupAgent, InventoryItemModelGroupAgent>();
@@ -64,15 +67,15 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryItemStorageDimensionAgent, InventoryItemStorageDimensionAgent>();
             builder.Services.AddScoped<IInventoryItemGroupAgent, InventoryItemGroupAgent>();
             #endregion
+
             #endregion
 
-
+            #region Client
             #region Admin
             builder.Services.AddScoped<IAdminSanctionPostClient, AdminSanctionPostClient>();
             builder.Services.AddScoped<IAdminRoleMasterClient, AdminRoleMasterClient>();
             #endregion
 
-            #region Client
             builder.Services.AddScoped<IUserClient, UserClient>();
             builder.Services.AddScoped<IGeneralDepartmentClient, GeneralDepartmentClient>();
             builder.Services.AddScoped<IGeneralCountryClient, GeneralCountryClient>();
@@ -101,7 +104,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralLeadGenerationClient, GeneralLeadGenerationClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsClient, OrganisationCentrewiseBuildingRoomsClient>();
             builder.Services.AddScoped<IGeneralPersonFollowUpClient, GeneralPersonFollowUpClient>();
-            builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();
             builder.Services.AddScoped<IGymMemberBodyMeasurementClient, GymMemberBodyMeasurementClient>();
             builder.Services.AddScoped<IGeneralPersonAttendanceDetailsClient, GeneralPersonAttendanceDetailsClient>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterClient, InventoryGeneralItemMasterClient>();
@@ -114,7 +116,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryProductDimensionClient, InventoryProductDimensionClient>();
             builder.Services.AddScoped<IInventoryItemGroupClient, InventoryItemGroupClient>();
             builder.Services.AddScoped<IGeneralUserMainMenuClient, GeneralUserMainMenuClient>();
+            #region HMS
+            builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();
             builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomClient, HospitalDoctorAllocatedOPDRoomClient>();
+            #endregion
             #endregion
         }
     }

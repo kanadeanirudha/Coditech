@@ -24,20 +24,22 @@ namespace Coditech.API.Service
             _hospitalDoctorAllocatedOPDRoomRepository = new CoditechRepository<HospitalDoctorAllocatedOPDRoom>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual HospitalDoctorAllocatedOPDRoomListModel GetHospitalDoctorAllocatedOPDRoomList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual HospitalDoctorAllocatedOPDRoomListModel GetHospitalDoctorAllocatedOPDRoomList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<HospitalDoctorAllocatedOPDRoomModel> objStoredProc = new CoditechViewRepository<HospitalDoctorAllocatedOPDRoomModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@DepartmentId", selectedDepartmentId, ParameterDirection.Input, DbType.Int16);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<HospitalDoctorAllocatedOPDRoomModel> HospitalDoctorAllocatedOPDRoomList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalDoctorAllocatedOPDRoomList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<HospitalDoctorAllocatedOPDRoomModel> hospitalDoctorAllocatedOPDRoomList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalDoctorAllocatedOPDRoomList @CentreCode,@DepartmentId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             HospitalDoctorAllocatedOPDRoomListModel listModel = new HospitalDoctorAllocatedOPDRoomListModel();
 
-            listModel.HospitalDoctorAllocatedOPDRoomList = HospitalDoctorAllocatedOPDRoomList?.Count > 0 ? HospitalDoctorAllocatedOPDRoomList : new List<HospitalDoctorAllocatedOPDRoomModel>();
+            listModel.HospitalDoctorAllocatedOPDRoomList = hospitalDoctorAllocatedOPDRoomList?.Count > 0 ? hospitalDoctorAllocatedOPDRoomList : new List<HospitalDoctorAllocatedOPDRoomModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }

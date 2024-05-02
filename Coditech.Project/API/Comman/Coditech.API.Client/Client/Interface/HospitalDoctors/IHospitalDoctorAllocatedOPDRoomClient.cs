@@ -11,7 +11,7 @@ namespace Coditech.API.Client
         /// Get list of HospitalDoctorAllocatedOPDRoom.
         /// </summary>
         /// <returns>HospitalDoctorAllocatedOPDRoomListResponse</returns>
-        HospitalDoctorAllocatedOPDRoomListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        HospitalDoctorAllocatedOPDRoomListResponse List(string selectedCentreCode, short selectedDepartmentId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Create HospitalDoctorAllocatedOPDRoom.

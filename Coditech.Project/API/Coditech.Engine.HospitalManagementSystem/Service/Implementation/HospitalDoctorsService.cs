@@ -38,7 +38,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<HospitalDoctorsModel> hospitalDoctorsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalDoctorList @CentreCode,@DepartmentId,@IsAssociated,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<HospitalDoctorsModel> hospitalDoctorsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalDoctorList @CentreCode,@DepartmentId,@IsAssociated,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 7, out pageListModel.TotalRowCount)?.ToList();
             HospitalDoctorsListModel listModel = new HospitalDoctorsListModel();
 
             listModel.HospitalDoctorsList = hospitalDoctorsList?.Count > 0 ? hospitalDoctorsList : new List<HospitalDoctorsModel>();

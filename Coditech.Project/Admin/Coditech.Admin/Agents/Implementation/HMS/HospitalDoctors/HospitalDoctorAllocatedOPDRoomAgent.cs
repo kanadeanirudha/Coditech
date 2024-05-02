@@ -29,19 +29,23 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual HospitalDoctorAllocatedOPDRoomListViewModel GetHospitalDoctorAllocatedOPDRoomList(DataTableViewModel dataTableModel)
+        public virtual HospitalDoctorAllocatedOPDRoomListViewModel GetHospitalDoctorAllocatedOPDRoomList(string selectedCentreCode, short selectedDepartmentId, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("RoomName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "RoomName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            HospitalDoctorAllocatedOPDRoomListResponse response = _hospitalDoctorAllocatedOPDRoomClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            HospitalDoctorAllocatedOPDRoomListResponse response = _hospitalDoctorAllocatedOPDRoomClient.List(selectedCentreCode, selectedDepartmentId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalDoctorAllocatedOPDRoomListModel hospitalDoctorAllocatedOPDRoomList = new HospitalDoctorAllocatedOPDRoomListModel { HospitalDoctorAllocatedOPDRoomList = response?.HospitalDoctorAllocatedOPDRoomList };
             HospitalDoctorAllocatedOPDRoomListViewModel listViewModel = new HospitalDoctorAllocatedOPDRoomListViewModel();
             listViewModel.HospitalDoctorAllocatedOPDRoomList = hospitalDoctorAllocatedOPDRoomList?.HospitalDoctorAllocatedOPDRoomList?.ToViewModel<HospitalDoctorAllocatedOPDRoomViewModel>().ToList();
@@ -141,30 +145,46 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Image",
+                ColumnCode = "Image",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Contact",
+                ColumnCode = "MobileNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Email Id",
+                ColumnCode = "EmailId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Medical Specilization",
+                ColumnCode = "MedicalSpecilization",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Room Name",
                 ColumnCode = "RoomName",
                 IsSortable = true,
             });
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Country Code",
-            //    ColumnCode = "CountryCode",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Is Default",
-            //    ColumnCode = "DefaultFlag",
-            //});
             return datatableColumnList;
-        }
-        #endregion
-        #region
-        // it will return get all HospitalDoctorAllocatedOPDRoom list from database 
-        public virtual HospitalDoctorAllocatedOPDRoomListResponse GetHospitalDoctorAllocatedOPDRoomList()
-        {
-            HospitalDoctorAllocatedOPDRoomListResponse hospitalDoctorAllocatedOPDRoomList = _hospitalDoctorAllocatedOPDRoomClient.List(null, null, null, 1, int.MaxValue);
-            return hospitalDoctorAllocatedOPDRoomList?.HospitalDoctorAllocatedOPDRoomList?.Count > 0 ? hospitalDoctorAllocatedOPDRoomList : new HospitalDoctorAllocatedOPDRoomListResponse();
         }
         #endregion
     }

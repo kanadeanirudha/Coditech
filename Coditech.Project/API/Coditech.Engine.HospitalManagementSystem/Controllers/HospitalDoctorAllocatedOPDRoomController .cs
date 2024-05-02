@@ -6,6 +6,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
@@ -28,11 +29,11 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
         [Route("/HospitalDoctorAllocatedOPDRoom/GetHospitalDoctorAllocatedOPDRoomList")]
         [Produces(typeof(HospitalDoctorAllocatedOPDRoomListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetHospitalDoctorAllocatedOPDRoomList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetHospitalDoctorAllocatedOPDRoomList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                HospitalDoctorAllocatedOPDRoomListModel list = _hospitalDoctorAllocatedOPDRoomService.GetHospitalDoctorAllocatedOPDRoomList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                HospitalDoctorAllocatedOPDRoomListModel list = _hospitalDoctorAllocatedOPDRoomService.GetHospitalDoctorAllocatedOPDRoomList(selectedCentreCode, selectedDepartmentId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalDoctorAllocatedOPDRoomListResponse>(data) : CreateNoContentResponse();
             }

@@ -19,7 +19,13 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            HospitalDoctorAllocatedOPDRoomListViewModel list = _hospitalDoctorAllocatedOPDRoomAgent.GetHospitalDoctorAllocatedOPDRoomList(dataTableModel);
+            HospitalDoctorAllocatedOPDRoomListViewModel list = new HospitalDoctorAllocatedOPDRoomListViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
+            {
+                list = _hospitalDoctorAllocatedOPDRoomAgent.GetHospitalDoctorAllocatedOPDRoomList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, dataTableModel);
+            }
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+            list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/HMS/HospitalDoctorAllocatedOPDRoom/_List.cshtml", list);

@@ -9,5 +9,7 @@ namespace Coditech.Admin.ViewModel
         {
             HospitalDoctorAllocatedOPDRoomList = new List<HospitalDoctorAllocatedOPDRoomViewModel>();
         }
+        public string SelectedCentreCode { get; set; } = string.Empty;
+        public int SelectedDepartmentId { get; set; }
     }
 }

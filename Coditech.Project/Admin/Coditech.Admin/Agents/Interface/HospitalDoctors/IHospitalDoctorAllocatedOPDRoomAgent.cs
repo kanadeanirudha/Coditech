@@ -10,7 +10,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>HospitalDoctorAllocatedOPDRoomListViewModel</returns>
-        HospitalDoctorAllocatedOPDRoomListViewModel GetHospitalDoctorAllocatedOPDRoomList(DataTableViewModel dataTableModel);
+        HospitalDoctorAllocatedOPDRoomListViewModel GetHospitalDoctorAllocatedOPDRoomList(string selectedCentreCode, short selectedDepartmentId, DataTableViewModel dataTableModel);
 
         /// <summary>
         /// Create HospitalDoctorAllocatedOPDRoom.
@@ -39,6 +39,5 @@ namespace Coditech.Admin.Agents
         /// <param name="hospitalDoctorAllocatedOPDRoomId">hospitalDoctorAllocatedOPDRoomId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteHospitalDoctorAllocatedOPDRoom(string hospitalDoctorAllocatedOPDRoomId, out string errorMessage);
-        HospitalDoctorAllocatedOPDRoomListResponse GetHospitalDoctorAllocatedOPDRoomList();
     }
 }
