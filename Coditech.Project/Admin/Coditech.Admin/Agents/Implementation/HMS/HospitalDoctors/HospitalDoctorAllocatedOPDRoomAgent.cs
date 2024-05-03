@@ -73,10 +73,7 @@ namespace Coditech.Admin.Agents
                 HospitalDoctorAllocatedOPDRoomResponse response = _hospitalDoctorAllocatedOPDRoomClient.UpdateHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomViewModel.ToModel<HospitalDoctorAllocatedOPDRoomModel>());
                 HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoomModel = response?.HospitalDoctorAllocatedOPDRoomModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Info);
-                hospitalDoctorAllocatedOPDRoomViewModel = IsNotNull(hospitalDoctorAllocatedOPDRoomModel) ? hospitalDoctorAllocatedOPDRoomModel.ToViewModel<HospitalDoctorAllocatedOPDRoomViewModel>() : (HospitalDoctorAllocatedOPDRoomViewModel)GetViewModelWithErrorMessage(new HospitalDoctorAllocatedOPDRoomViewModel(), GeneralResources.UpdateErrorMessage);
-                hospitalDoctorAllocatedOPDRoomViewModel.SelectedCentreCode = SelectedCentreCode;
-                hospitalDoctorAllocatedOPDRoomViewModel.SelectedDepartmentId = SelectedDepartmentId;
-                return hospitalDoctorAllocatedOPDRoomViewModel;
+                return IsNotNull(hospitalDoctorAllocatedOPDRoomModel) ? hospitalDoctorAllocatedOPDRoomModel.ToViewModel<HospitalDoctorAllocatedOPDRoomViewModel>() : (HospitalDoctorAllocatedOPDRoomViewModel)GetViewModelWithErrorMessage(new HospitalDoctorAllocatedOPDRoomViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
