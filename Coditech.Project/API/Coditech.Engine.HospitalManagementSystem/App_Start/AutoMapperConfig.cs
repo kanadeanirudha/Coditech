@@ -14,6 +14,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<HospitalDoctors, HospitalDoctorsModel>().ReverseMap();
             CreateMap<HospitalDoctorAllocatedOPDRoom, HospitalDoctorAllocatedOPDRoomModel>().ReverseMap();
+            CreateMap<HospitalDoctorLeaveSchedule, HospitalDoctorLeaveScheduleModel>().ReverseMap();
         }
     }
 }

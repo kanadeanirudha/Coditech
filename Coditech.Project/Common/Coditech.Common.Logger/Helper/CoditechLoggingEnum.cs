@@ -67,6 +67,7 @@
             InventoryItemTrackingDimension,
             InventoryItemGroup,
             UserMainMenuMaster,
+            HospitalDoctorLeaveSchedule
         }
     }
 }

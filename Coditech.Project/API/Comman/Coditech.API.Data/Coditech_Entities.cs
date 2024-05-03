@@ -92,6 +92,7 @@ namespace Coditech.API.Data
         #region HospitalDoctors
         public DbSet<HospitalDoctors> HospitalDoctors { get; set; }
         public DbSet<HospitalDoctorAllocatedOPDRoom> HospitalDoctorAllocatedOPDRoom { get; set; }
+        public DbSet<HospitalDoctorLeaveSchedule> HospitalDoctorLeaveSchedule { get; set; }
         #endregion
 
         #region GeneralPerson
