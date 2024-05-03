@@ -49,36 +49,14 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
             }
         }
 
-        [Route("/HospitalDoctorAllocatedOPDRoom/CreateHospitalDoctorAllocatedOPDRoom")]
-        [HttpPost, ValidateModel]
-        [Produces(typeof(HospitalDoctorAllocatedOPDRoomResponse))]
-        public virtual IActionResult CreateHospitalDoctorAllocatedOPDRoom([FromBody] HospitalDoctorAllocatedOPDRoomModel model)
-        {
-            try
-            {
-                HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoom = _hospitalDoctorAllocatedOPDRoomService.CreateHospitalDoctorAllocatedOPDRoom(model);
-                return IsNotNull(hospitalDoctorAllocatedOPDRoom) ? CreateCreatedResponse(new HospitalDoctorAllocatedOPDRoomResponse { HospitalDoctorAllocatedOPDRoomModel = hospitalDoctorAllocatedOPDRoom }) : CreateInternalServerErrorResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new HospitalDoctorAllocatedOPDRoomResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new HospitalDoctorAllocatedOPDRoomResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
         [Route("/HospitalDoctorAllocatedOPDRoom/GetHospitalDoctorAllocatedOPDRoom")]
         [HttpGet]
         [Produces(typeof(HospitalDoctorAllocatedOPDRoomResponse))]
-        public virtual IActionResult GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorAllocatedOPDRoomId)
+        public virtual IActionResult GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorId, int hospitalDoctorAllocatedOPDRoomId)
         {
             try
             {
-                HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoomModel = _hospitalDoctorAllocatedOPDRoomService.GetHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomId);
+                HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoomModel = _hospitalDoctorAllocatedOPDRoomService.GetHospitalDoctorAllocatedOPDRoom(hospitalDoctorId,hospitalDoctorAllocatedOPDRoomId);
                 return IsNotNull(hospitalDoctorAllocatedOPDRoomModel) ? CreateOKResponse(new HospitalDoctorAllocatedOPDRoomResponse { HospitalDoctorAllocatedOPDRoomModel = hospitalDoctorAllocatedOPDRoomModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -112,28 +90,6 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new HospitalDoctorAllocatedOPDRoomResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
-        [Route("/HospitalDoctorAllocatedOPDRoom/DeleteHospitalDoctorAllocatedOPDRoom")]
-        [HttpPost, ValidateModel]
-        [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteHospitalDoctorAllocatedOPDRoom([FromBody] ParameterModel hospitalDoctorAllocatedOPDRoomIds)
-        {
-            try
-            {
-                bool deleted = _hospitalDoctorAllocatedOPDRoomService.DeleteHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomIds);
-                return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

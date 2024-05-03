@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -34,31 +35,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Create()
+        public virtual ActionResult Edit(int hospitalDoctorId, int hospitalDoctorAllocatedOPDRoomId)
         {
-            return View(createEdit, new HospitalDoctorAllocatedOPDRoomViewModel());
-        }
-
-        [HttpPost]
-        public virtual ActionResult Create(HospitalDoctorAllocatedOPDRoomViewModel hospitalDoctorAllocatedOPDRoomViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                hospitalDoctorAllocatedOPDRoomViewModel = _hospitalDoctorAllocatedOPDRoomAgent.CreateHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomViewModel);
-                if (!hospitalDoctorAllocatedOPDRoomViewModel.HasError)
-                {
-                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
-                }
-            }
-            SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorAllocatedOPDRoomViewModel.ErrorMessage));
-            return View(createEdit, hospitalDoctorAllocatedOPDRoomViewModel);
-        }
-
-        [HttpGet]
-        public virtual ActionResult Edit(int hospitalDoctorAllocatedOPDRoomId)
-        {
-            HospitalDoctorAllocatedOPDRoomViewModel hospitalDoctorAllocatedOPDRoomViewModel = _hospitalDoctorAllocatedOPDRoomAgent.GetHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomId);
+            HospitalDoctorAllocatedOPDRoomViewModel hospitalDoctorAllocatedOPDRoomViewModel = _hospitalDoctorAllocatedOPDRoomAgent.GetHospitalDoctorAllocatedOPDRoom(hospitalDoctorId, hospitalDoctorAllocatedOPDRoomId);
             return ActionView(createEdit, hospitalDoctorAllocatedOPDRoomViewModel);
         }
 
@@ -70,26 +49,26 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_hospitalDoctorAllocatedOPDRoomAgent.UpdateHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { hospitalDoctorAllocatedOPDRoomId = hospitalDoctorAllocatedOPDRoomViewModel.HospitalDoctorAllocatedOPDRoomId });
+                return RedirectToAction("List", CreateActionDataTable(hospitalDoctorAllocatedOPDRoomViewModel.SelectedCentreCode, Convert.ToInt16(hospitalDoctorAllocatedOPDRoomViewModel.SelectedDepartmentId)));
             }
             return View(createEdit, hospitalDoctorAllocatedOPDRoomViewModel);
         }
 
-        public virtual ActionResult Delete(string hospitalDoctorAllocatedOPDRoomIdIds)
+        public virtual ActionResult GetOrganisationCentrewiseBuildingRooms(string organisationCentrewiseBuildingMasterId)
         {
-            string message = string.Empty;
-            bool status = false;
-            if (!string.IsNullOrEmpty(hospitalDoctorAllocatedOPDRoomIdIds))
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
             {
-                status = _hospitalDoctorAllocatedOPDRoomAgent.DeleteHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomIdIds, out message);
-                SetNotificationMessage(!status
-                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<HospitalDoctorAllocatedOPDRoomController>(x => x.List(null));
-            }
+                DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(),
+                DropdownName = "OrganisationCentrewiseBuildingRoomId",
+                Parameter = organisationCentrewiseBuildingMasterId,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
 
-            SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<HospitalDoctorAllocatedOPDRoomController>(x => x.List(null));
+        public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = SelectedDepartmentId };
+            return RedirectToAction("List", dataTableViewModel);
         }
 
         #region Protected

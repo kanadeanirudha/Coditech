@@ -8,9 +8,7 @@ namespace Coditech.API.Service
     public interface IHospitalDoctorAllocatedOPDRoomService
     {
         HospitalDoctorAllocatedOPDRoomListModel GetHospitalDoctorAllocatedOPDRoomList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        HospitalDoctorAllocatedOPDRoomModel CreateHospitalDoctorAllocatedOPDRoom(HospitalDoctorAllocatedOPDRoomModel model);
-        HospitalDoctorAllocatedOPDRoomModel GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorAllocatedOPDRoomId);
+        HospitalDoctorAllocatedOPDRoomModel GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorId,int hospitalDoctorAllocatedOPDRoomId);
         bool UpdateHospitalDoctorAllocatedOPDRoom(HospitalDoctorAllocatedOPDRoomModel model);
-        bool DeleteHospitalDoctorAllocatedOPDRoom(ParameterModel parameterModel);
     }
 }

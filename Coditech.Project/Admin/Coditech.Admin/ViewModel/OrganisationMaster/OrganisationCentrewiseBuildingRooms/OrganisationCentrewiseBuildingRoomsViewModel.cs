@@ -27,7 +27,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(15)]
         [Required]
         [Display(Name = "Centre")]
-        public string CentreCode { get; set; }
+        public string SelectedCentreCode { get; set; }
         public string BuildingName { get; set; }
         public string BuildingFloor { get; set; }
     }

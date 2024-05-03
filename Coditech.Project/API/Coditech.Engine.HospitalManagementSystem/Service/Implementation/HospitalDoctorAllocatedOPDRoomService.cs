@@ -4,6 +4,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -12,16 +13,21 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class HospitalDoctorAllocatedOPDRoomService : IHospitalDoctorAllocatedOPDRoomService
+    public class HospitalDoctorAllocatedOPDRoomService : BaseService, IHospitalDoctorAllocatedOPDRoomService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly ICoditechRepository<HospitalDoctorAllocatedOPDRoom> _hospitalDoctorAllocatedOPDRoomRepository;
-        public HospitalDoctorAllocatedOPDRoomService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<HospitalDoctorAllocatedRoom> _hospitalDoctorAllocatedOPDRoomRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseBuildingRooms> _organisationCentrewiseBuildingRoomsRepository;
+        private readonly ICoditechRepository<HospitalDoctors> _hospitalDoctorsRepository;
+
+        public HospitalDoctorAllocatedOPDRoomService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _hospitalDoctorAllocatedOPDRoomRepository = new CoditechRepository<HospitalDoctorAllocatedOPDRoom>(_serviceProvider.GetService<Coditech_Entities>());
+            _hospitalDoctorAllocatedOPDRoomRepository = new CoditechRepository<HospitalDoctorAllocatedRoom>(_serviceProvider.GetService<Coditech_Entities>());
+            _hospitalDoctorsRepository = new CoditechRepository<HospitalDoctors>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseBuildingRoomsRepository = new CoditechRepository<OrganisationCentrewiseBuildingRooms>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual HospitalDoctorAllocatedOPDRoomListModel GetHospitalDoctorAllocatedOPDRoomList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -44,40 +50,36 @@ namespace Coditech.API.Service
             return listModel;
         }
 
-        //Create HospitalDoctorAllocatedOPDRoom.
-        public virtual HospitalDoctorAllocatedOPDRoomModel CreateHospitalDoctorAllocatedOPDRoom(HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoomModel)
-        {
-            if (IsNull(hospitalDoctorAllocatedOPDRoomModel))
-                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
-            //if (IsRoomNameAlreadyExist(hospitalDoctorAllocatedOPDRoomModel.RoomName))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Room Name"));
-
-            HospitalDoctorAllocatedOPDRoom hospitalDoctorAllocatedOPDRoom = hospitalDoctorAllocatedOPDRoomModel.FromModelToEntity<HospitalDoctorAllocatedOPDRoom>();
-
-            //Create new HospitalDoctorAllocatedOPDRoom and return it.
-            HospitalDoctorAllocatedOPDRoom hospitalDoctorAllocatedOPDRoomData = _hospitalDoctorAllocatedOPDRoomRepository.Insert(hospitalDoctorAllocatedOPDRoom);
-            if (hospitalDoctorAllocatedOPDRoomData?.HospitalDoctorAllocatedOPDRoomId > 0)
-            {
-                hospitalDoctorAllocatedOPDRoomModel.HospitalDoctorAllocatedOPDRoomId = hospitalDoctorAllocatedOPDRoomData.HospitalDoctorAllocatedOPDRoomId;
-            }
-            else
-            {
-                hospitalDoctorAllocatedOPDRoomModel.HasError = true;
-                hospitalDoctorAllocatedOPDRoomModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
-            }
-            return hospitalDoctorAllocatedOPDRoomModel;
-        }
-
         //Get HospitalDoctorAllocatedOPDRoom by hospitalDoctorAllocatedOPDRoom Id.
-        public virtual HospitalDoctorAllocatedOPDRoomModel GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorAllocatedOPDRoomId)
+        public virtual HospitalDoctorAllocatedOPDRoomModel GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorId, int hospitalDoctorAllocatedOPDRoomId)
         {
-            if (hospitalDoctorAllocatedOPDRoomId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorAllocatedOPDRoomID"));
+            if (hospitalDoctorId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "hospitalDoctorId"));
 
-            //Get the HospitalDoctorAllocatedOPDRoom Details based on id.
-            HospitalDoctorAllocatedOPDRoom hospitalDoctorAllocatedOPDRoom = _hospitalDoctorAllocatedOPDRoomRepository.Table.FirstOrDefault(x => x.HospitalDoctorAllocatedOPDRoomId == hospitalDoctorAllocatedOPDRoomId);
-            HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoomModel = hospitalDoctorAllocatedOPDRoom?.FromEntityToModel<HospitalDoctorAllocatedOPDRoomModel>();
+            HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoomModel = new HospitalDoctorAllocatedOPDRoomModel();
+            if (hospitalDoctorAllocatedOPDRoomId > 0)
+            {
+                //Get the HospitalDoctorAllocatedOPDRoom Details based on id.
+                HospitalDoctorAllocatedRoom hospitalDoctorAllocatedOPDRoom = _hospitalDoctorAllocatedOPDRoomRepository.Table.FirstOrDefault(x => x.HospitalDoctorAllocatedOPDRoomId == hospitalDoctorAllocatedOPDRoomId);
+                if (IsNotNull(hospitalDoctorAllocatedOPDRoom))
+                {
+                    hospitalDoctorAllocatedOPDRoomModel = hospitalDoctorAllocatedOPDRoom?.FromEntityToModel<HospitalDoctorAllocatedOPDRoomModel>();
+                    hospitalDoctorAllocatedOPDRoomModel.OrganisationCentrewiseBuildingMasterId = _organisationCentrewiseBuildingRoomsRepository.Table.Where(x => x.OrganisationCentrewiseBuildingRoomId == hospitalDoctorAllocatedOPDRoom.OrganisationCentrewiseBuildingRoomId)?.Select(y => y.OrganisationCentrewiseBuildingMasterId)?.FirstOrDefault();
+                }
+            }
+
+            HospitalDoctors hospitalDoctors = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorId)?.FirstOrDefault();
+            if (hospitalDoctors?.EmployeeId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(hospitalDoctors.EmployeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    hospitalDoctorAllocatedOPDRoomModel.FirstName = generalPersonModel.FirstName;
+                    hospitalDoctorAllocatedOPDRoomModel.LastName = generalPersonModel.LastName;
+                    hospitalDoctorAllocatedOPDRoomModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+                    hospitalDoctorAllocatedOPDRoomModel.SelectedDepartmentId = generalPersonModel.SelectedDepartmentId;
+                }
+            }
             return hospitalDoctorAllocatedOPDRoomModel;
         }
 
@@ -87,40 +89,35 @@ namespace Coditech.API.Service
             if (IsNull(hospitalDoctorAllocatedOPDRoomModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
-            if (hospitalDoctorAllocatedOPDRoomModel.HospitalDoctorAllocatedOPDRoomId < 1)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorAllocatedOPDRoomID"));
+            if (hospitalDoctorAllocatedOPDRoomModel.HospitalDoctorId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorId"));
 
-            HospitalDoctorAllocatedOPDRoom hospitalDoctorAllocatedOPDRoom = hospitalDoctorAllocatedOPDRoomModel.FromModelToEntity<HospitalDoctorAllocatedOPDRoom>();
-
-            //Update HospitalDoctorAllocatedOPDRoom
-            bool isHospitalDoctorAllocatedOPDRoomUpdated = _hospitalDoctorAllocatedOPDRoomRepository.Update(hospitalDoctorAllocatedOPDRoom);
-            if (!isHospitalDoctorAllocatedOPDRoomUpdated)
+            HospitalDoctorAllocatedRoom hospitalDoctorAllocatedOPDRoom = hospitalDoctorAllocatedOPDRoomModel.FromModelToEntity<HospitalDoctorAllocatedRoom>();
+            bool isHospitalDoctorAllocatedOPDRoomUpdated = false;
+            if (hospitalDoctorAllocatedOPDRoomModel.HospitalDoctorAllocatedOPDRoomId > 0)
             {
-                hospitalDoctorAllocatedOPDRoomModel.HasError = true;
-                hospitalDoctorAllocatedOPDRoomModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                //Update HospitalDoctorAllocatedOPDRoom
+                isHospitalDoctorAllocatedOPDRoomUpdated = _hospitalDoctorAllocatedOPDRoomRepository.Update(hospitalDoctorAllocatedOPDRoom);
+                if (!isHospitalDoctorAllocatedOPDRoomUpdated)
+                {
+                    hospitalDoctorAllocatedOPDRoomModel.HasError = true;
+                    hospitalDoctorAllocatedOPDRoomModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                }
+            }
+            else
+            {
+                hospitalDoctorAllocatedOPDRoom = _hospitalDoctorAllocatedOPDRoomRepository.Insert(hospitalDoctorAllocatedOPDRoom);
+                if (hospitalDoctorAllocatedOPDRoom?.HospitalDoctorAllocatedOPDRoomId > 0)
+                {
+                    hospitalDoctorAllocatedOPDRoomModel.HospitalDoctorAllocatedOPDRoomId = hospitalDoctorAllocatedOPDRoom.HospitalDoctorAllocatedOPDRoomId;
+                }
+                else
+                {
+                    hospitalDoctorAllocatedOPDRoomModel.HasError = true;
+                    hospitalDoctorAllocatedOPDRoomModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                }
             }
             return isHospitalDoctorAllocatedOPDRoomUpdated;
         }
-
-        //Delete HospitalDoctorAllocatedOPDRoom.
-        public virtual bool DeleteHospitalDoctorAllocatedOPDRoom(ParameterModel parameterModel)
-        {
-            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorAllocatedOPDRoomID"));
-
-            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("HospitalDoctorAllocatedOPDRoomId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
-            int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteHospitalDoctorAllocatedOPDRoom @HospitalDoctorAllocatedOPDRoomId,  @Status OUT", 1, out status);
-
-            return status == 1 ? true : false;
-        }
-
-        //#region Protected Method
-        ////Check if Room Name is already present or not.
-        //protected virtual bool IsRoomNameAlreadyExist(string roomName, int hospitalDoctorAllocatedOPDRoomId = 0)
-        // => _hospitalDoctorAllocatedOPDRoomRepository.Table.Any(x => x.RoomName == roomName && (x.HospitalDoctorAllocatedOPDRoomId != hospitalDoctorAllocatedOPDRoomId || hospitalDoctorAllocatedOPDRoomId == 0));
-        //#endregion
     }
 }

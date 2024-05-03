@@ -78,7 +78,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorId"));
 
             //Get the HospitalDoctors Details based on id.
-            HospitalDoctors hospitalDoctors = _hospitalDoctorsRepository.Table.FirstOrDefault(x => x.HospitalDoctorId == hospitalDoctorId);
+            HospitalDoctors hospitalDoctors = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorId)?.FirstOrDefault();
             HospitalDoctorsModel hospitalDoctorsModel = hospitalDoctors?.FromEntityToModel<HospitalDoctorsModel>();
             if (hospitalDoctorsModel?.EmployeeId > 0)
             {

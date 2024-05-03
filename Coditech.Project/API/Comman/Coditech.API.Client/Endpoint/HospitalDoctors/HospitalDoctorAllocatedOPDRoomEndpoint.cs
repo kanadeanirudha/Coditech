@@ -15,8 +15,8 @@ namespace Coditech.API.Endpoint
         public string CreateHospitalDoctorAllocatedOPDRoomAsync() =>
             $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorAllocatedOPDRoom/CreateHospitalDoctorAllocatedOPDRoom";
 
-        public string GetHospitalDoctorAllocatedOPDRoomAsync(int hospitalDoctorAllocatedOPDRoomId) =>
-            $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorAllocatedOPDRoom/GetHospitalDoctorAllocatedOPDRoom?hospitalDoctorAllocatedOPDRoomId={hospitalDoctorAllocatedOPDRoomId}";
+        public string GetHospitalDoctorAllocatedOPDRoomAsync(int hospitalDoctorId, int hospitalDoctorAllocatedOPDRoomId) =>
+            $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorAllocatedOPDRoom/GetHospitalDoctorAllocatedOPDRoom?hospitalDoctorId={hospitalDoctorId}&hospitalDoctorAllocatedOPDRoomId={hospitalDoctorAllocatedOPDRoomId}";
        
         public string UpdateHospitalDoctorAllocatedOPDRoomAsync() =>
                $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorAllocatedOPDRoom/UpdateHospitalDoctorAllocatedOPDRoom";

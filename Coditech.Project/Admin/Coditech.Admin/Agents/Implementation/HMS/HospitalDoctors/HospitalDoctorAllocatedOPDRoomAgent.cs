@@ -3,12 +3,13 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -54,37 +55,10 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
-        //Create Hospital Doctor Allocated OPD Room.
-        public virtual HospitalDoctorAllocatedOPDRoomViewModel CreateHospitalDoctorAllocatedOPDRoom(HospitalDoctorAllocatedOPDRoomViewModel hospitalDoctorAllocatedOPDRoomViewModel)
-        {
-            try
-            {
-                HospitalDoctorAllocatedOPDRoomResponse response = _hospitalDoctorAllocatedOPDRoomClient.CreateHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomViewModel.ToModel<HospitalDoctorAllocatedOPDRoomModel>());
-                HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoomModel = response?.HospitalDoctorAllocatedOPDRoomModel;
-                return IsNotNull(hospitalDoctorAllocatedOPDRoomModel) ? hospitalDoctorAllocatedOPDRoomModel.ToViewModel<HospitalDoctorAllocatedOPDRoomViewModel>() : new HospitalDoctorAllocatedOPDRoomViewModel();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Warning);
-                switch (ex.ErrorCode)
-                {
-                    case ErrorCodes.AlreadyExist:
-                        return (HospitalDoctorAllocatedOPDRoomViewModel)GetViewModelWithErrorMessage(hospitalDoctorAllocatedOPDRoomViewModel, ex.ErrorMessage);
-                    default:
-                        return (HospitalDoctorAllocatedOPDRoomViewModel)GetViewModelWithErrorMessage(hospitalDoctorAllocatedOPDRoomViewModel, GeneralResources.ErrorFailedToCreate);
-                }
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Error);
-                return (HospitalDoctorAllocatedOPDRoomViewModel)GetViewModelWithErrorMessage(hospitalDoctorAllocatedOPDRoomViewModel, GeneralResources.ErrorFailedToCreate);
-            }
-        }
-
         //GetHospitalDoctorAllocatedOPDRoom by hospital Doctor Allocated OPD Room Id.
-        public virtual HospitalDoctorAllocatedOPDRoomViewModel GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorAllocatedOPDRoomId)
+        public virtual HospitalDoctorAllocatedOPDRoomViewModel GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorId, int hospitalDoctorAllocatedOPDRoomId)
         {
-            HospitalDoctorAllocatedOPDRoomResponse response = _hospitalDoctorAllocatedOPDRoomClient.GetHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomId);
+            HospitalDoctorAllocatedOPDRoomResponse response = _hospitalDoctorAllocatedOPDRoomClient.GetHospitalDoctorAllocatedOPDRoom(hospitalDoctorId, hospitalDoctorAllocatedOPDRoomId);
             return response?.HospitalDoctorAllocatedOPDRoomModel.ToViewModel<HospitalDoctorAllocatedOPDRoomViewModel>();
         }
 
@@ -93,48 +67,21 @@ namespace Coditech.Admin.Agents
         {
             try
             {
+                string SelectedCentreCode = hospitalDoctorAllocatedOPDRoomViewModel.SelectedCentreCode;
+                string SelectedDepartmentId = hospitalDoctorAllocatedOPDRoomViewModel.SelectedDepartmentId;
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Info);
                 HospitalDoctorAllocatedOPDRoomResponse response = _hospitalDoctorAllocatedOPDRoomClient.UpdateHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomViewModel.ToModel<HospitalDoctorAllocatedOPDRoomModel>());
                 HospitalDoctorAllocatedOPDRoomModel hospitalDoctorAllocatedOPDRoomModel = response?.HospitalDoctorAllocatedOPDRoomModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Info);
-                return IsNotNull(hospitalDoctorAllocatedOPDRoomModel) ? hospitalDoctorAllocatedOPDRoomModel.ToViewModel<HospitalDoctorAllocatedOPDRoomViewModel>() : (HospitalDoctorAllocatedOPDRoomViewModel)GetViewModelWithErrorMessage(new HospitalDoctorAllocatedOPDRoomViewModel(), GeneralResources.UpdateErrorMessage);
+                hospitalDoctorAllocatedOPDRoomViewModel = IsNotNull(hospitalDoctorAllocatedOPDRoomModel) ? hospitalDoctorAllocatedOPDRoomModel.ToViewModel<HospitalDoctorAllocatedOPDRoomViewModel>() : (HospitalDoctorAllocatedOPDRoomViewModel)GetViewModelWithErrorMessage(new HospitalDoctorAllocatedOPDRoomViewModel(), GeneralResources.UpdateErrorMessage);
+                hospitalDoctorAllocatedOPDRoomViewModel.SelectedCentreCode = SelectedCentreCode;
+                hospitalDoctorAllocatedOPDRoomViewModel.SelectedDepartmentId = SelectedDepartmentId;
+                return hospitalDoctorAllocatedOPDRoomViewModel;
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Error);
                 return (HospitalDoctorAllocatedOPDRoomViewModel)GetViewModelWithErrorMessage(hospitalDoctorAllocatedOPDRoomViewModel, GeneralResources.UpdateErrorMessage);
-            }
-        }
-
-        //Delete HospitalDoctorAllocatedOPDRoom.
-        public virtual bool DeleteHospitalDoctorAllocatedOPDRoom(string hospitalDoctorAllocatedOPDRoomId, out string errorMessage)
-        {
-            errorMessage = GeneralResources.ErrorFailedToDelete;
-
-            try
-            {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _hospitalDoctorAllocatedOPDRoomClient.DeleteHospitalDoctorAllocatedOPDRoom(new ParameterModel { Ids = hospitalDoctorAllocatedOPDRoomId });
-                return trueFalseResponse.IsSuccess;
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Warning);
-                switch (ex.ErrorCode)
-                {
-                    case ErrorCodes.AssociationDeleteError:
-                        errorMessage = AdminResources.ErrorDeleteHospitalDoctorAllocatedOPDRoom;
-                        return false;
-                    default:
-                        errorMessage = GeneralResources.ErrorFailedToDelete;
-                        return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorAllocatedOPDRoom.ToString(), TraceLevel.Error);
-                errorMessage = GeneralResources.ErrorFailedToDelete;
-                return false;
             }
         }
         #endregion
