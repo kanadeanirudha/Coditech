@@ -120,7 +120,7 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
-                        errorMessage = AdminResources.ErrorDeleteGeneralUserMainMenuMaster;
+                        errorMessage = AdminResources.ErrorDeleteUserMainMenuMaster;
                         return false;
                     default:
                         errorMessage = GeneralResources.ErrorFailedToDelete;

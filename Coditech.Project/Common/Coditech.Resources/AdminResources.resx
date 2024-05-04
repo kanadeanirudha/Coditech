@@ -366,4 +366,10 @@
   <data name="LabelTaxList" xml:space="preserve">
     <value>Tax List</value>
   </data>
+  <data name="ErrorDeleteHospitalDoctorLeaveSchedule" xml:space="preserve">
+    <value>Failed to delete Hospital Doctor Leave Schedule due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteUserMainMenuMaster" xml:space="preserve">
+    <value>Failed to delete User Main Menu due to associate record.</value>
+  </data>
 </root>
