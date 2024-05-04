@@ -148,6 +148,11 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Menu Code",
+                ColumnCode = "MenuCode",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Parent Menu Code",
                 ColumnCode = "ParentMenuCode",
                 IsSortable = true,

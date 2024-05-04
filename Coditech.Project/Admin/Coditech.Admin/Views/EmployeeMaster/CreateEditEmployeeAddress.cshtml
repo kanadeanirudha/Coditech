@@ -5,7 +5,7 @@
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     ViewBag.Title = "Person Address";
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
-    keyValuePairs.Add("GymMemberDetailId", Model.EntityId.ToString());
+    keyValuePairs.Add("EmployeeId", Model.EntityId.ToString());
     keyValuePairs.Add("PersonId", Model.PersonId.ToString());
 }
 <!-- Page Content-->
