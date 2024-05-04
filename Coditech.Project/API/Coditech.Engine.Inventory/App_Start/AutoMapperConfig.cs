@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using Coditech.API.Data;
+using Coditech.API.Data.DataModel.Inventory;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 
@@ -20,6 +21,7 @@ namespace Coditech.API.Mapper
             CreateMap<InventoryItemStorageDimensionModel, InventoryItemStorageDimension>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionModel, InventoryItemTrackingDimension>().ReverseMap();
             CreateMap<InventoryProductDimensionModel, InventoryProductDimension>().ReverseMap();
+            CreateMap<InventoryItemGroupModel, InventoryItemGroup>().ReverseMap();
         }
     }
 }

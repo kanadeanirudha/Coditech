@@ -1,5 +1,4 @@
 ﻿using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model.Response;
 
 namespace Coditech.Admin.Agents
 {

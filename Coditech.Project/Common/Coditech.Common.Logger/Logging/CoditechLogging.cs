@@ -91,24 +91,23 @@ namespace Coditech.Common.Logger
         /// <param name="logFilePath">string log file path</param>
         private void WriteLogFiles(string message, string logFilePath, string componentName)
         {
-            //if (FileLoggingEnabled())
-            //{
-            StringBuilder errMsg = new StringBuilder();
-            errMsg.AppendLine();
-            errMsg.AppendLine();
-            errMsg.AppendLine("*************************");
-            errMsg.AppendLine("TimeStamp: " + DateTime.Now.ToString("yyyy-MM-dd"));
-            errMsg.AppendLine(message);
-            errMsg.AppendLine("*************************");
-
-            string filePath = logFilePath.Replace("{yyyy-mm-dd}", todaysDate);
-            if (!string.IsNullOrEmpty(componentName))
+            if (FileLoggingEnabled())
             {
-                filePath = filePath.Replace("{ComponentName}", componentName);
-            }
+                StringBuilder errMsg = new StringBuilder();
+                errMsg.AppendLine();
+                errMsg.AppendLine();
+                errMsg.AppendLine("*************************");
+                errMsg.AppendLine("TimeStamp: " + DateTime.Now.ToString("yyyy-MM-dd"));
+                errMsg.AppendLine(message);
+                errMsg.AppendLine("*************************");
 
-            WriteTextStorage(errMsg.ToString(), filePath, Mode.Append);
-            //}
+                string filePath = logFilePath.Replace("{yyyy-mm-dd}", todaysDate);
+                if (!string.IsNullOrEmpty(componentName))
+                {
+                    filePath = filePath.Replace("{ComponentName}", componentName);
+                }
+                WriteTextStorage(errMsg.ToString(), filePath, Mode.Append);
+            }
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Coditech.API.Data.DataModel.Gym;
+using Coditech.API.Data.DataModel.Inventory;
 using Microsoft.EntityFrameworkCore;
 
 namespace Coditech.API.Data
@@ -90,6 +91,8 @@ namespace Coditech.API.Data
 
         #region HospitalDoctors
         public DbSet<HospitalDoctors> HospitalDoctors { get; set; }
+        public DbSet<HospitalDoctorAllocatedRoom> HospitalDoctorAllocatedRoom { get; set; }
+        public DbSet<HospitalDoctorLeaveSchedule> HospitalDoctorLeaveSchedule { get; set; }
         #endregion
 
         #region GeneralPerson
@@ -109,6 +112,7 @@ namespace Coditech.API.Data
         public DbSet<InventoryItemModelGroup> InventoryItemModelGroup { get; set; }
         public DbSet<InventoryItemTrackingDimension> InventoryItemTrackingDimension { get; set; }
         public DbSet<InventoryProductDimension> InventoryProductDimension { get; set; }
+        public DbSet<InventoryItemGroup> InventoryItemGroup { get; set; }
         public DbSet<InventoryProductDimensionGroup> InventoryProductDimensionGroup { get; set; }
         public DbSet<InventoryProductDimensionGroupMapper> InventoryProductDimensionGroupMapper { get; set; }
         

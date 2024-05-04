@@ -365,13 +365,13 @@ namespace Coditech.API.Service
         #endregion
 
         #region protected
-        protected virtual List<UserMenuModel> GetActiveMenuList(string moduleCodel, List<AdminRoleMenuDetails> associatedMenuCodeList)
+        protected virtual List<UserMainMenuModel> GetActiveMenuList(string moduleCodel, List<AdminRoleMenuDetails> associatedMenuCodeList)
         {
-            List<UserMenuModel> menuList = new List<UserMenuModel>();
+            List<UserMainMenuModel> menuList = new List<UserMainMenuModel>();
             foreach (UserMainMenuMaster item in base.GetAllActiveMenuList(moduleCodel))
             {
                 bool isAssociatedToAdminRole = associatedMenuCodeList?.Count > 0 ? associatedMenuCodeList.Any(x => x.MenuCode == item.MenuCode && x.IsActive) : false;
-                menuList.Add(new UserMenuModel()
+                menuList.Add(new UserMainMenuModel()
                 {
                     UserMainMenuMasterId = item.UserMainMenuMasterId,
                     ModuleCode = item.ModuleCode,

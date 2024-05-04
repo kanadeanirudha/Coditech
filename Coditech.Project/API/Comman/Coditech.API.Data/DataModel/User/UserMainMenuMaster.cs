@@ -1,7 +1,10 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
     public partial class UserMainMenuMaster
     {
+        [Key]
         public short UserMainMenuMasterId { get; set; }
         public string ModuleCode { get; set; }
         public string MenuCode { get; set; }

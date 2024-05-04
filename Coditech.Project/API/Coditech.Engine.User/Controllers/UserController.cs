@@ -106,23 +106,23 @@ namespace Coditech.API.Controllers
 
         [Route("/User/GetActiveMenuList")]
         [HttpGet]
-        [Produces(typeof(UserMenuListResponse))]
+        [Produces(typeof(UserMainMenuListResponse))]
         public virtual IActionResult GetActiveMenuList(string moduleCode)
         {
             try
             {
-                List<UserMenuModel> list = _userService.GetActiveMenuList(moduleCode);
-                return IsNotNull(list) ? CreateOKResponse(new UserMenuListResponse { MenuList = list }) : CreateNoContentResponse();
+                List<UserMainMenuModel> list = _userService.GetActiveMenuList(moduleCode);
+                return IsNotNull(list) ? CreateOKResponse(new UserMainMenuListResponse { MenuList = list }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenu.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new UserMenuListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new UserMainMenuListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenu.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new UserMenuListResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new UserMainMenuListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 

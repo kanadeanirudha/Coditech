@@ -221,6 +221,8 @@ namespace Coditech.API.Common
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IHospitalDoctorsService, HospitalDoctorsService>();
+            builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomService, HospitalDoctorAllocatedOPDRoomService>();
+            builder.Services.AddScoped<IHospitalDoctorLeaveScheduleService, HospitalDoctorLeaveScheduleService>();
         }
         #endregion
     }

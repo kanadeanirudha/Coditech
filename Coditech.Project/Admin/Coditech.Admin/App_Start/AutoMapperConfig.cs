@@ -58,6 +58,8 @@ namespace Coditech.Admin
             CreateMap<GeneralLeadGenerationModel, GeneralLeadGenerationViewModel>().ReverseMap();
             CreateMap<GeneralLeadGenerationListModel, GeneralLeadGenerationListViewModel>().ReverseMap();
             CreateMap<GeneralLeadGenerationViewModel, GeneralPersonModel>().ReverseMap();
+            CreateMap<UserMainMenuModel, UserMainMenuViewModel>().ReverseMap();
+            CreateMap<UserMainMenuListModel, UserMainMenuListViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation
@@ -110,6 +112,10 @@ namespace Coditech.Admin
             #region HMS
             CreateMap<HospitalDoctorsModel, HospitalDoctorsViewModel>().ReverseMap();
             CreateMap<HospitalDoctorsListModel, HospitalDoctorsListViewModel>().ReverseMap();
+            CreateMap<HospitalDoctorAllocatedOPDRoomModel, HospitalDoctorAllocatedOPDRoomViewModel>().ReverseMap();
+            CreateMap<HospitalDoctorAllocatedOPDRoomListModel, HospitalDoctorAllocatedOPDRoomListViewModel>().ReverseMap();
+            CreateMap<HospitalDoctorLeaveScheduleModel, HospitalDoctorLeaveScheduleViewModel>().ReverseMap();
+            CreateMap<HospitalDoctorLeaveScheduleListModel, HospitalDoctorLeaveScheduleListViewModel>().ReverseMap();
             #endregion
 
             #region Inventory
@@ -124,6 +130,9 @@ namespace Coditech.Admin
             CreateMap<InventoryItemTrackingDimensionModel, InventoryItemTrackingDimensionViewModel>().ReverseMap();
             CreateMap<InventoryProductDimensionModel, InventoryProductDimensionViewModel>().ReverseMap();
             CreateMap<InventoryProductDimensionListModel, InventoryProductDimensionListViewModel>().ReverseMap();
+            CreateMap<InventoryItemTrackingDimensionListModel, InventoryItemTrackingDimensionListViewModel>().ReverseMap();
+            CreateMap<InventoryItemGroupListModel, InventoryItemGroupListViewModel>().ReverseMap();
+            CreateMap<InventoryItemGroupModel, InventoryItemGroupViewModel>().ReverseMap();
 
             #endregion
 

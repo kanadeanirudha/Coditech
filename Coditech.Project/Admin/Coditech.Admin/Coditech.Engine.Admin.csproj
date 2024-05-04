@@ -9,12 +9,14 @@
 
 	<ItemGroup>
 		<Compile Remove="Views\Dashboard\NewFolder\**" />
+		<Compile Remove="wwwroot\js\Coditech\GeneralMaster\**" />
 		<Compile Remove="wwwroot\js\Coditech\NewFolder1\**" />
 		<Content Remove="Views\Dashboard\NewFolder\**" />
-		<Content Remove="wwwroot\js\Coditech\NewFolder1\**" />
+		<Content Remove="wwwroot\js\Coditech\GeneralMaster\**" />
 		<EmbeddedResource Remove="Views\Dashboard\NewFolder\**" />
-		<EmbeddedResource Remove="wwwroot\js\Coditech\NewFolder1\**" />
+		<EmbeddedResource Remove="wwwroot\js\Coditech\GeneralMaster\**" />
 		<None Remove="Views\Dashboard\NewFolder\**" />
+		<None Remove="wwwroot\js\Coditech\GeneralMaster\**" />
 		<None Remove="wwwroot\js\Coditech\NewFolder1\**" />
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
@@ -44,7 +46,6 @@
 		<Folder Include="MediaFolder\" />
 		<Folder Include="wwwroot\assets\images\jstree\" />
 		<Folder Include="wwwroot\css\login\" />
-		<Folder Include="wwwroot\js\Coditech\GeneralMaster\" />
 		<Folder Include="wwwroot\js\login\" />
 	</ItemGroup>
 
