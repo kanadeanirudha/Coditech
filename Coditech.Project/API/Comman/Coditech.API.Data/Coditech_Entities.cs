@@ -62,6 +62,7 @@ namespace Coditech.API.Data
         public DbSet<UserMainMenuMaster> UserMainMenuMaster { get; set; }
         public DbSet<GeneralPerson> GeneralPerson { get; set; }
         public DbSet<GeneralPersonAddress> GeneralPersonAddress { get; set; }
+        public DbSet<LogMessage> LogMessage { get; set; }
         #endregion
 
         #region Employee

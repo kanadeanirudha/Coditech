@@ -103,4 +103,22 @@
         GymOwnerDashboard,
         GymOperatorDashboard
     }
+
+    public enum ErrorMessageTypeEnum
+    {
+        Application
+    }
+    // Specifies the text file access modes.
+    public enum FileModeEnum
+    {
+        // Indicates text file read mode operation.
+        Read,
+
+        // Indicates text file write mode operation. It deletes the previous content.
+        Write,
+
+        // Indicates text file append mode operation. it preserves the previous content.
+        Append
+    }
+
 }
