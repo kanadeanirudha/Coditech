@@ -70,26 +70,49 @@
                                                             {
                                                                 <tr id="row_@item.InventoryProductDimensionId">
                                                                     <td class="col">
-                                                                        <input id="InventoryProductDimensionId_@item.InventoryProductDimensionId" type="hidden">
+                                                                        <input type="hidden" id="InventoryProductDimensionGroupMapperId_@item.InventoryProductDimensionGroupMapperId" value="@item.InventoryProductDimensionGroupMapperId" />
+                                                                        <input type="hidden" id="InventoryProductDimensionId_@item.InventoryProductDimensionId" value="@item.InventoryProductDimensionId">
                                                                         @item.ProductDimensionName
                                                                     </td>
                                                                     <td class="col-auto">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" id="ForPurchase_@item.InventoryProductDimensionId" type="checkbox">
+
+                                                                            @if (item.ForPurchase)
+                                                                            {
+                                                                                <input class="form-check-input" id="ForPurchase_@item.InventoryProductDimensionId" type="checkbox" checked="checked">
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <input class="form-check-input" id="ForPurchase_@item.InventoryProductDimensionId" type="checkbox">
+                                                                            }
                                                                         </div>
                                                                     </td>
                                                                     <td class="col-auto">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" id="ForSale_@item.InventoryProductDimensionId" type="checkbox">
+                                                                            @if (item.ForSale)
+                                                                            {
+                                                                                <input class="form-check-input" id="ForSale_@item.InventoryProductDimensionId" type="checkbox" checked="checked">
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <input class="form-check-input" id="ForSale_@item.InventoryProductDimensionId" type="checkbox">
+                                                                            }
                                                                         </div>
                                                                     </td>
                                                                     <td class="col-auto">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" id="IsActive_@item.InventoryProductDimensionId" type="checkbox">
+                                                                            @if (item.IsActive)
+                                                                            {
+                                                                                <input class="form-check-input" id="IsActive_@item.InventoryProductDimensionId" type="checkbox" checked="checked">
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <input class="form-check-input" id="IsActive_@item.InventoryProductDimensionId" type="checkbox">
+                                                                            }
                                                                         </div>
                                                                     </td>
                                                                     <td class="col-auto">
-                                                                        <input class="form-control" id="DisplayOrder_@item.InventoryProductDimensionId" type="text">
+                                                                        <input class="form-control" id="DisplayOrder_@item.InventoryProductDimensionId" type="text" value="@item.DisplayOrder" onkeypress="return CoditechCommon.ValidNumeric()" maxlength="999">
                                                                     </td>
                                                                 </tr>
                                                             }

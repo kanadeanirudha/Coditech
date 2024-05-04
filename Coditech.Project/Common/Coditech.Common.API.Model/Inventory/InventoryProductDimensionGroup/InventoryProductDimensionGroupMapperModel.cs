@@ -11,7 +11,7 @@
         public string ProductDimensionName { get; set; }
         public bool ForPurchase { get; set; }
         public bool ForSale { get; set; }
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; } = 0;
         public bool IsActive { get; set; }
     }
 }

@@ -39,10 +39,10 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<InventoryProductDimensionGroupModel> InventoryProductDimensionGroupList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetInventoryProductDimensionGroupList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<InventoryProductDimensionGroupModel> inventoryProductDimensionGroupList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetInventoryProductDimensionGroupList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             InventoryProductDimensionGroupListModel listModel = new InventoryProductDimensionGroupListModel();
 
-            listModel.InventoryProductDimensionGroupList = InventoryProductDimensionGroupList?.Count > 0 ? InventoryProductDimensionGroupList : new List<InventoryProductDimensionGroupModel>();
+            listModel.InventoryProductDimensionGroupList = inventoryProductDimensionGroupList?.Count > 0 ? inventoryProductDimensionGroupList : new List<InventoryProductDimensionGroupModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
@@ -62,6 +62,7 @@ namespace Coditech.API.Service
             if (inventoryProductDimensionGroupData?.InventoryProductDimensionGroupId > 0)
             {
                 inventoryProductDimensionGroupModel.InventoryProductDimensionGroupId = inventoryProductDimensionGroupData.InventoryProductDimensionGroupId;
+                InserUpdateInventoryProductDimensionGroupMapper(inventoryProductDimensionGroupModel);
             }
             else
             {
@@ -98,16 +99,15 @@ namespace Coditech.API.Service
                     InventoryProductDimensionGroupMapper inventoryProductDimensionGroupMapper = inventoryProductDimensionGroupMapperList.FirstOrDefault(x => x.InventoryProductDimensionId == inventoryProductDimension.InventoryProductDimensionId);
                     if (IsNotNull(inventoryProductDimensionGroupMapper))
                     {
+                        inventoryProductDimensionGroupMapperModel.InventoryProductDimensionGroupMapperId = inventoryProductDimensionGroupMapper.InventoryProductDimensionGroupMapperId;
                         inventoryProductDimensionGroupMapperModel.ForPurchase = inventoryProductDimensionGroupMapper.ForPurchase;
                         inventoryProductDimensionGroupMapperModel.ForSale = inventoryProductDimensionGroupMapper.ForSale;
                         inventoryProductDimensionGroupMapperModel.IsActive = inventoryProductDimensionGroupMapper.IsActive;
                         inventoryProductDimensionGroupMapperModel.DisplayOrder = inventoryProductDimensionGroupMapper.DisplayOrder;
                     }
                 }
-
                 inventoryProductDimensionGroupModel.InventoryProductDimensionGroupMapperList.Add(inventoryProductDimensionGroupMapperModel);
             }
-
             return inventoryProductDimensionGroupModel;
         }
 
@@ -132,6 +132,10 @@ namespace Coditech.API.Service
                 inventoryProductDimensionGroupModel.HasError = true;
                 inventoryProductDimensionGroupModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
+            else
+            {
+                InserUpdateInventoryProductDimensionGroupMapper(inventoryProductDimensionGroupModel);
+            }
             return isInventoryProductDimensionGroupUpdated;
         }
 
@@ -154,6 +158,30 @@ namespace Coditech.API.Service
         //Check if InventoryProductDimensionGroup code is already present or not.
         protected virtual bool IsInventoryProductDimensionGroupCodeAlreadyExist(string inventoryProductDimensionGroupCode, int inventoryProductDimensionGroupId = 0)
          => _inventoryProductDimensionGroupRepository.Table.Any(x => x.ProductDimensionGroupCode == inventoryProductDimensionGroupCode && (x.InventoryProductDimensionGroupId != inventoryProductDimensionGroupId || inventoryProductDimensionGroupId == 0));
+
+        protected virtual void InserUpdateInventoryProductDimensionGroupMapper(InventoryProductDimensionGroupModel inventoryProductDimensionGroupModel)
+        {
+            if (inventoryProductDimensionGroupModel?.InventoryProductDimensionGroupMapperList?.Count > 0)
+            {
+                List<InventoryProductDimensionGroupMapper> inventoryProductDimensionGroupMapperInsertList = new List<InventoryProductDimensionGroupMapper>();
+                List<InventoryProductDimensionGroupMapper> inventoryProductDimensionGroupMapperUpdateList = new List<InventoryProductDimensionGroupMapper>();
+                foreach (InventoryProductDimensionGroupMapperModel item in inventoryProductDimensionGroupModel.InventoryProductDimensionGroupMapperList)
+                {
+                    InventoryProductDimensionGroupMapper inventoryProductDimensionGroupMapper = item.FromModelToEntity<InventoryProductDimensionGroupMapper>();
+                    inventoryProductDimensionGroupMapper.InventoryProductDimensionGroupId = inventoryProductDimensionGroupModel.InventoryProductDimensionGroupId;
+                    if (item.InventoryProductDimensionGroupMapperId > 0)
+                        inventoryProductDimensionGroupMapperUpdateList.Add(inventoryProductDimensionGroupMapper);
+                    else
+                        inventoryProductDimensionGroupMapperInsertList.Add(inventoryProductDimensionGroupMapper);
+                }
+                if (inventoryProductDimensionGroupMapperInsertList?.Count > 0)
+                    _inventoryProductDimensionGroupMapperRepository.Insert(inventoryProductDimensionGroupMapperInsertList);
+
+                if (inventoryProductDimensionGroupMapperUpdateList?.Count > 0)
+                    _inventoryProductDimensionGroupMapperRepository.BatchUpdate(inventoryProductDimensionGroupMapperUpdateList);
+            }
+        }
+
         #endregion
     }
 }

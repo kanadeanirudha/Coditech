@@ -8,7 +8,11 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
+using Newtonsoft.Json;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -40,7 +44,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("ProductDimensionGroupCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "ProductDimensionGroupName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             InventoryProductDimensionGroupListResponse response = _inventoryProductDimensionGroupClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             InventoryProductDimensionGroupListModel inventoryProductDimensionGroupList = new InventoryProductDimensionGroupListModel { InventoryProductDimensionGroupList = response?.InventoryProductDimensionGroupList };
@@ -56,6 +60,11 @@ namespace Coditech.Admin.Agents
         {
             try
             {
+                if (!string.IsNullOrEmpty(inventoryProductDimensionGroupViewModel.ProductDimensionGroupMapperData))
+                {
+                    List<InventoryProductDimensionGroupMapperModel> inventoryProductDimensionGroupMapperList = JsonConvert.DeserializeObject<List<InventoryProductDimensionGroupMapperModel>>(inventoryProductDimensionGroupViewModel.ProductDimensionGroupMapperData);
+                    inventoryProductDimensionGroupViewModel.InventoryProductDimensionGroupMapperList = inventoryProductDimensionGroupMapperList;
+                }
                 InventoryProductDimensionGroupResponse response = _inventoryProductDimensionGroupClient.CreateInventoryProductDimensionGroup(inventoryProductDimensionGroupViewModel.ToModel<InventoryProductDimensionGroupModel>());
                 InventoryProductDimensionGroupModel inventoryProductDimensionGroupModel = response?.InventoryProductDimensionGroupModel;
                 return IsNotNull(inventoryProductDimensionGroupModel) ? inventoryProductDimensionGroupModel.ToViewModel<InventoryProductDimensionGroupViewModel>() : new InventoryProductDimensionGroupViewModel();
@@ -91,6 +100,11 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.InventoryProductDimensionGroup.ToString(), TraceLevel.Info);
+                if (!string.IsNullOrEmpty(inventoryProductDimensionGroupViewModel.ProductDimensionGroupMapperData))
+                {
+                    List<InventoryProductDimensionGroupMapperModel> inventoryProductDimensionGroupMapperList = JsonConvert.DeserializeObject<List<InventoryProductDimensionGroupMapperModel>>(inventoryProductDimensionGroupViewModel.ProductDimensionGroupMapperData);
+                    inventoryProductDimensionGroupViewModel.InventoryProductDimensionGroupMapperList = inventoryProductDimensionGroupMapperList;
+                }
                 InventoryProductDimensionGroupResponse response = _inventoryProductDimensionGroupClient.UpdateInventoryProductDimensionGroup(inventoryProductDimensionGroupViewModel.ToModel<InventoryProductDimensionGroupModel>());
                 InventoryProductDimensionGroupModel inventoryProductDimensionGroupModel = response?.InventoryProductDimensionGroupModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.InventoryProductDimensionGroup.ToString(), TraceLevel.Info);
