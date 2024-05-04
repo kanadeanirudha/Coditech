@@ -1,10 +1,10 @@
-﻿@model HospitalDoctorsViewModel
+﻿@model HospitalDoctorAllocatedOPDRoomViewModel
 @{
     ViewBag.Title = Model.HospitalDoctorId > 0 ? "Update Hospital Doctor" : "Add Hospital Doctor";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()", IsDisabled = Model.HospitalDoctorId > 0 };
-    DropdownViewModel departmentDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(), DropdownName = "SelectedDepartmentId", DropdownSelectedValue = Convert.ToString(Model.SelectedDepartmentId), Parameter = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctors.GetEmployeeListByCentreCodeAndDepartmentId()", IsDisabled = Model.HospitalDoctorId > 0 };
+    DropdownViewModel buildingDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(), DropdownName = "OrganisationCentrewiseBuildingMasterId", DropdownSelectedValue = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId), Parameter = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctorAllocatedOPDRoom.GetOrganisationCentrewiseBuildingRooms()" };
+    DropdownViewModel buildingRoomDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(), DropdownName = "OrganisationCentrewiseBuildingRoomId", DropdownSelectedValue = Convert.ToString(Model.OrganisationCentrewiseBuildingRoomId), Parameter = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId) };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -15,14 +15,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                @if (Model.HospitalDoctorId > 0)
-                                {
-                                    <h4 class="card-title">Update Doctor Details: @Model.FirstName @Model.LastName</h4>
-                                }
-                                else
-                                {
-                                    <h4 class="card-title">Create Doctor</h4>
-                                }
+                                <h4 class="card-title">Hospital Doctor Allocated OPD Room: @Model.FirstName @Model.LastName</h4>
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div>
@@ -30,61 +23,27 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.HospitalDoctorId)
+                            @Html.HiddenFor(m => m.HospitalDoctorAllocatedOPDRoomId)
+                            @Html.HiddenFor(m => m.SelectedCentreCode)
+                            @Html.HiddenFor(m => m.SelectedDepartmentId)
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.SelectedCentreCode, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
-                                        @Html.ValidationMessageFor(x => x.SelectedCentreCode)
+                                        @Html.LabelFor(x => x.OrganisationCentrewiseBuildingMasterId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", buildingDropdown)
+                                        @Html.ValidationMessageFor(x => x.OrganisationCentrewiseBuildingMasterId)
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.SelectedDepartmentId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown)
-                                        @Html.ValidationMessageFor(x => x.SelectedDepartmentId)
-                                    </div>
-                                </div>
-                               
-                                <div class="row">
-                                    @if (Model.HospitalDoctorId > 0)
-                                    {
-                                        @Html.HiddenFor(x => x.EmployeeId)
-                                    }
-                                    else
-                                    {
-                                        <div class="col-lg-6">
-                                            <div class="md-3">
-                                                @Html.LabelFor(x => x.EmployeeId, new { @class = "form-label required" })
-                                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                                   {
-                                       DropdownType = DropdownTypeEnum.UnAssociatedEmployeeList.ToString(),
-                                       DropdownName = "EmployeeId",
-                                       DropdownSelectedValue = Model.EmployeeId
-                                        .ToString(),
-                                       Parameter = !string.IsNullOrEmpty(Model.SelectedCentreCode) ? $"{Model.SelectedCentreCode}~{Model.SelectedDepartmentId}" : ""
-
-                                   })
-                                                @Html.ValidationMessageFor(x => x.EmployeeId)
-                                            </div>
-                                        </div>
-                                    }
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            @Html.LabelFor(x => x.MedicalSpecilizationEnumId, new { @class = "form-label required " })
-                                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                                   {
-                                       DropdownSelectedValue = Model.MedicalSpecilizationEnumId.ToString(),
-                                       DropdownName = "MedicalSpecilizationEnumId",
-                                       GroupCode = DropdownTypeEnum.MedicalSpecilization.ToString()
-                                   })
-                                            @Html.ValidationMessageFor(x => x.MedicalSpecilizationEnumId)
-                                        </div>
+                                        @Html.LabelFor(x => x.OrganisationCentrewiseBuildingRoomId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", buildingRoomDropdown)
+                                        @Html.ValidationMessageFor(x => x.OrganisationCentrewiseBuildingRoomId)
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.SelectedCentreCode&SelectedDepartmentId=@Model.SelectedDepartmentId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>
@@ -92,6 +51,9 @@
         </div>
     </div>
 </div>
+<script src="~/js/coditech/hms/hospitaldoctorallocatedopdroom.js"></script>
+
+
 
 
 

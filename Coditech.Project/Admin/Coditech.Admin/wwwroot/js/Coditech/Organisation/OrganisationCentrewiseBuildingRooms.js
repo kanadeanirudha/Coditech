@@ -32,6 +32,7 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     $("#SelectedParameter1").html("").html(data);
+                    $("#OrganisationCentrewiseBuildingMasterId").html("").html(data);
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

@@ -13,18 +13,11 @@ namespace Coditech.Admin.Agents
         HospitalDoctorAllocatedOPDRoomListViewModel GetHospitalDoctorAllocatedOPDRoomList(string selectedCentreCode, short selectedDepartmentId, DataTableViewModel dataTableModel);
 
         /// <summary>
-        /// Create HospitalDoctorAllocatedOPDRoom.
-        /// </summary>
-        /// <param name="hospitalDoctorAllocatedOPDRoomViewModel">Hospital Doctor Allocated OPD Room View Model.</param>
-        /// <returns>Returns created model.</returns>
-        HospitalDoctorAllocatedOPDRoomViewModel CreateHospitalDoctorAllocatedOPDRoom(HospitalDoctorAllocatedOPDRoomViewModel hospitalDoctorAllocatedOPDRoomViewModel);
-
-        /// <summary>
         /// Get HospitalDoctorAllocatedOPDRoom by hospitalDoctorAllocatedOPDRoomId.
         /// </summary>
         /// <param name="hospitalDoctorAllocatedOPDRoomId">hospitalDoctorAllocatedOPDRoomId</param>
         /// <returns>Returns HospitalDoctorAllocatedOPDRoomViewModel.</returns>
-        HospitalDoctorAllocatedOPDRoomViewModel GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorAllocatedOPDRoomId);
+        HospitalDoctorAllocatedOPDRoomViewModel GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorId, int hospitalDoctorAllocatedOPDRoomId);
 
         /// <summary>
         /// Update HospitalDoctorAllocatedOPDRoom.
@@ -32,12 +25,5 @@ namespace Coditech.Admin.Agents
         /// <param name="hospitalDoctorAllocatedOPDRoomViewModel">hospitalDoctorAllocatedOPDRoomViewModel.</param>
         /// <returns>Returns updated HospitalDoctorAllocatedOPDRoomViewModel</returns>
         HospitalDoctorAllocatedOPDRoomViewModel UpdateHospitalDoctorAllocatedOPDRoom(HospitalDoctorAllocatedOPDRoomViewModel hospitalDoctorAllocatedOPDRoomViewModel);
-
-        /// <summary>
-        /// Delete HospitalDoctorAllocatedOPDRoom.
-        /// </summary>
-        /// <param name="hospitalDoctorAllocatedOPDRoomId">hospitalDoctorAllocatedOPDRoomId.</param>
-        /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeleteHospitalDoctorAllocatedOPDRoom(string hospitalDoctorAllocatedOPDRoomId, out string errorMessage);
     }
 }

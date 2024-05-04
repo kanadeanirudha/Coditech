@@ -2,7 +2,7 @@
 
 namespace Coditech.API.Data
 {
-    public partial class HospitalDoctorAllocatedOPDRoom
+    public partial class HospitalDoctorAllocatedRoom
     {
         [Key]
         public int HospitalDoctorAllocatedOPDRoomId { get; set; }

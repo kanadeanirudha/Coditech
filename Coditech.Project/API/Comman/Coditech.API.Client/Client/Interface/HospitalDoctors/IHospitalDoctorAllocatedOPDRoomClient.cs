@@ -14,18 +14,11 @@ namespace Coditech.API.Client
         HospitalDoctorAllocatedOPDRoomListResponse List(string selectedCentreCode, short selectedDepartmentId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
-        /// Create HospitalDoctorAllocatedOPDRoom.
-        /// </summary>
-        /// <param name="HospitalDoctorAllocatedOPDRoomModel">HospitalDoctorAllocatedOPDRoomModel.</param>
-        /// <returns>Returns HospitalDoctorAllocatedOPDRoomResponse.</returns>
-        HospitalDoctorAllocatedOPDRoomResponse CreateHospitalDoctorAllocatedOPDRoom(HospitalDoctorAllocatedOPDRoomModel body);
-
-        /// <summary>
         /// Get HospitalDoctorAllocatedOPDRoom by hospitalDoctorAllocatedOPDRoomId.
         /// </summary>
         /// <param name="hospitalDoctorAllocatedOPDRoomId">hospitalDoctorAllocatedOPDRoomId</param>
         /// <returns>Returns HospitalDoctorAllocatedOPDRoomResponse.</returns>
-        HospitalDoctorAllocatedOPDRoomResponse GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorAllocatedOPDRoomId);
+        HospitalDoctorAllocatedOPDRoomResponse GetHospitalDoctorAllocatedOPDRoom(int hospitalDoctorId, int hospitalDoctorAllocatedOPDRoomId);
 
         /// <summary>
         /// Update HospitalDoctorAllocatedOPDRoom.
@@ -33,12 +26,5 @@ namespace Coditech.API.Client
         /// <param name="HospitalDoctorAllocatedOPDRoomModel">HospitalDoctorAllocatedOPDRoomModel.</param>
         /// <returns>Returns updated HospitalDoctorAllocatedOPDRoomResponse</returns>
         HospitalDoctorAllocatedOPDRoomResponse UpdateHospitalDoctorAllocatedOPDRoom(HospitalDoctorAllocatedOPDRoomModel body);
-
-        /// <summary>
-        /// Delete HospitalDoctorAllocatedOPDRoom.
-        /// </summary>
-        /// <param name="ParameterModel">ParameterModel.</param>
-        /// <returns>Returns true if deleted successfully else return false.</returns>
-        TrueFalseResponse DeleteHospitalDoctorAllocatedOPDRoom(ParameterModel body);
     }
 }

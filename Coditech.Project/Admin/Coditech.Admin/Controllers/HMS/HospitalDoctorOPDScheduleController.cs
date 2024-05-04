@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
 {
-    public class HospitalDoctorOPDScheduleController : BaseController
+    public class HospitalDoctorAllocatedOPDRoomController : BaseController
     {
         private readonly IHospitalDoctorAllocatedOPDRoomAgent _hospitalDoctorAllocatedOPDRoomAgent;
-        private const string createEdit = "~/Views/HMS/HospitalDoctorOPDSchedule/CreateEdit.cshtml";
+        private const string createEdit = "~/Views/HMS/HospitalDoctorAllocatedOPDRoom/CreateEdit.cshtml";
 
-        public HospitalDoctorOPDScheduleController(IHospitalDoctorAllocatedOPDRoomAgent hospitalDoctorAllocatedOPDRoomAgent)
+        public HospitalDoctorAllocatedOPDRoomController(IHospitalDoctorAllocatedOPDRoomAgent hospitalDoctorAllocatedOPDRoomAgent)
         {
             _hospitalDoctorAllocatedOPDRoomAgent = hospitalDoctorAllocatedOPDRoomAgent;
         }
@@ -29,9 +29,9 @@ namespace Coditech.Admin.Controllers
             list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/HMS/HospitalDoctorOPDSchedule/_List.cshtml", list);
+                return PartialView("~/Views/HMS/HospitalDoctorAllocatedOPDRoom/_List.cshtml", list);
             }
-            return View($"~/Views/HMS/HospitalDoctorOPDSchedule/List.cshtml", list);
+            return View($"~/Views/HMS/HospitalDoctorAllocatedOPDRoom/List.cshtml", list);
         }
 
         [HttpGet]
