@@ -148,14 +148,27 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Menu Code",
-                ColumnCode = "MenuCode",
+                ColumnName = "Parent Menu Code",
+                ColumnCode = "ParentMenuCode",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "MenuInstalled Flag",
-                ColumnCode = "MenuInstalledFlag",
+                ColumnName = "Module Code",
+                ColumnCode = "ModuleCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "MenuDisplay SeqNo",
+                ColumnCode = "MenuDisplaySeqNo",
+            });
+            
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Enable",
+                ColumnCode = "IsEnable",
+                IsSortable=true
             });
             return datatableColumnList;
         }
