@@ -610,7 +610,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Label Inventory Item Tracking Dimension List.
+        ///   Looks up a localized string similar to Inventory Item Tracking Dimension List.
         /// </summary>
         public static string LabelInventoryItemTrackingDimensionList {
             get {

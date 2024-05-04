@@ -65,7 +65,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalUserMainMenuAgent.UpdateUserMainMenu(generalUserMainnMenuViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalUserMainMenuId = generalUserMainnMenuViewModel.UserMainMenuMasterId });
+                return RedirectToAction("Edit", new { userMainMenuMasterId = generalUserMainnMenuViewModel.UserMainMenuMasterId });
             }
             return View(createEdit, generalUserMainnMenuViewModel);
         }

@@ -160,10 +160,14 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "MenuDisplay SeqNo",
+                ColumnName = "Menu Display SeqNo",
                 ColumnCode = "MenuDisplaySeqNo",
             });
-            
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Menu Icon",
+                ColumnCode = "MenuIconName",
+            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Enable",
