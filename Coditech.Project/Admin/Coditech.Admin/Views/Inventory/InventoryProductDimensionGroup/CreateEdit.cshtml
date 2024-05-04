@@ -1,6 +1,6 @@
 ﻿@model InventoryProductDimensionGroupViewModel
 @{
-    ViewBag.Title = Model.InventoryProductDimensionGroupId > 0 ? "Update InventoryProductDimensionGroup" : "Add InventoryProductDimensionGroup";
+    ViewBag.Title = Model.InventoryProductDimensionGroupId > 0 ? "Update Inventory Product Dimension Group" : "Add Inventory Product Dimension Group";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
@@ -25,9 +25,10 @@
                         </div> <!--end row-->
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post, new { id = "frmInventoryProductDimensionGroup" }))
                         {
                             @Html.HiddenFor(m => m.InventoryProductDimensionGroupId)
+                            @Html.HiddenFor(m => m.ProductDimensionGroupMapperData)
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
@@ -55,7 +56,7 @@
                                                 <table class="table table-bordered table-sm" id="makeEditable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col">Name</th>
+                                                            <th class="col">Product Dimension Name</th>
                                                             <th class="col">For Purchase</th>
                                                             <th class="col">For Sale</th>
                                                             <th class="col">Active</th>
@@ -100,7 +101,8 @@
                                     </div><!--end card-->
                                 </div><!--end col-12-->
                             </div>
-                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <button type="submit" class="btn btn-success" onclick="InventoryProductDimensionGroup.SaveData()">@AdminResources.LabelSave</button>
+
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div> <!-- End of card-body div -->
@@ -109,3 +111,4 @@
         </div> <!-- End of row div -->
     </div> <!-- End of container-fluid div -->
 </div> <!-- End of page-content div -->
+<script src="/js/coditech/inventory/inventoryproductdimensiongroup.js"></script>

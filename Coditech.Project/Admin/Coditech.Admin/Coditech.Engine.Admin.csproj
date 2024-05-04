@@ -9,9 +9,13 @@
 
 	<ItemGroup>
 		<Compile Remove="Views\Dashboard\NewFolder\**" />
+		<Compile Remove="wwwroot\js\Coditech\NewFolder1\**" />
 		<Content Remove="Views\Dashboard\NewFolder\**" />
+		<Content Remove="wwwroot\js\Coditech\NewFolder1\**" />
 		<EmbeddedResource Remove="Views\Dashboard\NewFolder\**" />
+		<EmbeddedResource Remove="wwwroot\js\Coditech\NewFolder1\**" />
 		<None Remove="Views\Dashboard\NewFolder\**" />
+		<None Remove="wwwroot\js\Coditech\NewFolder1\**" />
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
