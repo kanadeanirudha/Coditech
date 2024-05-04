@@ -91,14 +91,14 @@ body, html {
     padding-top: 0 !important;
 }
 
-.card .card-header:first-child {
+.card .card-header:first-child, .card .card-header {
     background: #0c213a !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-    .card .card-header:first-child span {
+    .card .card-header:first-child span, .card .card-header span {
         color: #c2cbe2 !important;
     }
 
@@ -179,12 +179,13 @@ label {
 
 #notificationDivId {
     position: absolute;
-    top: 10%;
+    top: calc((100px) - 45px);
     padding: 5px;
-    width: 80%;
+    width: calc((100%) - 40px);
     margin: 0 auto;
     height: 31px;
-    left:10%;
+    left: 15px;
+    z-index: 999;
 }
 
 .btn-secondary {
