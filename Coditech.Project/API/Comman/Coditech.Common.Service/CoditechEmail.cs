@@ -63,7 +63,7 @@ namespace Coditech.Common.Service
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage("Mail sending to customer failed.", CoditechLoggingEnum.Components.EmailService.ToString(), TraceLevel.Error, ex);
+                _coditechLogging.LogMessage("Mail sending to customer failed.", CoditechLoggingEnum.Components.EmailService.ToString(), TraceLevel.Error, null, ex);
             }
         }
 
@@ -208,7 +208,7 @@ namespace Coditech.Common.Service
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage("Email Address is not valid.", CoditechLoggingEnum.Components.EmailService.ToString(), TraceLevel.Error, ex);
+                _coditechLogging.LogMessage("Email Address is not valid.", CoditechLoggingEnum.Components.EmailService.ToString(), TraceLevel.Error, null, ex);
             }
             return isValid;
         }

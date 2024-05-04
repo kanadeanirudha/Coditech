@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,62 +15,51 @@ namespace Coditech.Common.Logger
         private static readonly string todaysDate = DateTime.Now.ToString("yyyy-MM-dd");
         private static readonly IHostingEnvironment _webHostEnvironment = CoditechDependencyResolver.GetService<IHostingEnvironment>();
         private static IConfigurationSection settings = CoditechDependencyResolver.GetService<IConfiguration>().GetSection("appsettings");
-
         #region Declarations
 
         public const string LogComponentFilePath = "data/logs/{yyyy-mm-dd}/Coditech_{ComponentName}_Log.log";
         public const string LogFilePath = "data/logs/{yyyy-mm-dd}/Coditech_Log.log";
 
         #endregion
+        public CoditechLogging()
+        {
+        }
         #region Enum Mode
 
-        // Specifies the text file access modes.
-        public enum Mode
-        {
-            // Indicates text file read mode operation.
-            Read,
-
-            // Indicates text file write mode operation. It deletes the previous content.
-            Write,
-
-            // Indicates text file append mode operation. it preserves the previous content.
-            Append
-        }
-
+        
         #endregion
 
-        public void LogMessage(Exception ex, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, object obj = null)
+        public void LogMessage(Exception ex, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, string errorMessageType = null, object obj = null)
         {
-            if (traceLevel == TraceLevel.Error)
-            {
-                if (string.IsNullOrEmpty(componentName))
-                {
-                    WriteLogFiles(ex.ToString(), LogFilePath, componentName);
-                }
-                else
-                {
-                    WriteLogFiles(ex.ToString(), LogComponentFilePath, componentName);
-                }
-            }
+            LogMessage(ex.Message, componentName, traceLevel, null, obj);
         }
 
-        public void LogMessage(string message, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, object obj = null, [CallerMemberName] string methodName = "", [CallerFilePath] string fileName = "", [CallerLineNumber] int lineNumber = 0)
+        public void LogMessage(string message, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, string errorMessageType = null, object obj = null, [CallerMemberName] string methodName = "", [CallerFilePath] string fileName = "", [CallerLineNumber] int lineNumber = 0)
         {
-            if (traceLevel == TraceLevel.Error)
+            if (traceLevel == TraceLevel.Error || traceLevel == TraceLevel.Warning)
             {
-                if (string.IsNullOrEmpty(componentName))
-                {
-                    WriteLogFiles(message, LogFilePath, componentName);
-                }
-                else
-                {
-                    WriteLogFiles(message, LogComponentFilePath, componentName);
-                }
+                WriteLogFiles(message, string.IsNullOrEmpty(componentName) ? LogFilePath : LogComponentFilePath, componentName);
+
+                //LogMessage logMessage = new LogMessage()
+                //{
+                //    ErrorMessageType = !string.IsNullOrEmpty(errorMessageType) ? errorMessageType : ErrorMessageTypeEnum.Application.ToString(),
+                //    ExceptionMessage = message,
+                //    ComponentName = componentName,
+                //    TraceLevel = traceLevel.ToString(),
+                //    Exception = Convert.ToString(obj),
+                //    MethodName = methodName,
+                //    FileName = fileName,
+                //    LineNumber = Convert.ToString(lineNumber),
+                //    CreatedBy = 1,
+                //    CreatedDate = DateTime.Now,
+                //    ModifiedBy = 1,
+                //    ModifiedDate = DateTime.Now,
+                //};
+                //_logMessageRepository.Insert(logMessage);
             }
         }
 
         #region Private Methods
-
 
         // Checks the web.config to see if text file logging is enabled.
         // Returns True - If logging is enabled, False - If logging is disabled.</returns>
@@ -106,7 +96,7 @@ namespace Coditech.Common.Logger
                 {
                     filePath = filePath.Replace("{ComponentName}", componentName);
                 }
-                WriteTextStorage(errMsg.ToString(), filePath, Mode.Append);
+                WriteTextStorage(errMsg.ToString(), filePath, FileModeEnum.Append);
             }
         }
 
@@ -116,7 +106,7 @@ namespace Coditech.Common.Logger
         /// <param name="fileData">Specify the string that has the file content.</param>
         /// <param name="filePath">Specify the relative file path.</param>
         /// <param name="fileMode">Specify the file write mode operatation. </param>
-        private static void WriteTextStorage(string fileData, string filePath, Mode fileMode)
+        private static void WriteTextStorage(string fileData, string filePath, FileModeEnum fileMode)
         {
             try
             {
@@ -128,7 +118,7 @@ namespace Coditech.Common.Logger
                 }
 
                 // Check file write mode and write content.
-                if (Equals(fileMode, Mode.Append))
+                if (Equals(fileMode, FileModeEnum.Append))
                 {
                     File.AppendAllText(Path.Combine(_webHostEnvironment.ContentRootPath, (filePath)), fileData);
                 }
