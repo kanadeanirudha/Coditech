@@ -59,7 +59,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeId"));
 
             //Get the Employee Details based on id.
-            EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == employeeId);
+            EmployeeMaster employeeMaster = _employeeMasterRepository.Table.Where(x => x.EmployeeId == employeeId)?.FirstOrDefault();
             EmployeeMasterModel employeeMasterModel = IsNotNull(employeeMaster) ? employeeMaster?.FromEntityToModel<EmployeeMasterModel>() : new EmployeeMasterModel();
             if (IsNotNull(employeeMasterModel))
             {

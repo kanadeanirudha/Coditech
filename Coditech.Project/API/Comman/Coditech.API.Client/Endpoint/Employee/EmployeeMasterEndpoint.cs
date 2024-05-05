@@ -19,5 +19,11 @@ namespace Coditech.API.Endpoint
 
         public string DeleteEmployeeAsync() =>
                   $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/DeleteEmployeeMaster";
+
+        public string EmployeeServiceListAsync(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Coditech.Admin.Controllers
         {
             _employeeMasterAgent = employeeMasterAgent;
         }
-
+        #region Employee
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             EmployeeMasterListViewModel list = new EmployeeMasterListViewModel();
@@ -58,7 +58,6 @@ namespace Coditech.Admin.Controllers
             return View(createEditEmployee, employeeCreateEditViewModel);
         }
 
-
         [HttpGet]
         public virtual ActionResult UpdateEmployeePersonalDetails(long employeeId, long personId)
         {
@@ -79,26 +78,6 @@ namespace Coditech.Admin.Controllers
             return View(createEditEmployee, employeeCreateEditViewModel);
         }
 
-        [HttpGet]
-        public virtual ActionResult GetEmployeeOtherDetail(long employeeId, long personId)
-        {
-            EmployeeMasterViewModel employeeMasterViewModel = _employeeMasterAgent.GetEmployeeOtherDetail(employeeId);
-            return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
-        }
-
-
-        [HttpPost]
-        public virtual ActionResult UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                SetNotificationMessage(_employeeMasterAgent.UpdateEmployeeOtherDetail(employeeMasterViewModel).HasError
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetEmployeeOtherDetail", new { employeeId = employeeMasterViewModel.EmployeeId, personId = employeeMasterViewModel.PersonId });
-            }
-            return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
-        }
         public virtual ActionResult Delete(string employeeIds)
         {
             string message = string.Empty;
@@ -116,6 +95,32 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<EmployeeMasterController>(x => x.List(null));
         }
 
+
+        #endregion Employee
+
+        #region Employee Other Detail
+        [HttpGet]
+        public virtual ActionResult GetEmployeeOtherDetail(long employeeId, long personId)
+        {
+            EmployeeMasterViewModel employeeMasterViewModel = _employeeMasterAgent.GetEmployeeOtherDetail(employeeId);
+            return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateEmployeeOtherDetail(EmployeeMasterViewModel employeeMasterViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_employeeMasterAgent.UpdateEmployeeOtherDetail(employeeMasterViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("GetEmployeeOtherDetail", new { employeeId = employeeMasterViewModel.EmployeeId, personId = employeeMasterViewModel.PersonId });
+            }
+            return View("~/Views/EmployeeMaster/UpdateEmployeeeDetails.cshtml", employeeMasterViewModel);
+        }
+        #endregion Employee Other Detail
+
+        #region Employee Address
         [HttpGet]
         public virtual ActionResult CreateEditEmployeeAddress(long employeeId, long personId)
         {
@@ -127,5 +132,19 @@ namespace Coditech.Admin.Controllers
             };
             return ActionView("~/Views/EmployeeMaster/CreateEditEmployeeAddress.cshtml", model);
         }
+
+        #endregion Employee Address
+
+        #region Employee Service
+        public virtual ActionResult EmployeeServiceList(int employeeId,DataTableViewModel dataTableViewModel)
+        {
+            EmployeeMasterListViewModel list = _employeeMasterAgent.GetEmployeeMasterList(dataTableViewModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/EmployeeMaster/_List.cshtml", list);
+            }
+            return View($"~/Views/EmployeeMaster/List.cshtml", list);
+        }
+        #endregion Employee Service
     }
 }
