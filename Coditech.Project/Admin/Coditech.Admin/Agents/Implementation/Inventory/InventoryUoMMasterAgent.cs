@@ -47,7 +47,6 @@ namespace Coditech.Admin.Agents
                 filters.Add("DecimalPlacesUpto", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("DecimalRounding", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-            dataTableModel.SortByColumn = "A.CreatedDate";
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "UomCode" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             InventoryUoMMasterListResponse response = _inventoryUoMMasterClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
