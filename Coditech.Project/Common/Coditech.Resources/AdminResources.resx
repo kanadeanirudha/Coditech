@@ -213,6 +213,9 @@
   <data name="ErrorDeleteInventoryProductDimension" xml:space="preserve">
     <value>Failed to delete inventory product dimension due to associate record.</value>
   </data>
+  <data name="ErrorDeleteInventoryUoMMaster" xml:space="preserve">
+    <value>Failed to delete inventory uom due to associate record.</value>
+  </data>
   <data name="ErrorDeleteOccupationMaster" xml:space="preserve">
     <value>Failed to delete Occupation due to associate record.</value>
   </data>
@@ -296,6 +299,9 @@
   </data>
   <data name="LabelInventoryProductDimensionList" xml:space="preserve">
     <value>Inventory Product Dimension List</value>
+  </data>
+  <data name="LabelInventoryUoMMasterList" xml:space="preserve">
+    <value>Inventory UoM List</value>
   </data>
   <data name="LabelIsActive" xml:space="preserve">
     <value>Is Active</value>
