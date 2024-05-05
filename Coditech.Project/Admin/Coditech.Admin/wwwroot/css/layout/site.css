@@ -91,14 +91,14 @@ body, html {
     padding-top: 0 !important;
 }
 
-.card .card-header:first-child, .card .card-header {
+.card .card-header:first-child, .card grammarly-extension + .card-header {
     background: #0c213a !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-    .card .card-header:first-child span, .card .card-header span {
+    .card .card-header:first-child span, .card grammarly-extension + .card-header span {
         color: #c2cbe2 !important;
     }
 
@@ -259,4 +259,7 @@ td.text-center a.btn {
 }
 .navigation-menu > li a i {
     font-size: 12px !important;
+}
+[data-layout="horizontal"] .topbar .brand .logo .logo-sm {
+    height: 70%;
 }
