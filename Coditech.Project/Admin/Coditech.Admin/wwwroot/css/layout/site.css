@@ -68,8 +68,9 @@ body {
 }
 
 .card {
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
     border-radius: 4px !important;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 @font-face {
@@ -262,4 +263,7 @@ td.text-center a.btn {
 }
 [data-layout="horizontal"] .topbar .brand .logo .logo-sm {
     height: 70%;
+}
+.footer {
+    background: #ffffff;
 }
