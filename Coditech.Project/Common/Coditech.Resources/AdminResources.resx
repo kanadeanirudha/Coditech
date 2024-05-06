@@ -204,6 +204,9 @@
   <data name="ErrorDeleteInventoryItemModelGroup" xml:space="preserve">
     <value>Failed to delete Inventory Item Model Group due to associate record.</value>
   </data>
+  <data name="ErrorDeleteInventoryProductDimensionGroup" xml:space="preserve">
+    <value>Failed to delete Inventory Product Dimension Group due to associate record.</value>
+  </data>
   <data name="ErrorDeleteInventoryItemStorageDimension" xml:space="preserve">
     <value>Failed to delete Inventory Item Storage Dimension due to associate record.</value>
   </data>
@@ -291,11 +294,14 @@
   <data name="LabelInventoryItemGroupList" xml:space="preserve">
     <value>Inventory Item Group List</value>
   </data>
+  <data name="LabelInventoryProductDimensionGroupList" xml:space="preserve">
+    <value>Inventory Product Dimension Group List</value>
+  </data>
   <data name="LabelInventoryItemStorageDimensionList" xml:space="preserve">
     <value>Inventory Item Storage Dimension List</value>
   </data>
   <data name="LabelInventoryItemTrackingDimensionList" xml:space="preserve">
-    <value>Label Inventory Item Tracking Dimension List</value>
+    <value>Inventory Item Tracking Dimension List</value>
   </data>
   <data name="LabelInventoryProductDimensionList" xml:space="preserve">
     <value>Inventory Product Dimension List</value>
@@ -365,5 +371,11 @@
   </data>
   <data name="LabelTaxList" xml:space="preserve">
     <value>Tax List</value>
+  </data>
+  <data name="ErrorDeleteHospitalDoctorLeaveSchedule" xml:space="preserve">
+    <value>Failed to delete Hospital Doctor Leave Schedule due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteUserMainMenuMaster" xml:space="preserve">
+    <value>Failed to delete User Main Menu due to associate record.</value>
   </data>
 </root>

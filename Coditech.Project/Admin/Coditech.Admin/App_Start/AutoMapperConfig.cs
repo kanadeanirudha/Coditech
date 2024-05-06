@@ -124,6 +124,9 @@ namespace Coditech.Admin
             CreateMap<InventoryCategoryListModel, InventoryCategoryListViewModel>().ReverseMap();
             CreateMap<InventoryItemModelGroupModel, InventoryItemModelGroupViewModel>().ReverseMap();
             CreateMap<InventoryItemModelGroupListModel, InventoryItemModelGroupListViewModel>().ReverseMap();
+            
+            CreateMap<InventoryProductDimensionGroupModel, InventoryProductDimensionGroupViewModel>().ReverseMap();
+            CreateMap<InventoryProductDimensionGroupListModel, InventoryProductDimensionGroupListViewModel>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionModel, InventoryItemTrackingDimensionViewModel>().ReverseMap();
             CreateMap<InventoryProductDimensionModel, InventoryProductDimensionViewModel>().ReverseMap();
             CreateMap<InventoryProductDimensionListModel, InventoryProductDimensionListViewModel>().ReverseMap();
@@ -133,7 +136,7 @@ namespace Coditech.Admin
             CreateMap<InventoryUoMMasterModel, InventoryUoMMasterViewModel>().ReverseMap();
             CreateMap<InventoryUoMMasterListModel, InventoryUoMMasterListViewModel>().ReverseMap();
 
-            #endregion            
+            #endregion
 
             #region Password
             CreateMap<ChangePasswordModel, ChangePasswordViewModel>().ReverseMap();

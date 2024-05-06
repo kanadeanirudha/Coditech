@@ -62,6 +62,7 @@ namespace Coditech.API.Data
         public DbSet<UserMainMenuMaster> UserMainMenuMaster { get; set; }
         public DbSet<GeneralPerson> GeneralPerson { get; set; }
         public DbSet<GeneralPersonAddress> GeneralPersonAddress { get; set; }
+        public DbSet<LogMessage> LogMessage { get; set; }
         #endregion
 
         #region Employee
@@ -113,6 +114,8 @@ namespace Coditech.API.Data
         public DbSet<InventoryItemTrackingDimension> InventoryItemTrackingDimension { get; set; }
         public DbSet<InventoryProductDimension> InventoryProductDimension { get; set; }
         public DbSet<InventoryItemGroup> InventoryItemGroup { get; set; }
+        public DbSet<InventoryProductDimensionGroup> InventoryProductDimensionGroup { get; set; }
+        public DbSet<InventoryProductDimensionGroupMapper> InventoryProductDimensionGroupMapper { get; set; }
         public DbSet<InventoryUoMMaster> InventoryUoMMaster { get; set; }
         
         #endregion

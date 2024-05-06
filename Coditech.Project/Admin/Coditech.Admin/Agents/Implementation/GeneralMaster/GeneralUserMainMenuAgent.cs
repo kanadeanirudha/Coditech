@@ -120,7 +120,7 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
-                        errorMessage = AdminResources.ErrorDeleteGeneralUserMainMenuMaster;
+                        errorMessage = AdminResources.ErrorDeleteUserMainMenuMaster;
                         return false;
                     default:
                         errorMessage = GeneralResources.ErrorFailedToDelete;
@@ -150,12 +150,34 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Menu Code",
                 ColumnCode = "MenuCode",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Parent Menu Code",
+                ColumnCode = "ParentMenuCode",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "MenuInstalled Flag",
-                ColumnCode = "MenuInstalledFlag",
+                ColumnName = "Module Code",
+                ColumnCode = "ModuleCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Menu Display SeqNo",
+                ColumnCode = "MenuDisplaySeqNo",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Menu Icon",
+                ColumnCode = "MenuIconName",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Enable",
+                ColumnCode = "IsEnable",
+                IsSortable=true
             });
             return datatableColumnList;
         }

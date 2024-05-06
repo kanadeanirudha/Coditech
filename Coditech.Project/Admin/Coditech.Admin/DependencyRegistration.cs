@@ -61,6 +61,7 @@ namespace Coditech.Admin
             #endregion
 
             #region Inventory
+            builder.Services.AddScoped<IInventoryProductDimensionGroupAgent, InventoryProductDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryItemModelGroupAgent, InventoryItemModelGroupAgent>();
             builder.Services.AddScoped<IInventoryCategoryAgent, InventoryCategoryAgent>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionAgent, InventoryItemTrackingDimensionAgent>();
@@ -77,7 +78,7 @@ namespace Coditech.Admin
             #region Admin
             builder.Services.AddScoped<IAdminSanctionPostClient, AdminSanctionPostClient>();
             builder.Services.AddScoped<IAdminRoleMasterClient, AdminRoleMasterClient>();
-            #endregion
+            #endregion Admin
 
             builder.Services.AddScoped<IUserClient, UserClient>();
             builder.Services.AddScoped<IGeneralDepartmentClient, GeneralDepartmentClient>();
@@ -117,15 +118,18 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryItemStorageDimensionClient, InventoryItemStorageDimensionClient>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionClient, InventoryItemTrackingDimensionClient>();
             builder.Services.AddScoped<IInventoryProductDimensionClient, InventoryProductDimensionClient>();
+            builder.Services.AddScoped<IInventoryProductDimensionGroupClient, InventoryProductDimensionGroupClient>();
             builder.Services.AddScoped<IInventoryItemGroupClient, InventoryItemGroupClient>();
             builder.Services.AddScoped<IInventoryUoMMasterClient, InventoryUoMMasterClient>();
             builder.Services.AddScoped<IGeneralUserMainMenuClient, GeneralUserMainMenuClient>();
+
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();
             builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomClient, HospitalDoctorAllocatedOPDRoomClient>();
             builder.Services.AddScoped<IHospitalDoctorLeaveScheduleClient, HospitalDoctorLeaveScheduleClient>();
-            #endregion
-            #endregion
+            #endregion HMS
+
+            #endregion Client
         }
     }
 }

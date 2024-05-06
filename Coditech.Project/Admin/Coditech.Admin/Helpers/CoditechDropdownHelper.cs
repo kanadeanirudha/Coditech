@@ -242,17 +242,20 @@ namespace Coditech.Admin.Helpers
 
         private static void GetMenuList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
-            GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
-            foreach (var item in list?.GeneralTaxGroupMasterList)
+            dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
-                dropdownList.Add(new SelectListItem()
+                UserMainMenuListResponse response = new UserClient().GetActiveMenuList(dropdownViewModel.Parameter);
+
+                foreach (var item in response?.MenuList)
                 {
-                    Text = string.Concat(item.TaxGroupName, " (", item.GeneralTaxMasterIds, ")"),
-                    Value = Convert.ToString(item.GeneralTaxGroupMasterId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTaxGroupMasterId)
-                });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.MenuName,
+                        Value = Convert.ToString(item.MenuCode),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.MenuCode)
+                    });
+                }
             }
         }
 

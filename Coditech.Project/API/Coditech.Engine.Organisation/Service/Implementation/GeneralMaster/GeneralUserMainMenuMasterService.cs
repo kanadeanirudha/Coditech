@@ -120,8 +120,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if UserMainMenu code is already present or not.
-        protected virtual bool IsUserMainMenuCodeAlreadyExist(string userMainMenuName, short generalUserMainMenuMasterId = 0)
-         => _generalUserMainMenuMasterRepository.Table.Any(x => x.MenuName == userMainMenuName && (x.UserMainMenuMasterId != generalUserMainMenuMasterId || generalUserMainMenuMasterId == 0));
+        protected virtual bool IsUserMainMenuCodeAlreadyExist(string userMainMenuCode, short generalUserMainMenuMasterId = 0)
+         => _generalUserMainMenuMasterRepository.Table.Any(x => x.MenuCode == userMainMenuCode && (x.UserMainMenuMasterId != generalUserMainMenuMasterId || generalUserMainMenuMasterId == 0));
         #endregion
     }
 }

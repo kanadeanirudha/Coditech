@@ -5,6 +5,7 @@
     string messageData = Convert.ToString(TempData["Notifications"]);
     UserModel userData = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
     string applicationLogoPath = CoditechAdminSettings.ApplicationLogoPath;
+    string applicationLogoBackground = CoditechAdminSettings.ApplicationLogoBackground;
     string applicationTitle = CoditechAdminSettings.ApplicationTitle;
     TempData.Remove("Notifications");
 }
@@ -43,7 +44,7 @@
         <!-- Top Bar Start -->
         <div class="topbar">
             <!-- LOGO -->
-            <div class="brand">
+            <div class="brand" style="background-color:@applicationLogoBackground">
                 <a href="~/Dashboard/Index" class="logo">
                     <span>
                         <img src="@applicationLogoPath" alt="logo-small" class="logo-sm">
@@ -133,7 +134,6 @@
     <script src="~/js/coditech/common/coditechcommon.js"></script>
     <script src="~/js/coditech/common/coditechdatatable.js"></script>
     <script src="~/js/coditech/common/coditechnotification.js"></script>
-    <script src="~/js/coditech/adminrolemaster.js"></script>
     <script src="~/js/coditech/gym/gymmemberdetails.js"></script>
     <script src="~/js/coditech/user.js"></script>
     <script src="~/js/coditech/Organisation/OrganisationCentrewiseDepartment.js"></script>

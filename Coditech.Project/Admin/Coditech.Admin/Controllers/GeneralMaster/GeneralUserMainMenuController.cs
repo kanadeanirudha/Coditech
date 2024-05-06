@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -50,9 +51,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short generalUserMainMenuId)
+        public virtual ActionResult Edit(short userMainMenuMasterId)
         {
-            UserMainMenuViewModel generalUserMainnMenuViewModel = _generalUserMainMenuAgent.GetUserMainMenu(generalUserMainMenuId);
+            UserMainMenuViewModel generalUserMainnMenuViewModel = _generalUserMainMenuAgent.GetUserMainMenu(userMainMenuMasterId);
             return ActionView(createEdit, generalUserMainnMenuViewModel);
         }
 
@@ -64,7 +65,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalUserMainMenuAgent.UpdateUserMainMenu(generalUserMainnMenuViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalUserMainMenuId = generalUserMainnMenuViewModel.UserMainMenuMasterId });
+                return RedirectToAction("Edit", new { userMainMenuMasterId = generalUserMainnMenuViewModel.UserMainMenuMasterId });
             }
             return View(createEdit, generalUserMainnMenuViewModel);
         }
@@ -84,6 +85,16 @@ namespace Coditech.Admin.Controllers
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<GeneralUserMainMenuController>(x => x.List(null));
+        }
+        public virtual ActionResult GetParentMemuCodeByModuleCode(string moduleCode)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.MenuList.ToString(),
+                DropdownName = "ParentMenuCode",
+                Parameter = moduleCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
         #region Protected
