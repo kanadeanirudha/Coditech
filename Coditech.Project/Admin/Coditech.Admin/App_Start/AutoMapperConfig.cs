@@ -133,6 +133,8 @@ namespace Coditech.Admin
             CreateMap<InventoryItemTrackingDimensionListModel, InventoryItemTrackingDimensionListViewModel>().ReverseMap();
             CreateMap<InventoryItemGroupListModel, InventoryItemGroupListViewModel>().ReverseMap();
             CreateMap<InventoryItemGroupModel, InventoryItemGroupViewModel>().ReverseMap();
+            CreateMap<InventoryUoMMasterModel, InventoryUoMMasterViewModel>().ReverseMap();
+            CreateMap<InventoryUoMMasterListModel, InventoryUoMMasterListViewModel>().ReverseMap();
 
             #endregion
 

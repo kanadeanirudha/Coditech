@@ -367,6 +367,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory uom due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryUoMMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryUoMMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
         public static string ErrorDeleteOccupationMaster {
@@ -633,6 +642,15 @@ namespace Coditech.Resources {
         public static string LabelInventoryProductDimensionList {
             get {
                 return ResourceManager.GetString("LabelInventoryProductDimensionList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory UoM List.
+        /// </summary>
+        public static string LabelInventoryUoMMasterList {
+            get {
+                return ResourceManager.GetString("LabelInventoryUoMMasterList", resourceCulture);
             }
         }
         

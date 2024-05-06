@@ -23,6 +23,7 @@ namespace Coditech.API.Mapper
             CreateMap<InventoryProductDimensionModel, InventoryProductDimension>().ReverseMap();
             CreateMap<InventoryItemGroupModel, InventoryItemGroup>().ReverseMap();
             CreateMap<InventoryProductDimensionGroupMapperModel, InventoryProductDimensionGroupMapper>().ReverseMap();
+            CreateMap<InventoryUoMMasterModel, InventoryUoMMaster>().ReverseMap();
         }
     }
 }
