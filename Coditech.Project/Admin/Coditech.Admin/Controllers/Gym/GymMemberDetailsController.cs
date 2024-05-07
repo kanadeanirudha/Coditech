@@ -310,10 +310,38 @@ namespace Coditech.Admin.Controllers
             return ActionView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement/GymMemberBodyMeasurement.cshtml", list);
         }
 
+        //[HttpGet]
+        //public virtual ActionResult GetGymMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
+        //{
+        //    gymMemberBodyMeasurementViewModel.CreatedDate = DateTime.Now.ToShortDateString();
+        //    return PartialView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel);
+        //}
+
         [HttpGet]
-        public virtual ActionResult GetGymMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
+        public virtual ActionResult GetGymMemberBodyMeasurement(int gymMemberDetailId, long gymMemberBodyMeasurementId, short gymBodyMeasurementTypeId, string bodyMeasurementType, string measurementUnitShortCode, long personId)
         {
-            gymMemberBodyMeasurementViewModel.CreatedDate = DateTime.Now.ToShortDateString();
+            GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel = null;
+
+            if (gymMemberBodyMeasurementId > 0)
+            {
+                // Retrieve existing gym member body measurement based on both ID and Type
+                gymMemberBodyMeasurementViewModel = _gymMemberBodyMeasurementAgent.GetMemberBodyMeasurement(gymMemberBodyMeasurementId, gymBodyMeasurementTypeId);
+                gymMemberBodyMeasurementViewModel.GymMemberDetailId = gymMemberDetailId;
+                gymMemberBodyMeasurementViewModel.PersonId = personId;
+                gymMemberBodyMeasurementViewModel.BodyMeasurementType = bodyMeasurementType;
+                gymMemberBodyMeasurementViewModel.MeasurementUnitShortCode = measurementUnitShortCode;
+            }
+            else
+            {
+                gymMemberBodyMeasurementViewModel = new GymMemberBodyMeasurementViewModel()
+                {
+                    GymMemberDetailId = gymMemberDetailId,
+                    GymBodyMeasurementTypeId = gymBodyMeasurementTypeId, // Set the GymBodyMeasurementTypeId for new measurement
+                    GymMemberBodyMeasurementId = gymMemberBodyMeasurementId,
+                    CreatedDate = DateTime.Now.ToShortDateString() // Assuming CreatedDate is a property of type string
+                };
+            }
+
             return PartialView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel);
         }
 

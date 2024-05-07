@@ -162,21 +162,28 @@
         }
     },
 
-    AddGymMemberBodyMeasurement: function (modelPopContentId, gymMemberDetailId, gymBodyMeasurementTypeId, bodyMeasurementType, measurementUnitShortCode, personId) {
+    AddGymMemberBodyMeasurement: function (modelPopContentId, gymMemberDetailId, gymBodyMeasurementTypeId, gymMemberBodyMeasurementId, bodyMeasurementType, measurementUnitShortCode, personId) {
+        console.log("modelPopContentId:", modelPopContentId);
+        console.log("gymMemberDetailId:", gymMemberDetailId);
+        console.log("gymMemberBodyMeasurementId:", gymMemberBodyMeasurementId);
+        console.log("gymBodyMeasurementTypeId:", gymBodyMeasurementTypeId);
+        console.log("bodyMeasurementType:", bodyMeasurementType);
+        console.log("measurementUnitShortCode:", measurementUnitShortCode);
+        console.log("personId:", personId);
         CoditechCommon.ShowLodder();
-        let gymMemberBodyMeasurementViewModel = {
-            GymMemberDetailId: gymMemberDetailId,
-            GymBodyMeasurementTypeId: gymBodyMeasurementTypeId,
-            BodyMeasurementType: bodyMeasurementType,
-            MeasurementUnitShortCode: measurementUnitShortCode,
-            PersonId: personId
-        };
         $.ajax({
             cache: false,
             type: "GET",
             dataType: "html",
             url: "/GymMemberDetails/GetGymMemberBodyMeasurement",
-            data: gymMemberBodyMeasurementViewModel,
+            data: {
+                gymMemberDetailId: gymMemberDetailId,
+                gymMemberBodyMeasurementId: gymMemberBodyMeasurementId,
+                gymBodyMeasurementTypeId: gymBodyMeasurementTypeId,
+                bodyMeasurementType: bodyMeasurementType,
+                measurementUnitShortCode: measurementUnitShortCode,
+                personId: personId
+            },
             contentType: "application/json; charset=utf-8",
             success: function (result) {
                 $('#' + modelPopContentId).html("").html(result);
@@ -191,5 +198,8 @@
             }
         });
     }
+
+
+
 
 }
