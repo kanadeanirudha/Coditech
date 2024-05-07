@@ -120,5 +120,13 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["ApplicationTitle"]);
             }
         }
+        public static string ApplicationLayoutBackground
+        {
+            get
+            {
+                return Convert.ToString(settings["ApplicationLayoutBackground"]);
+            }
+        }
+
     }
 }

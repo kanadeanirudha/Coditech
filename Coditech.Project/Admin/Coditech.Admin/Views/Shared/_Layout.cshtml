@@ -6,6 +6,7 @@
     UserModel userData = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
     string applicationLogoPath = CoditechAdminSettings.ApplicationLogoPath;
     string applicationLogoBackground = CoditechAdminSettings.ApplicationLogoBackground;
+    string applicationLayoutBackground = CoditechAdminSettings.ApplicationLayoutBackground;
     string applicationTitle = CoditechAdminSettings.ApplicationTitle;
     TempData.Remove("Notifications");
 }
@@ -36,7 +37,8 @@
     <link href="~/css/layout/jstree.css" rel="stylesheet" />
 </head>
 
-<body data-layout="horizontal" class="dark-topbar" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="">
+<body data-layout="horizontal" class="dark-topbar" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="" style="background: url(@applicationLayoutBackground);
+}">
     @Html.Partial("~/Views/Shared/_Loader.cshtml")
 
     @if (userData != null)
