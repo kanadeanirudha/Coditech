@@ -90,7 +90,7 @@ namespace Coditech.API.Data
         public DbSet<MediaTypeMaster> MediaTypeMaster { get; set; }
         #endregion
 
-        #region HospitalDoctors
+        #region HMS
         public DbSet<HospitalDoctors> HospitalDoctors { get; set; }
         public DbSet<HospitalDoctorAllocatedRoom> HospitalDoctorAllocatedRoom { get; set; }
         public DbSet<HospitalDoctorLeaveSchedule> HospitalDoctorLeaveSchedule { get; set; }
