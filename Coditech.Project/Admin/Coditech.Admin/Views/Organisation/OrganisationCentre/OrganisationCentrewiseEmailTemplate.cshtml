@@ -5,28 +5,25 @@
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel emailTemplateCodeDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.EmailTemplate.ToString(), DropdownName = "EmailTemplateCode", DropdownSelectedValue = Model.EmailTemplate, ChangeEvent = $"OrganisationCentrewiseEmailTemplate.GetEmailTemplateByCentreCode('{Model.OrganisationCentreMasterId}')" };
 }
-<!-- Page Content-->
-<div class="page-content">
+<div class="page-content mt-5">
     <div class="container-fluid">
-        <!-- Page-Title -->
         <div class="row">
-            <div class="col-sm-12">
-                <h3 class="content-header-title">Organisation Centrewise Email Template</h3>
-                <div class="page-title-box">
-                    <div class="row">
-                        <div class="col">
-                        </div><!--end col-->
-                    </div><!--end row-->
-                </div><!--end page-title-box-->
-            </div><!--end col-->
-        </div><!--end row-->
-        <!-- end page title end breadcrumb -->
-        <div class="row">
-            <div class="col-lg-2">
-                @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentreMasterId.ToString())
-            </div>
+            @if (Model.OrganisationCentreMasterId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentreMasterId.ToString())
+                </div>
+            }
             <div class="col-lg-10">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h4 class="card-title">Organisation Centrewise Email Template</h4>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div>
+                    <div class="card">
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
@@ -64,3 +61,4 @@
         </div>
     </div>
 </div>
+
