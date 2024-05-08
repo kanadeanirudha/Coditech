@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.Helper;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -18,21 +19,22 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [MaxLength(200)]
-        [Display(Name = "Server Name")]
+        [Display(Name = "SMTP Server")]
         public string ServerName { get; set; }
 
         [Required]
         [MaxLength(200)]
-        [Display(Name = "User Name")]
+        [Display(Name = "SMTP Server User Name")]
         public string UserName { get; set; }
 
         [Required]
         [MaxLength(200)]
-        [Display(Name = "Password")]
+        [DataType(DataType.Password)]
+        [Display(Name = "SMTP Server Password")]
         public string Password { get; set; }
 
         [Required]
-        [Display(Name = "Port")]
+        [Display(Name = "SMTP Port")]
         public int Port { get; set; }
 
         [Required]
