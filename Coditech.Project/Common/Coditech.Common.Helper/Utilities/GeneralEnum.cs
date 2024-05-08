@@ -47,7 +47,8 @@
         InventoryCategory,
         AllCities,
         InventoryModel,
-        EmailTemplate
+        EmailTemplate,
+        HospitalDoctorsList
     }
 
     public enum GeneralSystemGlobleSettingEnum
