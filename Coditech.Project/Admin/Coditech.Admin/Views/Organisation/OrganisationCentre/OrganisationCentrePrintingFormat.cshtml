@@ -22,8 +22,7 @@
                             </div><!--end col-->
                         </div><!--end row-->
                     </div>
-                    <div class="card">
-                        <div class="card-body">
+                    <div class="card-body">
                             @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                             {
                                 @Html.HiddenFor(m => m.OrganisationCentrePrintingFormatId)
@@ -92,8 +91,7 @@
                                 <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                                 <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                             }
-                        </div>
-                    </div>
+                        </div>                 
                 </div>
             </div>
         </div>
