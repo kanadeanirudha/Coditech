@@ -175,6 +175,7 @@
             cache: false,
             type: "GET",
             dataType: "html",
+            async: false,
             url: "/GymMemberDetails/GetGymMemberBodyMeasurement",
             data: {
                 gymMemberDetailId: gymMemberDetailId,
