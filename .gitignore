@@ -77,3 +77,6 @@
 /Coditech.Project/API/Coditech.Engine.Inventory/.config/dotnet-tools.json
 /Coditech.Project/API/Coditech.Engine.Organisation/.config/dotnet-tools.json
 /Coditech.Project/API/Coditech.Engine.User/.config/dotnet-tools.json
+/Coditech.Project/API/Coditech.Engine.GymManagementSystem/Service/Implementation/Properties
+/.gitignore
+/.gitignore
