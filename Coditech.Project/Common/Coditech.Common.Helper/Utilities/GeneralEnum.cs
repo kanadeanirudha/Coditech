@@ -120,5 +120,16 @@
         // Indicates text file append mode operation. it preserves the previous content.
         Append
     }
-
+    public enum EmailTemplateCodeEnum
+    {
+        EmployeeRegistration,
+        CustomerRegistration,
+        GymMemberRegistration
+    }
+    public enum UserNameRegistrationType
+    {
+        EmailId,
+        MobileNumber,
+        PersonCode
+    }
 }
