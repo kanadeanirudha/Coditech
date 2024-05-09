@@ -133,4 +133,17 @@
         MobileNumber,
         PersonCode
     }
+    public enum UploadStatusCode
+    {
+        ExtensionNotAllow = 10,
+        FileAlreadyExist = 20,
+        MaxFileSize = 30,
+        Corrupt = 40,
+        Error = 50,
+        Done = 60,
+        Removed = 70,
+        SelectSingleFile = 80,
+        SelectFile = 90,
+        UnSupportedFile = 100
+    }
 }
