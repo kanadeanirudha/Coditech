@@ -52,7 +52,7 @@ namespace Coditech.Admin.Controllers
                 if (!hospitalDoctorLeaveScheduleViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    return RedirectToAction("List", CreateActionDataTable(hospitalDoctorLeaveScheduleViewModel.SelectedCentreCode, Convert.ToInt16(hospitalDoctorLeaveScheduleViewModel.SelectedDepartmentId)));
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorLeaveScheduleViewModel.ErrorMessage));
