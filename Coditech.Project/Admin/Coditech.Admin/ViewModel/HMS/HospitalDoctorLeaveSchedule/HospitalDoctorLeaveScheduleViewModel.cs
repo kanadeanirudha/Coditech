@@ -16,8 +16,12 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Is Full Day")]
         public bool IsFullDay { get; set; }
+
+        [Required]
         [Display(Name = "From Time")]
         public TimeSpan? FromTime { get; set; }
+
+        [Required]
         [Display(Name = "Upto Time")]
         public TimeSpan? UptoTime { get; set; }
         public string ImagePath { get; set; }

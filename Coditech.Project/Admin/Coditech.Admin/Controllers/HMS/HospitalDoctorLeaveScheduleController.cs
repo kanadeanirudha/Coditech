@@ -42,6 +42,10 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Create(HospitalDoctorLeaveScheduleViewModel hospitalDoctorLeaveScheduleViewModel)
         {
+            if (hospitalDoctorLeaveScheduleViewModel.IsFullDay) {
+                ModelState.Remove("FromTime");
+                ModelState.Remove("UptoTime");
+            }
             if (ModelState.IsValid)
             {
                 hospitalDoctorLeaveScheduleViewModel = _hospitalDoctorLeaveScheduleAgent.CreateHospitalDoctorLeaveSchedule(hospitalDoctorLeaveScheduleViewModel);
@@ -65,6 +69,11 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Edit(HospitalDoctorLeaveScheduleViewModel hospitalDoctorLeaveScheduleViewModel)
         {
+            if (hospitalDoctorLeaveScheduleViewModel.IsFullDay)
+            {
+                ModelState.Remove("FromTime");
+                ModelState.Remove("UptoTime");
+            }
             if (ModelState.IsValid)
             {
                 SetNotificationMessage(_hospitalDoctorLeaveScheduleAgent.UpdateHospitalDoctorLeaveSchedule(hospitalDoctorLeaveScheduleViewModel).HasError
