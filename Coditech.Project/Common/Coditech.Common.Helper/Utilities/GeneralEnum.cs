@@ -70,7 +70,8 @@
         Admin,
         Employee,
         Customer,
-        GymMember
+        GymMember,
+        Patient
     }
 
     public enum ActiveProjectNameEnum
@@ -127,13 +128,13 @@
         CustomerRegistration,
         GymMemberRegistration
     }
-    public enum UserNameRegistrationType
+    public enum UserNameRegistrationTypeEnum
     {
         EmailId,
         MobileNumber,
         PersonCode
     }
-    public enum UploadStatusCode
+    public enum UploadStatusCodeEnum
     {
         ExtensionNotAllow = 10,
         FileAlreadyExist = 20,

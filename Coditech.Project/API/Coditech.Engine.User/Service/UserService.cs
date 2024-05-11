@@ -29,6 +29,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -44,6 +45,7 @@ namespace Coditech.API.Service
             _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -521,10 +523,21 @@ namespace Coditech.API.Service
 
         protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId)
         {
+            string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && generalPersonModel.UserType.Equals(x.UserType, StringComparison.InvariantCultureIgnoreCase))?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
-            //Make it generic
-            userMaster.UserName = generalPersonModel.PersonCode;
+            if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.EmailId.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.EmailId;
+            }
+            else if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.MobileNumber.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.MobileNumber;
+            }
+            else if (string.IsNullOrEmpty(userNameBasedOn) || userNameBasedOn.Equals(UserNameRegistrationTypeEnum.PersonCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.PersonCode;
+            }
             userMaster = _userMasterRepository.Insert(userMaster);
         }
 
