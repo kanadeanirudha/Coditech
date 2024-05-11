@@ -342,6 +342,7 @@ namespace Coditech.API.Service
             organisationCentrewiseUserNameRegistrationModel.CentreCode = organisationCentreModel.CentreCode;
             organisationCentrewiseUserNameRegistrationModel.CentreName = organisationCentreModel.CentreName;
             organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId = organisationCentreId;
+            organisationCentrewiseUserNameRegistrationModel.CentrewiseUserNameRegistrationList = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode)?.FromEntityToModel<List<OrganisationCentrewiseUserNameRegistrationModel>>()?.ToList();
             return organisationCentrewiseUserNameRegistrationModel;
         }
 
@@ -374,6 +375,7 @@ namespace Coditech.API.Service
         //Check if Centre code is already present or not.
         protected virtual bool IsCentreCodeAlreadyExist(string centreCode, short organisationCentreMasterId = 0)
          => _organisationCentreMasterRepository.Table.Any(x => x.CentreCode == centreCode && (x.OrganisationCentreMasterId != organisationCentreMasterId || organisationCentreMasterId == 0));
+
         #endregion
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Coditech.Common.Helper;
+using Coditech.Model;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -25,23 +27,8 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [MaxLength(20)]
-        [Display(Name = "UserName BasedOn")]
+        [Display(Name = "Username BasedOn")]
         public string UserNameBasedOn { get; set; }
-
-        [Display(Name = "Created By")]
-        public long CreatedBy { get; set; }
-        
-        [Display(Name = "Created Date")]
-        public DateTime CreatedDate { get; set; }
-
-        [Display(Name = "Modified By")]
-        public long ModifiedBy { get; set; }
-
-        [Display(Name = "Modified Date")]
-        public DateTime ModifiedDate { get; set; }
-
-        
-
-
+        public List<OrganisationCentrewiseUserNameRegistrationModel> CentrewiseUserNameRegistrationList { get; set; }
     }
 }
