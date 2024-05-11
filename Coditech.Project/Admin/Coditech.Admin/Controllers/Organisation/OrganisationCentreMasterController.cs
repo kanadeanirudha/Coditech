@@ -15,6 +15,7 @@ namespace Coditech.Admin.Controllers
         private const string OrganisationCentrewiseGSTCredential = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseGSTCredential.cshtml";
         private const string OrganisationCentrewiseSmtpSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSmtpSetting.cshtml";
         private const string OrganisationCentrewiseEmailTemplate = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseEmailTemplate.cshtml";
+        private const string OrganisationCentrewiseUserNameRegistration = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseUserNameRegistration.cshtml";
 
         public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
         {
@@ -186,6 +187,29 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
             }
             return View(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
+        }
+        #endregion
+
+        #region CentrewiseUserNameRegistration
+        [HttpGet]
+        public virtual ActionResult CentrewiseUserNameRegistration(short organisationCentreId)
+        {
+            OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId);
+            return ActionView(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);
+
+        }
+
+        [HttpPost]
+        public virtual ActionResult CentrewiseUserNameRegistration(OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseUserName(organisationCentrewiseUserNameRegistrationViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("CentrewiseUserNameRegistration", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId });
+            }
+            return View(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);
         }
         #endregion
     }

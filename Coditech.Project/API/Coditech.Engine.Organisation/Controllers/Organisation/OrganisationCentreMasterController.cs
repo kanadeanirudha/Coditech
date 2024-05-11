@@ -313,5 +313,51 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/OrganisationCentreMaster/GetCentrewiseUserName")]
+        [HttpGet]
+        [Produces(typeof(OrganisationCentrewiseUserNameRegistrationResponse))]
+        public virtual IActionResult GetCentrewiseUserName(short organisationCentreMasterId)
+        {
+            try
+            {
+                OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel = _organisationCentreMasterService.GetCentrewiseUserName(organisationCentreMasterId);
+                return IsNotNull(organisationCentrewiseUserNameRegistrationModel) ? CreateOKResponse(new OrganisationCentrewiseUserNameRegistrationResponse() { OrganisationCentrewiseUserNameRegistrationModel = organisationCentrewiseUserNameRegistrationModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseUserName.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseUserNameRegistrationResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseUserName.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseUserNameRegistrationResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/UpdateCentrewiseUserName")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseUserNameRegistrationResponse))]
+        public virtual IActionResult UpdateCentrewiseUserName([FromBody] OrganisationCentrewiseUserNameRegistrationModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdateCentrewiseUserName(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseUserNameRegistrationResponse { OrganisationCentrewiseUserNameRegistrationModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseUserName.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseUserNameRegistrationResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseUserName.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseUserNameRegistrationResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+
     }
 }

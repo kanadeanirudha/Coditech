@@ -17,11 +17,11 @@ namespace Coditech.API.Client
         {
             organisationCentreEndpoint = new OrganisationCentreEndpoint();
         }
+        #region OrganisationCentre
         public virtual OrganisationCentreListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-
         public virtual async Task<OrganisationCentreListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
             string endpoint = organisationCentreEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
@@ -66,7 +66,6 @@ namespace Coditech.API.Client
         {
             return Task.Run(async () => await CreateOrganisationAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
-
         public virtual async Task<OrganisationCentreResponse> CreateOrganisationAsync(OrganisationCentreModel body, CancellationToken cancellationToken)
         {
             string endpoint = organisationCentreEndpoint.CreateOrganisationAsync();
@@ -117,7 +116,6 @@ namespace Coditech.API.Client
                 }
             }
         }
-
         public virtual OrganisationCentreResponse GetOrganisationCentre(short organisationCentreId)
         {
             return Task.Run(async () => await GetOrganisationAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -166,12 +164,10 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-
         public virtual OrganisationCentreResponse UpdateOrganisationCentre(OrganisationCentreModel body)
         {
             return Task.Run(async () => await UpdateOrganisationAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-
         public virtual async Task<OrganisationCentreResponse> UpdateOrganisationAsync(OrganisationCentreModel body, System.Threading.CancellationToken cancellationToken)
         {
             string endpoint = organisationCentreEndpoint.UpdateOrganisationAsync();
@@ -219,7 +215,6 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-
         public virtual TrueFalseResponse DeleteOrganisationCentre(ParameterModel body)
         {
             return Task.Run(async () => await DeleteOrganisationAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -261,7 +256,9 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+        #endregion
 
+        #region PrintingFormat
         public virtual OrganisationCentrePrintingFormatResponse GetPrintingFormat(short organisationCentreId)
         {
             return Task.Run(async () => await GetPrintingFormatAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -310,12 +307,10 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-
         public virtual OrganisationCentrePrintingFormatResponse UpdatePrintingFormat(OrganisationCentrePrintingFormatModel body)
         {
             return Task.Run(async () => await UpdatePrintingFormatAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-
         public virtual async Task<OrganisationCentrePrintingFormatResponse> UpdatePrintingFormatAsync(OrganisationCentrePrintingFormatModel body, System.Threading.CancellationToken cancellationToken)
         {
             string endpoint = organisationCentreEndpoint.UpdatePrintingFormatAsync();
@@ -362,7 +357,9 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+        #endregion
 
+        #region CentrewiseGSTSetup
         public virtual OrganisationCentrewiseGSTCredentialResponse GetCentrewiseGSTSetup(short organisationCentreId)
         {
             return Task.Run(async () => await GetCentrewiseGSTSetupAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -411,7 +408,6 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-
         public virtual OrganisationCentrewiseGSTCredentialResponse UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialModel body)
         {
             return Task.Run(async () => await UpdateCentrewiseGSTSetupAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -463,12 +459,13 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+        #endregion
 
+        #region CentrewiseSmtpSetup
         public virtual OrganisationCentrewiseSmtpSettingResponse GetCentrewiseSmtpSetup(short organisationCentreId)
         {
             return Task.Run(async () => await GetCentrewiseSmtpSetupAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-
         public virtual async Task<OrganisationCentrewiseSmtpSettingResponse> GetCentrewiseSmtpSetupAsync(short organisationCentreId, System.Threading.CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
@@ -564,7 +561,9 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+        #endregion
 
+        #region CentrewiseEmailTemplate
         public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
         {
             return Task.Run(async () => await GetCentrewiseEmailTemplateSetupAsync(organisationCentreId,emailTemplateCode, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -665,5 +664,108 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+        #endregion
+
+        #region Centrewise UserName
+        public virtual OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId)
+        {
+            return Task.Run(async () => await GetCentrewiseUserNameAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<OrganisationCentrewiseUserNameRegistrationResponse> GetCentrewiseUserNameAsync(short organisationCentreId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (organisationCentreId <= 0)
+                throw new System.ArgumentNullException("organisationCentreId");
+
+            string endpoint = organisationCentreEndpoint.GetCentrewiseUserNameAsync(organisationCentreId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseUserNameRegistrationResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new OrganisationCentrewiseUserNameRegistrationResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseUserNameRegistrationResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseUserNameRegistrationResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual OrganisationCentrewiseUserNameRegistrationResponse UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel body)
+        {
+            return Task.Run(async () => await UpdateCentrewiseUserNameAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseUserNameRegistrationResponse> UpdateCentrewiseUserNameAsync(OrganisationCentrewiseUserNameRegistrationModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentreEndpoint.UpdateCentrewiseUserNameAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseUserNameRegistrationResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseUserNameRegistrationResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseUserNameRegistrationResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseUserNameRegistrationResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        #endregion
     }
 }
