@@ -4,6 +4,7 @@ using Coditech.Admin.ViewModel;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -195,6 +196,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult CentrewiseUserNameRegistration(short organisationCentreId)
         {
             OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId);
+            BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
             return ActionView(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);
 
         }
@@ -209,7 +211,27 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("CentrewiseUserNameRegistration", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId });
             }
+            BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
             return View(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);
+        }
+        #endregion
+
+        #region Protected
+        protected virtual void BindDropdown( OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel)
+        {
+            List<SelectListItem> UserTypeList = new List<SelectListItem>();
+            UserTypeList.Add(new SelectListItem { Text = AdminConstants.Admin, Value = AdminConstants.Admin });
+            UserTypeList.Add(new SelectListItem { Text = AdminConstants.Employee, Value = AdminConstants.Employee });
+            UserTypeList.Add(new SelectListItem { Text = AdminConstants.Customer, Value = AdminConstants.Customer });
+            UserTypeList.Add(new SelectListItem { Text = AdminConstants.GymMember, Value = AdminConstants.GymMember });
+            UserTypeList.Add(new SelectListItem { Text = AdminConstants.Patient, Value = AdminConstants.Patient });
+            ViewData["UserType"] = UserTypeList;
+
+            List<SelectListItem> UserNameBasedOnList = new List<SelectListItem>();
+            UserNameBasedOnList.Add(new SelectListItem { Text = AdminConstants.EmailId, Value = AdminConstants.EmailId });
+            UserNameBasedOnList.Add(new SelectListItem { Text = AdminConstants.MobileNumber, Value = AdminConstants.MobileNumber });
+            UserNameBasedOnList.Add(new SelectListItem { Text = AdminConstants.PersonCode, Value = AdminConstants.PersonCode });
+            ViewData["UserNameBasedOn"] = UserNameBasedOnList;
         }
         #endregion
     }

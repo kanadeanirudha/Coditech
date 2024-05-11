@@ -7,7 +7,12 @@ namespace Coditech.Admin.ViewModel
     {
         [Required]
         public int OrganisationCentrewiseUserNameRegistrationId { get; set; }
-        
+
+        [Required]
+        [MaxLength(100)]
+        [Display(Name = "Centre Name")]
+        public string CentreName { get; set; }
+
         [Required]
         [MaxLength(15)]
         [Display(Name = "Centre Code")]

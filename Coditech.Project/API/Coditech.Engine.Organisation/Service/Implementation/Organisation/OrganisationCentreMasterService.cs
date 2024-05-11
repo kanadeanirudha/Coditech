@@ -340,7 +340,8 @@ namespace Coditech.API.Service
             OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel = IsNull(organisationCentrewiseUserNameRegistrationData) ? new OrganisationCentrewiseUserNameRegistrationModel() : organisationCentrewiseUserNameRegistrationData.FromEntityToModel<OrganisationCentrewiseUserNameRegistrationModel>();
 
             organisationCentrewiseUserNameRegistrationModel.CentreCode = organisationCentreModel.CentreCode;
-            organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId= organisationCentreId;
+            organisationCentrewiseUserNameRegistrationModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId = organisationCentreId;
             return organisationCentrewiseUserNameRegistrationModel;
         }
 
