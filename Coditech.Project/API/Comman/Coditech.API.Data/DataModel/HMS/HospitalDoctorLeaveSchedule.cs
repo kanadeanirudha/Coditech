@@ -11,6 +11,7 @@ namespace Coditech.API.Data
         public bool IsFullDay { get; set; }
         public TimeSpan? FromTime { get; set; }
         public TimeSpan? UptoTime { get; set; }
+        public string Remark { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

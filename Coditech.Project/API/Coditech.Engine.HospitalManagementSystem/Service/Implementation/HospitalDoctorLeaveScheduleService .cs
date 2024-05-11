@@ -53,6 +53,12 @@ namespace Coditech.API.Service
             //if (IsRoomNameAlreadyExist(hospitalDoctorLeaveScheduleModel.LeaveDate))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Leave Date"));
 
+            if (hospitalDoctorLeaveScheduleModel.IsFullDay)
+            {
+                hospitalDoctorLeaveScheduleModel.FromTime = null;
+                hospitalDoctorLeaveScheduleModel.UptoTime = null;
+            }
+
             HospitalDoctorLeaveSchedule hospitalDoctorLeaveSchedule = hospitalDoctorLeaveScheduleModel.FromModelToEntity<HospitalDoctorLeaveSchedule>();
 
             //Create new HospitalDoctorLeaveSchedule and return it.
@@ -89,6 +95,12 @@ namespace Coditech.API.Service
 
             if (hospitalDoctorLeaveScheduleModel.HospitalDoctorLeaveScheduleId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorLeaveScheduleID"));
+
+            if (hospitalDoctorLeaveScheduleModel.IsFullDay)
+            {
+                hospitalDoctorLeaveScheduleModel.FromTime = null;
+                hospitalDoctorLeaveScheduleModel.UptoTime = null;
+            }
 
             HospitalDoctorLeaveSchedule hospitalDoctorLeaveSchedule = hospitalDoctorLeaveScheduleModel.FromModelToEntity<HospitalDoctorLeaveSchedule>();
 

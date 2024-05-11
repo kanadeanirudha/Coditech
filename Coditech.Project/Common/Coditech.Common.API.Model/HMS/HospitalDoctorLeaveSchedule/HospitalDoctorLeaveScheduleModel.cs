@@ -14,5 +14,9 @@
         public string LastName { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+        public string SelectedCentreCode { get; set; }
+        public string SelectedDepartmentId { get; set; }
+
+        public string Remark { get; set; }
     }
 }

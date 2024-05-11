@@ -47,7 +47,8 @@
         InventoryCategory,
         AllCities,
         InventoryModel,
-        EmailTemplate
+        EmailTemplate,
+        HospitalDoctorsList
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -69,7 +70,8 @@
         Admin,
         Employee,
         Customer,
-        GymMember
+        GymMember,
+        Patient
     }
 
     public enum ActiveProjectNameEnum
@@ -120,5 +122,29 @@
         // Indicates text file append mode operation. it preserves the previous content.
         Append
     }
-
+    public enum EmailTemplateCodeEnum
+    {
+        EmployeeRegistration,
+        CustomerRegistration,
+        GymMemberRegistration
+    }
+    public enum UserNameRegistrationTypeEnum
+    {
+        EmailId,
+        MobileNumber,
+        PersonCode
+    }
+    public enum UploadStatusCodeEnum
+    {
+        ExtensionNotAllow = 10,
+        FileAlreadyExist = 20,
+        MaxFileSize = 30,
+        Corrupt = 40,
+        Error = 50,
+        Done = 60,
+        Removed = 70,
+        SelectSingleFile = 80,
+        SelectFile = 90,
+        UnSupportedFile = 100
+    }
 }
