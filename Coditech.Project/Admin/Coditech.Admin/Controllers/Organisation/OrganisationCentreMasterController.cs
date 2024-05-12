@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -217,20 +218,24 @@ namespace Coditech.Admin.Controllers
         #endregion
 
         #region Protected
-        protected virtual void BindDropdown( OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel)
+       protected virtual void BindDropdown(OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel)
         {
             List<SelectListItem> UserTypeList = new List<SelectListItem>();
-            UserTypeList.Add(new SelectListItem { Text = AdminConstants.Admin, Value = AdminConstants.Admin });
-            UserTypeList.Add(new SelectListItem { Text = AdminConstants.Employee, Value = AdminConstants.Employee });
-            UserTypeList.Add(new SelectListItem { Text = AdminConstants.Customer, Value = AdminConstants.Customer });
-            UserTypeList.Add(new SelectListItem { Text = AdminConstants.GymMember, Value = AdminConstants.GymMember });
-            UserTypeList.Add(new SelectListItem { Text = AdminConstants.Patient, Value = AdminConstants.Patient });
+            UserTypeList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
+            var userTypeList = Enum.GetValues(typeof(UserTypeEnum)).Cast<UserTypeEnum>().ToList();
+            foreach (var item in userTypeList)
+            {
+                UserTypeList.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString() });
+            }
             ViewData["UserType"] = UserTypeList;
 
             List<SelectListItem> UserNameBasedOnList = new List<SelectListItem>();
-            UserNameBasedOnList.Add(new SelectListItem { Text = AdminConstants.EmailId, Value = AdminConstants.EmailId });
-            UserNameBasedOnList.Add(new SelectListItem { Text = AdminConstants.MobileNumber, Value = AdminConstants.MobileNumber });
-            UserNameBasedOnList.Add(new SelectListItem { Text = AdminConstants.PersonCode, Value = AdminConstants.PersonCode });
+            UserNameBasedOnList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
+            var userNameBasedOnList = Enum.GetValues(typeof(UserNameRegistrationTypeEnum)).Cast<UserNameRegistrationTypeEnum>().ToList();
+            foreach (var item in userNameBasedOnList)
+            {
+                UserNameBasedOnList.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString() });
+            } 
             ViewData["UserNameBasedOn"] = UserNameBasedOnList;
         }
         #endregion

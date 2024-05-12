@@ -20,14 +20,6 @@
         public const string Addon = "Addon";
         public const string Temporary = "Temporary";
         public const string Permanent = "Permanent";
-        public const string Admin = "Admin";
-        public const string Employee = "Employee";
-        public const string Customer = "Customer";
-        public const string GymMember = "GymMember";
-        public const string Patient = "Patient";
-        public const string EmailId = "EmailId";
-        public const string MobileNumber = "MobileNumber";
-        public const string PersonCode = "PersonCode";
 
         #region CookieHelper constant
         public const double MinutesInAYear = 365 * 24 * 60;
