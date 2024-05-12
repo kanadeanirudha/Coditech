@@ -378,4 +378,10 @@
   <data name="ErrorDeleteUserMainMenuMaster" xml:space="preserve">
     <value>Failed to delete User Main Menu due to associate record.</value>
   </data>
+  <data name="ErrorDeleteHospitalDoctorVisitingCharges" xml:space="preserve">
+    <value>Failed to delete Hospital Doctor Visiting Charges details due to associate record.</value>
+  </data>
+  <data name="LabelHospitalDoctorVisitingChargesList" xml:space="preserve">
+    <value>Hospital Doctor Visiting Charges List</value>
+  </data>
 </root>
