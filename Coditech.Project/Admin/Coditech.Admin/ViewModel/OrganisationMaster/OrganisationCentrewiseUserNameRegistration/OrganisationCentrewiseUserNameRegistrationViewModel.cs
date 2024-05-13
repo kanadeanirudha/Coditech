@@ -7,11 +7,9 @@ namespace Coditech.Admin.ViewModel
 {
     public class OrganisationCentrewiseUserNameRegistrationViewModel : BaseViewModel
     {
-        [Required]
-        public int OrganisationCentrewiseUserNameRegistrationId { get; set; }
+        public short OrganisationCentreMasterId { get; set; }
+        public short OrganisationCentrewiseUserNameRegistrationId { get; set; }
 
-        [Required]
-        [MaxLength(100)]
         [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
 

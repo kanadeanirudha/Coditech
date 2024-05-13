@@ -341,7 +341,7 @@ namespace Coditech.API.Service
 
             organisationCentrewiseUserNameRegistrationModel.CentreCode = organisationCentreModel.CentreCode;
             organisationCentrewiseUserNameRegistrationModel.CentreName = organisationCentreModel.CentreName;
-            organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId = organisationCentreId;
+            organisationCentrewiseUserNameRegistrationModel.OrganisationCentreMasterId = organisationCentreId;
             organisationCentrewiseUserNameRegistrationModel.CentrewiseUserNameRegistrationList = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode)?.FromEntityToModel<List<OrganisationCentrewiseUserNameRegistrationModel>>()?.ToList();
             return organisationCentrewiseUserNameRegistrationModel;
         }
@@ -351,6 +351,9 @@ namespace Coditech.API.Service
         {
             if (IsNull(organisationCentrewiseUserNameRegistrationModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (IsCentrewiseUserNameAlreadyExist(organisationCentrewiseUserNameRegistrationModel.CentreCode, organisationCentrewiseUserNameRegistrationModel.UserType, organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
 
             bool isOrganisationCentrewiseUserNameUpdated = false;
             OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistration = organisationCentrewiseUserNameRegistrationModel.FromModelToEntity<OrganisationCentrewiseUserNameRegistration>();
@@ -375,6 +378,9 @@ namespace Coditech.API.Service
         //Check if Centre code is already present or not.
         protected virtual bool IsCentreCodeAlreadyExist(string centreCode, short organisationCentreMasterId = 0)
          => _organisationCentreMasterRepository.Table.Any(x => x.CentreCode == centreCode && (x.OrganisationCentreMasterId != organisationCentreMasterId || organisationCentreMasterId == 0));
+
+        protected virtual bool IsCentrewiseUserNameAlreadyExist(string centreCode, string userType, short organisationCentrewiseUserNameRegistrationId = 0)
+        => _organisationCentrewiseUserNameRegistrationRepository.Table.Any(x => x.CentreCode == centreCode && x.UserType == userType && (x.OrganisationCentrewiseUserNameRegistrationId != organisationCentrewiseUserNameRegistrationId || organisationCentrewiseUserNameRegistrationId == 0));
 
         #endregion
     }

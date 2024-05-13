@@ -13,7 +13,8 @@ namespace Coditech.Model
         public List<OrganisationCentrewiseUserNameRegistrationModel> CentrewiseUserNameRegistrationList { get; set; }
 
         [Required]
-        public int OrganisationCentrewiseUserNameRegistrationId { get; set; }
+        public short OrganisationCentrewiseUserNameRegistrationId { get; set; }
+        public short OrganisationCentreMasterId { get; set; }
 
         [Required]
         [MaxLength(100)]
