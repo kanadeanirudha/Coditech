@@ -1,5 +1,4 @@
 ﻿using Coditech.Admin.ViewModel;
-
 namespace Coditech.Admin.Agents
 {
     public interface IOrganisationCentreAgent
@@ -95,6 +94,21 @@ namespace Coditech.Admin.Agents
         /// <param name="organisationCentrewiseEmailTemplateViewModel">organisationCentrewiseEmailTemplateViewModel.</param>
         /// <returns>Returns updated OrganisationCentrewiseEmailTemplateViewModel</returns>
         OrganisationCentrewiseEmailTemplateViewModel UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel);
+
+        /// <summary>
+        /// Get Organisation Centrewise UserName by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseUserNameRegistrationViewModel.</returns>
+        OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId);
+
+        /// <summary>
+        /// Update Organisation Centrewise UserName.
+        /// </summary>
+        /// <param name="organisationCentrewiseUserNameRegistrationViewModel">organisationCentrewiseUserNameRegistrationViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseUserNameRegistrationViewModel</returns>
+        OrganisationCentrewiseUserNameRegistrationViewModel UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel);
+
     }
 }
 

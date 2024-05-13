@@ -70,6 +70,7 @@
             UserMainMenuMaster,
             HospitalDoctorLeaveSchedule,
             InventoryUoMMaster,
+            CentrewiseUserName,
             HospitalDoctorVisitingCharges
         }
     }

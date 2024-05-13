@@ -29,11 +29,13 @@ namespace Coditech.Admin.Agents
         GymMemberBodyMeasurementViewModel CreateMemberBodyMeasurement(GymMemberBodyMeasurementViewModel GymMemberBodyMeasurementViewModel);
 
         /// <summary>
-        /// Get MemberBodyMeasurement by GymMemberBodyMeasurementId.
+        /// Get MemberBodyMeasurement by GymMemberBodyMeasurementId and GymBodyMeasurementTypeId.
         /// </summary>
-        /// <param name="GymMemberBodyMeasurementId">GymMemberBodyMeasurementId</param>
+        /// <param name="gymMemberBodyMeasurementId">The ID of the gym member body measurement.</param>
+        /// <param name="gymBodyMeasurementTypeId">The ID of the gym body measurement type.</param>
         /// <returns>Returns GymMemberBodyMeasurementViewModel.</returns>
-        GymMemberBodyMeasurementViewModel GetMemberBodyMeasurement(long GymMemberBodyMeasurementId);
+        GymMemberBodyMeasurementViewModel GetMemberBodyMeasurement(long gymMemberBodyMeasurementId, short gymBodyMeasurementTypeId);
+
 
         /// <summary>
         /// Update MemberBodyMeasurement.

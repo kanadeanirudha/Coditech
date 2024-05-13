@@ -1,9 +1,11 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -15,6 +17,7 @@ namespace Coditech.Admin.Controllers
         private const string OrganisationCentrewiseGSTCredential = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseGSTCredential.cshtml";
         private const string OrganisationCentrewiseSmtpSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSmtpSetting.cshtml";
         private const string OrganisationCentrewiseEmailTemplate = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseEmailTemplate.cshtml";
+        private const string OrganisationCentrewiseUserNameRegistration = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseUserNameRegistration.cshtml";
 
         public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
         {
@@ -139,7 +142,8 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseSMTPSetting
         [HttpGet]
-        public virtual ActionResult CentrewiseSmtpSetup(short organisationCentreId) {
+        public virtual ActionResult CentrewiseSmtpSetup(short organisationCentreId)
+        {
             OrganisationCentrewiseSmtpSettingViewModel organisationCentrewiseSmtpSettingViewModel = _organisationCentreAgent.GetCentrewiseSmtpSetup(organisationCentreId);
             return ActionView(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
 
@@ -153,7 +157,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmtpSetup(organisationCentrewiseSmtpSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMTPSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentrewiseSmtpSettingId});
+                return RedirectToAction("CentrewiseSMTPSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentrewiseSmtpSettingId });
             }
             return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
         }
@@ -163,7 +167,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult CentrewiseEmailTemplateSetup(short organisationCentreId)
         {
-            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId,string.Empty);
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, string.Empty);
             return ActionView(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
 
         }
@@ -171,7 +175,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult GetEmailTemplateByCentreCode(short organisationCentreId, string emailTemplateCode)
         {
-            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel =  _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId,emailTemplateCode);
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, emailTemplateCode);
             return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseEmailTemplate.cshtml", organisationCentrewiseEmailTemplateViewModel);
         }
 
@@ -186,6 +190,61 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
             }
             return View(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
+        }
+        #endregion
+
+        #region CentrewiseUserNameRegistration
+        [HttpGet]
+        public virtual ActionResult CentrewiseUserNameRegistrationList(short organisationCentreId)
+        {
+            OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId);
+            BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
+            return ActionView("~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseUserNameRegistrationList.cshtml", organisationCentrewiseUserNameRegistrationViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult CentrewiseUserNameRegistration(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId = 0)
+        {
+            OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId);
+            BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
+            return ActionView(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult CentrewiseUserNameRegistration(OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseUserName(organisationCentrewiseUserNameRegistrationViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("CentrewiseUserNameRegistration", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId });
+            }
+            BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
+            return View(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);
+        }
+        #endregion
+
+        #region Protected
+        protected virtual void BindDropdown(OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel)
+        {
+            List<SelectListItem> UserTypeList = new List<SelectListItem>();
+            UserTypeList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
+            var userTypeList = Enum.GetValues(typeof(UserTypeEnum)).Cast<UserTypeEnum>().ToList();
+            foreach (var item in userTypeList)
+            {
+                UserTypeList.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString(), Selected = item.ToString() == organisationCentrewiseUserNameRegistrationViewModel.UserType });
+            }
+            ViewData["UserType"] = UserTypeList;
+
+            List<SelectListItem> UserNameBasedOnList = new List<SelectListItem>();
+            UserNameBasedOnList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
+            var userNameBasedOnList = Enum.GetValues(typeof(UserNameRegistrationTypeEnum)).Cast<UserNameRegistrationTypeEnum>().ToList();
+            foreach (var item in userNameBasedOnList)
+            {
+                UserNameBasedOnList.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString(), Selected = item.ToString() == organisationCentrewiseUserNameRegistrationViewModel.UserNameBasedOn });
+            }
+            ViewData["UserNameBasedOn"] = UserNameBasedOnList;
         }
         #endregion
     }

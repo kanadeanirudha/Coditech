@@ -163,12 +163,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GymMemberBodyMeasurementResponse GetMemberBodyMeasurement(long gymMemberBodyMeasurementId)
+        public virtual GymMemberBodyMeasurementResponse GetMemberBodyMeasurement(long gymMemberBodyMeasurementId, short gymBodyMeasurementTypeId)
         {
-            return Task.Run(async () => await GetMemberBodyMeasurementAsync(gymMemberBodyMeasurementId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetMemberBodyMeasurementAsync(gymMemberBodyMeasurementId, gymBodyMeasurementTypeId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymMemberBodyMeasurementResponse> GetMemberBodyMeasurementAsync(long gymMemberBodyMeasurementId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GymMemberBodyMeasurementResponse> GetMemberBodyMeasurementAsync(long gymMemberBodyMeasurementId,short gymBodyMeasurementTypeId, System.Threading.CancellationToken cancellationToken)
         {
             if (gymMemberBodyMeasurementId <= 0)
                 throw new System.ArgumentNullException("gymMemberBodyMeasurementId");

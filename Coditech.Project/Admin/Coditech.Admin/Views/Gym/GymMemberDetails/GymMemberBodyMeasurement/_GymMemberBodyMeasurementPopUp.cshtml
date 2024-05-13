@@ -6,9 +6,12 @@
 }
 <!-- Page Content-->
 <div class="modal-header">
-    <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Add @Model.BodyMeasurementType</h6>
+    @{
+        string actionLabel = Model.GymMemberBodyMeasurementId > 0 ? "Update" : "Add";
+    }
+    <h6 class="modal-title m-0" id="exampleModalDefaultLabel">@actionLabel @Model.BodyMeasurementType</h6>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div><!--end modal-header-->
+</div>
 @using (Html.BeginForm("AddGymMemberBodyMeasurement", controllerName, FormMethod.Post, new { id = "frmGymMemberBodyMeasurement" }))
 {
     @Html.AntiForgeryToken()

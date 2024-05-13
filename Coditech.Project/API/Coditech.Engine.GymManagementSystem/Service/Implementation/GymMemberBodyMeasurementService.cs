@@ -59,6 +59,7 @@ namespace Coditech.API.Service
                     {
                         item.GymMemberBodyMeasurementValueList.Add(new GymMemberBodyMeasurementValueModel()
                         {
+                            GymMemberBodyMeasurementId = gymMemberBodyMeasurement.GymMemberBodyMeasurementId,
                             BodyMeasurementType = item.BodyMeasurementType,
                             BodyMeasurementValue = gymMemberBodyMeasurement.BodyMeasurementValue,
                             MeasurementUnitDisplayName = item.MeasurementUnitDisplayName,

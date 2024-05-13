@@ -26,6 +26,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseSmtpSetting> _organisationCentrewiseSmtpSettingRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseEmailTemplate> _organisationCentrewiseEmailTemplateRepository;
         private readonly ICoditechRepository<GeneralEmailTemplate> _generalEmailTemplateRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -36,7 +37,7 @@ namespace Coditech.API.Service
             _organisationCentrewiseSmtpSettingRepository = new CoditechRepository<OrganisationCentrewiseSmtpSetting>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseEmailTemplateRepository = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEmailTemplateRepository = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
-
+            _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual OrganisationCentreListModel GetOrganisationCentreList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -327,10 +328,60 @@ namespace Coditech.API.Service
             return isOrganisationCentrewiseEmailTemplateUpdated;
         }
 
+        //Get Organisation Centrewise UserName Registration by organisationCentreMasterId.
+        public virtual OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreId)
+        {
+            if (organisationCentreId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
+            OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
+            //Get the  Organisation Details based on id.
+
+            OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistrationData = _organisationCentrewiseUserNameRegistrationRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode);
+            OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel = IsNull(organisationCentrewiseUserNameRegistrationData) ? new OrganisationCentrewiseUserNameRegistrationModel() : organisationCentrewiseUserNameRegistrationData.FromEntityToModel<OrganisationCentrewiseUserNameRegistrationModel>();
+
+            organisationCentrewiseUserNameRegistrationModel.CentreCode = organisationCentreModel.CentreCode;
+            organisationCentrewiseUserNameRegistrationModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrewiseUserNameRegistrationModel.OrganisationCentreMasterId = organisationCentreId;
+            organisationCentrewiseUserNameRegistrationModel.CentrewiseUserNameRegistrationList = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode)?.FromEntityToModel<List<OrganisationCentrewiseUserNameRegistrationModel>>()?.ToList();
+            return organisationCentrewiseUserNameRegistrationModel;
+        }
+
+        //Update  Organisation Centrewise UserName Registration .
+        public virtual bool UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel)
+        {
+            if (IsNull(organisationCentrewiseUserNameRegistrationModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (IsCentrewiseUserNameAlreadyExist(organisationCentrewiseUserNameRegistrationModel.CentreCode, organisationCentrewiseUserNameRegistrationModel.UserType, organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
+
+            bool isOrganisationCentrewiseUserNameUpdated = false;
+            OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistration = organisationCentrewiseUserNameRegistrationModel.FromModelToEntity<OrganisationCentrewiseUserNameRegistration>();
+
+            if (organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId > 0)
+                isOrganisationCentrewiseUserNameUpdated = _organisationCentrewiseUserNameRegistrationRepository.Update(organisationCentrewiseUserNameRegistration);
+            else
+            {
+                organisationCentrewiseUserNameRegistration = _organisationCentrewiseUserNameRegistrationRepository.Insert(organisationCentrewiseUserNameRegistration);
+                isOrganisationCentrewiseUserNameUpdated = organisationCentrewiseUserNameRegistration.OrganisationCentrewiseUserNameRegistrationId > 0;
+            }
+
+            if (!isOrganisationCentrewiseUserNameUpdated)
+            {
+                organisationCentrewiseUserNameRegistrationModel.HasError = true;
+                organisationCentrewiseUserNameRegistrationModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isOrganisationCentrewiseUserNameUpdated;
+        }
+
         #region Protected Method
         //Check if Centre code is already present or not.
         protected virtual bool IsCentreCodeAlreadyExist(string centreCode, short organisationCentreMasterId = 0)
          => _organisationCentreMasterRepository.Table.Any(x => x.CentreCode == centreCode && (x.OrganisationCentreMasterId != organisationCentreMasterId || organisationCentreMasterId == 0));
+
+        protected virtual bool IsCentrewiseUserNameAlreadyExist(string centreCode, string userType, short organisationCentrewiseUserNameRegistrationId = 0)
+        => _organisationCentrewiseUserNameRegistrationRepository.Table.Any(x => x.CentreCode == centreCode && x.UserType == userType && (x.OrganisationCentrewiseUserNameRegistrationId != organisationCentrewiseUserNameRegistrationId || organisationCentrewiseUserNameRegistrationId == 0));
+
         #endregion
     }
 }

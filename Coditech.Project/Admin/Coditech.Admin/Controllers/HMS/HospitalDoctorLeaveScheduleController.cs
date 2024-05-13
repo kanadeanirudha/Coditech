@@ -42,13 +42,17 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Create(HospitalDoctorLeaveScheduleViewModel hospitalDoctorLeaveScheduleViewModel)
         {
+            if (hospitalDoctorLeaveScheduleViewModel.IsFullDay) {
+                ModelState.Remove("FromTime");
+                ModelState.Remove("UptoTime");
+            }
             if (ModelState.IsValid)
             {
                 hospitalDoctorLeaveScheduleViewModel = _hospitalDoctorLeaveScheduleAgent.CreateHospitalDoctorLeaveSchedule(hospitalDoctorLeaveScheduleViewModel);
                 if (!hospitalDoctorLeaveScheduleViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    return RedirectToAction("List", CreateActionDataTable(hospitalDoctorLeaveScheduleViewModel.SelectedCentreCode, Convert.ToInt16(hospitalDoctorLeaveScheduleViewModel.SelectedDepartmentId)));
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorLeaveScheduleViewModel.ErrorMessage));
@@ -65,6 +69,11 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Edit(HospitalDoctorLeaveScheduleViewModel hospitalDoctorLeaveScheduleViewModel)
         {
+            if (hospitalDoctorLeaveScheduleViewModel.IsFullDay)
+            {
+                ModelState.Remove("FromTime");
+                ModelState.Remove("UptoTime");
+            }
             if (ModelState.IsValid)
             {
                 SetNotificationMessage(_hospitalDoctorLeaveScheduleAgent.UpdateHospitalDoctorLeaveSchedule(hospitalDoctorLeaveScheduleViewModel).HasError

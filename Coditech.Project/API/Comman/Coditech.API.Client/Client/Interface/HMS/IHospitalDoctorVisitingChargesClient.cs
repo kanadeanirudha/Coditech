@@ -32,7 +32,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="HospitalDoctorVisitingChargesModel">HospitalDoctorVisitingChargesModel.</param>
         /// <returns>Returns updated HospitalDoctorVisitingChargesResponse</returns>
-        HospitalDoctorVisitingChargesResponse UpdateHospitalDoctorVisitingChargess(HospitalDoctorVisitingChargesModel body);
+        HospitalDoctorVisitingChargesResponse UpdateHospitalDoctorVisitingCharges(HospitalDoctorVisitingChargesModel body);
 
         /// <summary>
         /// Delete HospitalDoctorVisitingCharges.

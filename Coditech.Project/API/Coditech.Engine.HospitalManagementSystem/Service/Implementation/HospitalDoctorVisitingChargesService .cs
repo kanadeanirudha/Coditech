@@ -48,8 +48,8 @@ namespace Coditech.API.Service
             if (IsNull(hospitalDoctorVisitingChargesModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsHospitalDoctorVisitingChargesCodeAlreadyExist(hospitalDoctorVisitingChargesModel.HospitalDoctorId))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Hospital Doctor"));
+            //if (IsHospitalDoctorVisitingChargesCodeAlreadyExist(hospitalDoctorVisitingChargesModel.HospitalDoctorId))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Hospital Doctor"));
 
            HospitalDoctorVisitingCharges hospitalDoctorVisitingCharges = hospitalDoctorVisitingChargesModel.FromModelToEntity<HospitalDoctorVisitingCharges>();
 
@@ -88,8 +88,8 @@ namespace Coditech.API.Service
             if (hospitalDoctorVisitingChargesModel.HospitalDoctorVisitingChargesId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorVisitingChargesID"));
 
-            if (IsHospitalDoctorVisitingChargesCodeAlreadyExist(hospitalDoctorVisitingChargesModel.HospitalDoctorId, hospitalDoctorVisitingChargesModel.HospitalDoctorVisitingChargesId))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "HospitalDoctorVisitingCharges Code"));
+            //if (IsHospitalDoctorVisitingChargesCodeAlreadyExist(hospitalDoctorVisitingChargesModel.HospitalDoctorId, hospitalDoctorVisitingChargesModel.HospitalDoctorVisitingChargesId))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "HospitalDoctorVisitingCharges Code"));
 
            HospitalDoctorVisitingCharges hospitalDoctorVisitingCharges = hospitalDoctorVisitingChargesModel.FromModelToEntity<HospitalDoctorVisitingCharges>();
 
@@ -120,8 +120,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if HospitalDoctorVisitingCharges code is already present or not.
-        protected virtual bool IsHospitalDoctorVisitingChargesCodeAlreadyExist(string hospitalDoctorId, short HospitalDoctorVisitingChargesId = 0)
-         => _hospitalDoctorVisitingChargesMasterRepository.Table.Any(x => x.HospitalDoctorId == hospitalDoctorId && (x.HospitalDoctorVisitingChargesId !=hospitalDoctorVisitingChargesId ||hospitalDoctorVisitingChargesId == 0));
+        //protected virtual bool IsHospitalDoctorVisitingChargesCodeAlreadyExist(string hospitalDoctorId, short HospitalDoctorVisitingChargesId = 0)
+        // => _hospitalDoctorVisitingChargesMasterRepository.Table.Any(x => x.HospitalDoctorId == hospitalDoctorId && (x.HospitalDoctorVisitingChargesId !=hospitalDoctorVisitingChargesId ||hospitalDoctorVisitingChargesId == 0));
         #endregion
     }
 }

@@ -30,11 +30,13 @@ namespace Coditech.API.Client
         GymMemberBodyMeasurementResponse CreateMemberBodyMeasurement(GymMemberBodyMeasurementModel body);
 
         /// <summary>
-        /// Get MemberBodyMeasurement by GymMemberBodyMeasurementId.
+        /// Retrieves a gym member body measurement by its ID and gym body measurement type ID.
         /// </summary>
-        /// <param name="GymMemberBodyMeasurementId">GymMemberBodyMeasurementId</param>
-        /// <returns>Returns GymMemberBodyMeasurementResponse.</returns>
-        GymMemberBodyMeasurementResponse GetMemberBodyMeasurement(long GymMemberBodyMeasurementId);
+        /// <param name="gymMemberBodyMeasurementId">The ID of the gym member body measurement.</param>
+        /// <param name="gymBodyMeasurementTypeId">The ID of the gym body measurement type.</param>
+        /// <returns>Returns a response containing the gym member body measurement.</returns>
+        GymMemberBodyMeasurementResponse GetMemberBodyMeasurement(long GymMemberBodyMeasurementId, short gymBodyMeasurementTypeId);
+
 
         /// <summary>
         /// Update MemberBodyMeasurement.
