@@ -8,21 +8,21 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string GetEmployeeServiceAsync(long employeeId) =>
-            $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeService?employeeId={employeeId}";
+            $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeService?employeeId={employeeId}";
 
         public string UpdateEmployeeServiceAsync() =>
-               $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/UpdateEmployeeService";
+               $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/UpdateEmployeeService";
 
         public string DeleteEmployeeAsync() =>
-                  $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/DeleteEmployeeService";
+                  $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/DeleteEmployeeService";
 
         public string EmployeeServiceListAsync(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeList?employeeId={employeeId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeList?employeeId={employeeId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
     }
