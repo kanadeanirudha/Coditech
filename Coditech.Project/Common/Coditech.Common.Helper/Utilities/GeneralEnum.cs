@@ -57,6 +57,7 @@
         CoditechModules,
         IsGymMemberLogin,
         IsEmployeeLogin,
+        IsPatientLogin,
         ActiveProjectName,
         DefaultPassword,
         DefaultCultureName,
@@ -98,7 +99,8 @@
     {
         GymMemberRegistration,
         EmployeeRegistration,
-        InvoiceNumber
+        InvoiceNumber,
+        PatientUAHNumber,
     }
     public enum DashboardFormEnum
     {

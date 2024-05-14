@@ -421,6 +421,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Patient Registration due to associate record..
+        /// </summary>
+        public static string ErrorDeletePatientRegistrationDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeletePatientRegistrationDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Globle Setting due to associate record..
         /// </summary>
         public static string ErrorDeleteSystemGlobleSettingMaster {

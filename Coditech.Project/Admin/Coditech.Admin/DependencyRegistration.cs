@@ -59,6 +59,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalDoctorVisitingChargesAgent, HospitalDoctorVisitingChargesAgent>();
             builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomAgent, HospitalDoctorAllocatedOPDRoomAgent>();
             builder.Services.AddScoped<IHospitalDoctorLeaveScheduleAgent, HospitalDoctorLeaveScheduleAgent>();
+            builder.Services.AddScoped<IHospitalPatientRegistrationAgent, HospitalPatientRegistrationAgent>();
             #endregion
 
             #region Inventory
@@ -129,6 +130,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalDoctorVisitingChargesClient, HospitalDoctorVisitingChargesClient>();
             builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomClient, HospitalDoctorAllocatedOPDRoomClient>();
             builder.Services.AddScoped<IHospitalDoctorLeaveScheduleClient, HospitalDoctorLeaveScheduleClient>();
+            builder.Services.AddScoped<IHospitalPatientRegistrationClient, HospitalPatientRegistrationClient>();
             #endregion HMS
 
             #endregion Client
