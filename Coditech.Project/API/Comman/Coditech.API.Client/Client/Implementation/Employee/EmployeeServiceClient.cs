@@ -8,21 +8,21 @@ using Newtonsoft.Json;
 
 namespace Coditech.API.Client
 {
-    public class EmployeeMasterClient : BaseClient, IEmployeeMasterClient
+    public class EmployeeServiceClient : BaseClient, IEmployeeServiceClient
     {
-        EmployeeMasterEndpoint employeeMasterEndpoint = null;
-        public EmployeeMasterClient()
+        EmployeeServiceEndpoint employeeServiceEndpoint = null;
+        public EmployeeServiceClient()
         {
-            employeeMasterEndpoint = new EmployeeMasterEndpoint();
+            employeeServiceEndpoint = new EmployeeServiceEndpoint();
         }
-        public virtual EmployeeMasterListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual EmployeeServiceListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<EmployeeMasterListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<EmployeeServiceListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = employeeMasterEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
+            string endpoint = employeeServiceEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -34,7 +34,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<EmployeeMasterListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<EmployeeServiceListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -43,12 +43,12 @@ namespace Coditech.API.Client
                 }
                 else if (status_ == 204)
                 {
-                    return new EmployeeMasterListResponse();
+                    return new EmployeeServiceListResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    EmployeeMasterListResponse typedBody = JsonConvert.DeserializeObject<EmployeeMasterListResponse>(responseData);
+                    EmployeeServiceListResponse typedBody = JsonConvert.DeserializeObject<EmployeeServiceListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -60,17 +60,18 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual EmployeeMasterResponse GetEmployeeOtherDetail(long employeeId)
+
+        public virtual EmployeeServiceResponse GetEmployeeService(long employeeId)
         {
-            return Task.Run(async () => await GetEmployeeOtherDetailAsync(employeeId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetEmployeeServiceAsync(employeeId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<EmployeeMasterResponse> GetEmployeeOtherDetailAsync(long employeeId, CancellationToken cancellationToken)
+        public virtual async Task<EmployeeServiceResponse> GetEmployeeServiceAsync(long employeeId, CancellationToken cancellationToken)
         {
             if (employeeId <= 0)
                 throw new System.ArgumentNullException("employeeId");
 
-            string endpoint = employeeMasterEndpoint.GetEmployeeOtherDetailAsync(employeeId);
+            string endpoint = employeeServiceEndpoint.GetEmployeeServiceAsync(employeeId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -82,7 +83,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<EmployeeMasterResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<EmployeeServiceResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -92,12 +93,12 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 204)
                 {
-                    return new EmployeeMasterResponse();
+                    return new EmployeeServiceResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    EmployeeMasterResponse typedBody = JsonConvert.DeserializeObject<EmployeeMasterResponse>(responseData);
+                    EmployeeServiceResponse typedBody = JsonConvert.DeserializeObject<EmployeeServiceResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -109,14 +110,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual EmployeeMasterResponse UpdateEmployeeOtherDetail(EmployeeMasterModel body)
+        public virtual EmployeeServiceResponse UpdateEmployeeService(EmployeeServiceModel body)
         {
-            return Task.Run(async () => await UpdateEmployeeOtherDetailAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await UpdateEmployeeServiceAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<EmployeeMasterResponse> UpdateEmployeeOtherDetailAsync(EmployeeMasterModel body, CancellationToken cancellationToken)
+        public virtual async Task<EmployeeServiceResponse> UpdateEmployeeServiceAsync(EmployeeServiceModel body, CancellationToken cancellationToken)
         {
-            string endpoint = employeeMasterEndpoint.UpdateEmployeeOtherDetailAsync();
+            string endpoint = employeeServiceEndpoint.UpdateEmployeeServiceAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -129,7 +130,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<EmployeeMasterResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<EmployeeServiceResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -139,7 +140,7 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 201)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<EmployeeMasterResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<EmployeeServiceResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -149,7 +150,7 @@ namespace Coditech.API.Client
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    EmployeeMasterResponse typedBody = JsonConvert.DeserializeObject<EmployeeMasterResponse>(responseData);
+                    EmployeeServiceResponse typedBody = JsonConvert.DeserializeObject<EmployeeServiceResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -162,6 +163,7 @@ namespace Coditech.API.Client
             }
         }
 
+
         public virtual TrueFalseResponse DeleteEmployee(ParameterModel body)
         {
             return Task.Run(async () => await DeleteEmployeeAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
@@ -169,7 +171,7 @@ namespace Coditech.API.Client
 
         public virtual async Task<TrueFalseResponse> DeleteEmployeeAsync(ParameterModel body, CancellationToken cancellationToken)
         {
-            string endpoint = employeeMasterEndpoint.DeleteEmployeeAsync();
+            string endpoint = employeeServiceEndpoint.DeleteEmployeeAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -193,6 +195,51 @@ namespace Coditech.API.Client
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+      
+        public virtual EmployeeServiceListResponse EmployeeServiceList(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            return Task.Run(async () => await EmployeeServiceListAsync(employeeId,expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<EmployeeServiceListResponse> EmployeeServiceListAsync(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        {
+            string endpoint = employeeServiceEndpoint.EmployeeServiceListAsync(employeeId,expand, filter, sort, pageIndex, pageSize);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<EmployeeServiceListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else if (status_ == 204)
+                {
+                    return new EmployeeServiceListResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    EmployeeServiceListResponse typedBody = JsonConvert.DeserializeObject<EmployeeServiceListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }

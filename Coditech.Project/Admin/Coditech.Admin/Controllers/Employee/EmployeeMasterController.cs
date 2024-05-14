@@ -135,16 +135,5 @@ namespace Coditech.Admin.Controllers
 
         #endregion Employee Address
 
-        #region Employee Service
-        public virtual ActionResult EmployeeServiceList(int employeeId,DataTableViewModel dataTableViewModel)
-        {
-            EmployeeMasterListViewModel list = _employeeMasterAgent.GetEmployeeMasterList(dataTableViewModel);
-            if (AjaxHelper.IsAjaxRequest)
-            {
-                return PartialView("~/Views/EmployeeMaster/_List.cshtml", list);
-            }
-            return View($"~/Views/EmployeeMaster/List.cshtml", list);
-        }
-        #endregion Employee Service
     }
 }

@@ -38,6 +38,7 @@
             MediaManager,
             Gym,
             EmployeeMaster,
+            EmployeeService,
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,

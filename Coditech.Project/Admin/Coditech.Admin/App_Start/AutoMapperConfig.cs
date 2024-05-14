@@ -83,6 +83,8 @@ namespace Coditech.Admin
             CreateMap<EmployeeCreateEditViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<EmployeeMasterListModel, EmployeeMasterListViewModel>().ReverseMap();
             CreateMap<EmployeeMasterModel, EmployeeMasterViewModel>().ReverseMap();
+            CreateMap<EmployeeServiceListModel, EmployeeServiceListViewModel>().ReverseMap();
+            CreateMap<EmployeeServiceModel, EmployeeServiceViewModel>().ReverseMap();
             #endregion
 
             #region Gym
