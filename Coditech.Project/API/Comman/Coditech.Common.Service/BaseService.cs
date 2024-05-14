@@ -224,7 +224,7 @@ namespace Coditech.Common.Service
         protected virtual short GetOrganisationCentreMasterIdByCentreCode(string centreCode)
         {
             CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.Where(x => x.CentreCode == centreCode).Select( y=> y.OrganisationCentreMasterId).FirstOrDefault();
+            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.Where(x => x.CentreCode == centreCode).Select(y => y.OrganisationCentreMasterId).FirstOrDefault();
             return organisationCentreMasterId;
         }
 
@@ -233,6 +233,31 @@ namespace Coditech.Common.Service
             CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
             string CentreCode = _organisationCentreMasterRepository.Table.Where(x => x.OrganisationCentreMasterId == organisationCentreMasterId).Select(y => y.CentreCode).FirstOrDefault();
             return CentreCode;
+        }
+
+        protected virtual GeneralEmailTemplateModel GetEmailTemplateByCode(string centreCode, string emailTemplateByCode)
+        {
+            GeneralEmailTemplateModel emailTemplateModel = new GeneralEmailTemplateModel();
+            if (!string.IsNullOrEmpty(centreCode))
+            {
+                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplate = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && x.EmailTemplateCode == emailTemplateByCode)?.FirstOrDefault();
+                if (IsNotNull(organisationCentrewiseEmailTemplate)) {
+                    emailTemplateModel.EmailTemplateCode = organisationCentrewiseEmailTemplate.EmailTemplateCode;
+                    emailTemplateModel.EmailTemplate = organisationCentrewiseEmailTemplate.EmailTemplate;
+                    emailTemplateModel.Subject = organisationCentrewiseEmailTemplate.Subject;
+                }
+            }
+            else
+            {
+                GeneralEmailTemplate generalEmailTemplate = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmailTemplateCode == emailTemplateByCode)?.FirstOrDefault();
+                if (IsNotNull(generalEmailTemplate))
+                {
+                    emailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
+                    emailTemplateModel.EmailTemplate = generalEmailTemplate.EmailTemplate;
+                    emailTemplateModel.Subject = generalEmailTemplate.Subject;
+                }
+            }
+            return emailTemplateModel;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
+        protected readonly ICoditechEmail _coditechEmail;
         private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
@@ -28,10 +29,12 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
-        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
+        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
+            _coditechEmail = coditechEmail;
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
@@ -42,6 +45,7 @@ namespace Coditech.API.Service
             _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -208,7 +212,11 @@ namespace Coditech.API.Service
                         GeneralDepartmentMasterId = Convert.ToInt16(generalPersonModel.SelectedDepartmentId)
                     };
                     employeeMaster = _employeeMasterRepository.Insert(employeeMaster);
-
+                    GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(employeeMaster.CentreCode, EmailTemplateCodeEnum.EmployeeRegistration.ToString());
+                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(generalPersonModel.EmailId))
+                    {
+                        _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, emailTemplateModel.EmailTemplate);
+                    }
                     //Check Is Employee need to Login
                     if (employeeMaster?.EmployeeId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                     {
@@ -515,10 +523,21 @@ namespace Coditech.API.Service
 
         protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId)
         {
+            string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && generalPersonModel.UserType.Equals(x.UserType, StringComparison.InvariantCultureIgnoreCase))?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
-            //Make it generic
-            userMaster.UserName = generalPersonModel.PersonCode;
+            if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.EmailId.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.EmailId;
+            }
+            else if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.MobileNumber.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.MobileNumber;
+            }
+            else if (string.IsNullOrEmpty(userNameBasedOn) || userNameBasedOn.Equals(UserNameRegistrationTypeEnum.PersonCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.PersonCode;
+            }
             userMaster = _userMasterRepository.Insert(userMaster);
         }
 

@@ -70,7 +70,8 @@
             InventoryItemGroup,
             UserMainMenuMaster,
             HospitalDoctorLeaveSchedule,
-            InventoryUoMMaster
+            InventoryUoMMaster,
+            CentrewiseUserName
         }
     }
 }
