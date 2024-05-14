@@ -26,7 +26,7 @@ namespace Coditech.API.Controllers
         }
 
         [HttpGet]
-        [Route("/EmployeeMaster/GetEmployeeList")]
+        [Route("/EmployeeService/GetEmployeeList")]
         [Produces(typeof(EmployeeServiceListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
         public virtual IActionResult GetEmployeeList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
@@ -49,7 +49,7 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/EmployeeMaster/GetEmployeeService")]
+        [Route("/EmployeeService/GetEmployeeService")]
         [HttpGet]
         [Produces(typeof(EmployeeServiceResponse))]
         public virtual IActionResult GetEmployeeService(long employeeId)
@@ -71,7 +71,7 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/EmployeeMaster/UpdateEmployeeService")]
+        [Route("/EmployeeService/UpdateEmployeeService")]
         [HttpPut, ValidateModel]
         [Produces(typeof(EmployeeServiceResponse))]
         public virtual IActionResult UpdateEmployeeService([FromBody] EmployeeServiceModel model)
@@ -93,7 +93,7 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/EmployeeMaster/DeleteEmployee")]
+        [Route("/EmployeeService/DeleteEmployee")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
         public virtual IActionResult DeleteEmployee([FromBody] ParameterModel employeeIds)
