@@ -304,6 +304,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Doctor Visiting Charges details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalDoctorVisitingCharges {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalDoctorVisitingCharges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory category due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryCategory {
@@ -588,6 +597,15 @@ namespace Coditech.Resources {
         public static string LabelGymBodyMeasurementTypeList {
             get {
                 return ResourceManager.GetString("LabelGymBodyMeasurementTypeList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hospital Doctor Visiting Charges List.
+        /// </summary>
+        public static string LabelHospitalDoctorVisitingChargesList {
+            get {
+                return ResourceManager.GetString("LabelHospitalDoctorVisitingChargesList", resourceCulture);
             }
         }
         

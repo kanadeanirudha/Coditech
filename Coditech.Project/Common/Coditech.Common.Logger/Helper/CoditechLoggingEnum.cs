@@ -71,7 +71,8 @@
             UserMainMenuMaster,
             HospitalDoctorLeaveSchedule,
             InventoryUoMMaster,
-            CentrewiseUserName
+            CentrewiseUserName,
+            HospitalDoctorVisitingCharges
         }
     }
 }
