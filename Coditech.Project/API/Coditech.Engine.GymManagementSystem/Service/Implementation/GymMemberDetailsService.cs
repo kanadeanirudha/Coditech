@@ -270,9 +270,6 @@ namespace Coditech.API.Service
             if (IsNull(gymMemberMembershipPlanModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            //if (IsCountryCodeAlreadyExist(gymMemberMembershipPlanModel.CountryCode))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
-
             GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(gymMemberMembershipPlanModel.GymMembershipPlanId);
 
             long salesInvoiceMasterId = SaveSalesInvoiceDetails(gymMemberMembershipPlanModel, gymMembershipPlan);
@@ -292,7 +289,6 @@ namespace Coditech.API.Service
                 gymMemberMembershipPlan.RemainingSessionCount = Convert.ToInt16(gymMembershipPlan.PlanDurationInSession);
             }
 
-            //Create new Country and return it.
             GymMemberMembershipPlan gymMemberMembershipPlanData = _gymMemberMembershipPlanRepository.Insert(gymMemberMembershipPlan);
             if (gymMemberMembershipPlanData?.GymMemberMembershipPlanId > 0)
             {

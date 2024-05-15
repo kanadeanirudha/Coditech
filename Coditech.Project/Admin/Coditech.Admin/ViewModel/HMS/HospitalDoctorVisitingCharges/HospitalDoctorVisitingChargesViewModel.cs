@@ -1,5 +1,4 @@
 ﻿using Coditech.Common.Helper;
-using Coditech.Resources;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +7,7 @@ namespace Coditech.Admin.ViewModel
     public class HospitalDoctorVisitingChargesViewModel : BaseViewModel
     {
         [Required]
-        public int HospitalDoctorVisitingChargesId { get; set; }
+        public long HospitalDoctorVisitingChargesId { get; set; }
 
         [Required]
         [Display(Name = "Hospital Doctor")]
@@ -20,10 +19,10 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [Display(Name = "Upto Date")] 
-        public DateTime UptoDate { get; set; }
+        public DateTime? UptoDate { get; set; }
 
         [Required]
-        [Display(Name = "Appointment")]
+        [Display(Name = "Appointment Type")]
         public int AppointmentTypeEnumId { get; set; }
 
         [Required]
@@ -34,7 +33,5 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(500)]
         [Display(Name = "Remark")]
         public string Remark { get; set; }
-
-        
     }
 }
