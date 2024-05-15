@@ -5,11 +5,10 @@ namespace Coditech.API.Data
     public partial class HospitalDoctorVisitingCharges
     {
         [Key]
-        public int HospitalDoctorVisitingChargesId { get; set; }
-
+        public long HospitalDoctorVisitingChargesId { get; set; }
         public int HospitalDoctorId { get; set; }
         public DateTime FromDate { get; set; }
-        public DateTime UptoDate { get; set; }
+        public DateTime? UptoDate { get; set; }
         public int AppointmentTypeEnumId { get; set; }
         public decimal Charges { get; set; }
         public string Remark { get; set; }
