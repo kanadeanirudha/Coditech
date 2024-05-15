@@ -239,9 +239,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise UserName by organisationCentreId.
-        public virtual OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId)
+        public virtual OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId , short organisationCentrewiseUserNameRegistrationId)
         {
-            OrganisationCentrewiseUserNameRegistrationResponse response = _organisationCentreClient.GetCentrewiseUserName(organisationCentreId);
+            OrganisationCentrewiseUserNameRegistrationResponse response = _organisationCentreClient.GetCentrewiseUserName(organisationCentreId, organisationCentrewiseUserNameRegistrationId);
             return response?.OrganisationCentrewiseUserNameRegistrationModel.ToViewModel<OrganisationCentrewiseUserNameRegistrationViewModel>();
         }
 

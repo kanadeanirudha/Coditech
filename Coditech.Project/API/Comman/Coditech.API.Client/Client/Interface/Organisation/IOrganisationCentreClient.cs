@@ -104,7 +104,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseUserNameRegistrationResponse.</returns>
-        OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId);
+        OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId);
 
         /// <summary>
         /// Update OrganisationCentrewiseUserName.

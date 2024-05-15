@@ -100,7 +100,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseUserNameRegistrationViewModel.</returns>
-        OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId);
+        OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId = 0);
 
         /// <summary>
         /// Update Organisation Centrewise UserName.

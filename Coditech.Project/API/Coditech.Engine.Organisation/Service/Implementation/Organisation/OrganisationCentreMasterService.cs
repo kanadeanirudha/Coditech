@@ -329,7 +329,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise UserName Registration by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreId)
+        public virtual OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));

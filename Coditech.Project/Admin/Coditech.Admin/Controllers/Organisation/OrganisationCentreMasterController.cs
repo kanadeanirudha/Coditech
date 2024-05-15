@@ -203,9 +203,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult CentrewiseUserNameRegistration(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId = 0)
+        public virtual ActionResult CentrewiseUserNameRegistration(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
         {
-            OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId);
+            OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId, organisationCentrewiseUserNameRegistrationId);
             BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
             return ActionView(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);
         }
