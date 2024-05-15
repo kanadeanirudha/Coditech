@@ -198,7 +198,6 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult CentrewiseUserNameRegistrationList(short organisationCentreId)
         {
             OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId);
-            BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
             return ActionView("~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseUserNameRegistrationList.cshtml", organisationCentrewiseUserNameRegistrationViewModel);
         }
 
@@ -218,7 +217,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseUserName(organisationCentrewiseUserNameRegistrationViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseUserNameRegistration", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId });
+                return RedirectToAction("CentrewiseUserNameRegistrationList", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentreMasterId });
             }
             BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
             return View(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);
@@ -233,6 +232,12 @@ namespace Coditech.Admin.Controllers
             var userTypeList = Enum.GetValues(typeof(UserTypeEnum)).Cast<UserTypeEnum>().ToList();
             foreach (var item in userTypeList)
             {
+                if (organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId == 0 &&
+                    organisationCentrewiseUserNameRegistrationViewModel?.CentrewiseUserNameRegistrationList?.Count > 0 &&
+                    organisationCentrewiseUserNameRegistrationViewModel.CentrewiseUserNameRegistrationList.Any(x => x.UserType == item.ToString()))
+                {
+                    continue;
+                }
                 UserTypeList.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString(), Selected = item.ToString() == organisationCentrewiseUserNameRegistrationViewModel.UserType });
             }
             ViewData["UserType"] = UserTypeList;

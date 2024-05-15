@@ -335,10 +335,13 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
             OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
             //Get the  Organisation Details based on id.
+            OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel = new OrganisationCentrewiseUserNameRegistrationModel();
 
-            OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistrationData = _organisationCentrewiseUserNameRegistrationRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode);
-            OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel = IsNull(organisationCentrewiseUserNameRegistrationData) ? new OrganisationCentrewiseUserNameRegistrationModel() : organisationCentrewiseUserNameRegistrationData.FromEntityToModel<OrganisationCentrewiseUserNameRegistrationModel>();
-
+            if (organisationCentrewiseUserNameRegistrationId > 0)
+            {
+                OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistrationData = _organisationCentrewiseUserNameRegistrationRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode);
+                organisationCentrewiseUserNameRegistrationModel = IsNull(organisationCentrewiseUserNameRegistrationData) ? new OrganisationCentrewiseUserNameRegistrationModel() : organisationCentrewiseUserNameRegistrationData.FromEntityToModel<OrganisationCentrewiseUserNameRegistrationModel>();
+            }
             organisationCentrewiseUserNameRegistrationModel.CentreCode = organisationCentreModel.CentreCode;
             organisationCentrewiseUserNameRegistrationModel.CentreName = organisationCentreModel.CentreName;
             organisationCentrewiseUserNameRegistrationModel.OrganisationCentreMasterId = organisationCentreId;
