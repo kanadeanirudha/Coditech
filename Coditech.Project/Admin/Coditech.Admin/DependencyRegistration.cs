@@ -69,6 +69,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryItemStorageDimensionAgent, InventoryItemStorageDimensionAgent>();
             builder.Services.AddScoped<IInventoryItemGroupAgent, InventoryItemGroupAgent>();
             builder.Services.AddScoped<IInventoryUoMMasterAgent, InventoryUoMMasterAgent>();
+            builder.Services.AddScoped<IInventoryStorageDimensionGroupAgent, InventoryStorageDimensionGroupAgent>();
 
             #endregion
 
@@ -122,6 +123,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryItemGroupClient, InventoryItemGroupClient>();
             builder.Services.AddScoped<IInventoryUoMMasterClient, InventoryUoMMasterClient>();
             builder.Services.AddScoped<IGeneralUserMainMenuClient, GeneralUserMainMenuClient>();
+            builder.Services.AddScoped<IInventoryStorageDimensionGroupClient, InventoryStorageDimensionGroupClient>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();

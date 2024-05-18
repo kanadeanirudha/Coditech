@@ -378,4 +378,10 @@
   <data name="ErrorDeleteUserMainMenuMaster" xml:space="preserve">
     <value>Failed to delete User Main Menu due to associate record.</value>
   </data>
+  <data name="ErrorDeleteInventoryStorageDimensionGroup" xml:space="preserve">
+    <value>Failed to delete Inventory StorageDimension Group due to associate record.</value>
+  </data>
+  <data name="LabelInventoryStorageDimensionGroupList" xml:space="preserve">
+    <value>Inventory StorageDimension Group List</value>
+  </data>
 </root>
