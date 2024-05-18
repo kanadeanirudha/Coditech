@@ -11,6 +11,10 @@ namespace Coditech.API.Endpoint
             string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
+
+        public string CreateEmployeeAsync() =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeService/CreateEmployee";
+
         public string GetEmployeeServiceAsync(long employeeId) =>
             $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeService?employeeId={employeeId}";
 

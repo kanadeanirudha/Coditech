@@ -17,6 +17,8 @@ namespace Coditech.Common.API.Model
         [Required]
         public short EmployeeDesignationMasterId { get; set; }
 
+        public string CurrentDesignation { get; set; }
+
         [Required]
         public DateTime JoiningDate { get; set; }
 

@@ -9,7 +9,11 @@ namespace Coditech.Admin.ViewModel
         {
             EmployeeServiceList = new List<EmployeeServiceViewModel>();
         }
-        public string SelectedCentreCode { get; set; } = string.Empty;
-        public int SelectedDepartmentId { get; set; }
+        public long PersonId { get; set; }
+        public long EmployeeId { get; set; }
+        public long EntityId { get; set; }
+        public string EntityType { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

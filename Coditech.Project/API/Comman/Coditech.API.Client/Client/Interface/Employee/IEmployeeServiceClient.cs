@@ -1,5 +1,6 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Client
@@ -11,6 +12,13 @@ namespace Coditech.API.Client
         /// </summary>
         /// <returns>EmployeeServiceListResponse</returns>
         EmployeeServiceListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+        /// <summary>
+        /// Create Employee.
+        /// </summary>
+        /// <param name="EmployeeServiceModel">EmployeeServiceModel.</param>
+        /// <returns>Returns EmployeeServiceResponse.</returns>
+        EmployeeServiceResponse CreateEmployee(EmployeeServiceModel body);
 
         /// <summary>
         /// Get Employee by employeeId.

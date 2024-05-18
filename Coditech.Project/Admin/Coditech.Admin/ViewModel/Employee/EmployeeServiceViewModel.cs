@@ -27,6 +27,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Employee Designation Master Id")]
         public short EmployeeDesignationMasterId { get; set; }
 
+        [Display(Name = "Current Designation")]
+        public string CurrentDesignation { get; set; }
+
         [Required]
         [Display(Name = "Joining Date")]
         public DateTime JoiningDate { get; set; }
@@ -59,6 +62,16 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(500)]
         public string Remark { get; set; }
+
+        public long PersonId { get; set; }
+
+        [MaxLength(50)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [MaxLength(50)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
     }
 
 }

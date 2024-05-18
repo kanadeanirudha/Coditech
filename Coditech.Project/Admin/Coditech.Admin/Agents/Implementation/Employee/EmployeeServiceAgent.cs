@@ -34,7 +34,7 @@ namespace Coditech.Admin.Agents
 
         #region Public Methods
         #region Employee
-        public virtual EmployeeServiceListViewModel GetEmployeeServiceList(DataTableViewModel dataTableModel,int employeeId)
+        public virtual EmployeeServiceListViewModel GetEmployeeServiceList(DataTableViewModel dataTableModel,int employeeId,long personId)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -54,15 +54,45 @@ namespace Coditech.Admin.Agents
             listViewModel.EmployeeServiceList = employeeServiceList?.EmployeeServiceList?.ToViewModel<EmployeeServiceViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.EmployeeServiceList.Count, BindColumns());
+            listViewModel.EmployeeId = employeeId;
+            listViewModel.PersonId = personId;
             return listViewModel;
         }
 
+        //Create Employee
+        public virtual EmployeeServiceViewModel CreateEmployee(EmployeeServiceViewModel employeeServiceViewModel)
+        {
+            try
+            {
+                EmployeeServiceResponse response = _employeeServiceClient.CreateEmployee(employeeServiceViewModel.ToModel<EmployeeServiceModel>());
+                EmployeeServiceModel employeeServiceModel = response?.EmployeeServiceModel;
+                return IsNotNull(employeeServiceModel) ? employeeServiceModel.ToViewModel<EmployeeServiceViewModel>() : new EmployeeServiceViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeService.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (EmployeeServiceViewModel)GetViewModelWithErrorMessage(employeeServiceViewModel, ex.ErrorMessage);
+                    default:
+                        return (EmployeeServiceViewModel)GetViewModelWithErrorMessage(employeeServiceViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeService.ToString(), TraceLevel.Error);
+                return (EmployeeServiceViewModel)GetViewModelWithErrorMessage(employeeServiceViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
 
         //Get Employee Service
-        public virtual EmployeeServiceViewModel GetEmployeeService(long employeeId)
+        public virtual EmployeeServiceViewModel GetEmployeeService(long employeeId, long personId)
         {
             EmployeeServiceResponse response = _employeeServiceClient.GetEmployeeService(employeeId);
             EmployeeServiceViewModel employeeServiceViewModel = response?.EmployeeServiceModel.ToViewModel<EmployeeServiceViewModel>();
+            employeeServiceViewModel.EmployeeId = employeeId;
+            employeeServiceViewModel.PersonId = personId;
             return employeeServiceViewModel;
         }
 
@@ -125,24 +155,14 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Current Position",
-                ColumnCode = "IsCurrentPosition",
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Employee Id",
-                ColumnCode = "EmployeeId",
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
                 ColumnName = "Employee Code",
                 ColumnCode = "EmployeeCode",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Employee Designation Master Id",
-                ColumnCode = "EmployeeDesignationMasterId",
+                ColumnName = "Current Designation",
+                ColumnCode = "CurrentDesignation",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -159,16 +179,21 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Employee Stage Enum Id",
+                ColumnName = "Employee Stage",
                 ColumnCode = "EmployeeStageEnumId",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Date Of Leavingd",
+                ColumnName = "Date Of Leaving",
                 ColumnCode = "DateOfLeaving",
                 IsSortable = true,
             });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Current Position",
+                ColumnCode = "IsCurrentPosition",
+            });          
             return datatableColumnList;
         }
 

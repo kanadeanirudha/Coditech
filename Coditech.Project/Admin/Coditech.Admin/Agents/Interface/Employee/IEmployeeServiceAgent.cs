@@ -9,14 +9,21 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>EmployeeServiceListViewModel</returns>
-        EmployeeServiceListViewModel GetEmployeeServiceList(DataTableViewModel dataTableModel, int employeeId);
+        EmployeeServiceListViewModel GetEmployeeServiceList(DataTableViewModel dataTableModel, int employeeId, long personId);
+
+        /// <summary>
+        /// Create Employee.
+        /// </summary>
+        /// <param name="EmployeeServiceViewModel">employee Create View Model.</param>
+        /// <returns>Returns created model.</returns>
+        EmployeeServiceViewModel CreateEmployee(EmployeeServiceViewModel employeeServiceViewModel);
 
         /// <summary>
         /// Get Employee by employeeId.
         /// </summary>
         /// <param name="employeeId">employeeId</param>
         /// <returns>Returns EmployeeServiceViewModel.</returns>
-        EmployeeServiceViewModel GetEmployeeService(long employeeId);
+        EmployeeServiceViewModel GetEmployeeService(long employeeId, long personId);
 
         /// <summary>
         /// Update Employee Service.
