@@ -18,12 +18,12 @@
                     foreach (var item in Model?.HospitalDoctorVisitingChargesList)
                     {
                         <tr>
-                            <td>@item.HospitalDoctorId</td>
-                            <td>@item.FromDate</td>
-                            <td>@item.UptoDate</td>
-                            <td>@item.AppointmentTypeEnumId</td>
-                            <td>@item.Charges</td>
-                            <td>@item.Remark</td>
+                            <td style="text-align: center; width: 0px"><img src="@item.ImagePath" class="rounded-circle thumb-xs me-1" /></td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.MobileNumber</td>
+                            <td>@item.EmailId</td>
+                            <td>@item.MedicalSpecilization</td>
                             <td class="text-center">
                                 <a href="../@controllerName/Edit?hospitalDoctorId=@item.HospitalDoctorId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
                                 <a href="../@controllerName/Delete?hospitalDoctorIds=@item.HospitalDoctorId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>

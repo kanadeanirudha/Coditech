@@ -22,9 +22,9 @@ namespace Coditech.Admin.Controllers
             HospitalDoctorVisitingChargesListViewModel list = new HospitalDoctorVisitingChargesListViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
             {
-                list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, true, dataTableModel);
+                list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, dataTableModel);
             }
-            list.SelectedCentreCode= dataTableModel.SelectedCentreCode;
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
             list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
             if (AjaxHelper.IsAjaxRequest)
             {

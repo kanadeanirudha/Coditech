@@ -117,12 +117,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(short hospitalDoctorVisitingChargesId)
+        public virtual HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId)
         {
             return Task.Run(async () => await GetHospitalDoctorVisitingChargesAsync(hospitalDoctorVisitingChargesId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalDoctorVisitingChargesResponse> GetHospitalDoctorVisitingChargesAsync(short hospitalDoctorVisitingChargesId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<HospitalDoctorVisitingChargesResponse> GetHospitalDoctorVisitingChargesAsync(long hospitalDoctorVisitingChargesId, System.Threading.CancellationToken cancellationToken)
         {
             if (hospitalDoctorVisitingChargesId <= 0)
                 throw new System.ArgumentNullException("hospitalDoctorVisitingChargesId");

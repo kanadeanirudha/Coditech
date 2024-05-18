@@ -25,7 +25,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId</param>
         /// <returns>Returns HospitalDoctorVisitingChargesResponse.</returns>
-        HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(short hospitalDoctorVisitingChargesId);
+        HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId);
 
         /// <summary>
         /// Update HospitalDoctorVisitingChargesy.

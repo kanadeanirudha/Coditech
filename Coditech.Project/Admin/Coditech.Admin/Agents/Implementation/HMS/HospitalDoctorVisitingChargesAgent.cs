@@ -8,7 +8,9 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -35,17 +37,15 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters.Add("HospitalDoctor", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("FromDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("UptoDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("AppointmentTypeEnumId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("Charges", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("Remark", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            HospitalDoctorVisitingChargesListResponse response = _hospitalDoctorVisitingChargesClient.List(selectedCentreCode, selectedDepartmentId, true, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            HospitalDoctorVisitingChargesListResponse response = _hospitalDoctorVisitingChargesClient.List(selectedCentreCode, selectedDepartmentId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalDoctorVisitingChargesListModel hospitaldoctorvisitingchargesList = new HospitalDoctorVisitingChargesListModel { HospitalDoctorVisitingChargesList = response?.HospitalDoctorVisitingChargesList };
             HospitalDoctorVisitingChargesListViewModel listViewModel = new HospitalDoctorVisitingChargesListViewModel();
             listViewModel.HospitalDoctorVisitingChargesList = hospitaldoctorvisitingchargesList?.HospitalDoctorVisitingChargesList?.ToViewModel<HospitalDoctorVisitingChargesViewModel>().ToList();
@@ -82,7 +82,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get general HospitalDoctorVisitingCharges by general hospitaldoctorvisitingcharges master id.
-        public virtual HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(short hospitalDoctorVisitingChargesId)
+        public virtual HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId)
         {
             HospitalDoctorVisitingChargesResponse response = _hospitalDoctorVisitingChargesClient.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId);
             return response?.HospitalDoctorVisitingChargesModel.ToViewModel<HospitalDoctorVisitingChargesViewModel>();
@@ -94,7 +94,7 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalDoctorVisitingCharges.ToString(), TraceLevel.Info);
-               HospitalDoctorVisitingChargesResponse response = _hospitalDoctorVisitingChargesClient.UpdateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel.ToModel<HospitalDoctorVisitingChargesModel>());
+                HospitalDoctorVisitingChargesResponse response = _hospitalDoctorVisitingChargesClient.UpdateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel.ToModel<HospitalDoctorVisitingChargesModel>());
                 HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = response?.HospitalDoctorVisitingChargesModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalDoctorVisitingCharges.ToString(), TraceLevel.Info);
                 return IsNotNull(hospitalDoctorVisitingChargesModel) ? hospitalDoctorVisitingChargesModel.ToViewModel<HospitalDoctorVisitingChargesViewModel>() : (HospitalDoctorVisitingChargesViewModel)GetViewModelWithErrorMessage(new HospitalDoctorVisitingChargesViewModel(), GeneralResources.UpdateErrorMessage);
@@ -145,41 +145,39 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Hospital Doctor",
-                ColumnCode = "HospitalDoctor",
+                ColumnName = "Image",
+                ColumnCode = "Image",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "From Date",
-                ColumnCode = "FromDate",
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Upto Date",
-                ColumnCode = "UptoDate",
+                ColumnName = "Contact",
+                ColumnCode = "MobileNumber",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Appointment",
-                ColumnCode = "AppointmentTypeEnumId",
+                ColumnName = "Email Id",
+                ColumnCode = "EmailId",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Charges",
-                ColumnCode = "Charges",
+                ColumnName = "Medical Specilization",
+                ColumnCode = "MedicalSpecilization",
                 IsSortable = true,
             });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Remark",
-                ColumnCode = "Remark",
-                IsSortable = true,
-            });
-            
             return datatableColumnList;
         }
         #endregion

@@ -24,7 +24,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId</param>
         /// <returns>Returns HospitalDoctorVisitingChargesViewModel.</returns>
-        HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(short hospitalDoctorVisitingChargesId);
+        HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId);
 
         /// <summary>
         /// Update HospitalDoctorVisitingCharges.
@@ -32,7 +32,7 @@ namespace Coditech.Admin.Agents
         /// <param name="hospitalDoctorVisitingChargesViewModel">hospitalDoctorVisitingChargesViewModel.</param>
         /// <returns>Returns updated HospitalDoctorVisitingChargesViewModel</returns>
         HospitalDoctorVisitingChargesViewModel UpdateHospitalDoctorVisitingCharges(HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel);
-
+        
         /// <summary>
         /// Delete HospitalDoctorVisitingCharges.
         /// </summary>

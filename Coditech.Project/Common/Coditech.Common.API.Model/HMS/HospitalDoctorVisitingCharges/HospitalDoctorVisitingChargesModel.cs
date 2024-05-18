@@ -19,5 +19,12 @@ namespace Coditech.Common.API.Model
         public int AppointmentTypeEnumId { get; set; }
         public decimal Charges { get; set; }
         public string Remark { get; set; }
+
+        public string ImagePath { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MedicalSpecilization { get; set; }
+        public string MobileNumber { get; set; }
+        public string EmailId { get; set; }
     }
 }
