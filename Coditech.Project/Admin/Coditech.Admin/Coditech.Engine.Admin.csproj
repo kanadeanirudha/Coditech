@@ -22,6 +22,8 @@
 		<None Remove="Views\Dashboard\NewFolder\**" />
 		<None Remove="wwwroot\js\Coditech\GeneralMaster\**" />
 		<None Remove="wwwroot\js\Coditech\NewFolder1\**" />
+		<Content Remove="wwwroot\js\coditech\inventory\InventoryStorageDimensionGroup.js" />
+		<_ContentIncludedByDefault Remove="wwwroot\js\coditech\inventory\InventoryStorageDimensionGroup.js" />
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -51,6 +53,10 @@
 		<Folder Include="wwwroot\assets\images\jstree\" />
 		<Folder Include="wwwroot\css\login\" />
 		<Folder Include="wwwroot\js\login\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\js\coditech\inventory\InventoryStorageDimensionGroup.js" />
 	</ItemGroup>
 
 </Project>

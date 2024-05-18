@@ -72,7 +72,8 @@
             InventoryUoMMaster,
             CentrewiseUserName,
             HospitalDoctorVisitingCharges,
-            HospitalPatientRegistration
+            HospitalPatientRegistration,
+            InventoryStorageDimensionGroup
         }
     }
 }
