@@ -9,21 +9,21 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>EmployeeServiceListViewModel</returns>
-        EmployeeServiceListViewModel GetEmployeeServiceList(DataTableViewModel dataTableModel, int employeeId, long personId);
+        EmployeeServiceListViewModel GetEmployeeServiceList(long employeeId, long personId, DataTableViewModel dataTableModel);
 
         /// <summary>
         /// Create Employee.
         /// </summary>
         /// <param name="EmployeeServiceViewModel">employee Create View Model.</param>
         /// <returns>Returns created model.</returns>
-        EmployeeServiceViewModel CreateEmployee(EmployeeServiceViewModel employeeServiceViewModel);
+        EmployeeServiceViewModel CreateEmployeeService(EmployeeServiceViewModel employeeServiceViewModel);
 
         /// <summary>
         /// Get Employee by employeeId.
         /// </summary>
         /// <param name="employeeId">employeeId</param>
         /// <returns>Returns EmployeeServiceViewModel.</returns>
-        EmployeeServiceViewModel GetEmployeeService(long employeeId, long personId);
+        EmployeeServiceViewModel GetEmployeeService(long employeeId, long personId,long employeeServiceId);
 
         /// <summary>
         /// Update Employee Service.
@@ -35,8 +35,8 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Delete employee.
         /// </summary>
-        /// <param name="employeeIds">employeeIds.</param>
+        /// <param name="employeeServiceIds">employeeServiceIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeleteEmployee(string employeeIds, out string errorMessage);
+        bool DeleteEmployeeService(string employeeServiceIds, out string errorMessage);
     }
 }

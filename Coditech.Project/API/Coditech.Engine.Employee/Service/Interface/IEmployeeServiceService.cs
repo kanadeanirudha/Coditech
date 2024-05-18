@@ -7,9 +7,9 @@ namespace Coditech.API.Service
 {
     public interface IEmployeeServiceService
     {
-        EmployeeServiceListModel GetEmployeeList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        EmployeeServiceModel GetEmployeeService(long employeeId);
+        EmployeeServiceListModel GetEmployeeServiceList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        EmployeeServiceModel GetEmployeeService(long employeeId, long personId, long employeeServiceId);
         bool UpdateEmployeeService(EmployeeServiceModel model);
-        bool DeleteEmployee(ParameterModel parameterModel);
+        bool DeleteEmployeeService(ParameterModel parameterModel);
     }
 }

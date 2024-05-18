@@ -6,6 +6,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 
 using Newtonsoft.Json;
+
 using System.Net;
 
 namespace Coditech.API.Client
@@ -17,14 +18,14 @@ namespace Coditech.API.Client
         {
             employeeServiceEndpoint = new EmployeeServiceEndpoint();
         }
-        public virtual EmployeeServiceListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual EmployeeServiceListResponse EmployeeServiceList(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await EmployeeServiceListAsync(employeeId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<EmployeeServiceListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<EmployeeServiceListResponse> EmployeeServiceListAsync(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = employeeServiceEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
+            string endpoint = employeeServiceEndpoint.EmployeeServiceListAsync(employeeId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -62,18 +63,17 @@ namespace Coditech.API.Client
             }
         }
 
-
-        public virtual EmployeeServiceResponse GetEmployeeService(long employeeId)
+        public virtual EmployeeServiceResponse GetEmployeeService(long employeeId, long personId, long employeeServiceId)
         {
-            return Task.Run(async () => await GetEmployeeServiceAsync(employeeId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetEmployeeServiceAsync(employeeId, personId, employeeServiceId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<EmployeeServiceResponse> GetEmployeeServiceAsync(long employeeId, CancellationToken cancellationToken)
+        public virtual async Task<EmployeeServiceResponse> GetEmployeeServiceAsync(long employeeId, long personId, long employeeServiceId, CancellationToken cancellationToken)
         {
             if (employeeId <= 0)
                 throw new System.ArgumentNullException("employeeId");
 
-            string endpoint = employeeServiceEndpoint.GetEmployeeServiceAsync(employeeId);
+            string endpoint = employeeServiceEndpoint.GetEmployeeServiceAsync(employeeId, personId, employeeServiceId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -165,14 +165,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual EmployeeServiceResponse CreateEmployee(EmployeeServiceModel body)
+        public virtual EmployeeServiceResponse CreateEmployeeService(EmployeeServiceModel body)
         {
-            return Task.Run(async () => await CreateEmployeeAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await CreateEmployeeServiceAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<EmployeeServiceResponse> CreateEmployeeAsync(EmployeeServiceModel body, CancellationToken cancellationToken)
+        public virtual async Task<EmployeeServiceResponse> CreateEmployeeServiceAsync(EmployeeServiceModel body, CancellationToken cancellationToken)
         {
-            string endpoint = employeeServiceEndpoint.CreateEmployeeAsync();
+            string endpoint = employeeServiceEndpoint.CreateEmployeeServiceAsync();
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try
@@ -221,14 +221,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual TrueFalseResponse DeleteEmployee(ParameterModel body)
+        public virtual TrueFalseResponse DeleteEmployeeService(ParameterModel body)
         {
-            return Task.Run(async () => await DeleteEmployeeAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await DeleteEmployeeServiceAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<TrueFalseResponse> DeleteEmployeeAsync(ParameterModel body, CancellationToken cancellationToken)
+        public virtual async Task<TrueFalseResponse> DeleteEmployeeServiceAsync(ParameterModel body, CancellationToken cancellationToken)
         {
-            string endpoint = employeeServiceEndpoint.DeleteEmployeeAsync();
+            string endpoint = employeeServiceEndpoint.DeleteEmployeeServiceAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -262,51 +262,5 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-      
-        public virtual EmployeeServiceListResponse EmployeeServiceList(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
-        {
-            return Task.Run(async () => await EmployeeServiceListAsync(employeeId,expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
-        }
-
-        public virtual async Task<EmployeeServiceListResponse> EmployeeServiceListAsync(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
-        {
-            string endpoint = employeeServiceEndpoint.EmployeeServiceListAsync(employeeId,expand, filter, sort, pageIndex, pageSize);
-            HttpResponseMessage response = null;
-            var disposeResponse = true;
-            try
-            {
-                ApiStatus status = new ApiStatus();
-
-                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
-                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
-                var status_ = (int)response.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse = await ReadObjectResponseAsync<EmployeeServiceListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse.Object == null)
-                    {
-                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
-                    }
-                    return objectResponse.Object;
-                }
-                else if (status_ == 204)
-                {
-                    return new EmployeeServiceListResponse();
-                }
-                else
-                {
-                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    EmployeeServiceListResponse typedBody = JsonConvert.DeserializeObject<EmployeeServiceListResponse>(responseData);
-                    UpdateApiStatus(typedBody, status, response);
-                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-                }
-            }
-            finally
-            {
-                if (disposeResponse)
-                    response.Dispose();
-            }
-        }
-
     }
 }

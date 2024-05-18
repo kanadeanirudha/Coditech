@@ -1,6 +1,5 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
-using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Client
@@ -8,24 +7,27 @@ namespace Coditech.API.Client
     public interface IEmployeeServiceClient : IBaseClient
     {
         /// <summary>
-        /// Get list of Employee.
+        /// Get list of Employee Service List.
         /// </summary>
         /// <returns>EmployeeServiceListResponse</returns>
-        EmployeeServiceListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        EmployeeServiceListResponse EmployeeServiceList(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
 
         /// <summary>
         /// Create Employee.
         /// </summary>
         /// <param name="EmployeeServiceModel">EmployeeServiceModel.</param>
         /// <returns>Returns EmployeeServiceResponse.</returns>
-        EmployeeServiceResponse CreateEmployee(EmployeeServiceModel body);
+        EmployeeServiceResponse CreateEmployeeService(EmployeeServiceModel body);
 
         /// <summary>
         /// Get Employee by employeeId.
         /// </summary>
         /// <param name="employeeId">employeeId</param>
+        /// <param name="personId">personId</param>
+        /// <param name="employeeServiceId">employeeServiceId</param>
         /// <returns>Returns EmployeeServiceResponse.</returns>
-        EmployeeServiceResponse GetEmployeeService(long employeeId);
+        EmployeeServiceResponse GetEmployeeService(long employeeId, long personId, long employeeServiceId);
 
         /// <summary>
         /// Update Employee Service.
@@ -39,6 +41,6 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
-        TrueFalseResponse DeleteEmployee(ParameterModel body);
+        TrueFalseResponse DeleteEmployeeService(ParameterModel body);
     }
 }

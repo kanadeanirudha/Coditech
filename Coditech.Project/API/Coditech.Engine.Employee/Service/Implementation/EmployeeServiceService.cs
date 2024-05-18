@@ -25,7 +25,7 @@ namespace Coditech.API.Service
             _employeeServiceRepository = new CoditechRepository<EmployeeService>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual EmployeeServiceListModel GetEmployeeList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual EmployeeServiceListModel GetEmployeeServiceList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             int employeeId = 0;
             int.TryParse(filters?.Find(x => string.Equals(x.FilterName, FilterKeys.EmployeeId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue, out employeeId);
@@ -49,7 +49,7 @@ namespace Coditech.API.Service
         }
 
         //Get Employee by Employee id.
-        public virtual EmployeeServiceModel GetEmployeeService(long employeeId)
+        public virtual EmployeeServiceModel GetEmployeeService(long employeeId, long personId, long employeeServiceId)
         {
             if (employeeId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeId"));
@@ -57,7 +57,8 @@ namespace Coditech.API.Service
             //Get the Employee Details based on id.
             EmployeeService employeeService = _employeeServiceRepository.Table.Where(x => x.EmployeeId == employeeId)?.FirstOrDefault();
             EmployeeServiceModel employeeServiceModel = IsNotNull(employeeService) ? employeeService?.FromEntityToModel<EmployeeServiceModel>() : new EmployeeServiceModel();
-            
+            employeeServiceModel.EmployeeId = employeeId;
+            employeeServiceModel.PersonId = personId;
             return employeeServiceModel;
         }
 
@@ -88,7 +89,7 @@ namespace Coditech.API.Service
         }
 
         //Delete Employee.
-        public virtual bool DeleteEmployee(ParameterModel parameterModel)
+        public virtual bool DeleteEmployeeService(ParameterModel parameterModel)
         {
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeID"));
@@ -97,7 +98,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("EmployeeId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteEmployee @EmployeeId,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteEmployeeService @EmployeeId,  @Status OUT", 1, out status);
 
             return status == 1 ? true : false;
         }

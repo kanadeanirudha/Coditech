@@ -4,7 +4,7 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
-    keyValuePairs.Add("EmployeeId", Model.EntityId.ToString());
+    keyValuePairs.Add("EmployeeId", Model.EmployeeId.ToString());
     keyValuePairs.Add("PersonId", Model.PersonId.ToString());
 }
 <!-- Page Content-->
@@ -18,11 +18,11 @@
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">Employee Service List</span>
-                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/GetEmployeeService" role="button"><i class="fas fa-plus me-2"></i>Add Employee Service</a>
+                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/GetEmployeeService?employeeId=@Model.EmployeeId&personId=@Model.PersonId" role="button"><i class="fas fa-plus me-2"></i>Add Employee Service</a>
                     </div>
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                            @Html.Partial("~/Views/EmployeeMaster/_ListEmployeeService.cshtml", Model)
+                            @Html.Partial("~/Views/EmployeeMaster/EmployeeService/_EmployeeServiceList.cshtml", Model)
                         </div>
                     </div>
                 </div>

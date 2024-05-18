@@ -11,8 +11,6 @@ namespace Coditech.Admin.ViewModel
         }
         public long PersonId { get; set; }
         public long EmployeeId { get; set; }
-        public long EntityId { get; set; }
-        public string EntityType { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

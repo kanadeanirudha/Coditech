@@ -2,7 +2,6 @@
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
-using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
@@ -34,13 +33,12 @@ namespace Coditech.Admin.Agents
 
         #region Public Methods
         #region Employee
-        public virtual EmployeeServiceListViewModel GetEmployeeServiceList(DataTableViewModel dataTableModel,int employeeId,long personId)
+        public virtual EmployeeServiceListViewModel GetEmployeeServiceList(long employeeId, long personId, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters.Add("EmployeeId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("EmployeeCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
@@ -48,7 +46,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            EmployeeServiceListResponse response = _employeeServiceClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            EmployeeServiceListResponse response = _employeeServiceClient.EmployeeServiceList(employeeId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             EmployeeServiceListModel employeeServiceList = new EmployeeServiceListModel { EmployeeServiceList = response?.EmployeeServiceList };
             EmployeeServiceListViewModel listViewModel = new EmployeeServiceListViewModel();
             listViewModel.EmployeeServiceList = employeeServiceList?.EmployeeServiceList?.ToViewModel<EmployeeServiceViewModel>().ToList();
@@ -60,11 +58,11 @@ namespace Coditech.Admin.Agents
         }
 
         //Create Employee
-        public virtual EmployeeServiceViewModel CreateEmployee(EmployeeServiceViewModel employeeServiceViewModel)
+        public virtual EmployeeServiceViewModel CreateEmployeeService(EmployeeServiceViewModel employeeServiceViewModel)
         {
             try
             {
-                EmployeeServiceResponse response = _employeeServiceClient.CreateEmployee(employeeServiceViewModel.ToModel<EmployeeServiceModel>());
+                EmployeeServiceResponse response = _employeeServiceClient.CreateEmployeeService(employeeServiceViewModel.ToModel<EmployeeServiceModel>());
                 EmployeeServiceModel employeeServiceModel = response?.EmployeeServiceModel;
                 return IsNotNull(employeeServiceModel) ? employeeServiceModel.ToViewModel<EmployeeServiceViewModel>() : new EmployeeServiceViewModel();
             }
@@ -87,12 +85,10 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Employee Service
-        public virtual EmployeeServiceViewModel GetEmployeeService(long employeeId, long personId)
+        public virtual EmployeeServiceViewModel GetEmployeeService(long employeeId, long personId, long employeeServiceId)
         {
-            EmployeeServiceResponse response = _employeeServiceClient.GetEmployeeService(employeeId);
+            EmployeeServiceResponse response = _employeeServiceClient.GetEmployeeService(employeeId, personId, employeeServiceId);
             EmployeeServiceViewModel employeeServiceViewModel = response?.EmployeeServiceModel.ToViewModel<EmployeeServiceViewModel>();
-            employeeServiceViewModel.EmployeeId = employeeId;
-            employeeServiceViewModel.PersonId = personId;
             return employeeServiceViewModel;
         }
 
@@ -115,14 +111,14 @@ namespace Coditech.Admin.Agents
         }
 
         //Delete Employee.
-        public virtual bool DeleteEmployee(string employeeIds, out string errorMessage)
+        public virtual bool DeleteEmployeeService(string employeeServiceIds, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EmployeeService.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _employeeServiceClient.DeleteEmployee(new ParameterModel { Ids = employeeIds });
+                TrueFalseResponse trueFalseResponse = _employeeServiceClient.DeleteEmployeeService(new ParameterModel { Ids = employeeServiceIds });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -193,7 +189,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Is Current Position",
                 ColumnCode = "IsCurrentPosition",
-            });          
+            });
             return datatableColumnList;
         }
 

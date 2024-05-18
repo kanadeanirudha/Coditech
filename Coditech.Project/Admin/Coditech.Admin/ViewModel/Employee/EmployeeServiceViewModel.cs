@@ -24,7 +24,7 @@ namespace Coditech.Admin.ViewModel
         public string EmployeeCode { get; set; }
 
         [Required]
-        [Display(Name = "Employee Designation Master Id")]
+        [Display(Name = "Employee Designation")]
         public short EmployeeDesignationMasterId { get; set; }
 
         [Display(Name = "Current Designation")]

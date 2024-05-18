@@ -26,14 +26,14 @@ namespace Coditech.API.Controllers
         }
 
         [HttpGet]
-        [Route("/EmployeeService/GetEmployeeList")]
+        [Route("/EmployeeService/GetEmployeeServiceList")]
         [Produces(typeof(EmployeeServiceListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetEmployeeList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetEmployeeServiceList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                EmployeeServiceListModel list = _employeeServiceService.GetEmployeeList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                EmployeeServiceListModel list = _employeeServiceService.GetEmployeeServiceList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<EmployeeServiceListResponse>(data) : CreateNoContentResponse();
             }
@@ -52,11 +52,11 @@ namespace Coditech.API.Controllers
         [Route("/EmployeeService/GetEmployeeService")]
         [HttpGet]
         [Produces(typeof(EmployeeServiceResponse))]
-        public virtual IActionResult GetEmployeeService(long employeeId)
+        public virtual IActionResult GetEmployeeService(long employeeId, long personId, long employeeServiceId)
         {
             try
             {
-                EmployeeServiceModel employeeServiceModel = _employeeServiceService.GetEmployeeService(employeeId);
+                EmployeeServiceModel employeeServiceModel = _employeeServiceService.GetEmployeeService(employeeId, personId, employeeServiceId);
                 return IsNotNull(employeeServiceModel) ? CreateOKResponse(new EmployeeServiceResponse { EmployeeServiceModel = employeeServiceModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -93,14 +93,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/EmployeeService/DeleteEmployee")]
+        [Route("/EmployeeService/DeleteEmployeeService")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteEmployee([FromBody] ParameterModel employeeIds)
+        public virtual IActionResult DeleteEmployeeService([FromBody] ParameterModel employeeIds)
         {
             try
             {
-                bool deleted = _employeeServiceService.DeleteEmployee(employeeIds);
+                bool deleted = _employeeServiceService.DeleteEmployeeService(employeeIds);
                 return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
             }
             catch (CoditechException ex)
