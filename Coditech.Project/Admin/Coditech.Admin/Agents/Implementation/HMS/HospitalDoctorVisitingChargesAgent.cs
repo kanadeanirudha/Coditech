@@ -29,13 +29,12 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesList(DataTableViewModel dataTableModel)
+        public virtual HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesList(string selectedCentreCode, short selectedDepartmentId, DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = null;
+            FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
                 filters.Add("HospitalDoctor", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("FromDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("UptoDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
@@ -44,9 +43,9 @@ namespace Coditech.Admin.Agents
                 filters.Add("Remark", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "HospitalDoctor" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            HospitalDoctorVisitingChargesListResponse response = _hospitalDoctorVisitingChargesClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            HospitalDoctorVisitingChargesListResponse response = _hospitalDoctorVisitingChargesClient.List(selectedCentreCode, selectedDepartmentId, true, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalDoctorVisitingChargesListModel hospitaldoctorvisitingchargesList = new HospitalDoctorVisitingChargesListModel { HospitalDoctorVisitingChargesList = response?.HospitalDoctorVisitingChargesList };
             HospitalDoctorVisitingChargesListViewModel listViewModel = new HospitalDoctorVisitingChargesListViewModel();
             listViewModel.HospitalDoctorVisitingChargesList = hospitaldoctorvisitingchargesList?.HospitalDoctorVisitingChargesList?.ToViewModel<HospitalDoctorVisitingChargesViewModel>().ToList();

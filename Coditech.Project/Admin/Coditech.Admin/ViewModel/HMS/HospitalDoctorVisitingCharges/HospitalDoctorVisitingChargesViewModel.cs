@@ -1,5 +1,5 @@
 ﻿using Coditech.Common.Helper;
-
+using Coditech.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -9,6 +9,13 @@ namespace Coditech.Admin.ViewModel
         [Required]
         public long HospitalDoctorVisitingChargesId { get; set; }
 
+        [Required]
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
+        public string SelectedCentreCode { get; set; } 
+
+        [Required]
+        [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
+        public string SelectedDepartmentId { get; set; }
         [Required]
         [Display(Name = "Hospital Doctor")]
         public int HospitalDoctorId { get; set; }

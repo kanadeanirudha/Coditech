@@ -29,11 +29,11 @@ namespace Coditech.API.Controllers
         [Route("/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingChargesList")]
         [Produces(typeof(HospitalDoctorVisitingChargesListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetHospitalDoctorVisitingChargesList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetHospitalDoctorVisitingChargesList(string selectedCentreCode, short selectedDepartmentId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                HospitalDoctorVisitingChargesListModel list = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingChargesList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                HospitalDoctorVisitingChargesListModel list = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingChargesList(selectedCentreCode, selectedDepartmentId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalDoctorVisitingChargesListResponse>(data) : CreateNoContentResponse();
             }

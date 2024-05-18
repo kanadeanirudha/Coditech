@@ -10,7 +10,7 @@ namespace Coditech.Admin.Controllers
     public class HospitalDoctorVisitingChargesController : BaseController
     {
         private readonly IHospitalDoctorVisitingChargesAgent _hospitalDoctorVisitingChargesAgent;
-        private const string createEdit = "~/Views/HMs/HospitalDoctorVisitingCharges/CreateEdit.cshtml";
+        private const string createEdit = "~/Views/HMS/HospitalDoctorVisitingCharges/CreateEdit.cshtml";
 
         public HospitalDoctorVisitingChargesController(IHospitalDoctorVisitingChargesAgent hospitalDoctorVisitingChargesAgent)
         {
@@ -19,12 +19,18 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            HospitalDoctorVisitingChargesListViewModel list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesList(dataTableModel);
+            HospitalDoctorVisitingChargesListViewModel list = new HospitalDoctorVisitingChargesListViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
+            {
+                list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, true, dataTableModel);
+            }
+            list.SelectedCentreCode= dataTableModel.SelectedCentreCode;
+            list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/v/HospitalDoctorVisitingCharges/_List.cshtml", list);
+                return PartialView("~/Views/HMS/HospitalDoctorVisitingCharges/_List.cshtml", list);
             }
-            return View($"~/Views/HMs/HospitalDoctorVisitingCharges/List.cshtml", list);
+            return View($"~/Views/HMS/HospitalDoctorVisitingCharges/List.cshtml", list);
         }
 
         [HttpGet]

@@ -10,7 +10,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>HospitalDoctorVisitingChargesListViewModel</returns>
-        HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesList(DataTableViewModel dataTableModel);
+        HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, DataTableViewModel dataTableModel);
 
         /// <summary>
         /// Create HospitalDoctorVisitingCharges.
