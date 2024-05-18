@@ -39,6 +39,5 @@ namespace Coditech.Admin.Agents
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteHospitalDoctorVisitingCharges(string hospitalDoctorVisitingChargesId, out string errorMessage);
-        HospitalDoctorVisitingChargesListResponse GetHospitalDoctorVisitingChargesList();
     }
 }

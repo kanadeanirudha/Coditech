@@ -183,13 +183,5 @@ namespace Coditech.Admin.Agents
             return datatableColumnList;
         }
         #endregion
-        #region
-        // it will return get all hospitaldoctorvisitingcharges list from database 
-        public virtual HospitalDoctorVisitingChargesListResponse GetHospitalDoctorVisitingChargesList()
-        {
-            HospitalDoctorVisitingChargesListResponse hospitaldoctorvisitingchargesList = _hospitalDoctorVisitingChargesClient.List(null, null, null, 1, int.MaxValue);
-            return hospitaldoctorvisitingchargesList?.HospitalDoctorVisitingChargesList?.Count > 0 ? hospitaldoctorvisitingchargesList : new HospitalDoctorVisitingChargesListResponse();
-        }
-        #endregion
     }
 }
