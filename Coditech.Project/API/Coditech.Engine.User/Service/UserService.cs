@@ -29,6 +29,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
+        private readonly ICoditechRepository<HospitalPatientRegistration> _hospitalPatientRegistrationRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail) : base(serviceProvider)
         {
@@ -45,6 +46,7 @@ namespace Coditech.API.Service
             _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _hospitalPatientRegistrationRepository = new CoditechRepository<HospitalPatientRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
@@ -221,6 +223,24 @@ namespace Coditech.API.Service
                     if (employeeMaster?.EmployeeId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                     {
                         InsertUserMasterDetails(generalPersonModel, employeeMaster.EmployeeId);
+                    }
+                }
+                else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberForEnum.PatientUAHNumber.ToString(), generalPersonModel.SelectedCentreCode);
+                    HospitalPatientRegistration hospitalPatientRegistration = new HospitalPatientRegistration()
+                    {
+                        PersonId = generalPersonModel.PersonId,
+                        UAHNumber = generalPersonModel.PersonCode,
+                        UserType = generalPersonModel.UserType,
+                        CentreCode = generalPersonModel.SelectedCentreCode,
+                        RegistrationDate = DateTime.Now
+                    };
+                    hospitalPatientRegistration = _hospitalPatientRegistrationRepository.Insert(hospitalPatientRegistration);
+                    //Check Is Patient need to Login
+                    if (hospitalPatientRegistration?.HospitalPatientRegistrationId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsPatientLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
+                    {
+                        InsertUserMasterDetails(generalPersonModel, hospitalPatientRegistration.HospitalPatientRegistrationId);
                     }
                 }
             }
@@ -523,10 +543,14 @@ namespace Coditech.API.Service
 
         protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId)
         {
-            string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && generalPersonModel.UserType.Equals(x.UserType, StringComparison.InvariantCultureIgnoreCase))?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
+            string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
-            if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.EmailId.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            if (string.IsNullOrEmpty(userNameBasedOn))
+            {
+                userMaster.UserName = generalPersonModel.PersonCode;
+            }
+            else if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.EmailId.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 userMaster.UserName = generalPersonModel.EmailId;
             }
@@ -534,7 +558,7 @@ namespace Coditech.API.Service
             {
                 userMaster.UserName = generalPersonModel.MobileNumber;
             }
-            else if (string.IsNullOrEmpty(userNameBasedOn) || userNameBasedOn.Equals(UserNameRegistrationTypeEnum.PersonCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            else if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.PersonCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 userMaster.UserName = generalPersonModel.PersonCode;
             }
@@ -575,6 +599,21 @@ namespace Coditech.API.Service
                 if (generalEnumaratorId == 0)
                 {
                     _coditechLogging.LogMessage("EmployeeRegistration is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+                    status = false;
+                }
+            }
+            else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
+                {
+                    status = false;
+                    _coditechLogging.LogMessage("SelectedCentreCode is null", CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Error);
+                }
+
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.PatientUAHNumber.ToString());
+                if (generalEnumaratorId == 0)
+                {
+                    _coditechLogging.LogMessage("PatientRegistration is null", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
                     status = false;
                 }
             }

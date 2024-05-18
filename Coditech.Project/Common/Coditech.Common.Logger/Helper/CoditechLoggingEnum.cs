@@ -72,7 +72,9 @@
             HospitalDoctorLeaveSchedule,
             InventoryUoMMaster,
             CentrewiseUserName,
-            HospitalDoctorVisitingCharges
+            HospitalDoctorVisitingCharges,
+            HospitalPatientRegistration,
+            InventoryStorageDimensionGroup
         }
     }
 }

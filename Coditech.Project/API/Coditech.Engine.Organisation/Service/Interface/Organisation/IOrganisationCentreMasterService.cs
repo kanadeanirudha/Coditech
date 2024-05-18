@@ -20,7 +20,7 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
         bool UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingModel model);
         OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
         bool UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
-        OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreMasterId);
+        OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreMasterId,short organisationCentrewiseUserNameRegistrationId=0);
         bool UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel model);
     }
 }

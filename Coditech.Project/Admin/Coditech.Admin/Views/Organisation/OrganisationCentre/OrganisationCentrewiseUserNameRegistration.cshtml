@@ -23,6 +23,7 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.OrganisationCentrewiseUserNameRegistrationId)
+                            @Html.HiddenFor(m => m.OrganisationCentreMasterId)
                             @if (Model.OrganisationCentrewiseUserNameRegistrationId > 0)
                             {
                                 @Html.HiddenFor(m => m.UserType)
@@ -42,15 +43,15 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    @Html.LabelFor(x => x.UserType, new { @class = "form-label required" })@if (Model.OrganisationCentrewiseUserNameRegistrationId > 0)
-                                        @if (Model.OrganisationCentrewiseUserNameRegistrationId > 0)
-                                        {
-                                            @Html.DropDownList("UserType", ViewData["UserType"] as List<SelectListItem>, new { @class = "form-control", @disabled = "disabled" })
-                                        }
-                                        else
-                                        {
-                                            @Html.DropDownList("UserType", ViewData["UserType"] as List<SelectListItem>, new { @class = "form-control" })
-                                        }
+                                    @Html.LabelFor(x => x.UserType, new { @class = "form-label required" })
+                                    @if (Model.OrganisationCentrewiseUserNameRegistrationId > 0)
+                                    {
+                                        @Html.DropDownList("UserType", ViewData["UserType"] as List<SelectListItem>, new { @class = "form-control", @disabled = "disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("UserType", ViewData["UserType"] as List<SelectListItem>, new { @class = "form-control" })
+                                    }
                                     @Html.ValidationMessageFor(x => x.UserType)
                                 </div>
                                 <div class="col-lg-6">

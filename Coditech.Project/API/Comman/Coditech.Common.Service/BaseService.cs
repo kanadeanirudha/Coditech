@@ -143,7 +143,7 @@ namespace Coditech.Common.Service
         protected virtual int GetEnumIdByEnumCode(string enumCode)
         {
             GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EnumName == enumCode);
-            return generalEnumaratorMaster.GeneralEnumaratorId;
+            return generalEnumaratorMaster != null ? generalEnumaratorMaster.GeneralEnumaratorId : 0;
         }
 
         protected virtual string GenerateRegistrationCode(string enumCode, string centreCode)
@@ -241,7 +241,8 @@ namespace Coditech.Common.Service
             if (!string.IsNullOrEmpty(centreCode))
             {
                 OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplate = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && x.EmailTemplateCode == emailTemplateByCode)?.FirstOrDefault();
-                if (IsNotNull(organisationCentrewiseEmailTemplate)) {
+                if (IsNotNull(organisationCentrewiseEmailTemplate))
+                {
                     emailTemplateModel.EmailTemplateCode = organisationCentrewiseEmailTemplate.EmailTemplateCode;
                     emailTemplateModel.EmailTemplate = organisationCentrewiseEmailTemplate.EmailTemplate;
                     emailTemplateModel.Subject = organisationCentrewiseEmailTemplate.Subject;

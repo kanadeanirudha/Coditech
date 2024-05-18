@@ -667,16 +667,16 @@ namespace Coditech.API.Client
         #endregion
 
         #region Centrewise UserName
-        public virtual OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId)
+        public virtual OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId,short organisationCentrewiseUserNameRegistrationId)
         {
-            return Task.Run(async () => await GetCentrewiseUserNameAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetCentrewiseUserNameAsync(organisationCentreId, organisationCentrewiseUserNameRegistrationId,System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<OrganisationCentrewiseUserNameRegistrationResponse> GetCentrewiseUserNameAsync(short organisationCentreId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseUserNameRegistrationResponse> GetCentrewiseUserNameAsync(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId, System.Threading.CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
 
-            string endpoint = organisationCentreEndpoint.GetCentrewiseUserNameAsync(organisationCentreId);
+            string endpoint = organisationCentreEndpoint.GetCentrewiseUserNameAsync(organisationCentreId, organisationCentrewiseUserNameRegistrationId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

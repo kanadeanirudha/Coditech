@@ -376,6 +376,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory StorageDimension Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryStorageDimensionGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryStorageDimensionGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory uom due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryUoMMaster {
@@ -417,6 +426,15 @@ namespace Coditech.Resources {
         public static string ErrorDeleteOrganisationCentrewiseBuildingRooms {
             get {
                 return ResourceManager.GetString("ErrorDeleteOrganisationCentrewiseBuildingRooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Patient Registration due to associate record..
+        /// </summary>
+        public static string ErrorDeletePatientRegistrationDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeletePatientRegistrationDetails", resourceCulture);
             }
         }
         
@@ -660,6 +678,15 @@ namespace Coditech.Resources {
         public static string LabelInventoryProductDimensionList {
             get {
                 return ResourceManager.GetString("LabelInventoryProductDimensionList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory StorageDimension Group List.
+        /// </summary>
+        public static string LabelInventoryStorageDimensionGroupList {
+            get {
+                return ResourceManager.GetString("LabelInventoryStorageDimensionGroupList", resourceCulture);
             }
         }
         

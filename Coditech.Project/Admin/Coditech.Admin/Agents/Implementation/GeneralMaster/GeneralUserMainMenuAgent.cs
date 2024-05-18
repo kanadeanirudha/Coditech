@@ -37,6 +37,8 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("MenuName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MenuCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("ParentMenuCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("ModuleCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 

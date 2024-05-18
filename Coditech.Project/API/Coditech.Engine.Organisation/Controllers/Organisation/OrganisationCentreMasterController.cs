@@ -317,11 +317,11 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseUserName")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseUserNameRegistrationResponse))]
-        public virtual IActionResult GetCentrewiseUserName(short organisationCentreMasterId)
+        public virtual IActionResult GetCentrewiseUserName(short organisationCentreMasterId,short organisationCentrewiseUserNameRegistrationId)
         {
             try
             {
-                OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel = _organisationCentreMasterService.GetCentrewiseUserName(organisationCentreMasterId);
+                OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel = _organisationCentreMasterService.GetCentrewiseUserName(organisationCentreMasterId, organisationCentrewiseUserNameRegistrationId);
                 return IsNotNull(organisationCentrewiseUserNameRegistrationModel) ? CreateOKResponse(new OrganisationCentrewiseUserNameRegistrationResponse() { OrganisationCentrewiseUserNameRegistrationModel = organisationCentrewiseUserNameRegistrationModel }) : NotFound();
             }
             catch (CoditechException ex)

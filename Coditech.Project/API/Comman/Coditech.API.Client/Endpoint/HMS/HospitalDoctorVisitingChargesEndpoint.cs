@@ -6,22 +6,22 @@ namespace Coditech.API.Endpoint
 {
     public class HospitalDoctorVisitingChargesEndpoint : BaseEndpoint
     {
-        public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string ListAsync(string selectedCentreCode, short selectedDepartmentId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/HospitalDoctorVisitingChargesMaster/GetHospitalDoctorVisitingChargesList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingChargesList?selectedCentreCode={selectedCentreCode}&selectedDepartmentId={selectedDepartmentId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string CreateHospitalDoctorVisitingChargesAsync() =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/HospitalDoctorVisitingCharges/CreateHospitalDoctorVisitingCharges";
+            $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorVisitingCharges/CreateHospitalDoctorVisitingCharges";
 
-        public string GetHospitalDoctorVisitingChargesAsync(short hospitalDoctorVisitingChargesId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingCharges?hospitalDoctorVisitingChargesId={hospitalDoctorVisitingChargesId}";
+        public string GetHospitalDoctorVisitingChargesAsync(long hospitalDoctorVisitingChargesId) =>
+            $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingCharges?hospitalDoctorVisitingChargesId={hospitalDoctorVisitingChargesId}";
        
         public string UpdateHospitalDoctorVisitingChargesAsync() =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/HospitalDoctorVisitingCharges/UpdateHospitalDoctorVisitingCharges";
+               $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorVisitingCharges/UpdateHospitalDoctorVisitingCharges";
 
         public string DeleteHospitalDoctorVisitingChargesAsync() =>
-                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/HospitalDoctorVisitingCharges/DeleteHospitalDoctorVisitingChargesy";
+                  $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorVisitingCharges/DeleteHospitalDoctorVisitingChargesy";
     }
 }
