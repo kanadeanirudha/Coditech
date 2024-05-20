@@ -80,28 +80,26 @@ namespace Coditech.API.Service
             //Get the InventoryStorageDimensionGroup Details based on id.
             if (inventoryStorageDimensionGroupId > 0)
             {
-                InventoryStorageDimensionGroup inventoryItemStorageDimensionGroup = _inventoryStorageDimensionGroupRepository.Table.Where(x => x.InventoryStorageDimensionGroupId == inventoryStorageDimensionGroupId)?.FirstOrDefault();
-                inventoryStorageDimensionGroupModel = inventoryItemStorageDimensionGroup?.FromEntityToModel<InventoryStorageDimensionGroupModel>();
+                InventoryStorageDimensionGroup inventoryStorageDimensionGroup = _inventoryStorageDimensionGroupRepository.Table.Where(x => x.InventoryStorageDimensionGroupId == inventoryStorageDimensionGroupId)?.FirstOrDefault();
+                inventoryStorageDimensionGroupModel = inventoryStorageDimensionGroup?.FromEntityToModel<InventoryStorageDimensionGroupModel>();
                 inventoryStorageDimensionGroupMapperList = _inventoryStorageDimensionGroupMapperRepository.Table.Where(x => x.InventoryStorageDimensionGroupId == inventoryStorageDimensionGroupId)?.ToList();
             }
 
             List<InventoryItemStorageDimension> inventoryStorageDimensionList = _inventoryStorageDimensionRepository.Table.ToList();
-            foreach (InventoryItemStorageDimension inventoryItemStorageDimension in inventoryStorageDimensionList)
+            foreach (InventoryItemStorageDimension inventoryStorageDimension in inventoryStorageDimensionList)
             {
                 InventoryStorageDimensionGroupMapperModel inventoryStorageDimensionGroupMapperModel = new InventoryStorageDimensionGroupMapperModel()
                 {
-                    InventoryStorageDimensionId = inventoryItemStorageDimension.InventoryItemStorageDimensionId,
-                    StorageDimensionName = inventoryItemStorageDimension.StorageDimensionName
+                    InventoryStorageDimensionId = inventoryStorageDimension.InventoryItemStorageDimensionId,
+                    StorageDimensionName = inventoryStorageDimension.StorageDimensionName
                 };
 
                 if (inventoryStorageDimensionGroupMapperList?.Count > 0)
                 {
-                    InventoryStorageDimensionGroupMapper inventoryStorageDimensionGroupMapper = inventoryStorageDimensionGroupMapperList.FirstOrDefault(x => x.InventoryStorageDimensionId == inventoryItemStorageDimension.InventoryItemStorageDimensionId);
+                    InventoryStorageDimensionGroupMapper inventoryStorageDimensionGroupMapper = inventoryStorageDimensionGroupMapperList.FirstOrDefault(x => x.InventoryStorageDimensionId == inventoryStorageDimension.InventoryItemStorageDimensionId);
                     if (IsNotNull(inventoryStorageDimensionGroupMapper))
                     {
                         inventoryStorageDimensionGroupMapperModel.InventoryStorageDimensionGroupMapperId = inventoryStorageDimensionGroupMapper.InventoryStorageDimensionGroupMapperId;
-                        inventoryStorageDimensionGroupMapperModel.InventoryStorageDimensionGroupId = inventoryStorageDimensionGroupMapper.InventoryStorageDimensionGroupId;
-                        inventoryStorageDimensionGroupMapperModel.InventoryStorageDimensionId = inventoryStorageDimensionGroupMapper.InventoryStorageDimensionId;
                         inventoryStorageDimensionGroupMapperModel.Active = inventoryStorageDimensionGroupMapper.Active;
                         inventoryStorageDimensionGroupMapperModel.BlankReceiptAllowed = inventoryStorageDimensionGroupMapper.BlankReceiptAllowed;
                         inventoryStorageDimensionGroupMapperModel.BlankIssueAllowed = inventoryStorageDimensionGroupMapper.BlankIssueAllowed;
@@ -114,8 +112,8 @@ namespace Coditech.API.Service
                         inventoryStorageDimensionGroupMapperModel.Reference = inventoryStorageDimensionGroupMapper.Reference;
                         inventoryStorageDimensionGroupMapperModel.Transfer = inventoryStorageDimensionGroupMapper.Transfer;
                         inventoryStorageDimensionGroupMapperModel.DisplayOrder = inventoryStorageDimensionGroupMapper.DisplayOrder;
+                        
                     }
-
                 }
                 inventoryStorageDimensionGroupModel.InventoryStorageDimensionGroupMapperList.Add(inventoryStorageDimensionGroupMapperModel);
             }
