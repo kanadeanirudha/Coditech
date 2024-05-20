@@ -1,0 +1,62 @@
+﻿@model HospitalDoctorOPDScheduleViewModel
+@{
+    ViewBag.Title = Model.HospitalDoctorId > 0 ? "Update Hospital Doctor OPD Schedule" : "Add Hospital Doctor";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel buildingDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(), DropdownName = "OrganisationCentrewiseBuildingMasterId", DropdownSelectedValue = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId), Parameter = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctorOPDSchedule.GetOrganisationCentrewiseBuildingRooms()" };
+    DropdownViewModel buildingRoomDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(), DropdownName = "OrganisationCentrewiseBuildingRoomId", DropdownSelectedValue = Convert.ToString(Model.OrganisationCentrewiseBuildingRoomId), Parameter = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId) };
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h4 class="card-title">Hospital Doctor Allocated OPD Room: @Model.HospitalDoctorId @Model.WeekDayEnumId</h4>
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.HospitalDoctorId)
+                            @Html.HiddenFor(m => m.WeekDayEnumId)
+                            @Html.HiddenFor(m => m.OPDTimesOfDay)
+                            @Html.HiddenFor(m => m.FromTime)
+                            @Html.HiddenFor(m => m.UptoTime)
+                            @Html.HiddenFor(m => m.TimesSlothInMinute)
+                            @Html.HiddenFor(m => m.TimeZone)
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.HospitalDoctorId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", buildingDropdown)
+                                        @Html.ValidationMessageFor(x => x.HospitalDoctorId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.OrganisationCentrewiseBuildingRoomId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", buildingRoomDropdown)
+                                        @Html.ValidationMessageFor(x => x.OrganisationCentrewiseBuildingRoomId)
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.SelectedCentreCode&SelectedDepartmentId=@Model.SelectedDepartmentId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/coditech/hms/hospitaldoctoropdschedule.js"></script>
+
+
+
+
+

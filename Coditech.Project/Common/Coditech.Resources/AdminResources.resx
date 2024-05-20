@@ -393,4 +393,10 @@
   <data name="ErrorDeletePatientRegistrationDetails" xml:space="preserve">
     <value>Failed to delete Patient Registration due to associate record.</value>
   </data>
+  <data name="ErrorDeleteHospitalDoctorOPDSchedule" xml:space="preserve">
+    <value>Failed to delete Hospital Doctor OPD Schedule due to associate record.</value>
+  </data>
+  <data name="LabelHospitalDoctorOPDScheduleList" xml:space="preserve">
+    <value>Hospital Doctor OPD Schedule List</value>
+  </data>
 </root>

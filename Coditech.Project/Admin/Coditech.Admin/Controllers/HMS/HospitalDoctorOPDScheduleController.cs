@@ -10,20 +10,20 @@ namespace Coditech.Admin.Controllers
 {
     public class HospitalDoctorOPDScheduleController : BaseController
     {
-        private readonly IHospitalDoctorAllocatedOPDRoomAgent _hospitalDoctorAllocatedOPDRoomAgent;
+        private readonly IHospitalDoctorOPDScheduleAgent _hospitalDoctorOPDScheduleAgent;
         private const string createEdit = "~/Views/HMS/HospitalDoctorOPDSchedule/CreateEdit.cshtml";
 
-        public HospitalDoctorOPDScheduleController(IHospitalDoctorAllocatedOPDRoomAgent hospitalDoctorAllocatedOPDRoomAgent)
+        public HospitalDoctorOPDScheduleController(IHospitalDoctorOPDScheduleAgent hospitalDoctorOPDScheduleAgent)
         {
-            _hospitalDoctorAllocatedOPDRoomAgent = hospitalDoctorAllocatedOPDRoomAgent;
+            _hospitalDoctorOPDScheduleAgent = hospitalDoctorOPDScheduleAgent;
         }
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            HospitalDoctorAllocatedOPDRoomListViewModel list = new HospitalDoctorAllocatedOPDRoomListViewModel();
+            HospitalDoctorOPDScheduleListViewModel list = new HospitalDoctorOPDScheduleListViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
             {
-                list = _hospitalDoctorAllocatedOPDRoomAgent.GetHospitalDoctorAllocatedOPDRoomList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, dataTableModel);
+                list = _hospitalDoctorOPDScheduleAgent.GetHospitalDoctorOPDScheduleList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, dataTableModel);
             }
             list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
             list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
@@ -35,32 +35,32 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(int hospitalDoctorId, int hospitalDoctorAllocatedOPDRoomId)
+        public virtual ActionResult Edit(int hospitalDoctorId, int hospitalDoctorOPDScheduleId)
         {
-            HospitalDoctorAllocatedOPDRoomViewModel hospitalDoctorAllocatedOPDRoomViewModel = _hospitalDoctorAllocatedOPDRoomAgent.GetHospitalDoctorAllocatedOPDRoom(hospitalDoctorId, hospitalDoctorAllocatedOPDRoomId);
-            return ActionView(createEdit, hospitalDoctorAllocatedOPDRoomViewModel);
+            HospitalDoctorOPDScheduleViewModel hospitalDoctorOPDScheduleViewModel = _hospitalDoctorOPDScheduleAgent.GetHospitalDoctorOPDSchedule(hospitalDoctorId, hospitalDoctorOPDScheduleId);
+            return ActionView(createEdit, hospitalDoctorOPDScheduleViewModel);
         }
 
         [HttpPost]
-        public virtual ActionResult Edit(HospitalDoctorAllocatedOPDRoomViewModel hospitalDoctorAllocatedOPDRoomViewModel)
+        public virtual ActionResult Edit(HospitalDoctorOPDScheduleViewModel hospitalDoctorOPDScheduleViewModel)
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_hospitalDoctorAllocatedOPDRoomAgent.UpdateHospitalDoctorAllocatedOPDRoom(hospitalDoctorAllocatedOPDRoomViewModel).HasError
+                SetNotificationMessage(_hospitalDoctorOPDScheduleAgent.UpdateHospitalDoctorOPDSchedule(hospitalDoctorOPDScheduleViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("List", CreateActionDataTable(hospitalDoctorAllocatedOPDRoomViewModel.SelectedCentreCode, Convert.ToInt16(hospitalDoctorAllocatedOPDRoomViewModel.SelectedDepartmentId)));
+                return RedirectToAction("List", CreateActionDataTable(hospitalDoctorOPDScheduleViewModel.HospitalDoctorId, Convert.ToInt16(hospitalDoctorOPDScheduleViewModel.HospitalDoctorId)));
             }
-            return View(createEdit, hospitalDoctorAllocatedOPDRoomViewModel);
+            return View(createEdit, hospitalDoctorOPDScheduleViewModel);
         }
 
-        public virtual ActionResult GetOrganisationCentrewiseBuildingRooms(string organisationCentrewiseBuildingMasterId)
+        public virtual ActionResult GetHospitalDoctorOPDSchedule(string organisationCentrewiseBuildingMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(),
-                DropdownName = "OrganisationCentrewiseBuildingRoomId",
-                Parameter = organisationCentrewiseBuildingMasterId,
+                DropdownName = "HospitalDoctorOPDScheduleId",
+                Parameter = hospitalDoctorOPDScheduleId,
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }

@@ -225,6 +225,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomService, HospitalDoctorAllocatedOPDRoomService>();
             builder.Services.AddScoped<IHospitalDoctorLeaveScheduleService, HospitalDoctorLeaveScheduleService>();
             builder.Services.AddScoped<IHospitalPatientRegistrationService, HospitalPatientRegistrationService>();
+            builder.Services.AddScoped<IHospitalDoctorOPDScheduleService, HospitalDoctorOPDScheduleService>();
         }
         #endregion
     }
