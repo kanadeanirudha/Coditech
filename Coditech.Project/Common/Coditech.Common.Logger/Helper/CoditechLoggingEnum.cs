@@ -73,7 +73,8 @@
             CentrewiseUserName,
             HospitalDoctorVisitingCharges,
             HospitalPatientRegistration,
-            InventoryStorageDimensionGroup
+            InventoryStorageDimensionGroup,
+            InventoryItemTrackingDimensionGroup
         }
     }
 }
