@@ -13,10 +13,10 @@ namespace Coditech.API.Endpoint
         }
 
         public string CreateInventoryCategoryAsync() =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategoryMaster/CreateInventoryCategory";
+            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategory/CreateInventoryCategory";
 
         public string GetInventoryCategoryAsync(short inventoryCategoryId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategoryMaster/GetInventoryCategory?InventoryCategoryId={inventoryCategoryId}";
+            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategory/GetInventoryCategory?inventoryCategoryId={inventoryCategoryId}";
        
         public string UpdateInventoryCategoryAsync() =>
                $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategory/UpdateInventoryCategory";

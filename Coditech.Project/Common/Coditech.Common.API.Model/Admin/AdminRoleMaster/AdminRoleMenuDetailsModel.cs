@@ -7,7 +7,7 @@
         public string ModuleCode { get; set; }
         public string SanctionPostName { get; set; }
         public string SelectedMenuList { get; set; }
-        public List<UserMenuModel> MenuList { get; set; }
+        public List<UserMainMenuModel> MenuList { get; set; }
         public string SelectedCentreCode { get; set; }
         public string SelectedDepartmentId { get; set; }
     }

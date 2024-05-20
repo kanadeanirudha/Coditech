@@ -5,6 +5,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Model;
 using Coditech.Resources;
 
@@ -15,20 +16,28 @@ using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
 {
-    public class OrganisationCentreMasterService : IOrganisationCentreMasterService
+    public class OrganisationCentreMasterService : BaseService, IOrganisationCentreMasterService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
         private readonly ICoditechRepository<OrganisationCentrePrintingFormat> _organisationCentrePrintingFormatRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseGSTCredential> _organisationCentrewiseGSTCredentialRepository;
-        public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<OrganisationCentrewiseSmtpSetting> _organisationCentrewiseSmtpSettingRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseEmailTemplate> _organisationCentrewiseEmailTemplateRepository;
+        private readonly ICoditechRepository<GeneralEmailTemplate> _generalEmailTemplateRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
+        public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrePrintingFormatRepository = new CoditechRepository<OrganisationCentrePrintingFormat>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseGSTCredentialRepository = new CoditechRepository<OrganisationCentrewiseGSTCredential>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseSmtpSettingRepository = new CoditechRepository<OrganisationCentrewiseSmtpSetting>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseEmailTemplateRepository = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalEmailTemplateRepository = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual OrganisationCentreListModel GetOrganisationCentreList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -219,10 +228,163 @@ namespace Coditech.API.Service
             return isOrganisationCentrewiseGSTCredentialUpdated;
         }
 
+        //Get Organisation Centrewise Smtp Setting by organisationCentreMasterId.
+        public virtual OrganisationCentrewiseSmtpSettingModel GetCentrewiseSmtpSetup(short organisationCentreId)
+        {
+            if (organisationCentreId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
+            OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
+            //Get the  Organisation Details based on id.
+
+            OrganisationCentrewiseSmtpSetting organisationCentrewiseSmtpSettingData = _organisationCentrewiseSmtpSettingRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode);
+            OrganisationCentrewiseSmtpSettingModel organisationCentrewiseSmtpSettingModel = IsNull(organisationCentrewiseSmtpSettingData) ? new OrganisationCentrewiseSmtpSettingModel() : organisationCentrewiseSmtpSettingData.FromEntityToModel<OrganisationCentrewiseSmtpSettingModel>();
+
+            organisationCentrewiseSmtpSettingModel.CentreCode = organisationCentreModel.CentreCode;
+            organisationCentrewiseSmtpSettingModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrewiseSmtpSettingModel.OrganisationCentreMasterId = organisationCentreId;
+            return organisationCentrewiseSmtpSettingModel;
+        }
+
+        //Update  Organisation Centrewise Smtp Setting .
+        public virtual bool UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingModel organisationCentrewiseSmtpSettingModel)
+        {
+            if (IsNull(organisationCentrewiseSmtpSettingModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            bool isOrganisationCentrewiseSmtpSettingUpdated = false;
+            OrganisationCentrewiseSmtpSetting organisationCentrewiseSmtpSetting = organisationCentrewiseSmtpSettingModel.FromModelToEntity<OrganisationCentrewiseSmtpSetting>();
+
+            if (organisationCentrewiseSmtpSettingModel.OrganisationCentrewiseSmtpSettingId > 0)
+                isOrganisationCentrewiseSmtpSettingUpdated = _organisationCentrewiseSmtpSettingRepository.Update(organisationCentrewiseSmtpSetting);
+            else
+            {
+                organisationCentrewiseSmtpSetting = _organisationCentrewiseSmtpSettingRepository.Insert(organisationCentrewiseSmtpSetting);
+                isOrganisationCentrewiseSmtpSettingUpdated = organisationCentrewiseSmtpSetting.OrganisationCentrewiseSmtpSettingId > 0;
+            }
+
+            if (!isOrganisationCentrewiseSmtpSettingUpdated)
+            {
+                organisationCentrewiseSmtpSettingModel.HasError = true;
+                organisationCentrewiseSmtpSettingModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isOrganisationCentrewiseSmtpSettingUpdated;
+        }
+
+        //Get Organisation Centrewise Email Template by organisationCentreMasterId.
+        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        {
+            if (organisationCentreId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
+
+            OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
+            //Get the  Organisation Details based on id.
+            OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = new OrganisationCentrewiseEmailTemplateModel();
+            if (!string.IsNullOrEmpty(emailTemplateCode))
+            {
+                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplateData = _organisationCentrewiseEmailTemplateRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode && x.EmailTemplateCode == emailTemplateCode)?.FirstOrDefault();
+                if (IsNotNull(organisationCentrewiseEmailTemplateData))
+                {
+                    organisationCentrewiseEmailTemplateModel = IsNull(organisationCentrewiseEmailTemplateData) ? new OrganisationCentrewiseEmailTemplateModel() : organisationCentrewiseEmailTemplateData.FromEntityToModel<OrganisationCentrewiseEmailTemplateModel>();
+                }
+                else
+                {
+                    GeneralEmailTemplate generalEmailTemplate = _generalEmailTemplateRepository.Table.Where(x => x.EmailTemplateCode == emailTemplateCode && x.IsActive)?.FirstOrDefault();
+                    if (IsNotNull(generalEmailTemplate))
+                    {
+                        organisationCentrewiseEmailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
+                        organisationCentrewiseEmailTemplateModel.Subject = generalEmailTemplate.Subject;
+                        organisationCentrewiseEmailTemplateModel.EmailTemplate = generalEmailTemplate.EmailTemplate;
+                    }
+                }
+            }
+            organisationCentrewiseEmailTemplateModel.CentreCode = organisationCentreModel.CentreCode;
+            organisationCentrewiseEmailTemplateModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrewiseEmailTemplateModel.OrganisationCentreMasterId = organisationCentreId;
+            return organisationCentrewiseEmailTemplateModel;
+        }
+
+        //Update  Organisation Centrewise Smtp Setting .
+        public virtual bool UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel)
+        {
+            if (IsNull(organisationCentrewiseEmailTemplateModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            bool isOrganisationCentrewiseEmailTemplateUpdated = false;
+            OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplate = organisationCentrewiseEmailTemplateModel.FromModelToEntity<OrganisationCentrewiseEmailTemplate>();
+
+            if (organisationCentrewiseEmailTemplateModel.OrganisationCentrewiseEmailTemplateId > 0)
+                isOrganisationCentrewiseEmailTemplateUpdated = _organisationCentrewiseEmailTemplateRepository.Update(organisationCentrewiseEmailTemplate);
+            else
+            {
+                organisationCentrewiseEmailTemplate = _organisationCentrewiseEmailTemplateRepository.Insert(organisationCentrewiseEmailTemplate);
+                isOrganisationCentrewiseEmailTemplateUpdated = organisationCentrewiseEmailTemplate.OrganisationCentrewiseEmailTemplateId > 0;
+            }
+
+            if (!isOrganisationCentrewiseEmailTemplateUpdated)
+            {
+                organisationCentrewiseEmailTemplateModel.HasError = true;
+                organisationCentrewiseEmailTemplateModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isOrganisationCentrewiseEmailTemplateUpdated;
+        }
+
+        //Get Organisation Centrewise UserName Registration by organisationCentreMasterId.
+        public virtual OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
+        {
+            if (organisationCentreId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
+            OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
+            //Get the  Organisation Details based on id.
+            OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel = new OrganisationCentrewiseUserNameRegistrationModel();
+
+            if (organisationCentrewiseUserNameRegistrationId > 0)
+            {
+                OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistrationData = _organisationCentrewiseUserNameRegistrationRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode);
+                organisationCentrewiseUserNameRegistrationModel = IsNull(organisationCentrewiseUserNameRegistrationData) ? new OrganisationCentrewiseUserNameRegistrationModel() : organisationCentrewiseUserNameRegistrationData.FromEntityToModel<OrganisationCentrewiseUserNameRegistrationModel>();
+            }
+            organisationCentrewiseUserNameRegistrationModel.CentreCode = organisationCentreModel.CentreCode;
+            organisationCentrewiseUserNameRegistrationModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrewiseUserNameRegistrationModel.OrganisationCentreMasterId = organisationCentreId;
+            organisationCentrewiseUserNameRegistrationModel.CentrewiseUserNameRegistrationList = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode)?.FromEntityToModel<List<OrganisationCentrewiseUserNameRegistrationModel>>()?.ToList();
+            return organisationCentrewiseUserNameRegistrationModel;
+        }
+
+        //Update  Organisation Centrewise UserName Registration .
+        public virtual bool UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel organisationCentrewiseUserNameRegistrationModel)
+        {
+            if (IsNull(organisationCentrewiseUserNameRegistrationModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (IsCentrewiseUserNameAlreadyExist(organisationCentrewiseUserNameRegistrationModel.CentreCode, organisationCentrewiseUserNameRegistrationModel.UserType, organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
+
+            bool isOrganisationCentrewiseUserNameUpdated = false;
+            OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistration = organisationCentrewiseUserNameRegistrationModel.FromModelToEntity<OrganisationCentrewiseUserNameRegistration>();
+
+            if (organisationCentrewiseUserNameRegistrationModel.OrganisationCentrewiseUserNameRegistrationId > 0)
+                isOrganisationCentrewiseUserNameUpdated = _organisationCentrewiseUserNameRegistrationRepository.Update(organisationCentrewiseUserNameRegistration);
+            else
+            {
+                organisationCentrewiseUserNameRegistration = _organisationCentrewiseUserNameRegistrationRepository.Insert(organisationCentrewiseUserNameRegistration);
+                isOrganisationCentrewiseUserNameUpdated = organisationCentrewiseUserNameRegistration.OrganisationCentrewiseUserNameRegistrationId > 0;
+            }
+
+            if (!isOrganisationCentrewiseUserNameUpdated)
+            {
+                organisationCentrewiseUserNameRegistrationModel.HasError = true;
+                organisationCentrewiseUserNameRegistrationModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isOrganisationCentrewiseUserNameUpdated;
+        }
+
         #region Protected Method
         //Check if Centre code is already present or not.
         protected virtual bool IsCentreCodeAlreadyExist(string centreCode, short organisationCentreMasterId = 0)
          => _organisationCentreMasterRepository.Table.Any(x => x.CentreCode == centreCode && (x.OrganisationCentreMasterId != organisationCentreMasterId || organisationCentreMasterId == 0));
+
+        protected virtual bool IsCentrewiseUserNameAlreadyExist(string centreCode, string userType, short organisationCentrewiseUserNameRegistrationId = 0)
+        => _organisationCentrewiseUserNameRegistrationRepository.Table.Any(x => x.CentreCode == centreCode && x.UserType == userType && (x.OrganisationCentrewiseUserNameRegistrationId != organisationCentrewiseUserNameRegistrationId || organisationCentrewiseUserNameRegistrationId == 0));
+
         #endregion
     }
 }

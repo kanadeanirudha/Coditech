@@ -90,6 +90,7 @@ namespace Coditech.Common.Service
         {
             long personId = 0;
             string centreCode = string.Empty;
+            string personCode = string.Empty;
             short generalDepartmentMasterId = 0;
             if (entityType == UserTypeEnum.GymMember.ToString())
             {
@@ -107,6 +108,7 @@ namespace Coditech.Common.Service
                 {
                     personId = employeeMaster.PersonId;
                     centreCode = employeeMaster.CentreCode;
+                    personCode = employeeMaster.PersonCode;
                     generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
                 }
             }
@@ -115,6 +117,7 @@ namespace Coditech.Common.Service
             {
                 generalPersonModel.SelectedCentreCode = centreCode;
                 generalPersonModel.SelectedDepartmentId = Convert.ToString(generalDepartmentMasterId);
+                generalPersonModel.PersonCode = personCode;
             }
             return generalPersonModel;
         }
@@ -140,7 +143,7 @@ namespace Coditech.Common.Service
         protected virtual int GetEnumIdByEnumCode(string enumCode)
         {
             GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EnumName == enumCode);
-            return generalEnumaratorMaster.GeneralEnumaratorId;
+            return generalEnumaratorMaster != null ? generalEnumaratorMaster.GeneralEnumaratorId : 0;
         }
 
         protected virtual string GenerateRegistrationCode(string enumCode, string centreCode)
@@ -210,7 +213,7 @@ namespace Coditech.Common.Service
         protected virtual void ActiveInActiveUserLogin(bool flag, long entityId, string userType)
         {
             CoditechRepository<UserMaster> _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == entityId && x.UserType == userType);
+            UserMaster userMaster = _userMasterRepository.Table.Where(x => x.EntityId == entityId && x.UserType == userType)?.FirstOrDefault();
             if (userMaster != null && userMaster.IsActive != flag)
             {
                 userMaster.IsActive = flag;
@@ -221,8 +224,41 @@ namespace Coditech.Common.Service
         protected virtual short GetOrganisationCentreMasterIdByCentreCode(string centreCode)
         {
             CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == centreCode).OrganisationCentreMasterId;
+            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.Where(x => x.CentreCode == centreCode).Select(y => y.OrganisationCentreMasterId).FirstOrDefault();
             return organisationCentreMasterId;
+        }
+
+        protected virtual string GetOrganisationCentreCodeByOrganisationCentreMasterId(short organisationCentreMasterId)
+        {
+            CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            string CentreCode = _organisationCentreMasterRepository.Table.Where(x => x.OrganisationCentreMasterId == organisationCentreMasterId).Select(y => y.CentreCode).FirstOrDefault();
+            return CentreCode;
+        }
+
+        protected virtual GeneralEmailTemplateModel GetEmailTemplateByCode(string centreCode, string emailTemplateByCode)
+        {
+            GeneralEmailTemplateModel emailTemplateModel = new GeneralEmailTemplateModel();
+            if (!string.IsNullOrEmpty(centreCode))
+            {
+                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplate = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && x.EmailTemplateCode == emailTemplateByCode)?.FirstOrDefault();
+                if (IsNotNull(organisationCentrewiseEmailTemplate))
+                {
+                    emailTemplateModel.EmailTemplateCode = organisationCentrewiseEmailTemplate.EmailTemplateCode;
+                    emailTemplateModel.EmailTemplate = organisationCentrewiseEmailTemplate.EmailTemplate;
+                    emailTemplateModel.Subject = organisationCentrewiseEmailTemplate.Subject;
+                }
+            }
+            else
+            {
+                GeneralEmailTemplate generalEmailTemplate = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmailTemplateCode == emailTemplateByCode)?.FirstOrDefault();
+                if (IsNotNull(generalEmailTemplate))
+                {
+                    emailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
+                    emailTemplateModel.EmailTemplate = generalEmailTemplate.EmailTemplate;
+                    emailTemplateModel.Subject = generalEmailTemplate.Subject;
+                }
+            }
+            return emailTemplateModel;
         }
     }
 }

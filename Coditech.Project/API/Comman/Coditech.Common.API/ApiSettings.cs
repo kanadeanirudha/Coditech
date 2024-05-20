@@ -35,11 +35,11 @@ namespace Coditech.Common.API
                 return Convert.ToString(settings["EnableDBLogging"]);
             }
         }
-        public static string ValidateAuthHeader
+        public static string ValidateRequestAPI
         {
             get
             {
-                return Convert.ToString(settings["ValidateAuthHeader"]);
+                return Convert.ToString(settings["ValidateRequestAPI"]);
             }
         }
     

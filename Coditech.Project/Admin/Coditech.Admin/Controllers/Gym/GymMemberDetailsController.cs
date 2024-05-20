@@ -37,9 +37,15 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/Gym/GymMemberDetails/List.cshtml", list);
         }
 
-        public ActionResult ActiveMemberList(DataTableViewModel dataTableModel)
+        public ActionResult ActiveMemberList(DataTableViewModel dataTableViewModel)
         {
-            GymMemberDetailsListViewModel list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableModel, "Active");
+            GymMemberDetailsListViewModel list = new GymMemberDetailsListViewModel();
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
+            {
+                list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableViewModel, "Active");
+             }
+            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
+            list.ListType = "Active";
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_List.cshtml", list);
@@ -47,9 +53,15 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/Gym/GymMemberDetails/List.cshtml", list);
         }
 
-        public ActionResult InActiveMemberList(DataTableViewModel dataTableModel)
+        public ActionResult InActiveMemberList(DataTableViewModel dataTableViewModel)
         {
-            GymMemberDetailsListViewModel list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableModel, "InActive");
+            GymMemberDetailsListViewModel list = new GymMemberDetailsListViewModel();
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
+            {
+                list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableViewModel, "InActive");
+            }
+            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
+            list.ListType = "InActive";
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_List.cshtml", list);
@@ -108,7 +120,6 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/Gym/GymMemberDetails/UpdateGymMemberOtherDetails.cshtml", gymMemberDetailsViewModel);
         }
 
-
         [HttpPost]
         public virtual ActionResult MemberOtherDetails(GymMemberDetailsViewModel gymMemberDetailsViewModel)
         {
@@ -150,8 +161,9 @@ namespace Coditech.Admin.Controllers
         {
             GeneralPersonAddressListViewModel model = new GeneralPersonAddressListViewModel()
             {
-                GymMemberDetailId = gymMemberDetailId,
-                PersonId = personId
+                EntityId = gymMemberDetailId,
+                PersonId = personId,
+                EntityType = UserTypeEnum.GymMember.ToString()
             };
             return ActionView("~/Views/Gym/GymMemberDetails/CreateEditGymMemberAddress.cshtml", model);
         }
@@ -225,7 +237,7 @@ namespace Coditech.Admin.Controllers
             GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, UserTypeEnum.GymMember.ToString(), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetails/_GeneralPersonAttendanceDetailsList.cshtml", list);
+                return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAttendanceDetailsList.cshtml", list);
             }
             return View($"~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetails/GeneralPersonAttendanceDetailsList.cshtml", list);
         }
@@ -298,10 +310,38 @@ namespace Coditech.Admin.Controllers
             return ActionView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement/GymMemberBodyMeasurement.cshtml", list);
         }
 
+        //[HttpGet]
+        //public virtual ActionResult GetGymMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
+        //{
+        //    gymMemberBodyMeasurementViewModel.CreatedDate = DateTime.Now.ToShortDateString();
+        //    return PartialView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel);
+        //}
+
         [HttpGet]
-        public virtual ActionResult GetGymMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
+        public virtual ActionResult GetGymMemberBodyMeasurement(int gymMemberDetailId, long gymMemberBodyMeasurementId, short gymBodyMeasurementTypeId, string bodyMeasurementType, string measurementUnitShortCode, long personId)
         {
-            gymMemberBodyMeasurementViewModel.CreatedDate = DateTime.Now.ToShortDateString();
+            GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel = null;
+
+            if (gymMemberBodyMeasurementId > 0)
+            {
+                // Retrieve existing gym member body measurement based on both ID and Type
+                gymMemberBodyMeasurementViewModel = _gymMemberBodyMeasurementAgent.GetMemberBodyMeasurement(gymMemberBodyMeasurementId, gymBodyMeasurementTypeId);
+                gymMemberBodyMeasurementViewModel.GymMemberDetailId = gymMemberDetailId;
+                gymMemberBodyMeasurementViewModel.PersonId = personId;
+                gymMemberBodyMeasurementViewModel.BodyMeasurementType = bodyMeasurementType;
+                gymMemberBodyMeasurementViewModel.MeasurementUnitShortCode = measurementUnitShortCode;
+            }
+            else
+            {
+                gymMemberBodyMeasurementViewModel = new GymMemberBodyMeasurementViewModel()
+                {
+                    GymMemberDetailId = gymMemberDetailId,
+                    GymBodyMeasurementTypeId = gymBodyMeasurementTypeId, // Set the GymBodyMeasurementTypeId for new measurement
+                    GymMemberBodyMeasurementId = gymMemberBodyMeasurementId,
+                    CreatedDate = DateTime.Now.ToShortDateString() // Assuming CreatedDate is a property of type string
+                };
+            }
+
             return PartialView("~/Views/Gym/GymMemberDetails/GymMemberBodyMeasurement/_GymMemberBodyMeasurementPopUp.cshtml", gymMemberBodyMeasurementViewModel);
         }
 

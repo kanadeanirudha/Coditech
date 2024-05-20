@@ -1,5 +1,4 @@
 ﻿using Coditech.Admin.ViewModel;
-
 namespace Coditech.Admin.Agents
 {
     public interface IOrganisationCentreAgent
@@ -66,5 +65,50 @@ namespace Coditech.Admin.Agents
         /// <param name="organisationCentrewiseGSTCredentialViewModel">organisationCentrePrintingFormatViewModel.</param>
         /// <returns>Returns updated OrganisationCentrewiseGSTCredentialViewModel</returns>
         OrganisationCentrewiseGSTCredentialViewModel UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialViewModel organisationCentrewiseGSTCredentialViewModel);
+
+        /// <summary>
+        /// Get Organisation Centrewise Smtp Setting by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseSmtpSettingViewModel.</returns>
+        OrganisationCentrewiseSmtpSettingViewModel GetCentrewiseSmtpSetup(short organisationCentreId);
+
+        /// <summary>
+        /// Update Organisation Centrewise Smtp Setting.
+        /// </summary>
+        /// <param name="organisationCentrewiseSmtpSettingViewModel">organisationCentrewiseSmtpSettingViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseSmtpSettingViewModel</returns>
+        OrganisationCentrewiseSmtpSettingViewModel UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingViewModel organisationCentrewiseSmtpSettingViewModel);
+
+        /// <summary>
+        /// Get Organisation Centrewise Email Template by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <param name="emailTemplateCode">emailTemplateCode</param>
+        /// <returns>Returns OrganisationCentrewiseEmailTemplateViewModel.</returns>
+        OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode);
+
+        /// <summary>
+        /// Update Organisation Centrewise Email Template.
+        /// </summary>
+        /// <param name="organisationCentrewiseEmailTemplateViewModel">organisationCentrewiseEmailTemplateViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseEmailTemplateViewModel</returns>
+        OrganisationCentrewiseEmailTemplateViewModel UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel);
+
+        /// <summary>
+        /// Get Organisation Centrewise UserName by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseUserNameRegistrationViewModel.</returns>
+        OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId = 0);
+
+        /// <summary>
+        /// Update Organisation Centrewise UserName.
+        /// </summary>
+        /// <param name="organisationCentrewiseUserNameRegistrationViewModel">organisationCentrewiseUserNameRegistrationViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseUserNameRegistrationViewModel</returns>
+        OrganisationCentrewiseUserNameRegistrationViewModel UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel);
+
     }
 }
+

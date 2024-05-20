@@ -6,7 +6,7 @@
         {
             RoleList = new List<AdminRoleDetailsModel>();
             ModuleList = new List<UserModuleModel>();
-            MenuList = new List<UserMenuModel>();
+            MenuList = new List<UserMainMenuModel>();
             BalanceSheetList = new List<UserBalanceSheetModel>();
             AccessibleCentreList = new List<UserAccessibleCentreModel>();
         }
@@ -26,14 +26,14 @@
         public bool IsActive { get; set; }
         public string DeviceToken { get; set; }
         public string LastModuleCode { get; set; }
-        public int SelectedRoleId { get; set; }
+        public int SelectedAdminRoleMasterId { get; set; }
         public string SelectedRoleCode { get; set; }
         public string SelectedBalanceSheet { get; set; }
         public int SelectedBalanceId { get; set; }
         public string SelectedCentreCode { get; set; } = string.Empty;
         public List<AdminRoleDetailsModel> RoleList { get; set; }
         public List<UserModuleModel> ModuleList { get; set; }
-        public List<UserMenuModel> MenuList { get; set; }
+        public List<UserMainMenuModel> MenuList { get; set; }
         public List<UserBalanceSheetModel> BalanceSheetList { get; set; }
         public List<UserAccessibleCentreModel> AccessibleCentreList { get; set; }
         public List<GeneralEnumaratorModel> GeneralEnumaratorList { get; set; }

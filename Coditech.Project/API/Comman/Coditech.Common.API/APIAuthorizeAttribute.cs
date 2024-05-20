@@ -45,7 +45,7 @@ namespace Coditech.Common.API
             {
                 bool validFlag = true;
                 //If Authorization not required then return true
-                if (!Convert.ToBoolean(ApiSettings.ValidateAuthHeader))
+                if (!Convert.ToBoolean(ApiSettings.ValidateRequestAPI))
                     return validFlag;
 
                 //SkipAuthorization get sets to true when the action has the [AllowAnonymous] attribute, If true then skip authentication.

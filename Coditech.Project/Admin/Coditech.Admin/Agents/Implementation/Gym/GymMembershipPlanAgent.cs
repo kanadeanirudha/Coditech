@@ -167,16 +167,10 @@ namespace Coditech.Admin.Agents
 
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Duration In Month & Days",
-                ColumnCode = "PlanDurationInMonth",
-                IsSortable = true,
+                ColumnName = "Membership Period",
+                ColumnCode = "PlanDurationInMonthAndSession",
             });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Duration In Session",
-                ColumnCode = "PlanDurationInSession",
-                IsSortable = true,
-            });
+
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Max Cost",

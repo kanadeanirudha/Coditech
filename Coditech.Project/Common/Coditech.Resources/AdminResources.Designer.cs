@@ -63,6 +63,15 @@ namespace Coditech.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete admin role due to associate record..
         /// </summary>
+        public static string ___ {
+            get {
+                return ResourceManager.GetString("+-+", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Admin Role Master due to associate record..
+        /// </summary>
         public static string ErrorDeleteAdminRoleMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteAdminRoleMaster", resourceCulture);
@@ -120,6 +129,15 @@ namespace Coditech.Resources {
         public static string ErrorDeleteGeneralDesignationMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteGeneralDesignationMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete email due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEmailTemplate {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralEmailTemplate", resourceCulture);
             }
         }
         
@@ -268,6 +286,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Doctor Leave Schedule due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalDoctorLeaveSchedule {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalDoctorLeaveSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctors details due to associate record..
         /// </summary>
         public static string ErrorDeleteHospitalDoctorsDetails {
@@ -277,11 +304,101 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Doctor Visiting Charges details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalDoctorVisitingCharges {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalDoctorVisitingCharges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory category due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryCategory {
             get {
                 return ResourceManager.GetString("ErrorDeleteInventoryCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory item group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryItemGroupMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryItemGroupMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory Item Model Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryItemModelGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryItemModelGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory Item Storage Dimension due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryItemStorageDimension {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryItemStorageDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory item tracking dimension due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryItemTrackingDimension {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryItemTrackingDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory Item Tracking Dimension Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryItemTrackingDimensionGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryItemTrackingDimensionGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory product dimension due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryProductDimension {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryProductDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory Product Dimension Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryProductDimensionGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryProductDimensionGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory StorageDimension Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryStorageDimensionGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryStorageDimensionGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory uom due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryUoMMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryUoMMaster", resourceCulture);
             }
         }
         
@@ -322,11 +439,29 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Patient Registration due to associate record..
+        /// </summary>
+        public static string ErrorDeletePatientRegistrationDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeletePatientRegistrationDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Globle Setting due to associate record..
         /// </summary>
         public static string ErrorDeleteSystemGlobleSettingMaster {
             get {
                 return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete User Main Menu due to associate record..
+        /// </summary>
+        public static string ErrorDeleteUserMainMenuMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteUserMainMenuMaster", resourceCulture);
             }
         }
         
@@ -421,7 +556,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Designation ID.
+        ///   Looks up a localized string similar to Designation.
         /// </summary>
         public static string LabelDesignationId {
             get {
@@ -435,6 +570,15 @@ namespace Coditech.Resources {
         public static string LabelDesignationList {
             get {
                 return ResourceManager.GetString("LabelDesignationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Template List.
+        /// </summary>
+        public static string LabelEmailTemplateList {
+            get {
+                return ResourceManager.GetString("LabelEmailTemplateList", resourceCulture);
             }
         }
         
@@ -484,11 +628,92 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to InventoryCategoryy List.
+        ///   Looks up a localized string similar to Hospital Doctor Visiting Charges List.
+        /// </summary>
+        public static string LabelHospitalDoctorVisitingChargesList {
+            get {
+                return ResourceManager.GetString("LabelHospitalDoctorVisitingChargesList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Category List.
         /// </summary>
         public static string LabelInventoryCategoryList {
             get {
                 return ResourceManager.GetString("LabelInventoryCategoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Item Group List.
+        /// </summary>
+        public static string LabelInventoryItemGroupList {
+            get {
+                return ResourceManager.GetString("LabelInventoryItemGroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Item Storage Dimension List.
+        /// </summary>
+        public static string LabelInventoryItemStorageDimensionList {
+            get {
+                return ResourceManager.GetString("LabelInventoryItemStorageDimensionList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Item Tracking Dimension Group List.
+        /// </summary>
+        public static string LabelInventoryItemTrackingDimensionGroupList {
+            get {
+                return ResourceManager.GetString("LabelInventoryItemTrackingDimensionGroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Item Tracking Dimension List.
+        /// </summary>
+        public static string LabelInventoryItemTrackingDimensionList {
+            get {
+                return ResourceManager.GetString("LabelInventoryItemTrackingDimensionList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Product Dimension Group List.
+        /// </summary>
+        public static string LabelInventoryProductDimensionGroupList {
+            get {
+                return ResourceManager.GetString("LabelInventoryProductDimensionGroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Product Dimension List.
+        /// </summary>
+        public static string LabelInventoryProductDimensionList {
+            get {
+                return ResourceManager.GetString("LabelInventoryProductDimensionList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory StorageDimension Group List.
+        /// </summary>
+        public static string LabelInventoryStorageDimensionGroupList {
+            get {
+                return ResourceManager.GetString("LabelInventoryStorageDimensionGroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory UoM List.
+        /// </summary>
+        public static string LabelInventoryUoMMasterList {
+            get {
+                return ResourceManager.GetString("LabelInventoryUoMMasterList", resourceCulture);
             }
         }
         
@@ -498,6 +723,15 @@ namespace Coditech.Resources {
         public static string LabelIsActive {
             get {
                 return ResourceManager.GetString("LabelIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Model Group List.
+        /// </summary>
+        public static string LabelItemModelGroupList {
+            get {
+                return ResourceManager.GetString("LabelItemModelGroupList", resourceCulture);
             }
         }
         

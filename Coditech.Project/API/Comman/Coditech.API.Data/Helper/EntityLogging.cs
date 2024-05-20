@@ -13,6 +13,7 @@ namespace Coditech.API.Data
         private static readonly string todaysDate = DateTime.Now.ToString("yyyy-MM-dd");
         private static readonly IHostingEnvironment _webHostEnvironment = CoditechDependencyResolver.GetService<IHostingEnvironment>();
         private static IConfigurationSection settings = CoditechDependencyResolver.GetService<IConfiguration>().GetSection("appsettings");
+
         #region Enum Mode
 
         // Specifies the text file access modes.
@@ -32,8 +33,8 @@ namespace Coditech.API.Data
 
         #region Declarations
 
-        public const string LogComponentFilePath = "~/data/default/logs/{yyyy-mm-dd}/Coditech_{ComponentName}_Log.log";
-        public const string LogFilePath = "~/data/default/logs/{yyyy-mm-dd}/Coditech_Log.log";
+        public const string LogComponentFilePath = "data/logs/{yyyy-mm-dd}/Coditech_{ComponentName}_Log.log";
+        public const string LogFilePath = "data/logs/{yyyy-mm-dd}/Coditech_Log.log";
 
         #endregion
 

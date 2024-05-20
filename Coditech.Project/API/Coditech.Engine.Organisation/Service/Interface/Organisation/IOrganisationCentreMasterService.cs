@@ -16,6 +16,12 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
         bool UpdatePrintingFormat(OrganisationCentrePrintingFormatModel model);
         OrganisationCentrewiseGSTCredentialModel GetCentrewiseGSTSetup(short organisationCentreMasterId);
         bool UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialModel model);
+        OrganisationCentrewiseSmtpSettingModel GetCentrewiseSmtpSetup(short organisationCentreMasterId);
+        bool UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingModel model);
+        OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
+        bool UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
+        OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreMasterId,short organisationCentrewiseUserNameRegistrationId=0);
+        bool UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel model);
     }
 }
 

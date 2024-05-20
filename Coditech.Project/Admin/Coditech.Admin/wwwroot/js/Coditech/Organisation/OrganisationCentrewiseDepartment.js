@@ -4,16 +4,6 @@
     },
     constructor: function () {
     },
-    GetDepartmentByCentreCode: function () {
-        $('#DataTables_SearchById').val("")
-        if ($("#SelectedCentreCode").val() == "") {
-            CoditechNotification.DisplayNotificationMessage("Please select centre.", "error");
-        }
-        else {
-            CoditechDataTable.LoadList("OrganisationCentrewiseDepartment", "List");
-        }
-    },
-
     GetAssociateUnAssociateCentrewiseDepartment: function (modelPopContentId, organisationCentrewiseDepartmentId, generalDepartmentMasterId, departmentName) {
         var centreCode = $("#SelectedCentreCode").val();
         var centreName = $("#SelectedCentreCode option:selected").text();

@@ -30,11 +30,10 @@
     },
     SaveFollowup: function () {
         $("#frmGymMemberFollowUp").validate();
-        debugger
         $("#errorGymFollowupTypesEnumId").text('').text("").removeClass("field-validation-error").hide();
         $("#errorReminderDate").text('').text("").removeClass("field-validation-error").hide();
         if ($("#frmGymMemberFollowUp").valid()) {
-            if ($("#GymFollowupTypesEnumId").val() == "") {
+            if ($("#GymFollowupTypesEnumId").val() == "" || $("#GymFollowupTypesEnumId").val().includes("select") || $("#GymFollowupTypesEnumId").val().includes("Select")) {
                 $("#errorGymFollowupTypesEnumId").text('').text("Please Select Follow-up Type.").addClass("field-validation-error").show();
                 return false;
             }
@@ -153,7 +152,6 @@
     },
 
     IsSetReminder: function () {
-        debugger
         $("#ReminderDate").val("");
         if ($("#IsSetReminder").is(':checked')) {
             // Code in the case checkbox is checked.
@@ -164,21 +162,22 @@
         }
     },
 
-    AddGymMemberBodyMeasurement: function (modelPopContentId, gymMemberDetailId, gymBodyMeasurementTypeId, bodyMeasurementType, measurementUnitShortCode, personId) {
+    AddGymMemberBodyMeasurement: function (modelPopContentId, gymMemberDetailId, gymBodyMeasurementTypeId, gymMemberBodyMeasurementId, bodyMeasurementType, measurementUnitShortCode, personId) {
         CoditechCommon.ShowLodder();
-        let gymMemberBodyMeasurementViewModel = {
-            GymMemberDetailId: gymMemberDetailId,
-            GymBodyMeasurementTypeId: gymBodyMeasurementTypeId,
-            BodyMeasurementType: bodyMeasurementType,
-            MeasurementUnitShortCode: measurementUnitShortCode,
-            PersonId: personId
-        };
         $.ajax({
             cache: false,
             type: "GET",
             dataType: "html",
+            async: false,
             url: "/GymMemberDetails/GetGymMemberBodyMeasurement",
-            data: gymMemberBodyMeasurementViewModel,
+            data: {
+                gymMemberDetailId: gymMemberDetailId,
+                gymMemberBodyMeasurementId: gymMemberBodyMeasurementId,
+                gymBodyMeasurementTypeId: gymBodyMeasurementTypeId,
+                bodyMeasurementType: bodyMeasurementType,
+                measurementUnitShortCode: measurementUnitShortCode,
+                personId: personId
+            },
             contentType: "application/json; charset=utf-8",
             success: function (result) {
                 $('#' + modelPopContentId).html("").html(result);
@@ -193,5 +192,8 @@
             }
         });
     }
+
+
+
 
 }

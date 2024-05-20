@@ -102,9 +102,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get general MemberBodyMeasurement by general MemberBodyMeasurement  id.
-        public virtual GymMemberBodyMeasurementViewModel GetMemberBodyMeasurement(long GymMemberBodyMeasurementId)
+        public virtual GymMemberBodyMeasurementViewModel GetMemberBodyMeasurement(long GymMemberBodyMeasurementId,short GymBodyMeasurementTypeId)
         {
-            GymMemberBodyMeasurementResponse response = _GymMemberBodyMeasurementClient.GetMemberBodyMeasurement(GymMemberBodyMeasurementId);
+            GymMemberBodyMeasurementResponse response = _GymMemberBodyMeasurementClient.GetMemberBodyMeasurement(GymMemberBodyMeasurementId, GymBodyMeasurementTypeId);
             return response?.GymMemberBodyMeasurementModel.ToViewModel<GymMemberBodyMeasurementViewModel>();
         }
 

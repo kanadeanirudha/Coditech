@@ -38,6 +38,7 @@
             MediaManager,
             Gym,
             EmployeeMaster,
+            EmployeeService,
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,
@@ -54,7 +55,27 @@
             Inventory,
             SalesAndPurchase,
             InventoryCategory,
-            EmailService
+            EmailService,
+            ChangePassword,
+            Dashboard,
+            InventoryItemModelGroup,
+            EmailTemplate,
+            CentrewiseSmtp,
+            InventoryProductDimensionGroup,
+            CentrewiseEmailTemplate,
+            InventoryItemStorageDimension,
+            InventoryProductDimension,
+            HospitalDoctorAllocatedOPDRoom,
+            InventoryItemTrackingDimension,
+            InventoryItemGroup,
+            UserMainMenuMaster,
+            HospitalDoctorLeaveSchedule,
+            InventoryUoMMaster,
+            CentrewiseUserName,
+            HospitalDoctorVisitingCharges,
+            HospitalPatientRegistration,
+            InventoryStorageDimensionGroup,
+            InventoryItemTrackingDimensionGroup
         }
     }
 }

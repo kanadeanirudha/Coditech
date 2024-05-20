@@ -7,11 +7,12 @@ namespace Coditech.API.Service
     {
         UserModel Login(UserLoginModel model);
         List<UserModuleModel> GetActiveModuleList();
-        List<UserMenuModel> GetActiveMenuList(string moduleCode);
+        List<UserMainMenuModel> GetActiveMenuList(string moduleCode);
         GeneralPersonModel InsertPersonInformation(GeneralPersonModel model);
-        GeneralPersonModel GetPersonInformation(long personId);        
+        GeneralPersonModel GetPersonInformation(long personId);
         bool UpdatePersonInformation(GeneralPersonModel model);
         GeneralPersonAddressListModel GetGeneralPersonAddresses(long personId);
         GeneralPersonAddressModel InsertUpdateGeneralPersonAddress(GeneralPersonAddressModel model);
+        ChangePasswordModel ChangePassword(ChangePasswordModel model);
     }
 }

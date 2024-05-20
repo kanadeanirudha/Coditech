@@ -9,6 +9,8 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 
+using Microsoft.IdentityModel.Tokens;
+
 using System.Collections.Specialized;
 using System.Data;
 
@@ -41,16 +43,24 @@ namespace Coditech.API.Service
 
         public virtual GymMemberDetailsListModel GetGymMemberDetailsList(string SelectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
+            string listType = "";
+            string isActive = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.IsActive, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
+            if (!string.IsNullOrEmpty(isActive))
+            {
+                filters.RemoveAll(x => x.FilterName == FilterKeys.IsActive);
+                listType = $"and IsActive={isActive}";
+            }
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GymMemberDetailsModel> objStoredProc = new CoditechViewRepository<GymMemberDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@CentreCode", SelectedCentreCode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@ListType", listType, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GymMemberDetailsModel> gymMemberList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberDetailsList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            List<GymMemberDetailsModel> gymMemberList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymMemberDetailsList @CentreCode,@listType,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             GymMemberDetailsListModel listModel = new GymMemberDetailsListModel();
 
             listModel.GymMemberDetailsList = gymMemberList?.Count > 0 ? gymMemberList : new List<GymMemberDetailsModel>();
@@ -260,9 +270,6 @@ namespace Coditech.API.Service
             if (IsNull(gymMemberMembershipPlanModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            //if (IsCountryCodeAlreadyExist(gymMemberMembershipPlanModel.CountryCode))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
-
             GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(gymMemberMembershipPlanModel.GymMembershipPlanId);
 
             long salesInvoiceMasterId = SaveSalesInvoiceDetails(gymMemberMembershipPlanModel, gymMembershipPlan);
@@ -282,7 +289,6 @@ namespace Coditech.API.Service
                 gymMemberMembershipPlan.RemainingSessionCount = Convert.ToInt16(gymMembershipPlan.PlanDurationInSession);
             }
 
-            //Create new Country and return it.
             GymMemberMembershipPlan gymMemberMembershipPlanData = _gymMemberMembershipPlanRepository.Insert(gymMemberMembershipPlan);
             if (gymMemberMembershipPlanData?.GymMemberMembershipPlanId > 0)
             {
@@ -334,7 +340,7 @@ namespace Coditech.API.Service
         #region Protected Method
         protected virtual long SaveSalesInvoiceDetails(GymMemberMembershipPlanModel gymMemberMembershipPlanModel, GymMembershipPlan gymMembershipPlan)
         {
-            string invoiceNumber = GenerateRegistrationCode(GeneralRunningNumberFor.InvoiceNumber.ToString(), gymMembershipPlan.CentreCode);
+            string invoiceNumber = GenerateRegistrationCode(GeneralRunningNumberForEnum.InvoiceNumber.ToString(), gymMembershipPlan.CentreCode);
             if (string.IsNullOrEmpty(invoiceNumber))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 

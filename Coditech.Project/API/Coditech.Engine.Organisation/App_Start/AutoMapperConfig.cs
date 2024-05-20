@@ -20,6 +20,7 @@ namespace Coditech.API.Mapper
 
             CreateMap<GeneralDepartmentMaster, GeneralDepartmentModel>().ReverseMap();
             CreateMap<GeneralCountryMaster, GeneralCountryModel>().ReverseMap();
+            CreateMap<GeneralEmailTemplate, GeneralEmailTemplateModel>().ReverseMap();
             CreateMap<GeneralFinancialYear, GeneralFinancialYearModel>().ReverseMap();
             CreateMap<GeneralTaxMaster, GeneralTaxMasterModel>().ReverseMap();
             CreateMap<GeneralTaxGroupMaster, GeneralTaxGroupModel>().ReverseMap();
@@ -43,6 +44,10 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralRunningNumbers, GeneralRunningNumbersModel>().ReverseMap();
             CreateMap<GeneralLeadGenerationMaster, GeneralLeadGenerationModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseBuildingRooms, OrganisationCentrewiseBuildingRoomsModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseSmtpSetting, OrganisationCentrewiseSmtpSettingModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseEmailTemplate, OrganisationCentrewiseEmailTemplateModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseUserNameRegistration, OrganisationCentrewiseUserNameRegistrationModel>().ReverseMap();
+            CreateMap<UserMainMenuMaster, UserMainMenuModel>().ReverseMap();
         }
     }
 }

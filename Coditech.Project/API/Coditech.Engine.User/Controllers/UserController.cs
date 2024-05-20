@@ -7,6 +7,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Logger;
+
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
@@ -59,6 +60,28 @@ namespace Coditech.API.Controllers
 
         }
 
+        [Route("/User/ChangePassword")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(ChangePasswordResponse))]
+        public virtual IActionResult ChangePassword([FromBody] ChangePasswordModel model)
+        {
+            try
+            {
+                ChangePasswordModel changePassword = _userService.ChangePassword(model);
+                return IsNotNull(changePassword) ? CreateCreatedResponse(new ChangePasswordResponse { ChangePasswordModel = changePassword }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ChangePassword.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new ChangePasswordResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ChangePassword.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new ChangePasswordResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("/User/GetActiveModuleList")]
         [Produces(typeof(UserModuleListResponse))]
@@ -83,23 +106,23 @@ namespace Coditech.API.Controllers
 
         [Route("/User/GetActiveMenuList")]
         [HttpGet]
-        [Produces(typeof(UserMenuListResponse))]
+        [Produces(typeof(UserMainMenuListResponse))]
         public virtual IActionResult GetActiveMenuList(string moduleCode)
         {
             try
             {
-                List<UserMenuModel> list = _userService.GetActiveMenuList(moduleCode);
-                return IsNotNull(list) ? CreateOKResponse(new UserMenuListResponse { MenuList = list }) : CreateNoContentResponse();
+                List<UserMainMenuModel> list = _userService.GetActiveMenuList(moduleCode);
+                return IsNotNull(list) ? CreateOKResponse(new UserMainMenuListResponse { MenuList = list }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenu.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new UserMenuListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new UserMainMenuListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenu.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new UserMenuListResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new UserMainMenuListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
@@ -179,7 +202,7 @@ namespace Coditech.API.Controllers
             try
             {
                 GeneralPersonAddressListModel generalPersonAddressList = _userService.GetGeneralPersonAddresses(personId);
-                return HelperUtility.IsNotNull(generalPersonAddressList) ? CreateOKResponse(new GeneralPersonAddressListResponse() { GeneralPersonAddressList = generalPersonAddressList.PersonAddressList }) : NotFound();
+                return HelperUtility.IsNotNull(generalPersonAddressList) ? CreateOKResponse(new GeneralPersonAddressListResponse() { GeneralPersonAddressList = generalPersonAddressList.PersonAddressList, FirstName = generalPersonAddressList.FirstName, LastName = generalPersonAddressList.LastName }) : NotFound();
             }
             catch (CoditechException ex)
             {
@@ -200,7 +223,7 @@ namespace Coditech.API.Controllers
         {
             try
             {
-                GeneralPersonAddressModel generalPersonAddress= _userService.InsertUpdateGeneralPersonAddress(model);
+                GeneralPersonAddressModel generalPersonAddress = _userService.InsertUpdateGeneralPersonAddress(model);
                 return HelperUtility.IsNotNull(generalPersonAddress) ? CreateCreatedResponse(new GeneralPersonAddressResponse { GeneralPersonAddressModel = generalPersonAddress }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)

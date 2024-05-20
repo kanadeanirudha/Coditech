@@ -34,5 +34,21 @@ namespace Coditech.API.Endpoint
 
         public string UpdateCentrewiseGSTSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseGSTSetup";
+
+        public string GetCentrewiseSmtpSetupAsync(short organisationCentreId) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseSmtpSetup?organisationCentreMasterId={organisationCentreId}";
+
+        public string UpdateCentrewiseSmtpSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseSmtpSetup";
+
+        public string GetCentrewiseEmailTemplateSetupAsync(short organisationCentreId, string emailTemplateCode) =>
+          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup?organisationCentreMasterId={organisationCentreId}&emailTemplateCode={emailTemplateCode}";
+
+        public string UpdateCentrewiseEmailTemplateSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseEmailTemplateSetup";
+        public string GetCentrewiseUserNameAsync(short organisationCentreId,short organisationCentrewiseUserNameRegistrationId) =>
+         $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseUserName?organisationCentreMasterId={organisationCentreId}&organisationCentrewiseUserNameRegistrationId={organisationCentrewiseUserNameRegistrationId}";
+        public string UpdateCentrewiseUserNameAsync() =>
+              $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseUserName";
     }
 }

@@ -22,7 +22,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Display Order")]
         public short DisplayOrder { get; set; }
 
-        [Required]
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
     }
 }

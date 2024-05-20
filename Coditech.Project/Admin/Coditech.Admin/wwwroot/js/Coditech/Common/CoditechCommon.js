@@ -62,58 +62,30 @@
         }
     },
 
-    GetRegionListByCountryId: function () {
-        var selectedItem = $("#GeneralCountryMasterId").val();
-        if (selectedItem != "") {
+    GetHospitalDoctorsListByCentreCodeAndDepartmentId: function () {
+        var selectedCentreCode = $("#SelectedCentreCode").val();
+        var selectedDepartmentId = $("#SelectedDepartmentId").val();
+
+        if (selectedCentreCode != "" && selectedDepartmentId != "") {
             CoditechCommon.ShowLodder();
             $.ajax({
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetRegionListByCountryId",
-                data: { "generalCountryMasterId": selectedItem },
+                url: "/GeneralCommanData/GetHospitalDoctorsList",
+                data: { "selectedCentreCode": selectedCentreCode, "selectedDepartmentId": selectedDepartmentId },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    $("#GeneralRegionMasterId").html("").html(data);
+                    $("#HospitalDoctorId").html("").html(data);
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Region.", "error")
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Hospital Doctors List", "error")
                     CoditechCommon.HideLodder();
                 }
             });
         }
-        else {
-            $("#GeneralRegionMasterId").html("");
-        }
     },
-
-    GetCityListByRegionId: function () {
-        var selectedItem = $("#GeneralRegionMasterId").val();
-        if (selectedItem != "") {
-            CoditechCommon.ShowLodder();
-            $.ajax({
-                cache: false,
-                type: "GET",
-                dataType: "html",
-                url: "/GeneralCommanData/GetCityListByRegionId",
-                data: { "generalRegionMasterId": selectedItem },
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    $("#GeneralCityMasterId").html("").html(data);
-                    CoditechCommon.HideLodder();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve City.", "error")
-                    CoditechCommon.HideLodder();
-                }
-            });
-        }
-        else {
-            $("#GeneralRegionMasterId").html("");
-        }
-    },
-
     ValidNumeric: function () {
         var charCode = (event.which) ? event.which : event.keyCode;
         if (charCode >= 48 && charCode <= 57) { return true; }
@@ -128,9 +100,9 @@
         return true;
     },
 
-    AllowOnlyAlphabets: function () {
+    AvoidSpacing: function () {
         var charCode = (event.which) ? event.which : event.keyCode;
-        if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123)) {
+        if (charCode != 32) {
             return true;
         }
         else {

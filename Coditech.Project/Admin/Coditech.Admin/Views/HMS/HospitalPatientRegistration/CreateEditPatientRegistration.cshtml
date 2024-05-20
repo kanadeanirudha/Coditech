@@ -1,0 +1,162 @@
+﻿@using Coditech.Admin.Utilities;
+@model HospitalPatientRegistrationCreateEditViewModel
+@{
+    ViewBag.Title = Model.HospitalPatientRegistrationId > 0 ? "Update Patient Registration" : "Create Patient Registration";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string css = Model.PersonId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("HospitalPatientRegistrationId", Model.HospitalPatientRegistrationId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "", IsDisabled = Model.HospitalPatientRegistrationId > 0};
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            @if (Model.HospitalPatientRegistrationId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/HMS/HospitalPatientRegistration/_PatientRegistrationSidePannel.cshtml", keyValuePairs)
+                </div>
+            }
+            <div class="@css">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.HospitalPatientRegistrationId > 0)
+                                {
+                                    <h4 class="card-title"><span>Update Patient Registration- @Model.FirstName @Model.LastName</span></h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Patient Registration</h4>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.HospitalPatientRegistrationId)
+                            @if (Model.HospitalPatientRegistrationId > 0)
+                            {
+                                @Html.HiddenFor(m => m.SelectedCentreCode)
+                            }
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.SelectedCentreCode, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                                        @Html.ValidationMessageFor(x => x.SelectedCentreCode)
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.Partial("~/Views/Shared/GeneralPerson/_CreateEditGeneralPerson.cshtml", Model)
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('#DateOfBirth').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                showWeekNumbers: false,
+                drops: "auto",
+                opens: "right",
+                autoApply: true,
+                "locale": {
+                    // "format": "DD-MMM-YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Apply",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                minYear: 1901,
+                maxYear: parseInt(moment().format('YYYY'), 10)
+            },
+                function (start, end, label) { });
+
+            $('#AnniversaryDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                showWeekNumbers: false,
+                drops: "auto",
+                opens: "right",
+                autoApply: true,
+                "locale": {
+                    // "format": "DD-MMM-YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Apply",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                minYear: 1901,
+                maxYear: parseInt(moment().format('YYYY'), 10)
+            },
+                function (start, end, label) { });
+        });
+    </script>
+}
+

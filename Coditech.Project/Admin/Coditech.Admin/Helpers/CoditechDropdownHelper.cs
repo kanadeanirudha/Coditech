@@ -117,6 +117,23 @@ namespace Coditech.Admin.Helpers
             {
                 GetGeneralServicesList(dropdownViewModel, dropdownList);
             }
+
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AllCities.ToString()))
+            {
+                GetAllCityList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryCategory.ToString()))
+            {
+                GetInventoryCategoryList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.EmailTemplate.ToString()))
+            {
+                GetEmailTemplateCodeList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalDoctorsList.ToString()))
+            {
+                GetHospitalDoctorsList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -229,17 +246,20 @@ namespace Coditech.Admin.Helpers
 
         private static void GetMenuList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
-            GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
-            foreach (var item in list?.GeneralTaxGroupMasterList)
+            dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
-                dropdownList.Add(new SelectListItem()
+                UserMainMenuListResponse response = new UserClient().GetActiveMenuList(dropdownViewModel.Parameter);
+
+                foreach (var item in response?.MenuList)
                 {
-                    Text = string.Concat(item.TaxGroupName, " (", item.GeneralTaxMasterIds, ")"),
-                    Value = Convert.ToString(item.GeneralTaxGroupMasterId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTaxGroupMasterId)
-                });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.MenuName,
+                        Value = Convert.ToString(item.MenuCode),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.MenuCode)
+                    });
+                }
             }
         }
 
@@ -266,7 +286,7 @@ namespace Coditech.Admin.Helpers
                 GeneralRegionListResponse response = new GeneralRegionClient().GetRegionByCountryWise(Convert.ToInt16(dropdownViewModel.Parameter));
                 list = new GeneralRegionListModel { GeneralRegionList = response?.GeneralRegionList };
             }
-            dropdownList.Add(new SelectListItem() { Text = "-------- Select State --------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------- Select Region --------" });
             foreach (var item in list?.GeneralRegionList)
             {
                 dropdownList.Add(new SelectListItem()
@@ -598,10 +618,93 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
+        private static void GetAllCityList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralCityListResponse response = new GeneralCityClient().GetAllCities();
+            dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
+            GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response?.GeneralCityList };
+            foreach (var item in list.GeneralCityList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CityName,
+                    Value = Convert.ToString(item.GeneralCityMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCityMasterId)
+                });
+            }
+        }
+
         private static string SpiltCentreCode(string centreCode)
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
             return centreCode;
+        }
+
+        private static void GetInventoryCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryCategoryListResponse response = new InventoryCategoryClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Inventory Category-------" });
+
+            InventoryCategoryListModel list = new InventoryCategoryListModel { InventoryCategoryList = response.InventoryCategoryList };
+            foreach (var item in list.InventoryCategoryList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.InventoryCategoryId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.CategoryName, " (", item.CategoryCode, ")"),
+                    Value = Convert.ToString(item.InventoryCategoryId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryCategoryId)
+                });
+            }
+        }
+
+        private static void GetEmailTemplateCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralEmailTemplateListResponse response = new GeneralEmailTemplateClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Email Template-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Email Template-------" });
+
+            GeneralEmailTemplateListModel list = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response.GeneralEmailTemplateList };
+            foreach (var item in list.GeneralEmailTemplateList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.GeneralEmailTemplateId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.EmailTemplateName),
+                    Value = Convert.ToString(item.EmailTemplateCode),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmailTemplateCode)
+                });
+            }
+        }
+
+        private static void GetHospitalDoctorsList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Doctors-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
+                short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId, true, null, null, null, 1, int.MaxValue);
+                HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
+                foreach (var item in list?.HospitalDoctorsList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = $"{item.FirstName} {item.LastName}",
+                        Value = item.HospitalDoctorId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalDoctorId)
+                    });
+                }
+            }
         }
     }
 }

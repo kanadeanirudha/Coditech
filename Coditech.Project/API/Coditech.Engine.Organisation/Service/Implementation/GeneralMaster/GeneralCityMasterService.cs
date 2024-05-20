@@ -8,7 +8,6 @@ using Coditech.Resources;
 
 using System.Collections.Specialized;
 using System.Data;
-using System.Drawing;
 
 using static Coditech.Common.Helper.HelperUtility;
 
@@ -130,13 +129,28 @@ namespace Coditech.API.Service
 
             GeneralCityListModel list = new GeneralCityListModel();
             list.GeneralCityList = (from a in _generalCityMasterRepository.Table
-                                      where (a.GeneralRegionMasterId == generalRegionMasterId)
-                                      select new GeneralCityModel()
-                                      {
-                                          GeneralCityMasterId = a.GeneralCityMasterId,
-                                          CityName = a.CityName,
-                                          RegionName = regionName,
-                                      })?.ToList();
+                                    where (a.GeneralRegionMasterId == generalRegionMasterId)
+                                    select new GeneralCityModel()
+                                    {
+                                        GeneralCityMasterId = a.GeneralCityMasterId,
+                                        CityName = a.CityName,
+                                        RegionName = regionName,
+                                    })?.ToList();
+            return list;
+        }
+
+        //Get all city list.
+        public virtual GeneralCityListModel GetAllCities()
+        {
+            GeneralCityListModel list = new GeneralCityListModel();
+            list.GeneralCityList = (from a in _generalCityMasterRepository.Table 
+                                    join b in _generalRegionMasterRepository.Table 
+                                    on a.GeneralRegionMasterId equals b.GeneralRegionMasterId
+                                    select new GeneralCityModel()
+                                    {
+                                        GeneralCityMasterId = a.GeneralCityMasterId,
+                                        CityName = $"{a.CityName}({b.RegionName})",
+                                    })?.ToList();
             return list;
         }
 

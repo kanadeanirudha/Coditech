@@ -1,15 +1,21 @@
 ﻿using Coditech.API.Data;
+using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 
-using System.Configuration;
-using System.Linq;
+using ImageMagick;
+
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 using static Coditech.Common.Helper.HelperUtility;
-using static System.Net.Mime.MediaTypeNames;
 namespace Coditech.API.Service
 {
     public class MediaManagerService : BaseService, IMediaManagerService
@@ -23,6 +29,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<MediaConfiguration> _mediaConfigurationRepository;
         private readonly ICoditechRepository<MediaFolderMaster> _mediaFolderMasterRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
+        private readonly ICoditechRepository<MediaGlobalDisplaySetting> _mediaGlobalDisplaySettingRepository;
         public MediaManagerService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, IWebHostEnvironment environment) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -34,6 +41,7 @@ namespace Coditech.API.Service
             _mediaConfigurationRepository = new CoditechRepository<MediaConfiguration>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaFolderMasterRepository = new CoditechRepository<MediaFolderMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
+            _mediaGlobalDisplaySettingRepository = new CoditechRepository<MediaGlobalDisplaySetting>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -71,7 +79,7 @@ namespace Coditech.API.Service
                 bool fileAlreadyExist = false;
                 if (mediaDetail?.MediaId > 0)
                 {
-                  
+
                 }
                 else
                 {
@@ -111,6 +119,74 @@ namespace Coditech.API.Service
 
 
             return model;
+        }
+
+        public async Task<FileUploadListModelResponse> UploadServerFiles(IEnumerable<IFormFile> files, HttpRequest request)
+        {
+
+            if (MultipartRequestHelper.IsMultipartContentType(request.ContentType))
+            {
+                //ToDo nee to add cache in GetDefaultMediaConfiguration.
+                //gets the default server configuration and global media display setting
+                MediaConfigurationModel mediaConfigurationModel = GetDefaultMediaConfiguration();
+                mediaConfigurationModel = ManageMediaUrl(mediaConfigurationModel);
+
+                MediaGlobalDisplaySettingModel? displaySetting = mediaConfigurationModel?.GlobalMediaDisplaySetting;
+                MediaGlobalDisplaySettingModel _displaySetting = IsNull(displaySetting) ? MediaGlobalDisplaySettingModel.GetGlobalMediaDisplaySetting() : displaySetting;
+                string ServerPath = string.Concat(mediaConfigurationModel.NetworkUrl, "TempImage" + "\\");
+                string uploadPath = "";
+                if (mediaConfigurationModel.NetworkUrl == null)
+                {
+                    ServerPath = Path.Combine(_environment.ContentRootPath, Path.Combine("Data", "Media"));
+                }
+
+                CheckDirectoryExistOrCreate(ServerPath);
+                List<FileUploadResponse> messages = new List<FileUploadResponse>();
+                try
+                {
+
+                    try
+                    {
+                        foreach (var file in files.ToList())
+                        {
+                            uploadPath = Path.Combine(ServerPath, Guid.NewGuid().ToString() + file.FileName);
+                            var filedata = new FileStream(uploadPath, FileMode.Create);
+                            await file.CopyToAsync(filedata);
+                            filedata.Close();
+
+                            string fileName = file.FileName.Replace("\"", string.Empty);
+
+                            FileInfo fi = new FileInfo(uploadPath);
+
+                            if (Convert.ToBoolean(request.Query["isMediaReplace"]))
+                            {
+                                fileName = Convert.ToString(request.Query["filename"]);
+                                GetStatus(messages, fi, Convert.ToInt32(request.Query["folderid"]), file.ContentType, true, fileName, Convert.ToBoolean(request.Query["isMediaReplace"]), Convert.ToInt32(request.Query["mediaId"]), mediaConfigurationModel);
+                            }
+                            else
+                                GetStatus(messages, fi, Convert.ToInt32(request.Query["folderid"]), file.ContentType, Convert.ToBoolean(request.Query["isreplace"]), fileName, false, 0, mediaConfigurationModel);
+                        }
+
+                        FileUploadListModelResponse FileUploadListModelResponse = new FileUploadListModelResponse();
+                        FileUploadListModelResponse.FileUpload = messages;
+                        return FileUploadListModelResponse;
+                    }
+                    catch (Exception ex)
+                    {
+                        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #endregion
@@ -173,6 +249,261 @@ namespace Coditech.API.Service
             return true;
         }
 
+        protected virtual MediaConfigurationModel ManageMediaUrl(MediaConfigurationModel mediaConfiguration)
+        {
+            string url = mediaConfiguration.CDNUrl;
+            if (url.Contains("https") && mediaConfiguration.CDNUrl != null)
+            {
+                url = url.Substring(8, url.Length - 8);
+                url = "https://" + url.Replace("//", "\\");
+                mediaConfiguration.CDNUrl = url;
+            }
+            else if (mediaConfiguration.CDNUrl != null)
+            {
+                url = url.Substring(7, url.Length - 7);
+                url = "http://" + url.Replace("//", "\\");
+                mediaConfiguration.CDNUrl = url;
+            }
+            return mediaConfiguration;
+        }
+
+        //Get Data from cache if cache null then insert into Cache.
+        protected virtual MediaConfigurationModel GetDefaultMediaConfiguration()
+        {
+            MediaConfigurationModel activeMediaConfiguration = _mediaConfigurationRepository.Table.FirstOrDefault(x => x.IsActive)?.FromEntityToModel<MediaConfigurationModel>();
+            if (HelperUtility.IsNotNull(activeMediaConfiguration))
+            {
+                activeMediaConfiguration.GlobalMediaDisplaySetting = GetMediaGlobalDisplaySetting(activeMediaConfiguration);
+            }
+            else
+            {
+                activeMediaConfiguration = new MediaConfigurationModel { MediaServer = new MediaServerModel(), GlobalMediaDisplaySetting = GetMediaGlobalDisplaySetting(activeMediaConfiguration) };
+            }
+            return activeMediaConfiguration;
+        }
+
+        // Get global media display setting.
+        public virtual MediaGlobalDisplaySettingModel GetMediaGlobalDisplaySetting(MediaConfigurationModel configurationModel)
+        {
+
+            MediaGlobalDisplaySettingModel globalMediaDisplaySetting = _mediaGlobalDisplaySettingRepository.Table.FirstOrDefault().FromEntityToModel<MediaGlobalDisplaySettingModel>();
+
+            if (IsNotNull(globalMediaDisplaySetting))
+            {
+                if (globalMediaDisplaySetting?.MediaId > 0)
+                {
+                    string path = _mediaDetailRepository.Table.Where(x => x.MediaId == globalMediaDisplaySetting.MediaId).Select(x => x.Path)?.FirstOrDefault();
+
+                    string mediaServerThumbnailPath = $"{GetMediaServerUrl(configurationModel)}{configurationModel?.ThumbnailFolderName}/{path}";
+
+                    globalMediaDisplaySetting.DefaultImageName = string.IsNullOrEmpty(path) ? string.Empty : path;
+                    globalMediaDisplaySetting.MediaPath = string.IsNullOrEmpty(mediaServerThumbnailPath) ? string.Empty : mediaServerThumbnailPath;
+                }
+            }
+            else
+            {
+                globalMediaDisplaySetting = MediaGlobalDisplaySettingModel.GetGlobalMediaDisplaySetting();
+            }
+            return globalMediaDisplaySetting;
+        }
+        //Get the Media Server Url
+        protected static string GetMediaServerUrl(MediaConfigurationModel configuration)
+        {
+            if (HelperUtility.IsNotNull(configuration))
+            {
+                return string.IsNullOrWhiteSpace(configuration.CDNUrl) ? configuration.URL
+                           : configuration.CDNUrl.EndsWith("\\") ? configuration.CDNUrl : configuration.CDNUrl.EndsWith("/") ? configuration.CDNUrl : $"{configuration.CDNUrl}/";
+            }
+            return string.Empty;
+        }
+
+        private void GetStatus(List<FileUploadResponse> messages, FileInfo fi, int folderId, string fileType, bool isOverWrite, string fileName, bool isMediaReplace = false, int reqMediaId = 0, MediaConfigurationModel mediaConfiguration = null)
+        {
+            //List<FamilyExtensionModel> _allowExtensions = GetExtensions()?.FamilyExtensionListModel.FamilyExtensions ?? new List<FamilyExtensionModel>();
+            //int familyId = 0;
+
+            //int mediaId;
+            //if (AllowExtension(_allowExtensions, fi.Extension, out familyId))
+            //{
+            //    if (AllowFileSize(_allowExtensions, fi.Length.ToString(), fi.Extension))
+            //    {
+            //        if (isMediaReplace && reqMediaId > 0)
+            //            mediaId = reqMediaId;
+            //        else
+            //            mediaId = CheckExist(fileName, folderId);
+
+            //        if (mediaId == 0)
+            //        {
+            //            mediaId = UploadFiles(0, fi, folderId, false, fi.FullName, familyId, fileType, fileName, false, mediaConfiguration);
+            //            if (mediaId > 0)
+            //                messages.Add(new FileUploadResponse { StatusCode = Convert.ToInt32(UploadStatusCode.Done), FileName = fileName, MediaId = Convert.ToString(mediaId) });
+            //            else
+            //                messages.Add(new FileUploadResponse { StatusCode = Convert.ToInt32(UploadStatusCode.Error), FileName = fileName });
+            //        }
+            //        else if (isOverWrite)
+            //        {
+            //            mediaId = UploadFiles(mediaId, fi, folderId, true, fi.FullName, familyId, fileType, fileName, isMediaReplace, mediaConfiguration);
+            //            if (mediaId > 0)
+            //                messages.Add(new FileUploadResponse { StatusCode = Convert.ToInt32(UploadStatusCode.Done), FileName = fileName, MediaId = Convert.ToString(mediaId) });
+            //            else
+            //                messages.Add(new FileUploadResponse { StatusCode = Convert.ToInt32(UploadStatusCode.Error), FileName = fileName });
+            //        }
+            //        else
+            //            messages.Add(new FileUploadResponse { StatusCode = Convert.ToInt32(UploadStatusCode.FileAlreadyExist), FileName = fileName, MediaId = Convert.ToString(mediaId) });
+            //    }
+            //    else
+            //        messages.Add(new FileUploadResponse { StatusCode = Convert.ToInt32(UploadStatusCode.MaxFileSize), FileName = fileName });
+            //}
+            //else
+            //{
+            //    messages.Add(new FileUploadResponse { StatusCode = Convert.ToInt32(UploadStatusCode.ExtensionNotAllow), FileName = fileName });
+            //    fi.Delete();
+            //}
+
+        }
+
+        //Check directory exist or not and create directory.
+        protected virtual void CheckDirectoryExistOrCreate(string path)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+        }
+
+        protected virtual int UploadFiles(int mediaId, FileInfo files, int folderId, bool isOverrideFile, string actualFilePath, int? attributeFamilyId, string fileType, string fileName, bool isMediaReplace = false, MediaConfigurationModel mediaConfiguration = null)
+        {
+            MediaManagerModel mediaDetails = ToMediaManagerModel(fileType, files, actualFilePath, folderId, attributeFamilyId, fileName);
+
+            //if (HelperUtility.IsNotNull(mediaDetails) && !string.IsNullOrEmpty(mediaDetails.Size))
+            //{
+            //    string className = string.Empty;
+            //    int mediaConfigurationId = 0;
+            //    ServerConnector _connectorobj = GetServerConnection(out className, out mediaConfigurationId);
+
+            //    mediaDetails.MediaConfigurationId = mediaConfigurationId;
+
+            //    if (isOverrideFile)
+            //    {
+            //        return UpdateExistingMedia(mediaId, mediaDetails, className, _connectorobj, isMediaReplace, mediaConfiguration);
+            //    }
+
+            //    //upload media to server
+            //    UploadFilesMedia(className, _connectorobj, mediaDetails);
+            //    MediaManagerModel mediamanagermodel = _service.SaveMedia(mediaDetails);
+
+            //    try
+            //    {
+            //        if (mediaDetails.IsImage)
+            //        {
+            //            IImageMediaHelper? imageHelper = _serviceProvider.GetService<IImageMediaHelper>(); ;
+            //            imageHelper.GenerateImageOnEdit(mediaDetails.Path, mediaConfiguration);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+            //    }
+
+            //    return mediamanagermodel.MediaId;
+            //}
+            return 0;
+        }
+
+        // Upload on server and save in to DB
+        private MediaManagerModel ToMediaManagerModel(string fileType, FileInfo file, string actualFilePath, int folderId, int? attributeFamilyId, string fileName)
+        {
+            MediaManagerModel mediaManagerModel = new MediaManagerModel();
+            mediaManagerModel.Path = file.Name;
+            mediaManagerModel.Size = file.Length.ToString();
+            mediaManagerModel.FileName = fileName;
+            mediaManagerModel.Length = Convert.ToString(file.Length);
+            mediaManagerModel.MediaType = file.Extension;
+
+            if (string.Equals(fileType.Split('/')[0], "image"))
+            {
+
+                var Path = actualFilePath.Replace(@"\\\\", @"\\");
+                try
+                {
+                    MagickFormat imageFormat = GetImageFormat(mediaManagerModel.MediaType);
+                    using (MagickImage imageSize = new MagickImage(Path, imageFormat))
+                    {
+                        mediaManagerModel.Height = Convert.ToString(imageSize.Height);
+                        mediaManagerModel.Width = Convert.ToString(imageSize.Width);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //ToDo commented below throw exception due to facing issue while updating Image by using Magic Image.
+                    //throw new ZnodeException(100, UploadStatusCode.UnSupportedFile.ToString());
+                }
+                mediaManagerModel.IsImage = true;
+            }
+
+
+            //assing value to model which is to be save in database
+            mediaManagerModel.MediaPathId = folderId;
+            return mediaManagerModel;
+        }
+
+        //get ImageFormat from string extentions
+        private MagickFormat GetImageFormat(string extension)
+        {
+            switch (extension.ToLower())
+            {
+                case @".bmp":
+                    return MagickFormat.Bmp;
+
+                case @".gif":
+                    return MagickFormat.Gif;
+
+                case @".ico":
+                    return MagickFormat.Icon;
+
+                case @".jpg":
+                case @".jpeg":
+                    return MagickFormat.Jpeg;
+
+                case @".png":
+                    return MagickFormat.Png;
+
+                case @".tif":
+                case @".tiff":
+                    return MagickFormat.Tiff;
+
+                case @".wmf":
+                    return MagickFormat.Wmf;
+
+                case @".webp":
+                    return MagickFormat.WebP;
+
+                default:
+                    return MagickFormat.Png;
+            }
+        }
+
+        ////Gets the server connection
+        //private ServerConnector GetServerConnection(out string className, out int mediaConfigurationId)
+        //{
+        //    ServerConnector? _connectorobj = null;
+        //    //gets the default server configuration
+
+        //    if (HelperUtility.IsNotNull(_mediaConfiguration.MediaConfiguration))
+        //    {
+        //        //Sets the server connection
+        //        _connectorobj = new ServerConnector(new FileUploadPolicyModel(_mediaConfiguration.MediaConfiguration.AccessKey, _mediaConfiguration.MediaConfiguration.SecretKey, _mediaConfiguration.MediaConfiguration.BucketName, _mediaConfiguration.MediaConfiguration.ThumbnailFolderName, _mediaConfiguration.MediaConfiguration.URL, _mediaConfiguration.MediaConfiguration.NetworkUrl));
+        //        className = _mediaConfiguration.MediaConfiguration.MediaServer.ClassName;
+        //        mediaConfigurationId = _mediaConfiguration.MediaConfiguration.MediaConfigurationId;
+        //    }
+        //    else
+        //    {
+        //        _mediaConfiguration = _configurationCache.GetDefaultMediaConfiguration();
+        //        _connectorobj = new ServerConnector(new FileUploadPolicyModel(string.Empty, string.Empty, APIConstant.DefaultMediaFolder, APIConstant.ThumbnailFolderName, _mediaConfiguration.MediaConfiguration.URL, _mediaConfiguration.MediaConfiguration.NetworkUrl));
+        //        className = APIConstant.DefaultMediaClassName;
+        //        mediaConfigurationId = _mediaConfiguration.MediaConfiguration.MediaConfigurationId;
+
+        //    }
+        //    return _connectorobj;
+        //}
         #endregion
     }
 }

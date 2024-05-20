@@ -3,6 +3,7 @@ using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +17,7 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IUserAgent _userAgent;
         protected readonly IAuthenticationHelper _authenticationHelper;
+        private const string password = "~/Views/User/ChangePassword.cshtml";
         public UserController(IUserAgent userAgent, IAuthenticationHelper authenticationHelper)
         {
             _userAgent = userAgent;
@@ -69,6 +71,28 @@ namespace Coditech.Admin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public virtual ActionResult ChangePassword()
+        {
+            return View(password, new ChangePasswordViewModel());
+        }
+
+        [HttpPost]
+        public virtual ActionResult ChangePassword(ChangePasswordViewModel changePasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                changePasswordViewModel = _userAgent.ChangePassword(changePasswordViewModel);
+                if (!changePasswordViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.ChangePasswordSuccessMessage));
+                    return RedirectToAction<UserController>(x => x.Logout());
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(changePasswordViewModel.ErrorMessage));
+            return View(password, changePasswordViewModel);
+        }
+
         //Logs off the user from the site.
         [AllowAnonymous]
         [HttpGet]
@@ -88,9 +112,11 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult GetGeneralPersonAddressess(long personId)
+        public virtual ActionResult GetGeneralPersonAddressess(long personId, long entityId, string entityType)
         {
             GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
+            model.EntityId = entityId;
+            model.EntityType = entityType;
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", model);
         }
 
@@ -102,9 +128,15 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetGeneralPersonAddressess", new { personId = generalPersonAddressViewModel.PersonId });
             }
-            return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", generalPersonAddressViewModel);
+            if (generalPersonAddressViewModel.EntityType == UserTypeEnum.GymMember.ToString())
+                return RedirectToAction("CreateEditGymMemberAddress", "GymMemberDetails", new { gymMemberDetailId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+            else if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Employee.ToString())
+                return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+            else if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Patient.ToString())
+                return RedirectToAction("CreateEditPatientRegistrationAddress", "HospitalPatientRegistration", new { hospitalPatientRegistrationId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+            else
+                return null;
         }
 
         [HttpGet]

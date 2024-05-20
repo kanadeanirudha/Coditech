@@ -18,10 +18,10 @@ namespace Coditech.Admin.Agents
         #endregion
         
         #region Public Constructor
-        public OrganisationAgent()
+        public OrganisationAgent(ICoditechLogging coditechLogging, IOrganisationClient organisationClient)
         {
-            _coditechLogging =new CoditechLogging();
-            _organisationClient = new OrganisationClient();
+            _coditechLogging = coditechLogging;
+            _organisationClient = organisationClient;
 
         }
         #endregion

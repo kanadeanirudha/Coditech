@@ -222,6 +222,15 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterService, InventoryGeneralItemMasterService>();
             builder.Services.AddScoped<IInventoryCategoryService, InventoryCategoryService>();
+            builder.Services.AddScoped<IInventoryItemModelGroupService, InventoryItemModelGroupService>();
+            builder.Services.AddScoped<IInventoryProductDimensionGroupService, InventoryProductDimensionGroupService>();
+            builder.Services.AddScoped<IInventoryItemStorageDimensionService, InventoryItemStorageDimensionService>();
+            builder.Services.AddScoped<IInventoryItemTrackingDimensionService, InventoryItemTrackingDimensionService>();
+            builder.Services.AddScoped<IInventoryProductDimensionService, InventoryProductDimensionService>();
+            builder.Services.AddScoped<IInventoryItemGroupService, InventoryItemGroupService>();
+            builder.Services.AddScoped<IInventoryUoMMasterService, InventoryUoMMasterService>();
+            builder.Services.AddScoped<IInventoryStorageDimensionGroupService, InventoryStorageDimensionGroupService>();
+            builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupService, InventoryItemTrackingDimensionGroupService>();
         }
         #endregion
     }

@@ -14,6 +14,7 @@ namespace Coditech.Admin.ViewModel
         public string ShortCode { get; set; }
         public string EmpDesigType { get; set; }
         public string RelatedWith { get; set; }
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
     }
 }

@@ -19,5 +19,6 @@ namespace Coditech.Admin.ViewModel
         public bool IsRequired { get; set; } = true;
         public bool IsTextValueSame { get; set; }
         public bool AddSelectItem { get; set; } = true;
+        public string ClassName { get; set; } = string.Empty;
     }
 }

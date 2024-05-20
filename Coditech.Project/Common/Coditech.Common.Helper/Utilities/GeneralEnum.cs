@@ -44,7 +44,11 @@
         PaymentType,
         InventoryGeneralServiecs,
         DashboardForm,
-        InventoryCategory
+        InventoryCategory,
+        AllCities,
+        InventoryModel,
+        EmailTemplate,
+        HospitalDoctorsList
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -53,6 +57,7 @@
         CoditechModules,
         IsGymMemberLogin,
         IsEmployeeLogin,
+        IsPatientLogin,
         ActiveProjectName,
         DefaultPassword,
         DefaultCultureName,
@@ -66,7 +71,8 @@
         Admin,
         Employee,
         Customer,
-        GymMember
+        GymMember,
+        Patient
     }
 
     public enum ActiveProjectNameEnum
@@ -89,10 +95,58 @@
         CorrespondanceAddress,
         BusinessAddress        
     }
-    public enum GeneralRunningNumberFor
+    public enum GeneralRunningNumberForEnum
     {
         GymMemberRegistration,
         EmployeeRegistration,
-        InvoiceNumber
+        InvoiceNumber,
+        PatientUAHNumber,
+    }
+    public enum DashboardFormEnum
+    {
+        GymOwnerDashboard,
+        GymOperatorDashboard
+    }
+
+    public enum ErrorMessageTypeEnum
+    {
+        Application
+    }
+    // Specifies the text file access modes.
+    public enum FileModeEnum
+    {
+        // Indicates text file read mode operation.
+        Read,
+
+        // Indicates text file write mode operation. It deletes the previous content.
+        Write,
+
+        // Indicates text file append mode operation. it preserves the previous content.
+        Append
+    }
+    public enum EmailTemplateCodeEnum
+    {
+        EmployeeRegistration,
+        CustomerRegistration,
+        GymMemberRegistration
+    }
+    public enum UserNameRegistrationTypeEnum
+    {
+        EmailId,
+        MobileNumber,
+        PersonCode
+    }
+    public enum UploadStatusCodeEnum
+    {
+        ExtensionNotAllow = 10,
+        FileAlreadyExist = 20,
+        MaxFileSize = 30,
+        Corrupt = 40,
+        Error = 50,
+        Done = 60,
+        Removed = 70,
+        SelectSingleFile = 80,
+        SelectFile = 90,
+        UnSupportedFile = 100
     }
 }

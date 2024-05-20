@@ -58,40 +58,6 @@ namespace Coditech.Admin.Agents
                     (obj as BaseClient).RefreshCache = true;
                 }
             }
-            //TODO Team Hornbills 
-            //ICustomHeaders _headerAgent = GetService<ICustomHeaders>();
-
-            //if (HelperUtility.IsNotNull(_headerAgent))
-            //{
-            //    Dictionary<string, string> headers = _headerAgent.SetCustomHeaderOfClient();
-
-            //    int? count = headers?.Count;
-
-            //    if (count > 0)
-            //    {
-            //        for (int i = 0; i < count; i++)
-            //        {
-            //            switch (i.ToString())
-            //            {
-            //                case "0":
-            //                    (obj as BaseClient).Custom1 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
-            //                    break;
-            //                case "1":
-            //                    (obj as BaseClient).Custom2 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
-            //                    break;
-            //                case "2":
-            //                    (obj as BaseClient).Custom3 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
-            //                    break;
-            //                case "3":
-            //                    (obj as BaseClient).Custom4 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
-            //                    break;
-            //                case "4":
-            //                    (obj as BaseClient).Custom5 = $"{headers.ElementAt(i).Key}:{headers.ElementAt(i).Value}";
-            //                    break;
-            //            }
-            //        }
-            //    }
-            //}
             return obj;
         }
 

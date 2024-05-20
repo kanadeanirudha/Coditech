@@ -18,12 +18,29 @@
                     foreach (var item in Model?.GymMembershipPlanList)
                     {
                         <tr>
-                            <td>@item.MembershipPlanName</td>
+                            <td> @item.MembershipPlanName</td>
                             <td>@item.PlanType</td>
-                            <td>@item.PlanDurationInMonth Month & @item.PlanDurationInDays Days</td>
-                            <td>@item.PlanDurationInSession Session</td>
-                            <td>@item.MaxCost</td>
-                            <td>@item.MinCost</td>
+                            <td>
+                                @{
+                                    string membershipplanPeriodInfo = "";
+                                    if (item.PlanDurationInMonth > 0 || item.PlanDurationInDays > 0)
+                                    {
+                                        membershipplanPeriodInfo = item.PlanDurationInMonth + " Month & " + item.PlanDurationInDays + " Days";
+                                    }
+                                    else if (item.PlanDurationInSession > 0)
+                                    {
+                                        membershipplanPeriodInfo = item.PlanDurationInSession + " Session";
+                                    }
+                                    else
+                                    {
+                                        membershipplanPeriodInfo = "";
+                                    }
+                                }
+                                @membershipplanPeriodInfo
+                            </td>
+
+                            <td>@AdminGeneralHelper.FormatPriceWithCurrency(@item.MaxCost)</td>
+                            <td>@AdminGeneralHelper.FormatPriceWithCurrency(@item.MinCost)</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
                             </td>

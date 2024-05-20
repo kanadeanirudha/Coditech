@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 
-using System.Collections.Generic;
-
 namespace Coditech.Common.Helper.Utilities
 {
     public class CoditechTranslator

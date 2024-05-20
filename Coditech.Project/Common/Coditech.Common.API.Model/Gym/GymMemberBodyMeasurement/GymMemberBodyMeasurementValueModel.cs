@@ -2,6 +2,8 @@
 {
     public class GymMemberBodyMeasurementValueModel : BaseModel
     {
+        public long GymMemberBodyMeasurementId { get; set; }
+
         public string BodyMeasurementValue { get; set; }
 
         public string BodyMeasurementType { get; set; }

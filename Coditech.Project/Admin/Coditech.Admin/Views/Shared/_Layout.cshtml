@@ -5,6 +5,8 @@
     string messageData = Convert.ToString(TempData["Notifications"]);
     UserModel userData = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
     string applicationLogoPath = CoditechAdminSettings.ApplicationLogoPath;
+    string applicationLogoBackground = CoditechAdminSettings.ApplicationLogoBackground;
+    string applicationLayoutBackground = CoditechAdminSettings.ApplicationLayoutBackground;
     string applicationTitle = CoditechAdminSettings.ApplicationTitle;
     TempData.Remove("Notifications");
 }
@@ -35,7 +37,8 @@
     <link href="~/css/layout/jstree.css" rel="stylesheet" />
 </head>
 
-<body data-layout="horizontal" class="dark-topbar" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="">
+<body data-layout="horizontal" class="dark-topbar" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="" style="background: url(@applicationLayoutBackground);
+}">
     @Html.Partial("~/Views/Shared/_Loader.cshtml")
 
     @if (userData != null)
@@ -43,7 +46,7 @@
         <!-- Top Bar Start -->
         <div class="topbar">
             <!-- LOGO -->
-            <div class="brand">
+            <div class="brand" style="background-color:@applicationLogoBackground">
                 <a href="~/Dashboard/Index" class="logo">
                     <span>
                         <img src="@applicationLogoPath" alt="logo-small" class="logo-sm">
@@ -128,15 +131,16 @@
     <script src="~/js/layout/daterangepicker.js"></script>
     <script src="~/js/layout/app.js"></script>
     <script src="~/js/layout/bootstrap-select.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/o0x444idw8ayjhdnx713uvfpluef0dkh1n7geywd93dubpw1/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <!-- coditech script-->
     <script src="~/js/coditech/common/coditechcommon.js"></script>
     <script src="~/js/coditech/common/coditechdatatable.js"></script>
     <script src="~/js/coditech/common/coditechnotification.js"></script>
-    <script src="~/js/coditech/adminrolemaster.js"></script>
     <script src="~/js/coditech/gym/gymmemberdetails.js"></script>
     <script src="~/js/coditech/user.js"></script>
     <script src="~/js/coditech/Organisation/OrganisationCentrewiseDepartment.js"></script>
     <script src="~/js/coditech/Organisation/OrganisationCentrewiseBuildingRooms.js"></script>
+    <script src="~/js/Coditech/Organisation/OrganisationCentrewiseEmailTemplate.js"></script>
     <script src="~/js/coditech/HMS/HospitalDoctors.js"></script>
 </body>
 @await RenderSectionAsync("Scripts", required: false)

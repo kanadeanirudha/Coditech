@@ -70,20 +70,20 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record Change Password Success Message updated successfully..
+        /// </summary>
+        public static string ChangePasswordSuccessMessage {
+            get {
+                return ResourceManager.GetString("ChangePasswordSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete the record..
         /// </summary>
         public static string DeleteErrorMessage {
             get {
                 return ResourceManager.GetString("DeleteErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Record deleted Inventory Category successfully..
-        /// </summary>
-        public static string DeleteInventoryCategory {
-            get {
-                return ResourceManager.GetString("DeleteInventoryCategory", resourceCulture);
             }
         }
         
@@ -106,7 +106,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to create.
+        ///   Looks up a localized string similar to Failed to create..
         /// </summary>
         public static string ErrorFailedToCreate {
             get {
@@ -228,15 +228,6 @@ namespace Coditech.Resources {
         public static string UpdateErrorMessage {
             get {
                 return ResourceManager.GetString("UpdateErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Record updated Inventory Category successfully..
-        /// </summary>
-        public static string UpdateInventoryCategory {
-            get {
-                return ResourceManager.GetString("UpdateInventoryCategory", resourceCulture);
             }
         }
         
