@@ -15,7 +15,7 @@ namespace Coditech.API.Endpoint
            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeService/CreateEmployeeService";
 
         public string GetEmployeeServiceAsync(long employeeId, long personId, long employeeServiceId) =>
-            $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeService?employeeId={employeeId}&personId={personId}&employeeServiceId{employeeServiceId}";
+            $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeService?employeeId={employeeId}&personId={personId}&employeeServiceId={employeeServiceId}";
 
         public string UpdateEmployeeServiceAsync() =>
                $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/UpdateEmployeeService";
