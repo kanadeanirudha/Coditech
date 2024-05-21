@@ -1,9 +1,10 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Exceptions;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Coditech.Admin.Controllers
 {
@@ -33,6 +34,19 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/HMS/HospitalDoctorVisitingCharges/List.cshtml", list);
         }
 
+        public virtual ActionResult GetHospitalDoctorVisitingChargesByDoctorIdList(DataTableViewModel dataTableModel)
+        {
+            HospitalDoctorVisitingChargesListViewModel list = new HospitalDoctorVisitingChargesListViewModel();
+            if (dataTableModel.HospitalDoctorId > 0)
+            {
+                list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesByDoctorList(dataTableModel.HospitalDoctorId, dataTableModel);
+            }
+            list.HospitalDoctorId = dataTableModel.HospitalDoctorId;
+           
+         return View($"~/Views/HMS/HospitalDoctorVisitingCharges/HospitalDoctorVisitingChargesByDoctorIdList.cshtml", list);
+            
+        }
+
         [HttpGet]
         public virtual ActionResult Create()
         {
@@ -59,7 +73,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult Edit(short hospitalDoctorVisitingChargesId)
         {
             HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId);
-            return ActionView(createEdit, hospitalDoctorVisitingChargesViewModel);
+            return View(createEdit, hospitalDoctorVisitingChargesViewModel);
         }
 
         [HttpPost]
