@@ -131,8 +131,10 @@ namespace Coditech.Admin.Controllers
             }
             if (generalPersonAddressViewModel.EntityType == UserTypeEnum.GymMember.ToString())
                 return RedirectToAction("CreateEditGymMemberAddress", "GymMemberDetails", new { gymMemberDetailId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
-            if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Employee.ToString())
+            else if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Employee.ToString())
                 return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+            else if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Patient.ToString())
+                return RedirectToAction("CreateEditPatientRegistrationAddress", "HospitalPatientRegistration", new { hospitalPatientRegistrationId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
             else
                 return null;
         }

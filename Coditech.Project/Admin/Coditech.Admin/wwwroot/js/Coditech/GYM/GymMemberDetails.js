@@ -163,13 +163,6 @@
     },
 
     AddGymMemberBodyMeasurement: function (modelPopContentId, gymMemberDetailId, gymBodyMeasurementTypeId, gymMemberBodyMeasurementId, bodyMeasurementType, measurementUnitShortCode, personId) {
-        console.log("modelPopContentId:", modelPopContentId);
-        console.log("gymMemberDetailId:", gymMemberDetailId);
-        console.log("gymMemberBodyMeasurementId:", gymMemberBodyMeasurementId);
-        console.log("gymBodyMeasurementTypeId:", gymBodyMeasurementTypeId);
-        console.log("bodyMeasurementType:", bodyMeasurementType);
-        console.log("measurementUnitShortCode:", measurementUnitShortCode);
-        console.log("personId:", personId);
         CoditechCommon.ShowLodder();
         $.ajax({
             cache: false,

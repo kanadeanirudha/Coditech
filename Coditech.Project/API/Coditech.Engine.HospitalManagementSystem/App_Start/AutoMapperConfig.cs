@@ -13,8 +13,10 @@ namespace Coditech.API.Mapper
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<HospitalDoctors, HospitalDoctorsModel>().ReverseMap();
+            CreateMap<HospitalDoctorVisitingCharges, HospitalDoctorVisitingChargesModel>().ReverseMap();
             CreateMap<HospitalDoctorAllocatedRoom, HospitalDoctorAllocatedOPDRoomModel>().ReverseMap();
             CreateMap<HospitalDoctorLeaveSchedule, HospitalDoctorLeaveScheduleModel>().ReverseMap();
+            CreateMap<HospitalPatientRegistration, HospitalPatientRegistrationModel>().ReverseMap();
         }
     }
 }

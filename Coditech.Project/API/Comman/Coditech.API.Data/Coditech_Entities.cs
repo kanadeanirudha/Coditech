@@ -45,6 +45,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrewiseBuildingRooms> OrganisationCentrewiseBuildingRooms { get; set; }
         public DbSet<OrganisationCentrewiseSmtpSetting> OrganisationCentrewiseSmtpSetting { get; set; }
         public DbSet<OrganisationCentrewiseEmailTemplate> OrganisationCentrewiseEmailTemplate { get; set; }
+        public DbSet<OrganisationCentrewiseUserNameRegistration> OrganisationCentrewiseUserNameRegistration { get; set; }
         #endregion
 
         #region Admin
@@ -66,7 +67,8 @@ namespace Coditech.API.Data
         #endregion
 
         #region Employee
-        public DbSet<EmployeeMaster> EmployeeMaster { get; set; }        
+        public DbSet<EmployeeMaster> EmployeeMaster { get; set; }
+        public DbSet<EmployeeService> EmployeeService { get; set; }
         #endregion
 
         #region Gym
@@ -92,8 +94,10 @@ namespace Coditech.API.Data
 
         #region HMS
         public DbSet<HospitalDoctors> HospitalDoctors { get; set; }
+        public DbSet<HospitalDoctorVisitingCharges> HospitalDoctorVisitingCharges { get; set; }
         public DbSet<HospitalDoctorAllocatedRoom> HospitalDoctorAllocatedRoom { get; set; }
         public DbSet<HospitalDoctorLeaveSchedule> HospitalDoctorLeaveSchedule { get; set; }
+        public DbSet<HospitalPatientRegistration> HospitalPatientRegistration { get; set; }
         #endregion
 
         #region GeneralPerson
@@ -116,8 +120,12 @@ namespace Coditech.API.Data
         public DbSet<InventoryItemGroup> InventoryItemGroup { get; set; }
         public DbSet<InventoryProductDimensionGroup> InventoryProductDimensionGroup { get; set; }
         public DbSet<InventoryProductDimensionGroupMapper> InventoryProductDimensionGroupMapper { get; set; }
+        public DbSet<InventoryStorageDimensionGroup> InventoryStorageDimensionGroup { get; set; }
+        public DbSet<InventoryStorageDimensionGroupMapper> InventoryStorageDimensionGroupMapper { get; set; }
         public DbSet<InventoryUoMMaster> InventoryUoMMaster { get; set; }
-        
+        public DbSet<InventoryItemTrackingDimensionGroup> InventoryItemTrackingDimensionGroup { get; set; }
+        public DbSet<InventoryItemTrackingDimensionGroupMapper> InventoryItemTrackingDimensionGroupMapper { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

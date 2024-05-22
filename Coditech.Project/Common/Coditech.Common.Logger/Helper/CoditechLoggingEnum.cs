@@ -38,6 +38,7 @@
             MediaManager,
             Gym,
             EmployeeMaster,
+            EmployeeService,
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,
@@ -69,7 +70,12 @@
             InventoryItemGroup,
             UserMainMenuMaster,
             HospitalDoctorLeaveSchedule,
-            InventoryUoMMaster
+            InventoryUoMMaster,
+            CentrewiseUserName,
+            HospitalDoctorVisitingCharges,
+            HospitalPatientRegistration,
+            InventoryStorageDimensionGroup,
+            InventoryItemTrackingDimensionGroup
         }
     }
 }

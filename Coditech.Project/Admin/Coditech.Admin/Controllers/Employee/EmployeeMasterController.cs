@@ -12,11 +12,15 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IEmployeeMasterAgent _employeeMasterAgent;
         private const string createEditEmployee = "~/Views/EmployeeMaster/CreateEditEmployee.cshtml";
+        private readonly IEmployeeServiceAgent _employeeServiceAgent;
+        private const string createEditEmployeeService = "~/Views/EmployeeMaster/EmployeeService/UpdateEmployeeServiceDetails.cshtml";
 
-        public EmployeeMasterController(IEmployeeMasterAgent employeeMasterAgent)
+        public EmployeeMasterController(IEmployeeMasterAgent employeeMasterAgent, IEmployeeServiceAgent employeeServiceAgent)
         {
             _employeeMasterAgent = employeeMasterAgent;
+            _employeeServiceAgent = employeeServiceAgent;
         }
+
         #region Employee
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
@@ -51,7 +55,7 @@ namespace Coditech.Admin.Controllers
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     // Redirect to the List action with selectedCentreCode and selectedDepartmentId
-                    return RedirectToAction("List", new { selectedCentreCode, selectedDepartmentId });
+                    return RedirectToAction("UpdateEmployeePersonalDetails", new { employeeId = employeeCreateEditViewModel.EntityId, personId = employeeCreateEditViewModel.PersonId });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(employeeCreateEditViewModel.ErrorMessage));
@@ -136,14 +140,50 @@ namespace Coditech.Admin.Controllers
         #endregion Employee Address
 
         #region Employee Service
-        public virtual ActionResult EmployeeServiceList(int employeeId,DataTableViewModel dataTableViewModel)
+        public virtual ActionResult EmployeeServiceList(long employeeId, long personId, DataTableViewModel dataTableViewModel)
         {
-            EmployeeMasterListViewModel list = _employeeMasterAgent.GetEmployeeMasterList(dataTableViewModel);
+            EmployeeServiceListViewModel list = _employeeServiceAgent.GetEmployeeServiceList(employeeId, personId, dataTableViewModel);
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/EmployeeMaster/_List.cshtml", list);
+                return PartialView("~/Views/EmployeeMaster/EmployeeService/_EmployeeServiceList.cshtml", list);
             }
-            return View($"~/Views/EmployeeMaster/List.cshtml", list);
+            return View($"~/Views/EmployeeMaster/EmployeeService/EmployeeServiceList.cshtml", list);
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetEmployeeService(long employeeId, long personId, long employeeServiceId)
+        {
+            EmployeeServiceViewModel employeeServiceViewModel = _employeeServiceAgent.GetEmployeeService(employeeId, personId, employeeServiceId);
+            return View(createEditEmployeeService, employeeServiceViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult CreateEmployeeService(EmployeeServiceViewModel employeeServiceViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                employeeServiceViewModel = _employeeServiceAgent.CreateEmployeeService(employeeServiceViewModel);
+                if (!employeeServiceViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("EmployeeServiceList", CreateActionDataTable());
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(employeeServiceViewModel.ErrorMessage));
+            return View(createEditEmployeeService, employeeServiceViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateEmployeeService(EmployeeServiceViewModel employeeServiceViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_employeeServiceAgent.UpdateEmployeeService(employeeServiceViewModel).HasError
+               ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+              : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("GetEmployeeService", new { employeeId = employeeServiceViewModel.EmployeeId, personId = employeeServiceViewModel.PersonId, employeeServiceId = employeeServiceViewModel.EmployeeServiceId });
+            }
+            return View(createEditEmployeeService, employeeServiceViewModel);
         }
         #endregion Employee Service
     }
