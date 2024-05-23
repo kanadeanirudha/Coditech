@@ -42,7 +42,8 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Create(HospitalDoctorLeaveScheduleViewModel hospitalDoctorLeaveScheduleViewModel)
         {
-            if (hospitalDoctorLeaveScheduleViewModel.IsFullDay) {
+            if (hospitalDoctorLeaveScheduleViewModel.IsFullDay)
+            {
                 ModelState.Remove("FromTime");
                 ModelState.Remove("UptoTime");
             }
@@ -84,7 +85,7 @@ namespace Coditech.Admin.Controllers
             return View(createEdit, hospitalDoctorLeaveScheduleViewModel);
         }
 
-        public virtual ActionResult Delete(string hospitalDoctorLeaveScheduleIds)
+        public virtual ActionResult Delete(string hospitalDoctorLeaveScheduleIds, string SelectedCentreCode, short SelectedDepartmentId)
         {
             string message = string.Empty;
             bool status = false;
@@ -94,11 +95,17 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<HospitalDoctorLeaveScheduleController>(x => x.List(null));
+                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(SelectedDepartmentId) });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<HospitalDoctorLeaveScheduleController>(x => x.List(null));
+            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(SelectedDepartmentId) });
+        }
+
+        public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = SelectedDepartmentId };
+            return RedirectToAction("List", dataTableViewModel);
         }
 
         #region Protected

@@ -92,5 +92,6 @@ namespace Coditech.Admin.ViewModel
         public string UserType { get; set; }
         [Display(Name = "Anniversary Date")]
         public DateTime? AnniversaryDate { get; set; }
+        public long EntityId { get; set; }
     }
 }

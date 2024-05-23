@@ -230,6 +230,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IInventoryItemGroupService, InventoryItemGroupService>();
             builder.Services.AddScoped<IInventoryUoMMasterService, InventoryUoMMasterService>();
             builder.Services.AddScoped<IInventoryStorageDimensionGroupService, InventoryStorageDimensionGroupService>();
+            builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupService, InventoryItemTrackingDimensionGroupService>();
         }
         #endregion
     }

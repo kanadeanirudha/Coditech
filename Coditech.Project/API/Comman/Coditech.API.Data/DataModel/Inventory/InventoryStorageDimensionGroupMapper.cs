@@ -20,7 +20,6 @@ namespace Coditech.API.Data
         public string Reference { get; set; }
         public bool Transfer { get; set; }
         public int DisplayOrder { get; set; }
-        public string StorageDimensionName { get; set; }
         public long? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public long? ModifiedBy { get; set; }

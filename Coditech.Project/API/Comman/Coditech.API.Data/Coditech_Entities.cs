@@ -123,7 +123,9 @@ namespace Coditech.API.Data
         public DbSet<InventoryStorageDimensionGroup> InventoryStorageDimensionGroup { get; set; }
         public DbSet<InventoryStorageDimensionGroupMapper> InventoryStorageDimensionGroupMapper { get; set; }
         public DbSet<InventoryUoMMaster> InventoryUoMMaster { get; set; }
-        
+        public DbSet<InventoryItemTrackingDimensionGroup> InventoryItemTrackingDimensionGroup { get; set; }
+        public DbSet<InventoryItemTrackingDimensionGroupMapper> InventoryItemTrackingDimensionGroupMapper { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

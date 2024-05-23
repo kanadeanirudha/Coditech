@@ -55,7 +55,7 @@ namespace Coditech.Admin.Controllers
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     // Redirect to the List action with selectedCentreCode and selectedDepartmentId
-                    return RedirectToAction("List", new { selectedCentreCode, selectedDepartmentId });
+                    return RedirectToAction("UpdateEmployeePersonalDetails", new { employeeId = employeeCreateEditViewModel.EntityId, personId = employeeCreateEditViewModel.PersonId });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(employeeCreateEditViewModel.ErrorMessage));
