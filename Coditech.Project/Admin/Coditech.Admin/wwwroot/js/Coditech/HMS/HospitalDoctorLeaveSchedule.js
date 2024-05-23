@@ -34,6 +34,7 @@
 
             if (uptoTimeValue != '' && fromTimeValue >= uptoTimeValue) {
                 $("#errorUptoTime").text(" Upto time must be greater than From time. Please select a valid time.").addClass("field-validation-error").show();
+                return false;
             } else {
                 // Submit the form if validation passes
                 $("#frmHospitalDoctorLeaveScheduleTime").submit();
