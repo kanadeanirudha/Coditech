@@ -42,10 +42,10 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<HospitalDoctorOPDScheduleModel> hospitalDoctorOPDScheduleList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalDoctorOPDScheduleList @CentreCode,@DepartmentId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<HospitalDoctorOPDScheduleModel> hospitalDoctorList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalDoctorOPDScheduleList @CentreCode,@DepartmentId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             HospitalDoctorOPDScheduleListModel listModel = new HospitalDoctorOPDScheduleListModel();
 
-            listModel.HospitalDoctorOPDScheduleList = hospitalDoctorOPDScheduleList?.Count > 0 ? hospitalDoctorOPDScheduleList : new List<HospitalDoctorOPDScheduleModel>();
+            listModel.HospitalDoctorList = hospitalDoctorList?.Count > 0 ? hospitalDoctorList : new List<HospitalDoctorOPDScheduleModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
@@ -64,7 +64,6 @@ namespace Coditech.API.Service
                 if (IsNotNull(hospitalDoctorOPDSchedule))
                 {
                     hospitalDoctorOPDScheduleModel = hospitalDoctorOPDSchedule?.FromEntityToModel<HospitalDoctorOPDScheduleModel>();
-                    hospitalDoctorOPDScheduleModel.HospitalDoctorOPDScheduleId = _hospitalDoctorOPDScheduleRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorId.HospitalDoctorOPDScheduleId)?.Select(y => y.HospitalDoctorOPDScheduleId)?.FirstOrDefault();
                 }
             }
 

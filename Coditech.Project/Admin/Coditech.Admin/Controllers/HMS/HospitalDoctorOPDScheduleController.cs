@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -49,20 +48,9 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_hospitalDoctorOPDScheduleAgent.UpdateHospitalDoctorOPDSchedule(hospitalDoctorOPDScheduleViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("List", CreateActionDataTable(hospitalDoctorOPDScheduleViewModel.HospitalDoctorId, Convert.ToInt16(hospitalDoctorOPDScheduleViewModel.HospitalDoctorId)));
+                return RedirectToAction("List", CreateActionDataTable(hospitalDoctorOPDScheduleViewModel.SelectedCentreCode, Convert.ToInt16(hospitalDoctorOPDScheduleViewModel.SelectedDepartmentId)));
             }
             return View(createEdit, hospitalDoctorOPDScheduleViewModel);
-        }
-
-        public virtual ActionResult GetHospitalDoctorOPDSchedule(string organisationCentrewiseBuildingMasterId)
-        {
-            DropdownViewModel departmentDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(),
-                DropdownName = "HospitalDoctorOPDScheduleId",
-                Parameter = hospitalDoctorOPDScheduleId,
-            };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
         public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)

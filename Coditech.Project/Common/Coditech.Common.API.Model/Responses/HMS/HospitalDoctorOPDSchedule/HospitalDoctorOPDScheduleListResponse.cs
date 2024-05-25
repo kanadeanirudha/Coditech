@@ -2,6 +2,6 @@
 {
     public class HospitalDoctorOPDScheduleListResponse : BaseListResponse
     {
-        public List<HospitalDoctorOPDScheduleModel> HospitalDoctorOPDScheduleList { get; set; }
+        public List<HospitalDoctorOPDScheduleModel> HospitalDoctorList { get; set; }
     }
 }

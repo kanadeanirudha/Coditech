@@ -3,8 +3,6 @@
     ViewBag.Title = Model.HospitalDoctorId > 0 ? "Update Hospital Doctor OPD Schedule" : "Add Hospital Doctor";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel buildingDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(), DropdownName = "OrganisationCentrewiseBuildingMasterId", DropdownSelectedValue = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId), Parameter = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctorOPDSchedule.GetOrganisationCentrewiseBuildingRooms()" };
-    DropdownViewModel buildingRoomDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuildingRooms.ToString(), DropdownName = "OrganisationCentrewiseBuildingRoomId", DropdownSelectedValue = Convert.ToString(Model.OrganisationCentrewiseBuildingRoomId), Parameter = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId) };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -32,16 +30,12 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.HospitalDoctorId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", buildingDropdown)
-                                        @Html.ValidationMessageFor(x => x.HospitalDoctorId)
+                                       
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.OrganisationCentrewiseBuildingRoomId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", buildingRoomDropdown)
-                                        @Html.ValidationMessageFor(x => x.OrganisationCentrewiseBuildingRoomId)
+                                       
                                     </div>
                                 </div>
                             </div>

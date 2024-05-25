@@ -37,23 +37,20 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("HospitalDoctorId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("WeekDayEnumId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("OPDTimesOfDay", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("FromTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("UptoTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("TimesSlothInMinute", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("TimeZone", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             HospitalDoctorOPDScheduleListResponse response = _hospitalDoctorOPDScheduleClient.List(selectedCentreCode, selectedDepartmentId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            HospitalDoctorOPDScheduleListModel hospitalDoctorOPDScheduleList = new HospitalDoctorOPDScheduleListModel { HospitalDoctorOPDScheduleList = response?.HospitalDoctorOPDScheduleList };
+            HospitalDoctorOPDScheduleListModel hospitalDoctorOPDScheduleList = new HospitalDoctorOPDScheduleListModel { HospitalDoctorList = response?.HospitalDoctorList };
             HospitalDoctorOPDScheduleListViewModel listViewModel = new HospitalDoctorOPDScheduleListViewModel();
-            listViewModel.HospitalDoctorOPDScheduleList = hospitalDoctorOPDScheduleList?.HospitalDoctorOPDScheduleList?.ToViewModel<HospitalDoctorOPDScheduleViewModel>().ToList();
+            listViewModel.HospitalDoctorList = hospitalDoctorOPDScheduleList?.HospitalDoctorList?.ToViewModel<HospitalDoctorOPDScheduleViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.HospitalDoctorOPDScheduleList.Count, BindColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.HospitalDoctorList.Count, BindColumns());
             return listViewModel;
         }
 
@@ -69,8 +66,6 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                string SelectedCentreCode = hospitalDoctorOPDScheduleViewModel.HospitalDoctorOPDSchedule;
-                string SelectedDepartmentId = hospitalDoctorOPDScheduleViewModel.SelectedDepartmentId;
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalDoctorOPDSchedule.ToString(), TraceLevel.Info);
                 HospitalDoctorOPDScheduleResponse response = _hospitalDoctorOPDScheduleClient.UpdateHospitalDoctorOPDSchedule(hospitalDoctorOPDScheduleViewModel.ToModel<HospitalDoctorOPDScheduleModel>());
                 HospitalDoctorOPDScheduleModel hospitalDoctorOPDScheduleModel = response?.HospitalDoctorOPDScheduleModel;
@@ -91,43 +86,37 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Hospital Doctor",
-                ColumnCode = "HospitalDoctorId",
+                ColumnName = "Image",
+                ColumnCode = "Image",
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "WeekDay Enum",
-                ColumnCode = "WeekDayEnumId",
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "OPD Times",
-                ColumnCode = "OPDTimesOfDay",
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "From Time",
-                ColumnCode = "FromTime",
+                ColumnName = "Contact",
+                ColumnCode = "MobileNumber",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Upto Time",
-                ColumnCode = "UptoTime",
+                ColumnName = "Email Id",
+                ColumnCode = "EmailId",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Times Sloth",
-                ColumnCode = "TimesSlothInMinute",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Time Zone",
-                ColumnCode = "TimeZone",
+                ColumnName = "Medical Specilization",
+                ColumnCode = "MedicalSpecilization",
                 IsSortable = true,
             });
             return datatableColumnList;

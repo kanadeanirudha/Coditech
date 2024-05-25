@@ -10,6 +10,11 @@
         public TimeSpan UptoTime { get; set; }
         public Byte TimesSlothInMinute { get; set; }
         public string TimeZone { get; set; }
-        
+        public string ImagePath { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MedicalSpecilization { get; set; }
+        public string MobileNumber { get; set; }
+        public string EmailId { get; set; }
     }
 }

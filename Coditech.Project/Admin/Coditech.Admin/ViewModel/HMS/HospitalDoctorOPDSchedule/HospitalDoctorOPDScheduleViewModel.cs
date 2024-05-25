@@ -35,6 +35,13 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Time Zone")]
         public string TimeZone { get; set; }
-        
+        public string ImagePath { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MedicalSpecilization { get; set; }
+        public string MobileNumber { get; set; }
+        public string EmailId { get; set; }
+        public string SelectedCentreCode { get; set; }
+        public string SelectedDepartmentId { get; set; }
     }
 }
