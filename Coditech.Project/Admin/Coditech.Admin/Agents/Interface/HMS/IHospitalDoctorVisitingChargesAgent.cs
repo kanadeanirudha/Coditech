@@ -10,7 +10,14 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>HospitalDoctorVisitingChargesListViewModel</returns>
-        HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesList(DataTableViewModel dataTableModel);
+        HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesList(string selectedCentreCode, short selectedDepartmentId, DataTableViewModel dataTableModel);
+
+        /// <summary>
+        /// Get list of General HospitalDoctorVisitingChargesByDoctorId.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>HospitalDoctorVisitingChargesListViewModel</returns>
+        HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesByDoctorList(int hospitalDoctorId, DataTableViewModel dataTableModel);
 
         /// <summary>
         /// Create HospitalDoctorVisitingCharges.
@@ -24,7 +31,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId</param>
         /// <returns>Returns HospitalDoctorVisitingChargesViewModel.</returns>
-        HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(short hospitalDoctorVisitingChargesId);
+        HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId);
 
         /// <summary>
         /// Update HospitalDoctorVisitingCharges.
@@ -32,13 +39,12 @@ namespace Coditech.Admin.Agents
         /// <param name="hospitalDoctorVisitingChargesViewModel">hospitalDoctorVisitingChargesViewModel.</param>
         /// <returns>Returns updated HospitalDoctorVisitingChargesViewModel</returns>
         HospitalDoctorVisitingChargesViewModel UpdateHospitalDoctorVisitingCharges(HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel);
-
+        
         /// <summary>
         /// Delete HospitalDoctorVisitingCharges.
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteHospitalDoctorVisitingCharges(string hospitalDoctorVisitingChargesId, out string errorMessage);
-        HospitalDoctorVisitingChargesListResponse GetHospitalDoctorVisitingChargesList();
     }
 }

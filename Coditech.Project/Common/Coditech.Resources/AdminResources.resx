@@ -393,6 +393,12 @@
   <data name="ErrorDeletePatientRegistrationDetails" xml:space="preserve">
     <value>Failed to delete Patient Registration due to associate record.</value>
   </data>
+  <data name="ErrorDeleteInventoryItemTrackingDimensionGroup" xml:space="preserve">
+    <value>Failed to delete Inventory Item Tracking Dimension Group due to associate record.</value>
+  </data>
+  <data name="LabelInventoryItemTrackingDimensionGroupList" xml:space="preserve">
+    <value>Inventory Item Tracking Dimension Group List</value>
+  </data>
   <data name="ErrorDeleteHospitalDoctorOPDSchedule" xml:space="preserve">
     <value>Failed to delete Hospital Doctor OPD Schedule due to associate record.</value>
   </data>

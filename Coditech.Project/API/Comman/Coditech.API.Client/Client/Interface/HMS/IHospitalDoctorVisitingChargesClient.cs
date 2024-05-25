@@ -11,7 +11,14 @@ namespace Coditech.API.Client
         /// Get list of Hospital Doctor Visiting Charges.
         /// </summary>
         /// <returns>HospitalDoctorVisitingChargesListResponse</returns>
-        HospitalDoctorVisitingChargesListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        HospitalDoctorVisitingChargesListResponse List(string selectedCentreCode, short selectedDepartmentId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+        /// <summary>
+        /// Get list of Hospital Doctor Visiting Charges by HospitalDoctorId.
+        /// </summary>
+        /// <returns>HospitalDoctorVisitingChargesListResponse</returns>
+        HospitalDoctorVisitingChargesListResponse GetHospitalDoctorVisitingChargesByDoctorIdList(int hospitalDoctorId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
 
         /// <summary>
         /// Create Hospital Doctor Visiting Charges.
@@ -25,7 +32,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId</param>
         /// <returns>Returns HospitalDoctorVisitingChargesResponse.</returns>
-        HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(short hospitalDoctorVisitingChargesId);
+        HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId);
 
         /// <summary>
         /// Update HospitalDoctorVisitingChargesy.

@@ -11,6 +11,7 @@ namespace Coditech.Admin.ViewModel
         public int PageSize { get; set; } = 10;
         public string SelectedCentreCode { get; set; } = string.Empty;
         public short SelectedDepartmentId { get; set; }
+        public int HospitalDoctorId { get; set; }
         public string SelectedParameter1 { get; set; } = string.Empty;
         public string SelectedParameter2 { get; set; } = string.Empty;
         public string SelectedParameter3 { get; set; } = string.Empty;

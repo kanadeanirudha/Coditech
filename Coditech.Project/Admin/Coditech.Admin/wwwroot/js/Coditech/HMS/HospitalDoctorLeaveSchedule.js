@@ -20,9 +20,29 @@
             $("#FromTime").rules("add", "required")
             $("#UptoTime").rules("add", "required")
         }
-      
+    },
+   
+    ValidateLeaveScheduleTime: function () {
+
+        $("#frmHospitalDoctorLeaveScheduleTime").validate();
+        $("#errorFromTime").text('').removeClass("field-validation-error").hide();
+        $("#errorUptoTime").text('').removeClass("field-validation-error").hide();
+
+        if ($("#frmHospitalDoctorLeaveScheduleTime").valid()) {
+            var fromTimeValue = $("#FromTime").val();
+            var uptoTimeValue = $("#UptoTime").val();
+
+            if (uptoTimeValue != '' && fromTimeValue >= uptoTimeValue) {
+                $("#errorUptoTime").text(" Upto time must be greater than From time. Please select a valid time.").addClass("field-validation-error").show();
+                return false;
+            } else {
+                // Submit the form if validation passes
+                $("#frmHospitalDoctorLeaveScheduleTime").submit();
+            }
+        }
     },
 }
+
 
 
 

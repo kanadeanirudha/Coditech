@@ -8,9 +8,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.AspNetCore.Mvc;
-
 using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Controllers
@@ -29,11 +27,11 @@ namespace Coditech.API.Controllers
         [Route("/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingChargesList")]
         [Produces(typeof(HospitalDoctorVisitingChargesListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetHospitalDoctorVisitingChargesList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetHospitalDoctorVisitingChargesList(string selectedCentreCode, short selectedDepartmentId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                HospitalDoctorVisitingChargesListModel list = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingChargesList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                HospitalDoctorVisitingChargesListModel list = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingChargesList(selectedCentreCode, selectedDepartmentId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalDoctorVisitingChargesListResponse>(data) : CreateNoContentResponse();
             }
@@ -48,6 +46,35 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new HospitalDoctorVisitingChargesListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingChargesByDoctorIdList")]
+        [Produces(typeof(HospitalDoctorVisitingChargesListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+
+        public virtual IActionResult GetHospitalDoctorVisitingChargesByDoctorIdList(int hospitalDoctorId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                HospitalDoctorVisitingChargesListModel listModel = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingChargesByDoctorIdList(hospitalDoctorId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(listModel);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalDoctorVisitingChargesListResponse>(data) : CreateNoContentResponse();
+
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorVisitingCharges.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new HospitalDoctorVisitingChargesListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorVisitingCharges.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new HospitalDoctorVisitingChargesListResponse { HasError = true, ErrorMessage = ex.Message });
+
+            }
+        }
+
 
         [Route("/HospitalDoctorVisitingCharges/CreateHospitalDoctorVisitingCharges")]
         [HttpPost, ValidateModel]

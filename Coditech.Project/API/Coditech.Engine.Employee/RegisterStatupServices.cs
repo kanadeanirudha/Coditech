@@ -221,6 +221,7 @@ namespace Coditech.API.Common
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
+            builder.Services.AddScoped<IEmployeeServiceService, EmployeeServiceService>();
         }
         #endregion
     }

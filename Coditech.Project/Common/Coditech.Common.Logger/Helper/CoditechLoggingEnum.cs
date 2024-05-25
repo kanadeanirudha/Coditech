@@ -38,6 +38,7 @@
             MediaManager,
             Gym,
             EmployeeMaster,
+            EmployeeService,
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,
@@ -74,8 +75,8 @@
             HospitalDoctorVisitingCharges,
             HospitalPatientRegistration,
             InventoryStorageDimensionGroup,
+            InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule
-
         }
     }
 }

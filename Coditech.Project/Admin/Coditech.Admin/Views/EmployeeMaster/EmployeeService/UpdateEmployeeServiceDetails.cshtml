@@ -1,0 +1,134 @@
+﻿@model EmployeeServiceViewModel
+@{
+    ViewBag.Title = Model.EmployeeServiceId > 0 ? "Update Employee Service" : "Add Employee Service";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("EmployeeId", Model.EmployeeId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/EmployeeMaster/_EmployeeDetailsSidePannel.cshtml", keyValuePairs)
+            </div>
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.EmployeeServiceId > 0)
+                                {
+                                    <h4 class="card-title"><span>Update Employee Service- @Model.FirstName @Model.LastName</span></h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Employee Service</h4>
+                                }
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpdateEmployeeService", controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.EmployeeId)
+                            @Html.HiddenFor(m => m.EmployeeServiceId)
+                            <div class="row">
+                      
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.EmployeeCode, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.EmployeeCode, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.EmployeeCode)
+                                    </div>
+                                </div>                                
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.EmployeeDesignationMasterId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                                           {
+                                               DropdownType = DropdownTypeEnum.Designation.ToString(),
+                                               DropdownName = "EmployeeDesignationMasterId",
+                                               DropdownSelectedValue = Model.EmployeeDesignationMasterId.ToString()
+                                           })
+                                        @Html.ValidationMessageFor(x => x.EmployeeDesignationMasterId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.JoiningDate, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.JoiningDate, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.JoiningDate)
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PromotionDemotionDate, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.PromotionDemotionDate, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.PromotionDemotionDate)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.DateOfLeaving, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.DateOfLeaving, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.DateOfLeaving)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.IsCurrentPosition, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.IsCurrentPosition, new { @class = "form-check-input" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.SalaryGradeCode, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.SalaryGradeCode, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.SalaryGradeCode)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PayScale, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.PayScale, new { @class = "form-control", type = "number" })
+                                        @Html.ValidationMessageFor(x => x.PayScale)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.OrderDate, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.OrderDate, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.OrderDate)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.OrderNumber, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.OrderNumber, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.OrderNumber)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.Remark, new { @class = "form-label" })
+                                        @Html.TextAreaFor(x => x.Remark, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Remark)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/EmployeeServiceList" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
