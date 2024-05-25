@@ -51,37 +51,12 @@ namespace Coditech.API.Service
         }
 
         //Get HospitalDoctorOPDSchedule by hospitalDoctorOPDSchedule Id.
-        public virtual HospitalDoctorOPDScheduleModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int hospitalDoctorOPDScheduleId)
+        public virtual HospitalDoctorOPDScheduleModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId)
         {
             if (hospitalDoctorId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "hospitalDoctorId"));
 
             HospitalDoctorOPDScheduleModel hospitalDoctorOPDScheduleModel = new HospitalDoctorOPDScheduleModel();
-            if (hospitalDoctorOPDScheduleId > 0)
-            {
-                //Get the HospitalDoctorOPDSchedule Details based on id.
-                HospitalDoctorAllocatedRoom hospitalDoctorOPDSchedule = _hospitalDoctorOPDScheduleRepository.Table.FirstOrDefault(x => x.HospitalDoctorId == hospitalDoctorId);
-                if (IsNotNull(hospitalDoctorOPDSchedule))
-                {
-                    hospitalDoctorOPDScheduleModel = hospitalDoctorOPDSchedule?.FromEntityToModel<HospitalDoctorOPDScheduleModel>();
-                }
-            }
-
-            HospitalDoctors hospitalDoctors = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorId)?.FirstOrDefault();
-            if (hospitalDoctors?.EmployeeId > 0)
-            {
-                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(hospitalDoctors.EmployeeId, UserTypeEnum.Employee.ToString());
-                if (IsNotNull(generalPersonModel))
-                {
-                    hospitalDoctorOPDScheduleModel.HospitalDoctorId = hospitalDoctorOPDScheduleModel.HospitalDoctorId;
-                    hospitalDoctorOPDScheduleModel.WeekDayEnumId = hospitalDoctorOPDScheduleModel.WeekDayEnumId;
-                    hospitalDoctorOPDScheduleModel.OPDTimesOfDay = hospitalDoctorOPDScheduleModel.OPDTimesOfDay;
-                    hospitalDoctorOPDScheduleModel.FromTime = hospitalDoctorOPDScheduleModel.FromTime;
-                    hospitalDoctorOPDScheduleModel.UptoTime = hospitalDoctorOPDScheduleModel.UptoTime;
-                    hospitalDoctorOPDScheduleModel.TimesSlothInMinute = hospitalDoctorOPDScheduleModel.TimesSlothInMinute;
-                    hospitalDoctorOPDScheduleModel.TimeZone = hospitalDoctorOPDScheduleModel.TimeZone;
-                }
-            }
             return hospitalDoctorOPDScheduleModel;
         }
 
@@ -94,31 +69,31 @@ namespace Coditech.API.Service
             if (hospitalDoctorOPDScheduleModel.HospitalDoctorId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorId"));
 
-            HospitalDoctorAllocatedRoom hospitalDoctorOPDSchedule = hospitalDoctorOPDScheduleModel.FromModelToEntity<HospitalDoctorAllocatedRoom>();
+            //HospitalDoctorOPDSchedule hospitalDoctorOPDSchedule = hospitalDoctorOPDScheduleModel.FromModelToEntity<HospitalDoctorOPDSchedule>();
             bool isHospitalDoctorOPDScheduleUpdated = false;
-            if (hospitalDoctorOPDScheduleModel.HospitalDoctorOPDScheduleId > 0)
-            {
-                //Update HospitalDoctorOPDSchedule
-                isHospitalDoctorOPDScheduleUpdated = _hospitalDoctorOPDScheduleRepository.Update(hospitalDoctorOPDSchedule);
-                if (!isHospitalDoctorOPDScheduleUpdated)
-                {
-                    hospitalDoctorOPDScheduleModel.HasError = true;
-                    hospitalDoctorOPDScheduleModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
-                }
-            }
-            else
-            {
-                hospitalDoctorOPDSchedule = _hospitalDoctorOPDScheduleRepository.Insert(hospitalDoctorOPDSchedule);
-                if (hospitalDoctorOPDSchedule?.HospitalDoctorId > 0)
-                {
-                    hospitalDoctorOPDScheduleModel.HospitalDoctorOPDScheduleId = hospitalDoctorOPDSchedule.HospitalDoctorId;
-                }
-                else
-                {
-                    hospitalDoctorOPDScheduleModel.HasError = true;
-                    hospitalDoctorOPDScheduleModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
-                }
-            }
+            //if (hospitalDoctorOPDScheduleModel.HospitalDoctorOPDScheduleId > 0)
+            //{
+            //    //Update HospitalDoctorOPDSchedule
+            //    isHospitalDoctorOPDScheduleUpdated = _hospitalDoctorOPDScheduleRepository.Update(hospitalDoctorOPDSchedule);
+            //    if (!isHospitalDoctorOPDScheduleUpdated)
+            //    {
+            //        hospitalDoctorOPDScheduleModel.HasError = true;
+            //        hospitalDoctorOPDScheduleModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            //    }
+            //}
+            //else
+            //{
+            //    hospitalDoctorOPDSchedule = _hospitalDoctorOPDScheduleRepository.Insert(hospitalDoctorOPDSchedule);
+            //    if (hospitalDoctorOPDSchedule?.HospitalDoctorId > 0)
+            //    {
+            //        hospitalDoctorOPDScheduleModel.HospitalDoctorOPDScheduleId = hospitalDoctorOPDSchedule.HospitalDoctorId;
+            //    }
+            //    else
+            //    {
+            //        hospitalDoctorOPDScheduleModel.HasError = true;
+            //        hospitalDoctorOPDScheduleModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            //    }
+            //}
             return isHospitalDoctorOPDScheduleUpdated;
         }
     }

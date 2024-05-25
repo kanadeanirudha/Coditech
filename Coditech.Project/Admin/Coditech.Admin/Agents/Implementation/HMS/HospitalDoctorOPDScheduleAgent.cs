@@ -55,7 +55,7 @@ namespace Coditech.Admin.Agents
         }
 
         //GetHospitalDoctorOPDSchedule by hospital Doctor Allocated OPD Room Id.
-        public virtual HospitalDoctorOPDScheduleViewModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int hospitalDoctorOPDScheduleId)
+        public virtual HospitalDoctorOPDScheduleViewModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId)
         {
             HospitalDoctorOPDScheduleResponse response = _hospitalDoctorOPDScheduleClient.GetHospitalDoctorOPDSchedule(hospitalDoctorId, hospitalDoctorOPDScheduleId);
             return response?.HospitalDoctorOPDScheduleModel.ToViewModel<HospitalDoctorOPDScheduleViewModel>();

@@ -62,12 +62,12 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-        public virtual HospitalDoctorOPDScheduleResponse GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int hospitalDoctorOPDScheduleId)
+        public virtual HospitalDoctorOPDScheduleResponse GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId)
         {
             return Task.Run(async () => await GetHospitalDoctorOPDScheduleAsync(hospitalDoctorId, hospitalDoctorOPDScheduleId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalDoctorOPDScheduleResponse> GetHospitalDoctorOPDScheduleAsync(int hospitalDoctorId, int hospitalDoctorOPDScheduleId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<HospitalDoctorOPDScheduleResponse> GetHospitalDoctorOPDScheduleAsync(int hospitalDoctorId, long hospitalDoctorOPDScheduleId, System.Threading.CancellationToken cancellationToken)
         {
             if (hospitalDoctorId <= 0)
                 throw new System.ArgumentNullException("hospitalDoctorId");

@@ -34,7 +34,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(int hospitalDoctorId, int hospitalDoctorOPDScheduleId)
+        public virtual ActionResult Edit(int hospitalDoctorId, long hospitalDoctorOPDScheduleId = 0)
         {
             HospitalDoctorOPDScheduleViewModel hospitalDoctorOPDScheduleViewModel = _hospitalDoctorOPDScheduleAgent.GetHospitalDoctorOPDSchedule(hospitalDoctorId, hospitalDoctorOPDScheduleId);
             return ActionView(createEdit, hospitalDoctorOPDScheduleViewModel);

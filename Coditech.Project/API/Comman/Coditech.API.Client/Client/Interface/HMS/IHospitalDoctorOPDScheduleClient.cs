@@ -18,7 +18,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="hospitalDoctorOPDScheduleId">hospitalDoctorOPDScheduleId</param>
         /// <returns>Returns HospitalDoctorOPDScheduleResponse.</returns>
-        HospitalDoctorOPDScheduleResponse GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int hospitalDoctorOPDScheduleId);
+        HospitalDoctorOPDScheduleResponse GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId);
 
         /// <summary>
         /// Update HospitalDoctorOPDSchedule.

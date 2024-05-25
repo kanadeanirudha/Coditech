@@ -2,7 +2,7 @@
 {
     public class HospitalDoctorOPDScheduleModel : BaseModel
     {
-        public int HospitalDoctorOPDScheduleId { get; set; }
+        public long HospitalDoctorOPDScheduleId { get; set; }
         public int HospitalDoctorId { get; set; }
         public int WeekDayEnumId { get; set; }
         public short OPDTimesOfDay { get; set; }

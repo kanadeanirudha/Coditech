@@ -17,7 +17,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="hospitalDoctorOPDScheduleId">hospitalDoctorOPDScheduleId</param>
         /// <returns>Returns HospitalDoctorOPDScheduleViewModel.</returns>
-        HospitalDoctorOPDScheduleViewModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int hospitalDoctorOPDScheduleId);
+        HospitalDoctorOPDScheduleViewModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId);
 
         /// <summary>
         /// Update HospitalDoctorOPDSchedule.

@@ -1,6 +1,6 @@
 ﻿@model HospitalDoctorOPDScheduleViewModel
 @{
-    ViewBag.Title = Model.HospitalDoctorId > 0 ? "Update Hospital Doctor OPD Schedule" : "Add Hospital Doctor";
+    ViewBag.Title = "HospitalDoctorOPDSchedule";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
@@ -13,7 +13,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Hospital Doctor Allocated OPD Room: @Model.HospitalDoctorId @Model.WeekDayEnumId</h4>
+                                <h4 class="card-title">Hospital Doctor OPD Schedule: @Model.HospitalDoctorId @Model.WeekDayEnumId</h4>
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div>
@@ -21,12 +21,6 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.HospitalDoctorId)
-                            @Html.HiddenFor(m => m.WeekDayEnumId)
-                            @Html.HiddenFor(m => m.OPDTimesOfDay)
-                            @Html.HiddenFor(m => m.FromTime)
-                            @Html.HiddenFor(m => m.UptoTime)
-                            @Html.HiddenFor(m => m.TimesSlothInMinute)
-                            @Html.HiddenFor(m => m.TimeZone)
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">

@@ -6,7 +6,7 @@ namespace Coditech.Admin.ViewModel
 {
     public class HospitalDoctorOPDScheduleViewModel : BaseViewModel
     {
-        public int HospitalDoctorOPDScheduleId { get; set; }
+        public long HospitalDoctorOPDScheduleId { get; set; }
 
         [Required]
         [Display(Name = "Hospital Doctor")]

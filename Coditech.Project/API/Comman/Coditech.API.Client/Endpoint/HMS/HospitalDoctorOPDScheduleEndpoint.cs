@@ -15,7 +15,7 @@ namespace Coditech.API.Endpoint
         public string CreateHospitalDoctorOPDScheduleAsync() =>
             $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorOPDSchedule/CreateHospitalDoctorOPDSchedule";
 
-        public string GetHospitalDoctorOPDScheduleAsync(int hospitalDoctorId, int hospitalDoctorOPDScheduleId) =>
+        public string GetHospitalDoctorOPDScheduleAsync(int hospitalDoctorId, long hospitalDoctorOPDScheduleId) =>
             $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorOPDSchedule/GetHospitalDoctorOPDSchedule?hospitalDoctorId={hospitalDoctorId}&hospitalDoctorOPDScheduleId={hospitalDoctorOPDScheduleId}";
        
         public string UpdateHospitalDoctorOPDScheduleAsync() =>

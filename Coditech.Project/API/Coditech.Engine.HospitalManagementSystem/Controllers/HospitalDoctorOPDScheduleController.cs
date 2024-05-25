@@ -52,7 +52,7 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
         [Route("/HospitalDoctorOPDSchedule/GetHospitalDoctorOPDSchedule")]
         [HttpGet]
         [Produces(typeof(HospitalDoctorOPDScheduleResponse))]
-        public virtual IActionResult GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int hospitalDoctorOPDScheduleId)
+        public virtual IActionResult GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId)
         {
             try
             {
