@@ -3,7 +3,7 @@
     ViewBag.Title = Model.HospitalDoctorVisitingChargesId > 0 ? "Update Hospital Doctor Visiting Charges" : "Add Hospital Doctor Visiting Charges";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    
+
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -29,50 +29,50 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.HospitalDoctorVisitingChargesId)
+                            @Html.HiddenFor(m => m.HospitalDoctorId)
                             <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.HospitalDoctorId, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.HospitalDoctorId, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.HospitalDoctorId)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.FromDate, new { @class = "form-label required" })
                                         @Html.TextBoxFor(x => x.FromDate, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.FromDate)
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.UptoDate, new { @class = "form-label required" })
+                                        @Html.LabelFor(x => x.UptoDate, new { @class = "form-label" })
                                         @Html.TextBoxFor(x => x.UptoDate, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.UptoDate)
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.AppointmentTypeEnumId, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.AppointmentTypeEnumId, new { @class = "form-control", type = "number" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.AppointmentTypeEnumId.ToString(),
+                                   DropdownName = "AppointmentTypeEnumId",
+                                   GroupCode = DropdownTypeEnum.HospitalAppointmentType.ToString(),
+                                   IsRequired = true,
+                               })
                                         @Html.ValidationMessageFor(x => x.AppointmentTypeEnumId)
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.Charges, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.Charges, new { @class = "form-control", type = "number" })
+                                        @Html.TextBoxFor(x => x.Charges, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidDecimalNumeric()" })
                                         @Html.ValidationMessageFor(x => x.Charges)
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-12">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.Remark, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.Remark, new { @class = "form-control", type = "number" })
+                                        @Html.LabelFor(x => x.Remark, new { @class = "form-label" })
+                                        @Html.TextAreaFor(x => x.Remark, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.Remark)
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
@@ -82,3 +82,102 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('#FromDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                showWeekNumbers: false,
+                drops: "auto",
+                opens: "right",
+                autoApply: true,
+                "locale": {
+                    // "format": "DD-MMM-YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Apply",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                minYear: new Date().getFullYear(),
+                maxYear: new Date().getFullYear() + 1
+            },
+                function (start, end, label) { });
+
+            $('#UptoDate').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                showWeekNumbers: false,
+                drops: "auto",
+                opens: "right",
+                autoApply: true,
+                "locale": {
+                    // "format": "DD-MMM-YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Apply",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                minYear: new Date().getFullYear(),
+                maxYear: new Date().getFullYear() + 1
+            },
+                function (start, end, label) { });
+        });
+    </script>
+}
+

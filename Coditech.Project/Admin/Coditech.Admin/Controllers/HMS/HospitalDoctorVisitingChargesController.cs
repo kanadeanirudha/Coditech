@@ -3,6 +3,7 @@ using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Exceptions;
 using Coditech.Resources;
+
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -42,15 +43,15 @@ namespace Coditech.Admin.Controllers
                 list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesByDoctorList(dataTableModel.HospitalDoctorId, dataTableModel);
             }
             list.HospitalDoctorId = dataTableModel.HospitalDoctorId;
-           
-         return View($"~/Views/HMS/HospitalDoctorVisitingCharges/HospitalDoctorVisitingChargesByDoctorIdList.cshtml", list);
-            
+
+            return View($"~/Views/HMS/HospitalDoctorVisitingCharges/HospitalDoctorVisitingChargesByDoctorIdList.cshtml", list);
+
         }
 
         [HttpGet]
-        public virtual ActionResult Create()
+        public virtual ActionResult Create(int hospitalDoctorId)
         {
-            return View(createEdit, new HospitalDoctorVisitingChargesViewModel());
+            return View(createEdit, new HospitalDoctorVisitingChargesViewModel() { HospitalDoctorId = hospitalDoctorId });
         }
 
         [HttpPost]
