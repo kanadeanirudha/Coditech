@@ -49,7 +49,8 @@
         InventoryModel,
         EmailTemplate,
         HospitalDoctorsList,
-        HospitalAppointmentType
+        HospitalAppointmentType,
+        HospitalDoctorTimeSlot
     }
 
     public enum GeneralSystemGlobleSettingEnum

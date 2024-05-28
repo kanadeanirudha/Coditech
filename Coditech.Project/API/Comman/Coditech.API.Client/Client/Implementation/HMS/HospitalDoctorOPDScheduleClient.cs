@@ -62,17 +62,17 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-        public virtual HospitalDoctorOPDScheduleResponse GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId)
+        public virtual HospitalDoctorOPDScheduleResponse GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int weekDayEnumId)
         {
-            return Task.Run(async () => await GetHospitalDoctorOPDScheduleAsync(hospitalDoctorId, hospitalDoctorOPDScheduleId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetHospitalDoctorOPDScheduleAsync(hospitalDoctorId, weekDayEnumId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalDoctorOPDScheduleResponse> GetHospitalDoctorOPDScheduleAsync(int hospitalDoctorId, long hospitalDoctorOPDScheduleId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<HospitalDoctorOPDScheduleResponse> GetHospitalDoctorOPDScheduleAsync(int hospitalDoctorId, int weekDayEnumId, System.Threading.CancellationToken cancellationToken)
         {
             if (hospitalDoctorId <= 0)
                 throw new System.ArgumentNullException("hospitalDoctorId");
 
-            string endpoint = hospitalDoctorOPDScheduleEndpoint.GetHospitalDoctorOPDScheduleAsync(hospitalDoctorId, hospitalDoctorOPDScheduleId);
+            string endpoint = hospitalDoctorOPDScheduleEndpoint.GetHospitalDoctorOPDScheduleAsync(hospitalDoctorId, weekDayEnumId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

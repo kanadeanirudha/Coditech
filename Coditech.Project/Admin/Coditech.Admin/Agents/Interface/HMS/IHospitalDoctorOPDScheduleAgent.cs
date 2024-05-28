@@ -1,5 +1,4 @@
 ﻿using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model.Response;
 
 namespace Coditech.Admin.Agents
 {
@@ -15,9 +14,9 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Get HospitalDoctorOPDSchedule by hospitalDoctorOPDScheduleId.
         /// </summary>
-        /// <param name="hospitalDoctorOPDScheduleId">hospitalDoctorOPDScheduleId</param>
+        /// <param name="weekDayEnumId">weekDayEnumId</param>
         /// <returns>Returns HospitalDoctorOPDScheduleViewModel.</returns>
-        HospitalDoctorOPDScheduleViewModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId);
+        HospitalDoctorOPDScheduleViewModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int weekDayEnumId);
 
         /// <summary>
         /// Update HospitalDoctorOPDSchedule.
