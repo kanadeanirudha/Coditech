@@ -76,6 +76,7 @@
             HospitalPatientRegistration,
             InventoryStorageDimensionGroup,
             InventoryItemTrackingDimensionGroup,
+            HospitalDoctorOPDSchedule,
             InventoryGeneralItemMaster
         }
     }

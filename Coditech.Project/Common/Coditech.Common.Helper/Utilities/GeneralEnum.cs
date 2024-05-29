@@ -49,6 +49,8 @@
         InventoryModel,
         EmailTemplate,
         HospitalDoctorsList,
+        HospitalAppointmentType,
+        HospitalDoctorTimeSlot,
         InventoryProductType,
         ProductSubType,
         InventoryProductDimensionGroup,

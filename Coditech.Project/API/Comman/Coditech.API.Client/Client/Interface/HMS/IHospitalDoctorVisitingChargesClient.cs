@@ -14,6 +14,13 @@ namespace Coditech.API.Client
         HospitalDoctorVisitingChargesListResponse List(string selectedCentreCode, short selectedDepartmentId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
+        /// Get list of Hospital Doctor Visiting Charges by HospitalDoctorId.
+        /// </summary>
+        /// <returns>HospitalDoctorVisitingChargesListResponse</returns>
+        HospitalDoctorVisitingChargesListResponse GetHospitalDoctorVisitingChargesByDoctorIdList(int hospitalDoctorId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+
+        /// <summary>
         /// Create Hospital Doctor Visiting Charges.
         /// </summary>
         /// <param name="HospitalDoctorVisitingChargesModel">HospitalDoctorVisitingChargesModel.</param>

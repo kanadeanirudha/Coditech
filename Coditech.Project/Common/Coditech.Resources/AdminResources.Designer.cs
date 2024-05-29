@@ -295,6 +295,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Doctor OPD Schedule due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalDoctorOPDSchedule {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalDoctorOPDSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctors details due to associate record..
         /// </summary>
         public static string ErrorDeleteHospitalDoctorsDetails {
@@ -633,6 +642,15 @@ namespace Coditech.Resources {
         public static string LabelGymBodyMeasurementTypeList {
             get {
                 return ResourceManager.GetString("LabelGymBodyMeasurementTypeList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hospital Doctor OPD Schedule List.
+        /// </summary>
+        public static string LabelHospitalDoctorOPDScheduleList {
+            get {
+                return ResourceManager.GetString("LabelHospitalDoctorOPDScheduleList", resourceCulture);
             }
         }
         

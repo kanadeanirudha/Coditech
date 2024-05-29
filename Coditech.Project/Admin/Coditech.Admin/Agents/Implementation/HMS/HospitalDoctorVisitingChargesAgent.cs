@@ -54,6 +54,29 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
+        public virtual HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesByDoctorList(int hospitalDoctorId , DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = new FilterCollection();
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("HospitalDoctorId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FromDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("UptoDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("AppointmentTypeEnumId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Charges", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            HospitalDoctorVisitingChargesListResponse response = _hospitalDoctorVisitingChargesClient.GetHospitalDoctorVisitingChargesByDoctorIdList(hospitalDoctorId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            HospitalDoctorVisitingChargesListModel hospitaldoctorvisitingchargesList = new HospitalDoctorVisitingChargesListModel { HospitalDoctorVisitingChargesList = response?.HospitalDoctorVisitingChargesList };
+            HospitalDoctorVisitingChargesListViewModel listViewModel = new HospitalDoctorVisitingChargesListViewModel();
+            listViewModel.HospitalDoctorVisitingChargesList = hospitaldoctorvisitingchargesList?.HospitalDoctorVisitingChargesList?.ToViewModel<HospitalDoctorVisitingChargesViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.HospitalDoctorVisitingChargesList.Count, BindColumnsByDoctorId());
+            return listViewModel;
+        }
+
         //Create General HospitalDoctorVisitingCharges.
         public virtual HospitalDoctorVisitingChargesViewModel CreateHospitalDoctorVisitingCharges(HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel)
         {
@@ -176,6 +199,35 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Medical Specilization",
                 ColumnCode = "MedicalSpecilization",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindColumnsByDoctorId()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "From Date",
+                ColumnCode = "FromDate",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Upto Date",
+                ColumnCode = "UptoDate",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Appointment Type",
+                ColumnCode = "AppointmentTypeEnumId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Charges",
+                ColumnCode = "Charges",
                 IsSortable = true,
             });
             return datatableColumnList;

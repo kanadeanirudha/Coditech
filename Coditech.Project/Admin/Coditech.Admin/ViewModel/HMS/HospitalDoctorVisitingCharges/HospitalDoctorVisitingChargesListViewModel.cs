@@ -11,5 +11,6 @@ namespace Coditech.Admin.ViewModel
         }
         public string SelectedCentreCode { get; set; } = string.Empty;
         public int SelectedDepartmentId { get; set; }
+        public int HospitalDoctorId { get; set; }
     }
 }

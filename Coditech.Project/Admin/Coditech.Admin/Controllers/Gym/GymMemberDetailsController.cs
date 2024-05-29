@@ -144,15 +144,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                     ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                     : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-
-                // Redirect to the List action with the selectedCentreCode
-                return RedirectToAction("List", new { selectedCentreCode });
+                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-
-            // Redirect to the List action with the selectedCentreCode
-            return RedirectToAction("List", new { selectedCentreCode });
+            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
         }
 
 

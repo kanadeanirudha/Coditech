@@ -12,6 +12,12 @@ namespace Coditech.API.Endpoint
             return endpoint;
         }
 
+        public string GetHospitalDoctorVisitingChargesByDoctorIdListAsync(int hospitalDoctorId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingChargesByDoctorIdList?HospitalDoctorId={hospitalDoctorId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
+        }
+
         public string CreateHospitalDoctorVisitingChargesAsync() =>
             $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalDoctorVisitingCharges/CreateHospitalDoctorVisitingCharges";
 

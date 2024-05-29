@@ -13,6 +13,13 @@ namespace Coditech.Admin.Agents
         HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesList(string selectedCentreCode, short selectedDepartmentId, DataTableViewModel dataTableModel);
 
         /// <summary>
+        /// Get list of General HospitalDoctorVisitingChargesByDoctorId.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>HospitalDoctorVisitingChargesListViewModel</returns>
+        HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesByDoctorList(int hospitalDoctorId, DataTableViewModel dataTableModel);
+
+        /// <summary>
         /// Create HospitalDoctorVisitingCharges.
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesViewModel">General HospitalDoctorVisitingCharges View Model.</param>

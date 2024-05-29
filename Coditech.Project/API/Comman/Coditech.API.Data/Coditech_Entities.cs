@@ -94,6 +94,7 @@ namespace Coditech.API.Data
 
         #region HMS
         public DbSet<HospitalDoctors> HospitalDoctors { get; set; }
+        public DbSet<HospitalDoctorOPDSchedule> HospitalDoctorOPDSchedule { get; set; }
         public DbSet<HospitalDoctorVisitingCharges> HospitalDoctorVisitingCharges { get; set; }
         public DbSet<HospitalDoctorAllocatedRoom> HospitalDoctorAllocatedRoom { get; set; }
         public DbSet<HospitalDoctorLeaveSchedule> HospitalDoctorLeaveSchedule { get; set; }
