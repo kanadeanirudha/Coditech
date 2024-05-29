@@ -14,14 +14,14 @@ using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Controllers
 {
     [ApiController]
-    public class UserMobileAppController : BaseController
+    public class GymUserController : BaseController
     {
 
-        private readonly IUserMobileAppService _userMobileAppService;
+        private readonly IGymUserService _gymUserService;
         protected readonly ICoditechLogging _coditechLogging;
-        public UserMobileAppController(ICoditechLogging coditechLogging, IUserMobileAppService UserMobileAppService)
+        public GymUserController(ICoditechLogging coditechLogging, IGymUserService gymUserService)
         {
-            _userMobileAppService = UserMobileAppService;
+            _gymUserService = gymUserService;
             _coditechLogging = coditechLogging;
         }
         /// <summary>
@@ -29,14 +29,14 @@ namespace Coditech.API.Controllers
         /// </summary>
         /// <param name="model">UserLoginModel.</param>
         /// <returns>UserModel</returns>
-        [Route("/UserMobileApp/Login")]
+        [Route("/GymUser/Login")]
         [HttpPost, ValidateModel]
-        [Produces(typeof(UserMobileAppModel))]
+        [Produces(typeof(GymUserModel))]
         public virtual IActionResult Login([FromBody] UserLoginModel model)
         {
             try
             {
-                UserMobileAppModel user = _userMobileAppService.Login(model);
+                GymUserModel user = _gymUserService.Login(model);
                 return HelperUtility.IsNotNull(user) ? CreateOKResponse(user) : null;
 
             }
@@ -58,14 +58,14 @@ namespace Coditech.API.Controllers
 
         }
 
-        [Route("/UserMobileApp/ChangePassword")]
+        [Route("/GymUser/ChangePassword")]
         [HttpPost, ValidateModel]
         [Produces(typeof(ChangePasswordResponse))]
         public virtual IActionResult ChangePassword([FromBody] ChangePasswordModel model)
         {
             try
             {
-                ChangePasswordModel changePassword = _userMobileAppService.ChangePassword(model);
+                ChangePasswordModel changePassword = _gymUserService.ChangePassword(model);
                 return IsNotNull(changePassword) ? CreateCreatedResponse(new ChangePasswordResponse { ChangePasswordModel = changePassword }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)

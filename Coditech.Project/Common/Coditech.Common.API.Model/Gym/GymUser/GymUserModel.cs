@@ -1,6 +1,6 @@
 ﻿namespace Coditech.Common.API.Model
 {
-    public class UserMobileAppModel : BaseModel
+    public class GymUserModel : BaseModel
     {
         public string UserName { get; set; }
         public string EmailId { get; set; }

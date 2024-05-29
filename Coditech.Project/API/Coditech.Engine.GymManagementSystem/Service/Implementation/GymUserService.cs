@@ -10,13 +10,13 @@ using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
 {
-    public class UserMobileAppService : BaseService, IUserMobileAppService
+    public class GymUserService : BaseService, IGymUserService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
-        public UserMobileAppService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        public GymUserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -24,7 +24,7 @@ namespace Coditech.API.Service
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual UserMobileAppModel Login(UserLoginModel userLoginModel)
+        public virtual GymUserModel Login(UserLoginModel userLoginModel)
         {
             if (IsNull(userLoginModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -37,7 +37,7 @@ namespace Coditech.API.Service
             else if (!userMasterData.IsActive)
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
-            UserMobileAppModel userModel = userMasterData?.FromEntityToModel<UserMobileAppModel>();
+            GymUserModel userModel = userMasterData?.FromEntityToModel<GymUserModel>();
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(userModel.EntityId);
             userModel.PersonTitle = generalPersonModel.PersonTitle;
             userModel.DateOfBirth = generalPersonModel.DateOfBirth;
