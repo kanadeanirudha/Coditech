@@ -4,6 +4,7 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.API.Model.Responses.Inventory.InventoryGeneralItemMaster;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -134,7 +135,23 @@ namespace Coditech.Admin.Helpers
             {
                 GetHospitalDoctorsList(dropdownViewModel, dropdownList);
             }
-            dropdownViewModel.DropdownList = dropdownList;
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryProductDimensionGroup.ToString()))
+            {
+                GetInventoryProductDimensionGroupList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryStorageDimensionGroup.ToString()))
+            {
+                GetInventoryStorageDimensionGroupList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryItemTrackingDimensionGroup.ToString()))
+            {
+                GetInventoryItemTrackingDimensionGroupList(dropdownViewModel, dropdownList);
+            }
+			else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryItemGroup.ToString()))
+			{
+				GetInventoryItemGroupList(dropdownViewModel, dropdownList);
+			}
+			dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
 
@@ -643,7 +660,7 @@ namespace Coditech.Admin.Helpers
         private static void GetInventoryCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             InventoryCategoryListResponse response = new InventoryCategoryClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Inventory Category-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Category-------" });
 
             InventoryCategoryListModel list = new InventoryCategoryListModel { InventoryCategoryList = response.InventoryCategoryList };
             foreach (var item in list.InventoryCategoryList)
@@ -685,7 +702,82 @@ namespace Coditech.Admin.Helpers
             }
         }
 
-        private static void GetHospitalDoctorsList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetInventoryProductDimensionGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryProductDimensionGroupListResponse response = new InventoryProductDimensionGroupClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Product Dimension Group-------" });
+
+            InventoryProductDimensionGroupListModel list = new InventoryProductDimensionGroupListModel { InventoryProductDimensionGroupList = response.InventoryProductDimensionGroupList };
+            foreach (var item in list.InventoryProductDimensionGroupList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.InventoryProductDimensionGroupId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.ProductDimensionGroupName, " (", item.ProductDimensionGroupCode, ")"),
+                    Value = Convert.ToString(item.InventoryProductDimensionGroupId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryProductDimensionGroupId)
+                });
+            }
+        }
+
+        private static void GetInventoryStorageDimensionGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryStorageDimensionGroupListResponse response = new InventoryStorageDimensionGroupClient().List(null, null, null, 1, int.MaxValue);
+            //if (response?.InventoryStorageDimensionGroupList?.Count != 1)
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Storage Dimension Group-------" });
+
+            InventoryStorageDimensionGroupListModel list = new InventoryStorageDimensionGroupListModel { InventoryStorageDimensionGroupList = response.InventoryStorageDimensionGroupList };
+            foreach (var item in list.InventoryStorageDimensionGroupList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.StorageDimensionGroupName, " (", item.StorageDimensionGroupCode, ")"),
+                    Value = Convert.ToString(item.InventoryStorageDimensionGroupId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryStorageDimensionGroupId)
+                });
+            }
+        }
+
+        private static void GetInventoryItemTrackingDimensionGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryItemTrackingDimensionGroupListResponse response = new InventoryItemTrackingDimensionGroupClient().List(null, null, null, 1, int.MaxValue);
+            //if (response?.InventoryItemTrackingDimensionGroupList?.Count != 1)
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Tracking Dimension Group-------" });
+
+            InventoryItemTrackingDimensionGroupListModel list = new InventoryItemTrackingDimensionGroupListModel { InventoryItemTrackingDimensionGroupList = response.InventoryItemTrackingDimensionGroupList };
+            foreach (var item in list.InventoryItemTrackingDimensionGroupList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.ItemTrackingDimensionGroupName, " (", item.ItemTrackingDimensionGroupCode, ")"),
+                    Value = Convert.ToString(item.InventoryItemTrackingDimensionGroupId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryItemTrackingDimensionGroupId)
+                });
+            }
+        }
+
+		private static void GetInventoryItemGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+		{
+			InventoryItemGroupListResponse response = new InventoryItemGroupClient().List(null, null, null, 1, int.MaxValue);
+			//if (response?.InventoryItemGroupList?.Count != 1)
+			dropdownList.Add(new SelectListItem() { Text = "-------Select Item Group-------" });
+
+			InventoryItemGroupListModel list = new InventoryItemGroupListModel { InventoryItemGroupList = response.InventoryItemGroupList };
+			foreach (var item in list.InventoryItemGroupList)
+			{
+				dropdownList.Add(new SelectListItem()
+				{
+					Text = string.Concat(item.ItemGroupName, " (", item.ItemGroupCode, ")"),
+					Value = Convert.ToString(item.InventoryItemGroupId),
+					Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryItemGroupId)
+				});
+			}
+		}
+
+		private static void GetHospitalDoctorsList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------Select Doctors-------" });
 

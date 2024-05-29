@@ -48,7 +48,13 @@
         AllCities,
         InventoryModel,
         EmailTemplate,
-        HospitalDoctorsList
+        HospitalDoctorsList,
+        InventoryProductType,
+        ProductSubType,
+        InventoryProductDimensionGroup,
+        InventoryItemGroup,
+        InventoryStorageDimensionGroup,
+        InventoryItemTrackingDimensionGroup
     }
 
     public enum GeneralSystemGlobleSettingEnum

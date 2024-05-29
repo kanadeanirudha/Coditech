@@ -75,6 +75,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryUoMMasterAgent, InventoryUoMMasterAgent>();
             builder.Services.AddScoped<IInventoryStorageDimensionGroupAgent, InventoryStorageDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupAgent, InventoryItemTrackingDimensionGroupAgent>();
+            builder.Services.AddScoped<IInventoryGeneralItemMasterAgent, InventoryGeneralItemMasterAgent>();
 
             #endregion
 

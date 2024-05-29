@@ -75,7 +75,8 @@
             HospitalDoctorVisitingCharges,
             HospitalPatientRegistration,
             InventoryStorageDimensionGroup,
-            InventoryItemTrackingDimensionGroup
+            InventoryItemTrackingDimensionGroup,
+            InventoryGeneralItemMaster
         }
     }
 }
