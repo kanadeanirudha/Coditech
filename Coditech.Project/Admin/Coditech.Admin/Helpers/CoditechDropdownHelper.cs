@@ -324,7 +324,7 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = string.Concat(item.TaxGroupName, " (", item.GeneralTaxMasterIds, ")"),
+                    Text = string.Concat(item.TaxGroupName, " (", item.TaxGroupRate, "%)"),
                     Value = Convert.ToString(item.GeneralTaxGroupMasterId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTaxGroupMasterId)
                 });
