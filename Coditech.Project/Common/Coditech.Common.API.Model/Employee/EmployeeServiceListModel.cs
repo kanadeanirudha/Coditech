@@ -7,6 +7,9 @@
         {
             EmployeeServiceList = new List<EmployeeServiceModel>();
         }
-
+        public long PersonId { get; set; }
+        public long EmployeeId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

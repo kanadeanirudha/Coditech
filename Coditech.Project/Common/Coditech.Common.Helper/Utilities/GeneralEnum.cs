@@ -48,7 +48,8 @@
         AllCities,
         InventoryModel,
         EmailTemplate,
-        HospitalDoctorsList
+        HospitalDoctorsList,
+        EmployeeStage
     }
 
     public enum GeneralSystemGlobleSettingEnum

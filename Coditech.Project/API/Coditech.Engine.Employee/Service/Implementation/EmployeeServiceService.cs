@@ -45,6 +45,13 @@ namespace Coditech.API.Service
 
             listModel.EmployeeServiceList = EmployeeList?.Count > 0 ? EmployeeList : new List<EmployeeServiceModel>();
             listModel.BindPageListModel(pageListModel);
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(listModel.EmployeeId, UserTypeEnum.Employee.ToString());
+            if (IsNotNull(generalPersonModel))
+            {
+                listModel.FirstName = generalPersonModel.FirstName;
+                listModel.LastName = generalPersonModel.LastName;
+
+            }
             return listModel;
         }
 
@@ -59,6 +66,16 @@ namespace Coditech.API.Service
             EmployeeServiceModel employeeServiceModel = IsNotNull(employeeService) ? employeeService?.FromEntityToModel<EmployeeServiceModel>() : new EmployeeServiceModel();
             employeeServiceModel.EmployeeId = employeeId;
             employeeServiceModel.PersonId = personId;
+            if (employeeServiceModel?.EmployeeId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(employeeServiceModel.EmployeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    employeeServiceModel.FirstName = generalPersonModel.FirstName;
+                    employeeServiceModel.LastName = generalPersonModel.LastName;
+                   
+                }
+            }
             return employeeServiceModel;
         }
 

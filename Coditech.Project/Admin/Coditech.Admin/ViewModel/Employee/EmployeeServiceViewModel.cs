@@ -17,7 +17,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Employee Id")]
         public long EmployeeId { get; set; }
 
-        [Required]
+       
         [MaxLength(200)]
         [Editable(false)]
         [Display(Name = "Employee Code")]
@@ -34,12 +34,12 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Joining Date")]
         public DateTime JoiningDate { get; set; }
 
-        [Required]
+      
         [Display(Name = "Promotion Demotion Date")]
         public DateTime PromotionDemotionDate { get; set; }
 
         [Required]
-        [Display(Name = "Employee Stage Enum Id")]
+        [Display(Name = "Employee Stage")]
         public int EmployeeStageEnumId { get; set; }
 
         [Required]
@@ -51,13 +51,18 @@ namespace Coditech.Admin.ViewModel
         public bool IsCurrentPosition { get; set; }
 
         [MaxLength(100)]
+        [Display(Name = "Salary Grade Code")]
         public string SalaryGradeCode { get; set; }
 
         [MaxLength(100)]
+        [Display(Name = "Pay Scale")]
         public string PayScale { get; set; }
+
+        [Display(Name = "Order Date")]
         public DateTime OrderDate { get; set; }
 
         [MaxLength(100)]
+        [Display(Name = "Order Number")]
         public string OrderNumber { get; set; }
 
         [MaxLength(500)]
