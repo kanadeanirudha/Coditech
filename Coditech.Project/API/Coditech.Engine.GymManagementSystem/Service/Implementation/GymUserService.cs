@@ -16,12 +16,14 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
+        private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
         public GymUserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GymUserModel Login(UserLoginModel userLoginModel)
@@ -66,6 +68,7 @@ namespace Coditech.API.Service
             if (IsNull(changePasswordModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
+            GeneralPerson generalPerson = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == changePasswordModel.UserMasterId);
             UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserMasterId == changePasswordModel.UserMasterId);
             if (IsNotNull(userMasterData) && userMasterData.Password == MD5Hash(changePasswordModel.CurrentPassword))
             {
@@ -78,6 +81,58 @@ namespace Coditech.API.Service
                 changePasswordModel.ErrorMessage = "Current Password DoesNot Match ";
             }
             return changePasswordModel;
+        }
+
+        //Change Password.
+        public virtual GymUserModel UpdateAdditionalInformation(GymUserModel gymUserModel)
+        {
+            if (IsNull(gymUserModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == gymUserModel.EntityId);
+
+            if (IsNull(gymMemberDetails))
+            {
+                gymUserModel.HasError = true;
+                gymUserModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            else
+            {
+                gymMemberDetails.MedicalHistory = gymUserModel.MedicalHistory;
+                gymMemberDetails.PastInjuries = gymUserModel.PastInjuries;
+                bool status = _gymMemberDetailsRepository.Update(gymMemberDetails);
+                if (status)
+                {
+                    GeneralPerson generalPerson = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == gymMemberDetails.PersonId);
+                    if (IsNotNull(generalPerson))
+                    {
+                        generalPerson.MaritalStatus = gymUserModel.MaritalStatus;
+                        generalPerson.BirthMark = gymUserModel.BirthMark;
+                        generalPerson.PhoneNumber = gymUserModel.PhoneNumber;
+                        generalPerson.EmailId = gymUserModel.EmailId;
+                        generalPerson.GeneralOccupationMasterId = gymUserModel.GeneralOccupationMasterId;
+                        generalPerson.AnniversaryDate = gymUserModel.AnniversaryDate;
+                        generalPerson.EmergencyContact = gymUserModel.EmergencyContact;
+                        generalPerson.BloodGroup = gymUserModel.BloodGroup;
+                        status = _generalPersonRepository.Update(generalPerson);
+                        if (status)
+                        {
+                            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == gymUserModel.EntityId && x.UserType == UserTypeEnum.GymMember.ToString());
+                            if (IsNotNull(userMasterData))
+                            {
+                                userMasterData.EmailId = gymUserModel.EmailId;
+                                _userMasterRepository.Update(userMasterData);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    gymUserModel.HasError = true;
+                    gymUserModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                }
+            }
+            return gymUserModel;
         }
 
     }
