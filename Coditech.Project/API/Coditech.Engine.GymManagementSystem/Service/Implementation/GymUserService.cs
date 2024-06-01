@@ -1,5 +1,4 @@
 ﻿using Coditech.API.Data;
-using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
@@ -7,26 +6,25 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 
-using System.Data;
-using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
 {
-    public class UserMobileAppService : BaseService, IUserMobileAppService
+    public class GymUserService : BaseService, IGymUserService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
-        public UserMobileAppService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
+        public GymUserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual UserMobileAppModel Login(UserLoginModel userLoginModel)
+        public virtual GymUserModel Login(UserLoginModel userLoginModel)
         {
             if (IsNull(userLoginModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -39,7 +37,26 @@ namespace Coditech.API.Service
             else if (!userMasterData.IsActive)
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
-            UserMobileAppModel userModel = userMasterData?.FromEntityToModel<UserMobileAppModel>();
+            GymUserModel userModel = userMasterData?.FromEntityToModel<GymUserModel>();
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(userModel.EntityId);
+            userModel.PersonTitle = generalPersonModel.PersonTitle;
+            userModel.DateOfBirth = generalPersonModel.DateOfBirth;
+            userModel.Gender = GetEnumDisplayTextByEnumId(generalPersonModel.GenderEnumId);
+            userModel.PhoneNumber = generalPersonModel.PhoneNumber;
+            userModel.MobileNumber = generalPersonModel.MobileNumber;
+            userModel.EmergencyContact = generalPersonModel.EmergencyContact;
+            userModel.MaritalStatus = generalPersonModel.MaritalStatus;
+            userModel.BirthMark = generalPersonModel.BirthMark;
+            userModel.GeneralOccupationMasterId = generalPersonModel.GeneralOccupationMasterId;
+            userModel.AnniversaryDate = generalPersonModel.AnniversaryDate;
+
+            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == userModel.EntityId);
+            if (IsNotNull(gymMemberDetails))
+            {
+                userModel.PastInjuries = gymMemberDetails.PastInjuries;
+                userModel.MedicalHistory = gymMemberDetails.MedicalHistory;
+                userModel.OtherInformation = gymMemberDetails.OtherInformation;
+            }
             return userModel;
         }
 

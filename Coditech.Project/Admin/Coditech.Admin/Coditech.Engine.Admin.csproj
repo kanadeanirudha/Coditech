@@ -8,22 +8,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Reports\**" />
-		<Compile Remove="Views\Dashboard\NewFolder\**" />
-		<Compile Remove="wwwroot\js\Coditech\GeneralMaster\**" />
-		<Compile Remove="wwwroot\js\Coditech\NewFolder1\**" />
-		<Content Remove="Reports\**" />
-		<Content Remove="Views\Dashboard\NewFolder\**" />
-		<Content Remove="wwwroot\js\Coditech\GeneralMaster\**" />
-		<EmbeddedResource Remove="Reports\**" />
-		<EmbeddedResource Remove="Views\Dashboard\NewFolder\**" />
-		<EmbeddedResource Remove="wwwroot\js\Coditech\GeneralMaster\**" />
-		<None Remove="Reports\**" />
-		<None Remove="Views\Dashboard\NewFolder\**" />
-		<None Remove="wwwroot\js\Coditech\GeneralMaster\**" />
-		<None Remove="wwwroot\js\Coditech\NewFolder1\**" />
-		<Content Remove="wwwroot\js\coditech\inventory\InventoryStorageDimensionGroup.js" />
-		<_ContentIncludedByDefault Remove="wwwroot\js\coditech\inventory\InventoryStorageDimensionGroup.js" />
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
