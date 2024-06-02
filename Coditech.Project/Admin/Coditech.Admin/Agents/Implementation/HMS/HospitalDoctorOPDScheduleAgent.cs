@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -55,10 +56,19 @@ namespace Coditech.Admin.Agents
         }
 
         //GetHospitalDoctorOPDSchedule by hospital Doctor Allocated OPD Room Id.
-        public virtual HospitalDoctorOPDScheduleViewModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId)
+        public virtual HospitalDoctorOPDScheduleViewModel GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int weekDayEnumId)
         {
-            HospitalDoctorOPDScheduleResponse response = _hospitalDoctorOPDScheduleClient.GetHospitalDoctorOPDSchedule(hospitalDoctorId, hospitalDoctorOPDScheduleId);
-            return response?.HospitalDoctorOPDScheduleModel.ToViewModel<HospitalDoctorOPDScheduleViewModel>();
+            HospitalDoctorOPDScheduleViewModel hospitalDoctorOPDScheduleViewModel = new HospitalDoctorOPDScheduleViewModel();
+          
+            List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
+            generalEnumaratorList = generalEnumaratorList.Where(x => x.EnumGroupCode == "WeekDays")?.OrderBy(y => y.SequenceNumber)?.ToList();
+            weekDayEnumId = weekDayEnumId == 0 && generalEnumaratorList?.Count > 0 ? generalEnumaratorList.FirstOrDefault().GeneralEnumaratorId : weekDayEnumId;
+            
+            HospitalDoctorOPDScheduleResponse response = _hospitalDoctorOPDScheduleClient.GetHospitalDoctorOPDSchedule(hospitalDoctorId, weekDayEnumId);
+            hospitalDoctorOPDScheduleViewModel = response?.HospitalDoctorOPDScheduleModel.ToViewModel<HospitalDoctorOPDScheduleViewModel>();
+            hospitalDoctorOPDScheduleViewModel.WeekDaysList = generalEnumaratorList;
+            hospitalDoctorOPDScheduleViewModel.WeekDayEnumId = weekDayEnumId;
+            return hospitalDoctorOPDScheduleViewModel;
         }
 
         //Update HospitalDoctorOPDSchedule.

@@ -2,9 +2,9 @@
 
 namespace Coditech.API.Service
 {
-    public interface IUserMobileAppService
+    public interface IGymUserService
     {
-        UserMobileAppModel Login(UserLoginModel model);
+        GymUserModel Login(UserLoginModel model);
         ChangePasswordModel ChangePassword(ChangePasswordModel model);
     }
 }

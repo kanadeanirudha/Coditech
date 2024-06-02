@@ -9,6 +9,8 @@ namespace Coditech.Admin.ViewModel
         {
             HospitalDoctorVisitingChargesList = new List<HospitalDoctorVisitingChargesViewModel>();
         }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string SelectedCentreCode { get; set; } = string.Empty;
         public int SelectedDepartmentId { get; set; }
         public int HospitalDoctorId { get; set; }

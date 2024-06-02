@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.Exceptions;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -35,15 +34,18 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/HMS/HospitalDoctorVisitingCharges/List.cshtml", list);
         }
 
-        public virtual ActionResult GetHospitalDoctorVisitingChargesByDoctorIdList(DataTableViewModel dataTableModel)
+        public virtual ActionResult GetHospitalDoctorVisitingChargesByDoctorIdList(int hospitalDoctorId, DataTableViewModel dataTableModel)
         {
             HospitalDoctorVisitingChargesListViewModel list = new HospitalDoctorVisitingChargesListViewModel();
-            if (dataTableModel.HospitalDoctorId > 0)
+            if (hospitalDoctorId > 0)
             {
-                list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesByDoctorList(dataTableModel.HospitalDoctorId, dataTableModel);
+                list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesByDoctorList(hospitalDoctorId, dataTableModel);
             }
-            list.HospitalDoctorId = dataTableModel.HospitalDoctorId;
-
+            list.HospitalDoctorId = hospitalDoctorId;
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/HMS/HospitalDoctorVisitingCharges/_HospitalDoctorVisitingChargesByDoctorIdList.cshtml", list);
+            }
             return View($"~/Views/HMS/HospitalDoctorVisitingCharges/HospitalDoctorVisitingChargesByDoctorIdList.cshtml", list);
 
         }
@@ -51,19 +53,22 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create(int hospitalDoctorId)
         {
-            return View(createEdit, new HospitalDoctorVisitingChargesViewModel() { HospitalDoctorId = hospitalDoctorId });
+            HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingCharges(0, hospitalDoctorId);
+            return View(createEdit, hospitalDoctorVisitingChargesViewModel);
         }
 
         [HttpPost]
         public virtual ActionResult Create(HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel)
         {
+            DataTableViewModel dataTableModel = new DataTableViewModel();
             if (ModelState.IsValid)
             {
                 hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.CreateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel);
                 if (!hospitalDoctorVisitingChargesViewModel.HasError)
                 {
+                    dataTableModel.HospitalDoctorId = hospitalDoctorVisitingChargesViewModel.HospitalDoctorId;
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", dataTableModel);
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorVisitingChargesViewModel.ErrorMessage));
@@ -71,42 +76,50 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short hospitalDoctorVisitingChargesId)
+        public virtual ActionResult Edit(long hospitalDoctorVisitingChargesId, int hospitalDoctorId)
         {
-            HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId);
+            HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId, hospitalDoctorId);
             return View(createEdit, hospitalDoctorVisitingChargesViewModel);
         }
 
         [HttpPost]
         public virtual ActionResult Edit(HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel)
         {
+            DataTableViewModel dataTableModel = new DataTableViewModel();
+
             if (ModelState.IsValid)
             {
+                dataTableModel.HospitalDoctorId = hospitalDoctorVisitingChargesViewModel.HospitalDoctorId;
+
                 SetNotificationMessage(_hospitalDoctorVisitingChargesAgent.UpdateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { hospitalDoctorVisitingChargesId = hospitalDoctorVisitingChargesViewModel.HospitalDoctorVisitingChargesId });
+                return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", UpdateActionDataTable(null, 0, dataTableModel));
             }
             return View(createEdit, hospitalDoctorVisitingChargesViewModel);
         }
 
-        public virtual ActionResult Delete(string hospitaldoctorvisitingchargesIds)
+        public virtual ActionResult Delete(long hospitaldoctorvisitingchargesId, int hospitalDoctorId)
         {
             string message = string.Empty;
             bool status = false;
-            if (!string.IsNullOrEmpty(hospitaldoctorvisitingchargesIds))
+            if (hospitaldoctorvisitingchargesId >= 0)
             {
-                status = _hospitalDoctorVisitingChargesAgent.DeleteHospitalDoctorVisitingCharges(hospitaldoctorvisitingchargesIds, out message);
+                status = _hospitalDoctorVisitingChargesAgent.DeleteHospitalDoctorVisitingCharges(hospitaldoctorvisitingchargesId, out message);
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<HospitalDoctorVisitingChargesController>(x => x.List(null));
+                return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { hospitalDoctorId = hospitalDoctorId });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<HospitalDoctorVisitingChargesController>(x => x.List(null));
+            return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { hospitalDoctorId = hospitalDoctorId });
         }
 
+        public virtual ActionResult Cancel(int hospitalDoctorId)
+        {
+            return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { hospitalDoctorId = hospitalDoctorId });
+        }
         #region Protected
 
         #endregion

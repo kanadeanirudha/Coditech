@@ -49,7 +49,15 @@
         InventoryModel,
         EmailTemplate,
         HospitalDoctorsList,
-        HospitalAppointmentType
+        HospitalAppointmentType,
+        HospitalDoctorTimeSlot,
+        InventoryProductType,
+        ProductSubType,
+        InventoryProductDimensionGroup,
+        InventoryItemGroup,
+        InventoryStorageDimensionGroup,
+        InventoryItemTrackingDimensionGroup,
+        EmployeeStage
     }
 
     public enum GeneralSystemGlobleSettingEnum

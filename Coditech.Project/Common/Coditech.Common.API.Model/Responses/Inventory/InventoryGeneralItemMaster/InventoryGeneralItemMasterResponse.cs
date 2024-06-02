@@ -1,4 +1,4 @@
-﻿namespace Coditech.Common.API.Model.Responses
+﻿namespace Coditech.Common.API.Model.Responses.Inventory.InventoryGeneralItemMaster
 {
     public class InventoryGeneralItemMasterResponse : BaseResponse
     {

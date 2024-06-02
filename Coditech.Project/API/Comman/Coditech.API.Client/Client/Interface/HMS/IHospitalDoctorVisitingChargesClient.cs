@@ -32,7 +32,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId</param>
         /// <returns>Returns HospitalDoctorVisitingChargesResponse.</returns>
-        HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId);
+        HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId, int hospitalDoctorId);
 
         /// <summary>
         /// Update HospitalDoctorVisitingChargesy.

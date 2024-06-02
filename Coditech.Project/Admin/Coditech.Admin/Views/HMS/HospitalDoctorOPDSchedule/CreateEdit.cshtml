@@ -13,37 +13,34 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Hospital Doctor OPD Schedule: @Model.HospitalDoctorId @Model.WeekDayEnumId</h4>
+                                <h4 class="card-title">Hospital Doctor OPD Schedule: @Model.FirstName @Model.LastName</h4>
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
-                        {
-                            @Html.HiddenFor(m => m.HospitalDoctorId)
-                            <div class="row">
-                                <div class="col-lg-6">
+                        <div class="row">
+                            @foreach (var item in Model.WeekDaysList)
+                            {
+                                string IsActive = Model.WeekDayEnumId == item.GeneralEnumaratorId ? "success" : "secondary";
+
+                                <div style="width:14.2857%; flex: 0 0 auto;">
                                     <div class="mb-3">
-                                       
+                                        <a class="btn btn-@IsActive" style="width:180px" href="/@controllerName/Edit?hospitalDoctorId=@Model.HospitalDoctorId&weekDayEnumId=@item.GeneralEnumaratorId">
+                                            @item.EnumName
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.SelectedCentreCode&SelectedDepartmentId=@Model.SelectedDepartmentId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
-                        }
+                            }
+                        </div>
+                        @Html.Partial("~/Views/HMS/HospitalDoctorOPDSchedule/_CreateEdit.cshtml", Model)
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="~/js/coditech/hms/hospitaldoctoropdschedule.js"></script>
-
+@Html.Partial("_ValidationScriptsPartial")
+<script src="~/js/coditech/hms/HospitalDoctorOPDSchedule.js"></script>
 
 
 

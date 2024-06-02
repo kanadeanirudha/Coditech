@@ -3,6 +3,7 @@ using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.API.Model.Responses.Inventory.InventoryGeneralItemMaster;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
@@ -15,7 +16,7 @@ using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Controllers
 {
-	public class InventoryGeneralItemMasterController : BaseController
+    public class InventoryGeneralItemMasterController : BaseController
 	{
 		private readonly IInventoryGeneralItemMasterService _inventoryGeneralItemMasterService;
 		protected readonly ICoditechLogging _coditechLogging;
@@ -118,11 +119,11 @@ namespace Coditech.API.Controllers
 		[Route("/InventoryGeneralItemMaster/DeleteInventoryGeneralItemMaster")]
 		[HttpPost, ValidateModel]
 		[Produces(typeof(TrueFalseResponse))]
-		public virtual IActionResult DeleteInventoryGeneralItemMaster([FromBody] ParameterModel countryIds)
+		public virtual IActionResult DeleteInventoryGeneralItemMaster([FromBody] ParameterModel inventoryGeneralItemMasterIds)
 		{
 			try
 			{
-				bool deleted = _inventoryGeneralItemMasterService.DeleteInventoryGeneralItemMaster(countryIds);
+				bool deleted = _inventoryGeneralItemMasterService.DeleteInventoryGeneralItemMaster(inventoryGeneralItemMasterIds);
 				return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
 			}
 			catch (CoditechException ex)
