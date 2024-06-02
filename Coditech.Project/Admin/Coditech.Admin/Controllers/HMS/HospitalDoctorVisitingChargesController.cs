@@ -2,6 +2,7 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -57,13 +58,16 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Create(HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel)
         {
+            DataTableViewModel dataTableModel = new DataTableViewModel();
             if (ModelState.IsValid)
             {
                 hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.CreateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel);
                 if (!hospitalDoctorVisitingChargesViewModel.HasError)
                 {
+                    dataTableModel.HospitalDoctorId = hospitalDoctorVisitingChargesViewModel.HospitalDoctorId;
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    //return View($"~/Views/HMS/HospitalDoctorVisitingCharges/HospitalDoctorVisitingChargesByDoctorIdList.cshtml", listModel);
+                    return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", dataTableModel);
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalDoctorVisitingChargesViewModel.ErrorMessage));
@@ -71,32 +75,36 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short hospitalDoctorVisitingChargesId)
+        public virtual ActionResult Edit(long hospitalDoctorVisitingChargesId,int hospitalDoctorId)
         {
-            HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId);
+            HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId,hospitalDoctorId);
             return View(createEdit, hospitalDoctorVisitingChargesViewModel);
         }
 
         [HttpPost]
         public virtual ActionResult Edit(HospitalDoctorVisitingChargesViewModel hospitalDoctorVisitingChargesViewModel)
         {
-            if (ModelState.IsValid)
+			DataTableViewModel dataTableModel = new DataTableViewModel();
+
+			if (ModelState.IsValid)
             {
-                SetNotificationMessage(_hospitalDoctorVisitingChargesAgent.UpdateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel).HasError
+				dataTableModel.HospitalDoctorId = hospitalDoctorVisitingChargesViewModel.HospitalDoctorId;
+
+				SetNotificationMessage(_hospitalDoctorVisitingChargesAgent.UpdateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { hospitalDoctorVisitingChargesId = hospitalDoctorVisitingChargesViewModel.HospitalDoctorVisitingChargesId });
+                return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", dataTableModel);
             }
             return View(createEdit, hospitalDoctorVisitingChargesViewModel);
         }
 
-        public virtual ActionResult Delete(string hospitaldoctorvisitingchargesIds)
+        public virtual ActionResult Delete(long hospitaldoctorvisitingchargesId)
         {
             string message = string.Empty;
             bool status = false;
-            if (!string.IsNullOrEmpty(hospitaldoctorvisitingchargesIds))
+            if (hospitaldoctorvisitingchargesId >= 0)
             {
-                status = _hospitalDoctorVisitingChargesAgent.DeleteHospitalDoctorVisitingCharges(hospitaldoctorvisitingchargesIds, out message);
+                status = _hospitalDoctorVisitingChargesAgent.DeleteHospitalDoctorVisitingCharges(hospitaldoctorvisitingchargesId, out message);
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));

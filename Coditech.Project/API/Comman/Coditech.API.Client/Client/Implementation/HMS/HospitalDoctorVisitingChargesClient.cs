@@ -162,17 +162,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId)
+        public virtual HospitalDoctorVisitingChargesResponse GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId, int hospitalDoctorId)
         {
-            return Task.Run(async () => await GetHospitalDoctorVisitingChargesAsync(hospitalDoctorVisitingChargesId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetHospitalDoctorVisitingChargesAsync(hospitalDoctorVisitingChargesId, hospitalDoctorId,System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalDoctorVisitingChargesResponse> GetHospitalDoctorVisitingChargesAsync(long hospitalDoctorVisitingChargesId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<HospitalDoctorVisitingChargesResponse> GetHospitalDoctorVisitingChargesAsync(long hospitalDoctorVisitingChargesId,int hospitalDoctorId, System.Threading.CancellationToken cancellationToken)
         {
             if (hospitalDoctorVisitingChargesId <= 0)
                 throw new System.ArgumentNullException("hospitalDoctorVisitingChargesId");
 
-            string endpoint = hospitalDoctorVisitingChargesEndpoint.GetHospitalDoctorVisitingChargesAsync(hospitalDoctorVisitingChargesId);
+            string endpoint = hospitalDoctorVisitingChargesEndpoint.GetHospitalDoctorVisitingChargesAsync(hospitalDoctorVisitingChargesId,hospitalDoctorId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

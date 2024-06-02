@@ -65,8 +65,8 @@ namespace Coditech.Admin.Agents
                 filters.Add("UptoDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("AppointmentTypeEnumId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("Charges", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-            }
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+			}
+			SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             HospitalDoctorVisitingChargesListResponse response = _hospitalDoctorVisitingChargesClient.GetHospitalDoctorVisitingChargesByDoctorIdList(hospitalDoctorId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalDoctorVisitingChargesListModel hospitaldoctorvisitingchargesList = new HospitalDoctorVisitingChargesListModel { HospitalDoctorVisitingChargesList = response?.HospitalDoctorVisitingChargesList };
@@ -82,8 +82,9 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                HospitalDoctorVisitingChargesResponse response = _hospitalDoctorVisitingChargesClient.CreateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel.ToModel<HospitalDoctorVisitingChargesModel>());
-                HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = response?.HospitalDoctorVisitingChargesModel;
+				HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = hospitalDoctorVisitingChargesViewModel.ToModel<HospitalDoctorVisitingChargesModel>();
+				HospitalDoctorVisitingChargesResponse response = _hospitalDoctorVisitingChargesClient.CreateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel.ToModel<HospitalDoctorVisitingChargesModel>());
+                hospitalDoctorVisitingChargesModel = response?.HospitalDoctorVisitingChargesModel;
                 return IsNotNull(hospitalDoctorVisitingChargesModel) ? hospitalDoctorVisitingChargesModel.ToViewModel<HospitalDoctorVisitingChargesViewModel>() : new HospitalDoctorVisitingChargesViewModel();
             }
             catch (CoditechException ex)
@@ -105,9 +106,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get general HospitalDoctorVisitingCharges by general hospitaldoctorvisitingcharges master id.
-        public virtual HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId)
+        public virtual HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId,int hospitalDoctorId)
         {
-            HospitalDoctorVisitingChargesResponse response = _hospitalDoctorVisitingChargesClient.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId);
+            HospitalDoctorVisitingChargesResponse response = _hospitalDoctorVisitingChargesClient.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId, hospitalDoctorId);
             return response?.HospitalDoctorVisitingChargesModel.ToViewModel<HospitalDoctorVisitingChargesViewModel>();
         }
 
@@ -130,14 +131,14 @@ namespace Coditech.Admin.Agents
         }
 
         //Delete hospitalDoctorVisitingCharges.
-        public virtual bool DeleteHospitalDoctorVisitingCharges(string hospitalDoctorVisitingChargesId, out string errorMessage)
+        public virtual bool DeleteHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId,out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalDoctorVisitingCharges.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _hospitalDoctorVisitingChargesClient.DeleteHospitalDoctorVisitingCharges(new ParameterModel { Ids = hospitalDoctorVisitingChargesId });
+                TrueFalseResponse trueFalseResponse = _hospitalDoctorVisitingChargesClient.DeleteHospitalDoctorVisitingCharges(new ParameterModel { Ids = Convert.ToString(hospitalDoctorVisitingChargesId) });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -230,7 +231,7 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "Charges",
                 IsSortable = true,
             });
-            return datatableColumnList;
+			return datatableColumnList;
         }
         #endregion
     }

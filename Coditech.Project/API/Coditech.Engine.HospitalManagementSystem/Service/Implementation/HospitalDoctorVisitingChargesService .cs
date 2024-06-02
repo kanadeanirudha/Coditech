@@ -90,7 +90,7 @@ namespace Coditech.API.Service
         }
 
         //Get HospitalDoctorVisitingCharges by HospitalDoctorVisitingCharges id.
-        public virtual HospitalDoctorVisitingChargesModel GetHospitalDoctorVisitingCharges(short hospitaldoctorvisitingchargesId)
+        public virtual HospitalDoctorVisitingChargesModel GetHospitalDoctorVisitingCharges(long hospitaldoctorvisitingchargesId,int hospitalDoctorId)
         {
             if (hospitaldoctorvisitingchargesId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorVisitingChargesID"));
@@ -137,7 +137,7 @@ namespace Coditech.API.Service
             int status = 0;
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteHospitalDoctorVisitingCharges @HospitalDoctorVisitingChargesId,  @Status OUT", 1, out status);
 
-            return status == 1 ? true : false;
+			return status == 1 ? true : false;
         }
 
         #region Protected Method
