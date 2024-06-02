@@ -54,7 +54,7 @@ namespace Coditech.Common.Service
 
         protected virtual List<UserModuleMaster> GetAllActiveModuleList()
         {
-            List<UserModuleMaster> userAllModuleList = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.ModuleActiveFlag == true)?.ToList();
+            List<UserModuleMaster> userAllModuleList = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.ModuleActiveFlag == true)?.OrderBy(y=>y.ModuleSeqNumber)?.ToList();
             return userAllModuleList;
         }
 
