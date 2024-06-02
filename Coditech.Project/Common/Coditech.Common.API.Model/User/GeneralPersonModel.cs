@@ -23,6 +23,8 @@
         public int IndentificationEnumId { get; set; }
         public string BloodGroup { get; set; }
         public long PhotoMediaId { get; set; }
+        public string PhotoMediaPath { get; set; }
+        public string PhotoMediaFileName { get; set; }
         public string BirthMark { get; set; }
         public string AttendanceIntegrationId { get; set; }
         public short GeneralOccupationMasterId { get; set; }

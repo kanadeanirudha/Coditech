@@ -54,6 +54,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryProductDimensionAgent, InventoryProductDimensionAgent>();
             builder.Services.AddScoped<IGeneralUserMainMenuAgent, GeneralUserMainMenuAgent>();
             builder.Services.AddScoped<IEmployeeServiceAgent, EmployeeServiceAgent>();
+            builder.Services.AddScoped<IGeneralCommanDataAgent, GeneralCommanDataAgent>();
 
 
             #region HMS

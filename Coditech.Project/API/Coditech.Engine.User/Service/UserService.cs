@@ -32,6 +32,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<HospitalPatientRegistration> _hospitalPatientRegistrationRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<EmployeeService> _employeeServiceRepository;
+        private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -50,6 +51,7 @@ namespace Coditech.API.Service
             _hospitalPatientRegistrationRepository = new CoditechRepository<HospitalPatientRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeServiceRepository = new CoditechRepository<EmployeeService>(_serviceProvider.GetService<Coditech_Entities>());
+            _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -204,6 +206,16 @@ namespace Coditech.API.Service
                 generalPersonModel.HasError = true;
                 generalPersonModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
+
+            if (generalPersonModel.PhotoMediaId > 0)
+            {
+                var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId).FirstOrDefault();
+                if (mediaDetail != null)
+                {
+                    generalPersonModel.PhotoMediaPath = mediaDetail.Path;
+                    generalPersonModel.PhotoMediaFileName = mediaDetail.FileName;
+                }
+            }
             return generalPersonModel;
         }
 
@@ -216,6 +228,16 @@ namespace Coditech.API.Service
             //Get the General Person Details based on id.
             GeneralPerson personData = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == personId);
             GeneralPersonModel generalPersonModel = personData.FromEntityToModel<GeneralPersonModel>();
+
+            if (generalPersonModel.PhotoMediaId > 0)
+            {
+                var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId).FirstOrDefault();
+                if (mediaDetail != null)
+                {
+                    generalPersonModel.PhotoMediaPath = mediaDetail.Path;
+                    generalPersonModel.PhotoMediaFileName = mediaDetail.FileName;
+                }
+            }
             return generalPersonModel;
         }
 

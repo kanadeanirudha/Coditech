@@ -29,15 +29,15 @@ namespace Coditech.API.Controllers
         [Route("/MediaManager/UploadMedia")]
         [AllowAnonymous]
         [HttpPost]
-        [Produces(typeof(FileUploadListModelResponse))]
+        [Produces(typeof(MediaManagerResponse))]
         public virtual async Task<IActionResult> PostAsync()
         {
             try
             {
                 IEnumerable<IFormFile> files = Request.Form.Files;
-                FileUploadListModelResponse fileUploadListModelResponse = _mediaManagerService.UploadServerFiles(files, Request).Result;
+                MediaManagerResponse fileUploadListModelResponse = await _mediaManagerService.UploadServerFiles(files, Request);
                 if (fileUploadListModelResponse != null)
-                    return CreateOKResponse<FileUploadListModelResponse>(fileUploadListModelResponse);
+                    return CreateOKResponse<MediaManagerResponse>(fileUploadListModelResponse);
                 else
                     return BadRequest();
             }

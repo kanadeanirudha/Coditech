@@ -1,5 +1,4 @@
 ﻿using Coditech.API.Data;
-using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
@@ -10,10 +9,6 @@ using Coditech.Common.Service;
 using Coditech.Resources;
 
 using ImageMagick;
-
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
@@ -121,71 +116,88 @@ namespace Coditech.API.Service
             return model;
         }
 
-        public async Task<FileUploadListModelResponse> UploadServerFiles(IEnumerable<IFormFile> files, HttpRequest request)
+        public async Task<MediaManagerResponse> UploadServerFiles(IEnumerable<IFormFile> files, HttpRequest request)
         {
-
-            if (MultipartRequestHelper.IsMultipartContentType(request.ContentType))
+            try
             {
-                //ToDo nee to add cache in GetDefaultMediaConfiguration.
-                //gets the default server configuration and global media display setting
-                MediaConfigurationModel mediaConfigurationModel = GetDefaultMediaConfiguration();
-                mediaConfigurationModel = ManageMediaUrl(mediaConfigurationModel);
-
-                MediaGlobalDisplaySettingModel? displaySetting = mediaConfigurationModel?.GlobalMediaDisplaySetting;
-                MediaGlobalDisplaySettingModel _displaySetting = IsNull(displaySetting) ? MediaGlobalDisplaySettingModel.GetGlobalMediaDisplaySetting() : displaySetting;
-                string ServerPath = string.Concat(mediaConfigurationModel.NetworkUrl, "TempImage" + "\\");
-                string uploadPath = "";
-                if (mediaConfigurationModel.NetworkUrl == null)
+                if (MultipartRequestHelper.IsMultipartContentType(request.ContentType))
                 {
-                    ServerPath = Path.Combine(_environment.ContentRootPath, Path.Combine("Data", "Media"));
-                }
+                    string path = $"{AppDomain.CurrentDomain.BaseDirectory}Data\\Media\\";
+                    string projectPath = Directory.GetCurrentDirectory();
+                    string uploadPath = Path.Combine(projectPath, "Data", "Media");
+                    Directory.CreateDirectory(uploadPath);
 
-                CheckDirectoryExistOrCreate(ServerPath);
-                List<FileUploadResponse> messages = new List<FileUploadResponse>();
-                try
-                {
 
-                    try
+                    foreach (var file in files)
                     {
-                        foreach (var file in files.ToList())
+                        if (file.Length > 0)
                         {
-                            uploadPath = Path.Combine(ServerPath, Guid.NewGuid().ToString() + file.FileName);
-                            var filedata = new FileStream(uploadPath, FileMode.Create);
-                            await file.CopyToAsync(filedata);
-                            filedata.Close();
+                            string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
+                            string filePath = Path.Combine(uploadPath, uniqueFileName);
 
-                            string fileName = file.FileName.Replace("\"", string.Empty);
-
-                            FileInfo fi = new FileInfo(uploadPath);
-
-                            if (Convert.ToBoolean(request.Query["isMediaReplace"]))
+                            // Save the file to the server
+                            using (var stream = new FileStream(filePath, FileMode.Create))
                             {
-                                fileName = Convert.ToString(request.Query["filename"]);
-                                GetStatus(messages, fi, Convert.ToInt32(request.Query["folderid"]), file.ContentType, true, fileName, Convert.ToBoolean(request.Query["isMediaReplace"]), Convert.ToInt32(request.Query["mediaId"]), mediaConfigurationModel);
+                                await file.CopyToAsync(stream);
                             }
-                            else
-                                GetStatus(messages, fi, Convert.ToInt32(request.Query["folderid"]), file.ContentType, Convert.ToBoolean(request.Query["isreplace"]), fileName, false, 0, mediaConfigurationModel);
-                        }
 
-                        FileUploadListModelResponse FileUploadListModelResponse = new FileUploadListModelResponse();
-                        FileUploadListModelResponse.FileUpload = messages;
-                        return FileUploadListModelResponse;
+                            // Generate URL to access the file
+                            string fileUrl = $"{request.Scheme}://{request.Host}/Data/Media/{uniqueFileName}";
+
+                            var fileName = uniqueFileName;
+                            var size = Convert.ToString(file.Length);
+                            var type = file.ContentType;
+                            var imagepath = filePath;
+                            var url = fileUrl;
+                            var height = string.Empty; var width = string.Empty;
+
+                            if (file.ContentType.StartsWith("image"))
+                            {
+                                using (var image = System.Drawing.Image.FromStream(file.OpenReadStream()))
+                                {
+                                    width = Convert.ToString(image.Width);
+                                    height = Convert.ToString(image.Height);
+                                }
+                            }
+
+                            var result = await _mediaDetailRepository.InsertAsync(new MediaDetail()
+                            {
+                                MediaConfigurationId = 1,
+                                MediaFolderMasterId = 1,
+                                Path = url,
+                                FileName = file.FileName,
+                                Size = size,
+                                Length = size,
+                                Height = height,
+                                Width = width,
+                                Type = type,
+                                CreatedBy = 0,
+                                CreatedDate = DateTime.Now,
+                                ModifiedBy = 0,
+                                ModifiedDate = DateTime.Now
+                            });
+
+                            return new MediaManagerResponse()
+                            {
+                                UploadMediaModel = new UploadMediaModel()
+                                {
+                                    MediaId = result.MediaId,
+                                    MediaPathUrl = fileUrl
+                                }
+                            };
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
-                        return null;
-                    }
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
                     return null;
                 }
-            }
-            else
-            {
+
                 return null;
+            }catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
