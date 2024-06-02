@@ -29,6 +29,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Appointment Type")]
         public int AppointmentTypeEnumId { get; set; }
+        public string AppointmentType { get; set; }
 
         [Required]
         [Display(Name = "Charges")]

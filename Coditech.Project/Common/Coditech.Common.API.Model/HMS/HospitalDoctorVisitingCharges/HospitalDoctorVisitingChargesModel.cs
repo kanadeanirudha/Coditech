@@ -15,6 +15,7 @@ namespace Coditech.Common.API.Model
         public DateTime FromDate { get; set; }
         public DateTime? UptoDate { get; set; }
         public int AppointmentTypeEnumId { get; set; }
+        public string AppointmentType { get; set; }
         public decimal Charges { get; set; }
         public string Remark { get; set; }
         public string ImagePath { get; set; }

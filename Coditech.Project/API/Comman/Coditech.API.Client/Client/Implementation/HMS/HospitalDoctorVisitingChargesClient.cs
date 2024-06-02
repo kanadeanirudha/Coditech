@@ -169,7 +169,7 @@ namespace Coditech.API.Client
 
         public virtual async Task<HospitalDoctorVisitingChargesResponse> GetHospitalDoctorVisitingChargesAsync(long hospitalDoctorVisitingChargesId,int hospitalDoctorId, System.Threading.CancellationToken cancellationToken)
         {
-            if (hospitalDoctorVisitingChargesId <= 0)
+            if (hospitalDoctorId <= 0)
                 throw new System.ArgumentNullException("hospitalDoctorVisitingChargesId");
 
             string endpoint = hospitalDoctorVisitingChargesEndpoint.GetHospitalDoctorVisitingChargesAsync(hospitalDoctorVisitingChargesId,hospitalDoctorId);
