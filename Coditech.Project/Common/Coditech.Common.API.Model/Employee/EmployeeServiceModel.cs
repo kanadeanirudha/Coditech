@@ -35,6 +35,8 @@ namespace Coditech.Common.API.Model
         public DateTime OrderDate { get; set; }
         public string OrderNumber { get; set; }
         public string Remark { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
     }
 }

@@ -331,6 +331,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory General Item Master due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryGeneralItemMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryGeneralItemMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory item group due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryItemGroupMaster {
@@ -660,6 +669,15 @@ namespace Coditech.Resources {
         public static string LabelInventoryCategoryList {
             get {
                 return ResourceManager.GetString("LabelInventoryCategoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory General Item Master List.
+        /// </summary>
+        public static string LabelInventoryGeneralItemMasterList {
+            get {
+                return ResourceManager.GetString("LabelInventoryGeneralItemMasterList", resourceCulture);
             }
         }
         

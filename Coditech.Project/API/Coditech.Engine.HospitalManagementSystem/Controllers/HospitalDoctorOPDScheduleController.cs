@@ -52,11 +52,11 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
         [Route("/HospitalDoctorOPDSchedule/GetHospitalDoctorOPDSchedule")]
         [HttpGet]
         [Produces(typeof(HospitalDoctorOPDScheduleResponse))]
-        public virtual IActionResult GetHospitalDoctorOPDSchedule(int hospitalDoctorId, long hospitalDoctorOPDScheduleId)
+        public virtual IActionResult GetHospitalDoctorOPDSchedule(int hospitalDoctorId, int weekDayEnumId)
         {
             try
             {
-                HospitalDoctorOPDScheduleModel hospitalDoctorOPDScheduleModel = _hospitalDoctorOPDScheduleService.GetHospitalDoctorOPDSchedule(hospitalDoctorId,hospitalDoctorOPDScheduleId);
+                HospitalDoctorOPDScheduleModel hospitalDoctorOPDScheduleModel = _hospitalDoctorOPDScheduleService.GetHospitalDoctorOPDSchedule(hospitalDoctorId, weekDayEnumId);
                 return IsNotNull(hospitalDoctorOPDScheduleModel) ? CreateOKResponse(new HospitalDoctorOPDScheduleResponse { HospitalDoctorOPDScheduleModel = hospitalDoctorOPDScheduleModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

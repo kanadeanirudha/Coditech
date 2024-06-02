@@ -14,8 +14,7 @@ namespace Coditech.API.Mapper
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<UserMaster, UserModel>().ReverseMap();
-            CreateMap<UserMaster, UserMobileAppModel>().ReverseMap();
-            CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
+           CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<UserMaster, GeneralPersonModel>().ReverseMap();
             CreateMap<GeneralPersonAddress, GeneralPersonAddressModel>().ReverseMap();

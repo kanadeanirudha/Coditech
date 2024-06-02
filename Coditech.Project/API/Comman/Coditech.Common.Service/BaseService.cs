@@ -260,5 +260,24 @@ namespace Coditech.Common.Service
             }
             return emailTemplateModel;
         }
+
+        protected virtual List<GeneralEnumaratorModel> BindEnumarator()
+        {
+            List<GeneralEnumaratorModel> generalEnumaratorList = new List<GeneralEnumaratorModel>();
+            generalEnumaratorList = (from generalEnumarator in new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table
+                                     join generalEnumaratorGroup in new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>()).Table on generalEnumarator.GeneralEnumaratorGroupId equals generalEnumaratorGroup.GeneralEnumaratorGroupId
+                                     where generalEnumarator.IsActive
+                                     select new GeneralEnumaratorModel
+                                     {
+                                         GeneralEnumaratorGroupId = generalEnumaratorGroup.GeneralEnumaratorGroupId,
+                                         EnumGroupCode = generalEnumaratorGroup.EnumGroupCode,
+                                         GeneralEnumaratorId = generalEnumarator.GeneralEnumaratorId,
+                                         EnumName = generalEnumarator.EnumName,
+                                         EnumDisplayText = generalEnumarator.EnumDisplayText,
+                                         EnumValue = generalEnumarator.EnumValue,
+                                         SequenceNumber = generalEnumarator.SequenceNumber,
+                                     })?.ToList();
+            return generalEnumaratorList;
+        }
     }
 }

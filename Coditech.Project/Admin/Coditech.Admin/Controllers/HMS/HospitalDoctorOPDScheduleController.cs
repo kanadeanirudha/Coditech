@@ -34,9 +34,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(int hospitalDoctorId, long hospitalDoctorOPDScheduleId = 0)
+        public virtual ActionResult Edit(int hospitalDoctorId, int weekDayEnumId = 0)
         {
-            HospitalDoctorOPDScheduleViewModel hospitalDoctorOPDScheduleViewModel = _hospitalDoctorOPDScheduleAgent.GetHospitalDoctorOPDSchedule(hospitalDoctorId, hospitalDoctorOPDScheduleId);
+            HospitalDoctorOPDScheduleViewModel hospitalDoctorOPDScheduleViewModel = _hospitalDoctorOPDScheduleAgent.GetHospitalDoctorOPDSchedule(hospitalDoctorId, weekDayEnumId);
             return ActionView(createEdit, hospitalDoctorOPDScheduleViewModel);
         }
 
@@ -45,10 +45,12 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_hospitalDoctorOPDScheduleAgent.UpdateHospitalDoctorOPDSchedule(hospitalDoctorOPDScheduleViewModel).HasError
+                bool hasError = _hospitalDoctorOPDScheduleAgent.UpdateHospitalDoctorOPDSchedule(hospitalDoctorOPDScheduleViewModel).HasError;
+                SetNotificationMessage(hasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("List", CreateActionDataTable(hospitalDoctorOPDScheduleViewModel.SelectedCentreCode, Convert.ToInt16(hospitalDoctorOPDScheduleViewModel.SelectedDepartmentId)));
+                if (!hasError)
+                    return RedirectToAction("Edit", new { hospitalDoctorId = hospitalDoctorOPDScheduleViewModel.HospitalDoctorId, weekDayEnumId = hospitalDoctorOPDScheduleViewModel.WeekDayEnumId });
             }
             return View(createEdit, hospitalDoctorOPDScheduleViewModel);
         }

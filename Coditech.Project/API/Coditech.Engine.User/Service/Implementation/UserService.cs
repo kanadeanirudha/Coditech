@@ -23,8 +23,6 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
-        private readonly ICoditechRepository<GeneralEnumaratorGroup> _generalEnumaratorGroupRepository;
-        private readonly ICoditechRepository<GeneralEnumaratorMaster> _generalEnumaratorRepository;
         private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
         private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
@@ -41,8 +39,6 @@ namespace Coditech.API.Service
             _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _generalEnumaratorGroupRepository = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>());
-            _generalEnumaratorRepository = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
             _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
@@ -476,25 +472,6 @@ namespace Coditech.API.Service
                 userMaster.EmailId = model.EmailId ?? userMaster.EmailId ?? userMaster.EmailId;
                 _userMasterRepository.Update(userMaster);
             }
-        }
-
-        protected virtual List<GeneralEnumaratorModel> BindEnumarator()
-        {
-            List<GeneralEnumaratorModel> generalEnumaratorList = new List<GeneralEnumaratorModel>();
-            generalEnumaratorList = (from generalEnumarator in _generalEnumaratorRepository.Table
-                                     join generalEnumaratorGroup in _generalEnumaratorGroupRepository.Table on generalEnumarator.GeneralEnumaratorGroupId equals generalEnumaratorGroup.GeneralEnumaratorGroupId
-                                     where generalEnumarator.IsActive
-                                     select new GeneralEnumaratorModel
-                                     {
-                                         GeneralEnumaratorGroupId = generalEnumaratorGroup.GeneralEnumaratorGroupId,
-                                         EnumGroupCode = generalEnumaratorGroup.EnumGroupCode,
-                                         GeneralEnumaratorId = generalEnumarator.GeneralEnumaratorId,
-                                         EnumName = generalEnumarator.EnumName,
-                                         EnumDisplayText = generalEnumarator.EnumDisplayText,
-                                         EnumValue = generalEnumarator.EnumValue,
-                                         SequenceNumber = generalEnumarator.SequenceNumber,
-                                     })?.ToList();
-            return generalEnumaratorList;
         }
 
         protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId)

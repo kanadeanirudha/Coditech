@@ -1,4 +1,5 @@
-﻿@model EmployeeServiceListViewModel
+﻿@using Coditech.Admin.Utilities;
+@model EmployeeServiceListViewModel
 @{
     Layout = null;
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
@@ -24,7 +25,9 @@
                             <td>@item.PromotionDemotionDate</td>
                             <td>@item.EmployeeStageEnumId</td>
                             <td>@item.DateOfLeaving</td>
-                            <td>@item.IsCurrentPosition</td> 
+                            <td>
+                                @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsCurrentPosition)
+                            </td>               
                          
                             @* <td>
                     @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.DefaultFlag)

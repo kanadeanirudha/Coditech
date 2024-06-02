@@ -9,7 +9,8 @@
         public string BarCode { get; set; }
         public decimal Price { get; set; }
         public bool IsBaseUom { get; set; }
-        public string UomCode { get; set; }
+        public short InventoryBaseUoMMasterId { get; set; }
+        public short InventoryLowerLevelUoMMasterId { get; set; }
         public string LowerLevelUomCode { get; set; }
         public decimal ConversionFactor { get; set; }
         public bool IsOrderingUnit { get; set; }
@@ -19,7 +20,6 @@
         public decimal Width { get; set; }
         public decimal Height { get; set; }
         public decimal Volume { get; set; }
-        public string InventoryUOM { get; set; }
         public bool IsActive { get; set; }
     }
 }

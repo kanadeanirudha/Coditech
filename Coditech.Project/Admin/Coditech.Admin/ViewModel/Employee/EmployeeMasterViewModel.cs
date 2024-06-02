@@ -14,7 +14,7 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(50)]
         [Editable(false)]
-        [Display(Name = "Person Code")]
+        [Display(Name = "Employee Code")]
         public string PersonCode { get; set; }
 
         [MaxLength(50)]
