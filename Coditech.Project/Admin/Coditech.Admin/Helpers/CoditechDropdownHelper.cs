@@ -717,10 +717,6 @@ namespace Coditech.Admin.Helpers
             InventoryProductDimensionGroupListModel list = new InventoryProductDimensionGroupListModel { InventoryProductDimensionGroupList = response.InventoryProductDimensionGroupList };
             foreach (var item in list.InventoryProductDimensionGroupList)
             {
-                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.InventoryProductDimensionGroupId == Convert.ToInt16(dropdownViewModel.Parameter))
-                {
-                    continue;
-                }
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = string.Concat(item.ProductDimensionGroupName, " (", item.ProductDimensionGroupCode, ")"),

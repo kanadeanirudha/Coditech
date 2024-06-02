@@ -3,6 +3,8 @@
     ViewBag.Title = Model.InventoryGeneralItemMasterId > 0 ? "Update Inventory General Item Master" : "Add Inventory General Item Master";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel inventoryProductType = new DropdownViewModel() { DropdownSelectedValue = Model.ProductTypeEnumId.ToString(), DropdownName = "ProductTypeEnumId", GroupCode = DropdownTypeEnum.InventoryProductType.ToString(), AddSelectItem = false, IsDisabled = Model.InventoryGeneralItemMasterId > 0 };
+    DropdownViewModel inventoryProductSubType = new DropdownViewModel() { DropdownSelectedValue = Model.ProductSubTypeEnumId.ToString(), DropdownName = "ProductSubTypeEnumId", GroupCode = DropdownTypeEnum.ProductSubType.ToString(), AddSelectItem = false, IsDisabled = Model.InventoryGeneralItemMasterId > 0 };
     DropdownViewModel inventoryProductDimensionGroup = new DropdownViewModel() { DropdownType = DropdownTypeEnum.InventoryProductDimensionGroup.ToString(), DropdownName = "InventoryProductDimentionGroupId", DropdownSelectedValue = Model.InventoryProductDimentionGroupId.ToString(), Parameter = Model.InventoryProductDimentionGroupId.ToString(), IsRequired = false };
     DropdownViewModel inventoryStorageDimensionGroup = new DropdownViewModel() { DropdownType = DropdownTypeEnum.InventoryStorageDimensionGroup.ToString(), DropdownName = "InventoryStorageDimentionGroupId", DropdownSelectedValue = Model.InventoryStorageDimentionGroupId.ToString(), Parameter = Model.InventoryStorageDimentionGroupId.ToString(), IsRequired = false };
     DropdownViewModel inventoryItemTrackingDimensionGroup = new DropdownViewModel() { DropdownType = DropdownTypeEnum.InventoryItemTrackingDimensionGroup.ToString(), DropdownName = "InventoryTrackingDimentionGroupId", DropdownSelectedValue = Model.InventoryTrackingDimentionGroupId.ToString(), Parameter = Model.InventoryTrackingDimentionGroupId.ToString(), IsRequired = false };
@@ -34,6 +36,11 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.InventoryGeneralItemMasterId)
+                            @if (Model.InventoryGeneralItemMasterId > 0)
+                            {
+                                @Html.HiddenFor(m => m.ProductTypeEnumId)
+                                @Html.HiddenFor(m => m.ProductSubTypeEnumId)
+                            }
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="mb-3">
@@ -47,17 +54,11 @@
                                         @Html.ValidationMessageFor(x => x.InventoryCategoryId, null)
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
 
+                                <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.ProductTypeEnumId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.ProductTypeEnumId.ToString(),
-                                   DropdownName = "ProductTypeEnumId",
-                                   GroupCode = DropdownTypeEnum.InventoryProductType.ToString(),
-                                   AddSelectItem = false
-                               })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", inventoryProductType)
                                         @Html.ValidationMessageFor(x => x.ProductTypeEnumId)
                                     </div>
                                 </div>
@@ -65,13 +66,7 @@
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.ProductSubTypeEnumId, new { @class = "form-label required " })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.ProductSubTypeEnumId.ToString(),
-                                   DropdownName = "ProductSubTypeEnumId",
-                                   GroupCode = DropdownTypeEnum.ProductSubType.ToString(),
-                                   AddSelectItem = false
-                               })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", inventoryProductSubType)
                                         @Html.ValidationMessageFor(x => x.ProductSubTypeEnumId)
                                     </div>
                                 </div>
@@ -156,21 +151,27 @@
                                         @Html.ValidationMessageFor(x => x.InventoryTrackingDimentionGroupId)
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.IsBaseUom, new { @class = "form-label" })
-                                        <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.IsBaseUom, new { @class = "form-check-input" })
+                                @if (Model.InventoryGeneralItemMasterId == 0)
+                                {
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.IsBaseUom, new { @class = "form-label" })
+                                            <div class="form-check">
+                                                @Html.CheckBoxFor(x => x.IsBaseUom, new { @class = "form-check-input" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.InventoryBaseUoMMasterId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", inventoryBaseUoMMaster)
-                                        @Html.ValidationMessageFor(x => x.InventoryBaseUoMMasterId)
+                                }
+                                @if (Model.InventoryGeneralItemMasterId == 0)
+                                {
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.InventoryBaseUoMMasterId, new { @class = "form-label required" })
+                                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", inventoryBaseUoMMaster)
+                                            @Html.ValidationMessageFor(x => x.InventoryBaseUoMMasterId)
+                                        </div>
                                     </div>
-                                </div>
+                                }
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.ItemDescription, new { @class = "form-label" })
