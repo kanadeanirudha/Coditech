@@ -54,7 +54,7 @@ namespace Coditech.Common.Service
 
         protected virtual List<UserModuleMaster> GetAllActiveModuleList()
         {
-            List<UserModuleMaster> userAllModuleList = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.ModuleActiveFlag == true)?.OrderBy(y=>y.ModuleSeqNumber)?.ToList();
+            List<UserModuleMaster> userAllModuleList = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.ModuleActiveFlag == true)?.OrderBy(y => y.ModuleSeqNumber)?.ToList();
             return userAllModuleList;
         }
 
@@ -278,6 +278,12 @@ namespace Coditech.Common.Service
                                          SequenceNumber = generalEnumarator.SequenceNumber,
                                      })?.ToList();
             return generalEnumaratorList;
+        }
+
+        protected virtual string GetMediaUrl()
+        {
+            string url = new CoditechRepository<MediaConfiguration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.IsActive)?.FirstOrDefault().URL;
+            return url;
         }
     }
 }

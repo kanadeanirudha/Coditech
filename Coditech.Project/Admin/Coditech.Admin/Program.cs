@@ -1,20 +1,10 @@
 using Coditech.Admin;
-using Microsoft.AspNetCore.Http.Features;
 
 /// <summary>
 /// Creates a WebApplication Builder with the given arguments.
 /// </summary>
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<FormOptions>(options =>
-{
-    options.MultipartBodyLengthLimit = 104857600; // Set limit to 100MB
-});
-
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.Limits.MaxRequestBodySize = 104857600; // Set limit to 100MB
-});
 /// <summary>
 /// Registers common services.
 /// </summary>

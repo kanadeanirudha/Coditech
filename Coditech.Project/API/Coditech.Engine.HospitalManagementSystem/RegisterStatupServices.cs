@@ -6,6 +6,7 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -30,6 +31,9 @@ namespace Coditech.API.Common
         /// <param name="builder"></param>
         public static void RegisterCommonServices(this WebApplicationBuilder builder)
         {
+            // Registred all media setting.
+            builder.RegisterMedia();
+
             // Registred all entity classes with their connection string.
             builder.RegisterEntity();
 
@@ -143,6 +147,31 @@ namespace Coditech.API.Common
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddSwaggerGen();
+        }
+
+        /// <summary>
+        /// Registring all media setting
+        /// </summary>
+        /// <param name="builder"></param>
+        public static void RegisterMedia(this WebApplicationBuilder builder)
+        {
+            // Coditech entity registration
+            builder.Services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = 104857600;
+            });
+
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.ValueLengthLimit = 104857600;
+                options.MultipartBodyLengthLimit = 104857600;
+                options.MultipartHeadersLengthLimit = 104857600;
+            });
+
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.Limits.MaxRequestBodySize = 104857600;
+            });
         }
 
         /// <summary>

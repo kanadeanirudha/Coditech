@@ -208,7 +208,7 @@ namespace Coditech.API.Service
                 var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId).FirstOrDefault();
                 if (mediaDetail != null)
                 {
-                    generalPersonModel.PhotoMediaPath = mediaDetail.Path;
+                    generalPersonModel.PhotoMediaPath =$"{GetMediaUrl}{mediaDetail.Path}";
                     generalPersonModel.PhotoMediaFileName = mediaDetail.FileName;
                 }
             }
@@ -230,7 +230,7 @@ namespace Coditech.API.Service
                 var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId).FirstOrDefault();
                 if (mediaDetail != null)
                 {
-                    generalPersonModel.PhotoMediaPath = mediaDetail.Path;
+                    generalPersonModel.PhotoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}"; 
                     generalPersonModel.PhotoMediaFileName = mediaDetail.FileName;
                 }
             }

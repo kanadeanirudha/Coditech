@@ -141,14 +141,12 @@ namespace Coditech.API.Service
                                 await file.CopyToAsync(stream);
                             }
 
-                            // Generate URL to access the file
-                            string fileUrl = $"{request.Scheme}://{request.Host}/Data/Media/{uniqueFileName}";
-
-                            var fileName = uniqueFileName;
                             var size = Convert.ToString(file.Length);
                             var type = file.ContentType;
                             var imagepath = filePath;
-                            var url = fileUrl;
+
+                            // Generate URL to access the file
+                            var fileUrl = $"{GetMediaUrl()}{uniqueFileName}";
                             var height = string.Empty; var width = string.Empty;
 
                             if (file.ContentType.StartsWith("image"))
@@ -160,21 +158,17 @@ namespace Coditech.API.Service
                                 }
                             }
 
-                            var result = await _mediaDetailRepository.InsertAsync(new MediaDetail()
+                            var result = _mediaDetailRepository.Insert(new MediaDetail()
                             {
                                 MediaConfigurationId = 1,
                                 MediaFolderMasterId = 1,
-                                Path = url,
+                                Path = uniqueFileName,
                                 FileName = file.FileName,
                                 Size = size,
                                 Length = size,
                                 Height = height,
                                 Width = width,
-                                Type = type,
-                                CreatedBy = 0,
-                                CreatedDate = DateTime.Now,
-                                ModifiedBy = 0,
-                                ModifiedDate = DateTime.Now
+                                Type = type
                             });
 
                             return new MediaManagerResponse()
