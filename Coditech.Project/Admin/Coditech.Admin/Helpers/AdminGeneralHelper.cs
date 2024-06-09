@@ -62,5 +62,9 @@ namespace Coditech.Admin.Helpers
             }
             return dataTable;
         }
+
+        public static string DateFormat() {
+            return "dd-mm-yyyy";
+        }
     }
 }
