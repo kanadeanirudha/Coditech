@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.API.Data
+﻿namespace Coditech.Common.API.Model
 {
-    public partial class MediaSettingMaster
+    public class MediaSettingMasterModel : BaseModel
     {
-        [Key]
+        public MediaSettingMasterModel()
+        {
+
+        }
         public byte MediaSettingMasterId { get; set; }
         public byte MediaTypeMasterId { get; set; }
         public byte MediaConfigurationId { get; set; }
@@ -17,9 +18,5 @@ namespace Coditech.API.Data
         public Int16 ThumbnailImageResize { get; set; }
         public Int16 SmallThumbnailImageResize { get; set; }
         public string HelpDescription { get; set; }
-        public Nullable<long> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<long> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

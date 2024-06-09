@@ -77,6 +77,7 @@
             InventoryStorageDimensionGroup,
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
+            MediaSettingMaster,
             InventoryGeneralItemMaster
         }
     }
