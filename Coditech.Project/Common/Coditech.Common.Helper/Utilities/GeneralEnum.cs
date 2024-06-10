@@ -58,7 +58,8 @@
         InventoryStorageDimensionGroup,
         InventoryItemTrackingDimensionGroup,
         EmployeeStage,
-        InventoryUomMaster
+        InventoryUomMaster,
+        ReportType
     }
 
     public enum GeneralSystemGlobleSettingEnum

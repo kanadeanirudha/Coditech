@@ -80,7 +80,11 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.MaritalStatus.ToString()))
             {
-                HetMaritalStatusList(dropdownViewModel, dropdownList);
+                MaritalStatusList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.ReportType.ToString()))
+            {
+                ReportTypeList(dropdownViewModel, dropdownList);
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.BloodGroups.ToString()))
             {
@@ -248,7 +252,7 @@ namespace Coditech.Admin.Helpers
             });
         }
 
-        private static void HetMaritalStatusList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void MaritalStatusList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
             dropdownList.Add(new SelectListItem()
@@ -265,6 +269,21 @@ namespace Coditech.Admin.Helpers
             });
         }
 
+        private static void ReportTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "xls",
+                Value = "xls",
+                Selected = "xls" == dropdownViewModel.DropdownSelectedValue
+            });
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "pdf",
+                Value = "pdf",
+                Selected = "pdf" == dropdownViewModel.DropdownSelectedValue
+            });
+        }
         private static void GetMenuList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });

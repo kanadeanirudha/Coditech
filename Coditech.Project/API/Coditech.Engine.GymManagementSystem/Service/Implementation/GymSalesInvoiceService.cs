@@ -41,17 +41,16 @@ namespace Coditech.API.Service
             if (toDate == null && fromDate == null)
             {
                 toDate = DateTime.Now;
-                fromDate = DateTime.Now.AddMonths(-1);
+                fromDate = Convert.ToDateTime(toDate).AddMonths(-1);
             }
-            else if (toDate != null && fromDate == null)
-            {
-                fromDate = toDate.Value.AddMonths(-1);
-            }
-            else if (toDate == null && fromDate != null)
+            else if (fromDate != null && toDate == null)
             {
                 toDate = DateTime.Now;
             }
-            toDate = DateTime.Now.AddDays(1);
+            else if (fromDate == null && toDate != null)
+            {
+                fromDate = toDate.Value.AddMonths(-1);
+            }
             // Bind the Filter, sorts & Paging shipPlan.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GymMemberSalesInvoiceModel> objStoredProc = new CoditechViewRepository<GymMemberSalesInvoiceModel>(_serviceProvider.GetService<Coditech_Entities>());
@@ -95,7 +94,7 @@ namespace Coditech.API.Service
                     BillAmount = salesInvoiceMaster.BillAmount,
                     TotalAmount = salesInvoiceMaster.TotalAmount,
                     PaymentType = GetEnumDisplayTextByEnumId(gymMemberMembershipPlan.PaymentTypeEnumId),
-                    TransactionReference= gymMemberMembershipPlan.TransactionReference
+                    TransactionReference = gymMemberMembershipPlan.TransactionReference
                 };
 
                 GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(gymMemberMembershipPlan.GymMembershipPlanId);

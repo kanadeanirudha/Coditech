@@ -1,9 +1,9 @@
-﻿@model GymMemberSalesInvoiceListViewModel
+﻿@model GymMemberSalesInvoiceReportViewModel
 @{
-    ViewBag.Title = "Sale Invoice List";
+    ViewBag.Title = "Sale Invoice Report";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "GymSalesInvoice.GetSaleInvoiceListByCentreCode('" + @controllerName + "','" + @actionName + "')" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode" };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -15,131 +15,79 @@
                         <span class="card-title">Sales Invoice Reports</span>
                     </div>
                     <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <label class = "form-label">@AdminResources.LabelCentre</label>
+                        @using (Html.BeginForm("SaleInvoiceReport", controllerName, FormMethod.Post))
+                        {
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <label class="form-label">@AdminResources.LabelCentre</label>
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                                    @Html.ValidationMessageFor(x => x.SelectedCentreCode)
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="form-label">Report Type</label>
+                                </div>
+
+                                <div class="col-md-1">
+                                    @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                           {
+                               DropdownType = DropdownTypeEnum.ReportType.ToString(),
+                               DropdownName = "ReportType",
+                               DropdownSelectedValue = Model.ReportType ?? string.Empty,
+                           })
+                                    @Html.ValidationMessageFor(x => x.ReportType)
+                                </div>
+                                <div class="col-md-1">
+                                    @Html.LabelFor(x => x.FromDate, new { @class = "form-label" })
+                                </div>
+                                <div class="col-md-1">
+                                    @Html.TextBoxFor(x => x.FromDate, new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-1">
+                                    @Html.LabelFor(x => x.ToDate, new { @class = "form-label" })
+                                </div>
+                                <div class="col-md-1">
+                                    @Html.TextBoxFor(x => x.ToDate, new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="submit" class="btn btn-success">Show</button>
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                        }
+
+                        @if (!Model.IsRecordFound)
+                        {
+                            <div class="row">
+                                <div class="col-sm-12 col-md-5">
+                                    <span>No Result found</span>
+                                </div>
                             </div>
-                            <div class="col-md-1">
-                                @Html.LabelFor(x => x.FromDate, new { @class = "form-label" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.TextBoxFor(x => x.FromDate, new { @class = "form-control" })
-                            </div>
-                            <div class="col-md-1">
-                                @Html.LabelFor(x => x.ToDate, new { @class = "form-label" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.TextBoxFor(x => x.ToDate, new { @class = "form-control" })
-                            </div>
-                            <div class="col-md-1">
-                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="GymSalesInvoice.GetSaleInvoiceListByCentreCode('@controllerName','@actionName')" />
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="~/js/coditech/gym/gymsalesinvoice.js"></script>
 <!-- end page content -->
 @section scripts {
-    <script>
+    <script type="text/javascript">
         $(function () {
-            $('#FromDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                // minYear: parseInt(moment().format('YYYY'), 10),
-                // // maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
-
-            $('#ToDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                // minYear: parseInt(moment().format('YYYY'), 10),
-                // // maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
+            $("#FromDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormat()",
+                language: "tr"
+            });
+        });
+        $(function () {
+            $("#ToDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormat()",
+                language: "tr"
+            });
         });
     </script>
 }

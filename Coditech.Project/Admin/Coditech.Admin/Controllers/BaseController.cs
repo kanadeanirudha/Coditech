@@ -148,11 +148,11 @@ namespace Coditech.Admin.Controllers
             return dataTableModel;
         }
 
-        public Stream GetReport(IWebHostEnvironment _environment, string reportFolder, string reportName, DataTable dataTable, string dataSet, Dictionary<string, string> reportParameters)
+        public Stream GetReport(IWebHostEnvironment _environment, string reportFolder, string rdlcReportName, DataTable dataTable, string dataSet, Dictionary<string, string> reportParameters)
         {
             string mimeType = "";
             int pageIndex = 1;
-            var _reportPath = $"{_environment.ContentRootPath}\\Reports\\{reportFolder}\\{reportName}.rdlc";
+            var _reportPath = $"{_environment.ContentRootPath}\\Reports\\{reportFolder}\\{rdlcReportName}.rdlc";
             LocalReport localReport = new LocalReport(_reportPath);
 
             localReport.AddDataSource(dataSet, dataTable);
