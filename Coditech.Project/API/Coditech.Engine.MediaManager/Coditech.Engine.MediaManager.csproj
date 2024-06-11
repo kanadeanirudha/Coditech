@@ -35,4 +35,8 @@
 		<ProjectReference Include="..\Comman\Coditech.Common.Service\Coditech.Common.Service.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Data\ApplicationImages\" />
+	</ItemGroup>
+
 </Project>

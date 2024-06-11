@@ -14,7 +14,7 @@ namespace Coditech.Admin.Helpers
         public static string GetSystemGlobleSettingFeatureValue(string featureName)
         {
             List<GeneralSystemGlobleSettingModel> settingMasterList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralSystemGlobleSettingList;
-            string featureValue = settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(featureName, StringComparison.InvariantCultureIgnoreCase))?.FeatureValue;
+            string featureValue = settingMasterList?.Where(x => x.FeatureName.Equals(featureName, StringComparison.InvariantCultureIgnoreCase))?.FirstOrDefault()?.FeatureValue;
             return featureValue;
         }
 
@@ -63,8 +63,16 @@ namespace Coditech.Admin.Helpers
             return dataTable;
         }
 
-        public static string DateFormat() {
-            return "dd-mm-yyyy";
+        public static string DateFormat()
+        {
+            string dateTimeformat = "{0:" + GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString()) + "}";
+            return dateTimeformat;
+        }
+
+        public static string DateFormatForCalendar()
+        {
+            string dateTimeformat = GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormatForCalendar.ToString());
+            return dateTimeformat;
         }
     }
 }

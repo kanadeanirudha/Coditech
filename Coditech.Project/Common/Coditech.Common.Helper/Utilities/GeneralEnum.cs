@@ -75,6 +75,7 @@
         PriceRoundOff,
         InventoryRoundOff,
         DateFormat,
+        DateFormatForCalendar
     }
 
     public enum UserTypeEnum

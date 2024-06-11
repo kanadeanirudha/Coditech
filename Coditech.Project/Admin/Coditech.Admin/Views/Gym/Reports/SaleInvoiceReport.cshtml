@@ -42,13 +42,13 @@
                                     @Html.LabelFor(x => x.FromDate, new { @class = "form-label" })
                                 </div>
                                 <div class="col-md-1">
-                                    @Html.TextBoxFor(x => x.FromDate, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.FromDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                                 <div class="col-md-1">
                                     @Html.LabelFor(x => x.ToDate, new { @class = "form-label" })
                                 </div>
                                 <div class="col-md-1">
-                                    @Html.TextBoxFor(x => x.ToDate, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.ToDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                                 <div class="col-md-1">
                                     <button type="submit" class="btn btn-success">Show</button>
@@ -77,16 +77,17 @@
             $("#FromDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormat()",
-                language: "tr"
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true
             });
         });
         $(function () {
             $("#ToDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormat()",
-                language: "tr"
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en"
             });
         });
     </script>
