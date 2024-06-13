@@ -28,7 +28,7 @@ namespace Coditech.Admin.ViewModel
         public short EmployeeDesignationMasterId { get; set; }
 
         [Display(Name = "Current Designation")]
-        public string CurrentDesignation { get; set; }
+        public string CurrentEmployeeDesignation { get; set; }
 
         [Required]
         [Display(Name = "Joining Date")]
@@ -36,15 +36,16 @@ namespace Coditech.Admin.ViewModel
 
       
         [Display(Name = "Promotion Demotion Date")]
-        public DateTime PromotionDemotionDate { get; set; }
+        public DateTime? PromotionDemotionDate { get; set; }
 
         [Required]
         [Display(Name = "Employee Stage")]
         public int EmployeeStageEnumId { get; set; }
 
-        [Required]
+        public string EmployeeStage { get; set; }
+
         [Display(Name = "Date Of Leaving")]
-        public DateTime DateOfLeaving { get; set; }
+        public DateTime? DateOfLeaving { get; set; }
 
         [Required]
         [Display(Name = "Is Current Position")]
@@ -59,7 +60,7 @@ namespace Coditech.Admin.ViewModel
         public string PayScale { get; set; }
 
         [Display(Name = "Order Date")]
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
 
         [MaxLength(100)]
         [Display(Name = "Order Number")]

@@ -609,7 +609,8 @@ namespace Coditech.API.Service
                 PersonCode = generalPersonModel.PersonCode,
                 UserType = generalPersonModel.UserType,
                 CentreCode = generalPersonModel.SelectedCentreCode,
-                GeneralDepartmentMasterId = Convert.ToInt16(generalPersonModel.SelectedDepartmentId)
+                GeneralDepartmentMasterId = Convert.ToInt16(generalPersonModel.SelectedDepartmentId),
+                EmployeeDesignationMasterId = Convert.ToInt16(generalPersonModel.EmployeeDesignationMasterId)
             };
             employeeMaster = _employeeMasterRepository.Insert(employeeMaster);
             //Check Is Employee need to Login
@@ -620,7 +621,10 @@ namespace Coditech.API.Service
                 {
                     EmployeeId = employeeMaster.EmployeeId,
                     EmployeeCode = generalPersonModel.PersonCode,
-                    IsCurrentPosition = true
+                    IsCurrentPosition = true,
+                    EmployeeDesignationMasterId= generalPersonModel.EmployeeDesignationMasterId,
+                    JoiningDate = DateTime.Now,
+                    EmployeeStageEnumId=GetEnumIdByEnumCode("Joining")
                 };
                 _employeeServiceRepository.Insert(employeeService);
                 if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")

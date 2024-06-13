@@ -38,7 +38,6 @@
                             @Html.HiddenFor(m => m.EmployeeServiceId)
                             @Html.HiddenFor(m => m.PersonId)
                             <div class="row">
-
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.EmployeeCode, new { @class = "form-label" })
@@ -71,7 +70,7 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.JoiningDate, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.JoiningDate, new { @class = "form-control", @readonly = "true" })
+                                        @Html.TextBoxFor(x => x.JoiningDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.JoiningDate)
                                     </div>
                                 </div>
@@ -79,17 +78,17 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PromotionDemotionDate, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.PromotionDemotionDate, new { @class = "form-control", @readonly = "true" })
+                                        @Html.TextBoxFor(x => x.PromotionDemotionDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.PromotionDemotionDate)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.DateOfLeaving, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.DateOfLeaving, new { @class = "form-control", @readonly = "true" })
+                                        @Html.TextBoxFor(x => x.DateOfLeaving, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.DateOfLeaving)
                                     </div>
-                                </div>                          
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.SalaryGradeCode, new { @class = "form-label" })
@@ -114,10 +113,10 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.OrderDate, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.OrderDate, new { @class = "form-control", @readonly = "true" })
+                                        @Html.TextBoxFor(x => x.OrderDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.OrderDate)
                                     </div>
-                                </div>                           
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.Remark, new { @class = "form-label" })
@@ -148,201 +147,37 @@
 @section scripts {
     <script>
         $(function () {
-            $('#JoiningDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-        @* "format": "DD-MM-YYYY", *@
-                "separator": " - ",
-                "applyLabel": "Apply",
-                "cancelLabel": "Cancel",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "weekLabel": "W",
-                "daysOfWeek": [
-                "Su",
-                "Mo",
-                "Tu",
-                "We",
-                "Th",
-                "Fr",
-                "Sa"
-            ],
-                "monthNames": [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ],
-                "firstDay": 1
-                                                                                                                                                            },
-            minYear: new Date().getFullYear(),
-            maxYear: new Date().getFullYear() + 1
-                                                                                                                                                        },
-            function (start, end, label) { });
-                                                                                                                                                    });
-    </script>
-
-    <script>
+            $("#JoiningDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true
+            });
+        });
         $(function () {
-            $('#PromotionDemotionDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-        @* "format": "DD-MM-YYYY", *@
-                "separator": " - ",
-                "applyLabel": "Apply",
-                "cancelLabel": "Cancel",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "weekLabel": "W",
-                "daysOfWeek": [
-                "Su",
-                "Mo",
-                "Tu",
-                "We",
-                "Th",
-                "Fr",
-                "Sa"
-            ],
-                "monthNames": [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ],
-                "firstDay": 1
-                                                                                                                                                                    },
-            minYear: new Date().getFullYear(),
-            maxYear: new Date().getFullYear() + 1
-                                                                                                                                                                },
-            function (start, end, label) { });
-                                                                                                                                                            });
-    </script>
-
-    <script>
+            $("#PromotionDemotionDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en"
+            });
+        });
         $(function () {
-            $('#DateOfLeaving').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-        @* "format": "DD-MM-YYYY", *@
-                "separator": " - ",
-                "applyLabel": "Apply",
-                "cancelLabel": "Cancel",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "weekLabel": "W",
-                "daysOfWeek": [
-                "Su",
-                "Mo",
-                "Tu",
-                "We",
-                "Th",
-                "Fr",
-                "Sa"
-            ],
-                "monthNames": [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ],
-                "firstDay": 1
-                                                                                                                                                                    },
-            minYear: new Date().getFullYear(),
-            maxYear: new Date().getFullYear() + 1
-                                                                                                                                                                },
-            function (start, end, label) { });
-                                                                                                                                                            });
-    </script>
-
-    <script>
+            $("#DateOfLeaving").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en"
+            });
+        });
         $(function () {
-            $('#OrderDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-        @* "format": "DD-MM-YYYY", *@
-                "separator": " - ",
-                "applyLabel": "Apply",
-                "cancelLabel": "Cancel",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "weekLabel": "W",
-                "daysOfWeek": [
-                "Su",
-                "Mo",
-                "Tu",
-                "We",
-                "Th",
-                "Fr",
-                "Sa"
-            ],
-                "monthNames": [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ],
-                "firstDay": 1
-                                                                                                                                                                    },
-            minYear: new Date().getFullYear(),
-            maxYear: new Date().getFullYear() + 1
-                                                                                                                                                                },
-            function (start, end, label) { });
-                                                                                                                                                            });
+            $("#OrderDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en"
+            });
+        });
     </script>
 }

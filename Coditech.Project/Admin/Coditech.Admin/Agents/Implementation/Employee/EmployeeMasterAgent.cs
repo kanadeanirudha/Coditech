@@ -70,6 +70,7 @@ namespace Coditech.Admin.Agents
                 GeneralPersonModel generalPersonModel = employeeCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.SelectedCentreCode = employeeCreateEditViewModel.SelectedCentreCode;
                 generalPersonModel.SelectedDepartmentId = employeeCreateEditViewModel.SelectedDepartmentId;
+                generalPersonModel.EmployeeDesignationMasterId = employeeCreateEditViewModel.EmployeeDesignationMasterId;
 
                 GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
@@ -105,6 +106,7 @@ namespace Coditech.Admin.Agents
                 {
                     employeeCreateEditViewModel.SelectedCentreCode = employeeMasterResponse.EmployeeMasterModel.CentreCode;
                     employeeCreateEditViewModel.SelectedDepartmentId = Convert.ToString(employeeMasterResponse.EmployeeMasterModel.GeneralDepartmentMasterId);
+                    employeeCreateEditViewModel.EmployeeDesignationMasterId = employeeMasterResponse.EmployeeMasterModel.EmployeeDesignationMasterId;
                 }
                 employeeCreateEditViewModel.EmployeeId = employeeId;
                 employeeCreateEditViewModel.PersonId = personId;
@@ -191,6 +193,7 @@ namespace Coditech.Admin.Agents
         }
 
         #endregion
+
         #endregion
 
         #region protected
@@ -234,7 +237,6 @@ namespace Coditech.Admin.Agents
             });
             return datatableColumnList;
         }
-
+        #endregion
     }
 }
-#endregion

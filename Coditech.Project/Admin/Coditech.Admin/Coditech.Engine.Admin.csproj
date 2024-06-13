@@ -8,6 +8,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Reports\Gym\GymLeads.rdlc" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Reports\Gym\GymLeads.rdlc" />
 	  <Content Include="Reports\Gym\GymSalesInvoice.rdlc" />
 	</ItemGroup>
 

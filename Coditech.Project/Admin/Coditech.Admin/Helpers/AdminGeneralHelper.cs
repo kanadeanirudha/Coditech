@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Coditech.Admin.Helpers
 {
-    public class AdminGeneralHelper
+    public static class AdminGeneralHelper
     {
         public static string GetSystemGlobleSettingFeatureValue(string featureName)
         {
@@ -63,7 +63,7 @@ namespace Coditech.Admin.Helpers
             return dataTable;
         }
 
-        public static string DateFormat()
+        public static string DateFormatForTextBox()
         {
             string dateTimeformat = "{0:" + GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString()) + "}";
             return dateTimeformat;
@@ -72,6 +72,17 @@ namespace Coditech.Admin.Helpers
         public static string DateFormatForCalendar()
         {
             string dateTimeformat = GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormatForCalendar.ToString());
+            return dateTimeformat;
+        }
+        public static string CoditechDateFormat(this DateTime? dateTime)
+        {
+            string dateTimeformat = dateTime == null ? "" : Convert.ToDateTime(dateTime).ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString()));
+            return dateTimeformat;
+        }
+
+        public static string CoditechDateFormat(this DateTime dateTime)
+        {
+            string dateTimeformat = dateTime.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString()));
             return dateTimeformat;
         }
     }

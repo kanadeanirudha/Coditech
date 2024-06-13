@@ -182,7 +182,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_employeeServiceAgent.UpdateEmployeeService(employeeServiceViewModel).HasError
                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
               : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetEmployeeService", new { employeeId = employeeServiceViewModel.EmployeeId, personId = employeeServiceViewModel.PersonId, employeeServiceId = employeeServiceViewModel.EmployeeServiceId });
+                return RedirectToAction("EmployeeServiceList", new { employeeId = employeeServiceViewModel.EmployeeId, personId = employeeServiceViewModel.PersonId });
             }
             return View(createEditEmployeeService, employeeServiceViewModel);
         }
