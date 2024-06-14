@@ -42,6 +42,8 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(100)]
 
         public string HelpDescription { get; set; }
+        [Display(Name = "Is Active")]
+        public bool IsActive { get; set; }
 
 
     }

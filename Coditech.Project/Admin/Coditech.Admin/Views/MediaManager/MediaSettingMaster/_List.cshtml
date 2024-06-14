@@ -18,19 +18,11 @@
                     foreach (var item in Model?.MediaSettingMasterList)
                     {
                         <tr>
-                            <td>@item.MediaSettingMasterId</td>
                             <td>@item.MediaTypeMasterId</td>
-                            <td>@item.MediaConfigurationId</td>
-                            <td>@item.MaxSizeInMB</td>
-                            <td>@item.MediaTypeExtensionMasterIds</td>
-                            <td>@item.LargeImageResize</td>
-                            <td>@item.MediumImageResize</td>
-                            <td>@item.SmallImageResize</td>
-                            <td>@item.CrossSellImageResize</td>
-                            <td>@item.ThumbnailImageResize</td>
-                            <td>@item.SmallThumbnailImageResize</td>
-                            <td>@item.HelpDescription</td>
-                            <td class="text-center">
+                            <td>
+                                @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
+                            </td>
+                              <td class="text-center">
                                 <a href="../@controllerName/Edit?mediaSettingMasterId=@item.MediaSettingMasterId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
                                 <a href="../@controllerName/Delete?countryIds=@item.MediaSettingMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                             </td>
