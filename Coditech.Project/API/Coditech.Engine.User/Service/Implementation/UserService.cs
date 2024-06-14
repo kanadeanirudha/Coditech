@@ -19,6 +19,7 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         protected readonly ICoditechEmail _coditechEmail;
+        protected readonly ICoditechSMS _coditechSMS;
         private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
@@ -31,11 +32,12 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<EmployeeService> _employeeServiceRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
-        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail) : base(serviceProvider)
+        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _coditechEmail = coditechEmail;
+            _coditechSMS = coditechSMS;
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
@@ -208,7 +210,7 @@ namespace Coditech.API.Service
                 var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId).FirstOrDefault();
                 if (mediaDetail != null)
                 {
-                    generalPersonModel.PhotoMediaPath =$"{GetMediaUrl}{mediaDetail.Path}";
+                    generalPersonModel.PhotoMediaPath = $"{GetMediaUrl}{mediaDetail.Path}";
                     generalPersonModel.PhotoMediaFileName = mediaDetail.FileName;
                 }
             }
@@ -230,7 +232,7 @@ namespace Coditech.API.Service
                 var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId).FirstOrDefault();
                 if (mediaDetail != null)
                 {
-                    generalPersonModel.PhotoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}"; 
+                    generalPersonModel.PhotoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
                     generalPersonModel.PhotoMediaFileName = mediaDetail.FileName;
                 }
             }
@@ -622,18 +624,20 @@ namespace Coditech.API.Service
                     EmployeeId = employeeMaster.EmployeeId,
                     EmployeeCode = generalPersonModel.PersonCode,
                     IsCurrentPosition = true,
-                    EmployeeDesignationMasterId= generalPersonModel.EmployeeDesignationMasterId,
+                    EmployeeDesignationMasterId = generalPersonModel.EmployeeDesignationMasterId,
                     JoiningDate = DateTime.Now,
-                    EmployeeStageEnumId=GetEnumIdByEnumCode("Joining")
+                    EmployeeStageEnumId = GetEnumIdByEnumCode("Joining")
                 };
                 _employeeServiceRepository.Insert(employeeService);
                 if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
-                {   //GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(employeeMaster.CentreCode, EmailTemplateCodeEnum.EmployeeRegistration.ToString());
-                    //if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(generalPersonModel.EmailId))
-                    //{
-                    //    _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, emailTemplateModel.EmailTemplate);
-                    //}
-
+                {
+                    GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(employeeMaster.CentreCode, EmailTemplateCodeEnum.EmployeeRegistration.ToString());
+                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(generalPersonModel.EmailId))
+                    {
+                        string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
+                        string messageText = ReplaceEmployeeEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
+                        _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", subject, messageText);
+                    }
                     InsertUserMasterDetails(generalPersonModel, employeeMaster.EmployeeId);
                 }
             }
@@ -654,10 +658,32 @@ namespace Coditech.API.Service
             //Check Is Gym Member need to Login
             if (gymMemberDetails?.GymMemberDetailId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
             {
+                GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel.SelectedCentreCode, EmailTemplateCodeEnum.GymMemberRegistration.ToString());
+                if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(generalPersonModel.EmailId))
+                {
+                    string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
+                    string messageText = ReplaceGymMemberEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
+                    _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText);
+                }
                 InsertUserMasterDetails(generalPersonModel, gymMemberDetails.GymMemberDetailId);
             }
         }
 
+        protected virtual string ReplaceEmployeeEmailTemplate(GeneralPersonModel generalPersonModel, string emailTemplate)
+        {
+            string messageText = emailTemplate;
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+            return messageText;
+        }
+
+        protected virtual string ReplaceGymMemberEmailTemplate(GeneralPersonModel generalPersonModel, string emailTemplate)
+        {
+            string messageText = emailTemplate;
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+            return messageText;
+        }
         #endregion
     }
 }

@@ -42,13 +42,13 @@
                                     @Html.LabelFor(x => x.FromDate, new { @class = "form-label" })
                                 </div>
                                 <div class="col-md-1">
-                                    @Html.TextBoxFor(x => x.FromDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.TextBoxFor(x => x.FromDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                                 <div class="col-md-1">
                                     @Html.LabelFor(x => x.ToDate, new { @class = "form-label" })
                                 </div>
                                 <div class="col-md-1">
-                                    @Html.TextBoxFor(x => x.ToDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.TextBoxFor(x => x.ToDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                                 <div class="col-md-1">
                                     <button type="submit" class="btn btn-success">Show</button>

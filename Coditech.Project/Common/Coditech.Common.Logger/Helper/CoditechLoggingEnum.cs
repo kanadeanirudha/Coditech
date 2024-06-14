@@ -56,6 +56,7 @@
             SalesAndPurchase,
             InventoryCategory,
             EmailService,
+            SMSService,
             ChangePassword,
             Dashboard,
             InventoryItemModelGroup,

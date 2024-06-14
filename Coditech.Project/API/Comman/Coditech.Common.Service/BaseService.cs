@@ -5,6 +5,8 @@ using Coditech.Common.Logger;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using System.Text.RegularExpressions;
+
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Common.Service
 {
@@ -235,12 +237,18 @@ namespace Coditech.Common.Service
             return CentreCode;
         }
 
+        protected virtual string GetOrganisationCentreNameByCentreCode(string centreCode)
+        {
+            CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            string centreName = _organisationCentreMasterRepository.Table.Where(x => x.CentreCode == centreCode).Select(y => y.CentreName).FirstOrDefault();
+            return centreName;
+        }
         protected virtual GeneralEmailTemplateModel GetEmailTemplateByCode(string centreCode, string emailTemplateByCode)
         {
             GeneralEmailTemplateModel emailTemplateModel = new GeneralEmailTemplateModel();
             if (!string.IsNullOrEmpty(centreCode))
             {
-                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplate = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && x.EmailTemplateCode == emailTemplateByCode)?.FirstOrDefault();
+                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplate = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && x.EmailTemplateCode == emailTemplateByCode && x.IsActive)?.FirstOrDefault();
                 if (IsNotNull(organisationCentrewiseEmailTemplate))
                 {
                     emailTemplateModel.EmailTemplateCode = organisationCentrewiseEmailTemplate.EmailTemplateCode;
@@ -250,7 +258,7 @@ namespace Coditech.Common.Service
             }
             else
             {
-                GeneralEmailTemplate generalEmailTemplate = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmailTemplateCode == emailTemplateByCode)?.FirstOrDefault();
+                GeneralEmailTemplate generalEmailTemplate = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmailTemplateCode == emailTemplateByCode && x.IsActive)?.FirstOrDefault();
                 if (IsNotNull(generalEmailTemplate))
                 {
                     emailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
@@ -284,6 +292,13 @@ namespace Coditech.Common.Service
         {
             string url = new CoditechRepository<MediaConfiguration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.IsActive)?.FirstOrDefault().URL;
             return url;
+        }
+
+        //Method to replace token with message text.
+        public static string ReplaceTokenWithMessageText(string key, string replaceValue, string resourceText)
+        {
+            Regex rgx = new Regex(key, RegexOptions.IgnoreCase);
+            return rgx.Replace(resourceText, string.IsNullOrEmpty(replaceValue) ? string.Empty : replaceValue);
         }
     }
 }

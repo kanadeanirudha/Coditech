@@ -33,6 +33,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralMeasurementUnitMaster> GeneralMeasurementUnitMaster { get; set; }
         public DbSet<GeneralRunningNumbers> GeneralRunningNumbers { get; set; }
         public DbSet<GeneralLeadGenerationMaster> GeneralLeadGenerationMaster { get; set; }
+        public DbSet<GeneralSmsProvider> GeneralSmsProvider { get; set; }
         #endregion
 
         #region Organisation
@@ -44,6 +45,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrewiseGSTCredential> OrganisationCentrewiseGSTCredential { get; set; }
         public DbSet<OrganisationCentrewiseBuildingRooms> OrganisationCentrewiseBuildingRooms { get; set; }
         public DbSet<OrganisationCentrewiseSmtpSetting> OrganisationCentrewiseSmtpSetting { get; set; }
+        public DbSet<OrganisationCentrewiseSmsSetting> OrganisationCentrewiseSmsSetting { get; set; }
         public DbSet<OrganisationCentrewiseEmailTemplate> OrganisationCentrewiseEmailTemplate { get; set; }
         public DbSet<OrganisationCentrewiseUserNameRegistration> OrganisationCentrewiseUserNameRegistration { get; set; }
         #endregion
