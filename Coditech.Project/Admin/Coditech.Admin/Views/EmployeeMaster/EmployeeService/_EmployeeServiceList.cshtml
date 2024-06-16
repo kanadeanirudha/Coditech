@@ -6,8 +6,8 @@
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
 <div class="row">
-    @Html.Partial("~/Views/Shared/Datatable/_DatatableShowResult.cshtml", Model.PageListViewModel.RecordPerPage)
-    @Html.Partial("~/Views/Shared/Datatable/_DatatableSearchData.cshtml", Model.PageListViewModel.SearchBy)
+  @*   @Html.Partial("~/Views/Shared/Datatable/_DatatableShowResult.cshtml", Model.PageListViewModel.RecordPerPage)
+    @Html.Partial("~/Views/Shared/Datatable/_DatatableSearchData.cshtml", Model.PageListViewModel.SearchBy) *@
 </div>
 <div class="row">
     <div class="col-sm-12 table-responsive">
@@ -20,27 +20,32 @@
                     {
                         <tr>
                             <td>@item.EmployeeCode</td>
-                            <td>@item.CurrentDesignation</td>
-                            <td>@item.JoiningDate</td>
-                            <td>@item.PromotionDemotionDate</td>
-                            <td>@item.EmployeeStageEnumId</td>
-                            <td>@item.DateOfLeaving</td>
+                            <td>@item.CurrentEmployeeDesignation</td>
+                            <td>@item.JoiningDate.ToCoditechDateFormat()</td>
+                            <td>@item.PromotionDemotionDate.ToCoditechDateFormat()</td>
+                            <td>@item.EmployeeStage</td>
+                            <td>@item.DateOfLeaving.ToCoditechDateFormat()</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsCurrentPosition)
-                            </td>               
-                         
+                            </td>
+
                             @* <td>
                     @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.DefaultFlag)
                     </td> *@
                             <td class="text-center">
-                                <a href="../@controllerName/GetEmployeeService?employeeId=@item.EmployeeId&personId=@Model.PersonId&employeeServiceId=@item.EmployeeServiceId" title="Update" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
-                                <a href="../@controllerName/Delete?employeeIds=@item.EmployeeId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                @if (item.IsCurrentPosition)
+                                {
+                                    <a href="../@controllerName/GetEmployeeService?employeeId=@item.EmployeeId&personId=@Model.PersonId&employeeServiceId=@item.EmployeeServiceId" title="Update" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-edit"></i></a>
+                                    @*   <span class="m-2">|</span>
+                        <a href="../@controllerName/Delete?employeeIds=@item.EmployeeId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                        *@
+                                }
                             </td>
-                       </tr>
+                        </tr>
                     }
                 }
             </tbody>
         </table>
     </div>
 </div>
-@Html.Partial("~/Views/Shared/Datatable/_DatatablePagination.cshtml", Model.PageListViewModel)
+@* @Html.Partial("~/Views/Shared/Datatable/_DatatablePagination.cshtml", Model.PageListViewModel) *@

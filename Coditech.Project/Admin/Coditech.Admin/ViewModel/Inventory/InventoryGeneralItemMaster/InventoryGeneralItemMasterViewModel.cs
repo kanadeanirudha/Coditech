@@ -20,6 +20,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Item Description")]
         public string ItemDescription { get; set; }
 
+        [Required(ErrorMessage = "HSN/SAC is required")]
         [Display(Name = "HSN/SAC Code")]
         public string HSNSACCode { get; set; }
 
@@ -49,8 +50,13 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Tracking Dimension Group")]
         public int InventoryTrackingDimentionGroupId { get; set; }
+        [Display(Name = "Inventory Base UoM")]
+        public short InventoryBaseUoMMasterId { get; set; }
 
         [Display(Name = "Is Active")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
+
+        [Display(Name = "Is Base Uom")]
+        public bool IsBaseUom { get; set; } = true;
     }
 }

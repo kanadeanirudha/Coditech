@@ -343,7 +343,7 @@
     <value>Organisation Centrewise Department List</value>
   </data>
   <data name="LabelOrganisationList" xml:space="preserve">
-    <value>Organisation List</value>
+    <value>Organisation Centre List</value>
   </data>
   <data name="LabelPersonFollowUpList" xml:space="preserve">
     <value>Person Follow Up List</value>

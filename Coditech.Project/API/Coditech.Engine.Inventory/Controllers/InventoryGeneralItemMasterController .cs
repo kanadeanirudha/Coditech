@@ -75,7 +75,7 @@ namespace Coditech.API.Controllers
 		[Route("/InventoryGeneralItemMaster/GetInventoryGeneralItemMaster")]
 		[HttpGet]
 		[Produces(typeof(InventoryGeneralItemMasterResponse))]
-		public virtual IActionResult GetInventoryGeneralItemMaster(short inventoryGeneralItemMasterId)
+		public virtual IActionResult GetInventoryGeneralItemMaster(int inventoryGeneralItemMasterId)
 		{
 			try
 			{

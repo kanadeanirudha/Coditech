@@ -4,6 +4,7 @@ using Coditech.Admin;
 /// Creates a WebApplication Builder with the given arguments.
 /// </summary>
 var builder = WebApplication.CreateBuilder(args);
+
 /// <summary>
 /// Registers common services.
 /// </summary>

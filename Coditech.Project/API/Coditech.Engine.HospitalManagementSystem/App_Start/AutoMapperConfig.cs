@@ -18,6 +18,7 @@ namespace Coditech.API.Mapper
             CreateMap<HospitalDoctorAllocatedRoom, HospitalDoctorAllocatedOPDRoomModel>().ReverseMap();
             CreateMap<HospitalDoctorLeaveSchedule, HospitalDoctorLeaveScheduleModel>().ReverseMap();
             CreateMap<HospitalPatientRegistration, HospitalPatientRegistrationModel>().ReverseMap();
+            CreateMap<HospitalPatientType, HospitalPatientTypeModel>().ReverseMap();
         }
     }
 }

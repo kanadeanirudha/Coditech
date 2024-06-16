@@ -78,6 +78,8 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Photo")]
         public long PhotoMediaId { get; set; }
+        public string PhotoMediaPath { get; set; }
+        public string PhotoMediaFileName { get; set; }
 
         [MaxLength(100)]
         [Display(Name = "Birthmark")]

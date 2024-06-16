@@ -1,4 +1,10 @@
 var InventoryItemTrackingDimensionGroup = {
+    Initialize: function () {
+        InventoryItemTrackingDimensionGroup.constructor();
+    },
+    constructor: function () {
+    },
+
     SaveData: function () {
         var data = [];
 

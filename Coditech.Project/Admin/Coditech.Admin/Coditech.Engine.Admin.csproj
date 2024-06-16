@@ -8,6 +8,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Reports\Gym\GymLeads.rdlc" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Reports\Gym\GymLeads.rdlc" />
+	  <Content Include="Reports\Gym\GymSalesInvoice.rdlc" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -19,8 +28,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+		<PackageReference Include="System.Security.Permissions" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

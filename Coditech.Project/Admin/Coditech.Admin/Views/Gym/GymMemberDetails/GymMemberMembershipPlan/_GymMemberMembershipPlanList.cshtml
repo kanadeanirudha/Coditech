@@ -25,7 +25,7 @@
                                     @if (item.PlanDurationType.Equals(AdminConstants.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
                                     {
                                         <span style="font-size: 12px; font-style: italic;">
-                                            <i class="fa fa-calendar-alt icon"></i>@Convert.ToDateTime(@item.PlanStartDate).ToShortDateString() to @Convert.ToDateTime(@item.PlanDurationExpirationDate).ToShortDateString()
+                                            <i class="fa fa-calendar-alt icon"></i>@Convert.ToDateTime(@item.PlanStartDate).ToCoditechDateFormat() to @Convert.ToDateTime(@item.PlanDurationExpirationDate).ToCoditechDateFormat()
                                         </span>
                                     }
                                     else

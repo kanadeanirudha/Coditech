@@ -56,6 +56,7 @@
             SalesAndPurchase,
             InventoryCategory,
             EmailService,
+            SMSService,
             ChangePassword,
             Dashboard,
             InventoryItemModelGroup,
@@ -77,8 +78,9 @@
             InventoryStorageDimensionGroup,
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
+            InventoryGeneralItemMaster,
+            HospitalPatientType,
             MediaSettingMaster,
-            InventoryGeneralItemMaster
         }
     }
 }

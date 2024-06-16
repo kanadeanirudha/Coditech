@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Agents;
+using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper.Utilities;
 
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,11 @@ namespace Coditech.Admin.Controllers
 {
     public class GeneralCommanDataController : BaseController
     {
+        private readonly IGeneralCommanDataAgent _generalCommanDataAgent;
+        public GeneralCommanDataController(IGeneralCommanDataAgent generalCommanDataAgent) 
+        {
+            _generalCommanDataAgent = generalCommanDataAgent;
+        }
         //Get Departments By CentreCode
         public ActionResult GetDepartmentsByCentreCode(string centreCode)
         {
@@ -50,6 +56,27 @@ namespace Coditech.Admin.Controllers
                 Parameter = $"{selectedCentreCode}~{selectedDepartmentId}",
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
+
+        [Route("/GeneralCommanData/UploadMedia")]
+        public virtual ActionResult PostUploadImage()
+        {
+            IFormFileCollection filess = Request.Form.Files;
+            if (filess.Count == 0)
+            {
+                return Json(new { success = false, message = "No file uploaded." });
+            }
+
+            IFormFile file = filess[0];
+
+            if (file.Length == 0)
+            {
+                return Json(new { success = false, message = "Empty file uploaded." });
+            }
+
+            var response = _generalCommanDataAgent.UploadImage(file);
+
+            return Json(new { imageUrl = response.UploadMediaModel.MediaPathUrl, photoMediaId = response.UploadMediaModel.MediaId });
         }
     }
 }

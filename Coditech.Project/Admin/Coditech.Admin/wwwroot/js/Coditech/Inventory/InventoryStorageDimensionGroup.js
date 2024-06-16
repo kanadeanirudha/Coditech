@@ -1,4 +1,9 @@
 var InventoryStorageDimensionGroup = {
+    Initialize: function () {
+        InventoryStorageDimensionGroup.constructor();
+    },
+    constructor: function () {
+    },
     SaveData: function () {
         var data = [];
 
