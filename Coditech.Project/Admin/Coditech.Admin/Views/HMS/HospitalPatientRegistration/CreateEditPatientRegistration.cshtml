@@ -63,100 +63,28 @@
 </div>
 
 @section scripts {
-    <script>
+    <script type="text/javascript">
         $(function () {
-            $('#DateOfBirth').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
+            
+            var currentYear = parseInt(moment().format('YYYY'), 10);
 
-            $('#AnniversaryDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
+            $("#DateOfBirth").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                yearRange: '1901:' + currentYear
+            });
+
+          
+            $("#AnniversaryDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                yearRange: '1901:' + currentYear
+            });
         });
     </script>
 }
-

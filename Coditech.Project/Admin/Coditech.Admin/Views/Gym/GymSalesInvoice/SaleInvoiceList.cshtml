@@ -26,13 +26,13 @@
                                 @Html.LabelFor(x => x.FromDate, new { @class = "form-label" })
                             </div>
                             <div class="col-md-2">
-                                @Html.TextBoxFor(x => x.FromDate, new { @class = "form-control" })
+                                @Html.TextBoxFor(x => x.FromDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control" })
                             </div>
                             <div class="col-md-1">
                                 @Html.LabelFor(x => x.ToDate, new { @class = "form-label" })
                             </div>
                             <div class="col-md-2">
-                                @Html.TextBoxFor(x => x.ToDate, new { @class = "form-control" })
+                                @Html.TextBoxFor(x => x.ToDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control" })
                             </div>
                             <div class="col-md-1">
                                 <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="GymSalesInvoice.GetSaleInvoiceListByCentreCode('@controllerName','@actionName')" />
@@ -54,99 +54,23 @@
 <script src="~/js/coditech/gym/gymsalesinvoice.js"></script>
 <!-- end page content -->
 @section scripts {
-    <script>
+    <script type="text/javascript">
         $(function () {
-            $('#FromDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                // minYear: parseInt(moment().format('YYYY'), 10),
-                // // maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
-
-            $('#ToDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                // minYear: parseInt(moment().format('YYYY'), 10),
-                // // maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
+            $("#FromDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true
+            });
+        });
+        $(function () {
+            $("#ToDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en"
+            });
         });
     </script>
 }

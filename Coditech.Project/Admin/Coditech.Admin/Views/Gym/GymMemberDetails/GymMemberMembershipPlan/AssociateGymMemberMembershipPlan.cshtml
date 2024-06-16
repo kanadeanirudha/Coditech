@@ -46,7 +46,7 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PlanStartDate, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.PlanStartDate, new { @class = "form-control", @readonly = "true" })
+                                        @Html.TextBoxFor(x => x.PlanStartDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.PlanStartDate)
                                     </div>
                                 </div>
@@ -104,53 +104,18 @@
 <script src="~/js/coditech/gym/gymmembermembershipplan.js"></script>
 <!-- end page content -->
 @section scripts {
-    <script>
+    <script type="text/javascript">
         $(function () {
-            $('#PlanStartDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
+            var currentYear = parseInt(moment().format('YYYY'), 10);
+            $("#PlanStartDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                yearRange: '1901:' + currentYear 
+            });
         });
     </script>
 }
+

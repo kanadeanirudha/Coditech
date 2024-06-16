@@ -67,7 +67,7 @@
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.ReminderDate, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.ReminderDate, new { @class = "form-control", @id = "ReminderDate" })
+                                        @Html.TextBoxFor(x => x.ReminderDate, AdminGeneralHelper.DateFormat(), new { @class = "form-control", @id = "ReminderDate" })
                                         @Html.ValidationMessageFor(x => x.ReminderDate, null, new { id = "errorReminderDate" })
                                     </div>
                                 </div>
@@ -96,52 +96,18 @@
 
 @Html.Partial("_ValidationScriptsPartial")
 <script src="~/js/layout/daterangepicker.js"></script>
-<script>
-    $(function () {
-        $('#ReminderDate').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            showWeekNumbers: false,
-            drops: "auto",
-            opens: "right",
-            autoApply: true,
-            "locale": {
-    @* "format": "DD-MM-YYYY", *@
-            "separator": " - ",
-            "applyLabel": "Apply",
-            "cancelLabel": "Cancel",
-            "fromLabel": "From",
-            "toLabel": "To",
-            "customRangeLabel": "Custom",
-            "weekLabel": "W",
-            "daysOfWeek": [
-            "Su",
-            "Mo",
-            "Tu",
-            "We",
-            "Th",
-            "Fr",
-            "Sa"
-        ],
-            "monthNames": [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        ],
-            "firstDay": 1
-                },
-        minYear: new Date().getFullYear(),
-        maxYear: new Date().getFullYear() + 10
-            },
-        function (start, end, label) { });
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            var currentYear = new Date().getFullYear();
+            $("#ReminderDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                yearRange: currentYear + ':' + (currentYear + 10)
+            });
         });
-</script>
+    </script>
+}
