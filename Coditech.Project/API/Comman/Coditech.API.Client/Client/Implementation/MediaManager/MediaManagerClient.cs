@@ -6,6 +6,7 @@ using Coditech.Common.Exceptions;
 using Newtonsoft.Json;
 
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace Coditech.API.Client
 {
@@ -29,7 +30,16 @@ namespace Coditech.API.Client
             try
             {
                 ApiStatus status = new ApiStatus();
-                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                var formData = new MultipartFormDataContent();
+                var fileContent = new StreamContent(body.MediaFile.OpenReadStream())
+                {
+                    Headers =
+                    {
+                        ContentType = new MediaTypeHeaderValue(body.MediaFile.ContentType)
+                    }
+                };
+                formData.Add(fileContent, "files", body.MediaFile.FileName);
+                response = await PostResourceToEndpointAsync(endpoint, formData, status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                 Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
 
                 switch (response.StatusCode)

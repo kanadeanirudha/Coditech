@@ -57,7 +57,9 @@
         InventoryItemGroup,
         InventoryStorageDimensionGroup,
         InventoryItemTrackingDimensionGroup,
-        EmployeeStage
+        EmployeeStage,
+        InventoryUomMaster,
+        ReportType
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -73,6 +75,7 @@
         PriceRoundOff,
         InventoryRoundOff,
         DateFormat,
+        DateFormatForCalendar
     }
 
     public enum UserTypeEnum

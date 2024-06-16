@@ -60,6 +60,16 @@ namespace Coditech.API.Service
             if (inventoryGeneralItemMasterData?.InventoryGeneralItemMasterId > 0)
             {
                 inventoryGeneralItemMasterModel.InventoryGeneralItemMasterId = inventoryGeneralItemMasterData.InventoryGeneralItemMasterId;
+                InventoryGeneralItemLine inventoryGeneralItemLine = new InventoryGeneralItemLine()
+                {
+                    InventoryGeneralItemMasterId = inventoryGeneralItemMasterModel.InventoryGeneralItemMasterId,
+                    SKU = inventoryGeneralItemMasterModel.ItemNumber,
+                    ItemName = inventoryGeneralItemMasterModel.ItemName,
+                    IsBaseUom = inventoryGeneralItemMasterModel.IsBaseUom,
+                    InventoryBaseUoMMasterId = inventoryGeneralItemMasterModel.InventoryBaseUoMMasterId,
+                    IsActive = inventoryGeneralItemMasterModel.IsActive
+                };
+                _inventoryGeneralItemLineRepository.Insert(inventoryGeneralItemLine);
             }
             else
             {

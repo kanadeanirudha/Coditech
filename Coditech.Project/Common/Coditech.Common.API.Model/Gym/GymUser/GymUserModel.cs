@@ -15,7 +15,7 @@
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
         public string EmergencyContact { get; set; }
-
+        public string BloodGroup { get; set; }
         public string MaritalStatus { get; set; }
         public string BirthMark { get; set; }
         public short GeneralOccupationMasterId { get; set; }

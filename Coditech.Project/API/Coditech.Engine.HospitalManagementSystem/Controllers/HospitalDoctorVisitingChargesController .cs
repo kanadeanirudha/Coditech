@@ -101,11 +101,11 @@ namespace Coditech.API.Controllers
         [Route("/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingCharges")]
         [HttpGet]
         [Produces(typeof(HospitalDoctorVisitingChargesResponse))]
-        public virtual IActionResult GetHospitalDoctorVisitingCharges(short hospitalDoctorVisitingChargesId)
+        public virtual IActionResult GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId, int hospitalDoctorId)
         {
             try
             {
-                HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId);
+                HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId, hospitalDoctorId);
                 return IsNotNull(hospitalDoctorVisitingChargesModel) ? CreateOKResponse(new HospitalDoctorVisitingChargesResponse { HospitalDoctorVisitingChargesModel = hospitalDoctorVisitingChargesModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -145,11 +145,11 @@ namespace Coditech.API.Controllers
         [Route("/HospitalDoctorVisitingCharges/DeleteHospitalDoctorVisitingCharges")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteHospitalDoctorVisitingCharges([FromBody] ParameterModel hospitaldoctorvisitingchargesIds)
+        public virtual IActionResult DeleteHospitalDoctorVisitingCharges([FromBody] ParameterModel hospitaldoctorvisitingchargesId)
         {
             try
             {
-                bool deleted = _hospitalDoctorVisitingChargesService.DeleteHospitalDoctorVisitingCharges(hospitaldoctorvisitingchargesIds);
+                bool deleted = _hospitalDoctorVisitingChargesService.DeleteHospitalDoctorVisitingCharges(hospitaldoctorvisitingchargesId);
                 return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
             }
             catch (CoditechException ex)

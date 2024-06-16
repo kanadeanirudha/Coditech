@@ -55,7 +55,7 @@
                                 <div class="col-md-4" style="flex: 0 0 auto; width: 28%;">
                                     <div class="">
                                         <h6 class="mb-0" style="font-size: 0.8125rem;margin-top: 0;margin-bottom: 10px !important;">
-                                            <b>Order Date : </b>@Model.TransactionDate.ToShortDateString()
+                                            <b>Order Date : </b>@Model.TransactionDate.ToCoditechDateFormat()
                                         </h6>
                                         <h6 style="font-size: 0.8125rem;margin-top: 0;margin-bottom: 10px !important;">
                                             <b>Invoice Number : </b>#@Model.InvoiceNumber
@@ -185,7 +185,7 @@
                                     <ul class="ps-3">
                                         <li><small class="font-12">Payment Mode : @Model.PaymentType</small></li>
                                         <li><small class="font-12">Transaction Reference : @Model.TransactionReference</small></li>
-                                        <li><small class="font-12">Transaction Date : @Model.TransactionDate</small></li>
+                                        <li><small class="font-12">Transaction Date : @Model.TransactionDate.ToCoditechDateFormat()</small></li>
                                     </ul>
                                 </div>
                             </div><!--end row-->

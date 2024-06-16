@@ -60,7 +60,6 @@ namespace Coditech.Admin.ViewModel
         [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Only Alphabets and Numbers allowed.")]
         public string PassportNumber { get; set; }
 
-        [Required(ErrorMessage = "The Aadhaar Card Number is required.")]
         [MaxLength(12, ErrorMessage = "The Aadhaar Card Number must be exactly 12 digits long.")]
         [Display(Name = "Aadhaar Card Number")]
         public string AdharCardNumber { get; set; }
@@ -92,6 +91,8 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+        public string CentreCode { get; set; }
+        public short GeneralDepartmentMasterId { get; set; }
     }
 
 }

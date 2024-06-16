@@ -16,11 +16,11 @@
                             <div class="col">
                                 @if (Model.HospitalDoctorVisitingChargesId > 0)
                                 {
-                                    <h4 class="card-title">Update Hospital Doctor Visiting Charges </h4>
+                                    <h4 class="card-title">Update Hospital Doctor Visiting Charges: @Model.FirstName @Model.LastName </h4>
                                 }
                                 else
                                 {
-                                    <h4 class="card-title">Hospital Doctor Visiting Charges</h4>
+                                    <h4 class="card-title">Create Hospital Doctor Visiting Charges: @Model.FirstName @Model.LastName</h4>
                                 }
                             </div><!--end col-->
                         </div>  <!--end row-->
@@ -30,18 +30,20 @@
                         {
                             @Html.HiddenFor(m => m.HospitalDoctorVisitingChargesId)
                             @Html.HiddenFor(m => m.HospitalDoctorId)
+                            @Html.HiddenFor(m => m.FirstName)
+                            @Html.HiddenFor(m => m.LastName)
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.FromDate, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.FromDate, new { @class = "form-control" })
+                                        @Html.TextBoxFor(x => x.FromDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.FromDate)
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.UptoDate, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.UptoDate, new { @class = "form-control" })
+                                        @Html.TextBoxFor(x => x.UptoDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.UptoDate)
                                     </div>
                                 </div>
@@ -74,7 +76,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                            <a href="../@controllerName/GetHospitalDoctorVisitingChargesByDoctorIdList?hospitalDoctorId=@Model.HospitalDoctorId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>
@@ -84,100 +86,24 @@
 </div>
 
 @section scripts {
-    <script>
+    <script type="text/javascript">
         $(function () {
-            $('#FromDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: new Date().getFullYear(),
-                maxYear: new Date().getFullYear() + 1
-            },
-                function (start, end, label) { });
-
-            $('#UptoDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: new Date().getFullYear(),
-                maxYear: new Date().getFullYear() + 1
-            },
-                function (start, end, label) { });
+            $("#FromDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true
+            });
+        });
+        $(function () {
+            $("#UptoDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true
+            });
         });
     </script>
-}
-
+  }

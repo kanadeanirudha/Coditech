@@ -18,11 +18,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<EmployeeService> _employeeServiceRepository;
+        private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
         public EmployeeServiceService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _employeeServiceRepository = new CoditechRepository<EmployeeService>(_serviceProvider.GetService<Coditech_Entities>());
+            _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual EmployeeServiceListModel GetEmployeeServiceList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -45,12 +47,11 @@ namespace Coditech.API.Service
 
             listModel.EmployeeServiceList = EmployeeList?.Count > 0 ? EmployeeList : new List<EmployeeServiceModel>();
             listModel.BindPageListModel(pageListModel);
-            GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(listModel.EmployeeId, UserTypeEnum.Employee.ToString());
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(employeeId, UserTypeEnum.Employee.ToString());
             if (IsNotNull(generalPersonModel))
             {
                 listModel.FirstName = generalPersonModel.FirstName;
                 listModel.LastName = generalPersonModel.LastName;
-
             }
             return listModel;
         }
@@ -62,7 +63,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeId"));
 
             //Get the Employee Details based on id.
-            EmployeeService employeeService = _employeeServiceRepository.Table.Where(x => x.EmployeeId == employeeId)?.FirstOrDefault();
+            EmployeeService employeeService = _employeeServiceRepository.Table.Where(x => x.EmployeeServiceId == employeeServiceId)?.FirstOrDefault();
             EmployeeServiceModel employeeServiceModel = IsNotNull(employeeService) ? employeeService?.FromEntityToModel<EmployeeServiceModel>() : new EmployeeServiceModel();
             employeeServiceModel.EmployeeId = employeeId;
             employeeServiceModel.PersonId = personId;
@@ -73,7 +74,6 @@ namespace Coditech.API.Service
                 {
                     employeeServiceModel.FirstName = generalPersonModel.FirstName;
                     employeeServiceModel.LastName = generalPersonModel.LastName;
-                   
                 }
             }
             return employeeServiceModel;
@@ -85,19 +85,38 @@ namespace Coditech.API.Service
             if (IsNull(employeeServiceModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
-            if (employeeServiceModel.EmployeeId < 1)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeID"));
+            if (employeeServiceModel.EmployeeServiceId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeServiceId"));
 
-            EmployeeService employeeService = _employeeServiceRepository.Table.FirstOrDefault(x => x.EmployeeId == employeeServiceModel.EmployeeId);
-            BindEmployeeService(employeeServiceModel, employeeService);
-
-            //Update Employee
-            bool isEmployeeUpdated = _employeeServiceRepository.Update(employeeService);
-            if (isEmployeeUpdated)
+            bool isEmployeeUpdated = false;
+            EmployeeService employeeService = _employeeServiceRepository.Table.FirstOrDefault(x => x.EmployeeServiceId == employeeServiceModel.EmployeeServiceId);
+            if (employeeServiceModel.EmployeeDesignationMasterId != employeeService.EmployeeDesignationMasterId || employeeServiceModel.EmployeeStageEnumId != employeeService.EmployeeStageEnumId)
             {
-                ActiveInActiveUserLogin(employeeServiceModel.IsCurrentPosition, employeeServiceModel.EmployeeId, UserTypeEnum.Employee.ToString());
+               
+                employeeService.IsCurrentPosition = false;
+                isEmployeeUpdated = _employeeServiceRepository.Update(employeeService);
+
+                employeeService.EmployeeDesignationMasterId = employeeServiceModel.EmployeeDesignationMasterId;
+                employeeService.EmployeeStageEnumId = employeeServiceModel.EmployeeStageEnumId;
+                employeeService.EmployeeServiceId = 0;
+                employeeService.IsCurrentPosition = true;
+                _employeeServiceRepository.Insert(employeeService);
+                if (employeeServiceModel.EmployeeDesignationMasterId != employeeService.EmployeeDesignationMasterId)
+                {
+                    EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == employeeServiceModel.EmployeeId);
+                    employeeMaster.EmployeeDesignationMasterId = employeeServiceModel.EmployeeDesignationMasterId;
+                    _employeeMasterRepository.Update(employeeMaster);
+                }
             }
             else
+            {
+                employeeServiceModel.EmployeeCode = employeeService.EmployeeCode;
+                employeeServiceModel.EmployeeId = employeeService.EmployeeId;
+                employeeService = employeeServiceModel.FromEntityToModel<EmployeeService>();
+                isEmployeeUpdated = _employeeServiceRepository.Update(employeeService);
+            }
+
+            if (!isEmployeeUpdated)
             {
                 employeeServiceModel.HasError = true;
                 employeeServiceModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
@@ -124,21 +143,6 @@ namespace Coditech.API.Service
         //Check if Employee code is already present or not.
         protected virtual bool IsEmployeeCodeAlreadyExist(string employeeCode, long employeeId = 0)
          => _employeeServiceRepository.Table.Any(x => x.EmployeeCode == employeeCode && (x.EmployeeId != employeeId || employeeId == 0));
-
-
-        protected virtual void BindEmployeeService(EmployeeServiceModel employeeServiceModel, EmployeeService employeeService)
-        {
-            employeeService.IsCurrentPosition = employeeServiceModel.IsCurrentPosition;
-            employeeService.EmployeeId = employeeServiceModel.EmployeeId;
-            employeeService.EmployeeCode = employeeServiceModel.EmployeeCode;
-            employeeService.EmployeeDesignationMasterId = employeeServiceModel.EmployeeDesignationMasterId;
-            employeeService.JoiningDate = employeeServiceModel.JoiningDate;
-            employeeService.PromotionDemotionDate = employeeServiceModel.PromotionDemotionDate;
-            employeeService.EmployeeStageEnumId = employeeServiceModel.EmployeeStageEnumId;
-            employeeService.DateOfLeaving = employeeServiceModel.DateOfLeaving;
-
-        }
-
         #endregion
     }
 }

@@ -1,15 +1,15 @@
-$(document).ready(function () {
-    $('#ProductTypeEnumId').change(function () {
-        var selectedProductType = $(this).val();
-        var productSubtypeDropdown = $('#ProductSubTypeEnumId');
+var InventoryGeneralItemMaster = {
+    Initialize: function () {
+        InventoryGeneralItemMaster.constructor();
+    },
+    constructor: function () {
+    },
 
-        if (selectedProductType === 'Item') {
-            // Show both options in the product subtype dropdown
-            productSubtypeDropdown.find('option').show();
-        } else if (selectedProductType === 'Service') {
-            // Hide the 'Product' option and show the 'Product Master' option
-            productSubtypeDropdown.find('option[value="product"]').hide();
-            productSubtypeDropdown.val('productMaster');
-        }
-    });
+
+}
+
+$("#ProductTypeEnumId").change(function () {
+    var selectedProductType = $("#ProductTypeEnumId").val();
+    var productSubtypeDropdown = $('#ProductSubTypeEnumId');
+    productSubtypeDropdown.prop('selectedIndex', 0);
 });

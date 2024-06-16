@@ -70,6 +70,7 @@ namespace Coditech.Admin.Agents
                 GeneralPersonModel generalPersonModel = employeeCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.SelectedCentreCode = employeeCreateEditViewModel.SelectedCentreCode;
                 generalPersonModel.SelectedDepartmentId = employeeCreateEditViewModel.SelectedDepartmentId;
+                generalPersonModel.EmployeeDesignationMasterId = employeeCreateEditViewModel.EmployeeDesignationMasterId;
 
                 GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
@@ -105,6 +106,7 @@ namespace Coditech.Admin.Agents
                 {
                     employeeCreateEditViewModel.SelectedCentreCode = employeeMasterResponse.EmployeeMasterModel.CentreCode;
                     employeeCreateEditViewModel.SelectedDepartmentId = Convert.ToString(employeeMasterResponse.EmployeeMasterModel.GeneralDepartmentMasterId);
+                    employeeCreateEditViewModel.EmployeeDesignationMasterId = employeeMasterResponse.EmployeeMasterModel.EmployeeDesignationMasterId;
                 }
                 employeeCreateEditViewModel.EmployeeId = employeeId;
                 employeeCreateEditViewModel.PersonId = personId;
@@ -191,6 +193,7 @@ namespace Coditech.Admin.Agents
         }
 
         #endregion
+
         #endregion
 
         #region protected
@@ -218,7 +221,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Gender",
                 ColumnCode = "Gender",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
@@ -232,9 +234,14 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "EmailId",
                 IsSortable = true,
             });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
+                IsSortable = true,
+            });
             return datatableColumnList;
         }
-
+        #endregion
     }
 }
-#endregion

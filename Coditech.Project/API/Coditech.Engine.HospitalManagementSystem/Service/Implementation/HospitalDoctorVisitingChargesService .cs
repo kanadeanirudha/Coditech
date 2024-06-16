@@ -5,6 +5,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -13,16 +14,18 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class HospitalDoctorVisitingChargesService : IHospitalDoctorVisitingChargesService
+    public class HospitalDoctorVisitingChargesService : BaseService, IHospitalDoctorVisitingChargesService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<HospitalDoctorVisitingCharges> _hospitalDoctorVisitingChargesMasterRepository;
-        public HospitalDoctorVisitingChargesService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<HospitalDoctors> _hospitalDoctorsRepository;
+        public HospitalDoctorVisitingChargesService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _hospitalDoctorVisitingChargesMasterRepository = new CoditechRepository<HospitalDoctorVisitingCharges>(_serviceProvider.GetService<Coditech_Entities>());
+            _hospitalDoctorsRepository = new CoditechRepository<HospitalDoctors>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual HospitalDoctorVisitingChargesListModel GetHospitalDoctorVisitingChargesList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -61,6 +64,18 @@ namespace Coditech.API.Service
 
             listModel.HospitalDoctorVisitingChargesList = HospitalDoctorVisitingChargesList?.Count > 0 ? HospitalDoctorVisitingChargesList : new List<HospitalDoctorVisitingChargesModel>();
             listModel.BindPageListModel(pageListModel);
+            long? employeeId = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorId)?.Select(x => x.EmployeeId)?.FirstOrDefault();
+            if (employeeId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType((long)employeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    listModel.FirstName = generalPersonModel.FirstName;
+                    listModel.LastName = generalPersonModel.LastName;
+                    listModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+                    listModel.SelectedDepartmentId = generalPersonModel.SelectedDepartmentId;
+                }
+            }
             return listModel;
         }
 
@@ -73,10 +88,10 @@ namespace Coditech.API.Service
             //if (IsHospitalDoctorVisitingChargesCodeAlreadyExist(hospitalDoctorVisitingChargesModel.HospitalDoctorId))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Hospital Doctor"));
 
-           HospitalDoctorVisitingCharges hospitalDoctorVisitingCharges = hospitalDoctorVisitingChargesModel.FromModelToEntity<HospitalDoctorVisitingCharges>();
+            HospitalDoctorVisitingCharges hospitalDoctorVisitingCharges = hospitalDoctorVisitingChargesModel.FromModelToEntity<HospitalDoctorVisitingCharges>();
 
             //Create new HospitalDoctorVisitingCharges and return it.
-           HospitalDoctorVisitingCharges hospitaldoctorvisitingchargesData = _hospitalDoctorVisitingChargesMasterRepository.Insert(hospitalDoctorVisitingCharges);
+            HospitalDoctorVisitingCharges hospitaldoctorvisitingchargesData = _hospitalDoctorVisitingChargesMasterRepository.Insert(hospitalDoctorVisitingCharges);
             if (hospitaldoctorvisitingchargesData?.HospitalDoctorVisitingChargesId > 0)
             {
                 hospitalDoctorVisitingChargesModel.HospitalDoctorVisitingChargesId = hospitaldoctorvisitingchargesData.HospitalDoctorVisitingChargesId;
@@ -90,14 +105,27 @@ namespace Coditech.API.Service
         }
 
         //Get HospitalDoctorVisitingCharges by HospitalDoctorVisitingCharges id.
-        public virtual HospitalDoctorVisitingChargesModel GetHospitalDoctorVisitingCharges(short hospitaldoctorvisitingchargesId)
+        public virtual HospitalDoctorVisitingChargesModel GetHospitalDoctorVisitingCharges(long hospitaldoctorvisitingchargesId, int hospitalDoctorId)
         {
-            if (hospitaldoctorvisitingchargesId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalDoctorVisitingChargesID"));
+            if (hospitalDoctorId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "hospitalDoctorId"));
 
             //Get the HospitalDoctorVisitingCharges Details based on id.
-           HospitalDoctorVisitingCharges hospitalDoctorVisitingCharges = _hospitalDoctorVisitingChargesMasterRepository.Table.FirstOrDefault(x => x.HospitalDoctorVisitingChargesId == hospitaldoctorvisitingchargesId);
-            HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = hospitalDoctorVisitingCharges?.FromEntityToModel<HospitalDoctorVisitingChargesModel>();
+            HospitalDoctorVisitingCharges hospitalDoctorVisitingCharges = _hospitalDoctorVisitingChargesMasterRepository.Table.FirstOrDefault(x => x.HospitalDoctorVisitingChargesId == hospitaldoctorvisitingchargesId);
+            HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = IsNotNull(hospitalDoctorVisitingCharges) ? hospitalDoctorVisitingCharges?.FromEntityToModel<HospitalDoctorVisitingChargesModel>() : new HospitalDoctorVisitingChargesModel();
+            long? employeeId = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorId)?.Select(x => x.EmployeeId)?.FirstOrDefault();
+            if (employeeId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType((long)employeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    hospitalDoctorVisitingChargesModel.FirstName = generalPersonModel.FirstName;
+                    hospitalDoctorVisitingChargesModel.LastName = generalPersonModel.LastName;
+                    hospitalDoctorVisitingChargesModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+                    hospitalDoctorVisitingChargesModel.SelectedDepartmentId = generalPersonModel.SelectedDepartmentId;
+                }
+            }
+            hospitalDoctorVisitingChargesModel.HospitalDoctorId = hospitalDoctorId;
             return hospitalDoctorVisitingChargesModel;
         }
 
@@ -113,7 +141,7 @@ namespace Coditech.API.Service
             //if (IsHospitalDoctorVisitingChargesCodeAlreadyExist(hospitalDoctorVisitingChargesModel.HospitalDoctorId, hospitalDoctorVisitingChargesModel.HospitalDoctorVisitingChargesId))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "HospitalDoctorVisitingCharges Code"));
 
-           HospitalDoctorVisitingCharges hospitalDoctorVisitingCharges = hospitalDoctorVisitingChargesModel.FromModelToEntity<HospitalDoctorVisitingCharges>();
+            HospitalDoctorVisitingCharges hospitalDoctorVisitingCharges = hospitalDoctorVisitingChargesModel.FromModelToEntity<HospitalDoctorVisitingCharges>();
 
             //Update HospitalDoctorVisitingCharges
             bool isHospitalDoctorVisitingChargesUpdated = _hospitalDoctorVisitingChargesMasterRepository.Update(hospitalDoctorVisitingCharges);

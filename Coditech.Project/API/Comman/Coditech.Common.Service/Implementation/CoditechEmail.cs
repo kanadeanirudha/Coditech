@@ -48,7 +48,7 @@ namespace Coditech.Common.Service
                     {
                         string fromEmailAddress = !string.IsNullOrEmpty(from) && IsValidEmail(from) ? from : smtpSettings.FromEmailAddress;
                         string fromAddressPrefix = string.IsNullOrEmpty(smtpSettings.FromDisplayName) ? string.Empty : smtpSettings.FromDisplayName;
-                        MimeMessage message = SetEmailMessage(from, to, subject, body, cc, bcc, isHtmlEmail, fromAddressPrefix, string.IsNullOrEmpty(attachedPath) ? null : new List<string>() { attachedPath });
+                        MimeMessage message = SetEmailMessage(fromEmailAddress, to, subject, body, cc, bcc, isHtmlEmail, fromAddressPrefix, string.IsNullOrEmpty(attachedPath) ? null : new List<string>() { attachedPath });
                         SendSMTPEmail(message, smtpSettings);
                     }
                     else
@@ -98,27 +98,27 @@ namespace Coditech.Common.Service
         // This method is responsible to send emails using MailKit SMTPClient.
         protected virtual string SendSMTPEmail(MimeMessage message, OrganisationCentrewiseSmtpSetting smtpSettings)
         {
-            using (var client = new MailKit.Net.Smtp.SmtpClient())
-            {
-                if (!(Convert.ToBoolean(smtpSettings.IsEnableSsl)))
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
-                    client.CheckCertificateRevocation = false;
-                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    if (!(Convert.ToBoolean(smtpSettings.IsEnableSsl)))
+                    {
+                        client.CheckCertificateRevocation = false;
+                        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    }
+
+                    if (Convert.ToBoolean(smtpSettings.IsEnableSsl))
+                        client.Connect(smtpSettings.ServerName, smtpSettings.Port, (bool)smtpSettings.IsEnableSsl);
+                    else
+                        client.Connect(smtpSettings.ServerName, smtpSettings.Port);
+
+                    //Note: only needed if the SMTP server requires authentication
+                    if (!string.IsNullOrEmpty(smtpSettings.UserName) && !string.IsNullOrEmpty(smtpSettings.Password))
+                        client.Authenticate(smtpSettings.UserName, smtpSettings.Password);
+
+                    client.Send(message);
+                    client.Disconnect(true);
+                    return "SUCCESS";
                 }
-
-                if (Convert.ToBoolean(smtpSettings.IsEnableSsl))
-                    client.Connect(smtpSettings.ServerName, smtpSettings.Port, (bool)smtpSettings.IsEnableSsl);
-                else
-                    client.Connect(smtpSettings.ServerName, smtpSettings.Port);
-
-                //Note: only needed if the SMTP server requires authentication
-                if (!string.IsNullOrEmpty(smtpSettings.UserName) && !string.IsNullOrEmpty(smtpSettings.Password))
-                    client.Authenticate(smtpSettings.UserName, smtpSettings.Password);
-
-                client.Send(message);
-                client.Disconnect(true);
-                return "SUCCESS";
-            }
         }
 
         protected virtual MimeMessage SetEmailMessage(string from, string to, string subject, string body, string cc, string bcc, bool isHtmlEmail, string fromAddressPrefix, List<string> attachments)

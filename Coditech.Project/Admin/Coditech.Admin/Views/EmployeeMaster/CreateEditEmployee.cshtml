@@ -8,8 +8,9 @@
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("EmployeeId", Model.EmployeeId.ToString());
     keyValuePairs.Add("PersonId", Model.PersonId.ToString());
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()", IsDisabled = Model.EmployeeId > 0};
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()", IsDisabled = Model.EmployeeId > 0 };
     DropdownViewModel departmentDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(), DropdownName = "SelectedDepartmentId", DropdownSelectedValue = Convert.ToString(Model.SelectedDepartmentId), Parameter = Model.SelectedCentreCode, IsDisabled = Model.EmployeeId > 0 };
+    DropdownViewModel designationDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Designation.ToString(), DropdownName = "EmployeeDesignationMasterId", DropdownSelectedValue = Convert.ToString(Model.EmployeeDesignationMasterId), IsDisabled = Model.EmployeeId > 0 };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -54,11 +55,18 @@
                                         @Html.ValidationMessageFor(x => x.SelectedCentreCode)
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.SelectedDepartmentId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown)
                                         @Html.ValidationMessageFor(x => x.SelectedDepartmentId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.EmployeeDesignationMasterId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", designationDropdown)
+                                        @Html.ValidationMessageFor(x => x.EmployeeDesignationMasterId)
                                     </div>
                                 </div>
                             </div>
@@ -70,102 +78,4 @@
         </div>
     </div>
 </div>
-
-@section scripts {
-    <script>
-        $(function () {
-            $('#DateOfBirth').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
-
-            $('#AnniversaryDate').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: true,
-                "locale": {
-                    // "format": "DD-MMM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
-                },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
-        });
-    </script>
-}
 
