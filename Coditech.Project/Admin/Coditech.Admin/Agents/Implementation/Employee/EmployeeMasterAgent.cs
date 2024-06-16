@@ -221,7 +221,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Gender",
                 ColumnCode = "Gender",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
@@ -233,6 +232,12 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Email Id",
                 ColumnCode = "EmailId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
                 IsSortable = true,
             });
             return datatableColumnList;

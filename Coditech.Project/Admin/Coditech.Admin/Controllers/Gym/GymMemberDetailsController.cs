@@ -413,6 +413,12 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory/GymMemberPaymentHistory.cshtml", list);
         }
+
+        public virtual ActionResult Cancel(string SelectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
+            return RedirectToAction("List", dataTableViewModel);
+        }
         #endregion
     }
 }

@@ -25,7 +25,7 @@
             <div class="col-lg-12">
                 <div class="mb-3">
                     @Html.LabelFor(x => x.AttendanceDate, new { @class = "form-label" })
-                    @Html.TextBoxFor(x => x.AttendanceDate, new { @class = "form-control", @readonly = "true" })
+                    @Html.TextBoxFor(x => x.AttendanceDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
                     @Html.ValidationMessageFor(x => x.AttendanceDate, null, new { id = "errorAttendanceDate" })
                 </div>
             </div>
@@ -74,61 +74,28 @@
 <script src="~/js/layout/daterangepicker.js"></script>
 <script src="~/js/coditech/gym/gymmemberdetails.js"></script>
 
-<script>
-    $(function () {
-        $('#AttendanceDate').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            showWeekNumbers: false,
-            drops: "auto",
-            opens: "right",
-            autoApply: true,
-            "locale": {
-                "separator": " - ",
-                "applyLabel": "Apply",
-                "cancelLabel": "Cancel",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "weekLabel": "W",
-                "daysOfWeek": [
-                    "Su",
-                    "Mo",
-                    "Tu",
-                    "We",
-                    "Th",
-                    "Fr",
-                    "Sa"
-                ],
-                "monthNames": [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December"
-                ],
-                "firstDay": 1
-            },
-            maxDate: moment().startOf('day'),
-            startDate: moment(),
-            endDate: moment(),
-        },
-            function (start, end, label) { });
 
-        // Add an event listener to the textarea
-        $('#Remark').on('input', function () {
-            // Get the current character count
-            var count = this.value.length;
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#AttendanceDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                maxDate: moment().startOf('day').toDate(), 
+                defaultDate: moment().toDate() 
+            });
 
-            // Update the character count display
-            $('#charCount').text(count + '/150');
+           
+            $('#Remark').on('input', function () {
+                // Get the current character count
+                var count = this.value.length;
+
+                // Update the character count display
+                $('#charCount').text(count + '/150');
+            });
         });
-    });
-</script>
+    </script>
+}

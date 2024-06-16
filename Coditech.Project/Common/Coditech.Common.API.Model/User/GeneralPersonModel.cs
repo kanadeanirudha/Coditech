@@ -30,6 +30,7 @@
         public short GeneralOccupationMasterId { get; set; }
         public DateTime? AnniversaryDate { get; set; }
         public string SelectedCentreCode { get; set; }
+        public string CentreName { get; set; }
         public string SelectedDepartmentId { get; set; }
         public short EmployeeDesignationMasterId { get; set; }
     }

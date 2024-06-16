@@ -187,5 +187,11 @@ namespace Coditech.Admin.Controllers
             return View(createEditEmployeeService, employeeServiceViewModel);
         }
         #endregion Employee Service
+
+        public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = SelectedDepartmentId };
+            return RedirectToAction("List", dataTableViewModel);
+        }
     }
 }

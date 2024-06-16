@@ -92,6 +92,8 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+        public string CentreCode { get; set; }
+        public short GeneralDepartmentMasterId { get; set; }
     }
 
 }

@@ -367,7 +367,7 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = string.Concat(item.FromDate.ToShortDateString(), " To ", item.ToDate.ToShortDateString()),
+                    Text = string.Concat(item.FromDate.CoditechDateFormat(), " To ", item.ToDate.CoditechDateFormat()),
                     Value = Convert.ToString(item.GeneralFinancialYearId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
                 });
@@ -710,7 +710,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Email Template-------" });
 
             GeneralEmailTemplateListModel list = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response.GeneralEmailTemplateList };
-            foreach (var item in list.GeneralEmailTemplateList)
+            foreach (var item in list.GeneralEmailTemplateList?.Where(x => x.IsActive))
             {
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.GeneralEmailTemplateId == Convert.ToInt16(dropdownViewModel.Parameter))
                 {
