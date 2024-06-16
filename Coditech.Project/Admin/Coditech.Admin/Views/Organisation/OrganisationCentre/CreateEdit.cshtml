@@ -88,7 +88,7 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.CentreEstablishmentDatetime, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.CentreEstablishmentDatetime, new { @class = "form-control" })
+                                        @Html.TextBoxFor(x => x.CentreEstablishmentDatetime, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(x => x.CentreEstablishmentDatetime)
                                     </div>
                                 </div>
@@ -251,51 +251,23 @@
 @section scripts {
     <script>
         $(function () {
-            $('#CentreEstablishmentDatetime').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                showWeekNumbers: false,
-                drops: "auto",
-                opens: "right",
-                autoApply: false,
-                "locale": {
-                    // "format": "DD-MM-YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Su",
-                        "Mo",
-                        "Tu",
-                        "We",
-                        "Th",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
-                    ],
-                    "firstDay": 1
+            $("#CentreEstablishmentDatetime").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
                 },
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)
-            },
-                function (start, end, label) { });
+                maxDate: new Date(),
+            });
         });
     </script>
 }

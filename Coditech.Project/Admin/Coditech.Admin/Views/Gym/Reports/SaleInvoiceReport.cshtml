@@ -77,17 +77,38 @@
             $("#FromDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
                 language: "en",
-                autoSize: true
+                autoSize: true,
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                },
+                maxDate: new Date(),
             });
         });
         $(function () {
             $("#ToDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
-                language: "en"
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                },
+                maxDate: new Date(),
             });
         });
     </script>
