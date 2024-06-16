@@ -74,13 +74,13 @@ namespace Coditech.Admin.Helpers
             string dateTimeformat = GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormatForCalendar.ToString());
             return dateTimeformat;
         }
-        public static string CoditechDateFormat(this DateTime? dateTime)
+        public static string ToCoditechDateFormat(this DateTime? dateTime)
         {
             string dateTimeformat = dateTime == null ? "" : Convert.ToDateTime(dateTime).ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString()));
             return dateTimeformat;
         }
 
-        public static string CoditechDateFormat(this DateTime dateTime)
+        public static string ToCoditechDateFormat(this DateTime dateTime)
         {
             string dateTimeformat = dateTime.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString()));
             return dateTimeformat;

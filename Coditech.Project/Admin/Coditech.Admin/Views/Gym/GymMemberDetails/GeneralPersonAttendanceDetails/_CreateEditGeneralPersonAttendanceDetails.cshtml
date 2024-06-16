@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="mb-3">
-                    @Html.LabelFor(x => x.AttendanceDate, new { @class = "form-label" })
+                    @Html.LabelFor(x => x.AttendanceDate, new { @class = "form-label required" })
                     @Html.TextBoxFor(x => x.AttendanceDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
                     @Html.ValidationMessageFor(x => x.AttendanceDate, null, new { id = "errorAttendanceDate" })
                 </div>
@@ -71,31 +71,36 @@
 
 <!-- Your custom scripts -->
 @Html.Partial("_ValidationScriptsPartial")
-<script src="~/js/layout/daterangepicker.js"></script>
 <script src="~/js/coditech/gym/gymmemberdetails.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Remark').on('input', function () {
+            // Get the current character count
+            var count = this.value.length;
 
-
-@section scripts {
-    <script type="text/javascript">
+            // Update the character count display
+            $('#charCount').text(count + '/150');
+        });
         $(function () {
             $("#AttendanceDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                yearRange: "-100:+100",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
                 language: "en",
                 autoSize: true,
-                maxDate: moment().startOf('day').toDate(), 
-                defaultDate: moment().toDate() 
-            });
-
-           
-            $('#Remark').on('input', function () {
-                // Get the current character count
-                var count = this.value.length;
-
-                // Update the character count display
-                $('#charCount').text(count + '/150');
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                },
+                minDate: "-1M",
+                maxDate: new Date()
             });
         });
-    </script>
-}
+    });
+</script>

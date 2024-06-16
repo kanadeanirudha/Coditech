@@ -79,19 +79,28 @@
     </div>
 }
 @Html.Partial("_ValidationScriptsPartial")
-<script src="~/js/layout/daterangepicker.js"></script>
-@section scripts {
-    <script type="text/javascript">
+<script type="text/javascript">
+    $(document).ready(function () {
         $(function () {
-            var currentYear = new Date().getFullYear();
             $("#ReminderDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                yearRange: "-100:+100",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
                 language: "en",
                 autoSize: true,
-                yearRange: currentYear + ':' + (currentYear + 10) 
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                },
+                minDate: "0",
+                maxDate: "+1Y"
             });
         });
-    </script>
-}
+    });
+</script>

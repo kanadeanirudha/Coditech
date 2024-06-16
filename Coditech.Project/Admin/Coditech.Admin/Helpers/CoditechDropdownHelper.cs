@@ -367,7 +367,7 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = string.Concat(item.FromDate.CoditechDateFormat(), " To ", item.ToDate.CoditechDateFormat()),
+                    Text = string.Concat(item.FromDate.ToCoditechDateFormat(), " To ", item.ToDate.ToCoditechDateFormat()),
                     Value = Convert.ToString(item.GeneralFinancialYearId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
                 });

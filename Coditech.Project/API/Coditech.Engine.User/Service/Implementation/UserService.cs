@@ -681,7 +681,7 @@ namespace Coditech.API.Service
                     try
                     {
                         GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(employeeMaster.CentreCode, EmailTemplateCodeEnum.EmployeeRegistration.ToString());
-                        if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
+                        if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                         {
                             string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, generalPersonModel.CentreName, emailTemplateModel.Subject);
                             string messageText = ReplaceEmployeeEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
@@ -715,7 +715,7 @@ namespace Coditech.API.Service
                 try
                 {
                     GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel.SelectedCentreCode, EmailTemplateCodeEnum.GymMemberRegistration.ToString());
-                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(generalPersonModel.EmailId))
+                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                     {
                         string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
                         string messageText = ReplaceGymMemberEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
