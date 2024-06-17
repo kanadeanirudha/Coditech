@@ -17,7 +17,6 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IUserAgent _userAgent;
         protected readonly IAuthenticationHelper _authenticationHelper;
-        private const string password = "~/Views/User/ChangePassword.cshtml";
         public UserController(IUserAgent userAgent, IAuthenticationHelper authenticationHelper)
         {
             _userAgent = userAgent;
@@ -54,7 +53,10 @@ namespace Coditech.Admin.Controllers
 
                         if (model.RememberMe)
                             SaveLoginRememberMeCookie(model.UserName);
-
+                        if (!loginviewModel.IsPasswordChange)
+                        {
+                            return RedirectToAction<UserController>(x => x.ChangePassword());
+                        }
                         return RedirectToLocal(returnUrl);
                     }
                     else
@@ -74,7 +76,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult ChangePassword()
         {
-            return View(password, new ChangePasswordViewModel());
+            return View("~/Views/User/ChangePassword.cshtml", new ChangePasswordViewModel());
         }
 
         [HttpPost]
@@ -90,7 +92,7 @@ namespace Coditech.Admin.Controllers
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(changePasswordViewModel.ErrorMessage));
-            return View(password, changePasswordViewModel);
+            return View("~/Views/User/ChangePassword.cshtml", changePasswordViewModel);
         }
 
         //Logs off the user from the site.
