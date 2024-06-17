@@ -251,12 +251,14 @@ namespace Coditech.API.Service
             GymMemberMembershipPlanListModel listModel = new GymMemberMembershipPlanListModel();
             listModel.GymMemberMembershipPlanList = gymMemberMembershipPlanList?.Count > 0 ? gymMemberMembershipPlanList : new List<GymMemberMembershipPlanModel>();
             listModel.BindPageListModel(pageListModel);
-
-            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
-            if (IsNotNull(listModel))
+            if (personId > 0)
             {
-                listModel.FirstName = generalPersonModel.FirstName;
-                listModel.LastName = generalPersonModel.LastName;
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+                if (IsNotNull(listModel))
+                {
+                    listModel.FirstName = generalPersonModel.FirstName;
+                    listModel.LastName = generalPersonModel.LastName;
+                }
             }
             listModel.GymMemberDetailId = gymMemberDetailId;
             listModel.PersonId = personId;
@@ -324,12 +326,14 @@ namespace Coditech.API.Service
             GymMemberSalesInvoiceListModel listModel = new GymMemberSalesInvoiceListModel();
             listModel.GymMemberSalesInvoiceList = paymentHistoryList?.Count > 0 ? paymentHistoryList : new List<GymMemberSalesInvoiceModel>();
             listModel.BindPageListModel(pageListModel);
-
-            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
-            if (IsNotNull(listModel))
+            if (personId > 0)
             {
-                listModel.FirstName = generalPersonModel.FirstName;
-                listModel.LastName = generalPersonModel.LastName;
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+                if (IsNotNull(listModel))
+                {
+                    listModel.FirstName = generalPersonModel.FirstName;
+                    listModel.LastName = generalPersonModel.LastName;
+                }
             }
             listModel.GymMemberDetailId = gymMemberDetailId;
             listModel.PersonId = personId;

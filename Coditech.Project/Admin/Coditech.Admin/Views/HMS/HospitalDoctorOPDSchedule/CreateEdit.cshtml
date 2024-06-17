@@ -1,0 +1,47 @@
+﻿@model HospitalDoctorOPDScheduleViewModel
+@{
+    ViewBag.Title = "HospitalDoctorOPDSchedule";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h4 class="card-title">Hospital Doctor OPD Schedule: @Model.FirstName @Model.LastName</h4>
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var item in Model.WeekDaysList)
+                            {
+                                string IsActive = Model.WeekDayEnumId == item.GeneralEnumaratorId ? "success" : "secondary";
+
+                                <div style="width:14.2857%; flex: 0 0 auto;">
+                                    <div class="mb-3">
+                                        <a class="btn btn-@IsActive" style="width:180px" href="/@controllerName/Edit?hospitalDoctorId=@Model.HospitalDoctorId&weekDayEnumId=@item.GeneralEnumaratorId">
+                                            @item.EnumName
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @Html.Partial("~/Views/HMS/HospitalDoctorOPDSchedule/_CreateEdit.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_ValidationScriptsPartial")
+<script src="~/js/coditech/hms/HospitalDoctorOPDSchedule.js"></script>
+
+
+
+

@@ -22,11 +22,13 @@
                             <td>@item.FirstName</td>
                             <td>@item.LastName</td>
                             <td>@item.MobileNumber</td>
-                            <td>@item.EmailId</td>
-                            <td>@item.RoomName</td>
                             <td>@item.LeaveDate</td>
+                            <td>@Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", @item.IsFullDay)</td>
+                            <td>@item.FromTime</td>
+                            <td>@item.UptoTime</td>
                             <td class="text-center">
                                 <a href="../@controllerName/Edit?hospitalDoctorLeaveScheduleId=@item.HospitalDoctorLeaveScheduleId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>
+                                <a href="../@controllerName/Delete?hospitalDoctorLeaveScheduleIds=@item.HospitalDoctorLeaveScheduleId&SelectedCentreCode=@Model.SelectedCentreCode&SelectedDepartmentId=@Model.SelectedDepartmentId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }

@@ -13,7 +13,7 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [Display(Name = "Attendance Date")]
-        public DateTime AttendanceDate { get; set; }
+        public DateTime AttendanceDate { get; set; } = DateTime.Now;
 
         [Display(Name = "Check-In Time")]
         public TimeSpan? LoginTime { get; set; }

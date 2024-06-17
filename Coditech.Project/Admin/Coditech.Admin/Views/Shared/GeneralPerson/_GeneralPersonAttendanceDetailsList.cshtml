@@ -23,7 +23,7 @@
                     foreach (var item in Model?.GeneralPersonAttendanceDetailsList)
                     {
                         <tr>
-                            <td>@item.AttendanceDate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.AttendanceDate.ToCoditechDateFormat()</td>
                             <td>
                                 @(item.LoginTime.HasValue ? DateTime.MinValue.Add(item.LoginTime.Value).ToString("hh:mm tt") : "N/A")
                             </td>

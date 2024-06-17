@@ -147,7 +147,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Print Short Desc",
+                ColumnName = "Short Code",
+                ColumnCode = "ShortCode",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Designation Level",
                 ColumnCode = "DesignationLevel",
                 IsSortable = true,
             });
@@ -156,11 +161,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Grade",
                 ColumnCode = "Grade",
             });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Dept Short Code",
-                ColumnCode = "ShortCode",
-            });
+            
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",

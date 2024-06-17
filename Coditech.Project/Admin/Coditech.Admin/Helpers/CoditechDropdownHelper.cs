@@ -4,6 +4,7 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.API.Model.Responses.Inventory.InventoryGeneralItemMaster;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -79,7 +80,11 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.MaritalStatus.ToString()))
             {
-                HetMaritalStatusList(dropdownViewModel, dropdownList);
+                MaritalStatusList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.ReportType.ToString()))
+            {
+                ReportTypeList(dropdownViewModel, dropdownList);
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.BloodGroups.ToString()))
             {
@@ -133,6 +138,26 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalDoctorsList.ToString()))
             {
                 GetHospitalDoctorsList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryProductDimensionGroup.ToString()))
+            {
+                GetInventoryProductDimensionGroupList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryStorageDimensionGroup.ToString()))
+            {
+                GetInventoryStorageDimensionGroupList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryItemTrackingDimensionGroup.ToString()))
+            {
+                GetInventoryItemTrackingDimensionGroupList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryItemGroup.ToString()))
+            {
+                GetInventoryItemGroupList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryUomMaster.ToString()))
+            {
+                GetInventoryUomMasterList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -227,7 +252,7 @@ namespace Coditech.Admin.Helpers
             });
         }
 
-        private static void HetMaritalStatusList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void MaritalStatusList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
             dropdownList.Add(new SelectListItem()
@@ -244,6 +269,21 @@ namespace Coditech.Admin.Helpers
             });
         }
 
+        private static void ReportTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "xls",
+                Value = "xls",
+                Selected = "xls" == dropdownViewModel.DropdownSelectedValue
+            });
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "pdf",
+                Value = "pdf",
+                Selected = "pdf" == dropdownViewModel.DropdownSelectedValue
+            });
+        }
         private static void GetMenuList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
@@ -302,12 +342,12 @@ namespace Coditech.Admin.Helpers
         {
             GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
             GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Tax Group-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select-------" });
             foreach (var item in list?.GeneralTaxGroupMasterList)
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = string.Concat(item.TaxGroupName, " (", item.GeneralTaxMasterIds, ")"),
+                    Text = string.Concat(item.TaxGroupName, " (", item.TaxGroupRate, "%)"),
                     Value = Convert.ToString(item.GeneralTaxGroupMasterId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTaxGroupMasterId)
                 });
@@ -327,7 +367,7 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = string.Concat(item.FromDate.ToShortDateString(), " To ", item.ToDate.ToShortDateString()),
+                    Text = string.Concat(item.FromDate.ToCoditechDateFormat(), " To ", item.ToDate.ToCoditechDateFormat()),
                     Value = Convert.ToString(item.GeneralFinancialYearId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
                 });
@@ -643,7 +683,7 @@ namespace Coditech.Admin.Helpers
         private static void GetInventoryCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             InventoryCategoryListResponse response = new InventoryCategoryClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Inventory Category-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Category-------" });
 
             InventoryCategoryListModel list = new InventoryCategoryListModel { InventoryCategoryList = response.InventoryCategoryList };
             foreach (var item in list.InventoryCategoryList)
@@ -667,10 +707,10 @@ namespace Coditech.Admin.Helpers
             if (dropdownViewModel.IsRequired)
                 dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Email Template-------" });
             else
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Email Template-------" });
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Email Template-------" });
 
             GeneralEmailTemplateListModel list = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response.GeneralEmailTemplateList };
-            foreach (var item in list.GeneralEmailTemplateList)
+            foreach (var item in list.GeneralEmailTemplateList?.Where(x => x.IsActive))
             {
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.GeneralEmailTemplateId == Convert.ToInt16(dropdownViewModel.Parameter))
                 {
@@ -685,9 +725,112 @@ namespace Coditech.Admin.Helpers
             }
         }
 
+        private static void GetInventoryProductDimensionGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryProductDimensionGroupListResponse response = new InventoryProductDimensionGroupClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
+            InventoryProductDimensionGroupListModel list = new InventoryProductDimensionGroupListModel { InventoryProductDimensionGroupList = response.InventoryProductDimensionGroupList };
+            foreach (var item in list.InventoryProductDimensionGroupList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.ProductDimensionGroupName, " (", item.ProductDimensionGroupCode, ")"),
+                    Value = Convert.ToString(item.InventoryProductDimensionGroupId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryProductDimensionGroupId)
+                });
+            }
+        }
+
+        private static void GetInventoryStorageDimensionGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryStorageDimensionGroupListResponse response = new InventoryStorageDimensionGroupClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
+            InventoryStorageDimensionGroupListModel list = new InventoryStorageDimensionGroupListModel { InventoryStorageDimensionGroupList = response.InventoryStorageDimensionGroupList };
+            foreach (var item in list.InventoryStorageDimensionGroupList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.StorageDimensionGroupName, " (", item.StorageDimensionGroupCode, ")"),
+                    Value = Convert.ToString(item.InventoryStorageDimensionGroupId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryStorageDimensionGroupId)
+                });
+            }
+        }
+
+        private static void GetInventoryItemTrackingDimensionGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryItemTrackingDimensionGroupListResponse response = new InventoryItemTrackingDimensionGroupClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
+            InventoryItemTrackingDimensionGroupListModel list = new InventoryItemTrackingDimensionGroupListModel { InventoryItemTrackingDimensionGroupList = response.InventoryItemTrackingDimensionGroupList };
+            foreach (var item in list.InventoryItemTrackingDimensionGroupList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.ItemTrackingDimensionGroupName, " (", item.ItemTrackingDimensionGroupCode, ")"),
+                    Value = Convert.ToString(item.InventoryItemTrackingDimensionGroupId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryItemTrackingDimensionGroupId)
+                });
+            }
+        }
+
+        private static void GetInventoryItemGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryItemGroupListResponse response = new InventoryItemGroupClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
+            InventoryItemGroupListModel list = new InventoryItemGroupListModel { InventoryItemGroupList = response.InventoryItemGroupList };
+            foreach (var item in list.InventoryItemGroupList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.ItemGroupName, " (", item.ItemGroupCode, ")"),
+                    Value = Convert.ToString(item.InventoryItemGroupId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryItemGroupId)
+                });
+            }
+        }
+
+        private static void GetInventoryUomMasterList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryUoMMasterListResponse response = new InventoryUoMMasterClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
+            InventoryUoMMasterListModel list = new InventoryUoMMasterListModel { InventoryUoMMasterList = response.InventoryUoMMasterList };
+            foreach (var item in list.InventoryUoMMasterList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = $"{item.UomCode}({item.UomDescription}-{item.MeasurementUnitDisplayName})",
+                    Value = Convert.ToString(item.InventoryUoMMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryUoMMasterId)
+                });
+            }
+        }
+
         private static void GetHospitalDoctorsList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Doctors-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Doctors-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Doctors-------" });
 
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {

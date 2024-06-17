@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="DevDataSource">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=108.181.194.83;Initial Catalog=CoditechDevelopmentDB</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>ee6506ef-e3f4-4059-b0a1-6684581fbb16</DataSourceID>
+</RptDataSource>

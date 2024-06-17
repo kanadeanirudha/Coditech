@@ -295,6 +295,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Doctor OPD Schedule due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalDoctorOPDSchedule {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalDoctorOPDSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctors details due to associate record..
         /// </summary>
         public static string ErrorDeleteHospitalDoctorsDetails {
@@ -313,11 +322,29 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Patient Type due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPatientTypeDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalPatientTypeDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory category due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryCategory {
             get {
                 return ResourceManager.GetString("ErrorDeleteInventoryCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Inventory General Item Master due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryGeneralItemMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteInventoryGeneralItemMaster", resourceCulture);
             }
         }
         
@@ -628,6 +655,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hospital Doctor OPD Schedule List.
+        /// </summary>
+        public static string LabelHospitalDoctorOPDScheduleList {
+            get {
+                return ResourceManager.GetString("LabelHospitalDoctorOPDScheduleList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hospital Doctor Visiting Charges List.
         /// </summary>
         public static string LabelHospitalDoctorVisitingChargesList {
@@ -642,6 +678,15 @@ namespace Coditech.Resources {
         public static string LabelInventoryCategoryList {
             get {
                 return ResourceManager.GetString("LabelInventoryCategoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory General Item Master List.
+        /// </summary>
+        public static string LabelInventoryGeneralItemMasterList {
+            get {
+                return ResourceManager.GetString("LabelInventoryGeneralItemMasterList", resourceCulture);
             }
         }
         
@@ -817,7 +862,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Organisation List.
+        ///   Looks up a localized string similar to Organisation Centre List.
         /// </summary>
         public static string LabelOrganisationList {
             get {

@@ -11,7 +11,6 @@ namespace Coditech.API.Data
         public string CentreCode { get; set; }
         public string UserType { get; set; }
         public DateTime RegistrationDate { get; set; }
-        public long? HospitalPatientPreRegistrationId { get; set; }
         public long? HospitalPatientFirstVisitId { get; set; }
         public long? HospitalPatientLastVisitId { get; set; }
         public Nullable<long> CreatedBy { get; set; }

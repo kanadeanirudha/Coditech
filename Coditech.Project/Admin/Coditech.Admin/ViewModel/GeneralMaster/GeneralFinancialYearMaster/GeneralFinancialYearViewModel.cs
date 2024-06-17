@@ -8,11 +8,11 @@ namespace Coditech.Admin.ViewModel
         public short GeneralFinancialYearId { get; set; }
         [Required]
         [Display(Name = "From Date")]
-        public DateTime FromDate { get; set; }
+        public DateTime FromDate { get; set; } = DateTime.Now;
         [Required]
 
         [Display(Name = "To Date")]
-        public DateTime ToDate { get; set; }
+        public DateTime ToDate { get; set; } = DateTime.Now;
        
       }
 }

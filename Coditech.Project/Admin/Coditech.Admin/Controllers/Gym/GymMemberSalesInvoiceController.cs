@@ -26,8 +26,8 @@ namespace Coditech.Admin.Controllers
             }
             else
             {
-                list.FromDate = Convert.ToDateTime(DateTime.Now.AddMonths(-1).ToShortDateString());
-                list.ToDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                list.FromDate = Convert.ToDateTime(DateTime.Now.AddMonths(-1));
+                list.ToDate = Convert.ToDateTime(DateTime.Now);
             }
             if (AjaxHelper.IsAjaxRequest)
             {

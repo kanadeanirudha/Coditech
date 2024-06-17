@@ -2,7 +2,7 @@
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Logger;
-
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 
@@ -188,6 +188,32 @@ namespace Coditech.API.Client
             return result;
 
         }
+
+        /// <summary>
+        /// Post resource form data
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <param name="formData"></param>
+        /// <param name="status"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> PostResourceToEndpointAsync(string endpoint, MultipartFormDataContent formData, ApiStatus status, CancellationToken cancellationToken)
+        {
+            string baseEndPoint = endpoint;
+
+            HttpRequestMessage req = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(endpoint),
+                Content = formData
+            };
+
+            // Set headers for API request.
+            req = SetHeaders(req, endpoint);
+
+            return await GetResultFromResponseAsync(req, status, cancellationToken, baseEndPoint, "POST", formData.ToString());
+        }
+
 
         /// <summary>
         /// Post resource data to an endpoint.

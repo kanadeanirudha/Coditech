@@ -6,6 +6,9 @@
 
 @Html.AntiForgeryToken()
 @Html.HiddenFor(m => m.PersonId)
+@Html.HiddenFor(m => m.PhotoMediaId)
+@Html.HiddenFor(m => m.PhotoMediaFileName, new { id = "PhotoMediaFileName" })
+@Html.HiddenFor(m => m.PhotoMediaPath, new { id = "PhotoMediaPath" })
 <div class="row">
     <div class="col-lg-3">
         <div class="mb-3">
@@ -55,14 +58,14 @@
     <div class="col-lg-3">
         <div class="mb-3">
             @Html.LabelFor(x => x.DateOfBirth, new { @class = "form-label" })
-            @Html.TextBoxFor(x => x.DateOfBirth, new { @class = "form-control", @readonly = "true" })
+            @Html.TextBoxFor(x => x.DateOfBirth, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
             @Html.ValidationMessageFor(x => x.DateOfBirth)
         </div>
     </div>
     <div class="col-lg-3">
         <div class="mb-3">
             @Html.LabelFor(x => x.AnniversaryDate, new { @class = "form-label" })
-            @Html.TextBoxFor(x => x.AnniversaryDate, new { @class = "form-control", @readonly = "true" })
+            @Html.TextBoxFor(x => x.AnniversaryDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
             @Html.ValidationMessageFor(x => x.AnniversaryDate)
         </div>
     </div>
@@ -179,6 +182,93 @@
         </div>
     </div>
 
+    <div class="col-lg-3">
+        <div class="mb-3">
+            @Html.LabelFor(x => x.PhotoMediaId, new { @class = "form-label" })
+            <input type="file" id="imageUpload" class="form-control" />
+            <img id="imagePreview" src="#" alt="Uploaded Image" style="display:none;width:100px;height:100px;margin-top:10px;" />
+        </div>
+    </div>
+
 </div>
 <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
 <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var photoMediaPath = $('#PhotoMediaPath').val();
+
+        if (!(photoMediaPath === '' || photoMediaPath === null)) {
+            $('#imagePreview').attr('src', $('#PhotoMediaPath').val()).show();
+        }
+
+        $('#imageUpload').change(function () {
+            var formData = new FormData();
+            var fileInput = $('#imageUpload')[0];
+            if (fileInput.files.length > 0) {
+                formData.append('files', fileInput.files[0]);
+                $.ajax({
+                    url: '/GeneralCommanData/UploadMedia',  // Ensure this matches the route
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        $('#imagePreview').attr('src', response.imageUrl).show();
+                        $('input[name="PhotoMediaId"]').val(response.photoMediaId);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error uploading file:', textStatus, errorThrown);
+                    }
+                });
+            }
+        });
+
+        $(function () {
+            $("#DateOfBirth").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+100",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                },
+                minDate: "-80Y",
+                maxDate: new Date()
+            });
+
+
+            $("#AnniversaryDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                },
+                minDate: "-80Y",
+                maxDate: new Date()
+            });
+        });
+    });
+</script>
+
+
+

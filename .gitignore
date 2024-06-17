@@ -77,3 +77,5 @@
 /Coditech.Project/API/Coditech.Engine.Inventory/.config/dotnet-tools.json
 /Coditech.Project/API/Coditech.Engine.Organisation/.config/dotnet-tools.json
 /Coditech.Project/API/Coditech.Engine.User/.config/dotnet-tools.json
+/Coditech.Project/Coditech.Reports/bin
+/Coditech.Project/Coditech.Reports/Coditech.Reports.rptproj.rsuser

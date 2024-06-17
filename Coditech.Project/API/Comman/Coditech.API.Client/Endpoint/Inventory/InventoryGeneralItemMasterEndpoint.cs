@@ -15,8 +15,8 @@ namespace Coditech.API.Endpoint
         public string CreateInventoryGeneralItemMasterAsync() =>
             $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/CreateInventoryGeneralItemMaster";
 
-        public string GetInventoryGeneralItemMasterAsync(int generalInventoryGeneralItemMasterId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/GetInventoryGeneralItemMaster?generalInventoryGeneralItemMasterId={generalInventoryGeneralItemMasterId}";
+        public string GetInventoryGeneralItemMasterAsync(int inventoryGeneralItemMasterId) =>
+            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/GetInventoryGeneralItemMaster?inventoryGeneralItemMasterId={inventoryGeneralItemMasterId}";
        
         public string UpdateInventoryGeneralItemMasterAsync() =>
                $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/UpdateInventoryGeneralItemMaster";

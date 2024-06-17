@@ -18,8 +18,8 @@
                     foreach (var item in Model?.GeneralFinancialYearList)
                     {
                         <tr>
-                            <td>@item.FromDate</td>
-                            <td>@item.ToDate</td>
+                            <td>@item.FromDate.ToCoditechDateFormat()</td>
+                            <td>@item.ToDate.ToCoditechDateFormat()</td>
                             <td class="text-center">
                                 <a href="../@controllerName/Edit?generalFinancialYearId=@item.GeneralFinancialYearId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
                                 <a href="../@controllerName/Delete?FinancialYearIds=@item.GeneralFinancialYearId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>

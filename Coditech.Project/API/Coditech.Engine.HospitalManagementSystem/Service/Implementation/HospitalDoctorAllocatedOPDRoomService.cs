@@ -68,10 +68,10 @@ namespace Coditech.API.Service
                 }
             }
 
-            HospitalDoctors hospitalDoctors = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorId)?.FirstOrDefault();
-            if (hospitalDoctors?.EmployeeId > 0)
+            long? employeeId = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorId)?.Select(x => x.EmployeeId)?.FirstOrDefault();
+            if (employeeId > 0)
             {
-                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(hospitalDoctors.EmployeeId, UserTypeEnum.Employee.ToString());
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType((long)employeeId, UserTypeEnum.Employee.ToString());
                 if (IsNotNull(generalPersonModel))
                 {
                     hospitalDoctorAllocatedOPDRoomModel.FirstName = generalPersonModel.FirstName;

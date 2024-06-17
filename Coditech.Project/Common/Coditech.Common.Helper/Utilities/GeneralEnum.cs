@@ -48,7 +48,18 @@
         AllCities,
         InventoryModel,
         EmailTemplate,
-        HospitalDoctorsList
+        HospitalDoctorsList,
+        HospitalAppointmentType,
+        HospitalDoctorTimeSlot,
+        InventoryProductType,
+        ProductSubType,
+        InventoryProductDimensionGroup,
+        InventoryItemGroup,
+        InventoryStorageDimensionGroup,
+        InventoryItemTrackingDimensionGroup,
+        EmployeeStage,
+        InventoryUomMaster,
+        ReportType
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -64,6 +75,7 @@
         PriceRoundOff,
         InventoryRoundOff,
         DateFormat,
+        DateFormatForCalendar
     }
 
     public enum UserTypeEnum

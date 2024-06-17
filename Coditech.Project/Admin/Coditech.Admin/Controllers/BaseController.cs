@@ -1,4 +1,6 @@
-﻿using Coditech.Admin.Helpers;
+﻿using AspNetCore.Reporting;
+
+using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
 
+using System.Data;
 using System.Linq.Expressions;
 
 namespace Coditech.Admin.Controllers
@@ -67,7 +70,7 @@ namespace Coditech.Admin.Controllers
         /// <returns>return true/false</returns>
         private bool CheckIsFadeOut()
         {
-            bool isFadeOut =  Convert.ToBoolean(CoditechAdminSettings.NotificationMessagesIsFadeOut);
+            bool isFadeOut = Convert.ToBoolean(CoditechAdminSettings.NotificationMessagesIsFadeOut);
             return isFadeOut;
         }
         #endregion
@@ -101,26 +104,65 @@ namespace Coditech.Admin.Controllers
             return View(viewName, model);
         }
 
-        protected DataTableViewModel CreateActionDataTable(string centreCode = null, short selectedDepartmentId = 0)
+        protected DataTableViewModel CreateActionDataTable(string centreCode = null, short selectedDepartmentId = 0, DataTableViewModel dataTableModel = null)
         {
-            return new DataTableViewModel()
+            if (dataTableModel == null)
             {
-                SortByColumn = SortKeys.CreatedDate,
-                SortBy = AdminConstants.DESCKey,
-                SelectedCentreCode = centreCode,
-                SelectedDepartmentId = selectedDepartmentId
-            };
+                dataTableModel = new DataTableViewModel()
+                {
+                    SortByColumn = SortKeys.CreatedDate,
+                    SortBy = AdminConstants.DESCKey,
+                    SelectedCentreCode = centreCode,
+                    SelectedDepartmentId = selectedDepartmentId
+                };
+            }
+            else
+            {
+                dataTableModel.SortByColumn = SortKeys.ModifiedDate;
+                dataTableModel.SortBy = AdminConstants.DESCKey;
+                dataTableModel.SelectedCentreCode = centreCode;
+                dataTableModel.SelectedDepartmentId = selectedDepartmentId;
+            }
+            return dataTableModel;
         }
 
-        protected DataTableViewModel UpdateActionDataTable(string centreCode = null, short selectedDepartmentId = 0)
+        protected DataTableViewModel UpdateActionDataTable(string centreCode = null, short selectedDepartmentId = 0, DataTableViewModel dataTableModel = null)
         {
-            return new DataTableViewModel()
+            if (dataTableModel == null)
             {
-                SortByColumn = SortKeys.ModifiedDate,
-                SortBy = AdminConstants.DESCKey,
-                SelectedCentreCode = centreCode,
-                SelectedDepartmentId = selectedDepartmentId
-            };
+                dataTableModel = new DataTableViewModel()
+                {
+                    SortByColumn = SortKeys.ModifiedDate,
+                    SortBy = AdminConstants.DESCKey,
+                    SelectedCentreCode = centreCode,
+                    SelectedDepartmentId = selectedDepartmentId
+                };
+            }
+            else
+            {
+                dataTableModel.SortByColumn = SortKeys.ModifiedDate;
+                dataTableModel.SortBy = AdminConstants.DESCKey;
+                dataTableModel.SelectedCentreCode = centreCode;
+                dataTableModel.SelectedDepartmentId = selectedDepartmentId;
+            }
+            return dataTableModel;
+        }
+
+        public Stream GetReport(IWebHostEnvironment _environment, string reportFolder, string rdlcReportName, DataTable dataTable, string dataSet, Dictionary<string, string> reportParameters)
+        {
+            string mimeType = "";
+            int pageIndex = 1;
+            var _reportPath = $"{_environment.ContentRootPath}\\Reports\\{reportFolder}\\{rdlcReportName}.rdlc";
+            LocalReport localReport = new LocalReport(_reportPath);
+
+            localReport.AddDataSource(dataSet, dataTable);
+
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            var result = localReport.Execute(RenderType.Excel, pageIndex, reportParameters, mimeType);
+            byte[] file = result.MainStream;
+
+            Stream stream = new MemoryStream(file);
+            return stream;
         }
     }
 }

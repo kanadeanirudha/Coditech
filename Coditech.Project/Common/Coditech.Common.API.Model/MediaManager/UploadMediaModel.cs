@@ -8,5 +8,6 @@ namespace Coditech.Common.API.Model
         public string MediaFolderName{ get; set; }
         public int MediaFolderMasterId { get; set; }
         public long MediaId { get; set; }
+        public string MediaPathUrl { get; set; }     
     }
 }

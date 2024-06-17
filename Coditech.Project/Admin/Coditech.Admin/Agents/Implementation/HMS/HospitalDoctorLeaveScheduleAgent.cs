@@ -168,22 +168,29 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Email Id",
-                ColumnCode = "EmailId",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Room Name",
-                ColumnCode = "RoomName",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
                 ColumnName = "Leave Date",
                 ColumnCode = "LeaveDate",
                 IsSortable = true,
             });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Full Day",
+                ColumnCode = "IsFullDay",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "From Time",
+                ColumnCode = "FromTime",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Upto Time",
+                ColumnCode = "UptoTime",
+                IsSortable = true,
+            });
+          
             return datatableColumnList;
         }
         #endregion

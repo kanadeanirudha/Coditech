@@ -24,8 +24,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="mb-3">
-                    @Html.LabelFor(x => x.AttendanceDate, new { @class = "form-label" })
-                    @Html.TextBoxFor(x => x.AttendanceDate, new { @class = "form-control", @readonly = "true" })
+                    @Html.LabelFor(x => x.AttendanceDate, new { @class = "form-label required" })
+                    @Html.TextBoxFor(x => x.AttendanceDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
                     @Html.ValidationMessageFor(x => x.AttendanceDate, null, new { id = "errorAttendanceDate" })
                 </div>
             </div>
@@ -71,64 +71,36 @@
 
 <!-- Your custom scripts -->
 @Html.Partial("_ValidationScriptsPartial")
-<script src="~/js/layout/daterangepicker.js"></script>
 <script src="~/js/coditech/gym/gymmemberdetails.js"></script>
-
-<script>
-    $(function () {
-        $('#AttendanceDate').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            showWeekNumbers: false,
-            drops: "auto",
-            opens: "right",
-            autoApply: true,
-            "locale": {
-                "separator": " - ",
-                "applyLabel": "Apply",
-                "cancelLabel": "Cancel",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "weekLabel": "W",
-                "daysOfWeek": [
-                    "Su",
-                    "Mo",
-                    "Tu",
-                    "We",
-                    "Th",
-                    "Fr",
-                    "Sa"
-                ],
-                "monthNames": [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December"
-                ],
-                "firstDay": 1
-            },
-            maxDate: moment().startOf('day'),
-            startDate: moment(),
-            endDate: moment(),
-        },
-            function (start, end, label) { });
-
-        // Add an event listener to the textarea
+<script type="text/javascript">
+    $(document).ready(function () {
         $('#Remark').on('input', function () {
             // Get the current character count
             var count = this.value.length;
 
             // Update the character count display
             $('#charCount').text(count + '/150');
+        });
+        $(function () {
+            $("#AttendanceDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+100",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                },
+                minDate: "-1M",
+                maxDate: new Date()
+            });
         });
     });
 </script>

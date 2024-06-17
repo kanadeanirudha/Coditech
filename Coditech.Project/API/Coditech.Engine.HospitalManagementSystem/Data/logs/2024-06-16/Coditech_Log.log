@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-16"?>
+<HospitalPatientType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HospitalPatientTypeId>0</HospitalPatientTypeId>
+  <PatientType>fdngftmtm</PatientType>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-06-16T20:01:49.7881987+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-06-16T20:01:49.7881987+05:30</ModifiedDate>
+</HospitalPatientType><?xml version="1.0" encoding="utf-16"?>
+<HospitalPatientType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HospitalPatientTypeId>0</HospitalPatientTypeId>
+  <PatientType>fdngftmtm</PatientType>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-06-16T20:02:24.2805814+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-06-16T20:02:24.2805814+05:30</ModifiedDate>
+</HospitalPatientType><?xml version="1.0" encoding="utf-16"?>
+<HospitalPatientType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HospitalPatientTypeId>0</HospitalPatientTypeId>
+  <PatientType>gsfggsg</PatientType>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-06-16T20:17:00.1319061+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-06-16T20:17:00.1319061+05:30</ModifiedDate>
+</HospitalPatientType>

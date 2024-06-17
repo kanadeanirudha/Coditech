@@ -1,8 +1,10 @@
 ﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.Utilities;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.FileProviders;
 
@@ -16,6 +18,9 @@ namespace Coditech.Admin
         /// <param name="builder"></param>
         public static void RegisterCommonServices(this WebApplicationBuilder builder)
         {
+            // Registred all media setting.
+            builder.RegisterMedia();
+
             //This method configures the MVC services for the commonly used features for pages.This
             // combines the effects of <see cref="MvcCoreServiceCollectionExtensions.AddMvcCore(IServiceCollection)"/>
             builder.Services.AddRazorPages();
@@ -171,6 +176,31 @@ namespace Coditech.Admin
         {
             // Assigned Translator to TranslatorExtension.
             TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<CoditechTranslator>();
+        }
+
+        /// <summary>
+        /// Registring all media setting
+        /// </summary>
+        /// <param name="builder"></param>
+        public static void RegisterMedia(this WebApplicationBuilder builder)
+        {
+            // Coditech entity registration
+            builder.Services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = 104857600;
+            });
+
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.ValueLengthLimit = 104857600;
+                options.MultipartBodyLengthLimit = 104857600;
+                options.MultipartHeadersLengthLimit = 104857600;
+            });
+
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.Limits.MaxRequestBodySize = 104857600; ;
+            });
         }
         #endregion
     }

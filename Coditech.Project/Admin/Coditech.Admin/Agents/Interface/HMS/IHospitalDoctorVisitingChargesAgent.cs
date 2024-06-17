@@ -13,6 +13,13 @@ namespace Coditech.Admin.Agents
         HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesList(string selectedCentreCode, short selectedDepartmentId, DataTableViewModel dataTableModel);
 
         /// <summary>
+        /// Get list of General HospitalDoctorVisitingChargesByDoctorId.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>HospitalDoctorVisitingChargesListViewModel</returns>
+        HospitalDoctorVisitingChargesListViewModel GetHospitalDoctorVisitingChargesByDoctorList(int hospitalDoctorId, DataTableViewModel dataTableModel);
+
+        /// <summary>
         /// Create HospitalDoctorVisitingCharges.
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesViewModel">General HospitalDoctorVisitingCharges View Model.</param>
@@ -24,7 +31,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId</param>
         /// <returns>Returns HospitalDoctorVisitingChargesViewModel.</returns>
-        HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId);
+        HospitalDoctorVisitingChargesViewModel GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId, int hospitalDoctorId);
 
         /// <summary>
         /// Update HospitalDoctorVisitingCharges.
@@ -38,6 +45,6 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="hospitalDoctorVisitingChargesId">hospitalDoctorVisitingChargesId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeleteHospitalDoctorVisitingCharges(string hospitalDoctorVisitingChargesId, out string errorMessage);
+        bool DeleteHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId, out string errorMessage);
     }
 }

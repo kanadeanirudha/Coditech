@@ -8,9 +8,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.AspNetCore.Mvc;
-
 using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Controllers
@@ -49,6 +47,35 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingChargesByDoctorIdList")]
+        [Produces(typeof(HospitalDoctorVisitingChargesListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+
+        public virtual IActionResult GetHospitalDoctorVisitingChargesByDoctorIdList(int hospitalDoctorId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                HospitalDoctorVisitingChargesListModel listModel = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingChargesByDoctorIdList(hospitalDoctorId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(listModel);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalDoctorVisitingChargesListResponse>(data) : CreateNoContentResponse();
+
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorVisitingCharges.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new HospitalDoctorVisitingChargesListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctorVisitingCharges.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new HospitalDoctorVisitingChargesListResponse { HasError = true, ErrorMessage = ex.Message });
+
+            }
+        }
+
+
         [Route("/HospitalDoctorVisitingCharges/CreateHospitalDoctorVisitingCharges")]
         [HttpPost, ValidateModel]
         [Produces(typeof(HospitalDoctorVisitingChargesResponse))]
@@ -74,11 +101,11 @@ namespace Coditech.API.Controllers
         [Route("/HospitalDoctorVisitingCharges/GetHospitalDoctorVisitingCharges")]
         [HttpGet]
         [Produces(typeof(HospitalDoctorVisitingChargesResponse))]
-        public virtual IActionResult GetHospitalDoctorVisitingCharges(short hospitalDoctorVisitingChargesId)
+        public virtual IActionResult GetHospitalDoctorVisitingCharges(long hospitalDoctorVisitingChargesId, int hospitalDoctorId)
         {
             try
             {
-                HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId);
+                HospitalDoctorVisitingChargesModel hospitalDoctorVisitingChargesModel = _hospitalDoctorVisitingChargesService.GetHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesId, hospitalDoctorId);
                 return IsNotNull(hospitalDoctorVisitingChargesModel) ? CreateOKResponse(new HospitalDoctorVisitingChargesResponse { HospitalDoctorVisitingChargesModel = hospitalDoctorVisitingChargesModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -118,11 +145,11 @@ namespace Coditech.API.Controllers
         [Route("/HospitalDoctorVisitingCharges/DeleteHospitalDoctorVisitingCharges")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteHospitalDoctorVisitingCharges([FromBody] ParameterModel hospitaldoctorvisitingchargesIds)
+        public virtual IActionResult DeleteHospitalDoctorVisitingCharges([FromBody] ParameterModel hospitaldoctorvisitingchargesId)
         {
             try
             {
-                bool deleted = _hospitalDoctorVisitingChargesService.DeleteHospitalDoctorVisitingCharges(hospitaldoctorvisitingchargesIds);
+                bool deleted = _hospitalDoctorVisitingChargesService.DeleteHospitalDoctorVisitingCharges(hospitaldoctorvisitingchargesId);
                 return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
             }
             catch (CoditechException ex)

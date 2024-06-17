@@ -19,7 +19,7 @@
 					{
 						<tr>
 							<td><i class="fas fa-file-invoice"></i> @item.InvoiceNumber</td>
-							<td class="date"><i class="fa fa-calendar icon"></i> @item.TransactionDate.ToShortDateString()</td>
+							<td class="date"><i class="fa fa-calendar icon"></i> @item.TransactionDate.ToCoditechDateFormat()</td>
 							<td>@item.PlanType</td>
 							<td>
 								<div class="plan-details">
@@ -27,7 +27,7 @@
 									@if (item.PlanDurationType.Equals(AdminConstants.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
 									{
 										<span style="font-size: 12px; font-style: italic;">
-											<i class="fa fa-calendar-alt icon"></i> @item.PlanStartDate.ToShortDateString() to @item.PlanDurationExpirationDate.ToShortDateString()
+											<i class="fa fa-calendar-alt icon"></i> @item.PlanStartDate.ToCoditechDateFormat() to @item.PlanDurationExpirationDate.ToCoditechDateFormat()
 										</span>
 									}
 									else if (item.PlanDurationType.Equals(AdminConstants.PlanSessionType, StringComparison.InvariantCultureIgnoreCase))

@@ -4,6 +4,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -12,16 +13,18 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class HospitalDoctorLeaveScheduleService : IHospitalDoctorLeaveScheduleService
+    public class HospitalDoctorLeaveScheduleService : BaseService, IHospitalDoctorLeaveScheduleService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<HospitalDoctorLeaveSchedule> _hospitalDoctorLeaveScheduleRepository;
-        public HospitalDoctorLeaveScheduleService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<HospitalDoctors> _hospitalDoctorsRepository;
+        public HospitalDoctorLeaveScheduleService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider): base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _hospitalDoctorLeaveScheduleRepository = new CoditechRepository<HospitalDoctorLeaveSchedule>(_serviceProvider.GetService<Coditech_Entities>());
+            _hospitalDoctorsRepository = new CoditechRepository<HospitalDoctors>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual HospitalDoctorLeaveScheduleListModel GetHospitalDoctorLeaveScheduleList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -84,7 +87,19 @@ namespace Coditech.API.Service
             //Get the HospitalDoctorAllocatedOPDRoom Details based on id.
             HospitalDoctorLeaveSchedule hospitalDoctorLeaveSchedule = _hospitalDoctorLeaveScheduleRepository.Table.FirstOrDefault(x => x.HospitalDoctorLeaveScheduleId == hospitalDoctorLeaveScheduleId);
             HospitalDoctorLeaveScheduleModel hospitalDoctorLeaveScheduleModel = hospitalDoctorLeaveSchedule?.FromEntityToModel<HospitalDoctorLeaveScheduleModel>();
-            return hospitalDoctorLeaveScheduleModel;
+            long? employeeId = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalDoctorLeaveScheduleModel.HospitalDoctorId)?.Select(x => x.EmployeeId)?.FirstOrDefault();
+            if (employeeId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType((long)employeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    hospitalDoctorLeaveScheduleModel.FirstName = generalPersonModel.FirstName;
+                    hospitalDoctorLeaveScheduleModel.LastName = generalPersonModel.LastName;
+                    hospitalDoctorLeaveScheduleModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+                    hospitalDoctorLeaveScheduleModel.SelectedDepartmentId = generalPersonModel.SelectedDepartmentId;
+                }
+            }
+             return hospitalDoctorLeaveScheduleModel;
         }
 
         //Update HospitalDoctorLeaveSchedule.

@@ -32,7 +32,6 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        #region Employee
         public virtual EmployeeServiceListViewModel GetEmployeeServiceList(long employeeId, long personId, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
@@ -46,7 +45,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            EmployeeServiceListResponse response = _employeeServiceClient.EmployeeServiceList(employeeId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            EmployeeServiceListResponse response = _employeeServiceClient.EmployeeServiceList(employeeId, null, filters, sortlist, dataTableModel.PageIndex, int.MaxValue);
             EmployeeServiceListModel employeeServiceList = new EmployeeServiceListModel { EmployeeServiceList = response?.EmployeeServiceList };
             EmployeeServiceListViewModel listViewModel = new EmployeeServiceListViewModel();
             listViewModel.EmployeeServiceList = employeeServiceList?.EmployeeServiceList?.ToViewModel<EmployeeServiceViewModel>().ToList();
@@ -54,6 +53,8 @@ namespace Coditech.Admin.Agents
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.EmployeeServiceList.Count, BindColumns());
             listViewModel.EmployeeId = employeeId;
             listViewModel.PersonId = personId;
+            listViewModel.FirstName = response.FirstName;
+            listViewModel.LastName = response.LastName;
             return listViewModel;
         }
 
@@ -141,8 +142,6 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
-
-        #endregion
         #endregion
 
         #region protected
@@ -153,37 +152,31 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Employee Code",
                 ColumnCode = "EmployeeCode",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Current Designation",
                 ColumnCode = "CurrentDesignation",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Joining Date",
                 ColumnCode = "JoiningDate",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Promotion Demotion Date",
                 ColumnCode = "PromotionDemotionDate",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Employee Stage",
                 ColumnCode = "EmployeeStageEnumId",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Date Of Leaving",
                 ColumnCode = "DateOfLeaving",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
@@ -192,8 +185,7 @@ namespace Coditech.Admin.Agents
             });
             return datatableColumnList;
         }
-
+        #endregion
     }
-    #endregion
 }
 

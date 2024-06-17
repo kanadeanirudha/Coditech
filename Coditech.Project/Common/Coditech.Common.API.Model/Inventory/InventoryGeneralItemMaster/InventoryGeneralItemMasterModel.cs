@@ -17,7 +17,9 @@
         public int InventoryItemGroupId { get; set; }
         public int InventoryStorageDimentionGroupId { get; set; }
         public int InventoryTrackingDimentionGroupId { get; set; }
+        public short InventoryBaseUoMMasterId { get; set; }
         public bool IsActive { get; set; }
+        public bool IsBaseUom { get; set; }
     }
 }
 

@@ -6,6 +6,6 @@ namespace Coditech.API.Service
     public interface IMediaManagerService
     {
         UploadMediaModel UploadMedia(UploadMediaModel model);
-        Task<FileUploadListModelResponse> UploadServerFiles(IEnumerable<IFormFile> files, HttpRequest request);
+        Task<MediaManagerResponse> UploadServerFiles(IEnumerable<IFormFile> files, HttpRequest request);
     }
 }
