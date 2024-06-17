@@ -322,6 +322,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Patient Type due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPatientTypeDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalPatientTypeDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory category due to associate record..
         /// </summary>
         public static string ErrorDeleteInventoryCategory {
