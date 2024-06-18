@@ -78,7 +78,8 @@
             InventoryStorageDimensionGroup,
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
-            InventoryGeneralItemMaster
+            InventoryGeneralItemMaster,
+            CentrewiseSms
         }
     }
 }
