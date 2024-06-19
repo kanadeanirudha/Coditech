@@ -159,10 +159,36 @@ namespace Coditech.Admin.Helpers
             {
                 GetInventoryUomMasterList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SMSProvider.ToString()))
+            {
+                GetSMSProviderList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
 
+        private static void GetSMSProviderList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            //GeneralMeasurementUnitListResponse response = new GeneralMeasurementUnitClient().List(null, null, null, 1, int.MaxValue);
+            //GeneralMeasurementUnitListModel list = new GeneralMeasurementUnitListModel() { GeneralMeasurementUnitList = response.GeneralMeasurementUnitList };
+            //dropdownList.Add(new SelectListItem() { Text = "-------Select Measurement Unit-------" });
+            //foreach (var item in list?.GeneralMeasurementUnitList)
+            //{
+            //    dropdownList.Add(new SelectListItem()
+            //    {
+            //        Text = item.MeasurementUnitDisplayName,
+            //        Value = item.GeneralMeasurementUnitMasterId.ToString(),
+            //        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralMeasurementUnitMasterId)
+            //    });
+            //}
+            dropdownList.Add(new SelectListItem() { Text = "-------Select SMS Provider-------", Value = "" });
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "Twilio",
+                Value = "1",
+                Selected = "1" == dropdownViewModel.DropdownSelectedValue
+            });
+        }
         private static void GetMeasurementUnitList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             GeneralMeasurementUnitListResponse response = new GeneralMeasurementUnitClient().List(null, null, null, 1, int.MaxValue);

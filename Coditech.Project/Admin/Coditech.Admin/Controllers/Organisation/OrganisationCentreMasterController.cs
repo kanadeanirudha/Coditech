@@ -166,11 +166,14 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseSMSSetting
         [HttpGet]
-        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId)
+        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId = 0)
         {
             OrganisationCentrewiseSmsSettingViewModel organisationCentrewiseSmsSettingViewModel = _organisationCentreAgent.GetCentrewiseSmsSetup(organisationCentreId);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseSmsSetting.cshtml", organisationCentrewiseSmsSettingViewModel);
+            }
             return ActionView(OrganisationCentrewiseSmsSetting, organisationCentrewiseSmsSettingViewModel);
-
         }
 
         [HttpPost]
@@ -193,7 +196,6 @@ namespace Coditech.Admin.Controllers
         {
             OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, string.Empty);
             return ActionView(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
-
         }
 
         [HttpGet]

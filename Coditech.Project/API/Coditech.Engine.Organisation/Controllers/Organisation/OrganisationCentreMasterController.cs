@@ -273,11 +273,11 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseSmsSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseSmsSettingResponse))]
-        public virtual IActionResult GetCentrewiseSmsSetup(short organisationCentreMasterId)
+        public virtual IActionResult GetCentrewiseSmsSetup(short organisationCentreMasterId, byte generalSmsProviderId)
         {
             try
             {
-                OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = _organisationCentreMasterService.GetCentrewiseSmsSetup(organisationCentreMasterId);
+                OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = _organisationCentreMasterService.GetCentrewiseSmsSetup(organisationCentreMasterId, generalSmsProviderId);
                 return IsNotNull(organisationCentrewiseSmsSettingModel) ? CreateOKResponse(new OrganisationCentrewiseSmsSettingResponse() { OrganisationCentrewiseSmsSettingModel = organisationCentrewiseSmsSettingModel }) : NotFound();
             }
             catch (CoditechException ex)
@@ -362,7 +362,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseUserName")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseUserNameRegistrationResponse))]
-        public virtual IActionResult GetCentrewiseUserName(short organisationCentreMasterId,short organisationCentrewiseUserNameRegistrationId)
+        public virtual IActionResult GetCentrewiseUserName(short organisationCentreMasterId, short organisationCentrewiseUserNameRegistrationId)
         {
             try
             {

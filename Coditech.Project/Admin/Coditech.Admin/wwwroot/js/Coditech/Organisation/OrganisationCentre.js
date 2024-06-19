@@ -1,10 +1,9 @@
-﻿var OrganisationCentrewiseEmailTemplate = {
+﻿var OrganisationCentre = {
     Initialize: function () {
-        OrganisationCentrewiseEmailTemplate.constructor();
+        OrganisationCentre.constructor();
     },
     constructor: function () {
     },
-
 
     GetEmailTemplateByCentreCode: function (organisationCentreMasterId) {
         var selectedItem = $("#EmailTemplateCode").val();
@@ -29,6 +28,31 @@
         }
         else {
             $("#emailTemplateId").html("");
+        }
+    },
+    GetSMSSettingByCentreCode: function (organisationCentreMasterId) {
+        var selectedItem = $("#GeneralSmsProviderId").val();
+        if (selectedItem != "") {
+            CoditechCommon.ShowLodder();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "html",
+                url: "/OrganisationCentreMaster/CentrewiseSmsSetup",
+                data: { "organisationCentreId": organisationCentreMasterId, "generalSmsProviderId": selectedItem },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#smsProviderDivId").html("").html(data);
+                    CoditechCommon.HideLodder();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve SMS Setting.", "error")
+                    CoditechCommon.HideLodder();
+                }
+            });
+        }
+        else {
+            $("#smsProviderDivId").html("");
         }
     },
 }

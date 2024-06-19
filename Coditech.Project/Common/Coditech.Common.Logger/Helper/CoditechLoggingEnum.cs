@@ -79,6 +79,7 @@
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
             InventoryGeneralItemMaster,
+            HospitalPatientType,
             CentrewiseSms
         }
     }

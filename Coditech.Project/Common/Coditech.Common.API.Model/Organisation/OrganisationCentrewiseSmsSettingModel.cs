@@ -7,6 +7,7 @@ namespace Coditech.Model
     {
         [Required]
         public short OrganisationCentrewiseSmsSettingId { get; set; }
+        public short OrganisationCentreMasterId { get; set; }
 
         [Required]
         public byte GeneralSmsProviderId { get; set; }

@@ -273,25 +273,19 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise Sms Setting by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseSmsSettingModel GetCentrewiseSmsSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseSmsSettingModel GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
-
-            // Explicitly cast organisationCentreId to byte before using it
-            byte generalSmsProviderId = (byte)organisationCentreId;
-
             OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
-            // Get the Organisation Details based on id.
+            //Get the Organisation Details based on id.
 
-            OrganisationCentrewiseSmsSetting organisationCentrewiseSmsSettingData = _organisationCentrewiseSmsSettingRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode);
-            OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = IsNull(organisationCentrewiseSmsSettingData) ?
-                new OrganisationCentrewiseSmsSettingModel() : organisationCentrewiseSmsSettingData.FromEntityToModel<OrganisationCentrewiseSmsSettingModel>();
+            OrganisationCentrewiseSmsSetting organisationCentrewiseSmsSettingData = generalSmsProviderId > 0 ? _organisationCentrewiseSmsSettingRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode && x.GeneralSmsProviderId == generalSmsProviderId) : null;
+            OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = IsNull(organisationCentrewiseSmsSettingData) ? new OrganisationCentrewiseSmsSettingModel() : organisationCentrewiseSmsSettingData.FromEntityToModel<OrganisationCentrewiseSmsSettingModel>();
 
             organisationCentrewiseSmsSettingModel.CentreCode = organisationCentreModel.CentreCode;
             organisationCentrewiseSmsSettingModel.CentreName = organisationCentreModel.CentreName;
-            organisationCentrewiseSmsSettingModel.GeneralSmsProviderId = generalSmsProviderId; 
-
+            organisationCentrewiseSmsSettingModel.OrganisationCentreMasterId = organisationCentreId;
             return organisationCentrewiseSmsSettingModel;
         }
 

@@ -10,6 +10,9 @@ namespace Coditech.Admin.ViewModel
         public short OrganisationCentrewiseSmsSettingId { get; set; }
 
         [Required]
+        public short OrganisationCentreMasterId { get; set; }
+
+        [Required]
         [Display(Name = "SMS Provider ID")]
         public byte GeneralSmsProviderId { get; set; }
 
