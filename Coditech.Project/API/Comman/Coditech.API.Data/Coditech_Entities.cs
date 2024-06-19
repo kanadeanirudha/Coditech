@@ -34,6 +34,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralRunningNumbers> GeneralRunningNumbers { get; set; }
         public DbSet<GeneralLeadGenerationMaster> GeneralLeadGenerationMaster { get; set; }
         public DbSet<GeneralSmsProvider> GeneralSmsProvider { get; set; }
+        public DbSet<CoditechApplicationSetting> CoditechApplicationSetting { get; set; }
         #endregion
 
         #region Organisation

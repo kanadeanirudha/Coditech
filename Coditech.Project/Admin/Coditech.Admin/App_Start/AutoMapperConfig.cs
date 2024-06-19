@@ -60,6 +60,8 @@ namespace Coditech.Admin
             CreateMap<GeneralLeadGenerationViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<UserMainMenuModel, UserMainMenuViewModel>().ReverseMap();
             CreateMap<UserMainMenuListModel, UserMainMenuListViewModel>().ReverseMap();
+            CreateMap<CoditechApplicationSettingModel, CoditechApplicationSettingViewModel>().ReverseMap();
+            CreateMap<CoditechApplicationSettingListModel, CoditechApplicationSettingListViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation

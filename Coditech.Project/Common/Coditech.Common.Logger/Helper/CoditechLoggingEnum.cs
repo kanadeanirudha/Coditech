@@ -79,7 +79,8 @@
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
             InventoryGeneralItemMaster,
-            HospitalPatientType
+            HospitalPatientType,
+            CoditechApplicationSetting
         }
     }
 }
