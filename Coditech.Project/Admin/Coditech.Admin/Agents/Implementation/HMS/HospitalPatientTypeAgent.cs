@@ -130,7 +130,7 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
-                        errorMessage = AdminResources.ErrorDeleteHospitalPatientTypeDetails;
+   //                     errorMessage = AdminResources.ErrorDeleteHospitalPatientTypeDetails;
                         return false;
                     default:
                         errorMessage = GeneralResources.ErrorFailedToDelete;
