@@ -12,7 +12,7 @@
             @if (Model.OrganisationCentreMasterId > 0)
             {
                 <div class="col-lg-2">
-                    @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentrewiseSmsSettingId.ToString())
+                    @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentreMasterId.ToString())
                 </div>
             }
             <div class="col-lg-10">
