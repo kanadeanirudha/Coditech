@@ -81,7 +81,8 @@
             InventoryGeneralItemMaster,
             HospitalPatientType,
             CentrewiseSms,
-            CoditechApplicationSetting
+            CoditechApplicationSetting,
+            WhatsUpService,
         }
     }
 }
