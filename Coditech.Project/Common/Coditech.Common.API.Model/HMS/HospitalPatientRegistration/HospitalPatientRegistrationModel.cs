@@ -3,6 +3,7 @@
     public class HospitalPatientRegistrationModel : BaseModel
     {
         public long HospitalPatientRegistrationId { get; set; }
+        public byte HospitalPatientTypeId { get; set; }
         public long PersonId { get; set; }
         public string UAHNumber { get; set; }
         public string UserType { get; set; }

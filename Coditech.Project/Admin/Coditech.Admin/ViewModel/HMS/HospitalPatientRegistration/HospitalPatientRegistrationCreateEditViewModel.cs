@@ -13,5 +13,8 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string SelectedCentreCode { get; set; }
         public long HospitalPatientRegistrationId { get; set; }
+        [Required]
+        [Display(Name ="Patient Type")]
+        public byte HospitalPatientTypeId { get; set; }
     }
 }

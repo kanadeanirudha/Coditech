@@ -122,7 +122,6 @@ namespace Coditech.Admin.Helpers
             {
                 GetGeneralServicesList(dropdownViewModel, dropdownList);
             }
-
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AllCities.ToString()))
             {
                 GetAllCityList(dropdownViewModel, dropdownList);
@@ -162,6 +161,10 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SMSProvider.ToString()))
             {
                 GetSMSProviderList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalPatientType.ToString()))
+            {
+                GetHospitalPatientTypeList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -873,6 +876,26 @@ namespace Coditech.Admin.Helpers
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalDoctorId)
                     });
                 }
+            }
+        }
+
+        private static void GetHospitalPatientTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            HospitalPatientTypeListResponse response = new HospitalPatientTypeClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
+            HospitalPatientTypeListModel list = new HospitalPatientTypeListModel { HospitalPatientTypeList = response.HospitalPatientTypeList };
+            foreach (var item in list?.HospitalPatientTypeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = $"{item.PatientType}",
+                    Value = Convert.ToString(item.HospitalPatientTypeId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPatientTypeId)
+                });
             }
         }
     }

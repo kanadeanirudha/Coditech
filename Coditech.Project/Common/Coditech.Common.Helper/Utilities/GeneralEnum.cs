@@ -60,7 +60,8 @@
         EmployeeStage,
         InventoryUomMaster,
         ReportType,
-        SMSProvider
+        SMSProvider,
+        HospitalPatientType
     }
 
     public enum GeneralSystemGlobleSettingEnum

@@ -637,6 +637,7 @@ namespace Coditech.API.Service
             HospitalPatientRegistration hospitalPatientRegistration = new HospitalPatientRegistration()
             {
                 PersonId = generalPersonModel.PersonId,
+                HospitalPatientTypeId = generalPersonModel.HospitalPatientTypeId,
                 UAHNumber = generalPersonModel.PersonCode,
                 UserType = generalPersonModel.UserType,
                 CentreCode = generalPersonModel.SelectedCentreCode,
