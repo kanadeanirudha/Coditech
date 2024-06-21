@@ -38,7 +38,7 @@
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.ApplicationCode, new { @class = "form-control" })
+                                            @Html.TextBoxFor(x => x.ApplicationCode, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
                                         }
                                         @Html.ValidationMessageFor(x => x.ApplicationCode)
                                     </div>

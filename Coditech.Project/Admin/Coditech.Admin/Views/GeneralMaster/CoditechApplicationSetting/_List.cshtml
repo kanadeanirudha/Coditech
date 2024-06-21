@@ -23,8 +23,9 @@
                             <td>@item.ApplicationValue2</td>
                             <td>@item.ApplicationValue3</td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?coditechApplicationSettingId=@item.CoditechApplicationSettingId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
-                                <a href="../@controllerName/Delete?coditechApplicationSettingIds=@item.CoditechApplicationSettingId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                <a href="../@controllerName/Edit?coditechApplicationSettingId=@item.CoditechApplicationSettingId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>
+                                @* <span class="m-2">|</span> *@
+                                @* <a href="../@controllerName/Delete?coditechApplicationSettingIds=@item.CoditechApplicationSettingId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
                             </td>
                         </tr>
                     }

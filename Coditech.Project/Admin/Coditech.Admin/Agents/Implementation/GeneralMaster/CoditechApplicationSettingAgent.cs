@@ -40,7 +40,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("ApplicationValue1", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "Application Code" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             CoditechApplicationSettingListResponse response = _coditechApplicationSettingClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             CoditechApplicationSettingListModel coditechApplicationSettingList = new CoditechApplicationSettingListModel { CoditechApplicationSettingList = response?.CoditechApplicationSettingList };

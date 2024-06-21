@@ -123,6 +123,8 @@ namespace Coditech.API.Service
             if (IsNotNull(userMasterData) && userMasterData.Password == MD5Hash(changePasswordModel.CurrentPassword))
             {
                 userMasterData.Password = MD5Hash(changePasswordModel.NewPassword);
+                userMasterData.IsPasswordChange = true;
+                userMasterData.ResetPasswordToken = null;
                 _userMasterRepository.Update(userMasterData);
             }
             else

@@ -1,17 +1,18 @@
-﻿@model OrganisationCentrewiseEmailTemplateViewModel
+﻿@model OrganisationCentrewiseSmsSettingViewModel
 @{
-    ViewBag.Title = "Organisation Centrewise Email Template";
+    ViewBag.Title = "Organisation Centrewise SMS Setting";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel emailTemplateCodeDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.EmailTemplate.ToString(), DropdownName = "EmailTemplateCode", DropdownSelectedValue = Model.EmailTemplate, ChangeEvent = $"OrganisationCentre.GetEmailTemplateByCentreCode('{Model.OrganisationCentreMasterId}')" };
+    DropdownViewModel smsProviderDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.SMSProvider.ToString(), DropdownName = "GeneralSmsProviderId", DropdownSelectedValue = Model.GeneralSmsProviderId.ToString(), ChangeEvent = $"OrganisationCentre.GetSMSSettingByCentreCode('{Model.OrganisationCentreMasterId}')" };
 }
+
 <div class="page-content mt-5">
     <div class="container-fluid">
         <div class="row">
             @if (Model.OrganisationCentreMasterId > 0)
             {
                 <div class="col-lg-2">
-                    @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentreMasterId.ToString())
+                    @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentrewiseSmsSettingId.ToString())
                 </div>
             }
             <div class="col-lg-10">
@@ -19,37 +20,46 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Organisation Centrewise Email Template</h4>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div>                   
+                                <h4 class="card-title">Organisation Centrewise SMS Setting</h4>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
-                            @Html.HiddenFor(m => m.OrganisationCentrewiseEmailTemplateId)
                             @Html.HiddenFor(m => m.OrganisationCentreMasterId)
+                            @Html.HiddenFor(m => m.OrganisationCentrewiseSmsSettingId)
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.CentreName, new { @class = "form-label " })
+                                        @Html.LabelFor(x => x.CentreName, new { @class = "form-label" })
                                         @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control", @disabled = "disabled" })
                                         @Html.ValidationMessageFor(x => x.CentreName)
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.CentreCode, new { @class = "form-label required" })
                                         @Html.TextBoxFor(x => x.CentreCode, new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(x => x.CentreCode)
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-2">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.EmailTemplateCode, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", emailTemplateCodeDropdown)
-                                        @Html.ValidationMessageFor(x => x.EmailTemplateCode)
+                                        @Html.LabelFor(x => x.IsSMSSettingEnabled, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.IsSMSSettingEnabled, new { @class = "form-check-input" })
+                                        </div>
                                     </div>
                                 </div>
-                                <div id="emailTemplateId"> </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.GeneralSmsProviderId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", smsProviderDropdown)
+                                        @Html.ValidationMessageFor(x => x.GeneralSmsProviderId)
+                                    </div>
+                                </div>
+                                <div id="smsProviderDivId" class="row"> </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
@@ -61,5 +71,3 @@
     </div>
 </div>
 <script src="~/js/Coditech/Organisation/OrganisationCentre.js"></script>
-
-

@@ -80,6 +80,7 @@
             HospitalDoctorOPDSchedule,
             InventoryGeneralItemMaster,
             HospitalPatientType,
+            CentrewiseSms,
             CoditechApplicationSetting
         }
     }
