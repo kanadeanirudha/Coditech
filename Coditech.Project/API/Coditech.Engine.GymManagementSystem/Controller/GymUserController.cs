@@ -79,5 +79,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new ChangePasswordResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/GymUser/UpdateAdditionalInformation")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(GymUserResponse))]
+        public virtual IActionResult UpdateAdditionalInformation([FromBody] GymUserModel gymUserModel)
+        {
+            try
+            {
+                GymUserModel gymUserResponse = _gymUserService.UpdateAdditionalInformation(gymUserModel);
+                return IsNotNull(gymUserModel) ? CreateCreatedResponse(new GymUserResponse { GymUserModel = gymUserResponse }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GymUserResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymUserResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

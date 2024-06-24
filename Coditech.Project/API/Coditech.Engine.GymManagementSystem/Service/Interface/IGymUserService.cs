@@ -6,5 +6,6 @@ namespace Coditech.API.Service
     {
         GymUserModel Login(UserLoginModel model);
         ChangePasswordModel ChangePassword(ChangePasswordModel model);
+        GymUserModel UpdateAdditionalInformation(GymUserModel gymUserModel);
     }
 }
