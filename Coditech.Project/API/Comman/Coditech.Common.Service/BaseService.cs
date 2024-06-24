@@ -167,7 +167,7 @@ namespace Coditech.Common.Service
                 registrationCode = registrationCode.Replace("<mm>", dateTime.Month.ToString());
                 registrationCode = registrationCode.Replace("<dd>", dateTime.Date.ToString());
                 registrationCode = registrationCode.Replace("<hh>", dateTime.Hour.ToString());
-                registrationCode = registrationCode.Replace("<mm>", dateTime.Minute.ToString());
+                registrationCode = registrationCode.Replace("<min>", dateTime.Minute.ToString());
                 registrationCode = registrationCode.Replace("<sec>", dateTime.Second.ToString());
                 registrationCode = registrationCode.Replace("<currentsequence>", (generalRunningNumbers.CurrentSequnce).ToString());
                 _generalRunningNumbersRepository.Update(generalRunningNumbers);
