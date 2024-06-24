@@ -24,6 +24,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrePrintingFormat> _organisationCentrePrintingFormatRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseGSTCredential> _organisationCentrewiseGSTCredentialRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseSmtpSetting> _organisationCentrewiseSmtpSettingRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseSmsSetting> _organisationCentrewiseSmsSettingRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseEmailTemplate> _organisationCentrewiseEmailTemplateRepository;
         private readonly ICoditechRepository<GeneralEmailTemplate> _generalEmailTemplateRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
@@ -35,6 +36,7 @@ namespace Coditech.API.Service
             _organisationCentrePrintingFormatRepository = new CoditechRepository<OrganisationCentrePrintingFormat>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseGSTCredentialRepository = new CoditechRepository<OrganisationCentrewiseGSTCredential>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseSmtpSettingRepository = new CoditechRepository<OrganisationCentrewiseSmtpSetting>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseSmsSettingRepository = new CoditechRepository<OrganisationCentrewiseSmsSetting>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseEmailTemplateRepository = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEmailTemplateRepository = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
@@ -269,6 +271,49 @@ namespace Coditech.API.Service
             }
             return isOrganisationCentrewiseSmtpSettingUpdated;
         }
+
+        //Get Organisation Centrewise Sms Setting by organisationCentreMasterId.
+        public virtual OrganisationCentrewiseSmsSettingModel GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId)
+        {
+            if (organisationCentreId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
+            OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
+            //Get the Organisation Details based on id.
+
+            OrganisationCentrewiseSmsSetting organisationCentrewiseSmsSettingData = generalSmsProviderId > 0 ? _organisationCentrewiseSmsSettingRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode && x.GeneralSmsProviderId == generalSmsProviderId) : null;
+            OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = IsNull(organisationCentrewiseSmsSettingData) ? new OrganisationCentrewiseSmsSettingModel() : organisationCentrewiseSmsSettingData.FromEntityToModel<OrganisationCentrewiseSmsSettingModel>();
+
+            organisationCentrewiseSmsSettingModel.CentreCode = organisationCentreModel.CentreCode;
+            organisationCentrewiseSmsSettingModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrewiseSmsSettingModel.OrganisationCentreMasterId = organisationCentreId;
+            return organisationCentrewiseSmsSettingModel;
+        }
+
+        //Update  Organisation Centrewise Sms Setting .
+        public virtual bool UpdateCentrewiseSmsSetup(OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel)
+        {
+            if (IsNull(organisationCentrewiseSmsSettingModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            bool isOrganisationCentrewiseSmsSettingUpdated = false;
+            OrganisationCentrewiseSmsSetting organisationCentrewiseSmsSetting = organisationCentrewiseSmsSettingModel.FromModelToEntity<OrganisationCentrewiseSmsSetting>();
+
+            if (organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId > 0)
+                isOrganisationCentrewiseSmsSettingUpdated = _organisationCentrewiseSmsSettingRepository.Update(organisationCentrewiseSmsSetting);
+            else
+            {
+                organisationCentrewiseSmsSetting = _organisationCentrewiseSmsSettingRepository.Insert(organisationCentrewiseSmsSetting);
+                isOrganisationCentrewiseSmsSettingUpdated = organisationCentrewiseSmsSetting.OrganisationCentrewiseSmsSettingId > 0;
+            }
+
+            if (!isOrganisationCentrewiseSmsSettingUpdated)
+            {
+                organisationCentrewiseSmsSettingModel.HasError = true;
+                organisationCentrewiseSmsSettingModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isOrganisationCentrewiseSmsSettingUpdated;
+        }
+
 
         //Get Organisation Centrewise Email Template by organisationCentreMasterId.
         public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)

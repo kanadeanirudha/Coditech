@@ -19,6 +19,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Password")]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
+        public bool IsPasswordChange { get; set; } = true;
         public string ReturnUrl
         {
             get

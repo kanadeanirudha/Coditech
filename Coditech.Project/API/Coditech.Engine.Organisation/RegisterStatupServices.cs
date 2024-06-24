@@ -242,6 +242,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralRunningNumbersService, GeneralRunningNumbersService>();
             builder.Services.AddScoped<IGeneralLeadGenerationMasterService, GeneralLeadGenerationMasterService>();
             builder.Services.AddScoped<IGeneralUserMainMenuMasterService, GeneralUserMainMenuMasterService>();
+            builder.Services.AddScoped<ICoditechApplicationSettingService, CoditechApplicationSettingService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();

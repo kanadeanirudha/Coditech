@@ -49,6 +49,7 @@ namespace Coditech.Admin.Agents
                 });
                 if (IsNotNull(userModel))
                 {
+                    userLoginViewModel.IsPasswordChange = userModel.IsPasswordChange;
                     SaveInSession<UserModel>(AdminConstants.UserDataSession, userModel);
                 }
                 return userLoginViewModel;

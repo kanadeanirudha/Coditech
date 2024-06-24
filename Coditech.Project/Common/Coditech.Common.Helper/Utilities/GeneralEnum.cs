@@ -59,7 +59,9 @@
         InventoryItemTrackingDimensionGroup,
         EmployeeStage,
         InventoryUomMaster,
-        ReportType
+        ReportType,
+        SMSProvider,
+        HospitalPatientType
     }
 
     public enum GeneralSystemGlobleSettingEnum

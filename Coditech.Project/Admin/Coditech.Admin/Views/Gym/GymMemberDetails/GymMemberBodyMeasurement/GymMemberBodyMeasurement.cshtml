@@ -56,7 +56,7 @@
                                                             foreach (var value in item.GymMemberBodyMeasurementValueList)
                                                             {
                                                                 <tr>
-                                                                    <td>@value.CreatedDate.ToShortDateString()</td>
+                                                                    <td>@value.CreatedDate.ToCoditechDateFormat()</td>
                                                                     <td>@value.BodyMeasurementValue @value.MeasurementUnitShortCode</td>
                                                                     <td>
                                                                         <div class="d-flex justify-content-start">
@@ -87,3 +87,7 @@
     </div>
 </div>
 @Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", addGymMemberBodyMeasurementModel)
+@section scripts {
+    <!-- end page content -->
+    <script src="~/js/coditech/gym/gymmemberdetails.js"></script>
+}

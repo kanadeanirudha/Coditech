@@ -85,6 +85,21 @@ namespace Coditech.API.Client
         OrganisationCentrewiseSmtpSettingResponse UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingModel body);
 
         /// <summary>
+        /// Get OrganisationCentrewiseSmsSetting by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseSmsSettingResponse.</returns>
+        OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseSmsSetting.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseSmsSettingModel">OrganisationCentrewiseSmsSettingModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseSmsSettingResponse</returns>
+        OrganisationCentrewiseSmsSettingResponse UpdateCentrewiseSmsSetup(OrganisationCentrewiseSmsSettingModel body);
+
+
+        /// <summary>
         /// Get OrganisationCentrewiseEmailTemplate by organisationCentreId.
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>

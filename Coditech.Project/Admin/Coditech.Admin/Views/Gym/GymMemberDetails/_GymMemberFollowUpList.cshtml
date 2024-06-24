@@ -23,7 +23,7 @@
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsSetReminder)
                             </td>
-                            <td>@item.ReminderDate</td>
+                            <td>@item.ReminderDate.ToCoditechDateFormat()</td>
                             <td class="text-center data-action">
                                 <a data-bs-toggle="modal" data-bs-target="#AddUpdateFollowUpModelPopupId" href="void javascritp(0)" onclick="GymMemberDetails.GetMemberFollowUp('AddUpdateFollowUpModelPopupContentId','@Model.GymMemberDetailId','@item.GymMemberFollowUpId','@Model.PersonId')" title="Update Follow-Up" class="btn btn-sm btn-soft-warning btn-circle"><i class="fas fa-edit"></i></a>
                                 <a href="../@controllerName/DeleteGymMemberFollowUp?gymMemberFollowUpIdIds=@item.GymMemberFollowUpId&gymMemberDetailId=@Model.GymMemberDetailId&personId=@Model.PersonId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>

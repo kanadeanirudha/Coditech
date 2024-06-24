@@ -343,7 +343,7 @@
     <value>Organisation Centrewise Department List</value>
   </data>
   <data name="LabelOrganisationList" xml:space="preserve">
-    <value>Organisation List</value>
+    <value>Organisation Centre List</value>
   </data>
   <data name="LabelPersonFollowUpList" xml:space="preserve">
     <value>Person Follow Up List</value>
@@ -410,5 +410,8 @@
   </data>
   <data name="ErrorDeleteInventoryGeneralItemMaster" xml:space="preserve">
     <value>Failed to delete Inventory General Item Master due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteHospitalPatientTypeDetails" xml:space="preserve">
+    <value>Failed to delete Hospital Patient Type due to associate record.</value>
   </data>
 </root>

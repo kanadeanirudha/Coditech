@@ -56,6 +56,7 @@
             SalesAndPurchase,
             InventoryCategory,
             EmailService,
+            SMSService,
             ChangePassword,
             Dashboard,
             InventoryItemModelGroup,
@@ -78,6 +79,11 @@
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
             InventoryGeneralItemMaster,
+            HospitalPatientAppointmentPurpose,
+            HospitalPatientType,
+            CentrewiseSms,
+            CoditechApplicationSetting,
+            WhatsUpService,
             HospitalPatientAppointment
         }
     }

@@ -60,6 +60,10 @@ namespace Coditech.Admin
             CreateMap<GeneralLeadGenerationViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<UserMainMenuModel, UserMainMenuViewModel>().ReverseMap();
             CreateMap<UserMainMenuListModel, UserMainMenuListViewModel>().ReverseMap();
+            CreateMap<HospitalPatientAppointmentPurposeModel, HospitalPatientAppointmentPurposeViewModel>().ReverseMap();
+            CreateMap<HospitalPatientAppointmentPurposeListModel, HospitalPatientAppointmentPurposeListViewModel>().ReverseMap();
+            CreateMap<CoditechApplicationSettingModel, CoditechApplicationSettingViewModel>().ReverseMap();
+            CreateMap<CoditechApplicationSettingListModel, CoditechApplicationSettingListViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation
@@ -77,6 +81,8 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseSmtpSettingModel, OrganisationCentrewiseSmtpSettingViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseEmailTemplateModel, OrganisationCentrewiseEmailTemplateViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseUserNameRegistrationModel, OrganisationCentrewiseUserNameRegistrationViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseSmsSettingModel, OrganisationCentrewiseSmsSettingViewModel>().ReverseMap();
+
             #endregion
 
             #region Employee            
@@ -129,6 +135,8 @@ namespace Coditech.Admin
             CreateMap<HospitalPatientRegistrationModel, HospitalPatientRegistrationViewModel>().ReverseMap();
             CreateMap<HospitalDoctorOPDScheduleListModel, HospitalDoctorOPDScheduleListViewModel>().ReverseMap();
             CreateMap<HospitalDoctorOPDScheduleModel, HospitalDoctorOPDScheduleViewModel>().ReverseMap();
+            CreateMap<HospitalPatientTypeListModel, HospitalPatientTypeListViewModel>().ReverseMap();
+            CreateMap<HospitalPatientTypeModel, HospitalPatientTypeViewModel>().ReverseMap();
             CreateMap<HospitalPatientAppointmentModel, HospitalPatientAppointmentViewModel>().ReverseMap();
             CreateMap<HospitalPatientAppointmentListModel, HospitalPatientAppointmentListViewModel>().ReverseMap();
             #endregion

@@ -55,6 +55,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralUserMainMenuAgent, GeneralUserMainMenuAgent>();
             builder.Services.AddScoped<IEmployeeServiceAgent, EmployeeServiceAgent>();
             builder.Services.AddScoped<IGeneralCommanDataAgent, GeneralCommanDataAgent>();
+            builder.Services.AddScoped<ICoditechApplicationSettingAgent, CoditechApplicationSettingAgent>();
+
 
 
             #region HMS
@@ -64,6 +66,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalDoctorLeaveScheduleAgent, HospitalDoctorLeaveScheduleAgent>();
             builder.Services.AddScoped<IHospitalPatientRegistrationAgent, HospitalPatientRegistrationAgent>();
             builder.Services.AddScoped<IHospitalDoctorOPDScheduleAgent, HospitalDoctorOPDScheduleAgent>();
+            builder.Services.AddScoped<IHospitalPatientAppointmentPurposeAgent, HospitalPatientAppointmentPurposeAgent>();
+            builder.Services.AddScoped<IHospitalPatientTypeAgent, HospitalPatientTypeAgent>();
             builder.Services.AddScoped<IHospitalPatientAppointmentAgent, HospitalPatientAppointmentAgent>();
             #endregion
 
@@ -135,6 +139,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryStorageDimensionGroupClient, InventoryStorageDimensionGroupClient>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupClient, InventoryItemTrackingDimensionGroupClient>();
             builder.Services.AddScoped<IEmployeeServiceClient, EmployeeServiceClient>();
+            builder.Services.AddScoped<ICoditechApplicationSettingClient, CoditechApplicationSettingClient>();
 
 
             #region HMS
@@ -144,6 +149,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalDoctorLeaveScheduleClient, HospitalDoctorLeaveScheduleClient>();
             builder.Services.AddScoped<IHospitalPatientRegistrationClient, HospitalPatientRegistrationClient>();
             builder.Services.AddScoped<IHospitalDoctorOPDScheduleClient, HospitalDoctorOPDScheduleClient>();
+            builder.Services.AddScoped<IHospitalPatientTypeClient, HospitalPatientTypeClient>();
+            builder.Services.AddScoped<IHospitalPatientAppointmentPurposeClient, HospitalPatientAppointmentPurposeClient>();
             builder.Services.AddScoped<IHospitalPatientAppointmentClient, HospitalPatientAppointmentClient>();
             #endregion HMS
 

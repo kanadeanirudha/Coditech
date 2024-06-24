@@ -66,7 +66,7 @@ namespace Coditech.Admin.Controllers
                 hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.CreateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel);
                 if (!hospitalDoctorVisitingChargesViewModel.HasError)
                 {
-                    dataTableModel.HospitalDoctorId = hospitalDoctorVisitingChargesViewModel.HospitalDoctorId;
+                    dataTableModel.HospitalDoctorId = Convert.ToString(hospitalDoctorVisitingChargesViewModel.HospitalDoctorId);
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", dataTableModel);
                 }
@@ -89,7 +89,7 @@ namespace Coditech.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                dataTableModel.HospitalDoctorId = hospitalDoctorVisitingChargesViewModel.HospitalDoctorId;
+                dataTableModel.HospitalDoctorId = Convert.ToString(hospitalDoctorVisitingChargesViewModel.HospitalDoctorId);
 
                 SetNotificationMessage(_hospitalDoctorVisitingChargesAgent.UpdateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)

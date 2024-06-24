@@ -67,6 +67,7 @@ namespace Coditech.Admin.Agents
                 hospitalPatientRegistrationCreateEditViewModel.UserType = UserTypeEnum.Patient.ToString();
                 GeneralPersonModel generalPersonModel = hospitalPatientRegistrationCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.SelectedCentreCode = hospitalPatientRegistrationCreateEditViewModel.SelectedCentreCode;
+                generalPersonModel.HospitalPatientTypeId = hospitalPatientRegistrationCreateEditViewModel.HospitalPatientTypeId;
 
                 GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
@@ -101,6 +102,7 @@ namespace Coditech.Admin.Agents
                 if (IsNotNull(hospitalPatientRegistrationResponse))
                 {
                     hospitalPatientRegistrationCreateEditViewModel.SelectedCentreCode = hospitalPatientRegistrationResponse.HospitalPatientRegistrationModel.CentreCode;
+                    hospitalPatientRegistrationCreateEditViewModel.HospitalPatientTypeId = hospitalPatientRegistrationResponse.HospitalPatientRegistrationModel.HospitalPatientTypeId;
                 }
                 hospitalPatientRegistrationCreateEditViewModel.HospitalPatientRegistrationId = hospitalPatientRegistrationId;
                 hospitalPatientRegistrationCreateEditViewModel.PersonId = personId;

@@ -34,7 +34,8 @@
                         @using (Html.BeginForm("UpdateEmployeeOtherDetail", controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.EmployeeId)
-                            <div class="row">                                
+                            @Html.HiddenFor(m => m.EmployeeDesignationMasterId)
+                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PersonCode, new { @class = "form-label" })
@@ -44,41 +45,25 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        
+                                        @Html.LabelFor(x => x.IsActive, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input" })
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <div class="mb-3">                                        
+                                    <div class="mb-3">
                                     </div>
                                 </div>
-                               @*  <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.UserType, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.UserType, new { @class = "form-control", type = "number" })
-                                        @Html.ValidationMessageFor(x => x.UserType)
-                                    </div>
-                                </div>  *@
 
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.EmployeeDesignationMasterId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                                        {
-                                            DropdownType = DropdownTypeEnum.Designation.ToString(),
-                                            DropdownName = "EmployeeDesignationMasterId",
-                                            DropdownSelectedValue = Model.EmployeeDesignationMasterId.ToString()
-                                         })
-                                        @Html.ValidationMessageFor(x => x.EmployeeDesignationMasterId)
+                                        @Html.LabelFor(x => x.PANCardNumber, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.PANCardNumber, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.PANCardNumber)
                                     </div>
-                                </div>                                                           
-                                <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            @Html.LabelFor(x => x.PANCardNumber, new { @class = "form-label" })
-                                            @Html.TextBoxFor(x => x.PANCardNumber, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.PANCardNumber)
-                                        </div>
-                                    </div>
-                            
+                                </div>
+
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.UANNumber, new { @class = "form-label" })
@@ -89,13 +74,13 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PassportNumber, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.PassportNumber, new { @class = "form-control"})
+                                        @Html.TextBoxFor(x => x.PassportNumber, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.PassportNumber)
                                     </div>
-                                </div>                            
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.AdharCardNumber, new { @class = "form-label required" })
+                                        @Html.LabelFor(x => x.AdharCardNumber, new { @class = "form-label" })
                                         @Html.TextBoxFor(x => x.AdharCardNumber, new { @class = "form-control", type = "number" })
                                         @Html.ValidationMessageFor(x => x.AdharCardNumber)
                                     </div>
@@ -113,7 +98,7 @@
                                         @Html.TextBoxFor(x => x.BankAccountNumber, new { @class = "form-control", type = "number" })
                                         @Html.ValidationMessageFor(x => x.BankAccountNumber)
                                     </div>
-                                </div>                            
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.BankIFSCCode, new { @class = "form-label" })
@@ -129,18 +114,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                <div class="mb-3">
-                                    @Html.LabelFor(x => x.IsActive, new { @class = "form-label" })
-                                    <div class="form-check">
-                                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input" })
-                                    </div>
-                                </div>
-                            </div>
+                                
                             </div>
 
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                            <a href="../@controllerName/List?SelectedCentreCode=@Model.CentreCode&SelectedDepartmentId=@Model.GeneralDepartmentMasterId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>

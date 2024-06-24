@@ -18,11 +18,11 @@
                     foreach (var item in Model?.HospitalDoctorVisitingChargesList)
                     {
                         <tr>
-                            <td>@item.FromDate.ToShortDateString()</td>
+                            <td>@item.FromDate.ToCoditechDateFormat()</td>
                             <td>
                                 @if (item.UptoDate != null)
                                 {
-                                    @Convert.ToDateTime(@item.UptoDate).ToShortDateString()
+                                    @Convert.ToDateTime(@item.UptoDate).ToCoditechDateFormat()
                                 }
                             </td>
                             <td>@item.AppointmentType</td>
