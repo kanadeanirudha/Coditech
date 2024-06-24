@@ -1,7 +1,10 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
     public partial class HospitalPatientAppointmentPurposeMaster
     {
+        [Key]
         public short HospitalPatientAppointmentPurposeId { get; set; }
         public string HospitalPatientAppointmentPurposeName { get; set; }
         public bool IsActive { get; set; }

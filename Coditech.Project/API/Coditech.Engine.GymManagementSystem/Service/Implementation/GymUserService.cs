@@ -83,7 +83,7 @@ namespace Coditech.API.Service
             return changePasswordModel;
         }
 
-        //Change Password.
+        //Update Additional Information
         public virtual GymUserModel UpdateAdditionalInformation(GymUserModel gymUserModel)
         {
             if (IsNull(gymUserModel))
