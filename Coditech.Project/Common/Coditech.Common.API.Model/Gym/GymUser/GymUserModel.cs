@@ -20,6 +20,7 @@
         public string BirthMark { get; set; }
         public short GeneralOccupationMasterId { get; set; }
         public DateTime? AnniversaryDate { get; set; }
+        public bool IsPasswordChange { get; set; }
 
         public string PastInjuries { get; set; }
         public string MedicalHistory { get; set; }
