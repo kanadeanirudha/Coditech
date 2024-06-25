@@ -40,7 +40,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
             GymUserModel userModel = userMasterData?.FromEntityToModel<GymUserModel>();
-            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(userModel.EntityId);
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(userModel.EntityId, UserTypeEnum.GymMember.ToString());
             userModel.PersonTitle = generalPersonModel.PersonTitle;
             userModel.DateOfBirth = generalPersonModel.DateOfBirth;
             userModel.Gender = GetEnumDisplayTextByEnumId(generalPersonModel.GenderEnumId);

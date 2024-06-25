@@ -43,17 +43,17 @@ namespace Coditech.API.Controllers
             catch (CoditechUnauthorizedException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Warning);
-                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateUnauthorizedResponse(new GymUserModel { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Warning);
-                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateUnauthorizedResponse(new GymUserModel { HasError = true, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Error);
-                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorMessage = ex.Message });
+                return CreateUnauthorizedResponse(new GymUserModel { HasError = true, ErrorMessage = ex.Message });
             }
 
         }
