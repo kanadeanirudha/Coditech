@@ -163,7 +163,7 @@ namespace Coditech.Common.Service
                 registrationCode = registrationCode.Replace("<separator>", generalRunningNumbers.Separator);
                 registrationCode = registrationCode.Replace("<prefix>", generalRunningNumbers.Prefix);
                 registrationCode = registrationCode.Replace("<yyyy>", dateTime.Year.ToString());
-                registrationCode = registrationCode.Replace("<yy>", dateTime.Year.ToString().Substring(2, 4));
+                registrationCode = registrationCode.Replace("<yy>", dateTime.Year.ToString().Substring(2));
                 registrationCode = registrationCode.Replace("<mm>", dateTime.Month.ToString());
                 registrationCode = registrationCode.Replace("<dd>", dateTime.Day.ToString());
                 registrationCode = registrationCode.Replace("<hh>", dateTime.Hour.ToString());
