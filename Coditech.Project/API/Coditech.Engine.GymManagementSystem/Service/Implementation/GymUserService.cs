@@ -39,9 +39,40 @@ namespace Coditech.API.Service
             else if (!userMasterData.IsActive)
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
-            GymUserModel userModel = userMasterData?.FromEntityToModel<GymUserModel>();
-            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(userModel.EntityId);
+            GymUserModel userModel = new GymUserModel()
+            {
+                EntityId = userMasterData.EntityId,
+                IsPasswordChange = userMasterData.IsPasswordChange
+            };
+            return userModel;
+        }
+
+        public virtual GymUserModel GetGymMemberDetails(long entityId)
+        {
+            if (entityId <= 0)
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == entityId);
+            GymUserModel userModel = new GymUserModel();
+
+            if (IsNotNull(gymMemberDetails))
+            {
+                userModel.PastInjuries = gymMemberDetails.PastInjuries;
+                userModel.MedicalHistory = gymMemberDetails.MedicalHistory;
+                userModel.OtherInformation = gymMemberDetails.OtherInformation;
+            }
+
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(gymMemberDetails.PersonId);
+            if (IsNull(generalPersonModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            userModel.EntityId = entityId;
+            userModel.PersonId = generalPersonModel.PersonId;
+            userModel.PhotoMediaPath = GetImagePath(generalPersonModel.PhotoMediaId);
             userModel.PersonTitle = generalPersonModel.PersonTitle;
+            userModel.FirstName = generalPersonModel.FirstName;
+            userModel.LastName = generalPersonModel.LastName;
+            userModel.EmailId = generalPersonModel.EmailId;
             userModel.DateOfBirth = generalPersonModel.DateOfBirth;
             userModel.Gender = GetEnumDisplayTextByEnumId(generalPersonModel.GenderEnumId);
             userModel.PhoneNumber = generalPersonModel.PhoneNumber;
@@ -52,38 +83,10 @@ namespace Coditech.API.Service
             userModel.GeneralOccupationMasterId = generalPersonModel.GeneralOccupationMasterId;
             userModel.AnniversaryDate = generalPersonModel.AnniversaryDate;
 
-            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == userModel.EntityId);
-            if (IsNotNull(gymMemberDetails))
-            {
-                userModel.PastInjuries = gymMemberDetails.PastInjuries;
-                userModel.MedicalHistory = gymMemberDetails.MedicalHistory;
-                userModel.OtherInformation = gymMemberDetails.OtherInformation;
-            }
             return userModel;
         }
 
-        //Change Password.
-        public virtual ChangePasswordModel ChangePassword(ChangePasswordModel changePasswordModel)
-        {
-            if (IsNull(changePasswordModel))
-                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
-            GeneralPerson generalPerson = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == changePasswordModel.UserMasterId);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserMasterId == changePasswordModel.UserMasterId);
-            if (IsNotNull(userMasterData) && userMasterData.Password == MD5Hash(changePasswordModel.CurrentPassword))
-            {
-                userMasterData.Password = MD5Hash(changePasswordModel.NewPassword);
-                _userMasterRepository.Update(userMasterData);
-            }
-            else
-            {
-                changePasswordModel.HasError = true;
-                changePasswordModel.ErrorMessage = "Current Password DoesNot Match ";
-            }
-            return changePasswordModel;
-        }
-
-        //Change Password.
+        //Update Additional Information
         public virtual GymUserModel UpdateAdditionalInformation(GymUserModel gymUserModel)
         {
             if (IsNull(gymUserModel))

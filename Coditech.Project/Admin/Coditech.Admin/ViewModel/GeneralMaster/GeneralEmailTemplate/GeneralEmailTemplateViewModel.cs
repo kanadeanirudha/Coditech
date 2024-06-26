@@ -10,12 +10,12 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [MaxLength(100)]
-        [Display(Name = "Email Template Code")]
+        [Display(Name = "Template Code")]
         public string EmailTemplateCode { get; set; }
 
         [Required]
         [MaxLength(100)]
-        [Display(Name = "Email Template Name")]
+        [Display(Name = "Template Name")]
         public string EmailTemplateName { get; set; }
 
         [Required]
@@ -24,10 +24,18 @@ namespace Coditech.Admin.ViewModel
         public string Subject { get; set; }
 
         [Required]
-        [Display(Name = "Email Template")]
+        [Display(Name = "Template")]
         public string EmailTemplate { get; set; }
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+
+        [Required]
+        [Display(Name = "Module Code")]
+        public string ModuleCode { get; set; }
+
+        public bool IsSmsTemplate { get; set; }
+
+        public bool IsWhatsUpTemplate { get; set; }
     }
 }

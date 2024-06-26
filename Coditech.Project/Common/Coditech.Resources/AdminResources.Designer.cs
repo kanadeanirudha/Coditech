@@ -491,7 +491,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Coditech Application Setting due to associate record..
+        /// </summary>
+        public static string ErrorDeleteCoditechApplicationSetting
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteCoditechApplicationSetting", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete User Main Menu due to associate record..
         /// </summary>
@@ -653,7 +664,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelGlobleSettingList", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Coditech Application Setting List.
+        /// </summary>
+        public static string LabelCoditechApplicationSettingList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelCoditechApplicationSettingList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Body Measurement Type List.
         /// </summary>

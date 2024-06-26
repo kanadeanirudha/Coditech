@@ -244,7 +244,7 @@ namespace Coditech.API.Service
 
             if (generalPersonModel.PhotoMediaId > 0)
             {
-                var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId).FirstOrDefault();
+                var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId)?.FirstOrDefault();
                 if (mediaDetail != null)
                 {
                     generalPersonModel.PhotoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
@@ -637,6 +637,7 @@ namespace Coditech.API.Service
             HospitalPatientRegistration hospitalPatientRegistration = new HospitalPatientRegistration()
             {
                 PersonId = generalPersonModel.PersonId,
+                HospitalPatientTypeId = generalPersonModel.HospitalPatientTypeId,
                 UAHNumber = generalPersonModel.PersonCode,
                 UserType = generalPersonModel.UserType,
                 CentreCode = generalPersonModel.SelectedCentreCode,

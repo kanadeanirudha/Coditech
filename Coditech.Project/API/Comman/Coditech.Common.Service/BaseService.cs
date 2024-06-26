@@ -163,11 +163,11 @@ namespace Coditech.Common.Service
                 registrationCode = registrationCode.Replace("<separator>", generalRunningNumbers.Separator);
                 registrationCode = registrationCode.Replace("<prefix>", generalRunningNumbers.Prefix);
                 registrationCode = registrationCode.Replace("<yyyy>", dateTime.Year.ToString());
-                registrationCode = registrationCode.Replace("<yy>", dateTime.Year.ToString());
+                registrationCode = registrationCode.Replace("<yy>", dateTime.Year.ToString().Substring(2));
                 registrationCode = registrationCode.Replace("<mm>", dateTime.Month.ToString());
-                registrationCode = registrationCode.Replace("<dd>", dateTime.Date.ToString());
+                registrationCode = registrationCode.Replace("<dd>", dateTime.Day.ToString());
                 registrationCode = registrationCode.Replace("<hh>", dateTime.Hour.ToString());
-                registrationCode = registrationCode.Replace("<mm>", dateTime.Minute.ToString());
+                registrationCode = registrationCode.Replace("<min>", dateTime.Minute.ToString());
                 registrationCode = registrationCode.Replace("<sec>", dateTime.Second.ToString());
                 registrationCode = registrationCode.Replace("<currentsequence>", (generalRunningNumbers.CurrentSequnce).ToString());
                 _generalRunningNumbersRepository.Update(generalRunningNumbers);
@@ -243,27 +243,47 @@ namespace Coditech.Common.Service
             string centreName = _organisationCentreMasterRepository.Table.Where(x => x.CentreCode == centreCode).Select(y => y.CentreName).FirstOrDefault();
             return centreName;
         }
+
         protected virtual GeneralEmailTemplateModel GetEmailTemplateByCode(string centreCode, string emailTemplateByCode)
+        {
+            return GetGeneralEmailTemplateByCode(centreCode, emailTemplateByCode, false, false);
+        }
+
+        protected virtual GeneralEmailTemplateModel GetSMSTemplateByCode(string centreCode, string emailTemplateByCode)
+        {
+            return GetGeneralEmailTemplateByCode(centreCode, emailTemplateByCode, true, false);
+        }
+
+        protected virtual GeneralEmailTemplateModel GetWhatsUpTemplateByCode(string centreCode, string emailTemplateByCode)
+        {
+            return GetGeneralEmailTemplateByCode(centreCode, emailTemplateByCode, false, true);
+        }
+
+        private GeneralEmailTemplateModel GetGeneralEmailTemplateByCode(string centreCode, string emailTemplateByCode, bool isSmsTemplate, bool isWhatsUpTemplate)
         {
             GeneralEmailTemplateModel emailTemplateModel = new GeneralEmailTemplateModel();
             if (!string.IsNullOrEmpty(centreCode))
             {
-                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplate = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && x.EmailTemplateCode == emailTemplateByCode && x.IsActive)?.FirstOrDefault();
+                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplate = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && x.EmailTemplateCode == emailTemplateByCode && x.IsActive && x.IsSmsTemplate == isSmsTemplate && x.IsWhatsUpTemplate == isWhatsUpTemplate)?.FirstOrDefault();
                 if (IsNotNull(organisationCentrewiseEmailTemplate))
                 {
                     emailTemplateModel.EmailTemplateCode = organisationCentrewiseEmailTemplate.EmailTemplateCode;
                     emailTemplateModel.EmailTemplate = organisationCentrewiseEmailTemplate.EmailTemplate;
                     emailTemplateModel.Subject = organisationCentrewiseEmailTemplate.Subject;
+                    emailTemplateModel.IsSmsTemplate = organisationCentrewiseEmailTemplate.IsSmsTemplate;
+                    emailTemplateModel.IsWhatsUpTemplate = organisationCentrewiseEmailTemplate.IsWhatsUpTemplate;
                 }
             }
             else
             {
-                GeneralEmailTemplate generalEmailTemplate = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmailTemplateCode == emailTemplateByCode && x.IsActive)?.FirstOrDefault();
+                GeneralEmailTemplate generalEmailTemplate = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmailTemplateCode == emailTemplateByCode && x.IsActive && x.IsSmsTemplate == isSmsTemplate)?.FirstOrDefault();
                 if (IsNotNull(generalEmailTemplate))
                 {
                     emailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
                     emailTemplateModel.EmailTemplate = generalEmailTemplate.EmailTemplate;
                     emailTemplateModel.Subject = generalEmailTemplate.Subject;
+                    emailTemplateModel.IsSmsTemplate = generalEmailTemplate.IsSmsTemplate;
+                    emailTemplateModel.IsWhatsUpTemplate = generalEmailTemplate.IsWhatsUpTemplate;
                 }
             }
             return emailTemplateModel;
@@ -299,6 +319,21 @@ namespace Coditech.Common.Service
         {
             Regex rgx = new Regex(key, RegexOptions.IgnoreCase);
             return rgx.Replace(resourceText, string.IsNullOrEmpty(replaceValue) ? string.Empty : replaceValue);
+        }
+
+        //Get Image Path
+        protected virtual string GetImagePath(long mediaId)
+        {
+            string imagePath = string.Empty;
+            if (mediaId > 0)
+            {
+                MediaDetail mediaDetail = new CoditechRepository<MediaDetail>().Table.Where(x => x.MediaId == mediaId)?.FirstOrDefault();
+                if (mediaDetail != null)
+                {
+                    imagePath = $"{GetMediaUrl}{mediaDetail.Path}";
+                }
+            }
+            return imagePath;
         }
     }
 }

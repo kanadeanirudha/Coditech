@@ -79,7 +79,11 @@
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
             InventoryGeneralItemMaster,
+            HospitalPatientAppointmentPurpose,
             HospitalPatientType,
+            CentrewiseSms,
+            CoditechApplicationSetting,
+            WhatsUpService,
             MediaSettingMaster,
         }
     }
