@@ -111,7 +111,8 @@ namespace Coditech.API.Service
             {
                 GymMemberDetailId = gymMemberBodyMeasurementModel.GymMemberDetailId,
                 GymBodyMeasurementTypeId = gymMemberBodyMeasurementModel.GymBodyMeasurementTypeId,
-                BodyMeasurementValue = gymMemberBodyMeasurementModel.BodyMeasurementValue
+                BodyMeasurementValue = gymMemberBodyMeasurementModel.BodyMeasurementValue,
+                CreatedDate = gymMemberBodyMeasurementModel.CreatedDate
             };
 
             //Create new MemberBodyMeasurement and return it.

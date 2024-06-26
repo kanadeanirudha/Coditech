@@ -1,9 +1,11 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.AspNetCore.Mvc;
@@ -58,28 +60,6 @@ namespace Coditech.API.Controllers
 
         }
 
-        [Route("/GymUser/ChangePassword")]
-        [HttpPost, ValidateModel]
-        [Produces(typeof(ChangePasswordResponse))]
-        public virtual IActionResult ChangePassword([FromBody] ChangePasswordModel model)
-        {
-            try
-            {
-                ChangePasswordModel changePassword = _gymUserService.ChangePassword(model);
-                return IsNotNull(changePassword) ? CreateCreatedResponse(new ChangePasswordResponse { ChangePasswordModel = changePassword }) : CreateInternalServerErrorResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ChangePassword.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new ChangePasswordResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ChangePassword.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new ChangePasswordResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
         [Route("/GymUser/UpdateAdditionalInformation")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GymUserResponse))]
@@ -88,7 +68,29 @@ namespace Coditech.API.Controllers
             try
             {
                 GymUserModel gymUserResponse = _gymUserService.UpdateAdditionalInformation(gymUserModel);
-                return IsNotNull(gymUserModel) ? CreateCreatedResponse(new GymUserResponse { GymUserModel = gymUserResponse }) : CreateInternalServerErrorResponse();
+                return IsNotNull(gymUserResponse) ? CreateCreatedResponse(new GymUserResponse { GymUserModel = gymUserResponse }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GymUserResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymUserResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("/GymUser/GetGymMemberDetails")]
+        [Produces(typeof(GymUserResponse))]
+        public virtual IActionResult GetGymMemberDetails(long entityId)
+        {
+            try
+            {
+                GymUserModel gymUserResponse = _gymUserService.GetGymMemberDetails(entityId);
+                return IsNotNull(gymUserResponse) ? CreateCreatedResponse(new GymUserResponse { GymUserModel = gymUserResponse }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
