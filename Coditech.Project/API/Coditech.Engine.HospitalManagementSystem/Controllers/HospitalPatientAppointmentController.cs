@@ -1,3 +1,4 @@
+using Coditech.API.Data;
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
@@ -29,11 +30,11 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
         [Route("/HospitalPatientAppointment/GetHospitalPatientAppointmentList")]
         [Produces(typeof(HospitalPatientAppointmentListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetHospitalPatientAppointmentList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetHospitalPatientAppointmentList(/*string selectedCentreCode, short selectedDepartmentId,*/ FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                HospitalPatientAppointmentListModel list = _hospitalPatientAppointmentService.GetHospitalPatientAppointmentList(selectedCentreCode, selectedDepartmentId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                HospitalPatientAppointmentListModel list = _hospitalPatientAppointmentService.GetHospitalPatientAppointmentList(/*selectedCentreCode, selectedDepartmentId, */filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalPatientAppointmentListResponse>(data) : CreateNoContentResponse();
             }
@@ -134,6 +135,52 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalPatientAppointment.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        //[Route("/HospitalPatientAppointment/GetHospitalDoctorsListByCentreCodeAndSpecialization")]
+        //[HttpGet]
+        //[Produces(typeof(HospitalPatientAppointmentResponse))]
+        //public virtual IActionResult GetHospitalDoctorsListByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        //{
+        //    try
+        //    {
+        //        HospitalPatientAppointmentModel hospitalPatientAppointmentModel = _hospitalPatientAppointmentService.GetHospitalDoctorsListByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecilizationEnumId);
+        //        return IsNotNull(hospitalPatientAppointmentModel) ? CreateOKResponse(new HospitalPatientAppointmentResponse { HospitalPatientAppointmentModel = hospitalPatientAppointmentModel }) : CreateNoContentResponse();
+        //    }
+        //    catch (CoditechException ex)
+        //    {
+        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalPatientAppointment.ToString(), TraceLevel.Warning);
+        //        return CreateInternalServerErrorResponse(new HospitalPatientAppointmentResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalPatientAppointment.ToString(), TraceLevel.Error);
+        //        return CreateInternalServerErrorResponse(new HospitalPatientAppointmentResponse { HasError = true, ErrorMessage = ex.Message });
+        //    }
+        //}
+
+        [HttpGet]
+        [Route("/HospitalPatientAppointment/GetDoctorsByCentreCodeAndSpecialization")]
+        [Produces(typeof(HospitalDoctorsListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        {
+            try
+            {
+                HospitalDoctorsListModel list = _hospitalPatientAppointmentService.GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecilizationEnumId);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalDoctorsListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctors.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new HospitalDoctorsListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalDoctors.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new HospitalDoctorsListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

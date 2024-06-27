@@ -18,14 +18,14 @@ namespace Coditech.API.Client
         {
             hospitalPatientAppointmentEndpoint = new HospitalPatientAppointmentEndpoint();
         }
-        public virtual HospitalPatientAppointmentListResponse List(string selectedCentreCode, short selectedDepartmentId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual HospitalPatientAppointmentListResponse List(/*string selectedCentreCode, short selectedDepartmentId,*/ IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(selectedCentreCode, selectedDepartmentId, expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(/*selectedCentreCode, selectedDepartmentId,*/ expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalPatientAppointmentListResponse> ListAsync(string selectedCentreCode, short selectedDepartmentId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<HospitalPatientAppointmentListResponse> ListAsync(/*string selectedCentreCode, short selectedDepartmentId,*/ IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = hospitalPatientAppointmentEndpoint.ListAsync(selectedCentreCode, selectedDepartmentId, expand, filter, sort, pageIndex, pageSize);
+            string endpoint = hospitalPatientAppointmentEndpoint.ListAsync(/*selectedCentreCode, selectedDepartmentId,*/ expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -251,6 +251,51 @@ namespace Coditech.API.Client
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual HospitalDoctorsListResponse GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        {
+            return Task.Run(async () => await GetDoctorsByCentreCodeAndSpecializationAsync(selectedCentreCode, medicalSpecilizationEnumId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<HospitalDoctorsListResponse> GetDoctorsByCentreCodeAndSpecializationAsync(string selectedCentreCode, int medicalSpecilizationEnumId, CancellationToken cancellationToken)
+        {
+            string endpoint = hospitalPatientAppointmentEndpoint.GetDoctorsByCentreCodeAndSpecializationAsync(selectedCentreCode, medicalSpecilizationEnumId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<HospitalDoctorsListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else if (status_ == 204)
+                {
+                    return new HospitalDoctorsListResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    HospitalDoctorsListResponse typedBody = JsonConvert.DeserializeObject<HospitalDoctorsListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }

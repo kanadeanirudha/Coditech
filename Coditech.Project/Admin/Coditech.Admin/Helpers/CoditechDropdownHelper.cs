@@ -166,6 +166,14 @@ namespace Coditech.Admin.Helpers
             {
                 GetHospitalPatientTypeList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalDoctorsListBySpecialization.ToString()))
+            {
+                GetDoctorsByCentreCodeAndSpecialization(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalPatientAppointmentPurpose.ToString()))
+            {
+                GetHospitalPatientAppointmentPurposeList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -865,7 +873,8 @@ namespace Coditech.Admin.Helpers
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
                 short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
-                HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId, true, null, null, null, 1, int.MaxValue);
+                //int medicalSpecilizationEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[2]);
+                HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId,true, null, null, null, 1, int.MaxValue);
                 HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
                 foreach (var item in list?.HospitalDoctorsList)
                 {
@@ -895,6 +904,51 @@ namespace Coditech.Admin.Helpers
                     Text = $"{item.PatientType}",
                     Value = Convert.ToString(item.HospitalPatientTypeId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPatientTypeId)
+                });
+            }
+        }
+
+        private static void GetDoctorsByCentreCodeAndSpecialization(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Doctors-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Doctors-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
+                int medicalSpecilizationEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                HospitalDoctorsListResponse response = new HospitalPatientAppointmentClient().GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecilizationEnumId);
+                HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
+                foreach (var item in list?.HospitalDoctorsList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = $"{item.FirstName} {item.LastName}",
+                        Value = item.HospitalDoctorId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalDoctorId)
+                    });
+                }
+            }
+        }
+
+        private static void GetHospitalPatientAppointmentPurposeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            HospitalPatientAppointmentPurposeListResponse response = new HospitalPatientAppointmentPurposeClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
+            HospitalPatientAppointmentPurposeListModel list = new HospitalPatientAppointmentPurposeListModel { HospitalPatientAppointmentPurposeList = response.HospitalPatientAppointmentPurposeList };
+            foreach (var item in list?.HospitalPatientAppointmentPurposeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = $"{item.HospitalPatientAppointmentPurpose}",
+                    Value = Convert.ToString(item.HospitalPatientAppointmentPurposeId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPatientAppointmentPurposeId)
                 });
             }
         }

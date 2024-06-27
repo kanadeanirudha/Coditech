@@ -1,6 +1,8 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +21,16 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            HospitalPatientAppointmentListViewModel list = new HospitalPatientAppointmentListViewModel();
-            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
-            {
-                list = _hospitalPatientAppointmentAgent.GetHospitalPatientAppointmentList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, dataTableModel);
-            }
-            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
-            list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
+            //HospitalPatientAppointmentListViewModel list = new HospitalPatientAppointmentListViewModel();
+            //if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
+            //{
+            //list = _hospitalPatientAppointmentAgent.GetHospitalPatientAppointmentList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, dataTableModel);
+            //}
+            //list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+            //list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
+
+
+            HospitalPatientAppointmentListViewModel list = _hospitalPatientAppointmentAgent.GetHospitalPatientAppointmentList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/HMS/HospitalPatientAppointment/_List.cshtml", list);
@@ -93,6 +98,23 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<HospitalPatientAppointmentController>(x => x.List(null));
         }
 
+        public virtual ActionResult GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        {
+            DropdownViewModel medicalSpecilizationDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.HospitalDoctorsListBySpecialization.ToString(),
+                DropdownName = "HospitalDoctorId",
+                Parameter = $"{selectedCentreCode}~{medicalSpecilizationEnumId}",
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", medicalSpecilizationDropdown);
+        }
+
+
+        //public virtual ActionResult GetHospitalDoctorsListByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        //{
+        //    HospitalPatientAppointmentListViewModel list = _hospitalPatientAppointmentAgent.GetHospitalDoctorsListByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecilizationEnumId);
+        //    return ActionView("~/Views/HMS/HospitalDoctors/List.cshtml", list);
+        //}
         #region Protected
 
         #endregion

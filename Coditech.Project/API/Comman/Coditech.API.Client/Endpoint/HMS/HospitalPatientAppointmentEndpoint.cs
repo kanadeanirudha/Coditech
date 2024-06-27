@@ -6,9 +6,9 @@ namespace Coditech.API.Endpoint
 {
     public class HospitalPatientAppointmentEndpoint : BaseEndpoint
     {
-        public string ListAsync(string selectedCentreCode, short selectedDepartmentId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string ListAsync(/*string selectedCentreCode, short selectedDepartmentId,*/ IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalPatientAppointment/GetHospitalPatientAppointmentList?selectedCentreCode={selectedCentreCode}&selectedDepartmentId={selectedDepartmentId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalPatientAppointment/GetHospitalPatientAppointmentList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}"; 
             return endpoint;
         }
 
@@ -23,5 +23,8 @@ namespace Coditech.API.Endpoint
 
         public string DeleteHospitalPatientAppointmentAsync() =>
                   $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalPatientAppointment/DeleteHospitalPatientAppointment";
+
+        public string GetDoctorsByCentreCodeAndSpecializationAsync(string selectedCentreCode, int medicalSpecilizationEnumId) =>
+           $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalPatientAppointment/GetDoctorsByCentreCodeAndSpecialization?selectedCentreCode={selectedCentreCode}&medicalSpecilizationEnumId={medicalSpecilizationEnumId}";
     }
 }

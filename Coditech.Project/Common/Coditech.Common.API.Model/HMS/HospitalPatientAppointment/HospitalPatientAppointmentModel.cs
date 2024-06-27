@@ -18,6 +18,7 @@
         public string EmailId { get; set; }
         public string ImagePath { get; set; }
         public int MedicalSpecilizationEnumId { get; set; }
+        //public string MedicalSpecilization { get; set; }
         public string SelectedCentreCode { get; set; }
     }
 }

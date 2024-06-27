@@ -29,7 +29,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual HospitalPatientAppointmentListViewModel GetHospitalPatientAppointmentList(string selectedCentreCode, short selectedDepartmentId, DataTableViewModel dataTableModel)
+        public virtual HospitalPatientAppointmentListViewModel GetHospitalPatientAppointmentList(/*string selectedCentreCode, short selectedDepartmentId,*/ DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -39,12 +39,12 @@ namespace Coditech.Admin.Agents
                 filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("AppointmentType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            HospitalPatientAppointmentListResponse response = _hospitalPatientAppointmentClient.List(selectedCentreCode, selectedDepartmentId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            HospitalPatientAppointmentListResponse response = _hospitalPatientAppointmentClient.List(/*selectedCentreCode, selectedDepartmentId, null,*/ null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalPatientAppointmentListModel hospitalPatientAppointmentList = new HospitalPatientAppointmentListModel { HospitalPatientAppointmentList = response?.HospitalPatientAppointmentList };
             HospitalPatientAppointmentListViewModel listViewModel = new HospitalPatientAppointmentListViewModel();
             listViewModel.HospitalPatientAppointmentList = hospitalPatientAppointmentList?.HospitalPatientAppointmentList?.ToViewModel<HospitalPatientAppointmentViewModel>().ToList();
@@ -167,15 +167,32 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Email Id",
-                ColumnCode = "EmailId",
+                ColumnName = "Appointment Type",
+                ColumnCode = "AppointmentTypeEnumId",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Medical Specilization",
-                ColumnCode = "MedicalSpecilization",
+                ColumnName = " Appointment Date",
+                ColumnCode = "AppointmentDate",
                 IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Requested Time Slot",
+                ColumnCode = "RequestedTimeSlot",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Approval Status",
+                ColumnCode = "ApprovalStatusEnumId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Attended",
+                ColumnCode = "IsAttended",
             });
             return datatableColumnList;
         }

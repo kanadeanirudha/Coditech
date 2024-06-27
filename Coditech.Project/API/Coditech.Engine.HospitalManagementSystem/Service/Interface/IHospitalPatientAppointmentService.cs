@@ -7,10 +7,12 @@ namespace Coditech.API.Service
 {
     public interface IHospitalPatientAppointmentService
     {
-        HospitalPatientAppointmentListModel GetHospitalPatientAppointmentList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        HospitalPatientAppointmentListModel GetHospitalPatientAppointmentList(/*string selectedCentreCode, short selectedDepartmentId,*/ FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         HospitalPatientAppointmentModel CreateHospitalPatientAppointment(HospitalPatientAppointmentModel model);
         HospitalPatientAppointmentModel GetHospitalPatientAppointment(long hospitalPatientAppointmentId);
         bool UpdateHospitalPatientAppointment(HospitalPatientAppointmentModel model);
         bool DeleteHospitalPatientAppointment(ParameterModel parameterModel);
+        // HospitalPatientAppointmentListModel GetHospitalDoctorsListByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId);
+        HospitalDoctorsListModel GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId);
     }
 }

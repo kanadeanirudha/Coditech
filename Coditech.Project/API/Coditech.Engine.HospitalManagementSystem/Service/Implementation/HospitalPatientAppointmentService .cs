@@ -5,6 +5,7 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+using System.Linq;
 
 using System.Collections.Specialized;
 using System.Data;
@@ -17,26 +18,33 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<HospitalPatientAppointment> _hospitalPatientAppointmentRepository;
+        private readonly ICoditechRepository<HospitalDoctors> _hospitalDoctorsRepository;
+        private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
+        private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
+
         public HospitalPatientAppointmentService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _hospitalPatientAppointmentRepository = new CoditechRepository<HospitalPatientAppointment>(_serviceProvider.GetService<Coditech_Entities>());
+            _hospitalDoctorsRepository = new CoditechRepository<HospitalDoctors>(_serviceProvider.GetService<Coditech_Entities>());
+            _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual HospitalPatientAppointmentListModel GetHospitalPatientAppointmentList(string selectedCentreCode, short selectedDepartmentId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual HospitalPatientAppointmentListModel GetHospitalPatientAppointmentList(/*string selectedCentreCode, short selectedDepartmentId,*/ FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<HospitalPatientAppointmentModel> objStoredProc = new CoditechViewRepository<HospitalPatientAppointmentModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@DepartmentId", selectedDepartmentId, ParameterDirection.Input, DbType.Int16);
+            //objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
+            //objStoredProc.SetParameter("@DepartmentId", selectedDepartmentId, ParameterDirection.Input, DbType.Int16);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<HospitalPatientAppointmentModel> hospitalPatientAppointmentList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalPatientAppointmentList @CentreCode,@DepartmentId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<HospitalPatientAppointmentModel> hospitalPatientAppointmentList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalPatientAppointmentList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             HospitalPatientAppointmentListModel listModel = new HospitalPatientAppointmentListModel();
 
             listModel.HospitalPatientAppointmentList = hospitalPatientAppointmentList?.Count > 0 ? hospitalPatientAppointmentList : new List<HospitalPatientAppointmentModel>();
@@ -112,6 +120,29 @@ namespace Coditech.API.Service
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteHospitalPatientAppointment @HospitalPatientAppointmentId,  @Status OUT", 1, out status);
 
             return status == 1 ? true : false;
+        }
+        public virtual HospitalDoctorsListModel GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        {
+
+            HospitalDoctorsListModel listModel = new HospitalDoctorsListModel();
+
+            listModel.HospitalDoctorsList = (from a in _hospitalDoctorsRepository.Table
+                                             join b in _employeeMasterRepository.Table
+                                             on a.EmployeeId equals b.EmployeeId
+                                             join c in _generalPersonRepository.Table
+                                             on b.PersonId equals c.PersonId
+                                             where a.MedicalSpecilizationEnumId == medicalSpecilizationEnumId
+                                             && b.CentreCode == selectedCentreCode
+                                             && b.IsActive
+                                             select new HospitalDoctorsModel
+                                             {
+                                                 HospitalDoctorId = a.HospitalDoctorId,
+                                                 FirstName = c.FirstName,
+                                                 LastName = c.LastName,
+                                                 MedicalSpecilizationEnumId = a.MedicalSpecilizationEnumId,
+                                             })?.ToList();
+
+            return listModel;
         }
     }
 }
