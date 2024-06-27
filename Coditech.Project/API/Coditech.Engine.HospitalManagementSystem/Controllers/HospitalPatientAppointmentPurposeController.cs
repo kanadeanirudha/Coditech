@@ -1,4 +1,5 @@
-﻿using Coditech.API.Service;
+﻿using Coditech.API.Data;
+using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -13,27 +14,27 @@ using System.Diagnostics;
 
 using static Coditech.Common.Helper.HelperUtility;
 
-namespace Coditech.API.Controllers
+namespace Coditech.Engine.HospitalManagementSystem.Controllers
 {
     public class HospitalPatientAppointmentPurposeController : BaseController
     {
         private readonly IHospitalPatientAppointmentPurposeService _hospitalPatientAppointmentPurposeService;
         protected readonly ICoditechLogging _coditechLogging;
-        public HospitalPatientAppointmentPurposeController(ICoditechLogging coditechLogging, IHospitalPatientAppointmentPurposeService hospitalPatientAppointmentPurposeMasterService)
+        public HospitalPatientAppointmentPurposeController(ICoditechLogging coditechLogging, IHospitalPatientAppointmentPurposeService hospitalPatientAppointmentPurposeService)
         {
-            _hospitalPatientAppointmentPurposeService = hospitalPatientAppointmentPurposeMasterService;
+            _hospitalPatientAppointmentPurposeService = hospitalPatientAppointmentPurposeService;
             _coditechLogging = coditechLogging;
         }
 
         [HttpGet]
-        [Route("/HospitalPatientAppointmentPurposeMaster/HospitalPatientAppointmentPurposeList")]
+        [Route("/HospitalPatientAppointmentPurpose/GetHospitalPatientAppointmentPurposeList")]
         [Produces(typeof(HospitalPatientAppointmentPurposeListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetHospitalPatientAppointmentPurposeList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetHospitalPatientAppointmentPurposeList(/*string selectedCentreCode, short selectedDepartmentId,*/ FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                HospitalPatientAppointmentPurposeListModel list = _hospitalPatientAppointmentPurposeService.GetHospitalPatientAppointmentPurposeList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                HospitalPatientAppointmentPurposeListModel list = _hospitalPatientAppointmentPurposeService.GetHospitalPatientAppointmentPurposeList(/*selectedCentreCode, selectedDepartmentId, */filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalPatientAppointmentPurposeListResponse>(data) : CreateNoContentResponse();
             }
@@ -49,15 +50,15 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/HospitalPatientAppointmentPurposeMaster/CreateHospitalPatientAppointmentPurpose")]
+        [Route("/HospitalPatientAppointmentPurpose/CreateHospitalPatientAppointmentPurpose")]
         [HttpPost, ValidateModel]
         [Produces(typeof(HospitalPatientAppointmentPurposeResponse))]
         public virtual IActionResult CreateHospitalPatientAppointmentPurpose([FromBody] HospitalPatientAppointmentPurposeModel model)
         {
             try
             {
-                HospitalPatientAppointmentPurposeModel hospitalPatientAppointmentPurposeMaster = _hospitalPatientAppointmentPurposeService.CreateHospitalPatientAppointmentPurpose(model);
-                return IsNotNull(hospitalPatientAppointmentPurposeMaster) ? CreateCreatedResponse(new HospitalPatientAppointmentPurposeResponse { hospitalPatientAppointmentPurposeModel = hospitalPatientAppointmentPurposeMaster }) : CreateInternalServerErrorResponse();
+                HospitalPatientAppointmentPurposeModel hospitalPatientAppointmentPurpose = _hospitalPatientAppointmentPurposeService.CreateHospitalPatientAppointmentPurpose(model);
+                return IsNotNull(hospitalPatientAppointmentPurpose) ? CreateCreatedResponse(new HospitalPatientAppointmentPurposeResponse { HospitalPatientAppointmentPurposeModel = hospitalPatientAppointmentPurpose }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
@@ -71,15 +72,15 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/HospitalPatientAppointmentPurposeMaster/GetHospitalPatientAppointmentPurpose")]
+        [Route("/HospitalPatientAppointmentPurpose/GetHospitalPatientAppointmentPurpose")]
         [HttpGet]
         [Produces(typeof(HospitalPatientAppointmentPurposeResponse))]
-        public virtual IActionResult GetHospitalPatientAppointmentPurpose(short HospitalPatientAppointmentPurposeId)
+        public virtual IActionResult GetHospitalPatientAppointmentPurpose(short hospitalPatientAppointmentPurposeId)
         {
             try
             {
-                HospitalPatientAppointmentPurposeModel hospitalPatientAppointmentPurposeModel = _hospitalPatientAppointmentPurposeService.GetHospitalPatientAppointmentPurpose(HospitalPatientAppointmentPurposeId);
-                return IsNotNull(hospitalPatientAppointmentPurposeModel) ? CreateOKResponse(new HospitalPatientAppointmentPurposeResponse { hospitalPatientAppointmentPurposeModel = hospitalPatientAppointmentPurposeModel }) : CreateNoContentResponse();
+                HospitalPatientAppointmentPurposeModel hospitalPatientAppointmentPurposeModel = _hospitalPatientAppointmentPurposeService.GetHospitalPatientAppointmentPurpose(hospitalPatientAppointmentPurposeId);
+                return IsNotNull(hospitalPatientAppointmentPurposeModel) ? CreateOKResponse(new HospitalPatientAppointmentPurposeResponse { HospitalPatientAppointmentPurposeModel = hospitalPatientAppointmentPurposeModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {
@@ -93,7 +94,7 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/HospitalPatientAppointmentPurposeMaster/UpdateHospitalPatientAppointmentPurpose")]
+        [Route("/HospitalPatientAppointmentPurpose/UpdateHospitalPatientAppointmentPurpose")]
         [HttpPut, ValidateModel]
         [Produces(typeof(HospitalPatientAppointmentPurposeResponse))]
         public virtual IActionResult UpdateHospitalPatientAppointmentPurpose([FromBody] HospitalPatientAppointmentPurposeModel model)
@@ -101,7 +102,7 @@ namespace Coditech.API.Controllers
             try
             {
                 bool isUpdated = _hospitalPatientAppointmentPurposeService.UpdateHospitalPatientAppointmentPurpose(model);
-                return isUpdated ? CreateOKResponse(new HospitalPatientAppointmentPurposeResponse { hospitalPatientAppointmentPurposeModel = model }) : CreateInternalServerErrorResponse();
+                return isUpdated ? CreateOKResponse(new HospitalPatientAppointmentPurposeResponse { HospitalPatientAppointmentPurposeModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
@@ -115,14 +116,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/HospitalPatientAppointmentPurposeMaster/DeleteHospitalPatientAppointmentPurpose")]
+        [Route("/HospitalPatientAppointmentPurpose/DeleteHospitalPatientAppointmentPurpose")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteHospitalPatientAppointmentPurpose([FromBody] ParameterModel HospitalPatientAppointmentPurposeId)
+        public virtual IActionResult DeleteHospitalPatientAppointmentPurpose([FromBody] ParameterModel hospitalPatientAppointmentPurposeIds)
         {
             try
             {
-                bool deleted = _hospitalPatientAppointmentPurposeService.DeleteHospitalPatientAppointmentPurpose(HospitalPatientAppointmentPurposeId);
+                bool deleted = _hospitalPatientAppointmentPurposeService.DeleteHospitalPatientAppointmentPurpose(hospitalPatientAppointmentPurposeIds);
                 return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
             }
             catch (CoditechException ex)

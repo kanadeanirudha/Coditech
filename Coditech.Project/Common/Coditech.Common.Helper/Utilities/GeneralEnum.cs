@@ -61,7 +61,9 @@
         InventoryUomMaster,
         ReportType,
         SMSProvider,
-        HospitalPatientType
+        HospitalPatientType,
+        HospitalDoctorsListBySpecialization,
+        HospitalPatientAppointmentPurpose
     }
 
     public enum GeneralSystemGlobleSettingEnum
