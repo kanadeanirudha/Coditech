@@ -873,7 +873,6 @@ namespace Coditech.Admin.Helpers
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
                 short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
-                //int medicalSpecilizationEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[2]);
                 HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId,true, null, null, null, 1, int.MaxValue);
                 HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
                 foreach (var item in list?.HospitalDoctorsList)
@@ -946,7 +945,7 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = $"{item.HospitalPatientAppointmentPurpose}",
+                    Text = $"{item.AppointmentPurpose}",
                     Value = Convert.ToString(item.HospitalPatientAppointmentPurposeId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPatientAppointmentPurposeId)
                 });

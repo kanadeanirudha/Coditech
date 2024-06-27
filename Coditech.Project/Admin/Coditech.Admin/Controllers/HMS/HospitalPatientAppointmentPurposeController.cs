@@ -50,10 +50,10 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short HospitalPatientAppointmentPurposeId)
+        public virtual ActionResult Edit(short hospitalPatientAppointmentPurposeId)
         {
-            HospitalPatientAppointmentPurposeViewModel HospitalPatientAppointmentPurposeViewModel = _hospitalPatientAppointmentPurposeAgent.GetHospitalPatientAppointmentPurpose(HospitalPatientAppointmentPurposeId);
-            return ActionView(createEdit, HospitalPatientAppointmentPurposeId);
+            HospitalPatientAppointmentPurposeViewModel hospitalPatientAppointmentPurposeViewModel = _hospitalPatientAppointmentPurposeAgent.GetHospitalPatientAppointmentPurpose(hospitalPatientAppointmentPurposeId);
+            return ActionView(createEdit, hospitalPatientAppointmentPurposeViewModel);
         }
 
         [HttpPost]

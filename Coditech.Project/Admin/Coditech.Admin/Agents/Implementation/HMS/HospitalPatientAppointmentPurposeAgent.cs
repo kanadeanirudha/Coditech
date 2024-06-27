@@ -141,8 +141,8 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Hospital Patient Appointment Purpose",
-                ColumnCode = "HospitalPatientAppointmentPurpose",
+                ColumnName = "Appointment Purpose",
+                ColumnCode = "AppointmentPurpose",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()

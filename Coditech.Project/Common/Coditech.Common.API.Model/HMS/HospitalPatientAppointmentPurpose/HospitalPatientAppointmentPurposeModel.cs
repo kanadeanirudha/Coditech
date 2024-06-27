@@ -6,7 +6,7 @@ namespace Coditech.Common.API.Model
     {
         public short HospitalPatientAppointmentPurposeId { get; set; }
         [Required]
-        public string HospitalPatientAppointmentPurpose { get; set; }
+        public string AppointmentPurpose { get; set; }
         public bool IsActive { get; set; }
     }
 }

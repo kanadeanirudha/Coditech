@@ -30,7 +30,7 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
         [Route("/HospitalPatientAppointmentPurpose/GetHospitalPatientAppointmentPurposeList")]
         [Produces(typeof(HospitalPatientAppointmentPurposeListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetHospitalPatientAppointmentPurposeList(/*string selectedCentreCode, short selectedDepartmentId,*/ FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetHospitalPatientAppointmentPurposeList( FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {

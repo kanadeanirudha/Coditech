@@ -16,15 +16,15 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
-        private readonly ICoditechRepository<PatientAppointmentPurpose> _hospitalPatientAppointmentPurposeRepository;
+        private readonly ICoditechRepository<HospitalPatientAppointmentPurpose> _hospitalPatientAppointmentPurposeRepository;
         public HospitalPatientAppointmentPurposeService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _hospitalPatientAppointmentPurposeRepository = new CoditechRepository<PatientAppointmentPurpose>(_serviceProvider.GetService<Coditech_Entities>());
+            _hospitalPatientAppointmentPurposeRepository = new CoditechRepository<HospitalPatientAppointmentPurpose>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual HospitalPatientAppointmentPurposeListModel GetHospitalPatientAppointmentPurposeList(/*string selectedCentreCode, short selectedDepartmentId,*/ FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual HospitalPatientAppointmentPurposeListModel GetHospitalPatientAppointmentPurposeList( FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
@@ -48,10 +48,10 @@ namespace Coditech.API.Service
             if (IsNull(hospitalPatientAppointmentPurposeModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            PatientAppointmentPurpose hospitalPatientAppointmentPurpose = hospitalPatientAppointmentPurposeModel.FromModelToEntity<PatientAppointmentPurpose>();
+            HospitalPatientAppointmentPurpose hospitalPatientAppointmentPurpose = hospitalPatientAppointmentPurposeModel.FromModelToEntity<HospitalPatientAppointmentPurpose>();
 
             //Create new HospitalPatientAppointmentPurpose and return it.
-            PatientAppointmentPurpose hospitalPatientAppointmentPurposeData = _hospitalPatientAppointmentPurposeRepository.Insert(hospitalPatientAppointmentPurpose);
+            HospitalPatientAppointmentPurpose hospitalPatientAppointmentPurposeData = _hospitalPatientAppointmentPurposeRepository.Insert(hospitalPatientAppointmentPurpose);
             if (hospitalPatientAppointmentPurposeData?.HospitalPatientAppointmentPurposeId > 0)
             {
                 hospitalPatientAppointmentPurposeModel.HospitalPatientAppointmentPurposeId = hospitalPatientAppointmentPurposeData.HospitalPatientAppointmentPurposeId;
@@ -71,7 +71,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalPatientAppointmentPurposeId"));
 
             //Get the HospitalPatientAppointmentPurpose Details based on id.
-            PatientAppointmentPurpose hospitalPatientAppointmentPurpose = _hospitalPatientAppointmentPurposeRepository.Table.FirstOrDefault(x => x.HospitalPatientAppointmentPurposeId == hospitalPatientAppointmentPurposeId);
+            HospitalPatientAppointmentPurpose hospitalPatientAppointmentPurpose = _hospitalPatientAppointmentPurposeRepository.Table.FirstOrDefault(x => x.HospitalPatientAppointmentPurposeId == hospitalPatientAppointmentPurposeId);
             HospitalPatientAppointmentPurposeModel hospitalPatientAppointmentPurposeModel = hospitalPatientAppointmentPurpose?.FromEntityToModel<HospitalPatientAppointmentPurposeModel>();
             return hospitalPatientAppointmentPurposeModel;
         }
@@ -85,7 +85,7 @@ namespace Coditech.API.Service
             if (hospitalPatientAppointmentPurposeModel.HospitalPatientAppointmentPurposeId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalPatientAppointmentPurposeID"));
 
-            PatientAppointmentPurpose hospitalPatientAppointmentPurpose = hospitalPatientAppointmentPurposeModel.FromModelToEntity<PatientAppointmentPurpose>();
+            HospitalPatientAppointmentPurpose hospitalPatientAppointmentPurpose = hospitalPatientAppointmentPurposeModel.FromModelToEntity<HospitalPatientAppointmentPurpose>();
 
             //Update HospitalPatientAppointmentPurpose
             bool isHospitalPatientAppointmentPurposeUpdated = _hospitalPatientAppointmentPurposeRepository.Update(hospitalPatientAppointmentPurpose);

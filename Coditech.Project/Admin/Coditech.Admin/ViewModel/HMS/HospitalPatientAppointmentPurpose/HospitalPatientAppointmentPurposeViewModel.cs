@@ -1,5 +1,4 @@
 ﻿using Coditech.Common.Helper;
-using Coditech.Resources;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -9,8 +8,8 @@ namespace Coditech.Admin.ViewModel
     {
         public short HospitalPatientAppointmentPurposeId { get; set; }
         [Required]
-        [Display(Name = "Hospital Patient Appointment Purpose")]
-        public string HospitalPatientAppointmentPurpose { get; set; }
+        [Display(Name = "Appointment Purpose")]
+        public string AppointmentPurpose { get; set; }
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
