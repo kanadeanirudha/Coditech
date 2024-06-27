@@ -5,7 +5,7 @@ namespace Coditech.API.Service
     public interface IGymUserService
     {
         GymUserModel Login(UserLoginModel model);
-        ChangePasswordModel ChangePassword(ChangePasswordModel model);
         GymUserModel UpdateAdditionalInformation(GymUserModel gymUserModel);
+        GymUserModel GetGymMemberDetails(long entityId);
     }
 }

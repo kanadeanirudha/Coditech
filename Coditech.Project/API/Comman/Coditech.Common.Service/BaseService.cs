@@ -163,9 +163,9 @@ namespace Coditech.Common.Service
                 registrationCode = registrationCode.Replace("<separator>", generalRunningNumbers.Separator);
                 registrationCode = registrationCode.Replace("<prefix>", generalRunningNumbers.Prefix);
                 registrationCode = registrationCode.Replace("<yyyy>", dateTime.Year.ToString());
-                registrationCode = registrationCode.Replace("<yy>", dateTime.Year.ToString());
+                registrationCode = registrationCode.Replace("<yy>", dateTime.Year.ToString().Substring(2));
                 registrationCode = registrationCode.Replace("<mm>", dateTime.Month.ToString());
-                registrationCode = registrationCode.Replace("<dd>", dateTime.Date.ToString());
+                registrationCode = registrationCode.Replace("<dd>", dateTime.Day.ToString());
                 registrationCode = registrationCode.Replace("<hh>", dateTime.Hour.ToString());
                 registrationCode = registrationCode.Replace("<min>", dateTime.Minute.ToString());
                 registrationCode = registrationCode.Replace("<sec>", dateTime.Second.ToString());
@@ -319,6 +319,21 @@ namespace Coditech.Common.Service
         {
             Regex rgx = new Regex(key, RegexOptions.IgnoreCase);
             return rgx.Replace(resourceText, string.IsNullOrEmpty(replaceValue) ? string.Empty : replaceValue);
+        }
+
+        //Get Image Path
+        protected virtual string GetImagePath(long mediaId)
+        {
+            string imagePath = string.Empty;
+            if (mediaId > 0)
+            {
+                MediaDetail mediaDetail = new CoditechRepository<MediaDetail>().Table.Where(x => x.MediaId == mediaId)?.FirstOrDefault();
+                if (mediaDetail != null)
+                {
+                    imagePath = $"{GetMediaUrl}{mediaDetail.Path}";
+                }
+            }
+            return imagePath;
         }
     }
 }
