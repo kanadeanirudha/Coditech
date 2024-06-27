@@ -31,6 +31,9 @@
                 }
             });
         }
+        else {
+            $("#HospitalDoctorId").html("");
+        }
     },
 }
 
