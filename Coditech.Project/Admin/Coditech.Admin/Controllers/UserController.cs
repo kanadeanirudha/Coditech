@@ -96,7 +96,6 @@ namespace Coditech.Admin.Controllers
         }
 
         //Logs off the user from the site.
-        [AllowAnonymous]
         [HttpGet]
         public virtual ActionResult Logout()
         {
@@ -143,9 +142,47 @@ namespace Coditech.Admin.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public virtual ActionResult ResetPassword()
+        public virtual ActionResult ResetPassword(string passwordToken)
         {
-            return View(new ResetPasswordViewModel());
+            ResetPasswordViewModel pesetPasswordViewModel = new ResetPasswordViewModel()
+            {
+                PasswordToken = passwordToken
+            };
+            return View(pesetPasswordViewModel);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public virtual ActionResult ResetPasswordSendLink(ResetPasswordViewModel model)
+        {
+            ModelState.Remove("NewPassword");
+            ModelState.Remove("ConfirmPassword");
+            if (ModelState.IsValid)
+            {
+                //UserLoginViewModel loginviewModel = _userAgent.ResetPasswordSendLink(model.UserNAme);
+                //if (HelperUretility.IsNotNull(loginviewModel))
+                //{
+                //    if (!loginviewModel.HasError)
+                //    {
+                //        _authenticationHelper.SetAuthCookie(model.UserName, model.RememberMe);
+
+                //        if (model.RememberMe)
+                //            SaveLoginRememberMeCookie(model.UserName);
+
+                //        return RedirectToLocal(returnUrl);
+                //    }
+                //    else
+                //    {
+                //        ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
+                //    }
+                //    ModelState.AddModelError("ErrorMessage", loginviewModel.ErrorMessage);
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
+                //}
+            }
+            return View("~/views/user/ResetPassword.cshtml", model);
         }
 
         [HttpPost]
@@ -153,6 +190,7 @@ namespace Coditech.Admin.Controllers
         [AllowAnonymous]
         public virtual ActionResult ResetPassword(ResetPasswordViewModel model)
         {
+            ModelState.Remove("UserName");
             if (ModelState.IsValid)
             {
                 //UserLoginViewModel loginviewModel = _userAgent.Login(model);
