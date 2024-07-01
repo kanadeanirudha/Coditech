@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>D:\Publish\Gym\2024-06-24\MediaManager</_PublishTargetUrl>
-    <History>True|2024-06-24T17:52:11.8113913Z;True|2024-06-24T17:35:12.6900714+05:30;</History>
+    <_PublishTargetUrl>D:\Publish\Gym\2024-07-01\MediaManager</_PublishTargetUrl>
+    <History>True|2024-07-01T16:01:20.5996301Z;True|2024-07-01T21:31:03.2989848+05:30;True|2024-07-01T21:29:14.6849283+05:30;True|2024-06-24T23:22:11.8113913+05:30;True|2024-06-24T17:35:12.6900714+05:30;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
