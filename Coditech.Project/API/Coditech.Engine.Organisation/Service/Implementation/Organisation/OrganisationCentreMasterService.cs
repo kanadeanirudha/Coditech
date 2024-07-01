@@ -94,7 +94,7 @@ namespace Coditech.API.Service
             //Get the  Organisation Details based on id.
             OrganisationCentreMaster organisationData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.OrganisationCentreMasterId == organisationCentreId);
             OrganisationCentreModel organisationCentreModel = organisationData.FromEntityToModel<OrganisationCentreModel>();
-            return organisationCentreModel;
+            return IsNotNull(organisationData) ? organisationCentreModel:new OrganisationCentreModel();
         }
 
         //Update  Organisation Centre.
@@ -295,6 +295,9 @@ namespace Coditech.API.Service
             if (IsNull(organisationCentrewiseSmsSettingModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
+            if (organisationCentrewiseSmsSettingModel.OrganisationCentreMasterId == 0)
+                throw new CoditechException(ErrorCodes.InvalidData, "OrganisationCentreId cannot be zero");
+
             bool isOrganisationCentrewiseSmsSettingUpdated = false;
             OrganisationCentrewiseSmsSetting organisationCentrewiseSmsSetting = organisationCentrewiseSmsSettingModel.FromModelToEntity<OrganisationCentrewiseSmsSetting>();
 
@@ -304,8 +307,9 @@ namespace Coditech.API.Service
             {
                 organisationCentrewiseSmsSetting = _organisationCentrewiseSmsSettingRepository.Insert(organisationCentrewiseSmsSetting);
                 isOrganisationCentrewiseSmsSettingUpdated = organisationCentrewiseSmsSetting.OrganisationCentrewiseSmsSettingId > 0;
+                organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId = organisationCentrewiseSmsSetting.OrganisationCentrewiseSmsSettingId;
             }
-
+            
             if (!isOrganisationCentrewiseSmsSettingUpdated)
             {
                 organisationCentrewiseSmsSettingModel.HasError = true;

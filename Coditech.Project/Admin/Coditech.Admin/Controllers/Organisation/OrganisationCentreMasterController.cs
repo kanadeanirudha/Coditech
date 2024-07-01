@@ -166,9 +166,9 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseSMSSetting
         [HttpGet]
-        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId = 0)
+        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId,byte generalSmsProviderId=0)
         {
-            OrganisationCentrewiseSmsSettingViewModel organisationCentrewiseSmsSettingViewModel = _organisationCentreAgent.GetCentrewiseSmsSetup(organisationCentreId);
+            OrganisationCentrewiseSmsSettingViewModel organisationCentrewiseSmsSettingViewModel = _organisationCentreAgent.GetCentrewiseSmsSetup(organisationCentreId, generalSmsProviderId);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseSmsSetting.cshtml", organisationCentrewiseSmsSettingViewModel);
@@ -184,7 +184,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmsSetup(organisationCentrewiseSmsSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId });
+                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId , generalSmsProviderId = organisationCentrewiseSmsSettingViewModel .GeneralSmsProviderId});
             }
             return View(OrganisationCentrewiseSmsSetting, organisationCentrewiseSmsSettingViewModel);
         }

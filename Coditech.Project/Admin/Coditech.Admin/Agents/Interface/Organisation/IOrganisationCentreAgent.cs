@@ -85,7 +85,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseSmsSettingViewModel.</returns>
-        OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId);
+        OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId,byte generalSmsProviderId);
 
         /// <summary>
         /// Update Organisation Centrewise Sms Setting.

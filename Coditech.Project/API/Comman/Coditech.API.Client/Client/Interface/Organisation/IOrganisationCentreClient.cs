@@ -89,7 +89,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseSmsSettingResponse.</returns>
-        OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId);
+        OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId);
 
         /// <summary>
         /// Update OrganisationCentrewiseSmsSetting.

@@ -214,9 +214,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise Sms Setting by organisationCentreId.
-        public virtual OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId,byte generalSmsProviderId)
         {
-            OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.GetCentrewiseSmsSetup(organisationCentreId);
+            OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.GetCentrewiseSmsSetup(organisationCentreId, generalSmsProviderId);
             return response?.OrganisationCentrewiseSmsSettingModel.ToViewModel<OrganisationCentrewiseSmsSettingViewModel>();
         }
 
@@ -229,7 +229,12 @@ namespace Coditech.Admin.Agents
                 OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.UpdateCentrewiseSmsSetup(organisationCentrewiseSmsSettingViewModel.ToModel<OrganisationCentrewiseSmsSettingModel>());
                 OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = response?.OrganisationCentrewiseSmsSettingModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CentrewiseSms.ToString(), TraceLevel.Info);
+                if (organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId>0)
+                {
+                    organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId = organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId;
+                }
                 return IsNotNull(organisationCentrewiseSmsSettingModel) ? organisationCentrewiseSmsSettingModel.ToViewModel<OrganisationCentrewiseSmsSettingViewModel>() : (OrganisationCentrewiseSmsSettingViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseSmsSettingViewModel(), GeneralResources.UpdateErrorMessage);
+
             }
             catch (Exception ex)
             {

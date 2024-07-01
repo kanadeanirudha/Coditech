@@ -33,7 +33,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.CentreName, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(x => x.CentreName)
                                     </div>
                                 </div>

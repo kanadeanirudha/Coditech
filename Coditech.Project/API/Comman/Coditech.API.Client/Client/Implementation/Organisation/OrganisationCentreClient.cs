@@ -564,16 +564,16 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseSmsSetup
-        public virtual OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId)
         {
-            return Task.Run(async () => await GetCentrewiseSmsSetupAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetCentrewiseSmsSetupAsync(organisationCentreId, generalSmsProviderId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<OrganisationCentrewiseSmsSettingResponse> GetCentrewiseSmsSetupAsync(short organisationCentreId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseSmsSettingResponse> GetCentrewiseSmsSetupAsync(short organisationCentreId, byte generalSmsProviderId, System.Threading.CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
 
-            string endpoint = organisationCentreEndpoint.GetCentrewiseSmsSetupAsync(organisationCentreId);
+            string endpoint = organisationCentreEndpoint.GetCentrewiseSmsSetupAsync(organisationCentreId, generalSmsProviderId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
