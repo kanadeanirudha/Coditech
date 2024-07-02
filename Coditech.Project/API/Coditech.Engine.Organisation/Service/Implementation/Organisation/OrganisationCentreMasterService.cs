@@ -94,7 +94,7 @@ namespace Coditech.API.Service
             //Get the  Organisation Details based on id.
             OrganisationCentreMaster organisationData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.OrganisationCentreMasterId == organisationCentreId);
             OrganisationCentreModel organisationCentreModel = organisationData.FromEntityToModel<OrganisationCentreModel>();
-            return IsNotNull(organisationData) ? organisationCentreModel:new OrganisationCentreModel();
+            return IsNotNull(organisationData) ? organisationCentreModel : new OrganisationCentreModel();
         }
 
         //Update  Organisation Centre.
@@ -309,7 +309,7 @@ namespace Coditech.API.Service
                 isOrganisationCentrewiseSmsSettingUpdated = organisationCentrewiseSmsSetting.OrganisationCentrewiseSmsSettingId > 0;
                 organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId = organisationCentrewiseSmsSetting.OrganisationCentrewiseSmsSettingId;
             }
-            
+
             if (!isOrganisationCentrewiseSmsSettingUpdated)
             {
                 organisationCentrewiseSmsSettingModel.HasError = true;
