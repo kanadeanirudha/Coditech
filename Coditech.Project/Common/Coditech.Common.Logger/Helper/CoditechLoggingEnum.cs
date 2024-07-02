@@ -83,7 +83,7 @@
             HospitalPatientType,
             CentrewiseSms,
             CoditechApplicationSetting,
-            WhatsUpService,
+            WhatsAppService,
         }
     }
 }

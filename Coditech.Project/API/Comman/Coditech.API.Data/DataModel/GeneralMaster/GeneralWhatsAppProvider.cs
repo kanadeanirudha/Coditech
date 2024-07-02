@@ -1,8 +1,8 @@
 ﻿namespace Coditech.API.Data
 {
-    public partial class GeneralWhatsUpProvider
+    public partial class GeneralWhatsAppProvider
     {
-        public byte GeneralWhatsUpProviderId { get; set; }
+        public byte GeneralWhatsAppProviderId { get; set; }
         public string ProviderName { get; set; }
         public string ProviderCode { get; set; }
         public bool IsActive { get; set; }

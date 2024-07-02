@@ -29,6 +29,6 @@ namespace Coditech.Model
 
         public string CentreName { get; set; }
         public bool IsSmsTemplate { get; set; }
-        public bool IsWhatsUpTemplate { get; set; }
+        public bool IsWhatsAppTemplate { get; set; }
     }
 }
