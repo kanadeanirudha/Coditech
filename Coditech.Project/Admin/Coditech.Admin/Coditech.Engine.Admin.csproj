@@ -51,8 +51,4 @@
 		<Folder Include="wwwroot\js\login\" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Include="wwwroot\js\coditech\inventory\InventoryStorageDimensionGroup.js" />
-	</ItemGroup>
-
 </Project>
