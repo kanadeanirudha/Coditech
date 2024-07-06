@@ -95,6 +95,20 @@ namespace Coditech.Admin.Agents
         OrganisationCentrewiseSmsSettingViewModel UpdateCentrewiseSmsSetup(OrganisationCentrewiseSmsSettingViewModel organisationCentrewiseSmsSettingViewModel);
 
         /// <summary>
+        /// Get Organisation Centrewise WhatsApp Setting by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseWhatsAppSettingViewModel.</returns>
+        OrganisationCentrewiseWhatsAppSettingViewModel GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId);
+
+        /// <summary>
+        /// Update Organisation Centrewise WhatsApp Setting.
+        /// </summary>
+        /// <param name="organisationCentrewiseWhatsAppSettingViewModel">organisationCentrewiseWhatsAppSettingViewModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseWhatsAppSettingViewModel</returns>
+        OrganisationCentrewiseWhatsAppSettingViewModel UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingViewModel organisationCentrewiseWhatsAppSettingViewModel);
+
+        /// <summary>
         /// Get Organisation Centrewise Email Template by organisationCentreId.
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>

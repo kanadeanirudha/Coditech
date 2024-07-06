@@ -314,6 +314,50 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [Route("/OrganisationCentreMaster/GetCentrewiseWhatsAppSetup")]
+        [HttpGet]
+        [Produces(typeof(OrganisationCentrewiseWhatsAppSettingResponse))]
+        public virtual IActionResult GetCentrewiseWhatsAppSetup(short organisationCentreMasterId, byte generalWhatsAppProviderId)
+        {
+            try
+            {
+                OrganisationCentrewiseWhatsAppSettingModel organisationCentrewiseWhatsAppSettingModel = _organisationCentreMasterService.GetCentrewiseWhatsAppSetup(organisationCentreMasterId, generalWhatsAppProviderId);
+                return IsNotNull(organisationCentrewiseWhatsAppSettingModel) ? CreateOKResponse(new OrganisationCentrewiseWhatsAppSettingResponse() { OrganisationCentrewiseWhatsAppSettingModel = organisationCentrewiseWhatsAppSettingModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseWhatsAppSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseWhatsAppSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/UpdateCentrewiseWhatsAppSetup")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseWhatsAppSettingResponse))]
+        public virtual IActionResult UpdateCentrewiseWhatsAppSetup([FromBody] OrganisationCentrewiseWhatsAppSettingModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdateCentrewiseWhatsAppSetup(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseWhatsAppSettingResponse { OrganisationCentrewiseWhatsAppSettingModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseWhatsAppSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseWhatsAppSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
 
         [Route("/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup")]
         [HttpGet]

@@ -665,6 +665,108 @@ namespace Coditech.API.Client
         }
         #endregion
 
+        #region CentrewiseWhatsAppSetup
+        public virtual OrganisationCentrewiseWhatsAppSettingResponse GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId)
+        {
+            return Task.Run(async () => await GetCentrewiseWhatsAppSetupAsync(organisationCentreId, generalWhatsAppProviderId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<OrganisationCentrewiseWhatsAppSettingResponse> GetCentrewiseWhatsAppSetupAsync(short organisationCentreId, byte generalWhatsAppProviderId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (organisationCentreId <= 0)
+                throw new System.ArgumentNullException("organisationCentreId");
+
+            string endpoint = organisationCentreEndpoint.GetCentrewiseWhatsAppSetupAsync(organisationCentreId, generalWhatsAppProviderId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseWhatsAppSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new OrganisationCentrewiseWhatsAppSettingResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseWhatsAppSettingResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseWhatsAppSettingResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual OrganisationCentrewiseWhatsAppSettingResponse UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingModel body)
+        {
+            return Task.Run(async () => await UpdateCentrewiseWhatsAppSetupAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseWhatsAppSettingResponse> UpdateCentrewiseWhatsAppSetupAsync(OrganisationCentrewiseWhatsAppSettingModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentreEndpoint.UpdateCentrewiseWhatsAppSetupAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseWhatsAppSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseWhatsAppSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseWhatsAppSettingResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseWhatsAppSettingResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+#endregion
+
         #region CentrewiseEmailTemplate
         public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
         {

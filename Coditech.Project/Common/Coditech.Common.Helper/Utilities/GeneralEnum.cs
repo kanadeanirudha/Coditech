@@ -61,7 +61,8 @@
         InventoryUomMaster,
         ReportType,
         SMSProvider,
-        HospitalPatientType
+        HospitalPatientType,
+        WhatsAppProvider
     }
 
     public enum GeneralSystemGlobleSettingEnum

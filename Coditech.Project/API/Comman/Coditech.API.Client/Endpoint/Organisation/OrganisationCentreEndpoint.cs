@@ -46,6 +46,12 @@ namespace Coditech.API.Endpoint
         public string UpdateCentrewiseSmsSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseSmsSetup";
 
+        public string GetCentrewiseWhatsAppSetupAsync(short organisationCentreId, byte generalWhatsAppProviderId) =>
+          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseWhatsAppSetup?organisationCentreMasterId={organisationCentreId}&generalWhatsAppProviderId={generalWhatsAppProviderId}";
+
+        public string UpdateCentrewiseWhatsAppSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseWhatsAppSetup";
+
         public string GetCentrewiseEmailTemplateSetupAsync(short organisationCentreId, string emailTemplateCode) =>
           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup?organisationCentreMasterId={organisationCentreId}&emailTemplateCode={emailTemplateCode}";
 
