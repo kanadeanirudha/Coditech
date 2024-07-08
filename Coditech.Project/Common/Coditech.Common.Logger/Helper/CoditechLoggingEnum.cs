@@ -84,6 +84,8 @@
             CentrewiseSms,
             CoditechApplicationSetting,
             WhatsUpService,
+            ResetPassword,
+            ResetPasswordSendLink
         }
     }
 }

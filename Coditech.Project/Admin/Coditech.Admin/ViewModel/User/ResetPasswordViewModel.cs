@@ -11,7 +11,12 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        public string PasswordToken { get; set; }
+        public string ResetPasswordToken { get; set; }
+
+        [MaxLength(10)]
+        [Required]
+        [Display(Name = "OTP")]
+        public string OTP { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -23,6 +28,8 @@ namespace Coditech.Admin.ViewModel
         [Compare("NewPassword")]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
+
+        public bool RememberMe { get; set; }
 
     }
 }

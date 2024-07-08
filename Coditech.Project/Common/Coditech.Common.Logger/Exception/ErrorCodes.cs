@@ -21,6 +21,7 @@
         public const Int32 IdLessThanOne = 8;
         public const Int32 ExceptionalError = 9;
         public const Int32 ContactAdministrator = 10;
+        public const Int32 InValidOTP = 11;
 
         public const Int32 InvalidFileName = 1000;
         public const Int32 InvalidFileExtension = 1001;

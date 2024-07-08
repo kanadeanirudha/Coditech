@@ -30,6 +30,7 @@ namespace Coditech.API.Controllers
         /// </summary>
         /// <param name="model">User Model.</param>
         /// <returns>UserModel</returns>
+        
         [Route("/User/Login")]
         [HttpPost, ValidateModel]
         [Produces(typeof(UserModel))]
@@ -58,6 +59,63 @@ namespace Coditech.API.Controllers
             }
 
         }
+
+        #region
+        [Route("/User/ResetPassword")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(ResetPasswordResponse))]
+        public virtual IActionResult ResetPassword([FromBody] string resetPasswordToken, string newPassword)
+        {
+
+            try
+            {
+                ResetPasswordModel resetPassword = _userService.ResetPassword(resetPasswordToken, newPassword);
+                return IsNotNull(resetPassword) ? CreateCreatedResponse(new ResetPasswordResponse { ResetPasswordModel = resetPassword }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechUnauthorizedException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPassword.ToString(), TraceLevel.Warning);
+                return CreateUnauthorizedResponse(new ResetPasswordResponse { HasError = true, ErrorCode = ex.ErrorCode });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPassword.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new ResetPasswordResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPassword.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new ResetPasswordResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("/User/ResetPasswordSendLink")]
+        [Produces(typeof(ResetPasswordSendLinkResponse))]
+        public virtual IActionResult ResetPasswordSendLink(string userName)
+        {
+            try
+            {
+                ResetPasswordSendLinkModel resetPasswordSendLink = _userService.ResetPasswordSendLink(userName);
+                return IsNotNull(resetPasswordSendLink) ? CreateCreatedResponse(new ResetPasswordSendLinkResponse { ResetPasswordSendLinkModel = resetPasswordSendLink }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechUnauthorizedException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPasswordSendLink.ToString(), TraceLevel.Warning);
+                return CreateUnauthorizedResponse(new ResetPasswordSendLinkResponse { HasError = true, ErrorCode = ex.ErrorCode });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPasswordSendLink.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new ResetPasswordSendLinkResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPasswordSendLink.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new ResetPasswordSendLinkResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        #endregion
 
         [Route("/User/ChangePassword")]
         [HttpPost, ValidateModel]

@@ -137,6 +137,60 @@ namespace Coditech.Admin.Agents
                 return (GeneralPersonAddressViewModel)GetViewModelWithErrorMessage(generalPersonAddressViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+
+        #region ResetPassword
+        // This method is used to reset password the user
+        public virtual ResetPasswordSendLinkViewModel ResetPasswordSendLink(string userName)
+        {
+            ResetPasswordSendLinkViewModel resetPasswordSendLinkViewModel = new ResetPasswordSendLinkViewModel();
+            try
+            {
+                ResetPasswordSendLinkResponse resetPasswordSendLinkResponse = _userClient.ResetPasswordSendLink(userName);
+                if (resetPasswordSendLinkResponse != null && !resetPasswordSendLinkResponse.HasError)
+                {
+                    return resetPasswordSendLinkViewModel;
+                }
+                else
+                {
+                    return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+                }
+            }
+            catch (CoditechException ex)
+            {
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.NotFound:
+                        return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, "Please make sure that the UserName you entered is correct.");
+                     default:
+                        return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, $"Access Denied. {GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPassword.ToString(), TraceLevel.Error);
+                return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+            }
+        }
+
+        public virtual ResetPasswordViewModel ResetPassword(ResetPasswordViewModel model)
+        {
+            try
+            {
+                ResetPasswordResponse resetPasswordResponse = _userClient.ResetPassword(model.ToModel<ResetPasswordModel>());
+                return model;
+            }
+            catch (CoditechException ex)
+            {
+                return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, ex.ErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPassword.ToString(), TraceLevel.Error);
+                return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+            }
+        }
+        #endregion
+
         #endregion
     }
 }

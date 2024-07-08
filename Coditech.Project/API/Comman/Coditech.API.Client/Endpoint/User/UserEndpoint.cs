@@ -27,5 +27,16 @@ namespace Coditech.API.Endpoint
 
         public string ChangePasswordAsync() =>
             $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/ChangePassword";
+
+        public string ResetPasswordAsync() =>
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/ResetPassword";
+
+        public string GetUserNameByPasswordTokenAsync(string passwordToken) =>
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/GetUserNameByPasswordToken?passwordToken={passwordToken}";
+        public string ResetPasswordSendLinkAsync(string userName) =>
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/ResetPasswordSendLink?userName={userName}";
     }
 }
+       
+        
+      

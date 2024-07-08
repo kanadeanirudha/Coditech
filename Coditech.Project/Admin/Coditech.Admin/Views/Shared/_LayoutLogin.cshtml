@@ -1,5 +1,6 @@
 ﻿@using Coditech.Admin.Utilities;
 @{
+    string messageData = Convert.ToString(TempData["Notifications"]);
     string applicationLogoPath = CoditechAdminSettings.ApplicationLogoPath;
     string applicationLayoutBackground = CoditechAdminSettings.ApplicationLayoutBackground;
     string applicationTitle = CoditechAdminSettings.ApplicationTitle;
@@ -22,7 +23,7 @@
     <link href="~/css/login/app.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/layout/site.css" rel="stylesheet" />
 </head>
-<body data-layout="horizontal" class="account-body accountbg"  data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="" style="background: url(@applicationLayoutBackground)">
+<body data-layout="horizontal" class="account-body accountbg" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="" style="background: url(@applicationLayoutBackground)">
     <!-- Log In page -->
     <div class="container login-page-wrapper">
         <div class="row vh-100 d-flex justify-content-center">
@@ -40,7 +41,12 @@
                                 </div>
                             </div>
                             <!-- Page Content-->
-                            @RenderBody()
+                            <div class="page-wrapper">
+                                @Html.Partial("~/Views/Shared/_NotificationMessage.cshtml", @messageData)
+                                <!-- Page Content-->
+                                @RenderBody()
+                                <!-- end page content -->
+                            </div>
                             <!-- end page content -->
                             <div class="card-body bg-light-alt text-center auth-footer">
                                 <span class="text-muted d-none d-sm-inline-block">

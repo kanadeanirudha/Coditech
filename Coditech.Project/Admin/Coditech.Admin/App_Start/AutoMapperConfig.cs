@@ -166,6 +166,8 @@ namespace Coditech.Admin
 
             #region Password
             CreateMap<ChangePasswordModel, ChangePasswordViewModel>().ReverseMap();
+            CreateMap<ResetPasswordModel, ResetPasswordViewModel>().ReverseMap();
+            CreateMap<ResetPasswordSendLinkModel, ResetPasswordViewModel>().ReverseMap();
             #endregion
 
             #region Dashboard

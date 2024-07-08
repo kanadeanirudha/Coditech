@@ -1,7 +1,9 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
@@ -112,6 +114,61 @@ namespace Coditech.API.Service
             userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();
             return userModel;
         }
+
+
+        #region ResetPassowrd
+        public virtual ResetPasswordModel ResetPassword(string resetPasswordToken, string newPassword)
+        {
+            if (IsNull(resetPasswordToken))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == resetPasswordToken);
+
+            if (IsNull(userMasterData))
+                throw new CoditechException(ErrorCodes.NotFound, "User not found");
+
+            if (!userMasterData.IsActive)
+                throw new CoditechException(ErrorCodes.ContactAdministrator, "User is not active");
+
+            userMasterData.Password = MD5Hash(newPassword);
+            userMasterData.ResetPasswordToken = null;
+            _userMasterRepository.Update(userMasterData);
+
+            return new ResetPasswordModel { UserName = userMasterData.UserName };
+        }
+
+        private string GenerateOTP(byte length = 6)
+        {
+            Random generator = new Random();
+            String r = generator.Next(0, 1000000).ToString($"D{length}");
+            return r;
+        }
+
+
+        //ResetPasswordSendLink
+        public virtual ResetPasswordSendLinkModel ResetPasswordSendLink(string userName)
+        {
+            if (IsNull(userName))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userName);
+
+            if (IsNull(userMasterData))
+                throw new CoditechException(ErrorCodes.NotFound, "User not found");
+
+            if (!userMasterData.IsActive)
+                throw new CoditechException(ErrorCodes.ContactAdministrator, "User is not active");
+
+            string resetPassToken = HelperUtility.GenerateOTP();
+            userMasterData.ResetPasswordToken = resetPassToken;
+            _userMasterRepository.Update(userMasterData);
+            resetPassToken = HelperUtility.EncodeBase64($"{userMasterData.UserName}|{resetPassToken}");
+            string url = $"/User/ResetPassword?token={resetPassToken}";
+            //  SendResetPasswordEmail(userMasterData.Email, url); 
+
+            return new ResetPasswordSendLinkModel();
+        }
+        #endregion
 
         //Change Password.
         public virtual ChangePasswordModel ChangePassword(ChangePasswordModel changePasswordModel)
