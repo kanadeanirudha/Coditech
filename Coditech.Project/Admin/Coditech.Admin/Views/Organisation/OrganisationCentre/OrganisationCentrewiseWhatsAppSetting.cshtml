@@ -58,7 +58,12 @@
                                         @Html.ValidationMessageFor(x => x.GeneralWhatsAppProviderId)
                                     </div>
                                 </div>
-                                <div id="whatsAppProviderDivId" class="row"> </div>
+                                <div id="whatsAppProviderDivId" class="row">
+                                    @if (Model.GeneralWhatsAppProviderId > 0)
+                                    {
+                                        @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseWhatsAppSetting.cshtml", Model)
+                                    }
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>

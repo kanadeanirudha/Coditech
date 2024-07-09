@@ -908,7 +908,7 @@ namespace Coditech.Admin.Helpers
             dropdownList.Add(new SelectListItem() { Text = "-------Select WhatsApp Provider-------", Value = "" });
             dropdownList.Add(new SelectListItem()
             {
-                Text = "Coditech",
+                Text = "Twilio",
                 Value = "1",
                 Selected = "1" == dropdownViewModel.DropdownSelectedValue
             });
