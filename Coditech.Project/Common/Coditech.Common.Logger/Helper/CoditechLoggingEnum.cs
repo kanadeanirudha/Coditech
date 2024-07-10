@@ -84,7 +84,7 @@
             CentrewiseSms,
             CoditechApplicationSetting,
             ResetPassword,
-            ResetPasswordSendLink
+            ResetPasswordSendLink,
             WhatsAppService,
         }
     }
