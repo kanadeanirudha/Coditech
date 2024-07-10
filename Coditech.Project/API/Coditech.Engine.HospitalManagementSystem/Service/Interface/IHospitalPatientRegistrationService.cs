@@ -7,7 +7,7 @@ namespace Coditech.API.Service
 {
     public interface IHospitalPatientRegistrationService
     {
-        HospitalPatientRegistrationListModel GetPatientRegistrationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        HospitalPatientRegistrationListModel GetPatientRegistrationList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         HospitalPatientRegistrationModel GetPatientRegistrationOtherDetail(long hospitalPatientRegistrationId);
         bool DeletePatientRegistration(ParameterModel parameterModel);
     }

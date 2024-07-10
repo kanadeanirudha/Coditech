@@ -2,7 +2,6 @@
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
-using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
@@ -29,11 +28,11 @@ namespace Coditech.API.Controllers
         [Route("/HospitalPatientRegistration/GetPatientRegistrationList")]
         [Produces(typeof(HospitalPatientRegistrationListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetPatientRegistrationList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetPatientRegistrationList(string selectedCentreCode, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                HospitalPatientRegistrationListModel list = _hospitalPatientRegistrationService.GetPatientRegistrationList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                HospitalPatientRegistrationListModel list = _hospitalPatientRegistrationService.GetPatientRegistrationList(selectedCentreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalPatientRegistrationListResponse>(data) : CreateNoContentResponse();
             }

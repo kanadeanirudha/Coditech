@@ -63,7 +63,9 @@
         SMSProvider,
         HospitalPatientType,
         HospitalDoctorsListBySpecialization,
-        HospitalPatientAppointmentPurpose
+        HospitalPatientAppointmentPurpose,
+        CentrewiseHospitalPatientsList,
+        TimeSlotByDoctorsListAndAppointmentDate
     }
 
     public enum GeneralSystemGlobleSettingEnum

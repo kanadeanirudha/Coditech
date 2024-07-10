@@ -84,7 +84,8 @@
             CentrewiseSms,
             CoditechApplicationSetting,
             WhatsUpService,
-            HospitalPatientAppointment
+            HospitalPatientAppointment,
+            TimeSlot
         }
     }
 }

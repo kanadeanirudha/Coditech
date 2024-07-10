@@ -12,7 +12,7 @@ namespace Coditech.API.Service
         HospitalPatientAppointmentModel GetHospitalPatientAppointment(long hospitalPatientAppointmentId);
         bool UpdateHospitalPatientAppointment(HospitalPatientAppointmentModel model);
         bool DeleteHospitalPatientAppointment(ParameterModel parameterModel);
-        // HospitalPatientAppointmentListModel GetHospitalDoctorsListByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId);
         HospitalDoctorsListModel GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId);
+        HospitalPatientTimeSlotListModel GetTimeSlotByDoctorsAndAppointmentDate(int hospitalDoctorId, DateTime appointmentDate);
     }
 }
