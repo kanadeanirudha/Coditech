@@ -335,5 +335,10 @@ namespace Coditech.Common.Service
             }
             return imagePath;
         }
+
+        protected virtual List<CoditechApplicationSetting> CoditechApplicationSetting()
+        {
+            return new CoditechRepository<CoditechApplicationSetting>(_serviceProvider.GetService<Coditech_Entities>())?.Table?.ToList();
+        }
     }
 }

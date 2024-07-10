@@ -72,5 +72,12 @@ namespace Coditech.Common.API
                 return Convert.ToString(settings["CoditechCommaReplacer"]);
             }
         }
+        public static string ResetPasswordExpriedTimeInMinute
+        {
+            get
+            {
+                return Convert.ToString(settings["ResetPasswordExpriedTimeInMinute"]);
+            }
+        }
     }
 }

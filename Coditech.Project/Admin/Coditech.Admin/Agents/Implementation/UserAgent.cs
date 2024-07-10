@@ -161,8 +161,10 @@ namespace Coditech.Admin.Agents
                 {
                     case ErrorCodes.NotFound:
                         return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, "Please make sure that the UserName you entered is correct.");
-                     default:
+                    case ErrorCodes.ContactAdministrator:
                         return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, $"Access Denied. {GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
+                    default:
+                        return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, $"{GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
                 }
             }
             catch (Exception ex)
@@ -181,7 +183,17 @@ namespace Coditech.Admin.Agents
             }
             catch (CoditechException ex)
             {
-                return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, ex.ErrorMessage);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.NotFound:
+                        return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, "Please make sure that the UserName you entered is correct.");
+                    case ErrorCodes.InValidOTP:
+                        return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, $"Invalid OTP. Please try again.");
+                    case ErrorCodes.ExpiredOTP:
+                        return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, $"OTP expired. Please reset password again.");
+                    default:
+                        return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, $"{GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
+                }
             }
             catch (Exception ex)
             {

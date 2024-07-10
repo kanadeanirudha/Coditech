@@ -66,10 +66,9 @@ namespace Coditech.API.Controllers
         [Produces(typeof(ResetPasswordResponse))]
         public virtual IActionResult ResetPassword([FromBody] ResetPasswordModel resetPasswordModel)
         {
-
             try
             {
-                ResetPasswordModel resetPassword = _userService.ResetPassword(resetPasswordModel.ResetPasswordToken, resetPasswordModel.NewPassword);
+                ResetPasswordModel resetPassword = _userService.ResetPassword(resetPasswordModel);
                 return IsNotNull(resetPassword) ? CreateCreatedResponse(new ResetPasswordResponse { ResetPasswordModel = resetPassword }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechUnauthorizedException ex)

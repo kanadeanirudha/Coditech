@@ -142,7 +142,8 @@
     {
         EmployeeRegistration,
         CustomerRegistration,
-        GymMemberRegistration
+        GymMemberRegistration,
+        ResetPasswordLink
     }
     public enum UserNameRegistrationTypeEnum
     {

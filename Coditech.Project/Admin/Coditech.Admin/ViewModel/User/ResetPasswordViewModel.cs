@@ -18,11 +18,15 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "OTP")]
         public string OTP { get; set; }
 
+        [MaxLength(100)]
+        [MinLength(8)]
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "New Password")]
         public string NewPassword { get; set; }
 
+        [MaxLength(100)]
+        [MinLength(8)]
         [Required(ErrorMessage = "Confirm Password Is Required")]
         [DataType(DataType.Password)]
         [Compare("NewPassword")]

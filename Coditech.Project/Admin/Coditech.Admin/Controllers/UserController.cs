@@ -9,6 +9,7 @@ using Coditech.Resources;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 using System.Web;
 
@@ -162,12 +163,12 @@ namespace Coditech.Admin.Controllers
                 ResetPasswordViewModel resetPasswordModel = _userAgent.ResetPassword(model);
                 if (resetPasswordModel != null && !resetPasswordModel.HasError)
                 {
-                    SetNotificationMessage(GetSuccessNotificationMessage("Your password reset link has been sent to your email address/mobile number."));
+                    SetNotificationMessage(GetSuccessNotificationMessage("Your password reset successfully. Please login with new password."));
                     return RedirectToAction("Login");
                 }
                 else
                 {
-                    ModelState.AddModelError("ErrorMessage", "Invalid username or email");
+                    SetNotificationMessage(GetErrorNotificationMessage(resetPasswordModel.ErrorMessage));
                 }
             }
             return View("~/views/user/ResetPassword.cshtml", model);
