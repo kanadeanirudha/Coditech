@@ -64,12 +64,12 @@ namespace Coditech.API.Controllers
         [Route("/User/ResetPassword")]
         [HttpPost, ValidateModel]
         [Produces(typeof(ResetPasswordResponse))]
-        public virtual IActionResult ResetPassword([FromBody] string resetPasswordToken, string newPassword)
+        public virtual IActionResult ResetPassword([FromBody] ResetPasswordModel resetPasswordModel)
         {
 
             try
             {
-                ResetPasswordModel resetPassword = _userService.ResetPassword(resetPasswordToken, newPassword);
+                ResetPasswordModel resetPassword = _userService.ResetPassword(resetPasswordModel.ResetPasswordToken, resetPasswordModel.NewPassword);
                 return IsNotNull(resetPassword) ? CreateCreatedResponse(new ResetPasswordResponse { ResetPasswordModel = resetPassword }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechUnauthorizedException ex)

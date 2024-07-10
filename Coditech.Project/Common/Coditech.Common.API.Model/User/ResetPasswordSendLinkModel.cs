@@ -6,7 +6,5 @@ namespace Coditech.Common.API.Model
     {
         public string UserName { get; set; }
         public object ResetPasswordToken { get; set; }
-
-        // public string ResetPasswordUrl { get; set; }
     }
 }
