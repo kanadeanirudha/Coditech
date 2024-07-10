@@ -82,7 +82,7 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseEmailTemplateModel, OrganisationCentrewiseEmailTemplateViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseUserNameRegistrationModel, OrganisationCentrewiseUserNameRegistrationViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseSmsSettingModel, OrganisationCentrewiseSmsSettingViewModel>().ReverseMap();
-
+            CreateMap<OrganisationCentrewiseWhatsAppSettingModel, OrganisationCentrewiseWhatsAppSettingViewModel>().ReverseMap();
             #endregion
 
             #region Employee            

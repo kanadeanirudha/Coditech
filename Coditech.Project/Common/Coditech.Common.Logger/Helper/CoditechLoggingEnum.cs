@@ -83,9 +83,9 @@
             HospitalPatientType,
             CentrewiseSms,
             CoditechApplicationSetting,
-            WhatsUpService,
             ResetPassword,
             ResetPasswordSendLink
+            WhatsAppService,
         }
     }
 }

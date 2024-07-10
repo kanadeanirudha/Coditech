@@ -1,9 +1,9 @@
-﻿@model OrganisationCentrewiseSmsSettingViewModel
+﻿@model OrganisationCentrewiseWhatsAppSettingViewModel
 @{
-    ViewBag.Title = "Organisation Centrewise SMS Setting";
+    ViewBag.Title = "Organisation Centrewise WhatsApp Setting";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel smsProviderDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.SMSProvider.ToString(), DropdownName = "GeneralSmsProviderId", DropdownSelectedValue = Model.GeneralSmsProviderId.ToString(), ChangeEvent = $"OrganisationCentre.GetSMSSettingByCentreCode('{Model.OrganisationCentreMasterId}')" };
+    DropdownViewModel whatsAppProviderDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.WhatsAppProvider.ToString(), DropdownName = "GeneralWhatsAppProviderId", DropdownSelectedValue = Model.GeneralWhatsAppProviderId.ToString(), ChangeEvent = $"OrganisationCentre.GetWhatsAppSettingByCentreCode('{Model.OrganisationCentreMasterId}')" };
 }
 
 <div class="page-content mt-5">
@@ -20,7 +20,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Organisation Centrewise SMS Setting</h4>
+                                <h4 class="card-title">Organisation Centrewise WhatsApp Setting</h4>
                             </div>
                         </div>
                     </div>
@@ -45,23 +45,23 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.IsSMSSettingEnabled, new { @class = "form-label" })
+                                        @Html.LabelFor(x => x.IsWhatsAppSettingEnabled, new { @class = "form-label" })
                                         <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.IsSMSSettingEnabled, new { @class = "form-check-input" })
+                                            @Html.CheckBoxFor(x => x.IsWhatsAppSettingEnabled, new { @class = "form-check-input" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.GeneralSmsProviderId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", smsProviderDropdown)
-                                        @Html.ValidationMessageFor(x => x.GeneralSmsProviderId)
+                                        @Html.LabelFor(x => x.GeneralWhatsAppProviderId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", whatsAppProviderDropdown)
+                                        @Html.ValidationMessageFor(x => x.GeneralWhatsAppProviderId)
                                     </div>
                                 </div>
-                                <div id="smsProviderDivId" class="row">
-                                    @if (Model.GeneralSmsProviderId > 0)
+                                <div id="whatsAppProviderDivId" class="row">
+                                    @if (Model.GeneralWhatsAppProviderId > 0)
                                     {
-                                        @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseSmsSetting.cshtml", Model)
+                                        @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseWhatsAppSetting.cshtml", Model)
                                     }
                                 </div>
                             </div>

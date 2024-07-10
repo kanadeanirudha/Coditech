@@ -28,6 +28,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseEmailTemplate> _organisationCentrewiseEmailTemplateRepository;
         private readonly ICoditechRepository<GeneralEmailTemplate> _generalEmailTemplateRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseWhatsAppSetting> _organisationCentrewiseWhatsAppSettingRepository;
         public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -40,6 +41,7 @@ namespace Coditech.API.Service
             _organisationCentrewiseEmailTemplateRepository = new CoditechRepository<OrganisationCentrewiseEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
             _generalEmailTemplateRepository = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseWhatsAppSettingRepository = new CoditechRepository<OrganisationCentrewiseWhatsAppSetting>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual OrganisationCentreListModel GetOrganisationCentreList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -94,7 +96,7 @@ namespace Coditech.API.Service
             //Get the  Organisation Details based on id.
             OrganisationCentreMaster organisationData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.OrganisationCentreMasterId == organisationCentreId);
             OrganisationCentreModel organisationCentreModel = organisationData.FromEntityToModel<OrganisationCentreModel>();
-            return organisationCentreModel;
+            return IsNotNull(organisationData) ? organisationCentreModel : new OrganisationCentreModel();
         }
 
         //Update  Organisation Centre.
@@ -295,6 +297,9 @@ namespace Coditech.API.Service
             if (IsNull(organisationCentrewiseSmsSettingModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
+            if (organisationCentrewiseSmsSettingModel.OrganisationCentreMasterId == 0)
+                throw new CoditechException(ErrorCodes.InvalidData, "OrganisationCentreId cannot be zero");
+
             bool isOrganisationCentrewiseSmsSettingUpdated = false;
             OrganisationCentrewiseSmsSetting organisationCentrewiseSmsSetting = organisationCentrewiseSmsSettingModel.FromModelToEntity<OrganisationCentrewiseSmsSetting>();
 
@@ -304,6 +309,7 @@ namespace Coditech.API.Service
             {
                 organisationCentrewiseSmsSetting = _organisationCentrewiseSmsSettingRepository.Insert(organisationCentrewiseSmsSetting);
                 isOrganisationCentrewiseSmsSettingUpdated = organisationCentrewiseSmsSetting.OrganisationCentrewiseSmsSettingId > 0;
+                organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId = organisationCentrewiseSmsSetting.OrganisationCentrewiseSmsSettingId;
             }
 
             if (!isOrganisationCentrewiseSmsSettingUpdated)
@@ -312,6 +318,53 @@ namespace Coditech.API.Service
                 organisationCentrewiseSmsSettingModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
             return isOrganisationCentrewiseSmsSettingUpdated;
+        }
+
+        //Get Organisation Centrewise WhatsApp Setting by organisationCentreMasterId.
+        public virtual OrganisationCentrewiseWhatsAppSettingModel GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId)
+        {
+            if (organisationCentreId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
+            OrganisationCentreModel organisationCentreModel = GetOrganisationCentre(organisationCentreId);
+            //Get the Organisation Details based on id.
+
+            OrganisationCentrewiseWhatsAppSetting organisationCentrewiseWhatsAppSettingData = generalWhatsAppProviderId > 0 ? _organisationCentrewiseWhatsAppSettingRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode && x.GeneralWhatsAppProviderId == generalWhatsAppProviderId) : null;
+            OrganisationCentrewiseWhatsAppSettingModel organisationCentrewiseWhatsAppSettingModel = IsNull(organisationCentrewiseWhatsAppSettingData) ? new OrganisationCentrewiseWhatsAppSettingModel() : organisationCentrewiseWhatsAppSettingData.FromEntityToModel<OrganisationCentrewiseWhatsAppSettingModel>();
+
+            
+            organisationCentrewiseWhatsAppSettingModel.CentreCode = organisationCentreModel.CentreCode;
+            organisationCentrewiseWhatsAppSettingModel.CentreName = organisationCentreModel.CentreName;
+            organisationCentrewiseWhatsAppSettingModel.OrganisationCentreMasterId = organisationCentreId;
+            return organisationCentrewiseWhatsAppSettingModel;
+        }
+
+        //Update  Organisation Centrewise WhatsApp Setting .
+        public virtual bool UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingModel organisationCentrewiseWhatsAppSettingModel)
+        {
+            if (IsNull(organisationCentrewiseWhatsAppSettingModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (organisationCentrewiseWhatsAppSettingModel.OrganisationCentreMasterId == 0)
+                throw new CoditechException(ErrorCodes.InvalidData, "OrganisationCentreId cannot be zero");
+
+            bool isOrganisationCentrewiseWhatsAppSettingUpdated = false;
+            OrganisationCentrewiseWhatsAppSetting organisationCentrewiseWhatsAppSetting = organisationCentrewiseWhatsAppSettingModel.FromModelToEntity<OrganisationCentrewiseWhatsAppSetting>();
+
+            if (organisationCentrewiseWhatsAppSettingModel.OrganisationCentrewiseWhatsAppSettingId > 0)
+                isOrganisationCentrewiseWhatsAppSettingUpdated = _organisationCentrewiseWhatsAppSettingRepository.Update(organisationCentrewiseWhatsAppSetting);
+            else
+            {
+                organisationCentrewiseWhatsAppSetting = _organisationCentrewiseWhatsAppSettingRepository.Insert(organisationCentrewiseWhatsAppSetting);
+                isOrganisationCentrewiseWhatsAppSettingUpdated = organisationCentrewiseWhatsAppSetting.OrganisationCentrewiseWhatsAppSettingId> 0;
+                organisationCentrewiseWhatsAppSettingModel.OrganisationCentrewiseWhatsAppSettingId = organisationCentrewiseWhatsAppSetting.OrganisationCentrewiseWhatsAppSettingId;
+            }
+
+            if (!isOrganisationCentrewiseWhatsAppSettingUpdated)
+            {
+                organisationCentrewiseWhatsAppSettingModel.HasError = true;
+                organisationCentrewiseWhatsAppSettingModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isOrganisationCentrewiseWhatsAppSettingUpdated;
         }
 
 
