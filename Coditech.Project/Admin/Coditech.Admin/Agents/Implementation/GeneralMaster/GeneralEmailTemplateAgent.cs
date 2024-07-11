@@ -32,11 +32,12 @@ namespace Coditech.Admin.Agents
         #region Public Methods
         public virtual GeneralEmailTemplateListViewModel GetEmailTemplateList(DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = null;
+            FilterCollection filters = new FilterCollection();
+            filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "0");
+            filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.Is, "0");
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
                 filters.Add("EmailTemplateName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("EmailTemplateCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
