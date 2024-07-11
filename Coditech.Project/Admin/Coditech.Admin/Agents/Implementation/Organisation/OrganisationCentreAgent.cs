@@ -214,9 +214,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise Sms Setting by organisationCentreId.
-        public virtual OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId,byte generalSmsProviderId)
         {
-            OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.GetCentrewiseSmsSetup(organisationCentreId);
+            OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.GetCentrewiseSmsSetup(organisationCentreId, generalSmsProviderId);
             return response?.OrganisationCentrewiseSmsSettingModel.ToViewModel<OrganisationCentrewiseSmsSettingViewModel>();
         }
 
@@ -229,12 +229,47 @@ namespace Coditech.Admin.Agents
                 OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.UpdateCentrewiseSmsSetup(organisationCentrewiseSmsSettingViewModel.ToModel<OrganisationCentrewiseSmsSettingModel>());
                 OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = response?.OrganisationCentrewiseSmsSettingModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CentrewiseSms.ToString(), TraceLevel.Info);
+                if (organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId>0)
+                {
+                    organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId = organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId;
+                }
                 return IsNotNull(organisationCentrewiseSmsSettingModel) ? organisationCentrewiseSmsSettingModel.ToViewModel<OrganisationCentrewiseSmsSettingViewModel>() : (OrganisationCentrewiseSmsSettingViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseSmsSettingViewModel(), GeneralResources.UpdateErrorMessage);
+
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSms.ToString(), TraceLevel.Error);
                 return (OrganisationCentrewiseSmsSettingViewModel)GetViewModelWithErrorMessage(organisationCentrewiseSmsSettingViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Get Organisation Centrewise WhatsApp Setting by organisationCentreId.
+        public virtual OrganisationCentrewiseWhatsAppSettingViewModel GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId)
+        {
+            OrganisationCentrewiseWhatsAppSettingResponse response = _organisationCentreClient.GetCentrewiseWhatsAppSetup(organisationCentreId, generalWhatsAppProviderId);
+            return response?.OrganisationCentrewiseWhatsAppSettingModel.ToViewModel<OrganisationCentrewiseWhatsAppSettingViewModel>();
+        }
+
+        //Update Organisation Centrewise WhatsApp Setting.
+        public virtual OrganisationCentrewiseWhatsAppSettingViewModel UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingViewModel organisationCentrewiseWhatsAppSettingViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Info);
+                OrganisationCentrewiseWhatsAppSettingResponse response = _organisationCentreClient.UpdateCentrewiseWhatsAppSetup(organisationCentrewiseWhatsAppSettingViewModel.ToModel<OrganisationCentrewiseWhatsAppSettingModel>());
+                OrganisationCentrewiseWhatsAppSettingModel organisationCentrewiseWhatsAppSettingModel = response?.OrganisationCentrewiseWhatsAppSettingModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Info);
+                if (organisationCentrewiseWhatsAppSettingModel.OrganisationCentrewiseWhatsAppSettingId > 0)
+                {
+                    organisationCentrewiseWhatsAppSettingViewModel.OrganisationCentrewiseWhatsAppSettingId = organisationCentrewiseWhatsAppSettingModel.OrganisationCentrewiseWhatsAppSettingId;
+                }
+                return IsNotNull(organisationCentrewiseWhatsAppSettingModel) ? organisationCentrewiseWhatsAppSettingModel.ToViewModel<OrganisationCentrewiseWhatsAppSettingViewModel>() : (OrganisationCentrewiseWhatsAppSettingViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseWhatsAppSettingViewModel(), GeneralResources.UpdateErrorMessage);
+
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Error);
+                return (OrganisationCentrewiseWhatsAppSettingViewModel)GetViewModelWithErrorMessage(organisationCentrewiseWhatsAppSettingViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
 

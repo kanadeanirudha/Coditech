@@ -61,6 +61,7 @@
         InventoryUomMaster,
         ReportType,
         SMSProvider,
+        WhatsAppProvider,
         HospitalPatientType,
         HospitalDoctorsListBySpecialization,
         HospitalPatientAppointmentPurpose
@@ -144,7 +145,8 @@
     {
         EmployeeRegistration,
         CustomerRegistration,
-        GymMemberRegistration
+        GymMemberRegistration,
+        ResetPasswordLink
     }
     public enum UserNameRegistrationTypeEnum
     {

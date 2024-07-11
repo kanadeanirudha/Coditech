@@ -14,5 +14,8 @@ namespace Coditech.API.Service
         GeneralPersonAddressListModel GetGeneralPersonAddresses(long personId);
         GeneralPersonAddressModel InsertUpdateGeneralPersonAddress(GeneralPersonAddressModel model);
         ChangePasswordModel ChangePassword(ChangePasswordModel model);
+        ResetPasswordModel ResetPassword(ResetPasswordModel model);
+        ResetPasswordSendLinkModel ResetPasswordSendLink(string userName);
+       
     }
 }

@@ -50,5 +50,4 @@
 		<Folder Include="wwwroot\css\login\" />
 		<Folder Include="wwwroot\js\login\" />
 	</ItemGroup>
-
 </Project>

@@ -89,7 +89,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseSmsSettingResponse.</returns>
-        OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId);
+        OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId);
 
         /// <summary>
         /// Update OrganisationCentrewiseSmsSetting.
@@ -98,6 +98,19 @@ namespace Coditech.API.Client
         /// <returns>Returns updated OrganisationCentrewiseSmsSettingResponse</returns>
         OrganisationCentrewiseSmsSettingResponse UpdateCentrewiseSmsSetup(OrganisationCentrewiseSmsSettingModel body);
 
+        /// <summary>
+        /// Get OrganisationCentrewiseWhatsAppSetting by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseWhatsAppSettingResponse.</returns>
+        OrganisationCentrewiseWhatsAppSettingResponse GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseWhatsAppSetting.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseWhatsAppSettingModel">OrganisationCentrewiseWhatsAppSettingModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseWhatsAppSettingResponse</returns>
+        OrganisationCentrewiseWhatsAppSettingResponse UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingModel body);
 
         /// <summary>
         /// Get OrganisationCentrewiseEmailTemplate by organisationCentreId.

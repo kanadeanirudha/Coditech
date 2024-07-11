@@ -19,7 +19,7 @@ namespace Coditech.Admin.Controllers
         private const string OrganisationCentrewiseSmsSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSmsSetting.cshtml";
         private const string OrganisationCentrewiseEmailTemplate = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseEmailTemplate.cshtml";
         private const string OrganisationCentrewiseUserNameRegistration = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseUserNameRegistration.cshtml";
-
+        private const string OrganisationCentrewiseWhatsAppSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseWhatsAppSetting.cshtml";
         public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
         {
             _organisationCentreAgent = organisationCentreAgent;
@@ -166,9 +166,9 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseSMSSetting
         [HttpGet]
-        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId = 0)
+        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId,byte generalSmsProviderId=0)
         {
-            OrganisationCentrewiseSmsSettingViewModel organisationCentrewiseSmsSettingViewModel = _organisationCentreAgent.GetCentrewiseSmsSetup(organisationCentreId);
+            OrganisationCentrewiseSmsSettingViewModel organisationCentrewiseSmsSettingViewModel = _organisationCentreAgent.GetCentrewiseSmsSetup(organisationCentreId, generalSmsProviderId);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseSmsSetting.cshtml", organisationCentrewiseSmsSettingViewModel);
@@ -184,9 +184,35 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmsSetup(organisationCentrewiseSmsSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId });
+                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId , generalSmsProviderId = organisationCentrewiseSmsSettingViewModel .GeneralSmsProviderId});
             }
             return View(OrganisationCentrewiseSmsSetting, organisationCentrewiseSmsSettingViewModel);
+        }
+        #endregion
+
+        #region CentrewiseWhatsAppSetting
+        [HttpGet]
+        public virtual ActionResult CentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId = 0)
+        {
+            OrganisationCentrewiseWhatsAppSettingViewModel organisationCentrewiseWhatsAppSettingViewModel = _organisationCentreAgent.GetCentrewiseWhatsAppSetup(organisationCentreId, generalWhatsAppProviderId);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseWhatsAppSetting.cshtml", organisationCentrewiseWhatsAppSettingViewModel);
+            }
+            return ActionView(OrganisationCentrewiseWhatsAppSetting, organisationCentrewiseWhatsAppSettingViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult CentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingViewModel organisationCentrewiseWhatsAppSettingViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseWhatsAppSetup(organisationCentrewiseWhatsAppSettingViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("CentrewiseWhatsAppSetup", new { organisationCentreId = organisationCentrewiseWhatsAppSettingViewModel.OrganisationCentreMasterId, generalWhatsAppProviderId = organisationCentrewiseWhatsAppSettingViewModel.GeneralWhatsAppProviderId });
+            }
+            return View(OrganisationCentrewiseWhatsAppSetting, organisationCentrewiseWhatsAppSettingViewModel);
         }
         #endregion
 

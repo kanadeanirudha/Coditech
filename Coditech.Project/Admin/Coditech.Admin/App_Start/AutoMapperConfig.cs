@@ -80,7 +80,7 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseEmailTemplateModel, OrganisationCentrewiseEmailTemplateViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseUserNameRegistrationModel, OrganisationCentrewiseUserNameRegistrationViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseSmsSettingModel, OrganisationCentrewiseSmsSettingViewModel>().ReverseMap();
-
+            CreateMap<OrganisationCentrewiseWhatsAppSettingModel, OrganisationCentrewiseWhatsAppSettingViewModel>().ReverseMap();
             #endregion
 
             #region Employee            
@@ -168,6 +168,8 @@ namespace Coditech.Admin
 
             #region Password
             CreateMap<ChangePasswordModel, ChangePasswordViewModel>().ReverseMap();
+            CreateMap<ResetPasswordModel, ResetPasswordViewModel>().ReverseMap();
+            CreateMap<ResetPasswordSendLinkModel, ResetPasswordViewModel>().ReverseMap();
             #endregion
 
             #region Dashboard

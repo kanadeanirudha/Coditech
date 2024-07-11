@@ -68,5 +68,21 @@ namespace Coditech.API.Client
         /// <param name="GeneralPersonModel">GeneralPersonAddressDetailModel.</param>
         /// <returns>Returns updated GeneralPersonResponse</returns>
         GeneralPersonAddressResponse InsertUpdateGeneralPersonAddress(GeneralPersonAddressModel model);
+
+        /// <summary>
+        /// Reset Password.
+        /// </summary>
+        /// <param name="resetPasswordModel">GeneralPersonModel.</param>
+        /// <returns>Returns ResetPasswordResponse.</returns>
+        ResetPasswordResponse ResetPassword(ResetPasswordModel resetPasswordModel);
+
+        /// <summary>
+        /// Reset send link Password.
+        /// </summary>
+        /// <param name="userName">UserModel.</param>
+        /// <returns>Returns ResetPasswordResponse.</returns>
+        ResetPasswordSendLinkResponse ResetPasswordSendLink(string userName);
+        
+        
     }
 }

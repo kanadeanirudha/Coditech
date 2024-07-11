@@ -166,6 +166,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetHospitalPatientTypeList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType , DropdownTypeEnum.WhatsAppProvider.ToString()))
+            {
+                GetWhatsAppProviderList(dropdownViewModel, dropdownList);
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalDoctorsListBySpecialization.ToString()))
             {
                 GetDoctorsByCentreCodeAndSpecialization(dropdownViewModel, dropdownList);
@@ -950,6 +954,17 @@ namespace Coditech.Admin.Helpers
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPatientAppointmentPurposeId)
                 });
             }
+        }
+
+        private static void GetWhatsAppProviderList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem() { Text = "-------Select WhatsApp Provider-------", Value = "" });
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "Twilio",
+                Value = "1",
+                Selected = "1" == dropdownViewModel.DropdownSelectedValue
+            });
         }
     }
 }
