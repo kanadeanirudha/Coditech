@@ -166,7 +166,7 @@ namespace Coditech.Admin.Helpers
             {
                 GetHospitalPatientTypeList(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType , DropdownTypeEnum.WhatsAppProvider.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.WhatsAppProvider.ToString()))
             {
                 GetWhatsAppProviderList(dropdownViewModel, dropdownList);
             }
@@ -177,6 +177,14 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalPatientAppointmentPurpose.ToString()))
             {
                 GetHospitalPatientAppointmentPurposeList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseHospitalPatientsList.ToString()))
+            {
+                GetHospitalPatientsListByCentreCode(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.TimeSlotByDoctorsListAndAppointmentDate.ToString()))
+            {
+                RequestedTimeSlotList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -877,7 +885,7 @@ namespace Coditech.Admin.Helpers
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
                 short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
-                HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId,true, null, null, null, 1, int.MaxValue);
+                HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId, true, null, null, null, 1, int.MaxValue);
                 HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
                 foreach (var item in list?.HospitalDoctorsList)
                 {
@@ -966,5 +974,87 @@ namespace Coditech.Admin.Helpers
                 Selected = "1" == dropdownViewModel.DropdownSelectedValue
             });
         }
+
+        private static void GetHospitalPatientsListByCentreCode(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Patients-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Patients-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                string selectedCentreCode = dropdownViewModel.Parameter;
+                //short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                HospitalPatientRegistrationListResponse response = new HospitalPatientRegistrationClient().List(selectedCentreCode, null, null, null, 1, int.MaxValue);
+                HospitalPatientRegistrationListModel list = new HospitalPatientRegistrationListModel() { HospitalPatientRegistrationList = response.HospitalPatientRegistrationList };
+                foreach (var item in list?.HospitalPatientRegistrationList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = $"{item.FirstName} {item.LastName}",
+                        Value = item.HospitalPatientRegistrationId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPatientRegistrationId)
+                    });
+                }
+            }
+        }
+
+        private static void RequestedTimeSlotList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Time Slot-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Time Slot-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                int hospitalDoctorId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[0]);
+                DateTime appointmentDate = DateTime.Parse(dropdownViewModel.Parameter.Split("~")[1]);
+                HospitalPatientTimeSlotListResponse response = new HospitalPatientAppointmentClient().GetTimeSlotByDoctorsAndAppointmentDate(hospitalDoctorId, appointmentDate);
+
+                HospitalPatientTimeSlotListModel list = new HospitalPatientTimeSlotListModel() { TimeSlotList = response.TimeSlotList };
+                foreach (var item in list?.TimeSlotList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = "10:00 AM-10:15 AM",
+                        Value = "10:00",
+                        Selected = "10:00" == dropdownViewModel.DropdownSelectedValue
+                    });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = "10:16 AM-10:30 AM",
+                        Value = "10:15",
+                        Selected = "10:15" == dropdownViewModel.DropdownSelectedValue
+                    });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = "10:31 AM-10:45 AM",
+                        Value = "10:30",
+                        Selected = "10:30" == dropdownViewModel.DropdownSelectedValue
+                    });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = "10:46 AM-11:00 AM",
+                        Value = "10:45",
+                        Selected = "10:45" == dropdownViewModel.DropdownSelectedValue
+                    });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = "11:00 AM-11:15 AM",
+                        Value = "11:00",
+                        Selected = "11:00" == dropdownViewModel.DropdownSelectedValue
+                    });
+                }
+            }
+        }
     }
 }
+
+
+
+
+
+

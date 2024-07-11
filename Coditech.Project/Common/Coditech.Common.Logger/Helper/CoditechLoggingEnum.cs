@@ -86,7 +86,8 @@
             ResetPassword,
             ResetPasswordSendLink,
             WhatsAppService,
-            HospitalPatientAppointment
+            HospitalPatientAppointment,
+            TimeSlot
         }
     }
 }

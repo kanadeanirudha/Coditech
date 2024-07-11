@@ -10,7 +10,7 @@ namespace Coditech.API.Client
         /// Get list of Patient Registration.
         /// </summary>
         /// <returns>HospitalPatientRegistrationListResponse</returns>
-        HospitalPatientRegistrationListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        HospitalPatientRegistrationListResponse List(string selectedCentreCode, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Get PatientRegistration by hospitalPatientRegistrationId.

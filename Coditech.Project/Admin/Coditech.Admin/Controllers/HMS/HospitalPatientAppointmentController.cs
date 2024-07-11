@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -21,15 +20,6 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            //HospitalPatientAppointmentListViewModel list = new HospitalPatientAppointmentListViewModel();
-            //if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
-            //{
-            //list = _hospitalPatientAppointmentAgent.GetHospitalPatientAppointmentList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, dataTableModel);
-            //}
-            //list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
-            //list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;
-
-
             HospitalPatientAppointmentListViewModel list = _hospitalPatientAppointmentAgent.GetHospitalPatientAppointmentList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
@@ -110,13 +100,30 @@ namespace Coditech.Admin.Controllers
         }
 
 
-        //public virtual ActionResult GetHospitalDoctorsListByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
-        //{
-        //    HospitalPatientAppointmentListViewModel list = _hospitalPatientAppointmentAgent.GetHospitalDoctorsListByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecilizationEnumId);
-        //    return ActionView("~/Views/HMS/HospitalDoctors/List.cshtml", list);
-        //}
-        #region Protected
+        //Get HospitalPatientsList By CentreCode
+        public ActionResult GetHospitalPatientsListByCentreCode(string selectedCentreCode)
+        {
+            DropdownViewModel centreDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.CentrewiseHospitalPatientsList.ToString(),
+                DropdownName = "HospitalPatientRegistrationId",
+                Parameter = selectedCentreCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown);
+        }
 
+        public virtual ActionResult GetTimeSlotByDoctorsAndAppointmentDate(int hospitalDoctorId, DateTime appointmentDate)
+        {
+            DropdownViewModel timeSlotList = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.TimeSlotByDoctorsListAndAppointmentDate.ToString(),
+                DropdownName = "RequestedTimeSlot",
+                Parameter = $"{hospitalDoctorId}~{appointmentDate}",
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", timeSlotList);
+        }
+
+        #region Protected
         #endregion
     }
 }

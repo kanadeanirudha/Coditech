@@ -4,8 +4,8 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
-using System.Linq;
 
 using System.Collections.Specialized;
 using System.Data;
@@ -13,7 +13,7 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class HospitalPatientAppointmentService : IHospitalPatientAppointmentService
+    public class HospitalPatientAppointmentService : BaseService, IHospitalPatientAppointmentService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
@@ -22,7 +22,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
         private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
 
-        public HospitalPatientAppointmentService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public HospitalPatientAppointmentService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -32,13 +32,11 @@ namespace Coditech.API.Service
             _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual HospitalPatientAppointmentListModel GetHospitalPatientAppointmentList(/*string selectedCentreCode, short selectedDepartmentId,*/ FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual HospitalPatientAppointmentListModel GetHospitalPatientAppointmentList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<HospitalPatientAppointmentModel> objStoredProc = new CoditechViewRepository<HospitalPatientAppointmentModel>(_serviceProvider.GetService<Coditech_Entities>());
-            //objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
-            //objStoredProc.SetParameter("@DepartmentId", selectedDepartmentId, ParameterDirection.Input, DbType.Int16);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
@@ -83,6 +81,17 @@ namespace Coditech.API.Service
             //Get the HospitalPatientAppointment Details based on id.
             HospitalPatientAppointment hospitalPatientAppointment = _hospitalPatientAppointmentRepository.Table.FirstOrDefault(x => x.HospitalPatientAppointmentId == hospitalPatientAppointmentId);
             HospitalPatientAppointmentModel hospitalPatientAppointmentModel = hospitalPatientAppointment?.FromEntityToModel<HospitalPatientAppointmentModel>();
+            long? employeeId = _hospitalDoctorsRepository.Table.Where(x => x.HospitalDoctorId == hospitalPatientAppointmentModel.HospitalDoctorId)?.Select(x => x.EmployeeId)?.FirstOrDefault();
+            if (employeeId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType((long)employeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    hospitalPatientAppointmentModel.FirstName = generalPersonModel.FirstName;
+                    hospitalPatientAppointmentModel.LastName = generalPersonModel.LastName;
+                    hospitalPatientAppointmentModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+                }
+            }
             return hospitalPatientAppointmentModel;
         }
 
@@ -121,6 +130,7 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
+
         public virtual HospitalDoctorsListModel GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
         {
 
@@ -141,7 +151,39 @@ namespace Coditech.API.Service
                                                  LastName = c.LastName,
                                                  MedicalSpecilizationEnumId = a.MedicalSpecilizationEnumId,
                                              })?.ToList();
+            return listModel;
+        }
 
+        public virtual HospitalPatientTimeSlotListModel GetTimeSlotByDoctorsAndAppointmentDate(int hospitalDoctorId, DateTime appointmentDate)
+        {
+            HospitalPatientTimeSlotListModel listModel = new HospitalPatientTimeSlotListModel();
+
+            // Add time slots based on appointment date and doctor
+            listModel.TimeSlotList.Add(new HospitalPatientTimeSlotModel()
+            {
+                Value = "10:00",
+                Text = "10:00AM - 10:15AM"
+            });
+            listModel.TimeSlotList.Add(new HospitalPatientTimeSlotModel()
+            {
+                Value = "10:15",
+                Text = "10:16 AM-10:30 AM",
+            });
+            listModel.TimeSlotList.Add(new HospitalPatientTimeSlotModel()
+            {
+                Value = "10:30",
+                Text = "10:31 AM-10:45 AM",
+            });
+            listModel.TimeSlotList.Add(new HospitalPatientTimeSlotModel()
+            {
+                Value = "10:45",
+                Text = "10:46 AM-11:00 AM",
+            });
+            listModel.TimeSlotList.Add(new HospitalPatientTimeSlotModel()
+            {
+                Value = "11:00",
+                Text = "11:00 AM-11:15 AM",
+            });
             return listModel;
         }
     }

@@ -64,7 +64,9 @@
         WhatsAppProvider,
         HospitalPatientType,
         HospitalDoctorsListBySpecialization,
-        HospitalPatientAppointmentPurpose
+        HospitalPatientAppointmentPurpose,
+        CentrewiseHospitalPatientsList,
+        TimeSlotByDoctorsListAndAppointmentDate
     }
 
     public enum GeneralSystemGlobleSettingEnum

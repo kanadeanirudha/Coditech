@@ -25,12 +25,8 @@ namespace Coditech.API.Service
             _hospitalPatientRegistrationRepository = new CoditechRepository<HospitalPatientRegistration>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual HospitalPatientRegistrationListModel GetPatientRegistrationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual HospitalPatientRegistrationListModel GetPatientRegistrationList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
-
-            filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedCentreCode);
-
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<HospitalPatientRegistrationModel> objStoredProc = new CoditechViewRepository<HospitalPatientRegistrationModel>(_serviceProvider.GetService<Coditech_Entities>());
@@ -64,6 +60,7 @@ namespace Coditech.API.Service
                 {
                     hospitalPatientRegistrationModel.FirstName = generalPersonModel.FirstName;
                     hospitalPatientRegistrationModel.LastName = generalPersonModel.LastName;
+
                 }
             }
             return hospitalPatientRegistrationModel;
