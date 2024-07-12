@@ -30,7 +30,7 @@ namespace Coditech.API.Controllers
         /// </summary>
         /// <param name="model">User Model.</param>
         /// <returns>UserModel</returns>
-        
+
         [Route("/User/Login")]
         [HttpPost, ValidateModel]
         [Produces(typeof(UserModel))]
@@ -91,11 +91,11 @@ namespace Coditech.API.Controllers
         [HttpGet]
         [Route("/User/ResetPasswordSendLink")]
         [Produces(typeof(ResetPasswordSendLinkResponse))]
-        public virtual IActionResult ResetPasswordSendLink(string userName)
+        public virtual IActionResult ResetPasswordSendLink(string userName, bool isMobileRequest = false)
         {
             try
             {
-                ResetPasswordSendLinkModel resetPasswordSendLink = _userService.ResetPasswordSendLink(userName);
+                ResetPasswordSendLinkModel resetPasswordSendLink = _userService.ResetPasswordSendLink(userName, isMobileRequest);
                 return IsNotNull(resetPasswordSendLink) ? CreateCreatedResponse(new ResetPasswordSendLinkResponse { ResetPasswordSendLinkModel = resetPasswordSendLink }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechUnauthorizedException ex)

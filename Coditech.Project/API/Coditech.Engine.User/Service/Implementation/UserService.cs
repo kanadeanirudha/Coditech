@@ -145,7 +145,7 @@ namespace Coditech.API.Service
         }
 
         //ResetPasswordSendLink
-        public virtual ResetPasswordSendLinkModel ResetPasswordSendLink(string userName)
+        public virtual ResetPasswordSendLinkModel ResetPasswordSendLink(string userName, bool isMobileRequest)
         {
             if (IsNull(userName))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -167,20 +167,21 @@ namespace Coditech.API.Service
             string url = $"{coditechApplicationSettingList.First(x => x.ApplicationCode == "CoditechAdminRootUri")?.ApplicationValue1}/User/ResetPassword?token={EncodeBase64(userMasterData.UserName)}";
             try
             {
+                string emailTemplateCodeEnum = $"{(isMobileRequest ? APIConstant.Mobile : "")}{EmailTemplateCodeEnum.ResetPasswordLink.ToString()}";
                 GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(userMasterData.EntityId, userMasterData.UserType);
-                GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel?.SelectedCentreCode, EmailTemplateCodeEnum.ResetPasswordLink.ToString());
+                GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
                 if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, emailTemplateModel.EmailTemplate, url, resetPassToken);
                     _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
                 }
-                GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalPersonModel?.SelectedCentreCode, EmailTemplateCodeEnum.ResetPasswordLink.ToString());
+                GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
                 if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, smsTemplateModel.EmailTemplate, url, resetPassToken);
                     _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"+91{generalPersonModel?.MobileNumber}");
                 }
-                GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalPersonModel?.SelectedCentreCode, EmailTemplateCodeEnum.ResetPasswordLink.ToString());
+                GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
                 if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, whatsAppTemplateModel.EmailTemplate, url, resetPassToken);
