@@ -51,7 +51,7 @@ namespace Coditech.API.Service
 
             foreach (GymMemberBodyMeasurementModel item in listModel?.GymMemberBodyMeasurementList)
             {
-                List<GymMemberBodyMeasurement> gymMemberBodyMeasurementValueList = _gymMemberBodyMeasurementRepository.Table.Where(x => x.GymMemberDetailId == gymMemberDetailId && x.GymBodyMeasurementTypeId == item.GymBodyMeasurementTypeId)?.OrderByDescending(y => y.CreatedDate)?.Take(pageSize)?.ToList();
+                List<GymMemberBodyMeasurement> gymMemberBodyMeasurementValueList = _gymMemberBodyMeasurementRepository.Table.Where(x => x.GymMemberDetailId == gymMemberDetailId && x.GymBodyMeasurementTypeId == item.GymBodyMeasurementTypeId)?.OrderByDescending(y => y.BodyMeasurementDate)?.Take(pageSize)?.ToList();
                 if (gymMemberBodyMeasurementValueList?.Count > 0)
                 {
                     item.GymMemberBodyMeasurementValueList = new List<GymMemberBodyMeasurementValueModel>();
@@ -64,7 +64,7 @@ namespace Coditech.API.Service
                             BodyMeasurementValue = gymMemberBodyMeasurement.BodyMeasurementValue,
                             MeasurementUnitDisplayName = item.MeasurementUnitDisplayName,
                             MeasurementUnitShortCode = item.MeasurementUnitShortCode,
-                            CreatedDate = Convert.ToDateTime(gymMemberBodyMeasurement.CreatedDate)
+                            BodyMeasurementDate = Convert.ToDateTime(gymMemberBodyMeasurement.BodyMeasurementDate)
                         });
                     }
                 }
@@ -112,7 +112,7 @@ namespace Coditech.API.Service
                 GymMemberDetailId = gymMemberBodyMeasurementModel.GymMemberDetailId,
                 GymBodyMeasurementTypeId = gymMemberBodyMeasurementModel.GymBodyMeasurementTypeId,
                 BodyMeasurementValue = gymMemberBodyMeasurementModel.BodyMeasurementValue,
-                CreatedDate = gymMemberBodyMeasurementModel.CreatedDate
+                BodyMeasurementDate = gymMemberBodyMeasurementModel.BodyMeasurementDate
             };
 
             //Create new MemberBodyMeasurement and return it.
