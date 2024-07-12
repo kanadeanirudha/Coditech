@@ -21,6 +21,7 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         protected readonly ICoditechEmail _coditechEmail;
         protected readonly ICoditechSMS _coditechSMS;
+        protected readonly ICoditechWhatsApp _coditechWhatsApp;
         private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
@@ -33,12 +34,13 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<EmployeeService> _employeeServiceRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
-        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS) : base(serviceProvider)
+        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _coditechEmail = coditechEmail;
             _coditechSMS = coditechSMS;
+            _coditechWhatsApp = coditechWhatsApp;
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
@@ -171,6 +173,18 @@ namespace Coditech.API.Service
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, emailTemplateModel.EmailTemplate, url, resetPassToken);
                     _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
+                }
+                GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalPersonModel?.SelectedCentreCode, EmailTemplateCodeEnum.ResetPasswordLink.ToString());
+                if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
+                {
+                    string messageText = ReplaceResetPassworkLink(generalPersonModel, smsTemplateModel.EmailTemplate, url, resetPassToken);
+                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"+91{generalPersonModel?.MobileNumber}");
+                }
+                GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalPersonModel?.SelectedCentreCode, EmailTemplateCodeEnum.ResetPasswordLink.ToString());
+                if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
+                {
+                    string messageText = ReplaceResetPassworkLink(generalPersonModel, whatsAppTemplateModel.EmailTemplate, url, resetPassToken);
+                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"+91{generalPersonModel?.MobileNumber}");
                 }
             }
             catch (Exception ex)
