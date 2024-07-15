@@ -113,16 +113,6 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                //if (GymMemberBodyMeasurementViewModel.IsConverted)
-                //{
-                //    GeneralPersonModel generalPersonModel = GymMemberBodyMeasurementViewModel.ToModel<GeneralPersonModel>();
-                //    generalPersonModel.UserType = GymMemberBodyMeasurementViewModel.UserTypeCode;
-                //    GeneralPersonResponse generalPersonResponse = _userClient.InsertPersonInformation(generalPersonModel);
-                //    if (generalPersonResponse?.GeneralPersonModel.PersonId <= 0)
-                //    {
-                //        return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(GymMemberBodyMeasurementViewModel, GeneralResources.UpdateErrorMessage);
-                //    }
-                //}
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.MemberBodyMeasurement.ToString(), TraceLevel.Info);
                 GymMemberBodyMeasurementResponse response = _GymMemberBodyMeasurementClient.UpdateMemberBodyMeasurement(GymMemberBodyMeasurementViewModel.ToModel<GymMemberBodyMeasurementModel>());
                 GymMemberBodyMeasurementModel GymMemberBodyMeasurementModel = response?.GymMemberBodyMeasurementModel;
@@ -200,6 +190,7 @@ namespace Coditech.Admin.Agents
             return datatableColumnList;
         }
         #endregion
+
         #region
         // it will return get all MemberBodyMeasurement list from database 
         public virtual GymMemberBodyMeasurementListResponse GetMemberBodyMeasurementList()

@@ -322,7 +322,7 @@ namespace Coditech.Admin.Controllers
                 gymMemberBodyMeasurementViewModel = new GymMemberBodyMeasurementViewModel()
                 {
                     GymBodyMeasurementTypeId = gymBodyMeasurementTypeId, // Set the GymBodyMeasurementTypeId for new measurement
-                    CreatedDate = DateTime.Now.ToCoditechDateFormat() // Assuming CreatedDate is a property of type string
+                    BodyMeasurementDate = Convert.ToDateTime(DateTime.Now.ToCoditechDateFormat())
                 };
             }
             gymMemberBodyMeasurementViewModel.GymMemberDetailId = gymMemberDetailId;
@@ -337,10 +337,13 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                gymMemberBodyMeasurementViewModel = _gymMemberBodyMeasurementAgent.CreateMemberBodyMeasurement(gymMemberBodyMeasurementViewModel);
+                if (gymMemberBodyMeasurementViewModel.GymMemberBodyMeasurementId > 0)
+                    gymMemberBodyMeasurementViewModel = _gymMemberBodyMeasurementAgent.UpdateMemberBodyMeasurement(gymMemberBodyMeasurementViewModel);
+                else
+                    gymMemberBodyMeasurementViewModel = _gymMemberBodyMeasurementAgent.CreateMemberBodyMeasurement(gymMemberBodyMeasurementViewModel);
                 if (!gymMemberBodyMeasurementViewModel.HasError)
                 {
-                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    SetNotificationMessage(GetSuccessNotificationMessage(gymMemberBodyMeasurementViewModel.GymMemberBodyMeasurementId > 0 ? GeneralResources.UpdateMessage : GeneralResources.RecordAddedSuccessMessage));
                     return RedirectToAction("GetBodyMeasurementTypeListByMemberId", new { gymMemberDetailId = gymMemberBodyMeasurementViewModel.GymMemberDetailId, personId = gymMemberBodyMeasurementViewModel.PersonId });
                 }
             }
