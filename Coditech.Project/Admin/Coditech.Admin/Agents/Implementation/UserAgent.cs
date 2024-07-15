@@ -79,7 +79,8 @@ namespace Coditech.Admin.Agents
 
             try
             {
-                changePasswordViewModel.UserMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+                changePasswordViewModel.EntityId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.EntityId ?? 0;
+                changePasswordViewModel.UserType = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserType;
                 ChangePasswordResponse response = _userClient.ChangePassword(changePasswordViewModel.ToModel<ChangePasswordModel>());
                 ChangePasswordModel changePasswordModel = response?.ChangePasswordModel;
                 return IsNotNull(changePasswordModel) ? changePasswordModel.ToViewModel<ChangePasswordViewModel>() : new ChangePasswordViewModel();

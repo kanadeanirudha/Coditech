@@ -130,37 +130,34 @@ namespace Coditech.API.Service
         }
 
         //Get MemberBodyMeasurement by MemberBodyMeasurement id.
-        public virtual GymMemberBodyMeasurementModel GetMemberBodyMeasurement(long MemberBodyMeasurementId)
+        public virtual GymMemberBodyMeasurementModel GetMemberBodyMeasurement(long memberBodyMeasurementId)
         {
-            if (MemberBodyMeasurementId <= 0)
+            if (memberBodyMeasurementId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "MemberBodyMeasurementID"));
 
             //Get the MemberBodyMeasurement Details based on id.
-            GymMemberBodyMeasurement gymMemberBodyMeasurement = _gymMemberBodyMeasurementRepository.Table.FirstOrDefault(x => x.GymMemberBodyMeasurementId == MemberBodyMeasurementId);
+            GymMemberBodyMeasurement gymMemberBodyMeasurement = _gymMemberBodyMeasurementRepository.Table.FirstOrDefault(x => x.GymMemberBodyMeasurementId == memberBodyMeasurementId);
             GymMemberBodyMeasurementModel GymMemberBodyMeasurementModel = gymMemberBodyMeasurement?.FromEntityToModel<GymMemberBodyMeasurementModel>();
             return GymMemberBodyMeasurementModel;
         }
 
         //Update MemberBodyMeasurement.
-        public virtual bool UpdateMemberBodyMeasurement(GymMemberBodyMeasurementModel GymMemberBodyMeasurementModel)
+        public virtual bool UpdateMemberBodyMeasurement(GymMemberBodyMeasurementModel gymMemberBodyMeasurementModel)
         {
-            if (IsNull(GymMemberBodyMeasurementModel))
+            if (IsNull(gymMemberBodyMeasurementModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
-            if (GymMemberBodyMeasurementModel.GymMemberBodyMeasurementId < 1)
+            if (gymMemberBodyMeasurementModel.GymMemberBodyMeasurementId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "MemberBodyMeasurementID"));
-
-            //if (IsMemberBodyMeasurementCodeAlreadyExist(GymMemberBodyMeasurementModel.FirstName, GymMemberBodyMeasurementModel.GymMemberBodyMeasurementId))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "FirstName"));
-
-            GymMemberBodyMeasurement gymMemberBodyMeasurement = GymMemberBodyMeasurementModel.FromModelToEntity<GymMemberBodyMeasurement>();
+            
+            GymMemberBodyMeasurement gymMemberBodyMeasurement = gymMemberBodyMeasurementModel.FromModelToEntity<GymMemberBodyMeasurement>();
 
             //Update MemberBodyMeasurement
             bool isMemberBodyMeasurementUpdated = _gymMemberBodyMeasurementRepository.Update(gymMemberBodyMeasurement);
             if (!isMemberBodyMeasurementUpdated)
             {
-                GymMemberBodyMeasurementModel.HasError = true;
-                GymMemberBodyMeasurementModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                gymMemberBodyMeasurementModel.HasError = true;
+                gymMemberBodyMeasurementModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
             return isMemberBodyMeasurementUpdated;
         }

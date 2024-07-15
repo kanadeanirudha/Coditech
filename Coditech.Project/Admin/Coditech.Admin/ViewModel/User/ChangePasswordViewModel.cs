@@ -6,7 +6,8 @@ namespace Coditech.Admin.ViewModel
     public class ChangePasswordViewModel : BaseViewModel
 
     {
-        public long UserMasterId { get; set; }
+        public long EntityId { get; set; }
+        public string UserType { get; set; }
 
         [Required(ErrorMessage = "Password Is Required")]
         [Display(Name = "Current Password")]

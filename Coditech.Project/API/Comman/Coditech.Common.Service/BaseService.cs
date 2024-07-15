@@ -327,10 +327,10 @@ namespace Coditech.Common.Service
             string imagePath = string.Empty;
             if (mediaId > 0)
             {
-                MediaDetail mediaDetail = new CoditechRepository<MediaDetail>().Table.Where(x => x.MediaId == mediaId)?.FirstOrDefault();
+                MediaDetail mediaDetail = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.MediaId == mediaId)?.FirstOrDefault();
                 if (mediaDetail != null)
                 {
-                    imagePath = $"{GetMediaUrl}{mediaDetail.Path}";
+                    imagePath = $"{GetMediaUrl()}{mediaDetail.Path}";
                 }
             }
             return imagePath;

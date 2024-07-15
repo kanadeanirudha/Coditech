@@ -102,7 +102,7 @@ namespace Coditech.Admin.Utilities
         {
             get
             {
-                return Convert.ToString(settings["ApplicationLogoPath"]);
+                return Convert.ToString(settings["CoditechMediaManagerApiRootUri"] + settings["ApplicationLogoPath"]);
             }
         }
         public static string ApplicationLogoBackground

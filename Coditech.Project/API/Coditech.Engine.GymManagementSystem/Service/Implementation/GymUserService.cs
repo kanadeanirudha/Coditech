@@ -32,7 +32,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password);
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password && x.UserType == UserTypeEnum.GymMember.ToString());
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
@@ -43,6 +43,7 @@ namespace Coditech.API.Service
             {
                 EntityId = userMasterData.EntityId,
                 IsPasswordChange = userMasterData.IsPasswordChange
+
             };
             return userModel;
         }
