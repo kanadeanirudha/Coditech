@@ -45,7 +45,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="MediaFolder\" />
 		<Folder Include="wwwroot\assets\images\jstree\" />
 		<Folder Include="wwwroot\css\login\" />
 		<Folder Include="wwwroot\js\login\" />

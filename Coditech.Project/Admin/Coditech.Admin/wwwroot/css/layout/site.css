@@ -267,3 +267,7 @@ td.text-center a.btn {
 .footer {
     background: #ffffff;
 }
+
+.card.sidebar-card {
+    background: rgba(255, 255, 255, 1);
+}

@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Content Include="data\**" CopyToPublishDirectory="PreserveNewest" />
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>

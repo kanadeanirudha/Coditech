@@ -12,6 +12,7 @@
 		<EmbeddedResource Remove="Service\GeneralPerson\**" />
 		<EntityDeploy Remove="Service\GeneralPerson\**" />
 		<None Remove="Service\GeneralPerson\**" />
+		<Content Include="data\**" CopyToPublishDirectory="PreserveNewest" />
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
