@@ -198,8 +198,6 @@ label {
 .page-wrapper .page-content {
     padding: 26px 8px 52px 8px;
     min-height: calc(100vh - 52px - 2px - 31px) !important;
-    background: url(http://poweredathletes.in/assets/images/auth-bg.jpg);
-    background-position: top center;
 }
 
 
