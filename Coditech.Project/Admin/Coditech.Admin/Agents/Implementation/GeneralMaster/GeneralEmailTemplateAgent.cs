@@ -136,6 +136,53 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+
+        public virtual GeneralEmailTemplateListViewModel GetSMSTemplateList(DataTableViewModel dataTableModel)
+        {
+
+            FilterCollection filters = new FilterCollection();
+            filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "1");
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("EmailTemplateName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailTemplateCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GeneralEmailTemplateListResponse response = _generalEmailTemplateClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralEmailTemplateListModel EmailTemplateList = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response?.GeneralEmailTemplateList };
+            GeneralEmailTemplateListViewModel listViewModel = new GeneralEmailTemplateListViewModel();
+            listViewModel.GeneralEmailTemplateList = EmailTemplateList?.GeneralEmailTemplateList?.ToViewModel<GeneralEmailTemplateViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralEmailTemplateList.Count, BindColumns());
+            return listViewModel;
+        }
+
+        public virtual GeneralEmailTemplateListViewModel GetWhatsAppTemplateList(DataTableViewModel dataTableModel)
+        {
+
+            FilterCollection filters = new FilterCollection();
+            filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "0");
+            filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.Is, "1");
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("EmailTemplateName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailTemplateCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GeneralEmailTemplateListResponse response = _generalEmailTemplateClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralEmailTemplateListModel EmailTemplateList = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response?.GeneralEmailTemplateList };
+            GeneralEmailTemplateListViewModel listViewModel = new GeneralEmailTemplateListViewModel();
+            listViewModel.GeneralEmailTemplateList = EmailTemplateList?.GeneralEmailTemplateList?.ToViewModel<GeneralEmailTemplateViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralEmailTemplateList.Count, BindColumns());
+            return listViewModel;
+        }
         #endregion
 
         #region protected
