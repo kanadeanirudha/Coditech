@@ -214,7 +214,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise Sms Setting by organisationCentreId.
-        public virtual OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId,byte generalSmsProviderId)
+        public virtual OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId)
         {
             OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.GetCentrewiseSmsSetup(organisationCentreId, generalSmsProviderId);
             return response?.OrganisationCentrewiseSmsSettingModel.ToViewModel<OrganisationCentrewiseSmsSettingViewModel>();
@@ -229,7 +229,7 @@ namespace Coditech.Admin.Agents
                 OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.UpdateCentrewiseSmsSetup(organisationCentrewiseSmsSettingViewModel.ToModel<OrganisationCentrewiseSmsSettingModel>());
                 OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = response?.OrganisationCentrewiseSmsSettingModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CentrewiseSms.ToString(), TraceLevel.Info);
-                if (organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId>0)
+                if (organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId > 0)
                 {
                     organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId = organisationCentrewiseSmsSettingModel.OrganisationCentrewiseSmsSettingId;
                 }
@@ -298,8 +298,58 @@ namespace Coditech.Admin.Agents
             }
         }
 
+        //Get Organisation Centrewise SMS Template by organisationCentreId.
+        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        {
+            OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.GetCentrewiseSMSTemplateSetup(organisationCentreId, emailTemplateCode);
+            return response?.OrganisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>();
+        }
+
+        //Update Organisation Centrewise SMS Template.
+        public virtual OrganisationCentrewiseEmailTemplateViewModel UpdateCentrewiseSMSTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CentrewiseSMSTemplate.ToString(), TraceLevel.Info);
+                OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.UpdateCentrewiseSMSTemplateSetup(organisationCentrewiseEmailTemplateViewModel.ToModel<OrganisationCentrewiseEmailTemplateModel>());
+                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = response?.OrganisationCentrewiseEmailTemplateModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CentrewiseSMSTemplate.ToString(), TraceLevel.Info);
+                return IsNotNull(organisationCentrewiseEmailTemplateModel) ? organisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>() : (OrganisationCentrewiseEmailTemplateViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseEmailTemplateViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSMSTemplate.ToString(), TraceLevel.Error);
+                return (OrganisationCentrewiseEmailTemplateViewModel)GetViewModelWithErrorMessage(organisationCentrewiseEmailTemplateViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Get Organisation Centrewise WhatsApp Template by organisationCentreId.
+        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        {
+            OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.GetCentrewiseWhatsAppTemplateSetup(organisationCentreId, emailTemplateCode);
+            return response?.OrganisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>();
+        }
+
+        //Update Organisation Centrewise WhatsApp Template.
+        public virtual OrganisationCentrewiseEmailTemplateViewModel UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CentrewiseWhatsAppTemplate.ToString(), TraceLevel.Info);
+                OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.UpdateCentrewiseWhatsAppTemplateSetup(organisationCentrewiseEmailTemplateViewModel.ToModel<OrganisationCentrewiseEmailTemplateModel>());
+                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = response?.OrganisationCentrewiseEmailTemplateModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CentrewiseWhatsAppTemplate.ToString(), TraceLevel.Info);
+                return IsNotNull(organisationCentrewiseEmailTemplateModel) ? organisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>() : (OrganisationCentrewiseEmailTemplateViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseEmailTemplateViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseWhatsAppTemplate.ToString(), TraceLevel.Error);
+                return (OrganisationCentrewiseEmailTemplateViewModel)GetViewModelWithErrorMessage(organisationCentrewiseEmailTemplateViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
         //Get Organisation Centrewise UserName by organisationCentreId.
-        public virtual OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId , short organisationCentrewiseUserNameRegistrationId)
+        public virtual OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
         {
             OrganisationCentrewiseUserNameRegistrationResponse response = _organisationCentreClient.GetCentrewiseUserName(organisationCentreId, organisationCentrewiseUserNameRegistrationId);
             return response?.OrganisationCentrewiseUserNameRegistrationModel.ToViewModel<OrganisationCentrewiseUserNameRegistrationViewModel>();

@@ -18,6 +18,8 @@ namespace Coditech.Admin.Controllers
         private const string OrganisationCentrewiseSmtpSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSmtpSetting.cshtml";
         private const string OrganisationCentrewiseSmsSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSmsSetting.cshtml";
         private const string OrganisationCentrewiseEmailTemplate = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseEmailTemplate.cshtml";
+        private const string OrganisationCentrewiseWhatsAppTemplate = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseWhatsAppTemplate.cshtml";
+        private const string OrganisationCentrewiseSMSTemplate = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSMSTemplate.cshtml";
         private const string OrganisationCentrewiseUserNameRegistration = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseUserNameRegistration.cshtml";
         private const string OrganisationCentrewiseWhatsAppSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseWhatsAppSetting.cshtml";
         public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
@@ -166,7 +168,7 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseSMSSetting
         [HttpGet]
-        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId,byte generalSmsProviderId=0)
+        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId = 0)
         {
             OrganisationCentrewiseSmsSettingViewModel organisationCentrewiseSmsSettingViewModel = _organisationCentreAgent.GetCentrewiseSmsSetup(organisationCentreId, generalSmsProviderId);
             if (AjaxHelper.IsAjaxRequest)
@@ -184,7 +186,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmsSetup(organisationCentrewiseSmsSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId , generalSmsProviderId = organisationCentrewiseSmsSettingViewModel .GeneralSmsProviderId});
+                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId, generalSmsProviderId = organisationCentrewiseSmsSettingViewModel.GeneralSmsProviderId });
             }
             return View(OrganisationCentrewiseSmsSetting, organisationCentrewiseSmsSettingViewModel);
         }
@@ -242,6 +244,50 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
             }
             return View(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
+        }
+        #endregion
+
+        #region CentrewiseSMSTemplate
+        [HttpGet]
+        public virtual ActionResult CentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        {
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseSMSTemplateSetup(organisationCentreId, emailTemplateCode);
+            return ActionView(OrganisationCentrewiseSMSTemplate, organisationCentrewiseEmailTemplateViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult CentrewiseSMSTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSMSTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("CentrewiseSMSTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
+            }
+            return View(OrganisationCentrewiseSMSTemplate, organisationCentrewiseEmailTemplateViewModel);
+        }
+        #endregion
+
+        #region CentrewiseWhatsAppTemplate
+        [HttpGet]
+        public virtual ActionResult CentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        {
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseWhatsAppTemplateSetup(organisationCentreId, emailTemplateCode);
+            return ActionView(OrganisationCentrewiseWhatsAppTemplate, organisationCentrewiseEmailTemplateViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult CentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseWhatsAppTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("CentrewiseWhatsAppTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
+            }
+            return View(OrganisationCentrewiseWhatsAppTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
         #endregion
 

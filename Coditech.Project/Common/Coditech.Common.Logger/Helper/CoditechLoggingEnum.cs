@@ -87,7 +87,9 @@
             ResetPasswordSendLink,
             WhatsAppService,
             HospitalPatientAppointment,
-            TimeSlot
+            TimeSlot,
+            CentrewiseSMSTemplate,
+            CentrewiseWhatsAppTemplate
         }
     }
 }
