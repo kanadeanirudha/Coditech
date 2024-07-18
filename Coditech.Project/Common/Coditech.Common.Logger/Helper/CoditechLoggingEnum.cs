@@ -87,7 +87,8 @@
             ResetPasswordSendLink,
             WhatsAppService,
             HospitalPatientAppointment,
-            TimeSlot
+            TimeSlot,
+            CoditechGeneralApi
         }
     }
 }

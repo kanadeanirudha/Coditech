@@ -2,14 +2,12 @@
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 using System.Web;
 
