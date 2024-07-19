@@ -1,9 +1,11 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.API.Data;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
+using System.Data;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -26,7 +28,7 @@ namespace Coditech.Common.Logger
         }
         #region Enum Mode
 
-        
+
         #endregion
 
         public void LogMessage(Exception ex, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, string errorMessageType = null, object obj = null)
@@ -36,29 +38,14 @@ namespace Coditech.Common.Logger
 
         public void LogMessage(string message, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, string errorMessageType = null, object obj = null, [CallerMemberName] string methodName = "", [CallerFilePath] string fileName = "", [CallerLineNumber] int lineNumber = 0)
         {
+            //ToDo
             if (traceLevel == TraceLevel.Error || traceLevel == TraceLevel.Warning)
             {
                 WriteLogFiles(message, string.IsNullOrEmpty(componentName) ? LogFilePath : LogComponentFilePath, componentName);
-
-                //LogMessage logMessage = new LogMessage()
-                //{
-                //    ErrorMessageType = !string.IsNullOrEmpty(errorMessageType) ? errorMessageType : ErrorMessageTypeEnum.Application.ToString(),
-                //    ExceptionMessage = message,
-                //    ComponentName = componentName,
-                //    TraceLevel = traceLevel.ToString(),
-                //    Exception = Convert.ToString(obj),
-                //    MethodName = methodName,
-                //    FileName = fileName,
-                //    LineNumber = Convert.ToString(lineNumber),
-                //    CreatedBy = 1,
-                //    CreatedDate = DateTime.Now,
-                //    ModifiedBy = 1,
-                //    ModifiedDate = DateTime.Now,
-                //};
-                //_logMessageRepository.Insert(logMessage);
+                InserLogMessageInDatabase(message, componentName, traceLevel, errorMessageType, obj, methodName, fileName, lineNumber);
             }
         }
-
+        
         #region Private Methods
 
         // Checks the web.config to see if text file logging is enabled.
@@ -74,6 +61,7 @@ namespace Coditech.Common.Logger
                 return false;
             }
         }
+
         /// <summary>
         /// This method will write the messages to the log file for Admin as well as for demo site.
         /// </summary>
@@ -133,6 +121,28 @@ namespace Coditech.Common.Logger
             }
         }
 
+        private void InserLogMessageInDatabase(string message, string componentName, TraceLevel traceLevel, string errorMessageType, object obj, string methodName, string fileName, int lineNumber)
+        {
+            try
+            {
+                CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>();
+                objStoredProc.SetParameter("@ErrorMessageType", !string.IsNullOrEmpty(errorMessageType) ? errorMessageType?.Substring(0, 50) : ErrorMessageTypeEnum.Application.ToString(), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@ExceptionMessage", message, ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@ComponentName", componentName?.Substring(0, 200), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@TraceLevel", traceLevel.ToString(), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@Exception", Convert.ToString(obj), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@MethodName", methodName?.Substring(0, 200), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@FileName", fileName?.Substring(0, 200), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@LineNumber", Convert.ToString(lineNumber), ParameterDirection.Input, DbType.Int32);
+                objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
+                int status = 0;
+                objStoredProc.ExecuteStoredProcedureList("Coditech_InsertLogMessage @ErrorMessageType,@ExceptionMessage,@ComponentName,@TraceLevel,@Exception,@MethodName,@FileName,@LineNumber, @Status OUT", 1, out status);
+            }
+            catch (Exception ex)
+            {
+                WriteLogFiles(ex.Message, string.IsNullOrEmpty(componentName) ? LogFilePath : LogComponentFilePath, componentName);
+            }
+        }
         #endregion
     }
 }
