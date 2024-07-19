@@ -33,24 +33,24 @@ namespace Coditech.Admin.Agents
         public virtual GeneralEmailTemplateListViewModel GetEmailTemplateList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
-            filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "0");
-            filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.Is, "0");
-            dataTableModel = dataTableModel ?? new DataTableViewModel();
-            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
-            {
-                filters.Add("EmailTemplateName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailTemplateCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-            }
+            filters.Add("IsSmsTemplate", ProcedureFilterOperators.NotIn, "1");
+            filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.In, "1");
+            return GetTemplateList(ref dataTableModel, filters);
+        }
+        public virtual GeneralEmailTemplateListViewModel GetSMSTemplateList(DataTableViewModel dataTableModel)
+        {
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            FilterCollection filters = new FilterCollection();
+            filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "1");
+            return GetTemplateList(ref dataTableModel, filters);
+        }
 
-            GeneralEmailTemplateListResponse response = _generalEmailTemplateClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralEmailTemplateListModel EmailTemplateList = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response?.GeneralEmailTemplateList };
-            GeneralEmailTemplateListViewModel listViewModel = new GeneralEmailTemplateListViewModel();
-            listViewModel.GeneralEmailTemplateList = EmailTemplateList?.GeneralEmailTemplateList?.ToViewModel<GeneralEmailTemplateViewModel>().ToList();
+        public virtual GeneralEmailTemplateListViewModel GetWhatsAppTemplateList(DataTableViewModel dataTableModel)
+        {
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralEmailTemplateList.Count, BindColumns());
-            return listViewModel;
+            FilterCollection filters = new FilterCollection();
+            filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.Is, "1");
+            return GetTemplateList(ref dataTableModel, filters);
         }
 
         //Create General Email.
@@ -137,67 +137,42 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        public virtual GeneralEmailTemplateListViewModel GetSMSTemplateList(DataTableViewModel dataTableModel)
-        {
-
-            FilterCollection filters = new FilterCollection();
-            filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "1");
-            dataTableModel = dataTableModel ?? new DataTableViewModel();
-            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
-            {
-                filters.Add("EmailTemplateName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailTemplateCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-            }
-
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
-
-            GeneralEmailTemplateListResponse response = _generalEmailTemplateClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralEmailTemplateListModel EmailTemplateList = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response?.GeneralEmailTemplateList };
-            GeneralEmailTemplateListViewModel listViewModel = new GeneralEmailTemplateListViewModel();
-            listViewModel.GeneralEmailTemplateList = EmailTemplateList?.GeneralEmailTemplateList?.ToViewModel<GeneralEmailTemplateViewModel>().ToList();
-
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralEmailTemplateList.Count, BindColumns());
-            return listViewModel;
-        }
-
-        public virtual GeneralEmailTemplateListViewModel GetWhatsAppTemplateList(DataTableViewModel dataTableModel)
-        {
-
-            FilterCollection filters = new FilterCollection();
-            filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "0");
-            filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.Is, "1");
-            dataTableModel = dataTableModel ?? new DataTableViewModel();
-            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
-            {
-                filters.Add("EmailTemplateName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailTemplateCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-            }
-
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
-
-            GeneralEmailTemplateListResponse response = _generalEmailTemplateClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            GeneralEmailTemplateListModel EmailTemplateList = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response?.GeneralEmailTemplateList };
-            GeneralEmailTemplateListViewModel listViewModel = new GeneralEmailTemplateListViewModel();
-            listViewModel.GeneralEmailTemplateList = EmailTemplateList?.GeneralEmailTemplateList?.ToViewModel<GeneralEmailTemplateViewModel>().ToList();
-
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralEmailTemplateList.Count, BindColumns());
-            return listViewModel;
-        }
         #endregion
 
         #region protected
+
+        protected virtual GeneralEmailTemplateListViewModel GetTemplateList(ref DataTableViewModel dataTableModel, FilterCollection filters)
+        {
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("EmailTemplateName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailTemplateCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? string.Empty : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GeneralEmailTemplateListResponse response = _generalEmailTemplateClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralEmailTemplateListModel EmailTemplateList = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response?.GeneralEmailTemplateList };
+            GeneralEmailTemplateListViewModel listViewModel = new GeneralEmailTemplateListViewModel();
+            listViewModel.GeneralEmailTemplateList = EmailTemplateList?.GeneralEmailTemplateList?.ToViewModel<GeneralEmailTemplateViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralEmailTemplateList.Count, BindColumns());
+            return listViewModel;
+        }
+
         protected virtual List<DatatableColumns> BindColumns()
         {
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Email Template Name",
+                ColumnName = "Template Name",
                 ColumnCode = "EmailTemplateName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Email Template Code",
+                ColumnName = "Template Code",
                 ColumnCode = "EmailTemplateCode",
                 IsSortable = true,
             });

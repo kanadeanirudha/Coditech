@@ -46,42 +46,79 @@ namespace Coditech.Admin.Utilities
         {
             get
             {
+#if DEBUG
                 return Convert.ToString(settings["CoditechUserApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}user.{settings["ApiDomainName"]}");
+#endif
+
             }
         }
         public static string CoditechOrganisationApiRootUri
         {
             get
             {
+#if DEBUG
                 return Convert.ToString(settings["CoditechOrganisationApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}organisation.{settings["ApiDomainName"]}");
+#endif
             }
         }
         public static string CoditechEmployeeApiRootUri
         {
             get
             {
+#if DEBUG
                 return Convert.ToString(settings["CoditechEmployeeApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}employee.{settings["ApiDomainName"]}");
+#endif
             }
         }
         public static string CoditechGymManagementSystemApiRootUri
         {
             get
             {
+#if DEBUG
                 return Convert.ToString(settings["CoditechGymManagementSystemApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}gymmanagementsystem.{settings["ApiDomainName"]}");
+#endif
             }
         }
         public static string CoditechInventoryApiRootUri
         {
             get
             {
+#if DEBUG
                 return Convert.ToString(settings["CoditechInventoryApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}inventory.{settings["ApiDomainName"]}");
+#endif
             }
         }
         public static string CoditechMediaManagerApiRootUri
         {
             get
             {
+#if DEBUG
                 return Convert.ToString(settings["CoditechMediaManagerApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}mediamanager.{settings["ApiDomainName"]}");
+#endif
+            }
+        }
+      
+        public static string CoditechHospitalManagementSystemApiRootUri
+        {
+            get
+            {
+#if DEBUG
+                return Convert.ToString(settings["CoditechHospitalManagementSystemApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}hospitalmanagementsystem.{settings["ApiDomainName"]}");
+#endif
             }
         }
         public static string NotificationMessagesIsFadeOut
@@ -89,13 +126,6 @@ namespace Coditech.Admin.Utilities
             get
             {
                 return Convert.ToString(settings["NotificationMessagesIsFadeOut"]);
-            }
-        }
-        public static string CoditechHospitalManagementSystemApiRootUri
-        {
-            get
-            {
-                return Convert.ToString(settings["CoditechHospitalManagementSystemApiRootUri"]);
             }
         }
         public static string ApplicationLogoPath

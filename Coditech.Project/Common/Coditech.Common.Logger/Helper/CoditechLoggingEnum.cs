@@ -88,6 +88,7 @@
             WhatsAppService,
             HospitalPatientAppointment,
             TimeSlot,
+            CoditechGeneralApi,
             CentrewiseSMSTemplate,
             CentrewiseWhatsAppTemplate
         }
