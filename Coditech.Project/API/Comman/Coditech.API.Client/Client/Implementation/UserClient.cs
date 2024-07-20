@@ -1,5 +1,4 @@
-﻿using Coditech.Admin.Utilities;
-using Coditech.API.Endpoint;
+﻿using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -59,8 +58,7 @@ namespace Coditech.API.Client
         /// <exception cref="CoditechException">A server side error occurred.</exception>
         public virtual async Task<UserModel> LoginAsync(IEnumerable<string> expand, UserLoginModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = CoditechAdminSettings.CoditechUserApiRootUri;
-            endpoint += "/" + "User/Login";
+            string endpoint = userEndpoint.UserLoginAsync();
             HttpResponseMessage response_ = null;
             var disposeResponse_ = true;
 

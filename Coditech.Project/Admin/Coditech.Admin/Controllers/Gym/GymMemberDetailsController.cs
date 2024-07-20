@@ -12,7 +12,6 @@ namespace Coditech.Admin.Controllers
     public class GymMemberDetailsController : BaseController
     {
         private readonly IGymMemberDetailsAgent _gymMemberDetailsAgent;
-        private GeneralPersonAttendanceDetailsViewModel gymMemberDetailsViewModel;
         private readonly IGymMemberBodyMeasurementAgent _gymMemberBodyMeasurementAgent;
         private const string createEditGymMember = "~/Views/Gym/GymMemberDetails/CreateEditGymMember.cshtml";
 
@@ -246,7 +245,6 @@ namespace Coditech.Admin.Controllers
             {
                 gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetGeneralPersonAttendanceDetails(generalPersonAttendanceDetailId);
                 gymMemberDetailsViewModel.GymMemberDetailId = gymMemberDetailId;
-
             }
             else
             {
@@ -256,6 +254,7 @@ namespace Coditech.Admin.Controllers
                     GeneralPersonAttendanceDetailId = generalPersonAttendanceDetailId
                 };
             }
+
             GymMemberDetailsViewModel gymMemberDetailModel = _gymMemberDetailsAgent.GetGymMemberOtherDetails(gymMemberDetailId);
 
             // Now, set the Firstname property in the ViewModel

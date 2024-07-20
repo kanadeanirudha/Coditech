@@ -109,7 +109,7 @@ namespace Coditech.Admin.Utilities
 #endif
             }
         }
-      
+
         public static string CoditechHospitalManagementSystemApiRootUri
         {
             get
@@ -132,7 +132,11 @@ namespace Coditech.Admin.Utilities
         {
             get
             {
+#if DEBUG
                 return Convert.ToString(settings["CoditechMediaManagerApiRootUri"] + settings["ApplicationLogoPath"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}mediamanager.{settings["ApiDomainName"]}{settings["ApplicationLogoPath"]}");
+#endif
             }
         }
         public static string ApplicationLogoBackground
@@ -155,6 +159,21 @@ namespace Coditech.Admin.Utilities
             get
             {
                 return Convert.ToString(settings["ApplicationLayoutBackground"]);
+            }
+        }
+        public static string Scheme
+        {
+            get
+            {
+                return Convert.ToString(settings["Scheme"]);
+            }
+        }
+
+        public static string ApiDomainName
+        {
+            get
+            {
+                return Convert.ToString(settings["ApiDomainName"]);
             }
         }
     }

@@ -25,8 +25,11 @@ namespace Coditech.API.Endpoint
         public string GetActiveModuleAsync() =>
            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/GetActiveModuleList";
 
+        public string UserLoginAsync() =>
+            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/Login";
+
         public string ChangePasswordAsync() =>
-            $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/ChangePassword";
+           $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/ChangePassword";
 
         public string ResetPasswordAsync() =>
             $"{CoditechAdminSettings.CoditechUserApiRootUri}/User/ResetPassword";
