@@ -63,6 +63,20 @@
     <script src="~/js/login/feather.min.js"></script>
     <script src="~/js/login/simplebar.min.js"></script>
     <script src="~/js/coditech/common/coditechnotification.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".view-password").click(function () {
+                $(this).toggleClass("fa fa-eye-slash");
+                var inputAttribute = $('.password-input');
+                if (inputAttribute.attr("type") == "password") {
+                    inputAttribute.attr("type", "text");
+                } else {
+                    inputAttribute.attr("type", "password");
+                }
+            });
+        });
+    </script>
 </body>
 @await RenderSectionAsync("Scripts", required: false)
 </html>
