@@ -39,11 +39,21 @@ namespace Coditech.API.Service
             else if (!userMasterData.IsActive)
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
+            long personId = _gymMemberDetailsRepository.Table.Where(x => x.GymMemberDetailId == userMasterData.EntityId).FirstOrDefault().PersonId;
+
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNull(generalPersonModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
             GymUserModel userModel = new GymUserModel()
             {
                 EntityId = userMasterData.EntityId,
-                IsPasswordChange = userMasterData.IsPasswordChange
-
+                IsPasswordChange = userMasterData.IsPasswordChange,
+                PhotoMediaPath = GetImagePath(generalPersonModel.PhotoMediaId),
+                PersonTitle = generalPersonModel.PersonTitle,
+                FirstName = generalPersonModel.FirstName,
+                MiddleName = generalPersonModel.MiddleName,
+                LastName = generalPersonModel.LastName
             };
             return userModel;
         }
