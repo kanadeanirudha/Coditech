@@ -45,7 +45,7 @@ namespace Coditech.Common.Logger
                 InserLogMessageInDatabase(message, componentName, traceLevel, errorMessageType, obj, methodName, fileName, lineNumber);
             }
         }
-        
+
         #region Private Methods
 
         // Checks the web.config to see if text file logging is enabled.
@@ -126,13 +126,13 @@ namespace Coditech.Common.Logger
             try
             {
                 CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>();
-                objStoredProc.SetParameter("@ErrorMessageType", !string.IsNullOrEmpty(errorMessageType) ? errorMessageType?.Substring(0, 50) : ErrorMessageTypeEnum.Application.ToString(), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@ErrorMessageType", !string.IsNullOrEmpty(errorMessageType) ? errorMessageType?.Substring(0, errorMessageType.Length > 50 ? 50 : componentName.Length) : ErrorMessageTypeEnum.Application.ToString(), ParameterDirection.Input, DbType.String);
                 objStoredProc.SetParameter("@ExceptionMessage", message, ParameterDirection.Input, DbType.String);
-                objStoredProc.SetParameter("@ComponentName", componentName?.Substring(0, 200), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@ComponentName", componentName?.Substring(0, componentName.Length > 200 ? 200 : componentName.Length), ParameterDirection.Input, DbType.String);
                 objStoredProc.SetParameter("@TraceLevel", traceLevel.ToString(), ParameterDirection.Input, DbType.String);
                 objStoredProc.SetParameter("@Exception", Convert.ToString(obj), ParameterDirection.Input, DbType.String);
-                objStoredProc.SetParameter("@MethodName", methodName?.Substring(0, 200), ParameterDirection.Input, DbType.String);
-                objStoredProc.SetParameter("@FileName", fileName?.Substring(0, 200), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@MethodName", methodName?.Substring(0, methodName.Length > 200 ? 200 : methodName.Length), ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@FileName", fileName?.Substring(0, fileName.Length > 200 ? 200 : fileName.Length), ParameterDirection.Input, DbType.String);
                 objStoredProc.SetParameter("@LineNumber", Convert.ToString(lineNumber), ParameterDirection.Input, DbType.Int32);
                 objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
                 int status = 0;
