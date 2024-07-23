@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 
 namespace Coditech.Admin.Agents
 {
@@ -35,5 +36,19 @@ namespace Coditech.Admin.Agents
         /// <param name="generalPersonAddressViewModel">generalPersonAddressViewModel.</param>
         /// <returns>Returns updated generalPersonAddressViewModel</returns>
         GeneralPersonAddressViewModel InsertUpdateGeneralPersonAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel);
+
+        /// <summary>
+        /// This method is used to ResetPassword the user.
+        /// </summary>
+        /// <param name="model">Reset Password View Model.</param>
+        /// <returns>Returns ResetPasswordViewModel.</returns>
+        ResetPasswordViewModel ResetPassword(ResetPasswordViewModel model);
+
+        /// <summary>
+        /// reset password link to the user.
+        /// </summary>
+        /// <param name="userName">userName</param>
+        /// <returns>Returns the reset password send link view model.</returns>
+        ResetPasswordSendLinkViewModel ResetPasswordSendLink(string userName);       
     }
 }

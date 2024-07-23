@@ -3,7 +3,7 @@
     ViewBag.Title = "Organisation Centrewise Email Template";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel emailTemplateCodeDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.EmailTemplate.ToString(), DropdownName = "EmailTemplateCode", DropdownSelectedValue = Model.EmailTemplate, ChangeEvent = $"OrganisationCentrewiseEmailTemplate.GetEmailTemplateByCentreCode('{Model.OrganisationCentreMasterId}')" };
+    DropdownViewModel emailTemplateCodeDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.EmailTemplate.ToString(), DropdownName = "EmailTemplateCode", DropdownSelectedValue = Model.EmailTemplate, ChangeEvent = $"OrganisationCentre.GetEmailTemplateByCentreCode('{Model.OrganisationCentreMasterId}')" };
 }
 <div class="page-content mt-5">
     <div class="container-fluid">
@@ -60,6 +60,6 @@
         </div>
     </div>
 </div>
-<script src="~/js/Coditech/Organisation/OrganisationCentrewiseEmailTemplate.js"></script>
+<script src="~/js/Coditech/Organisation/OrganisationCentre.js"></script>
 
 

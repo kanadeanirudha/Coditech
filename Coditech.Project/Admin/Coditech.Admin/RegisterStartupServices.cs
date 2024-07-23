@@ -142,12 +142,6 @@ namespace Coditech.Admin
         public static void UseStaticFiles(this WebApplication app, WebApplicationBuilder builder)
         {
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                       Path.Combine(builder.Environment.ContentRootPath, "MediaFolder")),
-                RequestPath = "/MediaFolder"
-            });
         }
 
         /// <summary>

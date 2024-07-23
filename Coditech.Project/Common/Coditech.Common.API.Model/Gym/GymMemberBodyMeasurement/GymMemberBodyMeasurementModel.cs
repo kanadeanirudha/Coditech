@@ -19,7 +19,7 @@ namespace Coditech.Common.API.Model
         public string BodyMeasurementType { get; set; }
         public string MeasurementUnitShortCode { get; set; }
         public string MeasurementUnitDisplayName { get; set; }
-
+        public DateTime BodyMeasurementDate { get; set; }
         public List<GymMemberBodyMeasurementValueModel> GymMemberBodyMeasurementValueList { get; set; }
         public GymMemberBodyMeasurementModel()
         {

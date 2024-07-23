@@ -34,6 +34,7 @@
                         @using (Html.BeginForm("UpdateEmployeeOtherDetail", controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.EmployeeId)
+                            @Html.HiddenFor(m => m.PersonId)
                             @Html.HiddenFor(m => m.EmployeeDesignationMasterId)
                             <div class="row">
                                 <div class="col-lg-4">

@@ -21,6 +21,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Body Measurement Value")]
         public string BodyMeasurementValue { get; set; }
 
+        [Required]
+        public DateTime BodyMeasurementDate { get; set; }
+
         public string BodyMeasurementType { get; set; }
         public string MeasurementUnitShortCode { get; set; }
         public string MeasurementUnitDisplayName { get; set; }

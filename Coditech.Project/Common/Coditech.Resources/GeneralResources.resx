@@ -121,7 +121,7 @@
     <value>Cancel</value>
   </data>
   <data name="ChangePasswordSuccessMessage" xml:space="preserve">
-    <value>Record Change Password Success Message updated successfully.</value>
+    <value>Password change successfully. Please re-login again with new Password.</value>
   </data>
   <data name="DeleteErrorMessage" xml:space="preserve">
     <value>Failed to delete the record.</value>

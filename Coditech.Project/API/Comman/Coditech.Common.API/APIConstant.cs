@@ -8,5 +8,6 @@
         public const string Other = "Other";
         public const string PlanDurationType = "duration";
         public const string PlanSessionType = "session";
+        public const string Mobile = "Mobile";
     }
 }

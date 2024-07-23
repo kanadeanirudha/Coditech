@@ -79,7 +79,18 @@
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
             InventoryGeneralItemMaster,
-            HospitalPatientType
+            HospitalPatientAppointmentPurpose,
+            HospitalPatientType,
+            CentrewiseSms,
+            CoditechApplicationSetting,
+            ResetPassword,
+            ResetPasswordSendLink,
+            WhatsAppService,
+            HospitalPatientAppointment,
+            TimeSlot,
+            CoditechGeneralApi,
+            CentrewiseSMSTemplate,
+            CentrewiseWhatsAppTemplate
         }
     }
 }

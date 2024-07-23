@@ -85,6 +85,34 @@ namespace Coditech.API.Client
         OrganisationCentrewiseSmtpSettingResponse UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingModel body);
 
         /// <summary>
+        /// Get OrganisationCentrewiseSmsSetting by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseSmsSettingResponse.</returns>
+        OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseSmsSetting.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseSmsSettingModel">OrganisationCentrewiseSmsSettingModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseSmsSettingResponse</returns>
+        OrganisationCentrewiseSmsSettingResponse UpdateCentrewiseSmsSetup(OrganisationCentrewiseSmsSettingModel body);
+
+        /// <summary>
+        /// Get OrganisationCentrewiseWhatsAppSetting by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <returns>Returns OrganisationCentrewiseWhatsAppSettingResponse.</returns>
+        OrganisationCentrewiseWhatsAppSettingResponse GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseWhatsAppSetting.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseWhatsAppSettingModel">OrganisationCentrewiseWhatsAppSettingModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseWhatsAppSettingResponse</returns>
+        OrganisationCentrewiseWhatsAppSettingResponse UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingModel body);
+
+        /// <summary>
         /// Get OrganisationCentrewiseEmailTemplate by organisationCentreId.
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
@@ -112,5 +140,35 @@ namespace Coditech.API.Client
         /// <param name="OrganisationCentrewiseUserNameRegistrationModel">OrganisationCentrewiseUserNameRegistrationModel.</param>
         /// <returns>Returns updated OrganisationCentrewiseUserNameRegistrationResponse</returns>
         OrganisationCentrewiseUserNameRegistrationResponse UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel body);
+
+        /// <summary>
+        /// Get OrganisationCentrewiseSMSTemplate by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <param name="emailTemplateCode">emailTemplateCode</param>
+        /// <returns>Returns OrganisationCentrewiseEmailTemplateResponse.</returns>
+        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseSMSTemplate.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseEmailTemplateModel">OrganisationCentrewiseEmailTemplateModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseEmailTemplateResponse</returns>
+        OrganisationCentrewiseEmailTemplateResponse UpdateCentrewiseSMSTemplateSetup(OrganisationCentrewiseEmailTemplateModel body);
+
+        /// <summary>
+        /// Get OrganisationCentrewiseWhatsAppTemplate by organisationCentreId.
+        /// </summary>
+        /// <param name="organisationCentreId">organisationCentreId</param>
+        /// <param name="emailTemplateCode">emailTemplateCode</param>
+        /// <returns>Returns OrganisationCentrewiseEmailTemplateResponse.</returns>
+        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode);
+
+        /// <summary>
+        /// Update OrganisationCentrewiseWhatsAppTemplate.
+        /// </summary>
+        /// <param name="OrganisationCentrewiseEmailTemplateModel">OrganisationCentrewiseEmailTemplateModel.</param>
+        /// <returns>Returns updated OrganisationCentrewiseEmailTemplateResponse</returns>
+        OrganisationCentrewiseEmailTemplateResponse UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel body);
     }
 }

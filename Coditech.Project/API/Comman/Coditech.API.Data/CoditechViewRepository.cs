@@ -1,7 +1,10 @@
-﻿using Dapper;
+﻿using Coditech.Common.Helper;
+
+using Dapper;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 using System.Data;
 
@@ -89,7 +92,8 @@ namespace Coditech.API.Data
             totalRowCount = 0;
             try
             {
-                using IDbConnection db = new SqlConnection(this._context.Database.GetConnectionString());
+                string conectionString = string.IsNullOrEmpty(this._context.Database.GetConnectionString()) ? GetConnectionString() : this._context.Database.GetConnectionString();
+                using IDbConnection db = new SqlConnection(conectionString);
                 var result = db.Query<T>(sql: "exec " + commandText, param: dynamicParameterList, commandTimeout: storedProcedureTimeOut).ToList();
 
                 if (!Equals(result, null) && indexOutParamater.HasValue)
@@ -116,6 +120,19 @@ namespace Coditech.API.Data
         private void ClearParameters()
         {
             dynamicParameterList = new DynamicParameters();
+        }
+
+        //ConnectionString
+        private string GetConnectionString()
+        {
+            if (CoditechDependencyResolver.GetService<IConfiguration>().GetSection("ConnectionStrings")["CoditechDatabase"] != null)
+            {
+                return Convert.ToString(CoditechDependencyResolver.GetService<IConfiguration>().GetSection("ConnectionStrings")["CoditechDatabase"]);
+            }
+            else
+            {
+                return "";
+            }
         }
         #endregion
     }

@@ -60,6 +60,8 @@ namespace Coditech.Admin.Agents
                 {
                     case ErrorCodes.NotFound:
                         return (UserLoginViewModel)GetViewModelWithErrorMessage(userLoginViewModel, AdminResources.ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword);
+                    case ErrorCodes.ContactAdministrator:
+                        return (UserLoginViewModel)GetViewModelWithErrorMessage(userLoginViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
                     default:
                         return (UserLoginViewModel)GetViewModelWithErrorMessage(userLoginViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
                 }
@@ -77,7 +79,8 @@ namespace Coditech.Admin.Agents
 
             try
             {
-                changePasswordViewModel.UserMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+                changePasswordViewModel.EntityId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.EntityId ?? 0;
+                changePasswordViewModel.UserType = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserType;
                 ChangePasswordResponse response = _userClient.ChangePassword(changePasswordViewModel.ToModel<ChangePasswordModel>());
                 ChangePasswordModel changePasswordModel = response?.ChangePasswordModel;
                 return IsNotNull(changePasswordModel) ? changePasswordModel.ToViewModel<ChangePasswordViewModel>() : new ChangePasswordViewModel();
@@ -137,6 +140,72 @@ namespace Coditech.Admin.Agents
                 return (GeneralPersonAddressViewModel)GetViewModelWithErrorMessage(generalPersonAddressViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+
+        #region ResetPassword
+        // This method is used to reset password the user
+        public virtual ResetPasswordSendLinkViewModel ResetPasswordSendLink(string userName)
+        {
+            ResetPasswordSendLinkViewModel resetPasswordSendLinkViewModel = new ResetPasswordSendLinkViewModel();
+            try
+            {
+                ResetPasswordSendLinkResponse resetPasswordSendLinkResponse = _userClient.ResetPasswordSendLink(userName);
+                if (resetPasswordSendLinkResponse != null && !resetPasswordSendLinkResponse.HasError)
+                {
+                    return resetPasswordSendLinkViewModel;
+                }
+                else
+                {
+                    return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+                }
+            }
+            catch (CoditechException ex)
+            {
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.NotFound:
+                        return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, "Please make sure that the UserName you entered is correct.");
+                    case ErrorCodes.ContactAdministrator:
+                        return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, $"Access Denied. {GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
+                    default:
+                        return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, $"{GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPassword.ToString(), TraceLevel.Error);
+                return (ResetPasswordSendLinkViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+            }
+        }
+
+        public virtual ResetPasswordViewModel ResetPassword(ResetPasswordViewModel model)
+        {
+            try
+            {
+                ResetPasswordResponse resetPasswordResponse = _userClient.ResetPassword(model.ToModel<ResetPasswordModel>());
+                return model;
+            }
+            catch (CoditechException ex)
+            {
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.NotFound:
+                        return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, "Please make sure that the UserName you entered is correct.");
+                    case ErrorCodes.InValidOTP:
+                        return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, $"Invalid OTP. Please try again.");
+                    case ErrorCodes.ExpiredOTP:
+                        return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, $"OTP expired. Please reset password again.");
+                    default:
+                        return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, $"{GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.ResetPassword.ToString(), TraceLevel.Error);
+                return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+            }
+        }
+        #endregion
+
         #endregion
     }
 }

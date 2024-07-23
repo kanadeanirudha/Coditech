@@ -33,5 +33,6 @@
         public string CentreName { get; set; }
         public string SelectedDepartmentId { get; set; }
         public short EmployeeDesignationMasterId { get; set; }
+        public byte HospitalPatientTypeId { get; set; }
     }
 }

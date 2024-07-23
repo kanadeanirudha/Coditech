@@ -12,6 +12,8 @@
         
         public string EmailTemplate { get; set; }
         public string ModuleCode { get; set; }
+        public bool IsSmsTemplate { get; set; }
+        public bool IsWhatsAppTemplate { get; set; }
         public bool IsActive { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

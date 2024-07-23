@@ -270,6 +270,94 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [Route("/OrganisationCentreMaster/GetCentrewiseSmsSetup")]
+        [HttpGet]
+        [Produces(typeof(OrganisationCentrewiseSmsSettingResponse))]
+        public virtual IActionResult GetCentrewiseSmsSetup(short organisationCentreMasterId, byte generalSmsProviderId)
+        {
+            try
+            {
+                OrganisationCentrewiseSmsSettingModel organisationCentrewiseSmsSettingModel = _organisationCentreMasterService.GetCentrewiseSmsSetup(organisationCentreMasterId, generalSmsProviderId);
+                return IsNotNull(organisationCentrewiseSmsSettingModel) ? CreateOKResponse(new OrganisationCentrewiseSmsSettingResponse() { OrganisationCentrewiseSmsSettingModel = organisationCentrewiseSmsSettingModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSms.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmsSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSms.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmsSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/UpdateCentrewiseSmsSetup")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseSmsSettingResponse))]
+        public virtual IActionResult UpdateCentrewiseSmsSetup([FromBody] OrganisationCentrewiseSmsSettingModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdateCentrewiseSmsSetup(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseSmsSettingResponse { OrganisationCentrewiseSmsSettingModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSms.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmsSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSms.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmsSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/GetCentrewiseWhatsAppSetup")]
+        [HttpGet]
+        [Produces(typeof(OrganisationCentrewiseWhatsAppSettingResponse))]
+        public virtual IActionResult GetCentrewiseWhatsAppSetup(short organisationCentreMasterId, byte generalWhatsAppProviderId)
+        {
+            try
+            {
+                OrganisationCentrewiseWhatsAppSettingModel organisationCentrewiseWhatsAppSettingModel = _organisationCentreMasterService.GetCentrewiseWhatsAppSetup(organisationCentreMasterId, generalWhatsAppProviderId);
+                return IsNotNull(organisationCentrewiseWhatsAppSettingModel) ? CreateOKResponse(new OrganisationCentrewiseWhatsAppSettingResponse() { OrganisationCentrewiseWhatsAppSettingModel = organisationCentrewiseWhatsAppSettingModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseWhatsAppSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseWhatsAppSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/UpdateCentrewiseWhatsAppSetup")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseWhatsAppSettingResponse))]
+        public virtual IActionResult UpdateCentrewiseWhatsAppSetup([FromBody] OrganisationCentrewiseWhatsAppSettingModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdateCentrewiseWhatsAppSetup(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseWhatsAppSettingResponse { OrganisationCentrewiseWhatsAppSettingModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseWhatsAppSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseWhatsAppSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
         [Route("/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
@@ -314,10 +402,98 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [Route("/OrganisationCentreMaster/GetCentrewiseSMSTemplateSetup")]
+        [HttpGet]
+        [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
+        public virtual IActionResult GetCentrewiseSMSTemplateSetup(short organisationCentreMasterId, string emailTemplateCode)
+        {
+            try
+            {
+                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = _organisationCentreMasterService.GetCentrewiseSMSTemplateSetup(organisationCentreMasterId, emailTemplateCode);
+                return IsNotNull(organisationCentrewiseEmailTemplateModel) ? CreateOKResponse(new OrganisationCentrewiseEmailTemplateResponse() { OrganisationCentrewiseEmailTemplateModel = organisationCentrewiseEmailTemplateModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSMSTemplate.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSMSTemplate.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/UpdateCentrewiseSMSTemplateSetup")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
+        public virtual IActionResult UpdateCentrewiseSMSTemplateSetup([FromBody] OrganisationCentrewiseEmailTemplateModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdateCentrewiseSMSTemplateSetup(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseEmailTemplateResponse { OrganisationCentrewiseEmailTemplateModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSMSTemplate.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseSMSTemplate.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/GetCentrewiseWhatsAppTemplateSetup")]
+        [HttpGet]
+        [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
+        public virtual IActionResult GetCentrewiseWhatsAppTemplateSetup(short organisationCentreMasterId, string emailTemplateCode)
+        {
+            try
+            {
+                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = _organisationCentreMasterService.GetCentrewiseWhatsAppTemplateSetup(organisationCentreMasterId, emailTemplateCode);
+                return IsNotNull(organisationCentrewiseEmailTemplateModel) ? CreateOKResponse(new OrganisationCentrewiseEmailTemplateResponse() { OrganisationCentrewiseEmailTemplateModel = organisationCentrewiseEmailTemplateModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseWhatsAppTemplate.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseWhatsAppTemplate.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/UpdateCentrewiseWhatsAppTemplateSetup")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
+        public virtual IActionResult UpdateCentrewiseWhatsAppTemplateSetup([FromBody] OrganisationCentrewiseEmailTemplateModel model)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.UpdateCentrewiseWhatsAppTemplateSetup(model);
+                return isUpdated ? CreateOKResponse(new OrganisationCentrewiseEmailTemplateResponse { OrganisationCentrewiseEmailTemplateModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseWhatsAppTemplate.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CentrewiseWhatsAppTemplate.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseEmailTemplateResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
         [Route("/OrganisationCentreMaster/GetCentrewiseUserName")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseUserNameRegistrationResponse))]
-        public virtual IActionResult GetCentrewiseUserName(short organisationCentreMasterId,short organisationCentrewiseUserNameRegistrationId)
+        public virtual IActionResult GetCentrewiseUserName(short organisationCentreMasterId, short organisationCentrewiseUserNameRegistrationId)
         {
             try
             {

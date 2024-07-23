@@ -90,6 +90,20 @@ namespace Coditech.Common.Service
         /// <param name="From">Email address of the sender.</param>
         /// <param name="Subject">The subject line of the email.</param>
         /// <param name="Body">The body of the email.</param>
+        /// <param name="IsBodyHtml">Set to True to send this email in HTML format.</param>
+        public virtual void SendEmail(string centreCode, string to, string from, string subject, string body, bool isBodyHtml)
+        {
+            SendEmail(centreCode, to, from, string.Empty, string.Empty, subject, body, isBodyHtml, string.Empty);
+        }
+
+        /// <summary>
+        /// Sends email using SMTP, Uses default network credentials
+        /// </summary>
+        /// <param name="centreCode">Current centreCode.</param>
+        /// <param name="To">Email address of the recipient.</param>
+        /// <param name="From">Email address of the sender.</param>
+        /// <param name="Subject">The subject line of the email.</param>
+        /// <param name="Body">The body of the email.</param>
         public virtual void SendEmail(string centreCode, string to, string from, string subject, string body)
         {
             SendEmail(centreCode, to, from, string.Empty, string.Empty, subject, body, false, string.Empty);

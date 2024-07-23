@@ -693,16 +693,15 @@ namespace Coditech.API.Client
         }
         private string GetAuthorizationHeader(string domainName, string domainKey, string endpoint = "")
         {
-            return $"Authorization: Basic {EncodeBase64($"{domainName}|{domainKey}")}";
+            return $"Authorization: Basic {HelperUtility.EncodeBase64($"{domainName}|{domainKey}")}";
         }
 
         private string GetAuthorizationHeader(string domainName, string domainKey)
         {
-            return $"Basic {EncodeBase64($"{domainName}|{domainKey}")}";
+            return $"Basic {HelperUtility.EncodeBase64($"{domainName}|{domainKey}")}";
         }
 
-        private string EncodeBase64(string value) => Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
-        /// <summary>
+         /// <summary>
         /// Log request-response details to BaseClient Component
         /// Request Details : URL, ReqHeaders
         /// Response Details: Response StatusCode 

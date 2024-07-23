@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\API\Comman\Coditech.API.Data\Coditech.API.Data.csproj" />
     <ProjectReference Include="..\Coditech.Common.Helper\Coditech.Common.Helper.csproj" />
   </ItemGroup>
 
