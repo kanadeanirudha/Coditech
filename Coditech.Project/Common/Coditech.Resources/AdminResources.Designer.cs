@@ -293,7 +293,30 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteHospitalDoctorLeaveSchedule", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Patient Appointment due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPatientAppointment
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalPatientAppointment", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Patient Appointment Purpose due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPatientAppointmentPurpose
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalPatientAppointmentPurpose", resourceCulture);
+            }
+        }
+
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctor OPD Schedule due to associate record..
         /// </summary>

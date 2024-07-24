@@ -50,6 +50,7 @@ namespace Coditech.API.Mapper
             CreateMap<UserMainMenuMaster, UserMainMenuModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseSmsSetting, OrganisationCentrewiseSmsSettingModel>().ReverseMap();
             CreateMap<CoditechApplicationSetting, CoditechApplicationSettingModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseWhatsAppSetting, OrganisationCentrewiseWhatsAppSettingModel>().ReverseMap();
         }
     }
 }

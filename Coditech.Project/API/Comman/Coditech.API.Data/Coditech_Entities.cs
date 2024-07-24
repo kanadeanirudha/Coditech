@@ -34,7 +34,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralRunningNumbers> GeneralRunningNumbers { get; set; }
         public DbSet<GeneralLeadGenerationMaster> GeneralLeadGenerationMaster { get; set; }
         public DbSet<GeneralSmsProvider> GeneralSmsProvider { get; set; }
-        public DbSet<GeneralWhatsUpProvider> GeneralWhatsUpProvider { get; set; }
+        public DbSet<GeneralWhatsAppProvider> GeneralWhatsAppProvider { get; set; }
         public DbSet<CoditechApplicationSetting> CoditechApplicationSetting { get; set; }
         #endregion
 
@@ -48,7 +48,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrewiseBuildingRooms> OrganisationCentrewiseBuildingRooms { get; set; }
         public DbSet<OrganisationCentrewiseSmtpSetting> OrganisationCentrewiseSmtpSetting { get; set; }
         public DbSet<OrganisationCentrewiseSmsSetting> OrganisationCentrewiseSmsSetting { get; set; }
-        public DbSet<OrganisationCentrewiseWhatsUpSetting> OrganisationCentrewiseWhatsUpSetting { get; set; }
+        public DbSet<OrganisationCentrewiseWhatsAppSetting> OrganisationCentrewiseWhatsAppSetting { get; set; }
         public DbSet<OrganisationCentrewiseEmailTemplate> OrganisationCentrewiseEmailTemplate { get; set; }
         public DbSet<OrganisationCentrewiseUserNameRegistration> OrganisationCentrewiseUserNameRegistration { get; set; }
         #endregion
@@ -104,8 +104,9 @@ namespace Coditech.API.Data
         public DbSet<HospitalDoctorAllocatedRoom> HospitalDoctorAllocatedRoom { get; set; }
         public DbSet<HospitalDoctorLeaveSchedule> HospitalDoctorLeaveSchedule { get; set; }
         public DbSet<HospitalPatientRegistration> HospitalPatientRegistration { get; set; }
-        public DbSet<HospitalPatientAppointmentPurposeMaster> HospitalPatientAppointmentPurposeMaster { get; set; }
+        public DbSet<HospitalPatientAppointmentPurpose> HospitalPatientAppointmentPurpose { get; set; }
         public DbSet<HospitalPatientType> HospitalPatientType { get; set; }
+        public DbSet<HospitalPatientAppointment> HospitalPatientAppointment { get; set; }
         #endregion
 
         #region GeneralPerson

@@ -68,7 +68,7 @@ namespace Coditech.API.Controllers
             try
             {
                 GymUserModel gymUserResponse = _gymUserService.UpdateAdditionalInformation(gymUserModel);
-                return IsNotNull(gymUserResponse) ? CreateCreatedResponse(new GymUserResponse { GymUserModel = gymUserResponse }) : CreateInternalServerErrorResponse();
+                return IsNotNull(gymUserResponse) ? CreateOKResponse(new GymUserResponse { GymUserModel = gymUserResponse }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
@@ -90,7 +90,7 @@ namespace Coditech.API.Controllers
             try
             {
                 GymUserModel gymUserResponse = _gymUserService.GetGymMemberDetails(entityId);
-                return IsNotNull(gymUserResponse) ? CreateCreatedResponse(new GymUserResponse { GymUserModel = gymUserResponse }) : CreateInternalServerErrorResponse();
+                return IsNotNull(gymUserResponse) ? CreateOKResponse(new GymUserResponse { GymUserModel = gymUserResponse }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {

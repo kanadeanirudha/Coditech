@@ -23,7 +23,7 @@ namespace Coditech.Admin.Controllers
             HospitalPatientRegistrationListViewModel list = new HospitalPatientRegistrationListViewModel();
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
-                list = _hospitalPatientRegistrationAgent.GetHospitalPatientRegistrationList(dataTableViewModel);
+                list = _hospitalPatientRegistrationAgent.GetHospitalPatientRegistrationList(dataTableViewModel.SelectedCentreCode, dataTableViewModel);
             }
             list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
 
@@ -94,7 +94,11 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<HospitalPatientRegistrationController>(x => x.List(null));
         }
 
-
+        public virtual ActionResult Cancel(string SelectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
+            return RedirectToAction("List", dataTableViewModel);
+        }
         #endregion HospitalPatientRegistration
 
         #region Hospital Patient Registration Address

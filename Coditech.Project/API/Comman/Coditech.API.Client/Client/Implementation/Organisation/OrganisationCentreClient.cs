@@ -564,16 +564,16 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseSmsSetup
-        public virtual OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId)
         {
-            return Task.Run(async () => await GetCentrewiseSmsSetupAsync(organisationCentreId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetCentrewiseSmsSetupAsync(organisationCentreId, generalSmsProviderId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<OrganisationCentrewiseSmsSettingResponse> GetCentrewiseSmsSetupAsync(short organisationCentreId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseSmsSettingResponse> GetCentrewiseSmsSetupAsync(short organisationCentreId, byte generalSmsProviderId, System.Threading.CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
 
-            string endpoint = organisationCentreEndpoint.GetCentrewiseSmsSetupAsync(organisationCentreId);
+            string endpoint = organisationCentreEndpoint.GetCentrewiseSmsSetupAsync(organisationCentreId, generalSmsProviderId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -665,10 +665,112 @@ namespace Coditech.API.Client
         }
         #endregion
 
+        #region CentrewiseWhatsAppSetup
+        public virtual OrganisationCentrewiseWhatsAppSettingResponse GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId)
+        {
+            return Task.Run(async () => await GetCentrewiseWhatsAppSetupAsync(organisationCentreId, generalWhatsAppProviderId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<OrganisationCentrewiseWhatsAppSettingResponse> GetCentrewiseWhatsAppSetupAsync(short organisationCentreId, byte generalWhatsAppProviderId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (organisationCentreId <= 0)
+                throw new System.ArgumentNullException("organisationCentreId");
+
+            string endpoint = organisationCentreEndpoint.GetCentrewiseWhatsAppSetupAsync(organisationCentreId, generalWhatsAppProviderId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseWhatsAppSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new OrganisationCentrewiseWhatsAppSettingResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseWhatsAppSettingResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseWhatsAppSettingResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual OrganisationCentrewiseWhatsAppSettingResponse UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingModel body)
+        {
+            return Task.Run(async () => await UpdateCentrewiseWhatsAppSetupAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseWhatsAppSettingResponse> UpdateCentrewiseWhatsAppSetupAsync(OrganisationCentrewiseWhatsAppSettingModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentreEndpoint.UpdateCentrewiseWhatsAppSetupAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseWhatsAppSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseWhatsAppSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseWhatsAppSettingResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseWhatsAppSettingResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        #endregion
+
         #region CentrewiseEmailTemplate
         public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
         {
-            return Task.Run(async () => await GetCentrewiseEmailTemplateSetupAsync(organisationCentreId,emailTemplateCode, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetCentrewiseEmailTemplateSetupAsync(organisationCentreId, emailTemplateCode, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
         public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseEmailTemplateSetupAsync(short organisationCentreId, string emailTemplateCode, System.Threading.CancellationToken cancellationToken)
@@ -676,7 +778,7 @@ namespace Coditech.API.Client
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
 
-            string endpoint = organisationCentreEndpoint.GetCentrewiseEmailTemplateSetupAsync(organisationCentreId,emailTemplateCode);
+            string endpoint = organisationCentreEndpoint.GetCentrewiseEmailTemplateSetupAsync(organisationCentreId, emailTemplateCode);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -768,10 +870,216 @@ namespace Coditech.API.Client
         }
         #endregion
 
-        #region Centrewise UserName
-        public virtual OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId,short organisationCentrewiseUserNameRegistrationId)
+        #region CentrewiseSMSTemplate
+        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode)
         {
-            return Task.Run(async () => await GetCentrewiseUserNameAsync(organisationCentreId, organisationCentrewiseUserNameRegistrationId,System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetCentrewiseSMSTemplateSetupAsync(organisationCentreId, emailTemplateCode, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseSMSTemplateSetupAsync(short organisationCentreId, string emailTemplateCode, System.Threading.CancellationToken cancellationToken)
+        {
+            if (organisationCentreId <= 0)
+                throw new System.ArgumentNullException("organisationCentreId");
+
+            string endpoint = organisationCentreEndpoint.GetCentrewiseSMSTemplateSetupAsync(organisationCentreId, emailTemplateCode);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseEmailTemplateResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new OrganisationCentrewiseEmailTemplateResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseEmailTemplateResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseEmailTemplateResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual OrganisationCentrewiseEmailTemplateResponse UpdateCentrewiseSMSTemplateSetup(OrganisationCentrewiseEmailTemplateModel body)
+        {
+            return Task.Run(async () => await UpdateCentrewiseSMSTemplateSetupAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> UpdateCentrewiseSMSTemplateSetupAsync(OrganisationCentrewiseEmailTemplateModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentreEndpoint.UpdateCentrewiseSMSTemplateSetupAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseEmailTemplateResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseEmailTemplateResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseEmailTemplateResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseEmailTemplateResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        #endregion
+
+        #region CentrewiseWhatsAppTemplate
+        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        {
+            return Task.Run(async () => await GetCentrewiseWhatsAppTemplateSetupAsync(organisationCentreId, emailTemplateCode, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseWhatsAppTemplateSetupAsync(short organisationCentreId, string emailTemplateCode, System.Threading.CancellationToken cancellationToken)
+        {
+            if (organisationCentreId <= 0)
+                throw new System.ArgumentNullException("organisationCentreId");
+
+            string endpoint = organisationCentreEndpoint.GetCentrewiseWhatsAppTemplateSetupAsync(organisationCentreId, emailTemplateCode);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseEmailTemplateResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new OrganisationCentrewiseEmailTemplateResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseEmailTemplateResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseEmailTemplateResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual OrganisationCentrewiseEmailTemplateResponse UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel body)
+        {
+            return Task.Run(async () => await UpdateCentrewiseWhatsAppTemplateSetupAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> UpdateCentrewiseWhatsAppTemplateSetupAsync(OrganisationCentrewiseEmailTemplateModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentreEndpoint.UpdateCentrewiseWhatsAppTemplateSetupAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseEmailTemplateResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<OrganisationCentrewiseEmailTemplateResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    OrganisationCentrewiseEmailTemplateResponse typedBody = JsonConvert.DeserializeObject<OrganisationCentrewiseEmailTemplateResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        #endregion
+
+        #region Centrewise UserName
+        public virtual OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
+        {
+            return Task.Run(async () => await GetCentrewiseUserNameAsync(organisationCentreId, organisationCentrewiseUserNameRegistrationId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
         public virtual async Task<OrganisationCentrewiseUserNameRegistrationResponse> GetCentrewiseUserNameAsync(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId, System.Threading.CancellationToken cancellationToken)
         {

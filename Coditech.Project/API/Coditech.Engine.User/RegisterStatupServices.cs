@@ -152,8 +152,9 @@ namespace Coditech.API.Common
         /// <param name="builder"></param>
         public static void RegisterEntity(this WebApplicationBuilder builder)
         {
+            string connectionString = builder.Configuration.GetConnectionString("CoditechDatabase");
             // Coditech entity registration
-            builder.Services.AddDbContext<Coditech_Entities>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CoditechDatabase")), ServiceLifetime.Scoped);
+            builder.Services.AddDbContext<Coditech_Entities>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
 
             // Repository classes registration
             builder.Services.AddTransient(typeof(ICoditechRepository<>), typeof(CoditechRepository<>));
@@ -224,6 +225,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<ICoditechEmail, CoditechEmail>();
             builder.Services.AddScoped<ICoditechSMS, CoditechSMS>();
+            builder.Services.AddScoped<ICoditechWhatsApp, CoditechWhatsApp>();
             builder.Services.AddScoped<IGeneralPersonFollowUpService, GeneralPersonFollowUpService>();
             builder.Services.AddScoped<IGeneralPersonAttendanceDetailsService, GeneralPersonAttendanceDetailsService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();

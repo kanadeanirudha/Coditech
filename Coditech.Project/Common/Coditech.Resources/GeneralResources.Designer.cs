@@ -70,7 +70,7 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record Change Password Success Message updated successfully..
+        ///   Looks up a localized string similar to Password change successfully. Please re-login again with new Password..
         /// </summary>
         public static string ChangePasswordSuccessMessage {
             get {

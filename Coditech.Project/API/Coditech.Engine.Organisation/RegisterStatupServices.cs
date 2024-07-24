@@ -6,6 +6,7 @@ using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -153,8 +154,9 @@ namespace Coditech.API.Common
         /// <param name="builder"></param>
         public static void RegisterEntity(this WebApplicationBuilder builder)
         {
+            string connectionString = builder.Configuration.GetConnectionString("CoditechDatabase");
             // Coditech entity registration
-            builder.Services.AddDbContext<Coditech_Entities>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CoditechDatabase")), ServiceLifetime.Scoped);
+            builder.Services.AddDbContext<Coditech_Entities>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
 
             // Repository classes registration
             builder.Services.AddTransient(typeof(ICoditechRepository<>), typeof(CoditechRepository<>));
@@ -243,6 +245,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralLeadGenerationMasterService, GeneralLeadGenerationMasterService>();
             builder.Services.AddScoped<IGeneralUserMainMenuMasterService, GeneralUserMainMenuMasterService>();
             builder.Services.AddScoped<ICoditechApplicationSettingService, CoditechApplicationSettingService>();
+            builder.Services.AddScoped<ICoditechGeneralApiService, CoditechGeneralApiService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();

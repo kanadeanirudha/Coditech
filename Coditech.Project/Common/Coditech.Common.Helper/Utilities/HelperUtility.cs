@@ -82,5 +82,15 @@ namespace Coditech.Common.Helper
             }
 
         }
+        public static string EncodeBase64(string value) => Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
+
+        public static string DecodeBase64(string value) => Encoding.UTF8.GetString(Convert.FromBase64String(value));
+
+        public static string GenerateOTP(byte length = 6)
+        {
+            Random generator = new Random();
+            String r = generator.Next(0, 1000000).ToString($"D{length}");
+            return r;
+        }
     }
 }

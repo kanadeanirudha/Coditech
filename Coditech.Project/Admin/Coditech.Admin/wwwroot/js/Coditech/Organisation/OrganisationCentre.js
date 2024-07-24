@@ -55,4 +55,30 @@
             $("#smsProviderDivId").html("");
         }
     },
+
+    GetWhatsAppSettingByCentreCode: function (organisationCentreMasterId) {
+        var selectedItem = $("#GeneralWhatsAppProviderId").val();
+        if (selectedItem != "") {
+            CoditechCommon.ShowLodder();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "html",
+                url: "/OrganisationCentreMaster/CentrewiseWhatsAppSetup",
+                data: { "organisationCentreId": organisationCentreMasterId, "generalWhatsAppProviderId": selectedItem },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#whatsAppProviderDivId").html("").html(data);
+                    CoditechCommon.HideLodder();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve SMS Setting.", "error")
+                    CoditechCommon.HideLodder();
+                }
+            });
+        }
+        else {
+            $("#whatsAppProviderDivId").html("");
+        }
+    },
 }

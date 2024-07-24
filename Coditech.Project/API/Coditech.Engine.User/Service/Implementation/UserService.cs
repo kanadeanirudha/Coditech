@@ -2,6 +2,7 @@
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
@@ -20,6 +21,7 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         protected readonly ICoditechEmail _coditechEmail;
         protected readonly ICoditechSMS _coditechSMS;
+        protected readonly ICoditechWhatsApp _coditechWhatsApp;
         private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<AdminRoleCentreRights> _adminRoleCentreRightsRepository;
@@ -32,12 +34,13 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<EmployeeService> _employeeServiceRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
-        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS) : base(serviceProvider)
+        public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _coditechEmail = coditechEmail;
             _coditechSMS = coditechSMS;
+            _coditechWhatsApp = coditechWhatsApp;
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleCentreRightsRepository = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
@@ -59,7 +62,8 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password);
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password 
+                                                                                        && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
@@ -113,13 +117,97 @@ namespace Coditech.API.Service
             return userModel;
         }
 
+
+        #region ResetPassowrd
+        public virtual ResetPasswordModel ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            if (IsNull(resetPasswordModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            string userName = DecodeBase64(resetPasswordModel.ResetPasswordToken);
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userName);
+
+            if (IsNull(userMasterData))
+                throw new CoditechException(ErrorCodes.NotFound, "Please make sure that the Username you entered is correct.");
+
+
+            if (userMasterData.ResetPasswordToken != resetPasswordModel.OTP)
+                throw new CoditechException(ErrorCodes.InValidOTP, "Invalid OTP");
+
+            if (userMasterData.ResetPasswordTokenExpiredDate <= DateTime.Now)
+                throw new CoditechException(ErrorCodes.ExpiredOTP, "OTP Expried");
+
+            userMasterData.Password = MD5Hash(resetPasswordModel.NewPassword);
+            userMasterData.ResetPasswordToken = null;
+            userMasterData.ResetPasswordTokenExpiredDate = null;
+            _userMasterRepository.Update(userMasterData);
+            return new ResetPasswordModel();
+        }
+
+        //ResetPasswordSendLink
+        public virtual ResetPasswordSendLinkModel ResetPasswordSendLink(string userName, bool isMobileRequest)
+        {
+            if (IsNull(userName))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserName == userName)?.FirstOrDefault();
+
+            if (IsNull(userMasterData))
+                throw new CoditechException(ErrorCodes.NotFound, "Please make sure that the Username you entered is correct.");
+
+            if (!userMasterData.IsActive)
+                throw new CoditechException(ErrorCodes.ContactAdministrator, "Access Denied. Please contact a Site Administrator.");
+
+            string resetPassToken = HelperUtility.GenerateOTP();
+            userMasterData.ResetPasswordToken = resetPassToken;
+            userMasterData.ResetPasswordTokenExpiredDate = DateTime.Now.AddMinutes(Convert.ToDouble(ApiSettings.ResetPasswordExpriedTimeInMinute));
+            _userMasterRepository.Update(userMasterData);
+
+            List<CoditechApplicationSetting> coditechApplicationSettingList = CoditechApplicationSetting();
+            string url = $"{coditechApplicationSettingList.First(x => x.ApplicationCode == "CoditechAdminRootUri")?.ApplicationValue1}/User/ResetPassword?token={EncodeBase64(userMasterData.UserName)}";
+            try
+            {
+                string emailTemplateCodeEnum = $"{(isMobileRequest ? APIConstant.Mobile : "")}{EmailTemplateCodeEnum.ResetPasswordLink.ToString()}";
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(userMasterData.EntityId, userMasterData.UserType);
+                GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
+                if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
+                {
+                    string messageText = ReplaceResetPassworkLink(generalPersonModel, emailTemplateModel.EmailTemplate, url, resetPassToken);
+                    _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
+                }
+                GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
+                if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
+                {
+                    string messageText = ReplaceResetPassworkLink(generalPersonModel, smsTemplateModel.EmailTemplate, url, resetPassToken);
+                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"+91{generalPersonModel?.MobileNumber}");
+                }
+                GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
+                if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
+                {
+                    string messageText = ReplaceResetPassworkLink(generalPersonModel, whatsAppTemplateModel.EmailTemplate, url, resetPassToken);
+                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"+91{generalPersonModel?.MobileNumber}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+            }
+            return new ResetPasswordSendLinkModel();
+        }
+        #endregion
+
         //Change Password.
         public virtual ChangePasswordModel ChangePassword(ChangePasswordModel changePasswordModel)
         {
             if (IsNull(changePasswordModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserMasterId == changePasswordModel.UserMasterId);
+            if (changePasswordModel.EntityId <= 0 || string.IsNullOrEmpty(changePasswordModel.UserType))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EntityId"));
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == changePasswordModel.EntityId
+                                                                                        && x.UserType == changePasswordModel.UserType);
             if (IsNotNull(userMasterData) && userMasterData.Password == MD5Hash(changePasswordModel.CurrentPassword))
             {
                 userMasterData.Password = MD5Hash(changePasswordModel.NewPassword);
@@ -130,7 +218,8 @@ namespace Coditech.API.Service
             else
             {
                 changePasswordModel.HasError = true;
-                changePasswordModel.ErrorMessage = "Current Password DoesNot Match ";
+                changePasswordModel.ErrorCode = ErrorCodes.AlreadyExist;
+                changePasswordModel.ErrorMessage = "Current Password DoesNot Match.";
             }
             return changePasswordModel;
         }
@@ -688,7 +777,7 @@ namespace Coditech.API.Service
                         {
                             string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, generalPersonModel.CentreName, emailTemplateModel.Subject);
                             string messageText = ReplaceEmployeeEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
-                            _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", subject, messageText);
+                            _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
                         }
                     }
                     catch (Exception ex)
@@ -722,7 +811,7 @@ namespace Coditech.API.Service
                     {
                         string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
                         string messageText = ReplaceGymMemberEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
-                        _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText);
+                        _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
                     }
                 }
                 catch (Exception ex)
@@ -737,7 +826,7 @@ namespace Coditech.API.Service
             string messageText = emailTemplate;
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
-            return messageText;
+            return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
         }
 
         protected virtual string ReplaceGymMemberEmailTemplate(GeneralPersonModel generalPersonModel, string emailTemplate)
@@ -745,6 +834,30 @@ namespace Coditech.API.Service
             string messageText = emailTemplate;
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+            return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
+        }
+
+        protected virtual string ReplaceResetPassworkLink(GeneralPersonModel generalPersonModel, string emailTemplate, string url, string resetPassToken)
+        {
+            string messageText = emailTemplate;
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.Url, url, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.OTP, resetPassToken, messageText);
+            return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
+        }
+
+        protected virtual string ReplaceEmailTemplateFooter(string centreCode, string messageText)
+        {
+            if (string.IsNullOrEmpty(centreCode))
+            {
+                OrganisationCentreMaster organisationCentreMaster = GetOrganisationCentreDetails(centreCode);
+                string city = new CoditechRepository<GeneralCityMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GeneralCityMasterId == organisationCentreMaster.GeneralCityMasterId).FirstOrDefault().CityName;
+                string centreAddress = $"{organisationCentreMaster.CentreAddress}<br>{city}-{organisationCentreMaster.Pincode}";
+                messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, organisationCentreMaster.CentreName, messageText);
+                messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreAddress, centreAddress, messageText);
+                messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreContactNumber, organisationCentreMaster.PhoneNumberOffice, messageText);
+            }
             return messageText;
         }
         #endregion

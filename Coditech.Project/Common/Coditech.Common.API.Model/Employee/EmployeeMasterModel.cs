@@ -18,7 +18,6 @@ namespace Coditech.Common.API.Model
         public string PANCardNumber { get; set; }
         public string UANNumber { get; set; }
         public string PassportNumber { get; set; }
-        [Required]
         public string AdharCardNumber { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
