@@ -56,7 +56,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IEmployeeServiceAgent, EmployeeServiceAgent>();
             builder.Services.AddScoped<IGeneralCommanDataAgent, GeneralCommanDataAgent>();
             builder.Services.AddScoped<ICoditechApplicationSettingAgent, CoditechApplicationSettingAgent>();
-
+            builder.Services.AddScoped<IMediaManagerFolderAgent, MediaManagerFolderAgent>();
 
 
             #region HMS
@@ -138,7 +138,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryStorageDimensionGroupClient, InventoryStorageDimensionGroupClient>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupClient, InventoryItemTrackingDimensionGroupClient>();
             builder.Services.AddScoped<IEmployeeServiceClient, EmployeeServiceClient>();
-            builder.Services.AddScoped<ICoditechApplicationSettingClient, CoditechApplicationSettingClient>();
+            builder.Services.AddScoped<ICoditechApplicationSettingClient, CoditechApplicationSettingClient>();           
 
 
             #region HMS

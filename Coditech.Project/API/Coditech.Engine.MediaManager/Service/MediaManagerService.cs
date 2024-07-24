@@ -189,10 +189,191 @@ namespace Coditech.API.Service
                 }
 
                 return null;
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        public async Task<bool> UploadFile(IFormFile formFile, int folderId, HttpRequest request)
+        {
+            try
+            {
+                if (MultipartRequestHelper.IsMultipartContentType(request.ContentType))
+                {
+                    //string path = $"{AppDomain.CurrentDomain.BaseDirectory}Data\\Media\\";
+                    string projectPath = Directory.GetCurrentDirectory();
+                    string uploadPath = Path.Combine(projectPath, "Data", "Media");
+                    Directory.CreateDirectory(uploadPath);
+
+                    if (formFile.Length > 0)
+                    {
+                        string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(formFile.FileName);
+                        string filePath = Path.Combine(uploadPath, uniqueFileName);
+
+                        // Save the file to the server
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await formFile.CopyToAsync(stream);
+                        }
+
+                        var size = Convert.ToString(formFile.Length);
+                        var type = formFile.ContentType;
+                        var imagepath = filePath;
+
+                        // Generate URL to access the file
+                        var fileUrl = $"{GetMediaUrl()}{uniqueFileName}";
+                        var height = string.Empty; var width = string.Empty;
+
+                        if (formFile.ContentType.StartsWith("image"))
+                        {
+                            using (var image = System.Drawing.Image.FromStream(formFile.OpenReadStream()))
+                            {
+                                width = Convert.ToString(image.Width);
+                                height = Convert.ToString(image.Height);
+                            }
+                        }
+
+                        var result = _mediaDetailRepository.Insert(new MediaDetail()
+                        {
+                            MediaConfigurationId = 1,
+                            MediaFolderMasterId = folderId,
+                            Path = uniqueFileName,
+                            FileName = formFile.FileName,
+                            Size = size,
+                            Length = size,
+                            Height = height,
+                            Width = width,
+                            Type = type
+                        });
+
+                        return true;
+                    }
+                }               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return false;
+        }
+
+        public async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0)
+        {
+            try
+            {
+                MediaManagerFolderResponse managerFolderResponse = new();
+                List<MediaFolderMaster> mediaFolderMasterList = [.. _mediaFolderMasterRepository.Table];
+
+                MediaFolderMaster rootMediaFolder = mediaFolderMasterList.FirstOrDefault(x => x.MediaFolderParentId == 0);
+
+                List<int> folderids = new();
+
+                int ActiveFolderId = rootFolderId > 0 ? rootFolderId : rootMediaFolder.MediaFolderMasterId;
+
+                managerFolderResponse.MediaManagerFolderModel = new MediaManagerFolderModel
+                {
+                    ActiveFolderId = ActiveFolderId,
+                    MediaRootFolder = new MediaFolderStructure()
+                    {
+                        RootFolderId = rootMediaFolder.MediaFolderMasterId,
+                        RootFolderName = rootMediaFolder.FolderName,
+                        IsActiveFolder = ActiveFolderId == rootMediaFolder.MediaFolderMasterId,
+                        SubFolders = GetSubFolders(rootMediaFolder.MediaFolderMasterId, mediaFolderMasterList, ref folderids, ActiveFolderId)
+                    },
+                    MediaFiles = [.. (from media in _mediaDetailRepository.Table
+                              where folderids.Contains(media.MediaFolderMasterId)
+                              select new Media()
+                              {
+                                  MediaId = media.MediaId,
+                                  MediaName = media.FileName,
+                                  MediaPath = media.Path
+                              })]
+                };
+
+                foreach (Media media in managerFolderResponse.MediaManagerFolderModel.MediaFiles)
+                {
+                    media.MediaPath = $"{GetMediaUrl()}{media.MediaPath}";
+                }
+
+                return await Task.FromResult(managerFolderResponse);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string GetMediaPath(string pathName)
+        {
+            string projectPath = Directory.GetCurrentDirectory();
+            string uploadPath = Path.Combine(projectPath, "Data", "Media");
+            string filePath = Path.Combine(uploadPath, pathName);
+            return filePath;
+        }
+
+        public async Task<bool> PostRenameFolder(int FolderId, string RenameFolderName)
+        {
+            if (FolderId > 0)
+            {
+                MediaFolderMaster mediaFolderMaster = _mediaFolderMasterRepository.Table.Where(x => x.MediaFolderMasterId == FolderId).FirstOrDefault();
+
+                if (mediaFolderMaster != null)
+                {
+                    mediaFolderMaster.FolderName = RenameFolderName;
+                    await _mediaFolderMasterRepository.UpdateAsync(mediaFolderMaster);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> PostCreateFolder(int RootFolderId, string FolderName)
+        {
+            if (RootFolderId > 0)
+            {
+                MediaFolderMaster mediaFolderMaster = _mediaFolderMasterRepository.Table.Where(x => x.MediaFolderMasterId == RootFolderId).FirstOrDefault();
+
+                if (mediaFolderMaster != null)
+                {
+                    MediaFolderMaster createFolder = new MediaFolderMaster();
+                    createFolder.FolderName = FolderName;
+                    createFolder.MediaFolderParentId = mediaFolderMaster.MediaFolderMasterId;
+                    createFolder.IsActive = true;
+                    createFolder.CreatedBy = 0;
+                    createFolder.CreatedDate = DateTime.Now;
+                    createFolder.ModifiedDate = DateTime.Now;
+                    createFolder.ModifiedBy = 0;
+                    await _mediaFolderMasterRepository.InsertAsync(createFolder);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private List<MediaFolderStructure> GetSubFolders(int parentId, List<MediaFolderMaster> allFolders, ref List<int> folderIds, int activeFolderId)
+        {
+            if (parentId == activeFolderId || folderIds.Count > 0)
+            {
+                folderIds.Add(parentId);
+            }
+            var subFolders = allFolders.Where(x => x.MediaFolderParentId == parentId).ToList();
+            var subFolderStructures = new List<MediaFolderStructure>();
+
+            foreach (var subFolder in subFolders)
+            {
+                var subFolderStructure = new MediaFolderStructure
+                {
+                    RootFolderId = subFolder.MediaFolderMasterId,
+                    RootFolderName = subFolder.FolderName,
+                    IsActiveFolder = activeFolderId == subFolder.MediaFolderMasterId,
+                    SubFolders = GetSubFolders(subFolder.MediaFolderMasterId, allFolders, ref folderIds, activeFolderId)
+                };
+                subFolderStructures.Add(subFolderStructure);
+            }
+
+            return subFolderStructures;
         }
 
         #endregion
