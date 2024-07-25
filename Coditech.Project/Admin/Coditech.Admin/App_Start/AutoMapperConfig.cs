@@ -175,6 +175,11 @@ namespace Coditech.Admin
             #region Dashboard
             CreateMap<DashboardModel, DashboardViewModel>().ReverseMap();
             #endregion
+
+            #region LogMessage 
+            CreateMap<LogMessageModel, LogMessageViewModel>().ReverseMap();
+            CreateMap<LogMessageListModel, LogMessageListViewModel>().ReverseMap();
+            #endregion
         }
     }
 }
