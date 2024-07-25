@@ -176,5 +176,19 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["ApiDomainName"]);
             }
         }
+        public static string IsDefaultTheme
+        {
+            get
+            {
+                return Convert.ToString(settings["IsDefaultTheme"]);
+            }
+        }
+        public static string ThemeColor
+        {
+            get
+            {
+                return Convert.ToString(settings["ThemeColor"]);
+            }
+        }
     }
 }
