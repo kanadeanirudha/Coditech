@@ -40,11 +40,17 @@ namespace Coditech.API.Endpoint
 
         public string UpdateCentrewiseSmtpSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseSmtpSetup";
-        public string GetCentrewiseSmsSetupAsync(short organisationCentreId) =>
-          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseSmsSetup?organisationCentreMasterId={organisationCentreId}";
+        public string GetCentrewiseSmsSetupAsync(short organisationCentreId, byte generalSmsProviderId) =>
+          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseSmsSetup?organisationCentreMasterId={organisationCentreId}&generalSmsProviderId={generalSmsProviderId}";
 
         public string UpdateCentrewiseSmsSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseSmsSetup";
+
+        public string GetCentrewiseWhatsAppSetupAsync(short organisationCentreId, byte generalWhatsAppProviderId) =>
+          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseWhatsAppSetup?organisationCentreMasterId={organisationCentreId}&generalWhatsAppProviderId={generalWhatsAppProviderId}";
+
+        public string UpdateCentrewiseWhatsAppSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseWhatsAppSetup";
 
         public string GetCentrewiseEmailTemplateSetupAsync(short organisationCentreId, string emailTemplateCode) =>
           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup?organisationCentreMasterId={organisationCentreId}&emailTemplateCode={emailTemplateCode}";
@@ -55,5 +61,17 @@ namespace Coditech.API.Endpoint
          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseUserName?organisationCentreMasterId={organisationCentreId}&organisationCentrewiseUserNameRegistrationId={organisationCentrewiseUserNameRegistrationId}";
         public string UpdateCentrewiseUserNameAsync() =>
               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseUserName";
+
+        public string GetCentrewiseSMSTemplateSetupAsync(short organisationCentreId, string emailTemplateCode) =>
+          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseSMSTemplateSetup?organisationCentreMasterId={organisationCentreId}&emailTemplateCode={emailTemplateCode}";
+
+        public string UpdateCentrewiseSMSTemplateSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseSMSTemplateSetup";
+
+        public string GetCentrewiseWhatsAppTemplateSetupAsync(short organisationCentreId, string emailTemplateCode) =>
+          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseWhatsAppTemplateSetup?organisationCentreMasterId={organisationCentreId}&emailTemplateCode={emailTemplateCode}";
+
+        public string UpdateCentrewiseWhatsAppTemplateSetupAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseWhatsAppTemplateSetup";
     }
 }

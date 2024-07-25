@@ -40,5 +40,19 @@ namespace Coditech.Admin.Agents
         /// <param name="generalEmailTemplateId">generalEmailTemplateId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteEmailTemplate(string generalEmailTemplateId, out string errorMessage);
+
+        /// <summary>
+        /// Get list of General SMS Template.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GeneralEmailTemplateListViewModel</returns>
+        GeneralEmailTemplateListViewModel GetSMSTemplateList(DataTableViewModel dataTableModel);
+
+        /// <summary>
+        /// Get list of General WhatsApp Template.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GeneralEmailTemplateListViewModel</returns>
+        GeneralEmailTemplateListViewModel GetWhatsAppTemplateList(DataTableViewModel dataTableModel);
     }
 }

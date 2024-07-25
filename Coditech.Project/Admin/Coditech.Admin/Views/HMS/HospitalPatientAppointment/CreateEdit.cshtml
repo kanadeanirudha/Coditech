@@ -1,0 +1,187 @@
+﻿@model HospitalPatientAppointmentViewModel
+@{
+    ViewBag.Title = Model.HospitalPatientAppointmentId > 0 ? "Update Patient Appointment" : "Add Patient Appointment";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "HospitalPatientAppointment.GetDoctorsAndPatientsListByCentreCodeAndSpecialization()", IsDisabled = Model.HospitalPatientAppointmentId > 0 };
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.HospitalPatientAppointmentId > 0)
+                                {
+                                    <h4 class="card-title">Update Patient Appointment Details: @Model.FirstName @Model.LastName</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Add Patient Appointment</h4>
+                                }
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.HospitalPatientAppointmentId)
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.SelectedCentreCode, new { @class = "form-label required"})
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                                        @Html.ValidationMessageFor(x => x.SelectedCentreCode)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.MedicalSpecilizationEnumId, new { @class = "form-label required"})
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.MedicalSpecilizationEnumId.ToString(),
+                                   DropdownName = "MedicalSpecilizationEnumId",
+                                   GroupCode = DropdownTypeEnum.MedicalSpecilization.ToString(),
+                                   ChangeEvent = "HospitalPatientAppointment.GetDoctorsAndPatientsListByCentreCodeAndSpecialization()"
+                               })
+                                        @Html.ValidationMessageFor(x => x.MedicalSpecilizationEnumId)
+                                    </div>
+                                </div>
+                                @if (Model.HospitalPatientAppointmentId > 0)
+                                {
+                                    @Html.HiddenFor(x => x.HospitalDoctorId)
+                                }
+                                else
+                                {
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.HospitalDoctorId, new { @class = "form-label required" })
+                                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownType = DropdownTypeEnum.HospitalDoctorsListBySpecialization.ToString(),
+                                   DropdownName = "HospitalDoctorId",
+                                   DropdownSelectedValue = Model.HospitalDoctorId
+                                    .ToString(),
+                                   Parameter = !string.IsNullOrEmpty(Model.SelectedCentreCode) ? $"{Model.SelectedCentreCode}~{Model.MedicalSpecilizationEnumId}" : "",
+                                   ChangeEvent = "HospitalPatientAppointment.GetTimeSlotByDoctorsAndAppointmentDate()"
+                               })
+                                            @Html.ValidationMessageFor(x => x.HospitalDoctorId)
+                                        </div>
+                                    </div>
+                                }
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.HospitalPatientRegistrationId, new { @class = "form-label required"})
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownType = DropdownTypeEnum.CentrewiseHospitalPatientsList.ToString(),
+                                   DropdownName = "HospitalPatientRegistrationId",
+                                   DropdownSelectedValue = Model.HospitalPatientRegistrationId
+                                    .ToString(),
+                                   Parameter = Model.SelectedCentreCode
+                               })
+                                        @Html.ValidationMessageFor(x => x.HospitalPatientRegistrationId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.AppointmentDate, new { @class = "form-label required"})
+                                        @Html.TextBoxFor(x => x.AppointmentDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
+                                        @Html.ValidationMessageFor(x => x.AppointmentDate)
+
+                                    </div>
+                                </div>
+                                @if (Model.HospitalPatientAppointmentId > 0)
+                                {
+                                    @Html.HiddenFor(x => x.AppointmentTypeEnumId)
+                                }
+                                else
+                                {
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.AppointmentTypeEnumId, new { @class = "form-label required"})
+                                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.AppointmentTypeEnumId.ToString(),
+                                   DropdownName = "AppointmentTypeEnumId",
+                                   GroupCode = DropdownTypeEnum.HospitalAppointmentType.ToString(),
+                                   IsRequired = true,
+                               })
+                                            @Html.ValidationMessageFor(x => x.AppointmentTypeEnumId)
+                                        </div>
+                                    </div>
+                                }
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.RequestedTimeSlot, new { @class = "form-label required"})
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownType = DropdownTypeEnum.TimeSlotByDoctorsListAndAppointmentDate.ToString(),
+                                   DropdownName = "RequestedTimeSlot",
+                                   DropdownSelectedValue = Model.RequestedTimeSlot.ToString(),
+                                   Parameter = !string.IsNullOrEmpty(Model.HospitalDoctors) ? Model.HospitalDoctorId.ToString() + "~" + Model.AppointmentDate : "",
+                               })
+                                        @Html.ValidationMessageFor(x => x.RequestedTimeSlot)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.HospitalPatientAppointmentPurposeId, new { @class = "form-label required"})
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownType = DropdownTypeEnum.HospitalPatientAppointmentPurpose.ToString(),
+                                   DropdownSelectedValue = Model.HospitalPatientAppointmentPurposeId.ToString(),
+                                   DropdownName = "HospitalPatientAppointmentPurposeId",
+                               })
+                                        @Html.ValidationMessageFor(x => x.HospitalPatientAppointmentPurposeId)
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.SelectedCentreCode class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#AppointmentDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+100",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        $("#AppointmentDate").val('');
+                    }
+                },
+                minDate: new Date(),
+                maxDate: "+1M"
+            });
+        });
+    </script>
+}
+<script src="~/js/coditech/HMS/HospitalPatientAppointment.js"></script>
+
+
+
+
+
+
+
+
+
+

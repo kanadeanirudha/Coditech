@@ -83,7 +83,15 @@
             HospitalPatientType,
             CentrewiseSms,
             CoditechApplicationSetting,
-            WhatsUpService,
+            ResetPassword,
+            ResetPasswordSendLink,
+            WhatsAppService,
+            HospitalPatientAppointment,
+            TimeSlot,
+            CoditechGeneralApi,
+            CentrewiseSMSTemplate,
+            CentrewiseWhatsAppTemplate,
+            MediaSettingMaster,
         }
     }
 }

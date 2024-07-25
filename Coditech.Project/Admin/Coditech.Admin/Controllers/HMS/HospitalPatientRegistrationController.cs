@@ -23,7 +23,7 @@ namespace Coditech.Admin.Controllers
             HospitalPatientRegistrationListViewModel list = new HospitalPatientRegistrationListViewModel();
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
-                list = _hospitalPatientRegistrationAgent.GetHospitalPatientRegistrationList(dataTableViewModel);
+                list = _hospitalPatientRegistrationAgent.GetHospitalPatientRegistrationList(dataTableViewModel.SelectedCentreCode, dataTableViewModel);
             }
             list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
 

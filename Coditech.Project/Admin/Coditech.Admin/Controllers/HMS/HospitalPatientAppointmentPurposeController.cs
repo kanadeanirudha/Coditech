@@ -9,22 +9,22 @@ namespace Coditech.Admin.Controllers
 {
     public class HospitalPatientAppointmentPurposeController : BaseController
     {
-        private readonly IHospitalPatientAppointmentPurposeAgent _generalHospitalPatientAppointmentPurposeAgent;
-        private const string createEdit = "~/Views/GeneralMaster/HospitalPatientAppointmentPurpose/CreateEdit.cshtml";
+        private readonly IHospitalPatientAppointmentPurposeAgent _hospitalPatientAppointmentPurposeAgent;
+        private const string createEdit = "~/Views/HMS/HospitalPatientAppointmentPurpose/CreateEdit.cshtml";
 
-        public HospitalPatientAppointmentPurposeController(IHospitalPatientAppointmentPurposeAgent generalHospitalPatientAppointmentPurposeAgent)
+        public HospitalPatientAppointmentPurposeController(IHospitalPatientAppointmentPurposeAgent hospitalPatientAppointmentPurposeAgent)
         {
-            _generalHospitalPatientAppointmentPurposeAgent = generalHospitalPatientAppointmentPurposeAgent;
+            _hospitalPatientAppointmentPurposeAgent = hospitalPatientAppointmentPurposeAgent;
         }
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            HospitalPatientAppointmentPurposeListViewModel list = _generalHospitalPatientAppointmentPurposeAgent.GetHospitalPatientAppointmentPurposeList(dataTableModel);
+            HospitalPatientAppointmentPurposeListViewModel list = _hospitalPatientAppointmentPurposeAgent.GetHospitalPatientAppointmentPurposeList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/GeneralMaster/HospitalPatientAppointmentPurpose/_List.cshtml", list);
+                return PartialView("~/Views/HMS/HospitalPatientAppointmentPurpose/_List.cshtml", list);
             }
-            return View($"~/Views/GeneralMaster/HospitalPatientAppointmentPurpose/List.cshtml", list);
+            return View($"~/Views/HMS/HospitalPatientAppointmentPurpose/List.cshtml", list);
         }
 
         [HttpGet]
@@ -34,48 +34,48 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult Create(HospitalPatientAppointmentPurposeViewModel HospitalPatientAppointmentPurposeViewModel)
+        public virtual ActionResult Create(HospitalPatientAppointmentPurposeViewModel hospitalPatientAppointmentPurposeViewModel)
         {
             if (ModelState.IsValid)
             {
-                HospitalPatientAppointmentPurposeViewModel = _generalHospitalPatientAppointmentPurposeAgent.CreateHospitalPatientAppointmentPurpose(HospitalPatientAppointmentPurposeViewModel);
-                if (!HospitalPatientAppointmentPurposeViewModel.HasError)
+                hospitalPatientAppointmentPurposeViewModel = _hospitalPatientAppointmentPurposeAgent.CreateHospitalPatientAppointmentPurpose(hospitalPatientAppointmentPurposeViewModel);
+                if (!hospitalPatientAppointmentPurposeViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     return RedirectToAction("List", CreateActionDataTable());
                 }
             }
-            SetNotificationMessage(GetErrorNotificationMessage(HospitalPatientAppointmentPurposeViewModel.ErrorMessage));
-            return View(createEdit, HospitalPatientAppointmentPurposeViewModel);
+            SetNotificationMessage(GetErrorNotificationMessage(hospitalPatientAppointmentPurposeViewModel.ErrorMessage));
+            return View(createEdit, hospitalPatientAppointmentPurposeViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short HospitalPatientAppointmentPurposeId)
+        public virtual ActionResult Edit(short hospitalPatientAppointmentPurposeId)
         {
-            HospitalPatientAppointmentPurposeViewModel HospitalPatientAppointmentPurposeViewModel = _generalHospitalPatientAppointmentPurposeAgent.GetHospitalPatientAppointmentPurpose(HospitalPatientAppointmentPurposeId);
-            return ActionView(createEdit, HospitalPatientAppointmentPurposeId);
+            HospitalPatientAppointmentPurposeViewModel hospitalPatientAppointmentPurposeViewModel = _hospitalPatientAppointmentPurposeAgent.GetHospitalPatientAppointmentPurpose(hospitalPatientAppointmentPurposeId);
+            return ActionView(createEdit, hospitalPatientAppointmentPurposeViewModel);
         }
 
         [HttpPost]
-        public virtual ActionResult Edit(HospitalPatientAppointmentPurposeViewModel HospitalPatientAppointmentPurposeViewModel)
+        public virtual ActionResult Edit(HospitalPatientAppointmentPurposeViewModel hospitalPatientAppointmentPurposeViewModel)
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_generalHospitalPatientAppointmentPurposeAgent.UpdateHospitalPatientAppointmentPurpose(HospitalPatientAppointmentPurposeViewModel).HasError
+                SetNotificationMessage(_hospitalPatientAppointmentPurposeAgent.UpdateHospitalPatientAppointmentPurpose(hospitalPatientAppointmentPurposeViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { HospitalPatientAppointmentPurposeId = HospitalPatientAppointmentPurposeViewModel.HospitalPatientAppointmentPurposeId });
+                return RedirectToAction("Edit", new { hospitalPatientAppointmentPurposeViewModel.HospitalPatientAppointmentPurposeId });
             }
-            return View(createEdit, HospitalPatientAppointmentPurposeViewModel);
+            return View(createEdit, hospitalPatientAppointmentPurposeViewModel);
         }
 
-        public virtual ActionResult Delete(string appointmentIds)
+        public virtual ActionResult Delete(string hospitalPatientAppointmentPurposeIds)
         {
             string message = string.Empty;
             bool status = false;
-            if (!string.IsNullOrEmpty(appointmentIds))
+            if (!string.IsNullOrEmpty(hospitalPatientAppointmentPurposeIds))
             {
-                status = _generalHospitalPatientAppointmentPurposeAgent.DeleteHospitalPatientAppointmentPurpose(appointmentIds, out message);
+                status = _hospitalPatientAppointmentPurposeAgent.DeleteHospitalPatientAppointmentPurpose(hospitalPatientAppointmentPurposeIds, out message);
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));

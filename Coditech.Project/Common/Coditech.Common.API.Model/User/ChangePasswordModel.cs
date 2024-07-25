@@ -4,7 +4,8 @@ namespace Coditech.Common.API.Model
 {
     public class ChangePasswordModel : BaseModel
     {
-        public long UserMasterId { get; set; }
+        public long EntityId { get; set; }
+        public string UserType { get; set; }
 
         [Required(ErrorMessage = "Password Is Required")]
         [Display(Name = "Current Password")]
@@ -14,11 +15,5 @@ namespace Coditech.Common.API.Model
         [DataType(DataType.Password)]
         [Display(Name = "New Password")]
         public string NewPassword { get; set; }
-
-        [Required(ErrorMessage = "Confirm Password Is Required")]
-        [DataType(DataType.Password)]
-        [Compare("NewPassword")]
-        [Display(Name = "Confirm Password")]
-        public string ConfirmPassword { get; set; }
     }
 }

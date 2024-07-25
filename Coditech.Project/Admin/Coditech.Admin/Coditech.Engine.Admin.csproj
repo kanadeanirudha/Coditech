@@ -21,10 +21,6 @@
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Content>
-		<Content Update="appsettings.json">
-			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -45,10 +41,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="MediaFolder\" />
 		<Folder Include="wwwroot\assets\images\jstree\" />
 		<Folder Include="wwwroot\css\login\" />
 		<Folder Include="wwwroot\js\login\" />
 	</ItemGroup>
-
 </Project>

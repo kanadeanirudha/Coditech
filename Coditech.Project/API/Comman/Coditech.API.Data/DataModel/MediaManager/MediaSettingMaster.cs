@@ -8,14 +8,14 @@ namespace Coditech.API.Data
         public byte MediaSettingMasterId { get; set; }
         public byte MediaTypeMasterId { get; set; }
         public byte MediaConfigurationId { get; set; }
-        public short MaxSizeInMB { get; set; }
+        public Int16 MaxSizeInMB { get; set; }
         public string MediaTypeExtensionMasterIds { get; set; }
-        public short LargeImageResize { get; set; }
-        public short MediumImageResize { get; set; }
-        public short SmallImageResize { get; set; }
-        public short CrossSellImageResize { get; set; }
-        public short ThumbnailImageResize { get; set; }
-        public short SmallThumbnailImageResize { get; set; }
+        public Int16 LargeImageResize { get; set; }
+        public Int16 MediumImageResize { get; set; }
+        public Int16 SmallImageResize { get; set; }
+        public Int16 CrossSellImageResize { get; set; }
+        public Int16 ThumbnailImageResize { get; set; }
+        public Int16 SmallThumbnailImageResize { get; set; }
         public string HelpDescription { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
