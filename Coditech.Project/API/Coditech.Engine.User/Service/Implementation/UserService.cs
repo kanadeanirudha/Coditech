@@ -206,7 +206,7 @@ namespace Coditech.API.Service
             if (changePasswordModel.EntityId <= 0 || string.IsNullOrEmpty(changePasswordModel.UserType))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EntityId"));
 
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserMasterId == changePasswordModel.EntityId
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == changePasswordModel.EntityId
                                                                                         && x.UserType == changePasswordModel.UserType);
             if (IsNotNull(userMasterData) && userMasterData.Password == MD5Hash(changePasswordModel.CurrentPassword))
             {
@@ -218,6 +218,7 @@ namespace Coditech.API.Service
             else
             {
                 changePasswordModel.HasError = true;
+                changePasswordModel.ErrorCode = ErrorCodes.AlreadyExist;
                 changePasswordModel.ErrorMessage = "Current Password DoesNot Match.";
             }
             return changePasswordModel;
