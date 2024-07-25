@@ -56,6 +56,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IEmployeeServiceAgent, EmployeeServiceAgent>();
             builder.Services.AddScoped<IGeneralCommanDataAgent, GeneralCommanDataAgent>();
             builder.Services.AddScoped<ICoditechApplicationSettingAgent, CoditechApplicationSettingAgent>();
+            builder.Services.AddScoped<IMediaManagerFolderAgent, MediaManagerFolderAgent>();
             builder.Services.AddScoped<ILogMessageAgent, LogMessageAgent>();
 
 
@@ -69,6 +70,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPatientAppointmentPurposeAgent, HospitalPatientAppointmentPurposeAgent>();
             builder.Services.AddScoped<IHospitalPatientTypeAgent, HospitalPatientTypeAgent>();
             builder.Services.AddScoped<IHospitalPatientAppointmentAgent, HospitalPatientAppointmentAgent>();
+            #endregion
+
+            #region MediaManager
+            builder.Services.AddScoped<IMediaSettingMasterAgent, MediaSettingMasterAgent>();
             #endregion
 
             #region Inventory
@@ -152,6 +157,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPatientTypeClient, HospitalPatientTypeClient>();
             builder.Services.AddScoped<IHospitalPatientAppointmentPurposeClient, HospitalPatientAppointmentPurposeClient>();
             builder.Services.AddScoped<IHospitalPatientAppointmentClient, HospitalPatientAppointmentClient>();
+            #endregion HMS
+
+            #region MediaManager            
+            builder.Services.AddScoped<IMediaSettingMasterClient, MediaSettingMasterClient>();
             #endregion HMS
 
             #endregion Client

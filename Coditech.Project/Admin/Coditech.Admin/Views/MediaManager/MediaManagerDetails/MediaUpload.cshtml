@@ -1,0 +1,138 @@
+﻿@model MediaManagerFolderListViewModel
+@{
+    ViewBag.Title = "Media Manager";
+}
+<div id="MediaUpload">
+    @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_MediaDetails.cshtml", Model)
+</div>
+
+
+
+@section Scripts {
+    <script>
+        function initializeEventHandlers() {
+            // Click event for folder name
+            $(".folder-click").click(function () {                
+                CoditechCommon.ShowLodder();
+                // Remove 'active' class from all folder containers
+                $(".folder-container").removeClass("active");
+                // Add 'active' class to the clicked folder's container
+                $(this).closest(".folder-container").addClass("active");
+                
+                console.log($(this));
+                console.log($(this).data("folder-id"));
+                var folderId = $(this).closest(".folder-container").data("folder-id");
+
+                // Load partial view into the container
+                // $("#MediaUpload").load('@Url.Action("GetFolderStructureById", "MediaManager")', { rootFolderId: folderId }, function() {
+                //     // Reinitialize event handlers after loading the partial view
+                //     initializeEventHandlers();
+                //     CoditechCommon.HideLodder();
+                // });
+
+                // Load partial view into the container
+                $.ajax({
+                    url: '@Url.Action("GetFolderStructureById", "MediaManager")',
+                    type: 'GET',
+                    data: { rootFolderId: folderId },
+                    beforeSend: function() {
+                        CoditechCommon.ShowLodder();
+                    }
+                }).done(function(data) {
+                    $("#MediaUpload").html(data);
+                    initializeEventHandlers();
+                }).fail(function(xhr, status, error) {
+                    var msg = "Sorry but there was an error: ";
+                    $("#MediaUpload").html(msg + xhr.status + " " + xhr.statusText);
+                }).always(function() {
+                    CoditechCommon.HideLodder();
+                });
+
+                // alert("Folder name clicked: " + $(this).text().trim());
+            });
+
+            // Click event for collapse/expand icons
+            $(".collapse-icon").click(function () {
+                var folderId = $(this).closest(".nav-link").attr("aria-controls");
+                $("#" + folderId).collapse("toggle");
+                
+                // Toggle the chevron icons
+                $(this).siblings(".collapse-icon").toggle();
+                $(this).toggle();
+            });
+
+            // Automatically toggle chevron icons based on collapse state
+            $('.collapse').on('shown.bs.collapse', function () {
+                $(this).prev('.nav-link').find('.mdi-chevron-up').show();
+                $(this).prev('.nav-link').find('.mdi-chevron-down').hide();
+            }).on('hidden.bs.collapse', function () {
+                $(this).prev('.nav-link').find('.mdi-chevron-up').hide();
+                $(this).prev('.nav-link').find('.mdi-chevron-down').show();
+            });
+        }
+
+        $(document).ready(function () {
+            CoditechCommon.ShowLodder();
+            initializeEventHandlers(); // Initialize event handlers on page load
+            CoditechCommon.HideLodder();
+        });
+
+            function showContextMenu(event, folderId) {
+        event.preventDefault();
+
+        // Hide any existing context menus
+        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.style.display = 'none');
+
+        const menu = document.getElementById('contextMenu');
+        
+        // Find the folder element
+        const folderElement = event.currentTarget;
+        
+        // Calculate the position of the folder element
+        const folderRect = folderElement.getBoundingClientRect();
+
+        // Position the context menu directly below the folder name
+        menu.style.top = `${folderRect.bottom + window.scrollY}px`; // Below the folder
+        menu.style.left = `${folderRect.left + window.scrollX}px`;  // Align with the folder
+        menu.style.display = 'block';
+
+        // Update actions based on folderId
+        document.getElementById('deleteFolder').onclick = function() {
+            DeleteFolder(folderId);
+            menu.style.display = 'none';
+        };
+        
+        document.getElementById('renameFolder').onclick = function() {
+            RenameFolder(folderId);
+            menu.style.display = 'none';
+        };
+
+        // Hide context menu on click elsewhere
+        document.addEventListener('click', function(event) {
+            if (!menu.contains(event.target) && !folderElement.contains(event.target)) {
+                menu.style.display = 'none';
+            }
+        }, { once: true });
+    }
+
+    function DeleteFolder(folderId) {
+        // Implement folder deletion logic here
+        alert(`Delete folder with ID: ${folderId}`);
+    }
+    
+    function RenameFolder(folderId) {
+        // Implement folder renaming logic here
+        alert(`Rename folder with ID: ${folderId}`);
+    }
+    </script>
+}
+
+        <style>
+#contextMenu {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 1000;
+    min-width: 150px;
+}
+        </style>

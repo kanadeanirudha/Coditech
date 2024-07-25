@@ -13,50 +13,44 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                @if (Model.LogMessageId > 0)
-                                {
-                                    <h4 class="card-title">Log Message</h4>
-                                }
+                                <h4 class="card-title">Log Message</h4>
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
-                        {
-                            @Html.HiddenFor(m => m.LogMessageId)
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.ErrorMessageType, new { @class = "form-label required"})
-                                        @Html.TextBoxFor(x => x.ErrorMessageType, new { @class = "form-control"})
-                                        @Html.ValidationMessageFor(x => x.ErrorMessageType)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.ExceptionMessage, new { @class = "form-label required"})
-                                        @Html.TextAreaFor(x => x.ExceptionMessage, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.ExceptionMessage)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.ComponentName, new { @class = "form-label required"})
-                                        @Html.TextBoxFor(x => x.ComponentName, new { @class = "form-control"})
-                                        @Html.ValidationMessageFor(x => x.ComponentName)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.TraceLevel, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.TraceLevel, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.TraceLevel)
-                                    </div>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="mb-3">
+                                    <label class="form-label" for="CreatedDate">Created Date</label> <br />
+                                    @Html.DisplayFor(x => x.CreatedDate, new { @class = "form-control" })
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
-                        }
+                            <div class="col-lg-3">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.ErrorMessageType, new { @class = "form-label" })<br />
+                                    @Html.DisplayFor(x => x.ErrorMessageType, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.ComponentName, new { @class = "form-label" })
+                                    @Html.DisplayFor(x => x.ComponentName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.TraceLevel, new { @class = "form-label" })
+                                    @Html.DisplayFor(x => x.TraceLevel, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.TraceLevel, new { @class = "form-label" })
+                                    @Html.DisplayFor(x => x.TraceLevel, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                     </div>
                 </div>
             </div>

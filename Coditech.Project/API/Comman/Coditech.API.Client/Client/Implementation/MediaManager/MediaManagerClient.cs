@@ -1,5 +1,6 @@
 ﻿using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 
 using System.Net;
 using System.Net.Http.Headers;
+using System.Threading;
 
 namespace Coditech.API.Client
 {
@@ -20,6 +22,171 @@ namespace Coditech.API.Client
         public virtual MediaManagerResponse UploadMedia(UploadMediaModel body)
         {
             return Task.Run(async () => await UploadMediaAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0)
+        {
+            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId);
+
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+               
+                response = await GetResourceFromEndpointAsync(endpoint, status, CancellationToken.None).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<MediaManagerFolderResponse>(response, headers_, CancellationToken.None).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else if (status_ == 204)
+                {
+                    return new MediaManagerFolderResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    MediaManagerFolderResponse typedBody = JsonConvert.DeserializeObject<MediaManagerFolderResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual async Task<bool> CreateFolderAsync(int rootFolderId, string folderName)
+        {
+            string endpoint = mediaManagerEndpoint.CreateFolderAsync(rootFolderId, folderName);
+
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, CancellationToken.None).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<bool>(response, headers_, CancellationToken.None).ConfigureAwait(false);
+                    
+                    return objectResponse.Object;
+                }
+                else if (status_ == 204)
+                {
+                    return false;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    MediaManagerFolderResponse typedBody = JsonConvert.DeserializeObject<MediaManagerFolderResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual async Task<bool> RenameFolderAsync(int folderId, string renameFolderName)
+        {
+            string endpoint = mediaManagerEndpoint.RenameFolderAsync(folderId, renameFolderName);
+
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, CancellationToken.None).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<MediaManagerFolderResponse>(response, headers_, CancellationToken.None).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return true;
+                }
+                else if (status_ == 204)
+                {
+                    return false;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    MediaManagerFolderResponse typedBody = JsonConvert.DeserializeObject<MediaManagerFolderResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual async Task<bool> UploadFileAsync(int folderId,UploadMediaModel body)
+        {
+            string endpoint = mediaManagerEndpoint.UploadFileAsync(folderId);
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                var formData = new MultipartFormDataContent();
+                var fileContent = new StreamContent(body.MediaFile.OpenReadStream())
+                {
+                    Headers =
+                    {
+                        ContentType = new MediaTypeHeaderValue(body.MediaFile.ContentType)
+                    }
+                };
+                formData.Add(fileContent, "files", body.MediaFile.FileName);
+                response = await PostResourceToEndpointAsync(endpoint, formData, status, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<bool> objectResponseResult2 = await ReadObjectResponseAsync<bool>(response, BindHeaders(response), CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
+                            return objectResponseResult2.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            MediaManagerResponse result = JsonConvert.DeserializeObject<MediaManagerResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
         }
 
         public virtual async Task<MediaManagerResponse> UploadMediaAsync(UploadMediaModel body, CancellationToken cancellationToken)

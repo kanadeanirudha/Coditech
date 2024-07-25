@@ -251,6 +251,7 @@ namespace Coditech.API.Common
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IMediaManagerService, MediaManagerService>();
+            builder.Services.AddScoped<IMediaSettingMasterService, MediaSettingMasterService>();
         }
         #endregion
     }

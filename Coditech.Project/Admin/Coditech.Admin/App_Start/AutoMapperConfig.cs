@@ -176,6 +176,12 @@ namespace Coditech.Admin
             CreateMap<DashboardModel, DashboardViewModel>().ReverseMap();
             #endregion
 
+            #region Media Manager
+            CreateMap<MediaSettingMasterModel, MediaSettingMasterViewModel>().ReverseMap();
+            CreateMap<MediaSettingMasterListModel, MediaSettingMasterListViewModel>().ReverseMap();
+            CreateMap<MediaManagerFolderModel, MediaManagerFolderListViewModel>().ReverseMap();
+            #endregion
+
             #region LogMessage 
             CreateMap<LogMessageModel, LogMessageViewModel>().ReverseMap();
             CreateMap<LogMessageListModel, LogMessageListViewModel>().ReverseMap();

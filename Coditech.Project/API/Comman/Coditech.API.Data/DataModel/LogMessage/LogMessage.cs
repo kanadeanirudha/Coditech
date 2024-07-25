@@ -13,7 +13,7 @@ namespace Coditech.API.Data
         public string Exception { get; set; }
         public string MethodName { get; set; }
         public string FileName { get; set; }
-        public string LineNumber { get; set; }
+        public int LineNumber { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

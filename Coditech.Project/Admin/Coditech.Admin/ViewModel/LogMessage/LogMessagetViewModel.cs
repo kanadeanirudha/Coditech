@@ -7,7 +7,7 @@ namespace Coditech.Admin.ViewModel
     {
         public long LogMessageId { get; set; }
 
-        [Display(Name = "ErrorMessage Type")]
+        [Display(Name = "Error Message Type")]
         public string ErrorMessageType { get; set; }
 
         [Display(Name = "Exception Message")]
@@ -20,6 +20,6 @@ namespace Coditech.Admin.ViewModel
         public string Exception { get; set; }
         public string MethodName { get; set; }
         public string FileName { get; set; }
-        public string LineNumber { get; set; }
+        public int LineNumber { get; set; }
     }
 }

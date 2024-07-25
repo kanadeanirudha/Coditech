@@ -544,6 +544,15 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete media setting master due to associate record..
+        /// </summary>
+        public static string ErrorDeleteMediaSettingMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteMediaSettingMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
         public static string ErrorDeleteOccupationMaster
@@ -1027,6 +1036,15 @@ namespace Coditech.Resources
             }
         }
 
+        /// <summary>
+        ///   Looks up a localized string similar to Media Setting Master List.
+        /// </summary>
+        public static string LabelMediaSettingMasterList {
+            get {
+                return ResourceManager.GetString("LabelMediaSettingMasterList", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Membership Plan.
         /// </summary>
