@@ -14,6 +14,7 @@ namespace Coditech.API.Mapper
             CreateMap<MediaConfigurationModel, MediaConfiguration>().ReverseMap();
             CreateMap<MediaGlobalDisplaySettingModel, MediaGlobalDisplaySetting>().ReverseMap();
             CreateMap<MediaSettingMasterModel, MediaSettingMaster>().ReverseMap();
+            CreateMap<MediaTypeExtensionModel, MediaTypeExtensionMaster>().ReverseMap();
         }
     }
 }
