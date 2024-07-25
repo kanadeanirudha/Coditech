@@ -1,5 +1,4 @@
-﻿
-using Coditech.API.Data;
+﻿using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
@@ -17,11 +16,13 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
+        private readonly ICoditechRepository<MediaTypeMaster> _mediaTypeMasterRepository;
         private readonly ICoditechRepository<MediaSettingMaster> _mediaSettingMasterRepository;
         public MediaSettingMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
+            _mediaTypeMasterRepository = new CoditechRepository<MediaTypeMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaSettingMasterRepository = new CoditechRepository<MediaSettingMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
@@ -42,40 +43,21 @@ namespace Coditech.API.Service
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
-        //Create MediaSettingMaster.
-        public virtual MediaSettingMasterModel CreateMediaSettingMaster(MediaSettingMasterModel mediaSettingMasterModel)
-        {
-            if (IsNull(mediaSettingMasterModel))
-                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
-            //if (IsMediaSettingMasterCodeAlreadyExist(mediaSettingMasterModel.MediaSettingMasterCode))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "MediaSettingMaster Code"));
-
-            MediaSettingMaster mediaSettingMaster = mediaSettingMasterModel.FromModelToEntity<MediaSettingMaster>();
-
-            //Create new MediaSettingMaster and return it.
-            MediaSettingMaster mediasettingmasterData = _mediaSettingMasterRepository.Insert(mediaSettingMaster);
-            if (mediasettingmasterData?.MediaSettingMasterId > 0)
-            {
-                mediaSettingMasterModel.MediaSettingMasterId = mediasettingmasterData.MediaSettingMasterId;
-            }
-            else
-            {
-                mediaSettingMasterModel.HasError = true;
-                mediaSettingMasterModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
-            }
-            return mediaSettingMasterModel;
-        }
 
         //Get MediaSettingMaster by MediaSettingMaster id.
-        public virtual MediaSettingMasterModel GetMediaSettingMaster(short mediasettingmasterId)
+        public virtual MediaSettingMasterModel GetMediaSettingMaster(byte mediaTypeMasterId)
         {
-            if (mediasettingmasterId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "MediaSettingMasterID"));
+            if (mediaTypeMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "mediaTypeMasterId"));
 
             //Get the MediaSettingMaster Details based on id.
-            MediaSettingMaster mediaSettingMaster = _mediaSettingMasterRepository.Table.FirstOrDefault(x => x.MediaSettingMasterId == mediasettingmasterId);
-            MediaSettingMasterModel mediaSettingMasterModel = mediaSettingMaster?.FromEntityToModel<MediaSettingMasterModel>();
+            MediaSettingMaster mediaSettingMaster = _mediaSettingMasterRepository.Table.FirstOrDefault(x => x.MediaTypeMasterId == mediaTypeMasterId);
+            MediaSettingMasterModel mediaSettingMasterModel = new MediaSettingMasterModel();
+            if (IsNotNull(mediaSettingMaster))
+            {
+                mediaSettingMasterModel = mediaSettingMaster?.FromEntityToModel<MediaSettingMasterModel>();
+            }
+            mediaSettingMasterModel.MediaType = _mediaTypeMasterRepository.Table.Where(x => x.MediaTypeMasterId == mediaTypeMasterId)?.FirstOrDefault()?.MediaType;
             return mediaSettingMasterModel;
         }
 
@@ -85,16 +67,21 @@ namespace Coditech.API.Service
             if (IsNull(mediaSettingMasterModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
-            if (mediaSettingMasterModel.MediaSettingMasterId < 1)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "MediaSettingMasterID"));
-
-            //if (IsMediaSettingMasterCodeAlreadyExist(mediaSettingMasterModel.MediaSettingMasterCode, mediaSettingMasterModel.MediaSettingMasterId))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "MediaSettingMaster Code"));
-
             MediaSettingMaster mediaSettingMaster = mediaSettingMasterModel.FromModelToEntity<MediaSettingMaster>();
-
-            //Update MediaSettingMaster
-            bool isMediaSettingMasterUpdated = _mediaSettingMasterRepository.Update(mediaSettingMaster);
+            bool isMediaSettingMasterUpdated = false;
+            if (mediaSettingMasterModel.MediaSettingMasterId > 0)
+            {
+                mediaSettingMaster = _mediaSettingMasterRepository.Insert(mediaSettingMaster);
+                if(mediaSettingMaster.MediaSettingMasterId > 0)
+                {
+                    isMediaSettingMasterUpdated = true;
+                }
+            }
+            else
+            {
+                //Update MediaSettingMaster
+                isMediaSettingMasterUpdated = _mediaSettingMasterRepository.Update(mediaSettingMaster);
+            }
             if (!isMediaSettingMasterUpdated)
             {
                 mediaSettingMasterModel.HasError = true;

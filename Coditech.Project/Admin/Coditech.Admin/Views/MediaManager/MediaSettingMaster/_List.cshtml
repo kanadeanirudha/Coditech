@@ -18,13 +18,12 @@
                     foreach (var item in Model?.MediaSettingMasterList)
                     {
                         <tr>
-                            <td>@item.MediaTypeMasterId</td>
+                            <td>@item.MediaType</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
                             </td>
                               <td class="text-center">
-                                <a href="../@controllerName/Edit?mediaSettingMasterId=@item.MediaSettingMasterId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
-                                <a href="../@controllerName/Delete?countryIds=@item.MediaSettingMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                <a href="../@controllerName/Edit?mediaTypeMasterId=@item.MediaTypeMasterId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
                             </td>
                         </tr>
                     }

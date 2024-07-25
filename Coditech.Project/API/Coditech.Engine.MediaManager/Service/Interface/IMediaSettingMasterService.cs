@@ -8,8 +8,7 @@ namespace Coditech.API.Service
     public interface IMediaSettingMasterService
     {
         MediaSettingMasterListModel GetMediaSettingMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
-        MediaSettingMasterModel CreateMediaSettingMaster(MediaSettingMasterModel model);
-        MediaSettingMasterModel GetMediaSettingMaster(short mediaSettingMasterId);
+        MediaSettingMasterModel GetMediaSettingMaster(byte mediaTypeMasterId);
         bool UpdateMediaSettingMaster(MediaSettingMasterModel model);
         bool DeleteMediaSettingMaster(ParameterModel parameterModel);
     }

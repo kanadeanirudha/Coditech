@@ -8,20 +8,17 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/MediaSettingMaster/GetMediaSettingMasterList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaSettingMaster/GetMediaSettingMasterList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
-        public string CreateMediaSettingMasterAsync() =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/MediaSettingMaster/CreateMediaSettingMaster";
-
-        public string GetMediaSettingMasterAsync(short mediaSettingMasterId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/MediaSettingMaster/GetMediaSettingMaster?mediaSettingMasterId={mediaSettingMasterId}";
+        public string GetMediaSettingMasterAsync(byte mediaTypeMasterId) =>
+            $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaSettingMaster/GetMediaSettingMaster?mediaTypeMasterId={mediaTypeMasterId}";
        
         public string UpdateMediaSettingMasterAsync() =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/MediaSettingMaster/UpdateMediaSettingMaster";
+               $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaSettingMaster/UpdateMediaSettingMaster";
 
         public string DeleteMediaSettingMasterAsync() =>
-                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/MediaSettingMaster/DeleteMediaSettingMaster";
+                  $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaSettingMaster/DeleteMediaSettingMaster";
     }
 }

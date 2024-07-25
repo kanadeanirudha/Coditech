@@ -1,6 +1,6 @@
 ﻿@model MediaSettingMasterListViewModel
 @{
-    ViewBag.Title = "Media Setting Master List";
+    ViewBag.Title = "Media Setting List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
@@ -12,12 +12,10 @@
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">@AdminResources.LabelMediaSettingMasterList</span>
-                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Media Setting Master</a>
-                        
                     </div>
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                            @Html.Partial("~/Views/MediaManager/MediaSettingMasterMaster/_List.cshtml", Model)
+                            @Html.Partial("~/Views/MediaManager/MediaSettingMaster/_List.cshtml", Model)
                         </div>
                     </div>
                 </div>

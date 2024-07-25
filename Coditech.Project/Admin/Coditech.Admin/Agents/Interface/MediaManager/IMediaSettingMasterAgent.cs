@@ -1,5 +1,4 @@
 ﻿using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model.Response;
 
 namespace Coditech.Admin.Agents
 {
@@ -13,18 +12,11 @@ namespace Coditech.Admin.Agents
         MediaSettingMasterListViewModel GetMediaSettingMasterList(DataTableViewModel dataTableModel);
 
         /// <summary>
-        /// Create Media Setting Master.
+        /// Get MediaSettingMaster by mediaTypeMasterId.
         /// </summary>
-        /// <param name="mediaSettingMasterViewModel">General MediaSettingMaster View Model.</param>
-        /// <returns>Returns created model.</returns>
-        MediaSettingMasterViewModel CreateMediaSettingMaster(MediaSettingMasterViewModel mediaSettingMasterViewModel);
-
-        /// <summary>
-        /// Get MediaSettingMaster by mediaSettingMasterId.
-        /// </summary>
-        /// <param name="mediaSettingMasterId">mediaSettingMasterId</param>
+        /// <param name="mediaTypeMasterId">mediaTypeMasterId</param>
         /// <returns>Returns MediaSettingMasterViewModel.</returns>
-        MediaSettingMasterViewModel GetMediaSettingMaster(short mediaSettingMasterId);
+        MediaSettingMasterViewModel GetMediaSettingMaster(byte mediaTypeMasterId);
 
         /// <summary>
         /// Update Media Setting Master.
@@ -32,13 +24,5 @@ namespace Coditech.Admin.Agents
         /// <param name="mediaSettingMasterViewModel">mediaSettingMasterViewModel.</param>
         /// <returns>Returns updated MediaSettingMasterViewModel</returns>
         MediaSettingMasterViewModel UpdateMediaSettingMaster(MediaSettingMasterViewModel mediaSettingMasterViewModel);
-
-        /// <summary>
-        /// Delete Media Setting Master.
-        /// </summary>
-        /// <param name="mediaSettingMasterId">mediaSettingMasterId.</param>
-        /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeleteMediaSettingMaster(string mediaSettingMasterId, out string errorMessage);
-        MediaSettingMasterListResponse GetMediaSettingMasterList();
     }
 }

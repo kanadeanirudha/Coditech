@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.Helper;
+
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
@@ -10,6 +11,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Media Type")]
         public byte MediaTypeMasterId { get; set; }
+        public string MediaType { get; set; }
 
         [Display(Name = "Media Configuration")]
         [Required]
@@ -21,7 +23,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         public string MediaTypeExtensionMasterIds { get; set; }
         [Display(Name = "Large Image")]
-        
+
         public Int16 LargeImageResize { get; set; }
         [Display(Name = "Medium Image")]
 

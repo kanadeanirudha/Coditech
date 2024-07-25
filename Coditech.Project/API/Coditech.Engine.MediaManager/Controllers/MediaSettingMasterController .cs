@@ -33,7 +33,7 @@ namespace Coditech.API.Controllers
         {
             try
             {
-             MediaSettingMasterListModel list = _mediaSettingMasterService.GetMediaSettingMasterList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                MediaSettingMasterListModel list = _mediaSettingMasterService.GetMediaSettingMasterList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<MediaSettingMasterListResponse>(data) : CreateNoContentResponse();
             }
@@ -49,36 +49,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/MediaSettingMaster/CreateMediaSettingMaster")]
-        [HttpPost, ValidateModel]
-        [Produces(typeof(MediaSettingMasterResponse))]
-        public virtual IActionResult CreateMediaSettingMaster([FromBody] MediaSettingMasterModel model)
-        {
-            try
-            {
-                MediaSettingMasterModel mediasettingmasterMaster = _mediaSettingMasterService.CreateMediaSettingMaster(model);
-                return IsNotNull(mediasettingmasterMaster) ? CreateCreatedResponse(new MediaSettingMasterResponse { MediaSettingMasterModel = mediasettingmasterMaster }) : CreateInternalServerErrorResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaSettingMaster.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new MediaSettingMasterResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaSettingMaster.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new MediaSettingMasterResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
         [Route("/MediaSettingMaster/GetMediaSettingMaster")]
         [HttpGet]
         [Produces(typeof(MediaSettingMasterResponse))]
-        public virtual IActionResult GetMediaSettingMaster(short mediaSettingMasterId)
+        public virtual IActionResult GetMediaSettingMaster(byte mediaTypeMasterId)
         {
             try
             {
-                MediaSettingMasterModel mediaSettingMasterModel = _mediaSettingMasterService.GetMediaSettingMaster(mediaSettingMasterId);
+                MediaSettingMasterModel mediaSettingMasterModel = _mediaSettingMasterService.GetMediaSettingMaster(mediaTypeMasterId);
                 return IsNotNull(mediaSettingMasterModel) ? CreateOKResponse(new MediaSettingMasterResponse { MediaSettingMasterModel = mediaSettingMasterModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

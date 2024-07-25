@@ -36,19 +36,11 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("MediaTypeMasterId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("MediaConfigurationId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("MaxSizeInMB", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("MediaTypeExtensionMasterIds", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("LargeImageResize", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("MediumImageResize", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("SmallImageResize", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("CrossSellImageResize", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("SmallThumbnailImageResize", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("HelpDescription", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MediaType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("IsActive", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "MediaSettingMasterName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             MediaSettingMasterListResponse response = _mediaSettingMasterClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             MediaSettingMasterListModel mediaSettingMasterList = new MediaSettingMasterListModel { MediaSettingMasterList = response?.MediaSettingMasterList };
@@ -59,37 +51,10 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
-        //Create Media Setting Master.
-        public virtual MediaSettingMasterViewModel CreateMediaSettingMaster(MediaSettingMasterViewModel mediaSettingMasterViewModel)
+        //Get media setting master by mediaTypeMasterId.
+        public virtual MediaSettingMasterViewModel GetMediaSettingMaster(byte mediaTypeMasterId)
         {
-            try
-            {
-                MediaSettingMasterResponse response = _mediaSettingMasterClient.CreateMediaSettingMaster(mediaSettingMasterViewModel.ToModel<MediaSettingMasterModel>());
-                MediaSettingMasterModel mediaSettingMasterModel = response?.MediaSettingMasterModel;
-                return IsNotNull(mediaSettingMasterModel) ? mediaSettingMasterModel.ToViewModel<MediaSettingMasterViewModel>() : new MediaSettingMasterViewModel();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaSettingMaster.ToString(), TraceLevel.Warning);
-                switch (ex.ErrorCode)
-                {
-                    case ErrorCodes.AlreadyExist:
-                        return (MediaSettingMasterViewModel)GetViewModelWithErrorMessage(mediaSettingMasterViewModel, ex.ErrorMessage);
-                    default:
-                        return (MediaSettingMasterViewModel)GetViewModelWithErrorMessage(mediaSettingMasterViewModel, GeneralResources.ErrorFailedToCreate);
-                }
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaSettingMaster.ToString(), TraceLevel.Error);
-                return (MediaSettingMasterViewModel)GetViewModelWithErrorMessage(mediaSettingMasterViewModel, GeneralResources.ErrorFailedToCreate);
-            }
-        }
-
-        //Get media setting master by media setting master id.
-        public virtual MediaSettingMasterViewModel GetMediaSettingMaster(short mediaSettingMasterId)
-        {
-            MediaSettingMasterResponse response = _mediaSettingMasterClient.GetMediaSettingMaster(mediaSettingMasterId);
+            MediaSettingMasterResponse response = _mediaSettingMasterClient.GetMediaSettingMaster(mediaTypeMasterId);
             return response?.MediaSettingMasterModel.ToViewModel<MediaSettingMasterViewModel>();
         }
 
@@ -151,70 +116,15 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Media Type",
-                ColumnCode = "MediaTypeMasterId",
+                ColumnCode = "MediaType",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Media Configuration",
-                ColumnCode = "MediaConfigurationId",
+                ColumnName = "IsActive",
+                ColumnCode = "IsActive",
                 IsSortable = true,
             });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Max Size",
-                ColumnCode = "MaxSizeInMB",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Media Type Extension",
-                ColumnCode = "MediaTypeExtensionMasterIds",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Large Image",
-                ColumnCode = "LargeImageResize",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Medium Image",
-                ColumnCode = "MediumImageResize",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Small Image",
-                ColumnCode = "SmallImageResize",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "CrossSell Image",
-                ColumnCode = "CrossSellImageResize",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Thumbnail Image",
-                ColumnCode = "ThumbnailImageResize",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Small Thumbnail Image",
-                ColumnCode = "SmallThumbnailImageResize",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Help Description",
-                ColumnCode = "HelpDescription",
-                IsSortable = true,
-            });
-
             return datatableColumnList;
         }
         #endregion

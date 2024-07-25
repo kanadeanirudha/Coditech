@@ -4,7 +4,9 @@ using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
+
 using Newtonsoft.Json;
+
 using System.Net;
 
 namespace Coditech.API.Client
@@ -60,74 +62,17 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-
-        public virtual MediaSettingMasterResponse CreateMediaSettingMaster(MediaSettingMasterModel body)
+        public virtual MediaSettingMasterResponse GetMediaSettingMaster(byte mediaTypeMasterId)
         {
-            return Task.Run(async () => await CreateMediaSettingMasterAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetMediaSettingMasterAsync(mediaTypeMasterId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<MediaSettingMasterResponse> CreateMediaSettingMasterAsync(MediaSettingMasterModel body, CancellationToken cancellationToken)
+        public virtual async Task<MediaSettingMasterResponse> GetMediaSettingMasterAsync(byte mediaTypeMasterId, CancellationToken cancellationToken)
         {
-            string endpoint = mediaSettingMasterEndpoint.CreateMediaSettingMasterAsync();
-            HttpResponseMessage response = null;
-            bool disposeResponse = true;
-            try
-            {
-                ApiStatus status = new ApiStatus();
-                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+            if (mediaTypeMasterId <= 0)
+                throw new System.ArgumentNullException("mediaTypeMasterId");
 
-                switch (response.StatusCode)
-                {
-                    case HttpStatusCode.OK:
-                        {
-                            ObjectResponseResult<MediaSettingMasterResponse> objectResponseResult2 = await ReadObjectResponseAsync<MediaSettingMasterResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                            if (objectResponseResult2.Object == null)
-                            {
-                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
-                            }
-
-                            return objectResponseResult2.Object;
-                        }
-                    case HttpStatusCode.Created:
-                        {
-                            ObjectResponseResult<MediaSettingMasterResponse> objectResponseResult = await ReadObjectResponseAsync<MediaSettingMasterResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                            if (objectResponseResult.Object == null)
-                            {
-                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
-                            }
-
-                            return objectResponseResult.Object;
-                        }
-                    default:
-                        {
-                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
-                            MediaSettingMasterResponse result = JsonConvert.DeserializeObject<MediaSettingMasterResponse>(value);
-                            UpdateApiStatus(result, status, response);
-                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-                        }
-                }
-            }
-            finally
-            {
-                if (disposeResponse)
-                {
-                    response.Dispose();
-                }
-            }
-        }
-
-        public virtual MediaSettingMasterResponse GetMediaSettingMaster(short mediaSettingMasterId)
-        {
-            return Task.Run(async () => await GetMediaSettingMasterAsync(mediaSettingMasterId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
-        }
-
-        public virtual async Task<MediaSettingMasterResponse> GetMediaSettingMasterAsync(short mediaSettingMasterId, System.Threading.CancellationToken cancellationToken)
-        {
-            if (mediaSettingMasterId <= 0)
-                throw new System.ArgumentNullException("mediaSettingMasterId");
-
-            string endpoint = mediaSettingMasterEndpoint.GetMediaSettingMasterAsync(mediaSettingMasterId);
+            string endpoint = mediaSettingMasterEndpoint.GetMediaSettingMasterAsync(mediaTypeMasterId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

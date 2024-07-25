@@ -8,6 +8,7 @@
         }
         public byte MediaSettingMasterId { get; set; }
         public byte MediaTypeMasterId { get; set; }
+        public string MediaType { get; set; }
         public byte MediaConfigurationId { get; set; }
         public Int16 MaxSizeInMB { get; set; }
         public string MediaTypeExtensionMasterIds { get; set; }
@@ -18,5 +19,6 @@
         public Int16 ThumbnailImageResize { get; set; }
         public Int16 SmallThumbnailImageResize { get; set; }
         public string HelpDescription { get; set; }
+        public bool IsActive { get; set; }
     }
 }

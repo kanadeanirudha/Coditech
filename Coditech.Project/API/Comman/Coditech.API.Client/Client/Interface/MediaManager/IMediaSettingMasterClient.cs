@@ -14,18 +14,11 @@ namespace Coditech.API.Client
         MediaSettingMasterListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
-        /// Create MediaSettingMaster.
+        /// Get MediaSettingMaster by mediaTypeMasterId.
         /// </summary>
-        /// <param name="MediaSettingMasterModel">MediaSettingMasterModel.</param>
+        /// <param name="mediaTypeMasterId">mediaTypeMasterId</param>
         /// <returns>Returns MediaSettingMasterResponse.</returns>
-        MediaSettingMasterResponse CreateMediaSettingMaster(MediaSettingMasterModel body);
-
-        /// <summary>
-        /// Get MediaSettingMaster by mediaSettingMasterId.
-        /// </summary>
-        /// <param name="mediaSettingMasterId">mediaSettingMasterId</param>
-        /// <returns>Returns MediaSettingMasterResponse.</returns>
-        MediaSettingMasterResponse GetMediaSettingMaster(short mediaSettingMasterId);
+        MediaSettingMasterResponse GetMediaSettingMaster(byte mediaTypeMasterId);
 
         /// <summary>
         /// Update MediaSettingMaster.
