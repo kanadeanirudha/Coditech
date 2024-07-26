@@ -7,19 +7,35 @@ namespace Coditech.Admin.ViewModel
     {
         public long LogMessageId { get; set; }
 
-        [Display(Name = "Error Message Type")]
+        [MaxLength(50)]
+        [Display(Name = "Error Message Type :")]
         public string ErrorMessageType { get; set; }
 
-        [Display(Name = "Exception Message")]
+        [Display(Name = "Exception Message :")]
         public string ExceptionMessage { get; set; }
 
-        [Display(Name = "Component Name")]
+        [MaxLength(200)]
+        [Display(Name = "Component Name :")]
         public string ComponentName { get; set; }
-        [Display(Name = "Trace Level")]
+
+        [MaxLength(20)]
+        [Display(Name = "Trace Level :")]
         public string TraceLevel { get; set; }
+
+        [Display(Name = "Exception :")]
         public string Exception { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "Method Name :")]
         public string MethodName { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "File Name :")]
         public string FileName { get; set; }
+
+        [Display(Name = "Line Number :")]
         public int LineNumber { get; set; }
+
+        public Nullable<System.DateTime> CreatedDate { get; set; }
     }
 }
