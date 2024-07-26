@@ -14,6 +14,7 @@ namespace Coditech.API.Data
         public int GenderEnumId { get; set; }
         public string EmailId { get; set; }
         public string PhoneNumber { get; set; }
+        public string CallingCode { get; set; }
         public string MobileNumber { get; set; }
         public string EmergencyContact { get; set; }
         public short GeneralNationalityMasterId { get; set; }
