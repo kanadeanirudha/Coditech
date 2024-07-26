@@ -181,6 +181,11 @@ namespace Coditech.Admin
             CreateMap<MediaSettingMasterListModel, MediaSettingMasterListViewModel>().ReverseMap();
             CreateMap<MediaManagerFolderModel, MediaManagerFolderListViewModel>().ReverseMap();
             #endregion
+
+            #region LogMessage 
+            CreateMap<LogMessageModel, LogMessageViewModel>().ReverseMap();
+            CreateMap<LogMessageListModel, LogMessageListViewModel>().ReverseMap();
+            #endregion
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<MediaTypeMaster> _mediaTypeMasterRepository;
+        private readonly ICoditechRepository<MediaTypeExtensionMaster> _mediaTypeExtensionMasterRepository;
         private readonly ICoditechRepository<MediaSettingMaster> _mediaSettingMasterRepository;
         public MediaSettingMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
@@ -24,6 +25,7 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _mediaTypeMasterRepository = new CoditechRepository<MediaTypeMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaSettingMasterRepository = new CoditechRepository<MediaSettingMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _mediaTypeExtensionMasterRepository = new CoditechRepository<MediaTypeExtensionMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual MediaSettingMasterListModel GetMediaSettingMasterList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -58,6 +60,11 @@ namespace Coditech.API.Service
                 mediaSettingMasterModel = mediaSettingMaster?.FromEntityToModel<MediaSettingMasterModel>();
             }
             mediaSettingMasterModel.MediaType = _mediaTypeMasterRepository.Table.Where(x => x.MediaTypeMasterId == mediaTypeMasterId)?.FirstOrDefault()?.MediaType;
+            List<MediaTypeExtensionMaster> mediaTypeExtensionMasterList = _mediaTypeExtensionMasterRepository.Table.Where(x => x.MediaTypeMasterId == mediaTypeMasterId)?.ToList();
+            foreach (MediaTypeExtensionMaster item in mediaTypeExtensionMasterList)
+            {
+                mediaSettingMasterModel.MediaTypeExtensionList.Add(item.FromEntityToModel<MediaTypeExtensionModel>());
+            }
             return mediaSettingMasterModel;
         }
 
@@ -72,7 +79,7 @@ namespace Coditech.API.Service
             if (mediaSettingMasterModel.MediaSettingMasterId > 0)
             {
                 mediaSettingMaster = _mediaSettingMasterRepository.Insert(mediaSettingMaster);
-                if(mediaSettingMaster.MediaSettingMasterId > 0)
+                if (mediaSettingMaster.MediaSettingMasterId > 0)
                 {
                     isMediaSettingMasterUpdated = true;
                 }

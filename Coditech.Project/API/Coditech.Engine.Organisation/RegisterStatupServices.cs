@@ -253,6 +253,8 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IOrganisationCentrewiseDepartmentService, OrganisationCentrewiseDepartmentService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
+
+            builder.Services.AddScoped<ILogMessageService, LogMessageService>();
         }
         #endregion
     }
