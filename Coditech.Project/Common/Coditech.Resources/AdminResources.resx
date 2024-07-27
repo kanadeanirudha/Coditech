@@ -414,4 +414,10 @@
   <data name="ErrorDeleteHospitalPatientTypeDetails" xml:space="preserve">
     <value>Failed to delete Hospital Patient Type due to associate record.</value>
   </data>
+  <data name="ErrorDeleteGeneralSmsProviderMaster" xml:space="preserve">
+    <value>Failed to delete General SMS Provider</value>
+  </data>
+  <data name="LabelSmsProviderList" xml:space="preserve">
+    <value>SMS Provider List</value>
+  </data>
 </root>

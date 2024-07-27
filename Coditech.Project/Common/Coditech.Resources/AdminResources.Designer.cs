@@ -232,6 +232,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete General SMS Provider.
+        /// </summary>
+        public static string ErrorDeleteGeneralSmsProviderMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralSmsProviderMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete tax group due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralTaxGroupMaster {
@@ -930,6 +939,15 @@ namespace Coditech.Resources {
         public static string LabelSave {
             get {
                 return ResourceManager.GetString("LabelSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS Provider List.
+        /// </summary>
+        public static string LabelSmsProviderList {
+            get {
+                return ResourceManager.GetString("LabelSmsProviderList", resourceCulture);
             }
         }
         

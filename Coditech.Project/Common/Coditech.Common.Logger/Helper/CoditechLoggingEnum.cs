@@ -80,7 +80,8 @@
             HospitalDoctorOPDSchedule,
             InventoryGeneralItemMaster,
             HospitalPatientType,
-            CentrewiseSms
+            CentrewiseSms,
+             SmsProviderMaster
         }
     }
 }
