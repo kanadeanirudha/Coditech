@@ -5,6 +5,8 @@
         public MediaFolderStructure MediaRootFolder { get; set; }
         public int ActiveFolderId { get; set; }
         public List<Media> MediaFiles { get; set; }
+        public double TotalFileSize { get; set; }
+
     }
 
     public class MediaFolderStructure
@@ -25,5 +27,6 @@
         public long MediaId { get; set; }
         public string MediaPath { get; set; }
         public string MediaName { get; set; }
+        public long MediaSize { get; set; }
     }
 }

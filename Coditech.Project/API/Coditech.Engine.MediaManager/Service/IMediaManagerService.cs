@@ -11,5 +11,8 @@ namespace Coditech.API.Service
         Task<bool> PostRenameFolder(int FolderId, string RenameFolderName);
         Task<bool> PostCreateFolder(int RootFolderId, string FolderName);
         Task<bool> UploadFile(IFormFile formFile, int folderId, HttpRequest request);
+        Task<FolderListResponse> GetAllFolders();
+        Task<bool> MoveFolder(int folderId, int destinationFolderId);
+        Task<bool> DeleteFolder(int folderId);
     }
 }

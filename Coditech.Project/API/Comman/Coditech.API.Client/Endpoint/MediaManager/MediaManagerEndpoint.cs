@@ -15,5 +15,12 @@ namespace Coditech.API.Endpoint
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/RenameFolder?folderId={folderId}&renameFolderName={renameFolderName}";
         public string UploadFileAsync(int folderId) =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/UploadFile?folderId={folderId}";
+        public string GetAllFolders() =>
+                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/GetAllFolders";
+        public string MoveFolderAsync(int folderId, int destinationFolderId) =>
+                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/MoveFolder?folderId={folderId}&destinationFolderId={destinationFolderId}";
+        public string DeleteFolderAsync(int folderId) =>
+                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/DeleteFolder?folderId={folderId}";
+
     }
 }

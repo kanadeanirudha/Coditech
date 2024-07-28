@@ -1,5 +1,6 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
+using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Logger;
 
@@ -116,13 +117,75 @@ namespace Coditech.API.Controllers
         }
 
         [Route("/MediaManager/RenameFolder")]
-        [HttpPost]
-        [Produces(typeof(MediaManagerFolderResponse))]
-        public virtual async Task<IActionResult> PostRenameFolder(int FolderId, string RenameFolderName)
+        [HttpGet]
+        [Produces(typeof(bool))]
+        public virtual async Task<IActionResult> PostRenameFolder(int folderId, string renameFolderName)
         {
             try
             {
-                bool response = await _mediaManagerService.PostRenameFolder(FolderId, RenameFolderName);
+                bool response = await _mediaManagerService.PostRenameFolder(folderId, renameFolderName);
+                if (response)
+                    return CreateOKResponse<bool>(response);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse();
+            }
+        }
+
+        
+
+        [Route("/MediaManager/GetAllFolders")]
+        [HttpGet]
+        [Produces(typeof(FolderListResponse))]
+        public virtual async Task<IActionResult> GetAllFolders()
+        {
+            try
+            {
+                FolderListResponse response = await _mediaManagerService.GetAllFolders();
+                if (response != null)
+                    return CreateOKResponse<FolderListResponse>(response);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse();
+            }
+        }
+
+        [Route("/MediaManager/MoveFolder")]
+        [HttpGet]
+        [Produces(typeof(bool))]
+        public virtual async Task<IActionResult> MoveFolder(int folderId, int destinationFolderId)
+        {
+            try
+            {
+                bool response = await _mediaManagerService.MoveFolder(folderId, destinationFolderId);
+                if (response)
+                    return CreateOKResponse<bool>(response);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse();
+            }
+        }
+
+        [Route("/MediaManager/DeleteFolder")]
+        [HttpGet]
+        [Produces(typeof(bool))]
+        public virtual async Task<IActionResult> DeleteFolder(int folderId)
+        {
+            try
+            {
+                bool response = await _mediaManagerService.DeleteFolder(folderId);
                 if (response)
                     return CreateOKResponse<bool>(response);
                 else

@@ -12,25 +12,6 @@
             <!-- Folder Structure Block -->
             <div class="col-lg-3">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h4 class="card-title">Categories</h4>
-                            </div><!--end col-->
-                            <div class="col-auto">
-                                <div class="dropdown">
-                                    <a href="#" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="mdi mdi-dots-horizontal text-muted"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createFolderModal">Create Folder</a>
-                                        <a class="dropdown-item" >Delete</a>
-                                        <a class="dropdown-item" >Rename</a>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end card-header-->
                     <div class="card-body">
                         <div class="files-nav">
                             <div class="nav flex-column nav-pills" id="files-tab" aria-orientation="vertical">
@@ -42,11 +23,11 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <small class="float-end">62%</small>
-                        <h6 class="mt-0">620GB / 1TB Used</h6>
-                        <div class="progress" style="height: 5px;">
+                        @* <small class="float-end">62%</small> *@
+                        <h6 class="mt-0">@Model.TotalFileSize MB Used</h6>
+@*                         <div class="progress" style="height: 5px;">
                             <div class="progress-bar bg-success" role="progressbar" style="width: 62%;" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
+                        </div> *@
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div>
@@ -90,7 +71,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="folderName" class="form-label">Folder Name</label>
-                        <input type="hidden" name="rootFolderId" value="@Model.ActiveFolderId" />
+                        <input type="hidden" name="rootFolderId" value="" />
                         <input type="text" class="form-control" id="folderName" name="FolderName" required>
                     </div>
                 </div>
@@ -102,6 +83,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" id="renameFolderModal" tabindex="-1" aria-labelledby="renameFolderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -110,21 +92,45 @@
                 <h5 class="modal-title" id="renameFolderModalLabel">Rename Folder</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="CreateFolder" asp-controller="MediaManager" method="post">
+            <form asp-action="RenameFolder" asp-controller="MediaManager" method="post">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="folderName" class="form-label">Folder Name</label>
-                        <input type="hidden" name="rootFolderId" value="@Model.ActiveFolderId" />
-                        <input type="text" class="form-control" id="folderName" name="FolderName" required>
+                        <label for="oldFolderName" class="form-label">Folder Name</label>
+                        <input type="hidden" id="renameFolderId" name="folderId" />
+                        <input type="text" class="form-control" id="oldFolderName" name="FolderName" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-soft-primary me-2">Create Folder</button>
+                    <button type="submit" class="btn btn-sm btn-soft-primary me-2">Rename Folder</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-
+<div class="modal fade" id="moveFolderModal" tabindex="-1" aria-labelledby="moveFolderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="moveFolderModalLabel">Move Folder</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="MoveFolder" asp-controller="MediaManager" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="moveFolderDropdown" class="form-label">Select Destination Folder</label>
+                        <input type="hidden" id="moveFolderId" name="folderId" />
+                        <select class="form-select" id="moveFolderDropdown" name="destinationFolderId" required>
+                            <!-- This will be populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-soft-primary me-2">Move Folder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

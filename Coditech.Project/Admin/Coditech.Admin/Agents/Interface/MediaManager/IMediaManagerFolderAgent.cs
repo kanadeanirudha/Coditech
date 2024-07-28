@@ -1,6 +1,4 @@
-﻿using Coditech.Admin.Controllers;
-using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model.Responses;
+﻿using Coditech.Admin.ViewModel;
 
 namespace Coditech.Admin.Agents
 {
@@ -10,5 +8,8 @@ namespace Coditech.Admin.Agents
         bool CreateFolder(int rootFolderId, string folderName);
         bool RenameFolder(int folderId, string renameFolderName);
         bool UploadFile(int folderId, IFormFile file);
+        FolderListViewModel GetAllFolders(int excludeFolderId);
+        bool MoveFolder(int folderId, int destinationFolderId);
+        bool DeleteFolder(int folderId);
     }
 }
