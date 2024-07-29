@@ -288,3 +288,8 @@ td.text-center a.btn {
     top: 10px;
     cursor: pointer;
 }
+#LogIn_Tab .custom-switch.switch-success #customSwitchSuccess {
+    position: relative;
+    top: 2px;
+}
+

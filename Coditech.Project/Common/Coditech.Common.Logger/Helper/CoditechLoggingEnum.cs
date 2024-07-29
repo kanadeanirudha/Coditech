@@ -91,6 +91,7 @@
             CoditechGeneralApi,
             CentrewiseSMSTemplate,
             CentrewiseWhatsAppTemplate,
+            LogMessage,
             MediaSettingMaster,
         }
     }

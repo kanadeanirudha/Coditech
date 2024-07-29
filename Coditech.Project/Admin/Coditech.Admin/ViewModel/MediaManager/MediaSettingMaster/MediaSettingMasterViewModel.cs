@@ -1,7 +1,7 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace Coditech.Admin.ViewModel
 {
@@ -46,7 +46,7 @@ namespace Coditech.Admin.ViewModel
         public string HelpDescription { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
-
+        public List<MediaTypeExtensionModel> MediaTypeExtensionList { get; set; }
 
     }
 }

@@ -4,7 +4,7 @@
     {
         public MediaSettingMasterModel()
         {
-
+            MediaTypeExtensionList = new List<MediaTypeExtensionModel>();
         }
         public byte MediaSettingMasterId { get; set; }
         public byte MediaTypeMasterId { get; set; }
@@ -20,5 +20,6 @@
         public Int16 SmallThumbnailImageResize { get; set; }
         public string HelpDescription { get; set; }
         public bool IsActive { get; set; }
+        public List<MediaTypeExtensionModel> MediaTypeExtensionList { get; set; }
     }
 }

@@ -1,23 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Coditech.Common.Helper;
+using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.API.Data
+namespace Coditech.Admin.ViewModel
 {
-    public partial class LogMessage
+    public class LogMessageViewModel : BaseViewModel
     {
-        [Key]
         public long LogMessageId { get; set; }
+
+        [Display(Name = "Error Message Type")]
         public string ErrorMessageType { get; set; }
+
+        [Display(Name = "Exception Message")]
         public string ExceptionMessage { get; set; }
+
+        [Display(Name = "Component Name")]
         public string ComponentName { get; set; }
+        [Display(Name = "Trace Level")]
         public string TraceLevel { get; set; }
         public string Exception { get; set; }
         public string MethodName { get; set; }
         public string FileName { get; set; }
         public int LineNumber { get; set; }
-        public Nullable<long> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<long> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }
-

@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.API.Data
+namespace Coditech.Common.API.Model
 {
-    public partial class MediaTypeExtensionMaster
+    public class MediaTypeExtensionModel
     {
-        [Key]
         public short MediaTypeExtensionMasterId { get; set; }
         public byte MediaTypeMasterId { get; set; }
         public string ExtensionName { get; set; }

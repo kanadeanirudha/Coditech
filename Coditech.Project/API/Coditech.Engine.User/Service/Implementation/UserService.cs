@@ -180,13 +180,13 @@ namespace Coditech.API.Service
                 if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, smsTemplateModel.EmailTemplate, url, resetPassToken);
-                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"+91{generalPersonModel?.MobileNumber}");
+                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
                 }
                 GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
                 if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, whatsAppTemplateModel.EmailTemplate, url, resetPassToken);
-                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"+91{generalPersonModel?.MobileNumber}");
+                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
                 }
             }
             catch (Exception ex)
