@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
@@ -49,9 +50,10 @@ namespace Coditech.Admin.Agents
             return _mediaManagerClient.MoveFolderAsync(folderId, destinationFolderId).Result;
         }
 
-        public bool CreateFolder(int rootFolderId, string folderName)
+        public BooleanModel CreateFolder(int rootFolderId, string folderName)
         {
-            return _mediaManagerClient.CreateFolderAsync(rootFolderId, folderName).Result;
+            TrueFalseResponse response = _mediaManagerClient.CreateFolderAsync(rootFolderId, folderName).Result;
+            return response.booleanModel;
         }
 
         public bool DeleteFolder(int folderId)

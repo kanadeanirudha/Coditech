@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
@@ -47,8 +48,8 @@ namespace Coditech.Admin.Controllers
             bool status = _mediaManagerFolderAgent.UploadFile(folderId, file);
 
             SetNotificationMessage(status
-                   ? GetErrorNotificationMessage("Image uploaded successfully.")
-                   : GetSuccessNotificationMessage("Failed to upload a image."));
+                   ? GetSuccessNotificationMessage("Image uploaded successfully.")
+                   : GetErrorNotificationMessage("Failed to upload a image."));
 
             MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 
@@ -59,11 +60,11 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult CreateFolder(int rootFolderId, string folderName)
         {
-            bool status = _mediaManagerFolderAgent.CreateFolder(rootFolderId, folderName);
+            BooleanModel booleanModel = _mediaManagerFolderAgent.CreateFolder(rootFolderId, folderName);
 
-            SetNotificationMessage(status
-                    ? GetErrorNotificationMessage("Folder created successfully.")
-                    : GetSuccessNotificationMessage("Failed to create a folder."));
+            SetNotificationMessage(booleanModel.IsSuccess
+                    ? GetSuccessNotificationMessage(booleanModel.SuccessMessage)
+                    : GetErrorNotificationMessage(booleanModel.ErrorMessage));
 
             MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(rootFolderId);
 
@@ -79,8 +80,8 @@ namespace Coditech.Admin.Controllers
                 bool status = _mediaManagerFolderAgent.DeleteFolder(folderId);
 
                 SetNotificationMessage(status
-                    ? GetErrorNotificationMessage("Folders/Files are successfully deleted.")
-                    : GetSuccessNotificationMessage("Failed to delete."));
+                    ? GetSuccessNotificationMessage("Folders/Files are successfully deleted.")
+                    : GetErrorNotificationMessage("Failed to delete."));
 
                 MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(0);
 
@@ -99,8 +100,8 @@ namespace Coditech.Admin.Controllers
             bool status = _mediaManagerFolderAgent.RenameFolder(folderId, folderName);
 
             SetNotificationMessage(status
-                    ? GetErrorNotificationMessage("Renamed successfully.")
-                    : GetSuccessNotificationMessage("Failed to rename."));
+                    ? GetSuccessNotificationMessage("Renamed successfully.")
+                    : GetErrorNotificationMessage("Failed to rename."));
 
             MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 
@@ -125,8 +126,8 @@ namespace Coditech.Admin.Controllers
                 bool status = _mediaManagerFolderAgent.MoveFolder(folderId, destinationFolderId);
 
                 SetNotificationMessage(status
-                    ? GetErrorNotificationMessage("Moved successfully.")
-                    : GetSuccessNotificationMessage("Failed to move."));
+                    ? GetSuccessNotificationMessage("Moved successfully.")
+                    : GetErrorNotificationMessage("Failed to move."));
 
                 MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 

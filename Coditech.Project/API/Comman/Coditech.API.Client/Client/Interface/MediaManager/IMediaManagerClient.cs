@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 
 namespace Coditech.API.Client
@@ -16,7 +17,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <returns></returns>
         Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0);
-        Task<bool> CreateFolderAsync(int rootFolderId, string folderName);
+        Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName);
         Task<bool> RenameFolderAsync(int folderId, string renameFolderName);
         Task<bool> UploadFileAsync(int folderId, UploadMediaModel body);
         Task<FolderListResponse> GetAllFolders();

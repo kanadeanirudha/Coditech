@@ -1,5 +1,6 @@
 ﻿using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 
@@ -104,7 +105,7 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual async Task<bool> CreateFolderAsync(int rootFolderId, string folderName)
+        public virtual async Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName)
         {
             string endpoint = mediaManagerEndpoint.CreateFolderAsync(rootFolderId, folderName);
 
@@ -119,18 +120,14 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<bool>(response, headers_, CancellationToken.None).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<TrueFalseResponse>(response, headers_, CancellationToken.None).ConfigureAwait(false);
                     
                     return objectResponse.Object;
-                }
-                else if (status_ == 204)
-                {
-                    return false;
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    bool typedBody = JsonConvert.DeserializeObject<bool>(responseData);
+                    TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }

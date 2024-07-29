@@ -1,5 +1,6 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
@@ -461,10 +462,17 @@ namespace Coditech.API.Service
             return false;
         }
 
-        public async Task<bool> PostCreateFolder(int RootFolderId, string FolderName)
+        public async Task<TrueFalseResponse> PostCreateFolder(int RootFolderId, string FolderName)
         {
             if (RootFolderId > 0)
             {
+                bool isFolderExist = _mediaFolderMasterRepository.Table.Any(x => x.FolderName == FolderName && x.MediaFolderParentId == RootFolderId);
+
+                if(isFolderExist)
+                {
+                    return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Folder already exist.", IsSuccess = false, HasError = true }, IsSuccess = false };
+                }
+
                 MediaFolderMaster mediaFolderMaster = _mediaFolderMasterRepository.Table.Where(x => x.MediaFolderMasterId == RootFolderId).FirstOrDefault();
 
                 if (mediaFolderMaster != null)
@@ -477,11 +485,18 @@ namespace Coditech.API.Service
                     createFolder.CreatedDate = DateTime.Now;
                     createFolder.ModifiedDate = DateTime.Now;
                     createFolder.ModifiedBy = 0;
-                    await _mediaFolderMasterRepository.InsertAsync(createFolder);
-                    return true;
+                    MediaFolderMaster mediaFolder = await _mediaFolderMasterRepository.InsertAsync(createFolder);
+                    if (mediaFolder.MediaFolderMasterId > 0)
+                    {
+                        return new TrueFalseResponse() { booleanModel = new BooleanModel() { SuccessMessage = "Folder successfully created.", IsSuccess = true }, IsSuccess = true };
+                    }
+                    else
+                    {
+                        return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Failed to create a folder.", IsSuccess = false, HasError = true }, IsSuccess = false };
+                    }
                 }
             }
-            return false;
+            return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Folder Id not passed.", IsSuccess = false, HasError = true }, IsSuccess = false }; ;
         }
 
         private List<MediaFolderStructure> GetSubFolders(int parentId, List<MediaFolderMaster> allFolders, ref List<int> folderIds, int activeFolderId)

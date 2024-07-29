@@ -1,6 +1,7 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Logger;
 
@@ -98,14 +99,14 @@ namespace Coditech.API.Controllers
 
         [Route("/MediaManager/CreateFolder")]
         [HttpGet]
-        [Produces(typeof(bool))]
+        [Produces(typeof(TrueFalseResponse))]
         public virtual async Task<IActionResult> CreateFolder(int rootFolderId, string folderName)
         {
             try
             {
-                bool response = await _mediaManagerService.PostCreateFolder(rootFolderId, folderName);
-                if (response)
-                    return CreateOKResponse<bool>(response);
+                TrueFalseResponse response = await _mediaManagerService.PostCreateFolder(rootFolderId, folderName);
+                if (response != null)
+                    return CreateOKResponse<TrueFalseResponse>(response);
                 else
                     return BadRequest();
             }
