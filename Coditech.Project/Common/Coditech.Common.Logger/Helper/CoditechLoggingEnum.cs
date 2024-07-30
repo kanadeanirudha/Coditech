@@ -93,6 +93,7 @@
             CentrewiseWhatsAppTemplate,
             LogMessage,
             MediaSettingMaster,
+            SmsProviderMaster
         }
     }
 }

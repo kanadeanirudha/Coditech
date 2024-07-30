@@ -52,6 +52,7 @@ namespace Coditech.API.Mapper
             CreateMap<CoditechApplicationSetting, CoditechApplicationSettingModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseWhatsAppSetting, OrganisationCentrewiseWhatsAppSettingModel>().ReverseMap();
             CreateMap<LogMessage, LogMessageModel>().ReverseMap();
+            CreateMap<GeneralSmsProvider, GeneralSmsProviderModel>().ReverseMap();
         }
     }
 }

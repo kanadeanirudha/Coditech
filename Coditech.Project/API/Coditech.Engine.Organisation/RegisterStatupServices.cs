@@ -246,6 +246,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralUserMainMenuMasterService, GeneralUserMainMenuMasterService>();
             builder.Services.AddScoped<ICoditechApplicationSettingService, CoditechApplicationSettingService>();
             builder.Services.AddScoped<ICoditechGeneralApiService, CoditechGeneralApiService>();
+            builder.Services.AddScoped<IGeneralSmsProviderMasterService, GeneralSmsProviderService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
