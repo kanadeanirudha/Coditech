@@ -12,7 +12,7 @@
             @if (Model.OrganisationCentreMasterId > 0)
             {
                 <div class="col-lg-2">
-                    @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentrewiseSmsSettingId.ToString())
+                    @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentreSidePannel.cshtml", Model.OrganisationCentreMasterId.ToString())
                 </div>
             }
             <div class="col-lg-10">
@@ -28,12 +28,11 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.OrganisationCentreMasterId)
-                            @Html.HiddenFor(m => m.OrganisationCentrewiseSmsSettingId)
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.CentreName, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(x => x.CentreName)
                                     </div>
                                 </div>
@@ -59,7 +58,12 @@
                                         @Html.ValidationMessageFor(x => x.GeneralSmsProviderId)
                                     </div>
                                 </div>
-                                <div id="smsProviderDivId" class="row"> </div>
+                                <div id="smsProviderDivId" class="row">
+                                    @if (Model.GeneralSmsProviderId > 0)
+                                    {
+                                        @Html.Partial("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseSmsSetting.cshtml", Model)
+                                    }
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>

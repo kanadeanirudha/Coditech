@@ -60,7 +60,13 @@
         EmployeeStage,
         InventoryUomMaster,
         ReportType,
-        SMSProvider
+        SMSProvider,
+        WhatsAppProvider,
+        HospitalPatientType,
+        HospitalDoctorsListBySpecialization,
+        HospitalPatientAppointmentPurpose,
+        CentrewiseHospitalPatientsList,
+        TimeSlotByDoctorsListAndAppointmentDate
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -141,7 +147,8 @@
     {
         EmployeeRegistration,
         CustomerRegistration,
-        GymMemberRegistration
+        GymMemberRegistration,
+        ResetPasswordLink
     }
     public enum UserNameRegistrationTypeEnum
     {

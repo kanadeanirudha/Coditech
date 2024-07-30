@@ -8,7 +8,8 @@
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("HospitalPatientRegistrationId", Model.HospitalPatientRegistrationId.ToString());
     keyValuePairs.Add("PersonId", Model.PersonId.ToString());
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "", IsDisabled = Model.HospitalPatientRegistrationId > 0};
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "", IsDisabled = Model.HospitalPatientRegistrationId > 0 };
+    DropdownViewModel patientTypeDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.HospitalPatientType.ToString(), DropdownName = "HospitalPatientTypeId", DropdownSelectedValue = Model.HospitalPatientTypeId.ToString(), ChangeEvent = "", IsDisabled = Model.HospitalPatientRegistrationId > 0, IsRequired = true };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -43,6 +44,7 @@
                             @if (Model.HospitalPatientRegistrationId > 0)
                             {
                                 @Html.HiddenFor(m => m.SelectedCentreCode)
+                                @Html.HiddenFor(m => m.HospitalPatientTypeId)
                             }
                             <div class="row">
                                 <div class="col-lg-6">
@@ -52,8 +54,17 @@
                                         @Html.ValidationMessageFor(x => x.SelectedCentreCode)
                                     </div>
                                 </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.HospitalPatientTypeId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", patientTypeDropdown)
+                                        @Html.ValidationMessageFor(x => x.HospitalPatientTypeId)
+                                    </div>
+                                </div>
                             </div>
                             @Html.Partial("~/Views/Shared/GeneralPerson/_CreateEditGeneralPerson.cshtml", Model)
+                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.SelectedCentreCode" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>

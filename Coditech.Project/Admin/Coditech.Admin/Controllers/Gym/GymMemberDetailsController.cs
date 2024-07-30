@@ -12,7 +12,6 @@ namespace Coditech.Admin.Controllers
     public class GymMemberDetailsController : BaseController
     {
         private readonly IGymMemberDetailsAgent _gymMemberDetailsAgent;
-        private GeneralPersonAttendanceDetailsViewModel gymMemberDetailsViewModel;
         private readonly IGymMemberBodyMeasurementAgent _gymMemberBodyMeasurementAgent;
         private const string createEditGymMember = "~/Views/Gym/GymMemberDetails/CreateEditGymMember.cshtml";
 
@@ -246,7 +245,6 @@ namespace Coditech.Admin.Controllers
             {
                 gymMemberDetailsViewModel = _gymMemberDetailsAgent.GetGeneralPersonAttendanceDetails(generalPersonAttendanceDetailId);
                 gymMemberDetailsViewModel.GymMemberDetailId = gymMemberDetailId;
-
             }
             else
             {
@@ -256,6 +254,7 @@ namespace Coditech.Admin.Controllers
                     GeneralPersonAttendanceDetailId = generalPersonAttendanceDetailId
                 };
             }
+
             GymMemberDetailsViewModel gymMemberDetailModel = _gymMemberDetailsAgent.GetGymMemberOtherDetails(gymMemberDetailId);
 
             // Now, set the Firstname property in the ViewModel
@@ -322,7 +321,7 @@ namespace Coditech.Admin.Controllers
                 gymMemberBodyMeasurementViewModel = new GymMemberBodyMeasurementViewModel()
                 {
                     GymBodyMeasurementTypeId = gymBodyMeasurementTypeId, // Set the GymBodyMeasurementTypeId for new measurement
-                    CreatedDate = DateTime.Now.ToCoditechDateFormat() // Assuming CreatedDate is a property of type string
+                    BodyMeasurementDate = Convert.ToDateTime(DateTime.Now.ToCoditechDateFormat())
                 };
             }
             gymMemberBodyMeasurementViewModel.GymMemberDetailId = gymMemberDetailId;
@@ -337,10 +336,13 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                gymMemberBodyMeasurementViewModel = _gymMemberBodyMeasurementAgent.CreateMemberBodyMeasurement(gymMemberBodyMeasurementViewModel);
+                if (gymMemberBodyMeasurementViewModel.GymMemberBodyMeasurementId > 0)
+                    gymMemberBodyMeasurementViewModel = _gymMemberBodyMeasurementAgent.UpdateMemberBodyMeasurement(gymMemberBodyMeasurementViewModel);
+                else
+                    gymMemberBodyMeasurementViewModel = _gymMemberBodyMeasurementAgent.CreateMemberBodyMeasurement(gymMemberBodyMeasurementViewModel);
                 if (!gymMemberBodyMeasurementViewModel.HasError)
                 {
-                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    SetNotificationMessage(GetSuccessNotificationMessage(gymMemberBodyMeasurementViewModel.GymMemberBodyMeasurementId > 0 ? GeneralResources.UpdateMessage : GeneralResources.RecordAddedSuccessMessage));
                     return RedirectToAction("GetBodyMeasurementTypeListByMemberId", new { gymMemberDetailId = gymMemberBodyMeasurementViewModel.GymMemberDetailId, personId = gymMemberBodyMeasurementViewModel.PersonId });
                 }
             }

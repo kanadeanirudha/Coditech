@@ -34,7 +34,7 @@ namespace Coditech.Admin.Agents
 
         #region Public Methods
         #region PatientRegistration
-        public virtual HospitalPatientRegistrationListViewModel GetHospitalPatientRegistrationList(DataTableViewModel dataTableModel)
+        public virtual HospitalPatientRegistrationListViewModel GetHospitalPatientRegistrationList(string selectedCentreCode, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -47,10 +47,9 @@ namespace Coditech.Admin.Agents
                 filters.Add("UAHNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            HospitalPatientRegistrationListResponse response = _hospitalPatientRegistrationClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            HospitalPatientRegistrationListResponse response = _hospitalPatientRegistrationClient.List(selectedCentreCode, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalPatientRegistrationListModel hospitalPatientRegistrationList = new HospitalPatientRegistrationListModel { HospitalPatientRegistrationList = response?.HospitalPatientRegistrationList };
             HospitalPatientRegistrationListViewModel listViewModel = new HospitalPatientRegistrationListViewModel();
             listViewModel.HospitalPatientRegistrationList = hospitalPatientRegistrationList?.HospitalPatientRegistrationList?.ToViewModel<HospitalPatientRegistrationViewModel>().ToList();
@@ -67,6 +66,7 @@ namespace Coditech.Admin.Agents
                 hospitalPatientRegistrationCreateEditViewModel.UserType = UserTypeEnum.Patient.ToString();
                 GeneralPersonModel generalPersonModel = hospitalPatientRegistrationCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.SelectedCentreCode = hospitalPatientRegistrationCreateEditViewModel.SelectedCentreCode;
+                generalPersonModel.HospitalPatientTypeId = hospitalPatientRegistrationCreateEditViewModel.HospitalPatientTypeId;
 
                 GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
@@ -101,6 +101,7 @@ namespace Coditech.Admin.Agents
                 if (IsNotNull(hospitalPatientRegistrationResponse))
                 {
                     hospitalPatientRegistrationCreateEditViewModel.SelectedCentreCode = hospitalPatientRegistrationResponse.HospitalPatientRegistrationModel.CentreCode;
+                    hospitalPatientRegistrationCreateEditViewModel.HospitalPatientTypeId = hospitalPatientRegistrationResponse.HospitalPatientRegistrationModel.HospitalPatientTypeId;
                 }
                 hospitalPatientRegistrationCreateEditViewModel.HospitalPatientRegistrationId = hospitalPatientRegistrationId;
                 hospitalPatientRegistrationCreateEditViewModel.PersonId = personId;

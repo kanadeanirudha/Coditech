@@ -31,22 +31,22 @@ namespace Coditech.Common.Service
         {
             try
             {
-                //Get smtp setting details.
-                OrganisationCentrewiseSmsSetting smtpSettings = new CoditechRepository<OrganisationCentrewiseSmsSetting>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.CentreCode == centreCode && x.IsSMSSettingEnabled);
+                //Get SMS setting details.
+                OrganisationCentrewiseSmsSetting smsSettings = new CoditechRepository<OrganisationCentrewiseSmsSetting>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.CentreCode == centreCode && x.IsSMSSettingEnabled);
 
-                if (HelperUtility.IsNotNull(smtpSettings))
+                if (HelperUtility.IsNotNull(smsSettings))
                 {
-                    GeneralSmsProvider generalSmsProvider = new CoditechRepository<GeneralSmsProvider>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.GeneralSmsProviderId == smtpSettings.GeneralSmsProviderId && x.IsActive);
+                    GeneralSmsProvider generalSmsProvider = new CoditechRepository<GeneralSmsProvider>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.GeneralSmsProviderId == smsSettings.GeneralSmsProviderId && x.IsActive);
 
                     if (generalSmsProvider?.ProviderCode == "TWILIO_SMS")
                     {
-                        string Twilio_Account_SID = smtpSettings.SmsPortalAccountId;
-                        string Twilio_Auth_TOKEN = smtpSettings.AuthToken;
+                        string Twilio_Account_SID = smsSettings.SmsPortalAccountId;
+                        string Twilio_Auth_TOKEN = smsSettings.AuthToken;
 
                         TwilioClient.Init(Twilio_Account_SID, Twilio_Auth_TOKEN);
 
                         var message = MessageResource.Create(
-                            from: new Twilio.Types.PhoneNumber(smtpSettings.FromMobileNumber),
+                            from: new Twilio.Types.PhoneNumber(smsSettings.FromMobileNumber),
                             body: smsText,
                             to: new Twilio.Types.PhoneNumber(phoneNumber)
                         );

@@ -86,9 +86,5 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<GeneralEmailTemplateController>(x => x.List(null));
         }
-
-        #region Protected
-
-        #endregion
     }
 }

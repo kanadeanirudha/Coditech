@@ -236,9 +236,11 @@ label {
 .inner-div {
     background-color: transparent !important;
 }
+
 .login-page-wrapper .card-body.auth-header-box {
     border-radius: 4px 4px 0 0;
 }
+
 .login-page-wrapper .card-body.auth-footer {
     border-radius: 0 0 4px 4px;
 }
@@ -251,19 +253,43 @@ label {
 }
 
 @media (min-width: 992px) {
-   /* body.dark-topbar .topbar .navbar-custom-menu .has-submenu.active a span {
+    /* body.dark-topbar .topbar .navbar-custom-menu .has-submenu.active a span {
         border: 1px solid #c2cbe2;
     }*/
 }
+
 td.text-center a.btn {
     padding: 5px;
 }
+
 .navigation-menu > li a i {
     font-size: 12px !important;
 }
+
 [data-layout="horizontal"] .topbar .brand .logo .logo-sm {
     height: 70%;
 }
+
 .footer {
     background: #ffffff;
 }
+
+.card.sidebar-card {
+    background: rgba(255, 255, 255, 1);
+}
+
+.password-input-wraper {
+    position: relative;
+}
+
+.password-input-wraper i {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+#LogIn_Tab .custom-switch.switch-success #customSwitchSuccess {
+    position: relative;
+    top: 2px;
+}
+

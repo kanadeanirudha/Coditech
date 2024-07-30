@@ -1,5 +1,6 @@
 ﻿@using Coditech.Admin.Utilities;
 @{
+    string messageData = Convert.ToString(TempData["Notifications"]);
     string applicationLogoPath = CoditechAdminSettings.ApplicationLogoPath;
     string applicationLayoutBackground = CoditechAdminSettings.ApplicationLayoutBackground;
     string applicationTitle = CoditechAdminSettings.ApplicationTitle;
@@ -21,10 +22,15 @@
     <link href="~/css/login/icons.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/login/app.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/layout/site.css" rel="stylesheet" />
+    @if (!Convert.ToBoolean(CoditechAdminSettings.IsDefaultTheme))
+    {
+        <link href="~/css/layout/@CoditechAdminSettings.ThemeColor-theme.css" rel="stylesheet" />
+    }
 </head>
-<body data-layout="horizontal" class="account-body accountbg"  data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="" style="background: url(@applicationLayoutBackground)">
+<body data-layout="horizontal" class="account-body accountbg" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="" style="background: url(@applicationLayoutBackground)">
     <!-- Log In page -->
     <div class="container login-page-wrapper">
+        @Html.Partial("~/Views/Shared/_NotificationMessage.cshtml", @messageData)
         <div class="row vh-100 d-flex justify-content-center">
             <div class="col-12 align-self-center">
                 <div class="row">
@@ -60,6 +66,21 @@
     <script src="~/js/login/waves.js"></script>
     <script src="~/js/login/feather.min.js"></script>
     <script src="~/js/login/simplebar.min.js"></script>
+    <script src="~/js/coditech/common/coditechnotification.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".view-password").click(function () {
+                $(this).toggleClass("fa fa-eye-slash");
+                var inputAttribute = $('.password-input');
+                if (inputAttribute.attr("type") == "password") {
+                    inputAttribute.attr("type", "text");
+                } else {
+                    inputAttribute.attr("type", "password");
+                }
+            });
+        });
+    </script>
 </body>
 @await RenderSectionAsync("Scripts", required: false)
 </html>

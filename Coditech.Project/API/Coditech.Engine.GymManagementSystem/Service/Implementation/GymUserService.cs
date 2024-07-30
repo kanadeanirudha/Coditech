@@ -32,16 +32,58 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password);
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password && x.UserType == UserTypeEnum.GymMember.ToString());
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
             else if (!userMasterData.IsActive)
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
-            GymUserModel userModel = userMasterData?.FromEntityToModel<GymUserModel>();
-            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(userModel.EntityId);
+            long personId = _gymMemberDetailsRepository.Table.Where(x => x.GymMemberDetailId == userMasterData.EntityId).FirstOrDefault().PersonId;
+
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            if (IsNull(generalPersonModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            GymUserModel userModel = new GymUserModel()
+            {
+                EntityId = userMasterData.EntityId,
+                IsPasswordChange = userMasterData.IsPasswordChange,
+                PhotoMediaPath = GetImagePath(generalPersonModel.PhotoMediaId),
+                PersonTitle = generalPersonModel.PersonTitle,
+                FirstName = generalPersonModel.FirstName,
+                MiddleName = generalPersonModel.MiddleName,
+                LastName = generalPersonModel.LastName
+            };
+            return userModel;
+        }
+
+        public virtual GymUserModel GetGymMemberDetails(long entityId)
+        {
+            if (entityId <= 0)
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == entityId);
+            GymUserModel userModel = new GymUserModel();
+
+            if (IsNotNull(gymMemberDetails))
+            {
+                userModel.PastInjuries = gymMemberDetails.PastInjuries;
+                userModel.MedicalHistory = gymMemberDetails.MedicalHistory;
+                userModel.OtherInformation = gymMemberDetails.OtherInformation;
+            }
+
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(gymMemberDetails.PersonId);
+            if (IsNull(generalPersonModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            userModel.EntityId = entityId;
+            userModel.PhotoMediaPath = GetImagePath(generalPersonModel.PhotoMediaId);
             userModel.PersonTitle = generalPersonModel.PersonTitle;
+            userModel.FirstName = generalPersonModel.FirstName;
+            userModel.MiddleName = generalPersonModel.MiddleName;
+            userModel.LastName = generalPersonModel.LastName;
+            userModel.EmailId = generalPersonModel.EmailId;
             userModel.DateOfBirth = generalPersonModel.DateOfBirth;
             userModel.Gender = GetEnumDisplayTextByEnumId(generalPersonModel.GenderEnumId);
             userModel.PhoneNumber = generalPersonModel.PhoneNumber;
@@ -51,39 +93,11 @@ namespace Coditech.API.Service
             userModel.BirthMark = generalPersonModel.BirthMark;
             userModel.GeneralOccupationMasterId = generalPersonModel.GeneralOccupationMasterId;
             userModel.AnniversaryDate = generalPersonModel.AnniversaryDate;
-
-            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == userModel.EntityId);
-            if (IsNotNull(gymMemberDetails))
-            {
-                userModel.PastInjuries = gymMemberDetails.PastInjuries;
-                userModel.MedicalHistory = gymMemberDetails.MedicalHistory;
-                userModel.OtherInformation = gymMemberDetails.OtherInformation;
-            }
+            userModel.BloodGroup = generalPersonModel.BloodGroup;
             return userModel;
         }
 
-        //Change Password.
-        public virtual ChangePasswordModel ChangePassword(ChangePasswordModel changePasswordModel)
-        {
-            if (IsNull(changePasswordModel))
-                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
-            GeneralPerson generalPerson = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == changePasswordModel.UserMasterId);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserMasterId == changePasswordModel.UserMasterId);
-            if (IsNotNull(userMasterData) && userMasterData.Password == MD5Hash(changePasswordModel.CurrentPassword))
-            {
-                userMasterData.Password = MD5Hash(changePasswordModel.NewPassword);
-                _userMasterRepository.Update(userMasterData);
-            }
-            else
-            {
-                changePasswordModel.HasError = true;
-                changePasswordModel.ErrorMessage = "Current Password DoesNot Match ";
-            }
-            return changePasswordModel;
-        }
-
-        //Change Password.
+        //Update Additional Information
         public virtual GymUserModel UpdateAdditionalInformation(GymUserModel gymUserModel)
         {
             if (IsNull(gymUserModel))
@@ -100,6 +114,8 @@ namespace Coditech.API.Service
             {
                 gymMemberDetails.MedicalHistory = gymUserModel.MedicalHistory;
                 gymMemberDetails.PastInjuries = gymUserModel.PastInjuries;
+                gymMemberDetails.OtherInformation = gymUserModel.OtherInformation;
+                gymMemberDetails.ModifiedBy = gymUserModel.ModifiedBy;
                 bool status = _gymMemberDetailsRepository.Update(gymMemberDetails);
                 if (status)
                 {
@@ -107,13 +123,14 @@ namespace Coditech.API.Service
                     if (IsNotNull(generalPerson))
                     {
                         generalPerson.MaritalStatus = gymUserModel.MaritalStatus;
+                        generalPerson.BloodGroup = gymUserModel.BloodGroup;
                         generalPerson.BirthMark = gymUserModel.BirthMark;
-                        generalPerson.PhoneNumber = gymUserModel.PhoneNumber;
                         generalPerson.EmailId = gymUserModel.EmailId;
                         generalPerson.GeneralOccupationMasterId = gymUserModel.GeneralOccupationMasterId;
                         generalPerson.AnniversaryDate = gymUserModel.AnniversaryDate;
                         generalPerson.EmergencyContact = gymUserModel.EmergencyContact;
-                        generalPerson.BloodGroup = gymUserModel.BloodGroup;
+                        generalPerson.PhoneNumber = gymUserModel.PhoneNumber;
+                        generalPerson.ModifiedBy = gymUserModel.ModifiedBy;
                         status = _generalPersonRepository.Update(generalPerson);
                         if (status)
                         {

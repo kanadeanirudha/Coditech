@@ -1,0 +1,42 @@
+﻿@model MediaFolderStructure
+
+@{
+    string active = Model.IsActiveFolder ? "active" : "";
+}
+
+<div class="nav-link d-flex align-items-center @active folder-container"
+     data-folder-id="@Model.RootFolderId"
+     id="files-@Model.RootFolderId-tab"
+     role="button"
+     aria-expanded="true"
+     aria-controls="collapseFolder-@Model.RootFolderId"
+     oncontextmenu="showContextMenu(event, '@Model.RootFolderId', '@Model.RootFolderName')">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder align-self-center icon-dual-file icon-sm me-3 folder-click">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <div class="d-inline-block align-self-center flex-grow-1 folder-click">
+        <h5 class="m-0">@Model.RootFolderName</h5>
+    </div>
+    <i class="mdi mdi-chevron-up text-muted me-2 collapse-icon" style="display: none;"></i>
+    <i class="mdi mdi-chevron-down text-muted me-2 collapse-icon"></i>
+</div>
+
+<!-- Context Menu -->
+<div id="contextMenu" class="dropdown-menu" style="display: none; position: absolute;">
+    <a class="dropdown-item" id="createFolder">Create Folder</a>
+    <a class="dropdown-item" id="deleteFolder">Delete</a>
+    <a class="dropdown-item" id="renameFolder" onclick="openRenameFolderModal('@Model.RootFolderId', '@Model.RootFolderName')">Rename</a>
+    <a class="dropdown-item" id="moveFolder" onclick="openMoveFolderModal('@Model.RootFolderId')">Move</a>
+</div>
+
+<div class="collapse show" id="collapseFolder-@Model.RootFolderId">
+    @if (Model.SubFolders.Any())
+    {
+        <div class="ms-4">
+            @foreach (var subFolder in Model.SubFolders)
+            {
+                @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_FolderStructure.cshtml", subFolder)
+            }
+        </div>
+    }
+</div>

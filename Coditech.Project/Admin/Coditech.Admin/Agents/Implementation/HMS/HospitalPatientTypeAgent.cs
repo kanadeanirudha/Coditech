@@ -8,7 +8,9 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -18,7 +20,7 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IHospitalPatientTypeClient _hospitalPatientTypeClient;
-       
+
         #endregion
 
         #region Public Constructor
@@ -26,7 +28,7 @@ namespace Coditech.Admin.Agents
         {
             _coditechLogging = coditechLogging;
             _hospitalPatientTypeClient = GetClient<IHospitalPatientTypeClient>(hospitalPatientTypeClient);
-          
+
         }
         #endregion
 
@@ -60,7 +62,7 @@ namespace Coditech.Admin.Agents
         public virtual HospitalPatientTypeViewModel CreateHospitalPatientType(HospitalPatientTypeViewModel hospitalPatientTypeViewModel)
         {
             try
-            {           
+            {
                 HospitalPatientTypeResponse response = _hospitalPatientTypeClient.CreateHospitalPatientType(hospitalPatientTypeViewModel.ToModel<HospitalPatientTypeModel>());
                 HospitalPatientTypeModel hospitalPatientTypeModel = response?.HospitalPatientTypeModel;
                 return IsNotNull(hospitalPatientTypeModel) ? hospitalPatientTypeModel.ToViewModel<HospitalPatientTypeViewModel>() : new HospitalPatientTypeViewModel();
@@ -157,7 +159,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Patient Type",
                 ColumnCode = "PatientType",
                 IsSortable = true,
-            });          
+            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",

@@ -60,6 +60,8 @@ namespace Coditech.Admin
             CreateMap<GeneralLeadGenerationViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<UserMainMenuModel, UserMainMenuViewModel>().ReverseMap();
             CreateMap<UserMainMenuListModel, UserMainMenuListViewModel>().ReverseMap();
+            CreateMap<CoditechApplicationSettingModel, CoditechApplicationSettingViewModel>().ReverseMap();
+            CreateMap<CoditechApplicationSettingListModel, CoditechApplicationSettingListViewModel>().ReverseMap();
             CreateMap<GeneralSmsProviderModel, GeneralSmsProviderViewModel>().ReverseMap();
             #endregion            
 
@@ -79,7 +81,7 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseEmailTemplateModel, OrganisationCentrewiseEmailTemplateViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseUserNameRegistrationModel, OrganisationCentrewiseUserNameRegistrationViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseSmsSettingModel, OrganisationCentrewiseSmsSettingViewModel>().ReverseMap();
-
+            CreateMap<OrganisationCentrewiseWhatsAppSettingModel, OrganisationCentrewiseWhatsAppSettingViewModel>().ReverseMap();
             #endregion
 
             #region Employee            
@@ -134,6 +136,10 @@ namespace Coditech.Admin
             CreateMap<HospitalDoctorOPDScheduleModel, HospitalDoctorOPDScheduleViewModel>().ReverseMap();
             CreateMap<HospitalPatientTypeListModel, HospitalPatientTypeListViewModel>().ReverseMap();
             CreateMap<HospitalPatientTypeModel, HospitalPatientTypeViewModel>().ReverseMap();
+            CreateMap<HospitalPatientAppointmentModel, HospitalPatientAppointmentViewModel>().ReverseMap();
+            CreateMap<HospitalPatientAppointmentListModel, HospitalPatientAppointmentListViewModel>().ReverseMap();
+            CreateMap<HospitalPatientAppointmentPurposeModel, HospitalPatientAppointmentPurposeViewModel>().ReverseMap();
+            CreateMap<HospitalPatientAppointmentPurposeListModel, HospitalPatientAppointmentPurposeListViewModel>().ReverseMap();
             #endregion
 
             #region Inventory
@@ -163,10 +169,24 @@ namespace Coditech.Admin
 
             #region Password
             CreateMap<ChangePasswordModel, ChangePasswordViewModel>().ReverseMap();
+            CreateMap<ResetPasswordModel, ResetPasswordViewModel>().ReverseMap();
+            CreateMap<ResetPasswordSendLinkModel, ResetPasswordViewModel>().ReverseMap();
             #endregion
 
             #region Dashboard
             CreateMap<DashboardModel, DashboardViewModel>().ReverseMap();
+            #endregion
+
+            #region Media Manager
+            CreateMap<MediaSettingMasterModel, MediaSettingMasterViewModel>().ReverseMap();
+            CreateMap<MediaSettingMasterListModel, MediaSettingMasterListViewModel>().ReverseMap();
+            CreateMap<MediaManagerFolderModel, MediaManagerFolderListViewModel>().ReverseMap();
+            CreateMap<FolderListModel, FolderListViewModel>().ReverseMap();
+            #endregion
+
+            #region LogMessage 
+            CreateMap<LogMessageModel, LogMessageViewModel>().ReverseMap();
+            CreateMap<LogMessageListModel, LogMessageListViewModel>().ReverseMap();
             #endregion
         }
     }

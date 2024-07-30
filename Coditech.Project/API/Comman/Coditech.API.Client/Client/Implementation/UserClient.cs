@@ -1,5 +1,4 @@
-﻿using Coditech.Admin.Utilities;
-using Coditech.API.Endpoint;
+﻿using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -59,8 +58,7 @@ namespace Coditech.API.Client
         /// <exception cref="CoditechException">A server side error occurred.</exception>
         public virtual async Task<UserModel> LoginAsync(IEnumerable<string> expand, UserLoginModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = CoditechAdminSettings.CoditechUserApiRootUri;
-            endpoint += "/" + "User/Login";
+            string endpoint = userEndpoint.UserLoginAsync();
             HttpResponseMessage response_ = null;
             var disposeResponse_ = true;
 
@@ -198,6 +196,120 @@ namespace Coditech.API.Client
                 }
             }
         }
+
+        #region ResetPassword
+        public virtual ResetPasswordResponse ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            return Task.Run(async () => await ResetPasswordAsync(resetPasswordModel, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordModel resetPasswordModel, CancellationToken cancellationToken)
+        {
+            string endpoint = userEndpoint.ResetPasswordAsync();
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(resetPasswordModel), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<ResetPasswordResponse> objectResponseResult2 = await ReadObjectResponseAsync<ResetPasswordResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<ResetPasswordResponse> objectResponseResult = await ReadObjectResponseAsync<ResetPasswordResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            ResetPasswordResponse result = JsonConvert.DeserializeObject<ResetPasswordResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
+        }
+
+        public virtual ResetPasswordSendLinkResponse ResetPasswordSendLink(string userName)
+        {
+            return ResetPasswordSendLinkAsync(userName, CancellationToken.None).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<ResetPasswordSendLinkResponse> ResetPasswordSendLinkAsync(string userName, CancellationToken cancellationToken)
+        {
+            string endpoint = userEndpoint.ResetPasswordSendLinkAsync(userName);
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<ResetPasswordSendLinkResponse> objectResponseResult2 = await ReadObjectResponseAsync<ResetPasswordSendLinkResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<ResetPasswordSendLinkResponse> objectResponseResult = await ReadObjectResponseAsync<ResetPasswordSendLinkResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            ResetPasswordSendLinkResponse result = JsonConvert.DeserializeObject<ResetPasswordSendLinkResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
+        }
+        #endregion
 
         public virtual UserModuleListResponse GetActiveModuleList()
         {
@@ -552,8 +664,8 @@ namespace Coditech.API.Client
                 if (disposeResponse)
                     response.Dispose();
             }
-        }
 
+        }
 
 
         protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }

@@ -15,6 +15,7 @@
         public int GenderEnumId { get; set; }
         public string EmailId { get; set; }
         public string PhoneNumber { get; set; }
+        public string CallingCode { get; set; }
         public string MobileNumber { get; set; }
         public string EmergencyContact { get; set; }
         public short GeneralNationalityMasterId { get; set; }
@@ -33,5 +34,6 @@
         public string CentreName { get; set; }
         public string SelectedDepartmentId { get; set; }
         public short EmployeeDesignationMasterId { get; set; }
+        public byte HospitalPatientTypeId { get; set; }
     }
 }

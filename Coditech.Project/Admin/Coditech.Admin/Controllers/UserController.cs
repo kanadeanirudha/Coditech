@@ -35,8 +35,7 @@ namespace Coditech.Admin.Controllers
             return View(new UserLoginViewModel());
         }
 
-        // Posts the UserLoginViewModel to authenticate the user.
-        // Logs in if the user is authenticated or it shows error messages accordingly.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -95,8 +94,7 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/User/ChangePassword.cshtml", changePasswordViewModel);
         }
 
-        //Logs off the user from the site.
-        [AllowAnonymous]
+
         [HttpGet]
         public virtual ActionResult Logout()
         {
@@ -141,45 +139,67 @@ namespace Coditech.Admin.Controllers
                 return null;
         }
 
+        #region ResetPassword
         [HttpGet]
         [AllowAnonymous]
-        public virtual ActionResult ResetPassword()
+        public virtual ActionResult ResetPassword(string token)
         {
-            return View(new ResetPasswordViewModel());
+            ResetPasswordViewModel resetPasswordViewModel = new ResetPasswordViewModel()
+            {
+                ResetPasswordToken = token
+            };
+            return View(resetPasswordViewModel);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public virtual ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            ModelState.Remove("UserName");
+            if (ModelState.IsValid)
+            {
+                ResetPasswordViewModel resetPasswordModel = _userAgent.ResetPassword(model);
+                if (resetPasswordModel != null && !resetPasswordModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage("Your password reset successfully. Please login with new password."));
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    SetNotificationMessage(GetErrorNotificationMessage(resetPasswordModel.ErrorMessage));
+                }
+            }
+            return View("~/views/user/ResetPassword.cshtml", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public virtual ActionResult ResetPassword(ResetPasswordViewModel model)
+        public virtual ActionResult ResetPasswordSendLink(ResetPasswordViewModel resetPasswordViewModel)
         {
+            ModelState.Remove("NewPassword");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("OTP");
             if (ModelState.IsValid)
             {
-                //UserLoginViewModel loginviewModel = _userAgent.Login(model);
-                //if (HelperUtility.IsNotNull(loginviewModel))
-                //{
-                //    if (!loginviewModel.HasError)
-                //    {
-                //        _authenticationHelper.SetAuthCookie(model.UserName, model.RememberMe);
-
-                //        if (model.RememberMe)
-                //            SaveLoginRememberMeCookie(model.UserName);
-
-                //        return RedirectToLocal(returnUrl);
-                //    }
-                //    else
-                //    {
-                //        ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
-                //    }
-                //    ModelState.AddModelError("ErrorMessage", loginviewModel.ErrorMessage);
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
-                //}
+                if (!string.IsNullOrEmpty(resetPasswordViewModel.UserName))
+                {
+                    ResetPasswordSendLinkViewModel resetPasswordLinkModel = _userAgent.ResetPasswordSendLink(resetPasswordViewModel.UserName);
+                    if (resetPasswordLinkModel != null && !resetPasswordLinkModel.HasError)
+                    {
+                        SetNotificationMessage(GetSuccessNotificationMessage("Your password reset link has been sent to your email address/mobile number."));
+                        return RedirectToAction("Login");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ErrorMessage", resetPasswordLinkModel.ErrorMessage);
+                    }
+                }
             }
-            return View(model);
+            return View("~/views/user/ResetPassword.cshtml", resetPasswordViewModel);
         }
+        #endregion
+
         #region Protected
         protected virtual ActionResult RedirectToLocal(string returnUrl)
         {

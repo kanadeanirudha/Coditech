@@ -20,10 +20,16 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
         bool UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingModel model);
         OrganisationCentrewiseSmsSettingModel GetCentrewiseSmsSetup(short organisationCentreMasterId, byte generalSmsProviderId);
         bool UpdateCentrewiseSmsSetup(OrganisationCentrewiseSmsSettingModel model);
+        OrganisationCentrewiseWhatsAppSettingModel GetCentrewiseWhatsAppSetup(short organisationCentreMasterId, byte generalWhatsAppProviderId);
+        bool UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingModel model);
         OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
         bool UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
         OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreMasterId,short organisationCentrewiseUserNameRegistrationId=0);
         bool UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel model);
+        OrganisationCentrewiseEmailTemplateModel GetCentrewiseSMSTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
+        bool UpdateCentrewiseSMSTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
+        OrganisationCentrewiseEmailTemplateModel GetCentrewiseWhatsAppTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
+        bool UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
     }
 }
 
