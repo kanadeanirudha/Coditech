@@ -186,6 +186,10 @@ namespace Coditech.Admin.Helpers
             {
                 RequestedTimeSlotList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CallingCode.ToString()))
+            {
+                GetCallingCode(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -648,6 +652,23 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = string.Concat(item.CountryName, " (", item.CountryCode, ")"),
+                    Value = Convert.ToString(item.GeneralCountryMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCountryMasterId)
+                });
+            }
+        }
+
+        private static void GetCallingCode(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralCountryListResponse response = new GeneralCountryClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-Select-" });
+
+            GeneralCountryListModel list = new GeneralCountryListModel { GeneralCountryList = response.GeneralCountryList };
+            foreach (var item in list.GeneralCountryList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CallingCode,
                     Value = Convert.ToString(item.GeneralCountryMasterId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCountryMasterId)
                 });

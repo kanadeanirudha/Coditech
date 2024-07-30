@@ -95,5 +95,8 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Anniversary Date")]
         public DateTime? AnniversaryDate { get; set; }
         public long EntityId { get; set; }
+        [Display(Name = "Code")]
+        public string CallingCode { get; set; }
+        public short GeneralCountryMasterId { get; set; }
     }
 }
