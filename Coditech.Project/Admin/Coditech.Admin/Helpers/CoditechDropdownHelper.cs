@@ -188,7 +188,7 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CallingCode.ToString()))
             {
-                GetCallingCode(dropdownViewModel, dropdownList);
+                GetCountryCallingCode(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -658,10 +658,10 @@ namespace Coditech.Admin.Helpers
             }
         }
 
-        private static void GetCallingCode(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetCountryCallingCode(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             GeneralCountryListResponse response = new GeneralCountryClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-Select-" });
+            dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select-------" });
 
             GeneralCountryListModel list = new GeneralCountryListModel { GeneralCountryList = response.GeneralCountryList };
             foreach (var item in list.GeneralCountryList)
@@ -669,8 +669,8 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = item.CallingCode,
-                    Value = Convert.ToString(item.GeneralCountryMasterId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCountryMasterId)
+                    Value = Convert.ToString(item.CallingCode),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.CallingCode)
                 });
             }
         }

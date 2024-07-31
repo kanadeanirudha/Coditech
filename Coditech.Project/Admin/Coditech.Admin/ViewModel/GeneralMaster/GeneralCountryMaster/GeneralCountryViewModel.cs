@@ -21,6 +21,7 @@ namespace Coditech.Admin.ViewModel
         public short SeqNo { get; set; }
 
         [Display(Name = "Calling Code")]
+        [Required]
         public string CallingCode { get; set; }
     }
 }
