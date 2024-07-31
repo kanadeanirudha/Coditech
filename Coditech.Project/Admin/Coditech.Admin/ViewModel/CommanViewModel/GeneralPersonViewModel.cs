@@ -63,7 +63,7 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(50)]
         [Display(Name = "Marital Status")]
-        public string MaritalStatus { get; set; } 
+        public string MaritalStatus { get; set; }
 
         [MaxLength(50)]
         [Display(Name = "Identification Number")]
@@ -95,5 +95,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Anniversary Date")]
         public DateTime? AnniversaryDate { get; set; }
         public long EntityId { get; set; }
+
+        [Display(Name = "Calling Code")]
+        [Required]
+        public string CallingCode { get; set; }
     }
 }

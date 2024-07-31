@@ -42,9 +42,9 @@ namespace Coditech.Admin.Agents
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FileName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             LogMessageListResponse response = _logMessageClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            LogMessageListModel countryList = new LogMessageListModel { LogMessageList = response?.LogMessageList };
+            LogMessageListModel logMessageList = new LogMessageListModel { LogMessageList = response?.LogMessageList };
             LogMessageListViewModel listViewModel = new LogMessageListViewModel();
-            listViewModel.LogMessageList = countryList?.LogMessageList?.ToViewModel<LogMessageViewModel>().ToList();
+            listViewModel.LogMessageList = logMessageList?.LogMessageList?.ToViewModel<LogMessageViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.LogMessageList.Count, BindColumns());
             return listViewModel;
@@ -97,7 +97,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Error Message",
-                ColumnCode = "ErrorMessageType",
+                ColumnCode = "ExceptionMessage",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -108,9 +108,14 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Exception Message",
-                ColumnCode = "ExceptionMessage",
+                ColumnName = "Trace Level",
+                ColumnCode = "TraceLevel",
                 IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Error Date",
+                ColumnCode = "CreatedDate",
             });
             return datatableColumnList;
         }
