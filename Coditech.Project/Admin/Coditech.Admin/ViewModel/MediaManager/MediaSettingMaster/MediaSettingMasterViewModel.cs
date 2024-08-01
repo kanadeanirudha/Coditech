@@ -1,6 +1,5 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
-
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -16,12 +15,12 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Media Configuration")]
         [Required]
         public byte MediaConfigurationId { get; set; }
-        [Display(Name = "Max Size")]
+        [Display(Name = "Max Size(in MB)")]
         [Required]
         public Int16 MaxSizeInMB { get; set; }
         [Display(Name = "Media Type Extension")]
         [Required]
-        public string MediaTypeExtensionMasterIds { get; set; }
+        public List<string> MediaTypeExtensionMasterIds { get; set; }
         [Display(Name = "Large Image")]
 
         public Int16 LargeImageResize { get; set; }
@@ -47,6 +46,5 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
         public List<MediaTypeExtensionModel> MediaTypeExtensionList { get; set; }
-
     }
 }
