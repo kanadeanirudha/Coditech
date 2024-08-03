@@ -11,6 +11,7 @@ namespace Coditech.API.Service
         GeneralPersonAttendanceDetailsModel InserUpdateGeneralPersonAttendanceDetails(GeneralPersonAttendanceDetailsModel model);
         GeneralPersonAttendanceDetailsModel GetPersonAttendance(long generalPersonAttendanceDetailsId);
         bool DeletePersonAttendance(ParameterModel parameterModel);
+        bool IsAllowAttendance(int entityId, string userType, double pointToCheckLatitude, double pointToCheckLongitude);
     }
 }
 
