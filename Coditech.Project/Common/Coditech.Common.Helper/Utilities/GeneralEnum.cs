@@ -66,7 +66,8 @@
         HospitalDoctorsListBySpecialization,
         HospitalPatientAppointmentPurpose,
         CentrewiseHospitalPatientsList,
-        TimeSlotByDoctorsListAndAppointmentDate
+        TimeSlotByDoctorsListAndAppointmentDate,
+        CallingCode
     }
 
     public enum GeneralSystemGlobleSettingEnum

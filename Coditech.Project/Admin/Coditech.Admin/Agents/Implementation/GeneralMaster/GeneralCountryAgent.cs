@@ -154,6 +154,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Calling Code",
+                ColumnCode = "CallingCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Is Default",
                 ColumnCode = "DefaultFlag",
             });

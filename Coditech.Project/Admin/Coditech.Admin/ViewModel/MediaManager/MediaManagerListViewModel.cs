@@ -8,5 +8,6 @@ namespace Coditech.Admin.ViewModel
         public MediaFolderStructure MediaRootFolder { get; set; }
         public int ActiveFolderId { get; set; }
         public List<Media> MediaFiles { get; set; }
+        public double TotalFileSize {  get; set; }
     }
 }

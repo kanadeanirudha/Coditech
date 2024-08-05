@@ -37,8 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Common.Service", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Organisation", "API\Coditech.Engine.Organisation\Coditech.Engine.Organisation.csproj", "{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.User", "API\Coditech.Engine.User\Coditech.Engine.User.csproj", "{D9CC7CFB-399F-4937-96F7-E8E4C2E0C0EA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Employee", "API\Coditech.Engine.Employee\Coditech.Engine.Employee.csproj", "{90A71931-94B4-4DFD-B696-0B77A29E79B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Inventory", "API\Coditech.Engine.Inventory\Coditech.Engine.Inventory.csproj", "{7D750ACF-B873-4184-958C-B70D30C948D4}"
@@ -132,12 +130,6 @@ Global
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9CC7CFB-399F-4937-96F7-E8E4C2E0C0EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9CC7CFB-399F-4937-96F7-E8E4C2E0C0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9CC7CFB-399F-4937-96F7-E8E4C2E0C0EA}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9CC7CFB-399F-4937-96F7-E8E4C2E0C0EA}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{D9CC7CFB-399F-4937-96F7-E8E4C2E0C0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9CC7CFB-399F-4937-96F7-E8E4C2E0C0EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90A71931-94B4-4DFD-B696-0B77A29E79B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90A71931-94B4-4DFD-B696-0B77A29E79B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90A71931-94B4-4DFD-B696-0B77A29E79B2}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU

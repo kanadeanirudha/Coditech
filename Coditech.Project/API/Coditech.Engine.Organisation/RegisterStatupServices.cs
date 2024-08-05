@@ -1,11 +1,11 @@
-﻿
-using Coditech.API.Data;
+﻿using Coditech.API.Data;
 using Coditech.API.Organisation.Service.Interface.Organisation;
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -246,6 +246,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralUserMainMenuMasterService, GeneralUserMainMenuMasterService>();
             builder.Services.AddScoped<ICoditechApplicationSettingService, CoditechApplicationSettingService>();
             builder.Services.AddScoped<ICoditechGeneralApiService, CoditechGeneralApiService>();
+            builder.Services.AddScoped<IGeneralSmsProviderMasterService, GeneralSmsProviderService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
@@ -253,6 +254,17 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IOrganisationCentrewiseDepartmentService, OrganisationCentrewiseDepartmentService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
+
+            builder.Services.AddScoped<ILogMessageService, LogMessageService>();
+
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ICoditechEmail, CoditechEmail>();
+            builder.Services.AddScoped<ICoditechSMS, CoditechSMS>();
+            builder.Services.AddScoped<ICoditechWhatsApp, CoditechWhatsApp>();
+            builder.Services.AddScoped<IGeneralPersonFollowUpService, GeneralPersonFollowUpService>();
+            builder.Services.AddScoped<IGeneralPersonAttendanceDetailsService, GeneralPersonAttendanceDetailsService>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
+            builder.Services.AddScoped<IGeneralCommonService, GeneralCommonService>();
         }
         #endregion
     }

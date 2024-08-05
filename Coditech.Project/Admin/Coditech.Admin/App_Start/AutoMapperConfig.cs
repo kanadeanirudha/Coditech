@@ -62,6 +62,7 @@ namespace Coditech.Admin
             CreateMap<UserMainMenuListModel, UserMainMenuListViewModel>().ReverseMap();
             CreateMap<CoditechApplicationSettingModel, CoditechApplicationSettingViewModel>().ReverseMap();
             CreateMap<CoditechApplicationSettingListModel, CoditechApplicationSettingListViewModel>().ReverseMap();
+            CreateMap<GeneralSmsProviderModel, GeneralSmsProviderViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation
@@ -180,6 +181,12 @@ namespace Coditech.Admin
             CreateMap<MediaSettingMasterModel, MediaSettingMasterViewModel>().ReverseMap();
             CreateMap<MediaSettingMasterListModel, MediaSettingMasterListViewModel>().ReverseMap();
             CreateMap<MediaManagerFolderModel, MediaManagerFolderListViewModel>().ReverseMap();
+            CreateMap<FolderListModel, FolderListViewModel>().ReverseMap();
+            #endregion
+
+            #region LogMessage 
+            CreateMap<LogMessageModel, LogMessageViewModel>().ReverseMap();
+            CreateMap<LogMessageListModel, LogMessageListViewModel>().ReverseMap();
             #endregion
         }
     }

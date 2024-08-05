@@ -1,5 +1,7 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
+using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Logger;
 
@@ -97,12 +99,32 @@ namespace Coditech.API.Controllers
 
         [Route("/MediaManager/CreateFolder")]
         [HttpGet]
-        [Produces(typeof(bool))]
+        [Produces(typeof(TrueFalseResponse))]
         public virtual async Task<IActionResult> CreateFolder(int rootFolderId, string folderName)
         {
             try
             {
-                bool response = await _mediaManagerService.PostCreateFolder(rootFolderId, folderName);
+                TrueFalseResponse response = await _mediaManagerService.PostCreateFolder(rootFolderId, folderName);
+                if (response != null)
+                    return CreateOKResponse<TrueFalseResponse>(response);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse();
+            }
+        }
+
+        [Route("/MediaManager/RenameFolder")]
+        [HttpGet]
+        [Produces(typeof(bool))]
+        public virtual async Task<IActionResult> PostRenameFolder(int folderId, string renameFolderName)
+        {
+            try
+            {
+                bool response = await _mediaManagerService.PostRenameFolder(folderId, renameFolderName);
                 if (response)
                     return CreateOKResponse<bool>(response);
                 else
@@ -115,14 +137,56 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/MediaManager/RenameFolder")]
-        [HttpPost]
-        [Produces(typeof(MediaManagerFolderResponse))]
-        public virtual async Task<IActionResult> PostRenameFolder(int FolderId, string RenameFolderName)
+        
+
+        [Route("/MediaManager/GetAllFolders")]
+        [HttpGet]
+        [Produces(typeof(FolderListResponse))]
+        public virtual async Task<IActionResult> GetAllFolders()
         {
             try
             {
-                bool response = await _mediaManagerService.PostRenameFolder(FolderId, RenameFolderName);
+                FolderListResponse response = await _mediaManagerService.GetAllFolders();
+                if (response != null)
+                    return CreateOKResponse<FolderListResponse>(response);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse();
+            }
+        }
+
+        [Route("/MediaManager/MoveFolder")]
+        [HttpGet]
+        [Produces(typeof(bool))]
+        public virtual async Task<IActionResult> MoveFolder(int folderId, int destinationFolderId)
+        {
+            try
+            {
+                bool response = await _mediaManagerService.MoveFolder(folderId, destinationFolderId);
+                if (response)
+                    return CreateOKResponse<bool>(response);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse();
+            }
+        }
+
+        [Route("/MediaManager/DeleteFolder")]
+        [HttpGet]
+        [Produces(typeof(bool))]
+        public virtual async Task<IActionResult> DeleteFolder(int folderId)
+        {
+            try
+            {
+                bool response = await _mediaManagerService.DeleteFolder(folderId);
                 if (response)
                     return CreateOKResponse<bool>(response);
                 else

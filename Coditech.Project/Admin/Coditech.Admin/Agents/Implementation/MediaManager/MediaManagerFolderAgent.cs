@@ -1,10 +1,10 @@
-﻿using Coditech.Admin.Controllers;
-using Coditech.Common.API.Model.Responses;
-using Coditech.Common.API.Model;
+﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
-using Coditech.Common.Logger;
-using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
+using Coditech.Common.Logger;
 
 namespace Coditech.Admin.Agents
 {
@@ -31,9 +31,34 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        public bool CreateFolder(int rootFolderId, string folderName)
+        public FolderListViewModel GetAllFolders(int excludeFolderId)
         {
-            return _mediaManagerClient.CreateFolderAsync(rootFolderId, folderName).Result;
+            try
+            {
+                FolderListResponse folderListResponse = _mediaManagerClient.GetAllFolders().Result;
+                folderListResponse.FolderList.Folders.RemoveAll(x => x.FolderId == excludeFolderId);
+                return folderListResponse.FolderList.ToViewModel<FolderListViewModel>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool MoveFolder(int folderId, int destinationFolderId)
+        {
+            return _mediaManagerClient.MoveFolderAsync(folderId, destinationFolderId).Result;
+        }
+
+        public BooleanModel CreateFolder(int rootFolderId, string folderName)
+        {
+            TrueFalseResponse response = _mediaManagerClient.CreateFolderAsync(rootFolderId, folderName).Result;
+            return response.booleanModel;
+        }
+
+        public bool DeleteFolder(int folderId)
+        {
+            return _mediaManagerClient.DeleteFolderAsync(folderId).Result;
         }
 
         public bool RenameFolder(int folderId, string renameFolderName)

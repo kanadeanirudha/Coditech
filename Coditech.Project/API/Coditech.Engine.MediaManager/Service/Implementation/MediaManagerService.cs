@@ -1,5 +1,6 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
@@ -122,7 +123,6 @@ namespace Coditech.API.Service
             {
                 if (MultipartRequestHelper.IsMultipartContentType(request.ContentType))
                 {
-                    string path = $"{AppDomain.CurrentDomain.BaseDirectory}Data\\Media\\";
                     string projectPath = Directory.GetCurrentDirectory();
                     string uploadPath = Path.Combine(projectPath, "Data", "Media");
                     Directory.CreateDirectory(uploadPath);
@@ -288,14 +288,19 @@ namespace Coditech.API.Service
                               {
                                   MediaId = media.MediaId,
                                   MediaName = media.FileName,
-                                  MediaPath = media.Path
+                                  MediaPath = media.Path,
+                                  MediaSize = Convert.ToInt64(media.Size)
                               })]
                 };
 
+                long TotalFileSizeInByte = 0;
                 foreach (Media media in managerFolderResponse.MediaManagerFolderModel.MediaFiles)
                 {
+                    TotalFileSizeInByte += media.MediaSize;
                     media.MediaPath = $"{GetMediaUrl()}{media.MediaPath}";
                 }
+                
+                managerFolderResponse.MediaManagerFolderModel.TotalFileSize = TotalFileSizeInByte > 0 ? ConvertBytesToMegabytes(TotalFileSizeInByte) : 0;
 
                 return await Task.FromResult(managerFolderResponse);
             }
@@ -305,12 +310,139 @@ namespace Coditech.API.Service
             }
         }
 
-        private string GetMediaPath(string pathName)
+        public async Task<FolderListResponse> GetAllFolders()
         {
-            string projectPath = Directory.GetCurrentDirectory();
-            string uploadPath = Path.Combine(projectPath, "Data", "Media");
-            string filePath = Path.Combine(uploadPath, pathName);
-            return filePath;
+            try 
+            {
+                FolderListResponse folderListResponse = new();
+                folderListResponse.FolderList.Folders = [.. (from folder in _mediaFolderMasterRepository.Table 
+                                                             select new Folder() 
+                                                             {
+                                                                 FolderId = folder.MediaFolderMasterId,
+                                                                 FolderName = folder.FolderName
+                                                             })];
+                return await Task.FromResult(folderListResponse);
+            }
+            catch(Exception ex) 
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> MoveFolder(int folderId, int destinationFolderId)
+        {
+            try
+            {
+                MediaFolderMaster mediaFolderMaster = _mediaFolderMasterRepository.Table.Where(x => x.MediaFolderMasterId == folderId).FirstOrDefault();
+
+                if (mediaFolderMaster != null)
+                {
+                    mediaFolderMaster.MediaFolderParentId = destinationFolderId;
+                    mediaFolderMaster.ModifiedDate = DateTime.Now;
+                    
+                    return await _mediaFolderMasterRepository.UpdateAsync(mediaFolderMaster);
+                }
+                return await Task.FromResult(false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private double ConvertBytesToMegabytes(long bytes)
+        {
+            double megabytes = (double)bytes / 1048576;
+            return Math.Round(megabytes, 2);
+        }
+
+        private async Task<List<MediaFolderMaster>> GetAllChildFoldersAsync(int folderId)
+        {
+            List<MediaFolderMaster> allFolders = new List<MediaFolderMaster>();
+            await FetchChildFolders(folderId, allFolders);
+            return allFolders;
+        }
+
+        private async Task FetchChildFolders(int parentId, List<MediaFolderMaster> allFolders)
+        {
+            var childFolders = _mediaFolderMasterRepository.Table
+                                .Where(x => x.MediaFolderParentId == parentId)
+                                .ToList();
+
+            foreach (var folder in childFolders)
+            {
+                allFolders.Add(folder);
+                await FetchChildFolders(folder.MediaFolderMasterId, allFolders);
+            }
+        }
+
+        private async Task DeleteMediaFilesAsync(int folderId)
+        {
+            try
+            {
+                var mediaFiles = _mediaDetailRepository.Table
+                                  .Where(x => x.MediaFolderMasterId == folderId)
+                                  .ToList();
+
+                foreach (var media in mediaFiles)
+                {
+                    string projectPath = Directory.GetCurrentDirectory();
+                    string uploadedPath = Path.Combine(projectPath, "Data", "Media");
+                    Directory.CreateDirectory(uploadedPath);
+
+                    string filePath = Path.Combine(uploadedPath, media.Path);
+
+
+                    // Delete the media file from the file system
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    _mediaDetailRepository.Delete(media);
+                }
+            }
+            catch (Exception ex)
+            { 
+            }
+        }
+
+        public async Task<bool> DeleteFolder(int folderId)
+        {
+            try
+            {
+                // Get the folder to be deleted
+                var mediaFolderMaster = _mediaFolderMasterRepository.Table
+                                        .Where(x => x.MediaFolderMasterId == folderId)
+                                        .FirstOrDefault();
+
+                if (mediaFolderMaster != null)
+                {
+                    // Get all child folders
+                    var allFolders = await GetAllChildFoldersAsync(folderId);
+
+                    // Add the root folder to the list
+                    allFolders.Add(mediaFolderMaster);
+
+                    // Delete all media files and folders starting from the deepest child
+                    foreach (var folder in allFolders.OrderByDescending(f => f.MediaFolderMasterId))
+                    {
+                        await DeleteMediaFilesAsync(folder.MediaFolderMasterId);
+                        if (folder.MediaFolderMasterId != 1 && folder.FolderName != "Root")
+                        {
+                            _mediaFolderMasterRepository.Delete(folder);
+                        }
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Handle or log the exception as needed
+                throw;
+            }
         }
 
         public async Task<bool> PostRenameFolder(int FolderId, string RenameFolderName)
@@ -322,17 +454,25 @@ namespace Coditech.API.Service
                 if (mediaFolderMaster != null)
                 {
                     mediaFolderMaster.FolderName = RenameFolderName;
-                    await _mediaFolderMasterRepository.UpdateAsync(mediaFolderMaster);
-                    return true;
+                    mediaFolderMaster.ModifiedDate = DateTime.Now;
+                    
+                    return await _mediaFolderMasterRepository.UpdateAsync(mediaFolderMaster);
                 }
             }
             return false;
         }
 
-        public async Task<bool> PostCreateFolder(int RootFolderId, string FolderName)
+        public async Task<TrueFalseResponse> PostCreateFolder(int RootFolderId, string FolderName)
         {
             if (RootFolderId > 0)
             {
+                bool isFolderExist = _mediaFolderMasterRepository.Table.Any(x => x.FolderName == FolderName && x.MediaFolderParentId == RootFolderId);
+
+                if(isFolderExist)
+                {
+                    return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Folder already exist.", IsSuccess = false, HasError = true }, IsSuccess = false };
+                }
+
                 MediaFolderMaster mediaFolderMaster = _mediaFolderMasterRepository.Table.Where(x => x.MediaFolderMasterId == RootFolderId).FirstOrDefault();
 
                 if (mediaFolderMaster != null)
@@ -345,11 +485,18 @@ namespace Coditech.API.Service
                     createFolder.CreatedDate = DateTime.Now;
                     createFolder.ModifiedDate = DateTime.Now;
                     createFolder.ModifiedBy = 0;
-                    await _mediaFolderMasterRepository.InsertAsync(createFolder);
-                    return true;
+                    MediaFolderMaster mediaFolder = await _mediaFolderMasterRepository.InsertAsync(createFolder);
+                    if (mediaFolder.MediaFolderMasterId > 0)
+                    {
+                        return new TrueFalseResponse() { booleanModel = new BooleanModel() { SuccessMessage = "Folder successfully created.", IsSuccess = true }, IsSuccess = true };
+                    }
+                    else
+                    {
+                        return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Failed to create a folder.", IsSuccess = false, HasError = true }, IsSuccess = false };
+                    }
                 }
             }
-            return false;
+            return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Folder Id not passed.", IsSuccess = false, HasError = true }, IsSuccess = false }; ;
         }
 
         private List<MediaFolderStructure> GetSubFolders(int parentId, List<MediaFolderMaster> allFolders, ref List<int> folderIds, int activeFolderId)
