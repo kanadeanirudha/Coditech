@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Coditech.API.Data
 {
     public partial class MediaSettingMaster
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public byte MediaSettingMasterId { get; set; }
         public byte MediaTypeMasterId { get; set; }
-        public byte MediaConfigurationId { get; set; }
+        public byte? MediaConfigurationId { get; set; }
         public Int16 MaxSizeInMB { get; set; }
         public string MediaTypeExtensionMasterIds { get; set; }
         public Int16 LargeImageResize { get; set; }

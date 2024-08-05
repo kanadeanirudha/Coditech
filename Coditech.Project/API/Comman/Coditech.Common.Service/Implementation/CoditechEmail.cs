@@ -63,7 +63,7 @@ namespace Coditech.Common.Service
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage("Mail sending to customer failed.", CoditechLoggingEnum.Components.EmailService.ToString(), TraceLevel.Error, null, ex);
+                _coditechLogging.LogMessage("Mail sending to customer failed.", CoditechLoggingEnum.Components.EmailService.ToString(), TraceLevel.Error, ex);
             }
         }
 
@@ -112,27 +112,27 @@ namespace Coditech.Common.Service
         // This method is responsible to send emails using MailKit SMTPClient.
         protected virtual string SendSMTPEmail(MimeMessage message, OrganisationCentrewiseSmtpSetting smtpSettings)
         {
-                using (var client = new MailKit.Net.Smtp.SmtpClient())
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                if (!(Convert.ToBoolean(smtpSettings.IsEnableSsl)))
                 {
-                    if (!(Convert.ToBoolean(smtpSettings.IsEnableSsl)))
-                    {
-                        client.CheckCertificateRevocation = false;
-                        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    }
-
-                    if (Convert.ToBoolean(smtpSettings.IsEnableSsl))
-                        client.Connect(smtpSettings.ServerName, smtpSettings.Port, (bool)smtpSettings.IsEnableSsl);
-                    else
-                        client.Connect(smtpSettings.ServerName, smtpSettings.Port);
-
-                    //Note: only needed if the SMTP server requires authentication
-                    if (!string.IsNullOrEmpty(smtpSettings.UserName) && !string.IsNullOrEmpty(smtpSettings.Password))
-                        client.Authenticate(smtpSettings.UserName, smtpSettings.Password);
-
-                    client.Send(message);
-                    client.Disconnect(true);
-                    return "SUCCESS";
+                    client.CheckCertificateRevocation = false;
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 }
+
+                if (Convert.ToBoolean(smtpSettings.IsEnableSsl))
+                    client.Connect(smtpSettings.ServerName, smtpSettings.Port, (bool)smtpSettings.IsEnableSsl);
+                else
+                    client.Connect(smtpSettings.ServerName, smtpSettings.Port);
+
+                //Note: only needed if the SMTP server requires authentication
+                if (!string.IsNullOrEmpty(smtpSettings.UserName) && !string.IsNullOrEmpty(smtpSettings.Password))
+                    client.Authenticate(smtpSettings.UserName, smtpSettings.Password);
+
+                client.Send(message);
+                client.Disconnect(true);
+                return "SUCCESS";
+            }
         }
 
         protected virtual MimeMessage SetEmailMessage(string from, string to, string subject, string body, string cc, string bcc, bool isHtmlEmail, string fromAddressPrefix, List<string> attachments)
@@ -222,7 +222,7 @@ namespace Coditech.Common.Service
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage("Email Address is not valid.", CoditechLoggingEnum.Components.EmailService.ToString(), TraceLevel.Error, null, ex);
+                _coditechLogging.LogMessage("Email Address is not valid.", CoditechLoggingEnum.Components.EmailService.ToString(), TraceLevel.Error, ex);
             }
             return isValid;
         }
