@@ -207,6 +207,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Employee Code",
+                ColumnCode = "PersonCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "First Name",
                 ColumnCode = "FirstName",
                 IsSortable = true,
@@ -233,7 +239,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Email Id",
                 ColumnCode = "EmailId",
                 IsSortable = true,
-            });
+            });            
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",
