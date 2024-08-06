@@ -90,7 +90,10 @@
             TimeSlot,
             CoditechGeneralApi,
             CentrewiseSMSTemplate,
-            CentrewiseWhatsAppTemplate
+            CentrewiseWhatsAppTemplate,
+            LogMessage,
+            MediaSettingMaster,
+            SmsProviderMaster
         }
     }
 }

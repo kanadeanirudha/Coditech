@@ -63,7 +63,7 @@ namespace Coditech.Common.Service
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage("SMS sending to customer failed.", CoditechLoggingEnum.Components.SMSService.ToString(), TraceLevel.Error, null, ex);
+                _coditechLogging.LogMessage("SMS sending to customer failed.", CoditechLoggingEnum.Components.SMSService.ToString(), TraceLevel.Error, ex);
             }
         }
 

@@ -22,6 +22,10 @@
     <link href="~/css/login/icons.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/login/app.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/layout/site.css" rel="stylesheet" />
+    @if (!Convert.ToBoolean(CoditechAdminSettings.IsDefaultTheme))
+    {
+        <link href="~/css/layout/@CoditechAdminSettings.ThemeColor-theme.css" rel="stylesheet" />
+    }
 </head>
 <body data-layout="horizontal" class="account-body accountbg" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="" style="background: url(@applicationLayoutBackground)">
     <!-- Log In page -->

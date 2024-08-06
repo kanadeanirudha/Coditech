@@ -5,6 +5,7 @@
         public short GeneralCountryMasterId { get; set; }
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
+        public string CallingCode { get; set; }
         public bool IsUserDefined { get; set; }
         public Nullable<bool> DefaultFlag { get; set; }
         public Nullable<int> SeqNo { get; set; }

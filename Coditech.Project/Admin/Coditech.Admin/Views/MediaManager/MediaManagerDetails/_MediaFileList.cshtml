@@ -1,0 +1,17 @@
+﻿@model List<Coditech.Common.API.Model.Media>
+<div class="card-body">
+    <div class="file-box-content">
+        @foreach (var media in Model)
+        {
+            <div class="file-box">
+                <a href="@media.MediaPath" class="download-icon-link">
+                    <i class="dripicons-download file-download-icon"></i>
+                </a>
+                <div class="text-center">
+                    <img src="@media.MediaPath" alt="@media.MediaName" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">
+                    <h6 class="text-truncate">@media.MediaName</h6>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -61,7 +61,7 @@ namespace Coditech.Common.Service
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage("WhatsApp sending to customer failed.", CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Error, null, ex);
+                _coditechLogging.LogMessage("WhatsApp sending to customer failed.", CoditechLoggingEnum.Components.WhatsAppService.ToString(), TraceLevel.Error, ex);
             }
         }
 

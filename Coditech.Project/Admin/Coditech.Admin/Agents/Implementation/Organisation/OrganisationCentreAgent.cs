@@ -310,6 +310,7 @@ namespace Coditech.Admin.Agents
         {
             try
             {
+                organisationCentrewiseEmailTemplateViewModel.IsSmsTemplate = true;
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CentrewiseSMSTemplate.ToString(), TraceLevel.Info);
                 OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.UpdateCentrewiseSMSTemplateSetup(organisationCentrewiseEmailTemplateViewModel.ToModel<OrganisationCentrewiseEmailTemplateModel>());
                 OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = response?.OrganisationCentrewiseEmailTemplateModel;
@@ -335,6 +336,7 @@ namespace Coditech.Admin.Agents
         {
             try
             {
+                organisationCentrewiseEmailTemplateViewModel.IsWhatsAppTemplate = true;
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CentrewiseWhatsAppTemplate.ToString(), TraceLevel.Info);
                 OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.UpdateCentrewiseWhatsAppTemplateSetup(organisationCentrewiseEmailTemplateViewModel.ToModel<OrganisationCentrewiseEmailTemplateModel>());
                 OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = response?.OrganisationCentrewiseEmailTemplateModel;

@@ -1,7 +1,10 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
     public partial class EmployeeDesignationMaster
     {
+        [Key]
         public short EmployeeDesignationMasterId { get; set; }
         public string Description { get; set; }
         public string DesignationLevel { get; set; }

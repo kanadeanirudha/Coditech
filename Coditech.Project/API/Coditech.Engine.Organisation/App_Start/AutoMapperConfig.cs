@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using Coditech.API.Data;
+using Coditech.API.Data.DataModel.Gym;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Model;
@@ -51,6 +52,17 @@ namespace Coditech.API.Mapper
             CreateMap<OrganisationCentrewiseSmsSetting, OrganisationCentrewiseSmsSettingModel>().ReverseMap();
             CreateMap<CoditechApplicationSetting, CoditechApplicationSettingModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseWhatsAppSetting, OrganisationCentrewiseWhatsAppSettingModel>().ReverseMap();
+            CreateMap<LogMessage, LogMessageModel>().ReverseMap();
+            CreateMap<GeneralSmsProvider, GeneralSmsProviderModel>().ReverseMap();
+
+            #region User
+            CreateMap<UserMaster, UserModel>().ReverseMap();
+            CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
+            CreateMap<UserMaster, GeneralPersonModel>().ReverseMap();
+            CreateMap<GeneralPersonAddress, GeneralPersonAddressModel>().ReverseMap();
+            CreateMap<GeneralPersonFollowUp, GeneralPersonFollowUpModel>().ReverseMap();
+            CreateMap<GeneralPersonAttendanceDetails, GeneralPersonAttendanceDetailsModel>().ReverseMap();
+            #endregion
         }
     }
 }

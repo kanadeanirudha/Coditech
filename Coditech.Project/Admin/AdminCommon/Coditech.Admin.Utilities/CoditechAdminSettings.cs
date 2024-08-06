@@ -42,18 +42,7 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["CookieExpiresValue"]);
             }
         }
-        public static string CoditechUserApiRootUri
-        {
-            get
-            {
-#if DEBUG
-                return Convert.ToString(settings["CoditechUserApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}user.{settings["ApiDomainName"]}");
-#endif
-
-            }
-        }
+       
         public static string CoditechOrganisationApiRootUri
         {
             get
@@ -174,6 +163,20 @@ namespace Coditech.Admin.Utilities
             get
             {
                 return Convert.ToString(settings["ApiDomainName"]);
+            }
+        }
+        public static string IsDefaultTheme
+        {
+            get
+            {
+                return Convert.ToString(settings["IsDefaultTheme"]);
+            }
+        }
+        public static string ThemeColor
+        {
+            get
+            {
+                return Convert.ToString(settings["ThemeColor"]);
             }
         }
     }

@@ -92,7 +92,7 @@ namespace Coditech.API.Data
             totalRowCount = 0;
             try
             {
-                string conectionString = string.IsNullOrEmpty(this._context.Database.GetConnectionString()) ? GetConnectionString() : this._context.Database.GetConnectionString();
+                string conectionString = this._context == null || string.IsNullOrEmpty(this._context.Database.GetConnectionString()) ? GetConnectionString() : this._context.Database.GetConnectionString();
                 using IDbConnection db = new SqlConnection(conectionString);
                 var result = db.Query<T>(sql: "exec " + commandText, param: dynamicParameterList, commandTimeout: storedProcedureTimeOut).ToList();
 

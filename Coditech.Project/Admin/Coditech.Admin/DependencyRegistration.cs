@@ -56,7 +56,9 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IEmployeeServiceAgent, EmployeeServiceAgent>();
             builder.Services.AddScoped<IGeneralCommanDataAgent, GeneralCommanDataAgent>();
             builder.Services.AddScoped<ICoditechApplicationSettingAgent, CoditechApplicationSettingAgent>();
-
+            builder.Services.AddScoped<IMediaManagerFolderAgent, MediaManagerFolderAgent>();
+            builder.Services.AddScoped<ILogMessageAgent, LogMessageAgent>();
+            builder.Services.AddScoped<IGeneralSmsProviderAgent, GeneralSmsProviderAgent>();
 
 
             #region HMS
@@ -69,6 +71,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPatientAppointmentPurposeAgent, HospitalPatientAppointmentPurposeAgent>();
             builder.Services.AddScoped<IHospitalPatientTypeAgent, HospitalPatientTypeAgent>();
             builder.Services.AddScoped<IHospitalPatientAppointmentAgent, HospitalPatientAppointmentAgent>();
+            #endregion
+
+            #region MediaManager
+            builder.Services.AddScoped<IMediaSettingMasterAgent, MediaSettingMasterAgent>();
             #endregion
 
             #region Inventory
@@ -140,6 +146,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupClient, InventoryItemTrackingDimensionGroupClient>();
             builder.Services.AddScoped<IEmployeeServiceClient, EmployeeServiceClient>();
             builder.Services.AddScoped<ICoditechApplicationSettingClient, CoditechApplicationSettingClient>();
+            builder.Services.AddScoped<ILogMessageClient, LogMessageClient>();
+            builder.Services.AddScoped<IGeneralSmsProviderClient, GeneralSmsProviderClient>();
 
 
             #region HMS
@@ -152,6 +160,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPatientTypeClient, HospitalPatientTypeClient>();
             builder.Services.AddScoped<IHospitalPatientAppointmentPurposeClient, HospitalPatientAppointmentPurposeClient>();
             builder.Services.AddScoped<IHospitalPatientAppointmentClient, HospitalPatientAppointmentClient>();
+            #endregion HMS
+
+            #region MediaManager            
+            builder.Services.AddScoped<IMediaSettingMasterClient, MediaSettingMasterClient>();
             #endregion HMS
 
             #endregion Client

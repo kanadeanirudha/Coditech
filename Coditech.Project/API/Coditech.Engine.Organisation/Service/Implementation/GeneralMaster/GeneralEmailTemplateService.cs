@@ -26,15 +26,21 @@ namespace Coditech.API.Service
 
         public virtual GeneralEmailTemplateListModel GetEmailTemplateList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
+            bool? isEmailTemplate = filters?.Any(x => string.Equals(x.FilterName, FilterKeys.IsEmailTemplate, StringComparison.CurrentCultureIgnoreCase));
+
+            filters.RemoveAll(x => x.FilterName == FilterKeys.IsEmailTemplate);
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralEmailTemplateModel> objStoredProc = new CoditechViewRepository<GeneralEmailTemplateModel>(_serviceProvider.GetService<Coditech_Entities>());
+
+            objStoredProc.SetParameter("@IsEmailTemplate", Convert.ToBoolean(isEmailTemplate), ParameterDirection.Input, DbType.Boolean);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralEmailTemplateModel> EmailTemplateList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralEmailTemplateList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralEmailTemplateModel> EmailTemplateList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralEmailTemplateList @IsEmailTemplate,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             GeneralEmailTemplateListModel listModel = new GeneralEmailTemplateListModel();
 
             listModel.GeneralEmailTemplateList = EmailTemplateList?.Count > 0 ? EmailTemplateList : new List<GeneralEmailTemplateModel>();
