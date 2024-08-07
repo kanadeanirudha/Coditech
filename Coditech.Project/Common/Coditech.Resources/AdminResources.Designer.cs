@@ -650,6 +650,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPathologyTestGroup
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTestGroup", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete User Main Menu due to associate record..
         /// </summary>
         public static string ErrorDeleteUserMainMenuMaster

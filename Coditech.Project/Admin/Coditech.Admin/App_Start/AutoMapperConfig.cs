@@ -140,6 +140,9 @@ namespace Coditech.Admin
             CreateMap<HospitalPatientAppointmentListModel, HospitalPatientAppointmentListViewModel>().ReverseMap();
             CreateMap<HospitalPatientAppointmentPurposeModel, HospitalPatientAppointmentPurposeViewModel>().ReverseMap();
             CreateMap<HospitalPatientAppointmentPurposeListModel, HospitalPatientAppointmentPurposeListViewModel>().ReverseMap();
+
+            CreateMap<HospitalPathologyTestGroupModel, HospitalPathologyTestGroupViewModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestGroupListModel, HospitalPathologyTestGroupListViewModel>().ReverseMap();
             #endregion
 
             #region Inventory
