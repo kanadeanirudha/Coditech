@@ -3,8 +3,7 @@
     ViewBag.Title = Model.HospitalPathologyTestGroupId > 0 ? "Update Pathology Test Group" : "Add Pathology Test Group";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel parentInventoryCategorys = new DropdownViewModel() { DropdownType = DropdownTypeEnum.InventoryCategory.ToString(), DropdownName = "ParentInventoryCategoryId", DropdownSelectedValue = Model.HospitalPathologyTestGroupId.ToString(), ChangeEvent = "", Parameter = Model.HospitalPathologyTestGroupId.ToString() };
-
+    DropdownViewModel pathologyTestGroup = new DropdownViewModel() { DropdownType = DropdownTypeEnum.HospitalPathologyTestGroup.ToString(), DropdownName = "HospitalPathologyTestGroupParentId", DropdownSelectedValue = Model.HospitalPathologyTestGroupParentId.ToString(), ChangeEvent = "", Parameter = Model.HospitalPathologyTestGroupId.ToString() };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -41,7 +40,7 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.HospitalPathologyTestGroupParentId, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", parentInventoryCategorys)
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", pathologyTestGroup)
                                         @Html.ValidationMessageFor(x => x.HospitalPathologyTestGroupParentId)
                                     </div>
                                 </div>

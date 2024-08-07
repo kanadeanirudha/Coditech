@@ -147,19 +147,11 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Hospital Pathology Test Group",
-                ColumnCode = "HospitalPathologyTestGroupParentId",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
                 ColumnName = "Is Active",
                 ColumnCode = "IsActive",
             });
             return datatableColumnList;
         }
-        #endregion
-        #region
         #endregion
     }
 }

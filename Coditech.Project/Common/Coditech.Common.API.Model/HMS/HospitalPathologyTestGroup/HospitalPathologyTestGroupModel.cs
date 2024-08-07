@@ -11,5 +11,6 @@ namespace Coditech.Common.API.Model
         public int HospitalPathologyTestGroupParentId { get; set; }
         [Required]
         public bool IsActive { get; set; }
+
     }
 }

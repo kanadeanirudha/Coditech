@@ -67,7 +67,8 @@
         HospitalPatientAppointmentPurpose,
         CentrewiseHospitalPatientsList,
         TimeSlotByDoctorsListAndAppointmentDate,
-        CallingCode
+        CallingCode,
+        HospitalPathologyTestGroup
     }
 
     public enum GeneralSystemGlobleSettingEnum
