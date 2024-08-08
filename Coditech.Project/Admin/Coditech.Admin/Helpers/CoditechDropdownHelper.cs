@@ -782,23 +782,6 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-
-        private static void GetEmailTemplateCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList, string templateType)
-        {
-            FilterCollection filters = new FilterCollection();
-            if (templateType == "email")
-            {
-                filters.Add(FilterKeys.IsEmailTemplate, ProcedureFilterOperators.Is, "1");
-            }
-            else if (templateType == "sms")
-            {
-                filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "1");
-            }
-            else if (templateType == "whatsapp")
-            {
-                filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.Is, "1");
-            }
-            GeneralEmailTemplateListResponse response = new GeneralEmailTemplateClient().List(null, filters, null, 1, int.MaxValue);
         private static void GetHospitalPathologyTestGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             HospitalPathologyTestGroupListResponse response = new HospitalPathologyTestGroupClient().List(null, null, null, 1, int.MaxValue);
@@ -820,9 +803,22 @@ namespace Coditech.Admin.Helpers
             }
         }
 
-        private static void GetEmailTemplateCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetEmailTemplateCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList, string templateType)
         {
-            GeneralEmailTemplateListResponse response = new GeneralEmailTemplateClient().List(null, null, null, 1, int.MaxValue);
+            FilterCollection filters = new FilterCollection();
+            if (templateType == "email")
+            {
+                filters.Add(FilterKeys.IsEmailTemplate, ProcedureFilterOperators.Is, "1");
+            }
+            else if (templateType == "sms")
+            {
+                filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "1");
+            }
+            else if (templateType == "whatsapp")
+            {
+                filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.Is, "1");
+            }
+            GeneralEmailTemplateListResponse response = new GeneralEmailTemplateClient().List(null, filters, null, 1, int.MaxValue);
             if (dropdownViewModel.IsRequired)
                 dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Email Template-------" });
             else
