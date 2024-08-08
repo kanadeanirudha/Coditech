@@ -48,6 +48,8 @@
         AllCities,
         InventoryModel,
         EmailTemplate,
+        SMSTemplate,
+        WhatsAppTemplate,
         HospitalDoctorsList,
         HospitalAppointmentType,
         HospitalDoctorTimeSlot,

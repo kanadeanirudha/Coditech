@@ -36,5 +36,10 @@ namespace Coditech.Admin.ViewModel
         public short OrganisationCentrewiseDepartmentId { get; set; }
         public string DepartmentName { get; set; }
         public string CentreCode { get; set; }
+
+        [MaxLength(50)]
+        [Editable(false)]
+        [Display(Name = "Doctor Code")]
+        public string PersonCode { get; set; }
     }
 }

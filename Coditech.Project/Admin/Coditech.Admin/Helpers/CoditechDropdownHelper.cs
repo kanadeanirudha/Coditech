@@ -132,7 +132,15 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.EmailTemplate.ToString()))
             {
-                GetEmailTemplateCodeList(dropdownViewModel, dropdownList);
+                GetEmailTemplateCodeList(dropdownViewModel, dropdownList,"email");
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SMSTemplate.ToString()))
+            {
+                GetEmailTemplateCodeList(dropdownViewModel, dropdownList,"sms");
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.WhatsAppTemplate.ToString()))
+            {
+                GetEmailTemplateCodeList(dropdownViewModel, dropdownList, "whatsapp");
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalDoctorsList.ToString()))
             {
@@ -775,6 +783,22 @@ namespace Coditech.Admin.Helpers
             }
         }
 
+        private static void GetEmailTemplateCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList, string templateType)
+        {
+            FilterCollection filters = new FilterCollection();
+            if (templateType == "email")
+            {
+                filters.Add(FilterKeys.IsEmailTemplate, ProcedureFilterOperators.Is, "1");
+            }
+            else if (templateType == "sms")
+            {
+                filters.Add("IsSmsTemplate", ProcedureFilterOperators.Is, "1");
+            }
+            else if (templateType == "whatsapp")
+            {
+                filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.Is, "1");
+            }
+            GeneralEmailTemplateListResponse response = new GeneralEmailTemplateClient().List(null, filters, null, 1, int.MaxValue);
         private static void GetHospitalPathologyTestGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             HospitalPathologyTestGroupListResponse response = new HospitalPathologyTestGroupClient().List(null, null, null, 1, int.MaxValue);

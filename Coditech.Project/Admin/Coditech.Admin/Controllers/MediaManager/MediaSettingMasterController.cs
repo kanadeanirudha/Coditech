@@ -42,7 +42,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_mediaSettingMasterAgent.UpdateMediaSettingMaster(mediaSettingMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { mediaSettingMasterId = mediaSettingMasterViewModel.MediaSettingMasterId });
+                return RedirectToAction("Edit", new { mediaTypeMasterId = mediaSettingMasterViewModel.MediaTypeMasterId });
             }
             return View(createEdit, mediaSettingMasterViewModel);
         }

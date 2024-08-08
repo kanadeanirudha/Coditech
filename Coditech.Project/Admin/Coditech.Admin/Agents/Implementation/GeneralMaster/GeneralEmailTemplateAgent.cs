@@ -8,7 +8,9 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+
 using System.Diagnostics;
+
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -33,8 +35,7 @@ namespace Coditech.Admin.Agents
         public virtual GeneralEmailTemplateListViewModel GetEmailTemplateList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
-            filters.Add("IsSmsTemplate", ProcedureFilterOperators.NotIn, "1");
-            filters.Add("IsWhatsAppTemplate", ProcedureFilterOperators.In, "1");
+            filters.Add(FilterKeys.IsEmailTemplate, ProcedureFilterOperators.Is, "1");
             return GetTemplateList(ref dataTableModel, filters);
         }
         public virtual GeneralEmailTemplateListViewModel GetSMSTemplateList(DataTableViewModel dataTableModel)

@@ -564,8 +564,11 @@ namespace Coditech.API.Service
                     if (!userModel.ModuleList.Any(x => x.ModuleCode == userMenuModel.ModuleCode) && !string.IsNullOrEmpty(userMenuModel.ControllerName))
                     {
                         UserModuleModel userModuleModel = userAllModuleList.FirstOrDefault(x => x.ModuleCode == userMenuModel.ModuleCode).FromEntityToModel<UserModuleModel>();
-                        userModuleModel.DefaultMenuLink = $"{userMenuModel?.ControllerName?.ToLower()}/{userMenuModel?.ActionName?.ToLower()}";
-                        userModel.ModuleList.Add(userModuleModel);
+                        if (IsNotNull(userModuleModel))
+                        {
+                            userModuleModel.DefaultMenuLink = $"{userMenuModel?.ControllerName?.ToLower()}/{userMenuModel?.ActionName?.ToLower()}";
+                            userModel.ModuleList.Add(userModuleModel);
+                        }
                     }
                 }
             }
