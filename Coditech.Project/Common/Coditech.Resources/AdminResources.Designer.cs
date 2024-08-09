@@ -308,6 +308,16 @@ namespace Coditech.Resources
                 return ResourceManager.GetString("ErrorDeleteGeneralTaxMaster", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete General WhatsApp Provider.
+        /// </summary>
+        public static string ErrorDeleteGeneralWhatsAppProviderMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralWhatsAppProviderMaster", resourceCulture);
+            }
+        }
 
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Body Measurement Type.
@@ -1247,6 +1257,13 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelTaxList", resourceCulture);
+            }
+        }
+        public static string LabelWhatsAppProviderList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelWhatsAppProviderList", resourceCulture);
             }
         }
     }
