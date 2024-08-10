@@ -58,9 +58,20 @@ namespace Coditech.API.Service
             if (IsNotNull(mediaSettingMaster))
             {
                 mediaSettingMasterModel = mediaSettingMaster?.FromEntityToModel<MediaSettingMasterModel>();
+                if (!string.IsNullOrEmpty(mediaSettingMasterModel?.MediaTypeExtensionMasterIds))
+                {
+                    mediaSettingMasterModel.SelectedMediaTypeExtensionMasterIds = new List<string>();
+                    foreach (string item in mediaSettingMasterModel.MediaTypeExtensionMasterIds?.Split(","))
+                    {
+                        mediaSettingMasterModel.SelectedMediaTypeExtensionMasterIds.Add(item);
+                    }
+                }
             }
+
             mediaSettingMasterModel.MediaType = _mediaTypeMasterRepository.Table.Where(x => x.MediaTypeMasterId == mediaTypeMasterId)?.FirstOrDefault()?.MediaType;
             List<MediaTypeExtensionMaster> mediaTypeExtensionMasterList = _mediaTypeExtensionMasterRepository.Table.Where(x => x.MediaTypeMasterId == mediaTypeMasterId)?.ToList();
+
+            mediaSettingMasterModel.MediaTypeExtensionList = new List<MediaTypeExtensionModel>();
             foreach (MediaTypeExtensionMaster item in mediaTypeExtensionMasterList)
             {
                 mediaSettingMasterModel.MediaTypeExtensionList.Add(item.FromEntityToModel<MediaTypeExtensionModel>());
@@ -75,8 +86,16 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
             MediaSettingMaster mediaSettingMaster = mediaSettingMasterModel.FromModelToEntity<MediaSettingMaster>();
+
+            mediaSettingMaster.MediaTypeExtensionMasterIds = mediaSettingMasterModel?.SelectedMediaTypeExtensionMasterIds?.Count > 0 ? string.Join(',', mediaSettingMasterModel.SelectedMediaTypeExtensionMasterIds) : "";
+            mediaSettingMaster.MediaConfigurationId = mediaSettingMaster.MediaConfigurationId == 0 ? null : mediaSettingMaster.MediaConfigurationId;
             bool isMediaSettingMasterUpdated = false;
             if (mediaSettingMasterModel.MediaSettingMasterId > 0)
+            {
+                //Update MediaSettingMaster
+                isMediaSettingMasterUpdated = _mediaSettingMasterRepository.Update(mediaSettingMaster);
+            }
+            else
             {
                 mediaSettingMaster = _mediaSettingMasterRepository.Insert(mediaSettingMaster);
                 if (mediaSettingMaster.MediaSettingMasterId > 0)
@@ -84,11 +103,7 @@ namespace Coditech.API.Service
                     isMediaSettingMasterUpdated = true;
                 }
             }
-            else
-            {
-                //Update MediaSettingMaster
-                isMediaSettingMasterUpdated = _mediaSettingMasterRepository.Update(mediaSettingMaster);
-            }
+
             if (!isMediaSettingMasterUpdated)
             {
                 mediaSettingMasterModel.HasError = true;

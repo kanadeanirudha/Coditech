@@ -1,11 +1,8 @@
 ﻿
 using Coditech.API.Data;
-using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
-using Coditech.Common.Logger;
-using Coditech.Common.Service;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -220,16 +217,7 @@ namespace Coditech.API.Common
         /// <param name="builder"></param>
         public static void RegisterDI(this WebApplicationBuilder builder)
         {
-            // Add Dependency 
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
-            builder.Services.AddScoped<ICoditechEmail, CoditechEmail>();
-            builder.Services.AddScoped<ICoditechSMS, CoditechSMS>();
-            builder.Services.AddScoped<ICoditechWhatsApp, CoditechWhatsApp>();
-            builder.Services.AddScoped<IGeneralPersonFollowUpService, GeneralPersonFollowUpService>();
-            builder.Services.AddScoped<IGeneralPersonAttendanceDetailsService, GeneralPersonAttendanceDetailsService>();
-            builder.Services.AddScoped<IDashboardService, DashboardService>();
-            builder.Services.AddScoped<IGeneralCommonService, GeneralCommonService>();
+
         }
         #endregion
     }

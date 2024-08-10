@@ -38,10 +38,12 @@
                                     </div>
                                 }
                             </td>
+                            <td>@item.PersonCode</td>
                             <td>@item.FirstName</td>
                             <td>@item.LastName</td>
                             <td>@item.MobileNumber</td>
-                            <td>@item.EmailId</td>
+                            <td>@item.EmailId</td>                           
+
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
                             </td>

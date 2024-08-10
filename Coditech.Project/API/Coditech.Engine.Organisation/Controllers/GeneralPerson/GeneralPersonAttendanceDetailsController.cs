@@ -113,5 +113,29 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/GeneralPersonAttendanceDetails/IsAllowAttendance")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult IsAllowAttendance(int entityId, string userType, double pointToCheckLatitude, double pointToCheckLongitude)
+        {
+            try
+            {
+                bool isAllowoAttendance = _generalPersonAttendanceDetailsService.IsAllowAttendance(entityId, userType, pointToCheckLatitude, pointToCheckLongitude);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = isAllowoAttendance });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PersonAttendance.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PersonAttendance.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+
     }
 }
