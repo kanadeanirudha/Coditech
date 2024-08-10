@@ -11,7 +11,7 @@ namespace Coditech.API.Service
         Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0);
         Task<bool> PostRenameFolder(int FolderId, string RenameFolderName);
         Task<TrueFalseResponse> PostCreateFolder(int RootFolderId, string FolderName);
-        Task<bool> UploadFile(IFormFile formFile, int folderId, HttpRequest request);
+        Task<TrueFalseResponse> UploadFile(IFormFile formFile, int folderId, HttpRequest request);
         Task<FolderListResponse> GetAllFolders();
         Task<bool> MoveFolder(int folderId, int destinationFolderId);
         Task<bool> DeleteFolder(int folderId);

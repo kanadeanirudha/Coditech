@@ -196,12 +196,18 @@ namespace Coditech.API.Service
             }
         }
 
-        public async Task<bool> UploadFile(IFormFile formFile, int folderId, HttpRequest request)
+        public async Task<TrueFalseResponse> UploadFile(IFormFile formFile, int folderId, HttpRequest request)
         {
             try
             {
                 if (MultipartRequestHelper.IsMultipartContentType(request.ContentType))
                 {
+
+                    TrueFalseResponse isFileValid = IsFileValid(formFile);
+
+                    if (isFileValid.HasError)
+                        return isFileValid;
+
                     //string path = $"{AppDomain.CurrentDomain.BaseDirectory}Data\\Media\\";
                     string projectPath = Directory.GetCurrentDirectory();
                     string uploadPath = Path.Combine(projectPath, "Data", "Media");
@@ -248,15 +254,22 @@ namespace Coditech.API.Service
                             Type = type
                         });
 
-                        return true;
+                        if (result.MediaId > 0)
+                        {
+                            return new TrueFalseResponse() { booleanModel = new BooleanModel() { SuccessMessage = "File successfully uploaded.", IsSuccess = true }, IsSuccess = true };
+                        }
+                        else
+                        {
+                            return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Failed to upload a file.", IsSuccess = false, HasError = true }, IsSuccess = false };
+                        }
                     }
-                }               
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
+                return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Failed to upload a file.", IsSuccess = false, HasError = true }, IsSuccess = false };
             }
-            return false;
+            return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Failed to upload a file.", IsSuccess = false, HasError = true }, IsSuccess = false };
         }
 
         public async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0)
@@ -553,6 +566,134 @@ namespace Coditech.API.Service
             }
 
             return subFolderStructures;
+        }
+
+        private TrueFalseResponse IsFileValid(IFormFile formFile)
+        {
+            // Check if the file is null
+            if (formFile == null)
+            {
+                return CreateErrorResponse("The file cannot be null.");
+            }
+
+            string contentType = formFile.ContentType;
+
+            if (contentType.StartsWith("image"))
+            {
+                return ValidateFile(formFile, "Image");
+            }
+            else if (contentType.StartsWith("video"))
+            {
+                return ValidateFile(formFile, "Video");
+            }
+            else if (contentType.StartsWith("audio"))
+            {
+                return ValidateFile(formFile, "Audio");
+            }
+            else
+            {
+                return ValidateFile(formFile, "File");
+            }
+        }
+
+        private TrueFalseResponse ValidateFile(IFormFile formFile, string mediaType)
+        {
+            int mediaTypeMasterId = GetMediaTypeMasterId(mediaType);
+            if (mediaTypeMasterId == 0)
+            {
+                return CreateErrorResponse($"Media settings for {mediaType.ToLower()} type not found.");
+            }
+
+            MediaSettingMaster mediaSettingMaster = GetMediaSettingMaster(mediaTypeMasterId);
+            if (mediaSettingMaster == null)
+            {
+                return CreateErrorResponse($"Media settings for {mediaType.ToLower()} type not found.");
+            }
+
+            List<int> allowedExtensionsIds = GetAllowedExtensionsIds(mediaSettingMaster.MediaTypeExtensionMasterIds);
+
+            var extension = Path.GetExtension(formFile.FileName);
+
+            if (!IsValidExtension(extension, allowedExtensionsIds))
+            {
+                return CreateErrorResponse($"Invalid {mediaType.ToLower()} extension.");
+            }
+
+            // Validate file size
+            return ValidateFileSize(formFile, mediaSettingMaster.MaxSizeInMB);
+        }
+
+        private int GetMediaTypeMasterId(string mediaType)
+        {
+            return _mediaTypeMasterRepository.Table
+                .Where(x => x.MediaType == mediaType)
+                .Select(x => x.MediaTypeMasterId)
+                .FirstOrDefault();
+        }
+
+        private MediaSettingMaster GetMediaSettingMaster(int mediaTypeMasterId)
+        {
+            return _mediaSettingMasterRepository.Table
+                .Where(x => x.MediaTypeMasterId == mediaTypeMasterId)
+                .FirstOrDefault();
+        }
+
+        private List<int> GetAllowedExtensionsIds(string mediaTypeExtensionMasterIds)
+        {
+            return !string.IsNullOrEmpty(mediaTypeExtensionMasterIds)
+                ? mediaTypeExtensionMasterIds
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(id => int.TryParse(id, out var result) ? result : default)
+                    .Where(result => result != default)
+                    .ToList()
+                : new List<int>();
+        }
+
+        private bool IsValidExtension(string extension, List<int> allowedExtensionsIds)
+        {
+            var mediaTypeExtensionMasterList = _mediaTypeExtensionMasterRepository.Table.ToList();
+            return allowedExtensionsIds
+                .Any(id => mediaTypeExtensionMasterList
+                    .Any(x => x.MediaTypeExtensionMasterId == id && x.ExtensionName.Equals(extension, StringComparison.OrdinalIgnoreCase))
+                );
+        }
+
+        private TrueFalseResponse ValidateFileSize(IFormFile formFile, double maxSizeInMB)
+        {
+            long fileSizeInBytes = formFile.Length;
+            double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0);
+
+            if (fileSizeInMB <= maxSizeInMB)
+            {
+                return new TrueFalseResponse
+                {
+                    booleanModel = new BooleanModel
+                    {
+                        IsSuccess = true,
+                        HasError = false
+                    },
+                    IsSuccess = true
+                };
+            }
+            else
+            {
+                return CreateErrorResponse($"File size exceeds the maximum allowed limit of {maxSizeInMB} MB. Current file size is {fileSizeInMB:F2} MB.");
+            }
+        }
+
+        private TrueFalseResponse CreateErrorResponse(string errorMessage)
+        {
+            return new TrueFalseResponse
+            {
+                booleanModel = new BooleanModel
+                {
+                    ErrorMessage = errorMessage,
+                    IsSuccess = false,
+                    HasError = true
+                },
+                IsSuccess = false,
+                HasError = true
+            };
         }
 
         #endregion

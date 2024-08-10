@@ -291,7 +291,7 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual async Task<bool> UploadFileAsync(int folderId,UploadMediaModel body)
+        public virtual async Task<TrueFalseResponse> UploadFileAsync(int folderId,UploadMediaModel body)
         {
             string endpoint = mediaManagerEndpoint.UploadFileAsync(folderId);
             HttpResponseMessage response = null;
@@ -315,7 +315,7 @@ namespace Coditech.API.Client
                 {
                     case HttpStatusCode.OK:
                         {
-                            ObjectResponseResult<bool> objectResponseResult2 = await ReadObjectResponseAsync<bool>(response, BindHeaders(response), CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<TrueFalseResponse> objectResponseResult2 = await ReadObjectResponseAsync<TrueFalseResponse>(response, BindHeaders(response), CancellationToken.None).ConfigureAwait(continueOnCapturedContext: false);
                             return objectResponseResult2.Object;
                         }
                     default:

@@ -45,11 +45,11 @@ namespace Coditech.Admin.Controllers
                 return Json(new { success = false, message = "Empty file uploaded." });
             }
 
-            bool status = _mediaManagerFolderAgent.UploadFile(folderId, file);
+            BooleanModel status = _mediaManagerFolderAgent.UploadFile(folderId, file);
 
-            SetNotificationMessage(status
-                   ? GetSuccessNotificationMessage("File uploaded successfully.")
-                   : GetErrorNotificationMessage("Failed to upload a file."));
+            SetNotificationMessage(status.IsSuccess
+                   ? GetSuccessNotificationMessage(status.SuccessMessage)
+                   : GetErrorNotificationMessage(status.ErrorMessage));
 
             MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 

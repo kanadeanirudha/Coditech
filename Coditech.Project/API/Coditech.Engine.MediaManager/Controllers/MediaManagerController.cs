@@ -53,15 +53,15 @@ namespace Coditech.API.Controllers
 
         [Route("/MediaManager/UploadFile")]
         [HttpPost]
-        [Produces(typeof(bool))]
+        [Produces(typeof(TrueFalseResponse))]
         public virtual async Task<IActionResult> PostUploadFileAsync(int folderId)
         {
             try
             {
                 IEnumerable<IFormFile> files = Request.Form.Files;
-                bool response = await _mediaManagerService.UploadFile(files.FirstOrDefault(), folderId, Request);
-                if (response)
-                    return CreateOKResponse<bool>(response);
+                TrueFalseResponse response = await _mediaManagerService.UploadFile(files.FirstOrDefault(), folderId, Request);
+                if (response != null)
+                    return CreateOKResponse<TrueFalseResponse>(response);
                 else
                     return BadRequest();
             }

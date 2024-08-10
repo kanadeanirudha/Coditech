@@ -66,11 +66,12 @@ namespace Coditech.Admin.Agents
             return _mediaManagerClient.RenameFolderAsync(folderId, renameFolderName).Result;
         }
 
-        public bool UploadFile(int folderId, IFormFile file)
+        public BooleanModel UploadFile(int folderId, IFormFile file)
         {
             UploadMediaModel uploadMediaModel = new UploadMediaModel();
             uploadMediaModel.MediaFile = file;
-            return _mediaManagerClient.UploadFileAsync(folderId, uploadMediaModel).Result;
+            TrueFalseResponse response = _mediaManagerClient.UploadFileAsync(folderId, uploadMediaModel).Result;
+            return response.booleanModel; 
         }
 
         public bool DeleteFile(int mediaId)
