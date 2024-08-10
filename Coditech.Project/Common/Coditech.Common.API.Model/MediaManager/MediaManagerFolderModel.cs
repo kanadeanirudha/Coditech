@@ -28,5 +28,6 @@
         public string MediaPath { get; set; }
         public string MediaName { get; set; }
         public long MediaSize { get; set; }
+        public int ActiveFolderId { get; set; }
     }
 }

@@ -15,5 +15,6 @@ namespace Coditech.API.Service
         Task<FolderListResponse> GetAllFolders();
         Task<bool> MoveFolder(int folderId, int destinationFolderId);
         Task<bool> DeleteFolder(int folderId);
+        Task<bool> DeleteFile(int mediaId);
     }
 }

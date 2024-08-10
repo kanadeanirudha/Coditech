@@ -21,6 +21,8 @@ namespace Coditech.API.Endpoint
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/MoveFolder?folderId={folderId}&destinationFolderId={destinationFolderId}";
         public string DeleteFolderAsync(int folderId) =>
                     $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/DeleteFolder?folderId={folderId}";
+        public string DeleteFileAsync(int mediaId) =>
+                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/DeleteFile?mediaId={mediaId}";
 
     }
 }

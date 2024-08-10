@@ -289,7 +289,8 @@ namespace Coditech.API.Service
                                   MediaId = media.MediaId,
                                   MediaName = media.FileName,
                                   MediaPath = media.Path,
-                                  MediaSize = Convert.ToInt64(media.Size)
+                                  MediaSize = Convert.ToInt64(media.Size),
+                                  ActiveFolderId = ActiveFolderId
                               })]
                 };
 
@@ -437,6 +438,37 @@ namespace Coditech.API.Service
                 }
 
                 return false;
+            }
+            catch (Exception ex)
+            {
+                // Handle or log the exception as needed
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteFile(int mediaId)
+        {
+            try
+            {
+                // Get the folder to be deleted
+                var mediaFile = _mediaDetailRepository.Table
+                                  .Where(x => x.MediaId == mediaId).FirstOrDefault();
+
+                string projectPath = Directory.GetCurrentDirectory();
+                string uploadedPath = Path.Combine(projectPath, "Data", "Media");
+                Directory.CreateDirectory(uploadedPath);
+
+                string filePath = Path.Combine(uploadedPath, mediaFile.Path);
+
+
+                // Delete the media file from the file system
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+                _mediaDetailRepository.Delete(mediaFile);
+
+                return true;
             }
             catch (Exception ex)
             {

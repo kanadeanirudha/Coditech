@@ -4,13 +4,16 @@
         @foreach (var media in Model)
         {
             <div class="file-box">
+                <a class="download-icon-link" data-media-id="@media.MediaId" onclick="openDeleteFileModal('@media.MediaId', '@media.ActiveFolderId')">
+                    <i class="dripicons-cross file-download-icon"></i>
+                </a>
                 <a href="@media.MediaPath" class="download-icon-link">
                     <i class="dripicons-download file-download-icon"></i>
-                </a>
+                </a>               
                 <div class="text-center">
                     <img src="@media.MediaPath" alt="@media.MediaName" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">
                     <h6 class="text-truncate">@media.MediaName</h6>
-                </div>
+                </div>               
             </div>
         }
     </div>

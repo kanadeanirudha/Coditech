@@ -12,5 +12,6 @@ namespace Coditech.Admin.Agents
         FolderListViewModel GetAllFolders(int excludeFolderId);
         bool MoveFolder(int folderId, int destinationFolderId);
         bool DeleteFolder(int folderId);
+        bool DeleteFile(int mediaId);
     }
 }

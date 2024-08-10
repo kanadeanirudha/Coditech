@@ -72,5 +72,10 @@ namespace Coditech.Admin.Agents
             uploadMediaModel.MediaFile = file;
             return _mediaManagerClient.UploadFileAsync(folderId, uploadMediaModel).Result;
         }
+
+        public bool DeleteFile(int mediaId)
+        {
+            return _mediaManagerClient.DeleteFileAsync(mediaId).Result;
+        }
     }
 }
