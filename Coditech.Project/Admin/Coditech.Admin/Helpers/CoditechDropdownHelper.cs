@@ -796,9 +796,9 @@ namespace Coditech.Admin.Helpers
             }
             GeneralEmailTemplateListResponse response = new GeneralEmailTemplateClient().List(null, filters, null, 1, int.MaxValue);
             if (dropdownViewModel.IsRequired)
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Email Template-------" });
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Template-------" });
             else
-                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Email Template-------" });
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Template-------" });
 
             GeneralEmailTemplateListModel list = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response.GeneralEmailTemplateList };
             foreach (var item in list.GeneralEmailTemplateList?.Where(x => x.IsActive))

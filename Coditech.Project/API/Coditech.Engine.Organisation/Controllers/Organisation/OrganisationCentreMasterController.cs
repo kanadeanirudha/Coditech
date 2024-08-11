@@ -361,11 +361,11 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
-        public virtual IActionResult GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode)
+        public virtual IActionResult GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode, string templateType)
         {
             try
             {
-                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = _organisationCentreMasterService.GetCentrewiseEmailTemplateSetup(organisationCentreMasterId, emailTemplateCode);
+                OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = _organisationCentreMasterService.GetCentrewiseEmailTemplateSetup(organisationCentreMasterId, emailTemplateCode, templateType);
                 return IsNotNull(organisationCentrewiseEmailTemplateModel) ? CreateOKResponse(new OrganisationCentrewiseEmailTemplateResponse() { OrganisationCentrewiseEmailTemplateModel = organisationCentrewiseEmailTemplateModel }) : NotFound();
             }
             catch (CoditechException ex)

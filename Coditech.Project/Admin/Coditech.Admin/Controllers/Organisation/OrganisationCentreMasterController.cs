@@ -220,16 +220,16 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseEmailTemplate
         [HttpGet]
-        public virtual ActionResult CentrewiseEmailTemplateSetup(short organisationCentreId)
+        public virtual ActionResult CentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
         {
-            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, string.Empty);
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, emailTemplateCode, "email");
             return ActionView(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult GetEmailTemplateByCentreCode(short organisationCentreId, string emailTemplateCode)
+        public virtual ActionResult GetEmailTemplateByCentreCode(short organisationCentreId, string emailTemplateCode, string templateType)
         {
-            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, emailTemplateCode);
+            OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, emailTemplateCode, templateType);
             return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseEmailTemplate.cshtml", organisationCentrewiseEmailTemplateViewModel);
         }
 
@@ -241,7 +241,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseEmailTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
+                return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
             }
             return View(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
@@ -263,7 +263,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSMSTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMSTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
+                return RedirectToAction("CentrewiseSMSTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
             }
             return View(OrganisationCentrewiseSMSTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
@@ -285,7 +285,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseWhatsAppTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseWhatsAppTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId });
+                return RedirectToAction("CentrewiseWhatsAppTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
             }
             return View(OrganisationCentrewiseWhatsAppTemplate, organisationCentrewiseEmailTemplateViewModel);
         }

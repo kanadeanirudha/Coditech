@@ -62,7 +62,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password 
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password
                                                                                         && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
 
             if (IsNull(userMasterData))
@@ -364,6 +364,7 @@ namespace Coditech.API.Service
                 UserMaster userMaster = new UserMaster()
                 {
                     EntityId = generalPersonModel.EntityId,
+                    UserType = generalPersonModel.UserType,
                     FirstName = generalPersonModel.FirstName,
                     MiddleName = generalPersonModel.MiddleName,
                     LastName = generalPersonModel.LastName,
@@ -594,7 +595,7 @@ namespace Coditech.API.Service
         {
             CoditechRepository<UserMaster> _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
 
-            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == model.EntityId);
+            UserMaster userMaster = _userMasterRepository.Table.Where(x => x.EntityId == model.EntityId && x.UserType == model.UserType)?.FirstOrDefault();
             if (userMaster != null)
             {
                 userMaster.FirstName = model.FirstName ?? userMaster.FirstName;
@@ -852,7 +853,7 @@ namespace Coditech.API.Service
 
         protected virtual string ReplaceEmailTemplateFooter(string centreCode, string messageText)
         {
-            if (string.IsNullOrEmpty(centreCode))
+            if (!string.IsNullOrEmpty(centreCode))
             {
                 OrganisationCentreMaster organisationCentreMaster = GetOrganisationCentreDetails(centreCode);
                 string city = new CoditechRepository<GeneralCityMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GeneralCityMasterId == organisationCentreMaster.GeneralCityMasterId).FirstOrDefault().CityName;

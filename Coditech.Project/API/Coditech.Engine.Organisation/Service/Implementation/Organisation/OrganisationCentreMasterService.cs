@@ -331,7 +331,7 @@ namespace Coditech.API.Service
             OrganisationCentrewiseWhatsAppSetting organisationCentrewiseWhatsAppSettingData = generalWhatsAppProviderId > 0 ? _organisationCentrewiseWhatsAppSettingRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode && x.GeneralWhatsAppProviderId == generalWhatsAppProviderId) : null;
             OrganisationCentrewiseWhatsAppSettingModel organisationCentrewiseWhatsAppSettingModel = IsNull(organisationCentrewiseWhatsAppSettingData) ? new OrganisationCentrewiseWhatsAppSettingModel() : organisationCentrewiseWhatsAppSettingData.FromEntityToModel<OrganisationCentrewiseWhatsAppSettingModel>();
 
-            
+
             organisationCentrewiseWhatsAppSettingModel.CentreCode = organisationCentreModel.CentreCode;
             organisationCentrewiseWhatsAppSettingModel.CentreName = organisationCentreModel.CentreName;
             organisationCentrewiseWhatsAppSettingModel.OrganisationCentreMasterId = organisationCentreId;
@@ -355,7 +355,7 @@ namespace Coditech.API.Service
             else
             {
                 organisationCentrewiseWhatsAppSetting = _organisationCentrewiseWhatsAppSettingRepository.Insert(organisationCentrewiseWhatsAppSetting);
-                isOrganisationCentrewiseWhatsAppSettingUpdated = organisationCentrewiseWhatsAppSetting.OrganisationCentrewiseWhatsAppSettingId> 0;
+                isOrganisationCentrewiseWhatsAppSettingUpdated = organisationCentrewiseWhatsAppSetting.OrganisationCentrewiseWhatsAppSettingId > 0;
                 organisationCentrewiseWhatsAppSettingModel.OrganisationCentrewiseWhatsAppSettingId = organisationCentrewiseWhatsAppSetting.OrganisationCentrewiseWhatsAppSettingId;
             }
 
@@ -369,7 +369,7 @@ namespace Coditech.API.Service
 
 
         //Get Organisation Centrewise Email Template by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode, string templateType)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -379,14 +379,26 @@ namespace Coditech.API.Service
             OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = new OrganisationCentrewiseEmailTemplateModel();
             if (!string.IsNullOrEmpty(emailTemplateCode))
             {
-                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplateData = _organisationCentrewiseEmailTemplateRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode && x.EmailTemplateCode == emailTemplateCode)?.FirstOrDefault();
+                bool isSMSTemplate = false;
+                bool isWhatsAppTemplate = false;
+                if (templateType == "sms")
+                {
+                    isSMSTemplate = true;
+                    isWhatsAppTemplate = false;
+                }
+                else if (templateType == "whatsapp")
+                {
+                    isSMSTemplate = false;
+                    isWhatsAppTemplate = true;
+                }
+                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplateData = _organisationCentrewiseEmailTemplateRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode && x.EmailTemplateCode == emailTemplateCode && x.IsSmsTemplate == isSMSTemplate && x.IsWhatsAppTemplate == isWhatsAppTemplate)?.FirstOrDefault();
                 if (IsNotNull(organisationCentrewiseEmailTemplateData))
                 {
                     organisationCentrewiseEmailTemplateModel = IsNull(organisationCentrewiseEmailTemplateData) ? new OrganisationCentrewiseEmailTemplateModel() : organisationCentrewiseEmailTemplateData.FromEntityToModel<OrganisationCentrewiseEmailTemplateModel>();
                 }
                 else
                 {
-                    GeneralEmailTemplate generalEmailTemplate = _generalEmailTemplateRepository.Table.Where(x => x.EmailTemplateCode == emailTemplateCode && x.IsActive)?.FirstOrDefault();
+                    GeneralEmailTemplate generalEmailTemplate = _generalEmailTemplateRepository.Table.Where(x => x.EmailTemplateCode == emailTemplateCode && x.IsActive && x.IsSmsTemplate == isSMSTemplate && x.IsWhatsAppTemplate == isWhatsAppTemplate)?.FirstOrDefault();
                     if (IsNotNull(generalEmailTemplate))
                     {
                         organisationCentrewiseEmailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
@@ -437,14 +449,14 @@ namespace Coditech.API.Service
             OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel = new OrganisationCentrewiseEmailTemplateModel();
             if (!string.IsNullOrEmpty(emailTemplateCode))
             {
-                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplateData = _organisationCentrewiseEmailTemplateRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode && x.EmailTemplateCode == emailTemplateCode)?.FirstOrDefault();
+                OrganisationCentrewiseEmailTemplate organisationCentrewiseEmailTemplateData = _organisationCentrewiseEmailTemplateRepository.Table.Where(x => x.CentreCode == organisationCentreModel.CentreCode && x.EmailTemplateCode == emailTemplateCode && x.IsSmsTemplate)?.FirstOrDefault();
                 if (IsNotNull(organisationCentrewiseEmailTemplateData))
                 {
                     organisationCentrewiseEmailTemplateModel = IsNull(organisationCentrewiseEmailTemplateData) ? new OrganisationCentrewiseEmailTemplateModel() : organisationCentrewiseEmailTemplateData.FromEntityToModel<OrganisationCentrewiseEmailTemplateModel>();
                 }
                 else
                 {
-                    GeneralEmailTemplate generalEmailTemplate = _generalEmailTemplateRepository.Table.Where(x => x.EmailTemplateCode == emailTemplateCode && x.IsActive)?.FirstOrDefault();
+                    GeneralEmailTemplate generalEmailTemplate = _generalEmailTemplateRepository.Table.Where(x => x.EmailTemplateCode == emailTemplateCode && x.IsActive && x.IsSmsTemplate)?.FirstOrDefault();
                     if (IsNotNull(generalEmailTemplate))
                     {
                         organisationCentrewiseEmailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
@@ -462,7 +474,7 @@ namespace Coditech.API.Service
         //Update  Organisation Centrewise SMS Template .
         public virtual bool UpdateCentrewiseSMSTemplateSetup(OrganisationCentrewiseEmailTemplateModel organisationCentrewiseEmailTemplateModel)
         {
-           
+
             if (IsNull(organisationCentrewiseEmailTemplateModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
