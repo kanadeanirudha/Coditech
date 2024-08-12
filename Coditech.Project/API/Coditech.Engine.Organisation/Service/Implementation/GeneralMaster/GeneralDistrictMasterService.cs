@@ -18,11 +18,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralDistrictMaster> _generalDistrictMasterRepository;
+        private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
         public GeneralDistrictMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalDistrictMasterRepository = new CoditechRepository<GeneralDistrictMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralDistrictListModel GetDistrictList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -76,6 +78,10 @@ namespace Coditech.API.Service
             //Get the District Details based on id.
             GeneralDistrictMaster generalDistrictMaster = _generalDistrictMasterRepository.Table.FirstOrDefault(x => x.GeneralDistrictMasterId == districtId);
             GeneralDistrictModel generalDistrictModel = generalDistrictMaster?.FromEntityToModel<GeneralDistrictModel>();
+            if (generalDistrictModel?.GeneralRegionMasterId > 0)
+            {
+                generalDistrictModel.GeneralCountryMasterId = Convert.ToInt16(_generalRegionMasterRepository.Table.Where(x => x.GeneralRegionMasterId == generalDistrictModel.GeneralRegionMasterId)?.Select(y => y.GeneralCountryMasterId)?.FirstOrDefault());
+            }
             return generalDistrictModel;
         }
 
@@ -123,12 +129,12 @@ namespace Coditech.API.Service
         {
             GeneralDistrictListModel list = new GeneralDistrictListModel();
             list.GeneralDistrictList = (from a in _generalDistrictMasterRepository.Table
-                                      where (a.GeneralRegionMasterId == generalRegionMasterId)
-                                      select new GeneralDistrictModel()
-                                      {
-                                          GeneralDistrictMasterId = a.GeneralDistrictMasterId,
-                                          DistrictName = a.DistrictName,                                        
-                                      })?.ToList();
+                                        where (a.GeneralRegionMasterId == generalRegionMasterId)
+                                        select new GeneralDistrictModel()
+                                        {
+                                            GeneralDistrictMasterId = a.GeneralDistrictMasterId,
+                                            DistrictName = a.DistrictName,
+                                        })?.ToList();
             return list;
         }
 

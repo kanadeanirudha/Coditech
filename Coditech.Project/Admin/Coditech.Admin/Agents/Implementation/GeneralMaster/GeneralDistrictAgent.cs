@@ -40,7 +40,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("RegionName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "DistrictName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GeneralDistrictListResponse response = _generalDistrictClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralDistrictListModel districtList = new GeneralDistrictListModel { GeneralDistrictList = response?.GeneralDistrictList };
@@ -149,13 +149,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Region",
-                ColumnCode = "GeneralRegionMasterId",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Country",
-                ColumnCode = "GeneralCountryMasterId",
+                ColumnCode = "RegionName",
                 IsSortable = true,
             });
             return datatableColumnList;

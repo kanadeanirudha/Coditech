@@ -10,15 +10,15 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "District Name")]
         public string DistrictName { get; set; }
+
+        [Required]
+        [Display(Name = "Region")]
         public short GeneralRegionMasterId { get; set; }
 
-        [MaxLength(50)]
-        [Required]
-        [Display(Name = "State Name")]
         public string RegionName { get; set; }
 
         [Required]
-        [Display(Name = "Country Name")]
-        public int GeneralCountryMasterId { get; set; }
+        [Display(Name = "Country")]
+        public short GeneralCountryMasterId { get; set; }
     }
 }
