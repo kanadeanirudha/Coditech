@@ -2,6 +2,7 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -143,6 +144,32 @@ namespace Coditech.Admin.Controllers
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleApplicableDetailsViewModel.ErrorMessage));
             return View("~/Views/Admin/AdminRoleMaster/AssociateUnAssociateAdminRoleToUser.cshtml", adminRoleApplicableDetailsViewModel);
+        }
+
+        public virtual ActionResult RoleWiseFolderAction(int adminRoleMasterId)
+        {
+            AdminRoleMediaFolderActionViewModel adminRoleMediaFolderActionViewModel = _adminRoleMasterAgent.GetAdminRoleWiseMediaFolderActionById(adminRoleMasterId);
+            adminRoleMediaFolderActionViewModel.MediaActionList = new List<SelectListItem>();
+            adminRoleMediaFolderActionViewModel.MediaActionList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
+            var mediaFolderActionList = Enum.GetValues(typeof(UserTypeEnum)).Cast<MediaFolderActionEnum>().ToList();
+            foreach (var item in mediaFolderActionList)
+            {
+                adminRoleMediaFolderActionViewModel.MediaActionList.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString() });
+            }
+            return View("~/Views/Admin/AdminRoleMaster/RoleWiseFolderAction.cshtml", adminRoleMediaFolderActionViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult RoleWiseFolderAction(AdminRoleMediaFolderActionViewModel adminRoleMediaFolderActionViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_adminRoleMasterAgent.InsertUpdateAdminRoleWiseMediaFolderAction(adminRoleMediaFolderActionViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("RoleWiseFolderAction", new { adminRoleMasterId = adminRoleMediaFolderActionViewModel.AdminRoleMasterId });
+            }
+            return View("~/Views/Admin/AdminRoleMaster/RoleWiseFolderAction.cshtml", adminRoleMediaFolderActionViewModel);
         }
         #region Protected
         protected virtual void BindDropdown(AdminRoleViewModel adminRoleViewModel)

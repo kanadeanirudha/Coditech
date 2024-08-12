@@ -16,6 +16,7 @@ namespace Coditech.Admin
             CreateMap<AdminRoleMenuDetailsModel, AdminRoleMenuDetailsViewModel>().ReverseMap();
             CreateMap<AdminRoleApplicableDetailsModel, AdminRoleApplicableDetailsViewModel>().ReverseMap();
             CreateMap<AdminRoleApplicableDetailsListModel, AdminRoleApplicableDetailsListViewModel>().ReverseMap();
+            CreateMap<AdminRoleMediaFolderActionModel, AdminRoleMediaFolderActionViewModel>().ReverseMap();
             #endregion
 
             #region General Master

@@ -173,8 +173,9 @@
         UnSupportedFile = 100
     }
 
-    public enum MdediaFolderActionEnum
+    public enum MediaFolderActionEnum
     {
+        ViewFolder,
         CreateFolder,
         RenameFolder,
         MoveFolder,
