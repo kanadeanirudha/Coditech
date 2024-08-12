@@ -94,7 +94,8 @@
             LogMessage,
             MediaSettingMaster,
             SmsProviderMaster,
-            HospitalPathologyTestGroup
+            HospitalPathologyTestGroup,
+            HospitalPathologyTest
         }
     }
 }

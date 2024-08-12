@@ -70,7 +70,9 @@
         CentrewiseHospitalPatientsList,
         TimeSlotByDoctorsListAndAppointmentDate,
         CallingCode,
-        HospitalPathologyTestGroup
+        HospitalPathologyTestGroup,
+        HospitalPathologyTestGroupParent,
+        TestSampleTypes
     }
 
     public enum GeneralSystemGlobleSettingEnum

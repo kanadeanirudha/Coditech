@@ -178,6 +178,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetWhatsAppProviderList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalPathologyTestGroup.ToString()))
+            {
+                GetHospitalPathologyTestGroupList(dropdownViewModel, dropdownList);
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalDoctorsListBySpecialization.ToString()))
             {
                 GetDoctorsByCentreCodeAndSpecialization(dropdownViewModel, dropdownList);
@@ -198,9 +202,9 @@ namespace Coditech.Admin.Helpers
             {
                 GetCountryCallingCode(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalPathologyTestGroup.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalPathologyTestGroupParent.ToString()))
             {
-                GetHospitalPathologyTestGroupList(dropdownViewModel, dropdownList);
+                GetHospitalPathologyTestGroupParentList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -782,7 +786,7 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-        private static void GetHospitalPathologyTestGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetHospitalPathologyTestGroupParentList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             HospitalPathologyTestGroupListResponse response = new HospitalPathologyTestGroupClient().List(null, null, null, 1, int.MaxValue);
             dropdownList.Add(new SelectListItem() { Text = "-------Select Pathology Test Group-------" });
@@ -1026,6 +1030,23 @@ namespace Coditech.Admin.Helpers
                     Text = $"{item.AppointmentPurpose}",
                     Value = Convert.ToString(item.HospitalPatientAppointmentPurposeId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPatientAppointmentPurposeId)
+                });
+            }
+        }
+
+        private static void GetHospitalPathologyTestGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            HospitalPathologyTestListResponse response = new HospitalPathologyTestClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Pathology Test -------" });
+
+            HospitalPathologyTestListModel list = new HospitalPathologyTestListModel { HospitalPathologyTestList = response.HospitalPathologyTestList };
+            foreach (var item in list.HospitalPathologyTestList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.PathologyTestGroupName,
+                    Value = Convert.ToString(item.HospitalPathologyTestId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPathologyTestId)
                 });
             }
         }
