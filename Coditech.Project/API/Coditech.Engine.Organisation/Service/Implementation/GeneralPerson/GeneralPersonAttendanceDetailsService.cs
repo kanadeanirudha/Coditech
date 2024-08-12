@@ -9,10 +9,9 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 
-using Microsoft.IdentityModel.Tokens;
-
 using System.Collections.Specialized;
 using System.Data;
+using System.Diagnostics;
 
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
@@ -21,6 +20,8 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
+        const double EarthRadiusKm = 6371.0; // Radius of the Earth in kilometers
+
         private readonly ICoditechRepository<GeneralPersonAttendanceDetails> _generalPersonAttendanceDetailsRepository;
         public GeneralPersonAttendanceDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -120,7 +121,53 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        //Is Allow Attendance.
+        public virtual bool IsAllowAttendance(int entityId, string userType, double pointToCheckLatitude, double pointToCheckLongitude)
+        {
+            string centreCode = null;
+            bool isWithinRadius = false;
+            if (string.Equals(userType, UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                centreCode = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId)?.Select(y => y.CentreCode)?.FirstOrDefault();
+            }
+            else if (string.Equals(userType, UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                centreCode = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmployeeId == entityId)?.Select(y => y.CentreCode)?.FirstOrDefault();
+            }
+
+            if (!string.IsNullOrEmpty(centreCode))
+            {
+                OrganisationCentreMaster organisationCentreMaster = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode)?.FirstOrDefault();
+                if (IsNotNull(organisationCentreMaster) && organisationCentreMaster.Latitude.HasValue && organisationCentreMaster.Longitude.HasValue && organisationCentreMaster.CampusArea > 0)
+                    isWithinRadius = IsWithinRadius(Convert.ToDouble(organisationCentreMaster.Latitude), Convert.ToDouble(organisationCentreMaster.Longitude), pointToCheckLatitude, pointToCheckLongitude, Convert.ToDouble(organisationCentreMaster.CampusArea));
+                else
+                    _coditechLogging.LogMessage("Organisation Centre latitude, longitude or CampusArea configuration is missing.", CoditechLoggingEnum.Components.PersonAttendance.ToString(), TraceLevel.Error);
+            }
+            return isWithinRadius;
+        }
+
         #region Protected Method
+        protected virtual bool IsWithinRadius(double centreLatitude, double centreLongitude, double pointLatitude, double pointLongitude, double radiusKm)
+        {
+            double dLat = DegreesToRadians(pointLatitude - centreLatitude);
+            double dLon = DegreesToRadians(pointLongitude - centreLongitude);
+            double lat1Rad = DegreesToRadians(centreLatitude);
+            double lat2Rad = DegreesToRadians(pointLatitude);
+
+            double a = Math.Pow(Math.Sin(dLat / 2), 2) +
+                       Math.Pow(Math.Sin(dLon / 2), 2) *
+                       Math.Cos(lat1Rad) * Math.Cos(lat2Rad);
+
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            double distanceKm = EarthRadiusKm * c;
+
+            return distanceKm <= radiusKm;
+        }
+
+        private double DegreesToRadians(double degrees)
+        {
+            return degrees * Math.PI / 180.0;
+        }
         #endregion
     }
 }

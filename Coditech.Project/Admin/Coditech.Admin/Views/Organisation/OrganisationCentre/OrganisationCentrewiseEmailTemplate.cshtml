@@ -3,7 +3,7 @@
     ViewBag.Title = "Organisation Centrewise Email Template";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel emailTemplateCodeDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.EmailTemplate.ToString(), DropdownName = "EmailTemplateCode", DropdownSelectedValue = Model.EmailTemplate, ChangeEvent = $"OrganisationCentre.GetEmailTemplateByCentreCode('{Model.OrganisationCentreMasterId}')" };
+    DropdownViewModel emailTemplateCodeDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.EmailTemplate.ToString(), DropdownName = "EmailTemplateCode", DropdownSelectedValue = Model.EmailTemplate, ChangeEvent = $"OrganisationCentre.GetEmailTemplateByCentreCode('{Model.OrganisationCentreMasterId}','email')" };
 }
 <div class="page-content mt-5">
     <div class="container-fluid">
@@ -22,11 +22,10 @@
                                 <h4 class="card-title">Organisation Centrewise Email Template</h4>
                             </div><!--end col-->
                         </div><!--end row-->
-                    </div>                   
+                    </div>
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
-                            @Html.HiddenFor(m => m.OrganisationCentrewiseEmailTemplateId)
                             @Html.HiddenFor(m => m.OrganisationCentreMasterId)
                             <div class="row">
                                 <div class="col-lg-6">
@@ -61,5 +60,11 @@
     </div>
 </div>
 <script src="~/js/Coditech/Organisation/OrganisationCentre.js"></script>
+<script src="~/js/layout/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        OrganisationCentre.GetEmailTemplateByCentreCode(@Model.OrganisationCentreMasterId, 'email');
+    });
+</script>
 
 

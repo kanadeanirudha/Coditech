@@ -39,7 +39,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("MethodName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FileName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             LogMessageListResponse response = _logMessageClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             LogMessageListModel logMessageList = new LogMessageListModel { LogMessageList = response?.LogMessageList };
@@ -116,6 +116,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Error Date",
                 ColumnCode = "CreatedDate",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

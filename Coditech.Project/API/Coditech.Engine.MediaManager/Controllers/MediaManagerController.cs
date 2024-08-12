@@ -53,15 +53,15 @@ namespace Coditech.API.Controllers
 
         [Route("/MediaManager/UploadFile")]
         [HttpPost]
-        [Produces(typeof(bool))]
+        [Produces(typeof(TrueFalseResponse))]
         public virtual async Task<IActionResult> PostUploadFileAsync(int folderId)
         {
             try
             {
                 IEnumerable<IFormFile> files = Request.Form.Files;
-                bool response = await _mediaManagerService.UploadFile(files.FirstOrDefault(), folderId, Request);
-                if (response)
-                    return CreateOKResponse<bool>(response);
+                TrueFalseResponse response = await _mediaManagerService.UploadFile(files.FirstOrDefault(), folderId, Request);
+                if (response != null)
+                    return CreateOKResponse<TrueFalseResponse>(response);
                 else
                     return BadRequest();
             }
@@ -187,6 +187,26 @@ namespace Coditech.API.Controllers
             try
             {
                 bool response = await _mediaManagerService.DeleteFolder(folderId);
+                if (response)
+                    return CreateOKResponse<bool>(response);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse();
+            }
+        }
+
+        [Route("/MediaManager/DeleteFile")]
+        [HttpGet]
+        [Produces(typeof(bool))]
+        public virtual async Task<IActionResult> DeleteFile(int mediaId)
+        {
+            try
+            {
+                bool response = await _mediaManagerService.DeleteFile(mediaId);
                 if (response)
                     return CreateOKResponse<bool>(response);
                 else

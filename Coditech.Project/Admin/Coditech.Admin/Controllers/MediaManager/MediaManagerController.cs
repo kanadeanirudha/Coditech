@@ -45,11 +45,11 @@ namespace Coditech.Admin.Controllers
                 return Json(new { success = false, message = "Empty file uploaded." });
             }
 
-            bool status = _mediaManagerFolderAgent.UploadFile(folderId, file);
+            BooleanModel status = _mediaManagerFolderAgent.UploadFile(folderId, file);
 
-            SetNotificationMessage(status
-                   ? GetSuccessNotificationMessage("Image uploaded successfully.")
-                   : GetErrorNotificationMessage("Failed to upload a image."));
+            SetNotificationMessage(status.IsSuccess
+                   ? GetSuccessNotificationMessage(status.SuccessMessage)
+                   : GetErrorNotificationMessage(status.ErrorMessage));
 
             MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 
@@ -85,7 +85,29 @@ namespace Coditech.Admin.Controllers
 
                 MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(0);
 
-                return PartialView($"~/Views/MediaManager/MediaManagerDetails/_MediaDetails.cshtml", mediaViewModel);
+                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [Route("/MediaManager/DeleteFile")]
+        [HttpPost]
+        public virtual ActionResult DeleteFile(int activeFolderId, int mediaId)
+        {
+            try
+            {
+                bool status = _mediaManagerFolderAgent.DeleteFile(mediaId);
+
+                SetNotificationMessage(status
+                    ? GetSuccessNotificationMessage("File is successfully deleted.")
+                    : GetErrorNotificationMessage("Failed to delete."));
+
+                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(activeFolderId);
+
+                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
             }
             catch (Exception ex)
             {

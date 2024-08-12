@@ -12,6 +12,10 @@ namespace Coditech.Admin.ViewModel
         public int GymMemberDetailId { get; set; }
         public string CentreCode { get; set; }
         public long PersonId { get; set; }
+
+        [MaxLength(50)]
+        [Editable(false)]
+        [Display(Name = "Employee Code")]
         public string PersonCode { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

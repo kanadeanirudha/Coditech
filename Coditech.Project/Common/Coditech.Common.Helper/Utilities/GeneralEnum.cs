@@ -48,6 +48,8 @@
         AllCities,
         InventoryModel,
         EmailTemplate,
+        SMSTemplate,
+        WhatsAppTemplate,
         HospitalDoctorsList,
         HospitalAppointmentType,
         HospitalDoctorTimeSlot,
@@ -169,5 +171,14 @@
         SelectSingleFile = 80,
         SelectFile = 90,
         UnSupportedFile = 100
+    }
+
+    public enum MdediaFolderActionEnum
+    {
+        CreateFolder,
+        RenameFolder,
+        MoveFolder,
+        DeleteFolder,
+        DeleteFile,
     }
 }

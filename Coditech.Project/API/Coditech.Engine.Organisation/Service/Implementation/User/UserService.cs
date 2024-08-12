@@ -62,7 +62,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password 
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password
                                                                                         && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
 
             if (IsNull(userMasterData))
@@ -159,6 +159,11 @@ namespace Coditech.API.Service
             if (!userMasterData.IsActive)
                 throw new CoditechException(ErrorCodes.ContactAdministrator, "Access Denied. Please contact a Site Administrator.");
 
+            if (!isMobileRequest)
+            {
+                if (!(userMasterData.UserType == UserTypeEnum.Employee.ToString() || userMasterData.UserType == UserTypeEnum.Admin.ToString()))
+                    throw new CoditechException(ErrorCodes.ContactAdministrator, "Access Denied. Please contact a Site Administrator.");
+            }
             string resetPassToken = HelperUtility.GenerateOTP();
             userMasterData.ResetPasswordToken = resetPassToken;
             userMasterData.ResetPasswordTokenExpiredDate = DateTime.Now.AddMinutes(Convert.ToDouble(ApiSettings.ResetPasswordExpriedTimeInMinute));
@@ -364,6 +369,7 @@ namespace Coditech.API.Service
                 UserMaster userMaster = new UserMaster()
                 {
                     EntityId = generalPersonModel.EntityId,
+                    UserType = generalPersonModel.UserType,
                     FirstName = generalPersonModel.FirstName,
                     MiddleName = generalPersonModel.MiddleName,
                     LastName = generalPersonModel.LastName,
@@ -564,8 +570,11 @@ namespace Coditech.API.Service
                     if (!userModel.ModuleList.Any(x => x.ModuleCode == userMenuModel.ModuleCode) && !string.IsNullOrEmpty(userMenuModel.ControllerName))
                     {
                         UserModuleModel userModuleModel = userAllModuleList.FirstOrDefault(x => x.ModuleCode == userMenuModel.ModuleCode).FromEntityToModel<UserModuleModel>();
-                        userModuleModel.DefaultMenuLink = $"{userMenuModel?.ControllerName?.ToLower()}/{userMenuModel?.ActionName?.ToLower()}";
-                        userModel.ModuleList.Add(userModuleModel);
+                        if (IsNotNull(userModuleModel))
+                        {
+                            userModuleModel.DefaultMenuLink = $"{userMenuModel?.ControllerName?.ToLower()}/{userMenuModel?.ActionName?.ToLower()}";
+                            userModel.ModuleList.Add(userModuleModel);
+                        }
                     }
                 }
             }
@@ -591,7 +600,7 @@ namespace Coditech.API.Service
         {
             CoditechRepository<UserMaster> _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
 
-            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == model.EntityId);
+            UserMaster userMaster = _userMasterRepository.Table.Where(x => x.EntityId == model.EntityId && x.UserType == model.UserType)?.FirstOrDefault();
             if (userMaster != null)
             {
                 userMaster.FirstName = model.FirstName ?? userMaster.FirstName;
@@ -809,9 +818,9 @@ namespace Coditech.API.Service
                     GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel.SelectedCentreCode, EmailTemplateCodeEnum.GymMemberRegistration.ToString());
                     if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                     {
-                        string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
+                        string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, !string.IsNullOrEmpty(generalPersonModel.CentreName) ? generalPersonModel.CentreName : GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
                         string messageText = ReplaceGymMemberEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
-                        _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
+                        _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
                     }
                 }
                 catch (Exception ex)
@@ -849,7 +858,7 @@ namespace Coditech.API.Service
 
         protected virtual string ReplaceEmailTemplateFooter(string centreCode, string messageText)
         {
-            if (string.IsNullOrEmpty(centreCode))
+            if (!string.IsNullOrEmpty(centreCode))
             {
                 OrganisationCentreMaster organisationCentreMaster = GetOrganisationCentreDetails(centreCode);
                 string city = new CoditechRepository<GeneralCityMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GeneralCityMasterId == organisationCentreMaster.GeneralCityMasterId).FirstOrDefault().CityName;

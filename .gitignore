@@ -80,3 +80,5 @@
 /Coditech.Project/Coditech.Reports/bin
 /Coditech.Project/Coditech.Reports/Coditech.Reports.rptproj.rsuser
 /Coditech.Project/API/Coditech.Engine.MediaManager/Properties/PublishProfiles
+/Coditech.Project/API/Coditech.Engine.MediaManager/.config/dotnet-tools.json
+/Coditech.Project/API/Coditech.Engine.MediaManager/Coditech.Engine.MediaManager.csproj.user

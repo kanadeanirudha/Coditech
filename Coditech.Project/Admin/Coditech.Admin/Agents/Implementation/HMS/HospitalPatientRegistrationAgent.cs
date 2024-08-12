@@ -117,6 +117,7 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Info);
                 GeneralPersonModel generalPersonModel = hospitalPatientRegistrationCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.EntityId = hospitalPatientRegistrationCreateEditViewModel.HospitalPatientRegistrationId;
+                generalPersonModel.UserType = UserTypeEnum.Patient.ToString();
                 GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Info);
@@ -175,6 +176,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "UAH Number",
+                ColumnCode = "UAHNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "First Name",
                 ColumnCode = "FirstName",
                 IsSortable = true,
@@ -196,13 +203,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Contact",
                 ColumnCode = "MobileNumber",
                 IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "UAH Number",
-                ColumnCode = "UAHNumber",
-                IsSortable = true,
-            });
+            });          
             return datatableColumnList;
         }
 

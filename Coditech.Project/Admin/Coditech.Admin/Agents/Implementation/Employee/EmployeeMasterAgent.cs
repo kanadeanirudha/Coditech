@@ -122,6 +122,7 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
                 GeneralPersonModel generalPersonModel = employeeCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.EntityId = employeeCreateEditViewModel.EmployeeId;
+                generalPersonModel.UserType = UserTypeEnum.Employee.ToString();
                 GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Info);
@@ -207,6 +208,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Employee Code",
+                ColumnCode = "PersonCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "First Name",
                 ColumnCode = "FirstName",
                 IsSortable = true,
@@ -233,7 +240,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Email Id",
                 ColumnCode = "EmailId",
                 IsSortable = true,
-            });
+            });            
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",

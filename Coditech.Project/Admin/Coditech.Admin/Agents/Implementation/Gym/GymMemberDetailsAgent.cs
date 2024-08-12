@@ -54,6 +54,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -122,6 +123,7 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
                 GeneralPersonModel generalPersonModel = gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.EntityId = gymCreateEditMemberViewModel.GymMemberDetailId;
+                generalPersonModel.UserType = UserTypeEnum.GymMember.ToString();
                 GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
@@ -458,6 +460,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Member Code",
+                ColumnCode = "PersonCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "First Name",
                 ColumnCode = "FirstName",
                 IsSortable = true,
@@ -479,7 +487,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Email Id",
                 ColumnCode = "EmailId",
                 IsSortable = true,
-            });
+            });           
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "IsActive",

@@ -25,5 +25,6 @@ namespace Coditech.Common.API.Model
         public bool IsAssociated { get; set; }
         public string CentreCode { get; set; }
         public string MedicalSpecilization { get; set; }
+        public string PersonCode { get; set; }
     }
 }

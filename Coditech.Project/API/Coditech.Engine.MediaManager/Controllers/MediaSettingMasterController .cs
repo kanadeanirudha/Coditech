@@ -88,7 +88,7 @@ namespace Coditech.API.Controllers
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaSettingMaster.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaSettingMaster.ToString(), TraceLevel.Error, ex);
                 return CreateInternalServerErrorResponse(new MediaSettingMasterResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
