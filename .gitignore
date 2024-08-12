@@ -82,3 +82,6 @@
 /Coditech.Project/API/Coditech.Engine.MediaManager/Properties/PublishProfiles
 /Coditech.Project/API/Coditech.Engine.MediaManager/.config/dotnet-tools.json
 /Coditech.Project/API/Coditech.Engine.MediaManager/Coditech.Engine.MediaManager.csproj.user
+/Coditech.Project/API/Coditech.Engine.Gazette/bin
+/Coditech.Project/API/Coditech.Engine.Gazette/obj
+/Coditech.Project/API/Coditech.Engine.Gazette/Coditech.Engine.Gazette.csproj.user
