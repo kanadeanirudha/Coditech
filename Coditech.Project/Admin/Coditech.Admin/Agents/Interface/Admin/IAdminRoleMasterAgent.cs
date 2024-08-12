@@ -67,5 +67,19 @@ namespace Coditech.Admin.Agents
         /// <param name="adminRoleViewModel">AdminRoleApplicableDetailsViewModel.</param>
         /// <returns>Returns AdminRoleApplicableDetailsViewModel</returns>
         AdminRoleApplicableDetailsViewModel AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsViewModel adminRoleApplicableDetailsViewModel);
+
+        /// <summary>
+        /// Get Admin Role Wise Media Folder Action By Id
+        /// </summary>
+        /// <param name="adminRoleId">adminRoleId</param>
+        /// <returns>Returns AdminRoleMediaFolderActionViewModel.</returns>
+        AdminRoleMediaFolderActionViewModel GetAdminRoleWiseMediaFolderActionById(int adminRoleMasterId);
+
+        /// <summary>
+        /// Update Admin RoleWise Media Folder Action.
+        /// </summary>
+        /// <param name="adminRoleMediaFolderActionViewModel">adminRoleMediaFolderActionViewModel.</param>
+        /// <returns>Returns updated adminRoleMediaFolderActionViewModel</returns>
+        AdminRoleMediaFolderActionViewModel InsertUpdateAdminRoleWiseMediaFolderAction(AdminRoleMediaFolderActionViewModel adminRoleMediaFolderActionViewModel);
     }
 }

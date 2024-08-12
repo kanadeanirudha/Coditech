@@ -24,6 +24,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminSanctionPost> _adminSanctionPostRepository;
         private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
+        private readonly ICoditechRepository<AdminRoleMediaFolderAction> _adminRoleMediaFolderActionRepository;
         public AdminRoleMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -33,6 +34,7 @@ namespace Coditech.API.Service
             _adminSanctionPostRepository = new CoditechRepository<AdminSanctionPost>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleMediaFolderActionRepository = new CoditechRepository<AdminRoleMediaFolderAction>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -70,7 +72,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             //Get the adminRoleMaster Details based on id.
-            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId)?.FirstOrDefault();
             AdminRoleModel adminRoleMasterModel = adminRoleMasterData.FromEntityToModel<AdminRoleModel>();
             adminRoleMasterModel.SelectedRoleWiseCentres = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId && x.IsActive == true)?.Select(y => y.CentreCode)?.Distinct().ToList();
             AdminSanctionPost adminSanctionPost = _adminSanctionPostRepository.GetById(adminRoleMasterData.AdminSanctionPostId);
@@ -90,7 +92,7 @@ namespace Coditech.API.Service
             if (adminRoleMasterModel.AdminRoleMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
-            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId);
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterModel.AdminRoleMasterId)?.FirstOrDefault();
             adminRoleMasterData.MonitoringLevel = adminRoleMasterModel.MonitoringLevel;
             adminRoleMasterData.OthCentreLevel = adminRoleMasterModel.MonitoringLevel == APIConstant.Self ? string.Empty : "Selected";
             adminRoleMasterData.IsLoginAllowFromOutside = adminRoleMasterModel.IsLoginAllowFromOutside;
@@ -178,7 +180,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
 
             //Get the adminRoleMaster Details based on id.
-            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId)?.FirstOrDefault();
             AdminRoleMenuDetailsModel adminRoleMenuDetailsModel = new AdminRoleMenuDetailsModel();
             if (IsNotNull(adminRoleMasterData))
             {
@@ -277,7 +279,7 @@ namespace Coditech.API.Service
             AdminRoleApplicableDetailsListModel listModel = GetAssociateUnAssociatedRoleUserList(adminRoleMasterId, true, pageListModel);
             listModel.BindPageListModel(pageListModel);
 
-            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId)?.FirstOrDefault();
             listModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
             listModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
             return listModel;
@@ -310,7 +312,7 @@ namespace Coditech.API.Service
                 }
             }
 
-            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.FirstOrDefault(x => x.AdminRoleMasterId == adminRoleMasterId);
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId)?.FirstOrDefault();
             if (IsNotNull(adminRoleMasterData))
             {
                 //Bind the Filter, sorts & Paging details.
@@ -362,6 +364,70 @@ namespace Coditech.API.Service
             return adminRoleApplicableDetails?.AdminRoleApplicableDetailId > 0 ? true : false;
         }
 
+        //Get adminRoleMaster by adminRoleMaster id.
+        public virtual AdminRoleMediaFolderActionModel GetAdminRoleWiseMediaFolderActionById(int adminRoleMasterId)
+        {
+            if (adminRoleMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            //Get the adminRoleMaster Details based on id.
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId)?.FirstOrDefault();
+            AdminSanctionPost adminSanctionPost = _adminSanctionPostRepository.GetById(adminRoleMasterData.AdminSanctionPostId);
+            AdminRoleMediaFolderActionModel adminRoleMediaFolderActionModel = new AdminRoleMediaFolderActionModel()
+            {
+                SelectedCentreCode = adminSanctionPost.CentreCode,
+                SelectedDepartmentId = Convert.ToString(adminSanctionPost.DepartmentId),
+                AdminRoleCode = adminRoleMasterData.AdminRoleCode,
+                SanctionPostName = adminSanctionPost.SanctionedPostDescription,
+                AdminRoleMasterId = adminRoleMasterId,
+            };
+            AdminRoleMediaFolderAction adminRoleMediaFolderAction = _adminRoleMediaFolderActionRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId)?.FirstOrDefault();
+            if (IsNotNull(adminRoleMediaFolderAction))
+            {
+                adminRoleMediaFolderActionModel.AdminRoleMediaFolderActionId = adminRoleMediaFolderAction.AdminRoleMediaFolderActionId;
+                if (!string.IsNullOrEmpty(adminRoleMediaFolderAction?.MediaAction))
+                {
+                    adminRoleMediaFolderActionModel.SelectedMediaActions = new List<string>();
+                    foreach (string item in adminRoleMediaFolderAction?.MediaAction?.Split(','))
+                    {
+                        adminRoleMediaFolderActionModel.SelectedMediaActions.Add(item);
+                    }
+                }
+            }
+            return adminRoleMediaFolderActionModel;
+        }
+
+        //Insert Update Admin RoleWise Media Folder Action.
+        public virtual bool InsertUpdateAdminRoleWiseMediaFolderAction(AdminRoleMediaFolderActionModel adminRoleMediaFolderActionModel)
+        {
+            if (IsNull(adminRoleMediaFolderActionModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            AdminRoleMediaFolderAction adminRoleMediaFolderAction = adminRoleMediaFolderActionModel.FromModelToEntity<AdminRoleMediaFolderAction>();
+            adminRoleMediaFolderAction.MediaAction = adminRoleMediaFolderActionModel?.SelectedMediaActions?.Count > 0 ? string.Join(',', adminRoleMediaFolderActionModel.SelectedMediaActions) : "";
+
+            bool status = false;
+            if (adminRoleMediaFolderActionModel.AdminRoleMediaFolderActionId > 0)
+            {
+                //Update MediaSettingMaster
+                status = _adminRoleMediaFolderActionRepository.Update(adminRoleMediaFolderAction);
+            }
+            else
+            {
+                adminRoleMediaFolderAction = _adminRoleMediaFolderActionRepository.Insert(adminRoleMediaFolderAction);
+                if (adminRoleMediaFolderAction.AdminRoleMediaFolderActionId > 0)
+                {
+                    status = true;
+                }
+            }
+
+            if (!status)
+            {
+                adminRoleMediaFolderActionModel.HasError = true;
+                adminRoleMediaFolderActionModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return status;
+        }
         #endregion
 
         #region protected

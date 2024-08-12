@@ -68,5 +68,19 @@ namespace Coditech.API.Client
         /// <param name="AdminRoleApplicableDetailsModel">AdminRoleApplicableDetailsModel.</param>
         /// <returns>Returns updated AdminRoleApplicableDetailsResponse</returns>
         AdminRoleApplicableDetailsResponse AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsModel body);
+
+        /// <summary>
+        ///  Get Admin Role Wise Media Folder Action By Id
+        /// </summary>
+        /// <param name="adminRoleMasterId">adminRoleMasterId</param>
+        /// <returns>Returns AdminRoleMediaFolderActionResponse.</returns>
+        AdminRoleMediaFolderActionResponse GetAdminRoleWiseMediaFolderActionById(int adminRoleMasterId);
+
+        /// <summary>
+        /// Update Admin RoleWise Media Folder Action.
+        /// </summary>
+        /// <param name="AdminRoleMediaFolderActionModel">AdminRoleMediaFolderActionModel.</param>
+        /// <returns>Returns updated AdminRoleMediaFolderActionResponse</returns>
+        AdminRoleMediaFolderActionResponse InsertUpdateAdminRoleWiseMediaFolderAction(AdminRoleMediaFolderActionModel body);
     }
 }
