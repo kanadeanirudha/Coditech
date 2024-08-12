@@ -268,6 +268,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete district due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralDistrictMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralDistrictMaster", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete General Running Numbers due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralRunningNumbers
@@ -1171,6 +1182,17 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelRegionList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to District List.
+        /// </summary>
+        public static string LabelDistrictList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelDistrictList", resourceCulture);
             }
         }
 

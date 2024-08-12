@@ -36,6 +36,8 @@ namespace Coditech.API.Data
         public DbSet<GeneralSmsProvider> GeneralSmsProvider { get; set; }
         public DbSet<GeneralWhatsAppProvider> GeneralWhatsAppProvider { get; set; }
         public DbSet<CoditechApplicationSetting> CoditechApplicationSetting { get; set; }
+        public DbSet<GeneralDistrictMaster> GeneralDistrictMaster { get; set; }
+
         #endregion
 
         #region Organisation

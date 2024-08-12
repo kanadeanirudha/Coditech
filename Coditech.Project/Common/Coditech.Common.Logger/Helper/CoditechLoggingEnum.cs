@@ -94,7 +94,8 @@
             LogMessage,
             MediaSettingMaster,
             SmsProviderMaster,
-            WhatsAppProviderMaster
+            WhatsAppProviderMaster,
+            District
         }
     }
 }

@@ -65,6 +65,9 @@ namespace Coditech.Admin
             CreateMap<GeneralSmsProviderModel, GeneralSmsProviderViewModel>().ReverseMap();
             CreateMap<GeneralWhatsAppProviderListModel, GeneralWhatsAppProviderListViewModel>().ReverseMap();
             CreateMap<GeneralWhatsAppProviderModel, GeneralWhatsAppProviderViewModel>().ReverseMap();
+            CreateMap<GeneralDistrictModel, GeneralDistrictViewModel>().ReverseMap();
+            CreateMap<GeneralDistrictListModel, GeneralDistrictListViewModel>().ReverseMap();
+
             #endregion            
 
             #region Organisation

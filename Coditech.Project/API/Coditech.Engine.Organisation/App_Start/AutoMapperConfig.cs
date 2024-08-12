@@ -55,6 +55,8 @@ namespace Coditech.API.Mapper
             CreateMap<LogMessage, LogMessageModel>().ReverseMap();
             CreateMap<GeneralSmsProvider, GeneralSmsProviderModel>().ReverseMap();
             CreateMap<GeneralWhatsAppProvider, GeneralWhatsAppProviderModel>().ReverseMap();
+            CreateMap<GeneralDistrictMaster, GeneralDistrictModel>().ReverseMap();
+
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();
