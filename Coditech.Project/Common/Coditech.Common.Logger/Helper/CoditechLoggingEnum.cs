@@ -94,7 +94,7 @@
             LogMessage,
             MediaSettingMaster,
             WhatsAppProviderMaster,
-            District
+            District,
             SmsProviderMaster,
             HospitalPathologyTestGroup,
             HospitalPathologyTest
