@@ -118,7 +118,7 @@ namespace Coditech.API.Client
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <param name="emailTemplateCode">emailTemplateCode</param>
         /// <returns>Returns OrganisationCentrewiseEmailTemplateResponse.</returns>
-        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId,string emailTemplateCode);
+        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode, string templateType);
 
         /// <summary>
         /// Update OrganisationCentrewiseEmailTemplate.

@@ -16,6 +16,7 @@ namespace Coditech.Admin
             CreateMap<AdminRoleMenuDetailsModel, AdminRoleMenuDetailsViewModel>().ReverseMap();
             CreateMap<AdminRoleApplicableDetailsModel, AdminRoleApplicableDetailsViewModel>().ReverseMap();
             CreateMap<AdminRoleApplicableDetailsListModel, AdminRoleApplicableDetailsListViewModel>().ReverseMap();
+            CreateMap<AdminRoleMediaFolderActionModel, AdminRoleMediaFolderActionViewModel>().ReverseMap();
             #endregion
 
             #region General Master
@@ -63,6 +64,11 @@ namespace Coditech.Admin
             CreateMap<CoditechApplicationSettingModel, CoditechApplicationSettingViewModel>().ReverseMap();
             CreateMap<CoditechApplicationSettingListModel, CoditechApplicationSettingListViewModel>().ReverseMap();
             CreateMap<GeneralSmsProviderModel, GeneralSmsProviderViewModel>().ReverseMap();
+            CreateMap<GeneralWhatsAppProviderListModel, GeneralWhatsAppProviderListViewModel>().ReverseMap();
+            CreateMap<GeneralWhatsAppProviderModel, GeneralWhatsAppProviderViewModel>().ReverseMap();
+            CreateMap<GeneralDistrictModel, GeneralDistrictViewModel>().ReverseMap();
+            CreateMap<GeneralDistrictListModel, GeneralDistrictListViewModel>().ReverseMap();
+
             #endregion            
 
             #region Organisation

@@ -122,28 +122,10 @@
             $('#deleteFolderId').val(folderId);
         }
 
-        function deleteFolder(folderId) {
-            CoditechCommon.ShowLodder();
-            $.ajax({
-                url: '@Url.Action("DeleteFolder", "MediaManager")',
-                type: 'POST',
-                data: { folderId: folderId },
-                success: function (result) {
-                    if (result) {
-                        // Refresh the folder structure or remove the deleted folder from the DOM
-                        $("#MediaUpload").html(result);
-                        initializeEventHandlers();
-                        CoditechCommon.HideLodder();// Simplest way to refresh the folder structure
-                    } else {
-                        console.log('Error: ' + result);
-                        CoditechCommon.HideLodder();
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log('An error occurred: ' + error);
-                    CoditechCommon.HideLodder();
-                }
-            });
+        function openDeleteFileModal(mediaId, folderId) {
+            $('#deleteFileModal').modal('show');
+            $('#activeFolderId').val(folderId);
+            $('#mediaId').val(mediaId);
         }
 
         function openMoveFolderModal(folderId) {

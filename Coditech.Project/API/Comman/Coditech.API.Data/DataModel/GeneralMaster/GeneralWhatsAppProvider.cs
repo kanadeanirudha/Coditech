@@ -1,7 +1,12 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.API.Data
 {
     public partial class GeneralWhatsAppProvider
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public byte GeneralWhatsAppProviderId { get; set; }
         public string ProviderName { get; set; }
         public string ProviderCode { get; set; }

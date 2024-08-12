@@ -188,6 +188,30 @@ namespace Coditech.Admin.Agents
             }
         }
 
+        //Get Admin Role Wise Media Folder Action By Id
+        public virtual AdminRoleMediaFolderActionViewModel GetAdminRoleWiseMediaFolderActionById(int adminRoleMasterId)
+        {
+            AdminRoleMediaFolderActionResponse response = _adminRoleMasterClient.GetAdminRoleWiseMediaFolderActionById(adminRoleMasterId);
+            return response?.AdminRoleMediaFolderActionModel.ToViewModel<AdminRoleMediaFolderActionViewModel>();
+        }
+
+        //Update Admin RoleWise Media Folder Action.
+        public virtual AdminRoleMediaFolderActionViewModel InsertUpdateAdminRoleWiseMediaFolderAction(AdminRoleMediaFolderActionViewModel adminRoleMediaFolderActionViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                AdminRoleMediaFolderActionResponse response = _adminRoleMasterClient.InsertUpdateAdminRoleWiseMediaFolderAction(adminRoleMediaFolderActionViewModel.ToModel<AdminRoleMediaFolderActionModel>());
+                AdminRoleMediaFolderActionModel mediaSettingMasterModel = response?.AdminRoleMediaFolderActionModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                return IsNotNull(mediaSettingMasterModel) ? mediaSettingMasterModel.ToViewModel<AdminRoleMediaFolderActionViewModel>() : (AdminRoleMediaFolderActionViewModel)GetViewModelWithErrorMessage(new AdminRoleMediaFolderActionViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return (AdminRoleMediaFolderActionViewModel)GetViewModelWithErrorMessage(adminRoleMediaFolderActionViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
 
         #region protected

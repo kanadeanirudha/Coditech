@@ -175,4 +175,14 @@
         SelectFile = 90,
         UnSupportedFile = 100
     }
+
+    public enum MediaFolderActionEnum
+    {
+        ViewFolder,
+        CreateFolder,
+        RenameFolder,
+        MoveFolder,
+        DeleteFolder,
+        DeleteFile,
+    }
 }

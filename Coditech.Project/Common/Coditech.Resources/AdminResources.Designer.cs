@@ -268,6 +268,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete district due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralDistrictMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralDistrictMaster", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete General Running Numbers due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralRunningNumbers
@@ -306,6 +317,16 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("ErrorDeleteGeneralTaxMaster", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete General WhatsApp Provider.
+        /// </summary>
+        public static string ErrorDeleteGeneralWhatsAppProviderMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralWhatsAppProviderMaster", resourceCulture);
             }
         }
 
@@ -1187,6 +1208,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to District List.
+        /// </summary>
+        public static string LabelDistrictList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelDistrictList", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Running Numbers List.
         /// </summary>
         public static string LabelRunningNumbersList
@@ -1269,6 +1301,13 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelTaxList", resourceCulture);
+            }
+        }
+        public static string LabelWhatsAppProviderList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelWhatsAppProviderList", resourceCulture);
             }
         }
     }

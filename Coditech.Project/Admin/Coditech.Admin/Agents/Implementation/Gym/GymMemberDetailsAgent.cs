@@ -123,6 +123,7 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);
                 GeneralPersonModel generalPersonModel = gymCreateEditMemberViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.EntityId = gymCreateEditMemberViewModel.GymMemberDetailId;
+                generalPersonModel.UserType = UserTypeEnum.GymMember.ToString();
                 GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Info);

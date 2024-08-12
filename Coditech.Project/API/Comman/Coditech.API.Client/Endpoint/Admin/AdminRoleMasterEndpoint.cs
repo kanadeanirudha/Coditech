@@ -39,5 +39,10 @@ namespace Coditech.API.Endpoint
         public string AssociateUnAssociateAdminRoleToUserAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/AssociateUnAssociateAdminRoleToUser";
 
+        public string GetAdminRoleWiseMediaFolderActionByIdAsync(int adminRoleMasterId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/GetAdminRoleWiseMediaFolderActionById?adminRoleMasterId={adminRoleMasterId}";
+       
+        public string InsertUpdateAdminRoleWiseMediaFolderActionAsync() =>
+              $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AdminRoleMaster/InsertUpdateAdminRoleWiseMediaFolderAction";
     }
 }

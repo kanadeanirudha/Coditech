@@ -18,6 +18,7 @@ namespace Coditech.API.Mapper
             CreateMap<AdminSanctionPost, AdminSanctionPostModel>().ReverseMap();
             CreateMap<AdminRoleMaster, AdminRoleModel>().ReverseMap();
             CreateMap<AdminRoleApplicableDetails, AdminRoleApplicableDetailsModel>().ReverseMap();
+            CreateMap<AdminRoleMediaFolderAction, AdminRoleMediaFolderActionModel>().ReverseMap();
 
             CreateMap<GeneralDepartmentMaster, GeneralDepartmentModel>().ReverseMap();
             CreateMap<GeneralCountryMaster, GeneralCountryModel>().ReverseMap();
@@ -54,6 +55,9 @@ namespace Coditech.API.Mapper
             CreateMap<OrganisationCentrewiseWhatsAppSetting, OrganisationCentrewiseWhatsAppSettingModel>().ReverseMap();
             CreateMap<LogMessage, LogMessageModel>().ReverseMap();
             CreateMap<GeneralSmsProvider, GeneralSmsProviderModel>().ReverseMap();
+            CreateMap<GeneralWhatsAppProvider, GeneralWhatsAppProviderModel>().ReverseMap();
+            CreateMap<GeneralDistrictMaster, GeneralDistrictModel>().ReverseMap();
+
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();

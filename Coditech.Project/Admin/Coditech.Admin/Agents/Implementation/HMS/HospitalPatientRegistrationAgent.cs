@@ -117,6 +117,7 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Info);
                 GeneralPersonModel generalPersonModel = hospitalPatientRegistrationCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.EntityId = hospitalPatientRegistrationCreateEditViewModel.HospitalPatientRegistrationId;
+                generalPersonModel.UserType = UserTypeEnum.Patient.ToString();
                 GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Info);

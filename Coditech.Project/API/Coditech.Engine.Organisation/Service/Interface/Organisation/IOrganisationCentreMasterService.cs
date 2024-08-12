@@ -22,7 +22,7 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
         bool UpdateCentrewiseSmsSetup(OrganisationCentrewiseSmsSettingModel model);
         OrganisationCentrewiseWhatsAppSettingModel GetCentrewiseWhatsAppSetup(short organisationCentreMasterId, byte generalWhatsAppProviderId);
         bool UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingModel model);
-        OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
+        OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode, string templateType);
         bool UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
         OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreMasterId,short organisationCentrewiseUserNameRegistrationId=0);
         bool UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel model);

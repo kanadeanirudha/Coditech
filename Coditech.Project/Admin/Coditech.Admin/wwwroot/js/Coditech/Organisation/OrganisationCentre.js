@@ -5,7 +5,7 @@
     constructor: function () {
     },
 
-    GetEmailTemplateByCentreCode: function (organisationCentreMasterId) {
+    GetEmailTemplateByCentreCode: function (organisationCentreMasterId, templateType) {
         var selectedItem = $("#EmailTemplateCode").val();
         if (selectedItem != "") {
             CoditechCommon.ShowLodder();
@@ -14,7 +14,7 @@
                 type: "GET",
                 dataType: "html",
                 url: "/OrganisationCentreMaster/GetEmailTemplateByCentreCode",
-                data: { "organisationCentreId": organisationCentreMasterId, "emailTemplateCode": selectedItem },
+                data: { "organisationCentreId": organisationCentreMasterId, "emailTemplateCode": selectedItem, "templateType": templateType },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     $("#emailTemplateId").html("").html(data);

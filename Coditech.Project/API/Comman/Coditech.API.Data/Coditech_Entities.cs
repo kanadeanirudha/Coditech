@@ -36,6 +36,8 @@ namespace Coditech.API.Data
         public DbSet<GeneralSmsProvider> GeneralSmsProvider { get; set; }
         public DbSet<GeneralWhatsAppProvider> GeneralWhatsAppProvider { get; set; }
         public DbSet<CoditechApplicationSetting> CoditechApplicationSetting { get; set; }
+        public DbSet<GeneralDistrictMaster> GeneralDistrictMaster { get; set; }
+
         #endregion
 
         #region Organisation
@@ -59,6 +61,7 @@ namespace Coditech.API.Data
         public DbSet<AdminRoleMaster> AdminRoleMaster { get; set; }
         public DbSet<AdminRoleMenuDetails> AdminRoleMenuDetails { get; set; }
         public DbSet<AdminSanctionPost> AdminSanctionPost { get; set; }
+        public DbSet<AdminRoleMediaFolderAction> AdminRoleMediaFolderAction { get; set; }
         #endregion
 
         #region User

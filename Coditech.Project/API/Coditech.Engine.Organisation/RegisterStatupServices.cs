@@ -247,6 +247,8 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<ICoditechApplicationSettingService, CoditechApplicationSettingService>();
             builder.Services.AddScoped<ICoditechGeneralApiService, CoditechGeneralApiService>();
             builder.Services.AddScoped<IGeneralSmsProviderMasterService, GeneralSmsProviderService>();
+            builder.Services.AddScoped<IGeneralWhatsAppProviderMasterService, GeneralWhatsAppProviderService>();
+            builder.Services.AddScoped<IGeneralDistrictMasterService, GeneralDistrictMasterService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();

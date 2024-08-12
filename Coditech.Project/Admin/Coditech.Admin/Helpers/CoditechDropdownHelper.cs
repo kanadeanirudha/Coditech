@@ -132,11 +132,11 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.EmailTemplate.ToString()))
             {
-                GetEmailTemplateCodeList(dropdownViewModel, dropdownList,"email");
+                GetEmailTemplateCodeList(dropdownViewModel, dropdownList, "email");
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SMSTemplate.ToString()))
             {
-                GetEmailTemplateCodeList(dropdownViewModel, dropdownList,"sms");
+                GetEmailTemplateCodeList(dropdownViewModel, dropdownList, "sms");
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.WhatsAppTemplate.ToString()))
             {
@@ -212,25 +212,18 @@ namespace Coditech.Admin.Helpers
 
         private static void GetSMSProviderList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            //GeneralMeasurementUnitListResponse response = new GeneralMeasurementUnitClient().List(null, null, null, 1, int.MaxValue);
-            //GeneralMeasurementUnitListModel list = new GeneralMeasurementUnitListModel() { GeneralMeasurementUnitList = response.GeneralMeasurementUnitList };
-            //dropdownList.Add(new SelectListItem() { Text = "-------Select Measurement Unit-------" });
-            //foreach (var item in list?.GeneralMeasurementUnitList)
-            //{
-            //    dropdownList.Add(new SelectListItem()
-            //    {
-            //        Text = item.MeasurementUnitDisplayName,
-            //        Value = item.GeneralMeasurementUnitMasterId.ToString(),
-            //        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralMeasurementUnitMasterId)
-            //    });
-            //}
+            GeneralSmsProviderListResponse response = new GeneralSmsProviderClient().List(null, null, null, 1, int.MaxValue);
+            GeneralSmsProviderListModel list = new GeneralSmsProviderListModel() { GeneralSmsProviderList = response.GeneralSmsProviderList };
             dropdownList.Add(new SelectListItem() { Text = "-------Select SMS Provider-------", Value = "" });
-            dropdownList.Add(new SelectListItem()
+            foreach (var item in list?.GeneralSmsProviderList)
             {
-                Text = "Twilio",
-                Value = "1",
-                Selected = "1" == dropdownViewModel.DropdownSelectedValue
-            });
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.ProviderName,
+                    Value = item.GeneralSmsProviderId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralSmsProviderId)
+                });
+            }
         }
         private static void GetMeasurementUnitList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
@@ -824,9 +817,9 @@ namespace Coditech.Admin.Helpers
             }
             GeneralEmailTemplateListResponse response = new GeneralEmailTemplateClient().List(null, filters, null, 1, int.MaxValue);
             if (dropdownViewModel.IsRequired)
-                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Email Template-------" });
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Template-------" });
             else
-                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Email Template-------" });
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Template-------" });
 
             GeneralEmailTemplateListModel list = new GeneralEmailTemplateListModel { GeneralEmailTemplateList = response.GeneralEmailTemplateList };
             foreach (var item in list.GeneralEmailTemplateList?.Where(x => x.IsActive))
