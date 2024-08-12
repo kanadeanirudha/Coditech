@@ -1029,17 +1029,17 @@ namespace Coditech.Admin.Helpers
 
         private static void GetHospitalPathologyTestGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            HospitalPathologyTestListResponse response = new HospitalPathologyTestClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Pathology Test -------" });
+            HospitalPathologyTestGroupListResponse response = new HospitalPathologyTestGroupClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Pathology Test Group-------" });
 
-            HospitalPathologyTestListModel list = new HospitalPathologyTestListModel { HospitalPathologyTestList = response.HospitalPathologyTestList };
-            foreach (var item in list.HospitalPathologyTestList)
+            HospitalPathologyTestGroupListModel list = new HospitalPathologyTestGroupListModel { HospitalPathologyTestGroupList = response.HospitalPathologyTestGroupList };
+            foreach (var item in list.HospitalPathologyTestGroupList)
             {
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = item.PathologyTestGroupName,
-                    Value = Convert.ToString(item.HospitalPathologyTestId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPathologyTestId)
+                    Value = Convert.ToString(item.HospitalPathologyTestGroupId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPathologyTestGroupId)
                 });
             }
         }

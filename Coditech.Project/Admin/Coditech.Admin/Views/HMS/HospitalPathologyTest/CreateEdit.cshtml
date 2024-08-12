@@ -41,7 +41,7 @@
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PathologyTestGroupName, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", pathologyTestGroup)
-                                        @Html.ValidationMessageFor(x => x.PathologyTestGroupName)
+                                        @Html.ValidationMessageFor(x => x.HospitalPathologyTestGroupId)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
