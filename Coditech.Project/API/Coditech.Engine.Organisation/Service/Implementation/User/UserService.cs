@@ -96,7 +96,7 @@ namespace Coditech.API.Service
                     userModel.BalanceSheetList = BindAccountBalanceSheetByRoleId(userModel);
 
                     //Bind accessible Centre
-                    List<string> centreCodeList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.Select(y => y.CentreCode)?.ToList();
+                    List<string> centreCodeList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId && x.IsActive)?.Select(y => y.CentreCode)?.ToList();
                     List<UserAccessibleCentreModel> allCentreList = OrganisationCentreList();
                     foreach (string centreCode in centreCodeList)
                     {
@@ -126,7 +126,7 @@ namespace Coditech.API.Service
 
             string userName = DecodeBase64(resetPasswordModel.ResetPasswordToken);
 
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userName);
+            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserName == userName)?.FirstOrDefault();
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, "Please make sure that the Username you entered is correct.");
@@ -632,6 +632,7 @@ namespace Coditech.API.Service
             {
                 userMaster.UserName = generalPersonModel.PersonCode;
             }
+            generalPersonModel.UserName = userMaster.UserName;
             userMaster = _userMasterRepository.Insert(userMaster);
         }
 
@@ -832,9 +833,14 @@ namespace Coditech.API.Service
 
         protected virtual string ReplaceEmployeeEmailTemplate(GeneralPersonModel generalPersonModel, string emailTemplate)
         {
+            List<CoditechApplicationSetting> coditechApplicationSettingList = CoditechApplicationSetting();
+            string centreUrl = coditechApplicationSettingList.First(x => x.ApplicationCode == "CoditechAdminRootUri")?.ApplicationValue1;
             string messageText = emailTemplate;
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreUrl, centreUrl, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.EmployeeUsername, generalPersonModel.UserName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.TemporaryPassword, generalPersonModel.Password, messageText);
             return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
         }
 
