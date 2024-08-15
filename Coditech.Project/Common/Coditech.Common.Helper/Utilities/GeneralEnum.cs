@@ -183,6 +183,7 @@
         RenameFolder,
         MoveFolder,
         DeleteFolder,
+        UploadFile,
         DeleteFile,
     }
 }
