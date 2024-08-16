@@ -18,6 +18,5 @@ namespace Coditech.Common.API.Model
         [MaxLength(200)]
         public string FileName { get; set; }
         public string LineNumber { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
     }
 }

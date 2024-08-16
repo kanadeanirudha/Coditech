@@ -103,7 +103,7 @@ namespace Coditech.API.Service
             if (IsNull(gymUserModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.FirstOrDefault(x => x.GymMemberDetailId == gymUserModel.EntityId);
+            GymMemberDetails gymMemberDetails = _gymMemberDetailsRepository.Table.Where(x => x.GymMemberDetailId == gymUserModel.EntityId)?.FirstOrDefault();
 
             if (IsNull(gymMemberDetails))
             {
@@ -112,6 +112,8 @@ namespace Coditech.API.Service
             }
             else
             {
+                UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.EntityId == gymUserModel.EntityId && x.UserType == UserTypeEnum.GymMember.ToString())?.FirstOrDefault();
+                gymUserModel.ModifiedBy = Convert.ToInt64(userMasterData.ModifiedBy);
                 gymMemberDetails.MedicalHistory = gymUserModel.MedicalHistory;
                 gymMemberDetails.PastInjuries = gymUserModel.PastInjuries;
                 gymMemberDetails.OtherInformation = gymUserModel.OtherInformation;
@@ -119,7 +121,7 @@ namespace Coditech.API.Service
                 bool status = _gymMemberDetailsRepository.Update(gymMemberDetails);
                 if (status)
                 {
-                    GeneralPerson generalPerson = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == gymMemberDetails.PersonId);
+                    GeneralPerson generalPerson = _generalPersonRepository.Table.Where(x => x.PersonId == gymMemberDetails.PersonId)?.FirstOrDefault();
                     if (IsNotNull(generalPerson))
                     {
                         generalPerson.MaritalStatus = gymUserModel.MaritalStatus;
@@ -134,10 +136,10 @@ namespace Coditech.API.Service
                         status = _generalPersonRepository.Update(generalPerson);
                         if (status)
                         {
-                            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == gymUserModel.EntityId && x.UserType == UserTypeEnum.GymMember.ToString());
                             if (IsNotNull(userMasterData))
                             {
                                 userMasterData.EmailId = gymUserModel.EmailId;
+                                userMasterData.ModifiedBy = gymUserModel.ModifiedBy;
                                 _userMasterRepository.Update(userMasterData);
                             }
                         }

@@ -70,7 +70,10 @@
         HospitalPatientAppointmentPurpose,
         CentrewiseHospitalPatientsList,
         TimeSlotByDoctorsListAndAppointmentDate,
-        CallingCode
+        CallingCode,
+        HospitalPathologyTestGroup,
+        HospitalPathologyTestGroupParent,
+        TestSampleTypes
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -181,6 +184,7 @@
         RenameFolder,
         MoveFolder,
         DeleteFolder,
+        UploadFile,
         DeleteFile,
     }
 }

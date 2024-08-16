@@ -9,6 +9,7 @@
             MenuList = new List<UserMainMenuModel>();
             BalanceSheetList = new List<UserBalanceSheetModel>();
             AccessibleCentreList = new List<UserAccessibleCentreModel>();
+            AdminRoleMediaFolderActionList = new List<AdminRoleMediaFolderActionModel>();
         }
         public long UserMasterId { get; set; }
         public long EntityId { get; set; }
@@ -39,6 +40,7 @@
         public List<UserAccessibleCentreModel> AccessibleCentreList { get; set; }
         public List<GeneralEnumaratorModel> GeneralEnumaratorList { get; set; }
         public List<GeneralSystemGlobleSettingModel> GeneralSystemGlobleSettingList { get; set; }
+        public List<AdminRoleMediaFolderActionModel> AdminRoleMediaFolderActionList { get; set; }
         public string ImagePath { get; set; }
     }
 }
