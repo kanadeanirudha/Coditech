@@ -190,6 +190,11 @@ namespace Coditech.Admin
             CreateMap<FolderListModel, FolderListViewModel>().ReverseMap();
             #endregion
 
+            #region Gazette
+            CreateMap<GazetteChaptersModel, GazetteChaptersViewModel>().ReverseMap();
+            CreateMap<GazetteChaptersListModel, GazetteChaptersListViewModel>().ReverseMap();
+            #endregion
+
             #region LogMessage 
             CreateMap<LogMessageModel, LogMessageViewModel>().ReverseMap();
             CreateMap<LogMessageListModel, LogMessageListViewModel>().ReverseMap();

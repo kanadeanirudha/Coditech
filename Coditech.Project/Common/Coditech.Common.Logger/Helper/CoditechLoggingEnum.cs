@@ -95,7 +95,8 @@
             MediaSettingMaster,
             SmsProviderMaster,
             WhatsAppProviderMaster,
-            District
+            District,
+            GazetteChapter
         }
     }
 }

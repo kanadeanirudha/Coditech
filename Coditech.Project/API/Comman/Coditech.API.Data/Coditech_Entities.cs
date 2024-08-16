@@ -140,6 +140,11 @@ namespace Coditech.API.Data
 
         #endregion
 
+        #region Gazette
+        public DbSet<GazetteChapters> GazetteChapters { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }

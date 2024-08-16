@@ -112,6 +112,31 @@
             $("#GeneralRegionMasterId").html("");
         }
     },
+    GetDistrictListByRegionId: function () {
+        var selectedItem = $("#GeneralRegionMasterId").val();
+        if (selectedItem != "") {
+            CoditechCommon.ShowLodder();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "html",
+                url: "/GeneralCommanData/GetDistrictListByRegionId",
+                data: { "generalRegionMasterId": selectedItem },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#GeneralDistrictMasterId").html("").html(data);
+                    CoditechCommon.HideLodder();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve District.", "error")
+                    CoditechCommon.HideLodder();
+                }
+            });
+        }
+        else {
+            $("#GeneralDistrictMasterId").html("");
+        }
+    },
     ValidNumeric: function () {
         var charCode = (event.which) ? event.which : event.keyCode;
         if (charCode >= 48 && charCode <= 57) { return true; }
