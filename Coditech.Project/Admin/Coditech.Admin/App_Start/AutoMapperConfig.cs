@@ -66,6 +66,9 @@ namespace Coditech.Admin
             CreateMap<GeneralSmsProviderModel, GeneralSmsProviderViewModel>().ReverseMap();
             CreateMap<GeneralWhatsAppProviderListModel, GeneralWhatsAppProviderListViewModel>().ReverseMap();
             CreateMap<GeneralWhatsAppProviderModel, GeneralWhatsAppProviderViewModel>().ReverseMap();
+            CreateMap<GeneralDistrictModel, GeneralDistrictViewModel>().ReverseMap();
+            CreateMap<GeneralDistrictListModel, GeneralDistrictListViewModel>().ReverseMap();
+
             #endregion            
 
             #region Organisation
@@ -143,6 +146,11 @@ namespace Coditech.Admin
             CreateMap<HospitalPatientAppointmentListModel, HospitalPatientAppointmentListViewModel>().ReverseMap();
             CreateMap<HospitalPatientAppointmentPurposeModel, HospitalPatientAppointmentPurposeViewModel>().ReverseMap();
             CreateMap<HospitalPatientAppointmentPurposeListModel, HospitalPatientAppointmentPurposeListViewModel>().ReverseMap();
+
+            CreateMap<HospitalPathologyTestGroupModel, HospitalPathologyTestGroupViewModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestGroupListModel, HospitalPathologyTestGroupListViewModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestModel, HospitalPathologyTestViewModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestListModel, HospitalPathologyTestListViewModel>().ReverseMap();
             #endregion
 
             #region Inventory

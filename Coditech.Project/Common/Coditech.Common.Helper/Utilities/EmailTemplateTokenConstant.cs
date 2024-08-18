@@ -9,5 +9,8 @@
         public static string LastName { get; } = "#LastName#";
         public static string Url { get; } = "#Url#";
         public static string OTP { get; } = "#OTP#";
+        public static string CentreUrl { get; } = "#CentreUrl#";
+        public static string EmployeeUsername { get; } = "#EmployeeUsername#";
+        public static string TemporaryPassword { get; } = "#TemporaryPassword#";
     }
 }

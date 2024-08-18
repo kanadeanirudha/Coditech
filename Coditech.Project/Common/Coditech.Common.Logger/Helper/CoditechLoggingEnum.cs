@@ -93,8 +93,11 @@
             CentrewiseWhatsAppTemplate,
             LogMessage,
             MediaSettingMaster,
+            WhatsAppProviderMaster,
+            District,
             SmsProviderMaster,
-            WhatsAppProviderMaster
+            HospitalPathologyTestGroup,
+            HospitalPathologyTest
         }
     }
 }

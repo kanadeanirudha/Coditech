@@ -9,17 +9,17 @@ namespace Coditech.Admin.Controllers
 {
     public class InventoryCategoryController : BaseController
     {
-        private readonly IInventoryCategoryAgent _InventoryCategoryService;
+        private readonly IInventoryCategoryAgent _inventoryCategoryAgent;
         private const string createEdit = "~/Views/Inventory/InventoryCategory/CreateEdit.cshtml";
 
         public InventoryCategoryController(IInventoryCategoryAgent inventoryCategoryAgent)
         {
-            _InventoryCategoryService = inventoryCategoryAgent;
+            _inventoryCategoryAgent = inventoryCategoryAgent;
         }
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            InventoryCategoryListViewModel list = _InventoryCategoryService.GetInventoryCategoryList(dataTableModel);
+            InventoryCategoryListViewModel list = _inventoryCategoryAgent.GetInventoryCategoryList(dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Inventory/InventoryCategory/_List.cshtml", list);
@@ -38,7 +38,7 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                inventoryCategoryViewModel = _InventoryCategoryService.CreateInventoryCategory(inventoryCategoryViewModel);
+                inventoryCategoryViewModel = _inventoryCategoryAgent.CreateInventoryCategory(inventoryCategoryViewModel);
                 if (!inventoryCategoryViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
@@ -52,7 +52,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Edit(short inventoryCategoryId)
         {
-            InventoryCategoryViewModel inventoryCategoryViewModel = _InventoryCategoryService.GetInventoryCategory(inventoryCategoryId);
+            InventoryCategoryViewModel inventoryCategoryViewModel = _inventoryCategoryAgent.GetInventoryCategory(inventoryCategoryId);
             return ActionView(createEdit, inventoryCategoryViewModel);
         }
 
@@ -61,7 +61,7 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_InventoryCategoryService.UpdateInventoryCategory(inventoryCategoryViewModel).HasError
+                SetNotificationMessage(_inventoryCategoryAgent.UpdateInventoryCategory(inventoryCategoryViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { InventoryCategoryId = inventoryCategoryViewModel.InventoryCategoryId });
@@ -75,7 +75,7 @@ namespace Coditech.Admin.Controllers
             bool status = false;
             if (!string.IsNullOrEmpty(inventoryCategoryIds))
             {
-                status = _InventoryCategoryService.DeleteInventoryCategory(inventoryCategoryIds, out message);
+                status = _inventoryCategoryAgent.DeleteInventoryCategory(inventoryCategoryIds, out message);
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));

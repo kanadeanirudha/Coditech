@@ -60,6 +60,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ILogMessageAgent, LogMessageAgent>();
             builder.Services.AddScoped<IGeneralSmsProviderAgent, GeneralSmsProviderAgent>();
             builder.Services.AddScoped<IGeneralWhatsAppProviderAgent, GeneralWhatsAppProviderAgent>();
+            builder.Services.AddScoped<IGeneralDistrictAgent, GeneralDistrictAgent>();
+
 
 
             #region HMS
@@ -72,6 +74,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPatientAppointmentPurposeAgent, HospitalPatientAppointmentPurposeAgent>();
             builder.Services.AddScoped<IHospitalPatientTypeAgent, HospitalPatientTypeAgent>();
             builder.Services.AddScoped<IHospitalPatientAppointmentAgent, HospitalPatientAppointmentAgent>();
+            builder.Services.AddScoped<IHospitalPathologyTestGroupAgent, HospitalPathologyTestGroupAgent>();
+            builder.Services.AddScoped<IHospitalPathologyTestAgent, HospitalPathologyTestAgent>();
             #endregion
 
             #region MediaManager
@@ -150,6 +154,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ILogMessageClient, LogMessageClient>();
             builder.Services.AddScoped<IGeneralSmsProviderClient, GeneralSmsProviderClient>();
             builder.Services.AddScoped<IGeneralWhatsAppProviderClient, GeneralWhatsAppProviderClient>();
+            builder.Services.AddScoped<IGeneralDistrictClient, GeneralDistrictClient>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();
@@ -161,6 +166,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPatientTypeClient, HospitalPatientTypeClient>();
             builder.Services.AddScoped<IHospitalPatientAppointmentPurposeClient, HospitalPatientAppointmentPurposeClient>();
             builder.Services.AddScoped<IHospitalPatientAppointmentClient, HospitalPatientAppointmentClient>();
+            builder.Services.AddScoped<IHospitalPathologyTestGroupClient, HospitalPathologyTestGroupClient>();
+            builder.Services.AddScoped<IHospitalPathologyTestClient, HospitalPathologyTestClient>();
             #endregion HMS
 
             #region MediaManager            

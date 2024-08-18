@@ -268,6 +268,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete district due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralDistrictMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralDistrictMaster", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete General Running Numbers due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralRunningNumbers
@@ -416,6 +427,17 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("ErrorDeleteHospitalDoctorsDetails", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPathologyTest
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTest", resourceCulture);
             }
         }
 
@@ -656,6 +678,17 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("ErrorDeleteCoditechApplicationSetting", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPathologyTestGroup
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTestGroup", resourceCulture);
             }
         }
 
@@ -1171,6 +1204,17 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelRegionList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to District List.
+        /// </summary>
+        public static string LabelDistrictList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelDistrictList", resourceCulture);
             }
         }
 
