@@ -97,6 +97,10 @@ namespace Coditech.Admin
 
             #endregion
 
+            #region Gazette
+            builder.Services.AddScoped<IGazetteChaptersAgent, GazetteChaptersAgent>();
+            #endregion
+
             #endregion
 
             #region Client
@@ -172,6 +176,10 @@ namespace Coditech.Admin
 
             #region MediaManager            
             builder.Services.AddScoped<IMediaSettingMasterClient, MediaSettingMasterClient>();
+            #endregion HMS
+
+            #region Gazette          
+            builder.Services.AddScoped<IGazetteChaptersClient, GazetteChaptersClient>();
             #endregion HMS
 
             #endregion Client

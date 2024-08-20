@@ -14,6 +14,7 @@
         TaxGroup,
         Country,
         Region,
+        District,
         ModuleList,
         MenuList,
         Nationality,

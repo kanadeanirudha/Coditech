@@ -87,6 +87,17 @@ namespace Coditech.Admin.Utilities
 #endif
             }
         }
+        public static string CoditechGazetteApiRootUri
+        {
+            get
+            {
+#if DEBUG
+                return Convert.ToString(settings["CoditechGazetteApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}gazette.{settings["ApiDomainName"]}");
+#endif
+            }
+        }
         public static string CoditechMediaManagerApiRootUri
         {
             get
