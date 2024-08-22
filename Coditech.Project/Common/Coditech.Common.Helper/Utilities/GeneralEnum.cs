@@ -73,7 +73,8 @@
         CallingCode,
         HospitalPathologyTestGroup,
         HospitalPathologyTestGroupParent,
-        TestSampleTypes
+        TestSampleTypes,
+        GazetteChapter
     }
 
     public enum GeneralSystemGlobleSettingEnum

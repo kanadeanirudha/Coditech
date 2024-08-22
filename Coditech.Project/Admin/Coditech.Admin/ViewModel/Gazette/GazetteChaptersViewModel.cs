@@ -6,6 +6,9 @@ namespace Coditech.Admin.ViewModel
     public class GazetteChaptersViewModel : BaseViewModel
     {
         public int GazetteChapterId { get; set; }
+
+        [Required]
+        [Display(Name = "District")]
         public short GeneralDistrictMasterId { get; set; }
 
         [MaxLength(500)]
