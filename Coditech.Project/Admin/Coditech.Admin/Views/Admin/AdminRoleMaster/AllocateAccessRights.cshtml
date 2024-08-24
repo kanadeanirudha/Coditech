@@ -45,10 +45,6 @@
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", moduleDropdown)
                                     </div>
                                 </div>
-                                @*  <div class="col-lg-6">
-                            <div class="mb-3">
-                            </div>
-                            </div> *@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.MenuList, new { @class = "form-label" })
@@ -56,7 +52,7 @@
                                             <ul>
                                                 @foreach (UserMainMenuModel item in Model?.MenuList?.Where(x => x.ParentMenuCode == null))
                                                 {
-                                                    <li id="@item.MenuCode" data-jstree='{"opened":true}'>
+                                                    <li id="@item.MenuCode" data-jstree='{"opened":true,"selected":@Convert.ToString(@item.IsAssociatedToAdminRole).ToLower()}'>
                                                         @item.MenuName
                                                         <ul>
                                                             @foreach (UserMainMenuModel childNode in Model?.MenuList?.Where(x => x.ParentMenuCode != null && x.ParentMenuCode == item.MenuCode))
@@ -88,6 +84,7 @@
         $(function () {
             $("#jstree").jstree({
                 "checkbox": {
+                    "three_state": false,
                     "keep_selected_style": false
                 },
                 "plugins": ["checkbox"]

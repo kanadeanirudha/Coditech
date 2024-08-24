@@ -568,5 +568,108 @@ namespace Coditech.API.Client
             }
         }
 
+        public virtual AdminRoleMediaFoldersResponse GetAdminRoleWiseMediaFoldersById(int adminRoleMasterId)
+        {
+            return Task.Run(async () => await GetAdminRoleWiseMediaFoldersByIdAsync(adminRoleMasterId, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<AdminRoleMediaFoldersResponse> GetAdminRoleWiseMediaFoldersByIdAsync(int adminRoleMasterId, CancellationToken cancellationToken)
+        {
+            if (adminRoleMasterId <= 0)
+                throw new System.ArgumentNullException("adminRoleMasterId");
+
+            string endpoint = adminRoleMasterEndpoint.GetAdminRoleWiseMediaFoldersByIdAsync(adminRoleMasterId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleMediaFoldersResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new AdminRoleMediaFoldersResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    AdminRoleMediaFoldersResponse typedBody = JsonConvert.DeserializeObject<AdminRoleMediaFoldersResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual AdminRoleMediaFoldersResponse InsertUpdateAdminRoleWiseMediaFolders(AdminRoleMediaFoldersModel body)
+        {
+            return Task.Run(async () => await InsertUpdateAdminRoleWiseMediaFoldersAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<AdminRoleMediaFoldersResponse> InsertUpdateAdminRoleWiseMediaFoldersAsync(AdminRoleMediaFoldersModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = adminRoleMasterEndpoint.InsertUpdateAdminRoleWiseMediaFoldersAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleMediaFoldersResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AdminRoleMediaFoldersResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    AdminRoleMediaFoldersResponse typedBody = JsonConvert.DeserializeObject<AdminRoleMediaFoldersResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
     }
 }

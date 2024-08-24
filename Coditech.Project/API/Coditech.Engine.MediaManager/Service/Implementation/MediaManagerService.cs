@@ -308,12 +308,13 @@ namespace Coditech.API.Service
                 };
 
                 long TotalFileSizeInByte = 0;
+                string url = GetMediaUrl();
                 foreach (Media media in managerFolderResponse.MediaManagerFolderModel.MediaFiles)
                 {
                     TotalFileSizeInByte += media.MediaSize;
-                    media.MediaPath = $"{GetMediaUrl()}{media.MediaPath}";
+                    media.MediaPath = $"{url}{media.MediaPath}";
                 }
-                
+
                 managerFolderResponse.MediaManagerFolderModel.TotalFileSize = TotalFileSizeInByte > 0 ? ConvertBytesToMegabytes(TotalFileSizeInByte) : 0;
 
                 return await Task.FromResult(managerFolderResponse);
@@ -326,18 +327,18 @@ namespace Coditech.API.Service
 
         public async Task<FolderListResponse> GetAllFolders()
         {
-            try 
+            try
             {
                 FolderListResponse folderListResponse = new();
-                folderListResponse.FolderList.Folders = [.. (from folder in _mediaFolderMasterRepository.Table 
-                                                             select new Folder() 
+                folderListResponse.FolderList.Folders = [.. (from folder in _mediaFolderMasterRepository.Table
+                                                             select new Folder()
                                                              {
                                                                  FolderId = folder.MediaFolderMasterId,
                                                                  FolderName = folder.FolderName
                                                              })];
                 return await Task.FromResult(folderListResponse);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -353,7 +354,7 @@ namespace Coditech.API.Service
                 {
                     mediaFolderMaster.MediaFolderParentId = destinationFolderId;
                     mediaFolderMaster.ModifiedDate = DateTime.Now;
-                    
+
                     return await _mediaFolderMasterRepository.UpdateAsync(mediaFolderMaster);
                 }
                 return await Task.FromResult(false);
@@ -416,7 +417,7 @@ namespace Coditech.API.Service
                 }
             }
             catch (Exception ex)
-            { 
+            {
             }
         }
 
@@ -500,7 +501,7 @@ namespace Coditech.API.Service
                 {
                     mediaFolderMaster.FolderName = RenameFolderName;
                     mediaFolderMaster.ModifiedDate = DateTime.Now;
-                    
+
                     return await _mediaFolderMasterRepository.UpdateAsync(mediaFolderMaster);
                 }
             }
@@ -513,7 +514,7 @@ namespace Coditech.API.Service
             {
                 bool isFolderExist = _mediaFolderMasterRepository.Table.Any(x => x.FolderName == FolderName && x.MediaFolderParentId == RootFolderId);
 
-                if(isFolderExist)
+                if (isFolderExist)
                 {
                     return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Folder already exist.", IsSuccess = false, HasError = true }, IsSuccess = false };
                 }

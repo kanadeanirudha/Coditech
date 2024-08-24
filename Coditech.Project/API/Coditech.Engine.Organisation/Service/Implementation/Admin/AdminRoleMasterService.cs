@@ -25,6 +25,8 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AdminRoleMenuDetails> _adminRoleMenuDetailsRepository;
         private readonly ICoditechRepository<AdminRoleApplicableDetails> _adminRoleApplicableDetailsRepository;
         private readonly ICoditechRepository<AdminRoleMediaFolderAction> _adminRoleMediaFolderActionRepository;
+        private readonly ICoditechRepository<AdminRoleMediaFolders> _adminRoleMediaFoldersRepository;
+        private readonly ICoditechRepository<MediaFolderMaster> _mediaFolderMasterRepository;
         public AdminRoleMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -35,6 +37,8 @@ namespace Coditech.API.Service
             _adminRoleMenuDetailsRepository = new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleApplicableDetailsRepository = new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _adminRoleMediaFolderActionRepository = new CoditechRepository<AdminRoleMediaFolderAction>(_serviceProvider.GetService<Coditech_Entities>());
+            _adminRoleMediaFoldersRepository = new CoditechRepository<AdminRoleMediaFolders>(_serviceProvider.GetService<Coditech_Entities>());
+            _mediaFolderMasterRepository = new CoditechRepository<MediaFolderMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -428,6 +432,128 @@ namespace Coditech.API.Service
             }
             return status;
         }
+
+        //Get Admin Role Wise Folder Access By Id
+        public virtual AdminRoleMediaFoldersModel GetAdminRoleWiseMediaFoldersById(int adminRoleMasterId)
+        {
+            if (adminRoleMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            //Get the adminRoleMaster Details based on id.
+            AdminRoleMaster adminRoleMasterData = _adminRoleMasterRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId)?.FirstOrDefault();
+            AdminRoleMediaFoldersModel adminRoleMediaFoldersModel = new AdminRoleMediaFoldersModel();
+            if (IsNotNull(adminRoleMasterData))
+            {
+                adminRoleMediaFoldersModel.AdminRoleMasterId = adminRoleMasterData.AdminRoleMasterId;
+                adminRoleMediaFoldersModel.AdminRoleCode = adminRoleMasterData.AdminRoleCode;
+                adminRoleMediaFoldersModel.SanctionPostName = adminRoleMasterData.SanctionPostName;
+
+                AdminSanctionPost adminSanctionPost = _adminSanctionPostRepository.GetById(adminRoleMasterData.AdminSanctionPostId);
+                if (IsNotNull(adminSanctionPost))
+                {
+                    adminRoleMediaFoldersModel.SelectedCentreCode = adminSanctionPost.CentreCode;
+                    adminRoleMediaFoldersModel.SelectedDepartmentId = Convert.ToString(adminSanctionPost.DepartmentId);
+                }
+                List<MediaFolderMaster> list = _mediaFolderMasterRepository.Table.Where(x => x.IsActive)?.ToList();
+                if (list?.Count > 0)
+                {
+                    adminRoleMediaFoldersModel.TreeViewList = new List<TreeViewModel>();
+                    List<AdminRoleMediaFolders> adminRoleMediaFolderList = _adminRoleMediaFoldersRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMasterId && x.IsActive)?.ToList();
+                    foreach (MediaFolderMaster mediaFolderMaster in list)
+                    {
+                        adminRoleMediaFoldersModel.TreeViewList.Add(new TreeViewModel()
+                        {
+                            id = Convert.ToString(mediaFolderMaster.MediaFolderMasterId),
+                            text = mediaFolderMaster.FolderName,
+                            parent = mediaFolderMaster.MediaFolderParentId > 0 ? Convert.ToString(mediaFolderMaster.MediaFolderParentId) : "#",
+                            state = new State()
+                            {
+                                opened = true,
+                                selected = adminRoleMediaFolderList?.Count > 0 ? adminRoleMediaFolderList.Any(x => x.MediaFolderMasterId == mediaFolderMaster.MediaFolderMasterId) : false,
+                            }
+                        });
+                    }
+                }
+            }
+            return adminRoleMediaFoldersModel;
+        }
+
+        //Insert Update Admin Role Media Folder
+        public virtual bool InsertUpdateAdminRoleWiseMediaFolders(AdminRoleMediaFoldersModel adminRoleMediaFoldersModel)
+        {
+            if (IsNull(adminRoleMediaFoldersModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+            if (adminRoleMediaFoldersModel.AdminRoleMasterId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AdminRoleMasterId"));
+
+            List<AdminRoleMediaFolders> associatedMediaFolderList = _adminRoleMediaFoldersRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleMediaFoldersModel.AdminRoleMasterId)?.ToList();
+            List<AdminRoleMediaFolders> insertList = new List<AdminRoleMediaFolders>();
+            if (associatedMediaFolderList?.Count > 0)
+            {
+                List<AdminRoleMediaFolders> updateList = new List<AdminRoleMediaFolders>();
+                if (string.IsNullOrEmpty(adminRoleMediaFoldersModel.SelectedMediaFolderList))
+                {
+                    associatedMediaFolderList.ForEach(x => { x.IsActive = false; });
+                    _adminRoleMediaFoldersRepository.BatchUpdate(associatedMediaFolderList);
+                }
+                else
+                {
+                    List<string> selectedMediaFolderList = adminRoleMediaFoldersModel.SelectedMediaFolderList.Split(',')?.ToList();
+                    foreach (AdminRoleMediaFolders item in associatedMediaFolderList)
+                    {
+                        if (!selectedMediaFolderList.Where(x => x == Convert.ToString(item.MediaFolderMasterId)).Any())
+                        {
+                            item.IsActive = false;
+                            updateList.Add(item);
+                        }
+                        else
+                        {
+                            item.IsActive = true;
+                            updateList.Add(item);
+                        }
+                    }
+
+                    foreach (string item in selectedMediaFolderList)
+                    {
+                        if (!associatedMediaFolderList.Where(x => x.MediaFolderMasterId == Convert.ToInt32(item)).Any())
+                        {
+                            insertList.Add(new AdminRoleMediaFolders()
+                            {
+                                AdminRoleMasterId = adminRoleMediaFoldersModel.AdminRoleMasterId,
+                                MediaFolderMasterId = Convert.ToInt32(item),
+                                IsActive = true
+                            });
+                        }
+                    }
+
+                    if (updateList?.Count > 0)
+                    {
+                        _adminRoleMediaFoldersRepository.BatchUpdate(updateList);
+                    }
+                    if (insertList?.Count > 0)
+                    {
+                        _adminRoleMediaFoldersRepository.Insert(insertList);
+                    }
+                }
+            }
+            else
+            {
+
+                foreach (string item in adminRoleMediaFoldersModel.SelectedMediaFolderList.Split(','))
+                {
+                    insertList.Add(new AdminRoleMediaFolders()
+                    {
+                        AdminRoleMasterId = adminRoleMediaFoldersModel.AdminRoleMasterId,
+                        MediaFolderMasterId = Convert.ToInt32(item),
+                        IsActive = true
+                    });
+                }
+                _adminRoleMediaFoldersRepository.Insert(insertList);
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region protected

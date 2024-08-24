@@ -62,6 +62,7 @@ namespace Coditech.API.Data
         public DbSet<AdminRoleMenuDetails> AdminRoleMenuDetails { get; set; }
         public DbSet<AdminSanctionPost> AdminSanctionPost { get; set; }
         public DbSet<AdminRoleMediaFolderAction> AdminRoleMediaFolderAction { get; set; }
+        public DbSet<AdminRoleMediaFolders> AdminRoleMediaFolders { get; set; }
         #endregion
 
         #region User

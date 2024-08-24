@@ -82,5 +82,19 @@ namespace Coditech.API.Client
         /// <param name="AdminRoleMediaFolderActionModel">AdminRoleMediaFolderActionModel.</param>
         /// <returns>Returns updated AdminRoleMediaFolderActionResponse</returns>
         AdminRoleMediaFolderActionResponse InsertUpdateAdminRoleWiseMediaFolderAction(AdminRoleMediaFolderActionModel body);
+
+        /// <summary>
+        ///  Get Admin Role Wise Media Folders By Id
+        /// </summary>
+        /// <param name="adminRoleMasterId">adminRoleMasterId</param>
+        /// <returns>Returns AdminRoleMediaFoldersResponse.</returns>
+        AdminRoleMediaFoldersResponse GetAdminRoleWiseMediaFoldersById(int adminRoleMasterId);
+
+        /// <summary>
+        /// Update Admin RoleWise Media Folder.
+        /// </summary>
+        /// <param name="AdminRoleMediaFoldersModel">AdminRoleMediaFoldersModel.</param>
+        /// <returns>Returns updated AdminRoleMediaFoldersResponse</returns>
+        AdminRoleMediaFoldersResponse InsertUpdateAdminRoleWiseMediaFolders(AdminRoleMediaFoldersModel body);
     }
 }

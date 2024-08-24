@@ -171,6 +171,33 @@ namespace Coditech.Admin.Controllers
             }
             return View("~/Views/Admin/AdminRoleMaster/RoleWiseFolderAction.cshtml", adminRoleMediaFolderActionViewModel);
         }
+
+        public virtual ActionResult RoleWiseFolderAccess(int adminRoleMasterId)
+        {
+            AdminRoleMediaFoldersViewModel adminRoleMediaFoldersViewModel = _adminRoleMasterAgent.GetAdminRoleWiseMediaFoldersById(adminRoleMasterId);
+            adminRoleMediaFoldersViewModel.TreeViewJson = Newtonsoft.Json.JsonConvert.SerializeObject(adminRoleMediaFoldersViewModel.TreeViewList);
+            return View("~/Views/Admin/AdminRoleMaster/RoleWiseFolders.cshtml", adminRoleMediaFoldersViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult RoleWiseFolderAccess(AdminRoleMediaFoldersViewModel adminRoleMediaFoldersViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bool status = _adminRoleMasterAgent.InsertUpdateAdminRoleWiseMediaFolders(adminRoleMediaFoldersViewModel).HasError;
+                SetNotificationMessage(status
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+
+                if (!status)
+                {
+                    return RedirectToAction("RoleWiseFolderAccess", new { adminRoleMasterId = adminRoleMediaFoldersViewModel.AdminRoleMasterId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(adminRoleMediaFoldersViewModel.ErrorMessage));
+            return RedirectToAction("RoleWiseFolderAccess", new { adminRoleMasterId = adminRoleMediaFoldersViewModel.AdminRoleMasterId });
+        }
+
         #region Protected
         protected virtual void BindDropdown(AdminRoleViewModel adminRoleViewModel)
         {
