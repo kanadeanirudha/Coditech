@@ -32,7 +32,7 @@ namespace Coditech.API.Client
             try
             {
                 ApiStatus status = new ApiStatus();
-               
+
                 response = await GetResourceFromEndpointAsync(endpoint, status, CancellationToken.None).ConfigureAwait(false);
                 Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
                 var status_ = (int)response.StatusCode;

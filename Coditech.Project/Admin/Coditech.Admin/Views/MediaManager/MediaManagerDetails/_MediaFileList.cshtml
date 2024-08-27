@@ -1,13 +1,28 @@
 ﻿@model List<Coditech.Common.API.Model.Media>
+@{
+    UserModel userInfo = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
+
+    AdminRoleMediaFolderActionModel adminRoleMediaFolderActionModel = new AdminRoleMediaFolderActionModel();
+    if (!userInfo.IsAdminUser)
+    {
+        if (userInfo?.AdminRoleMediaFolderActionList?.Count > 0)
+        {
+            adminRoleMediaFolderActionModel = userInfo?.AdminRoleMediaFolderActionList.Where(x => x.AdminRoleMasterId == userInfo.SelectedAdminRoleMasterId).FirstOrDefault();
+        }
+    }
+}
 <div class="card-body">
     <div class="d-flex file-box-content flex-wrap gap-3 justify-content-start">
         @foreach (var media in Model)
         {
             <div class="file-box">
                 <div class="align-items-center card-action-block d-flex flex-row-reverse justify-content-between mb-2">
-                    <a class="download-icon-link" data-media-id="@media.MediaId" onclick="openDeleteFileModal('@media.MediaId', '@media.ActiveFolderId')">
-                        <i class="dripicons-cross file-download-icon"></i>
-                    </a>
+                    @if ((userInfo?.IsAdminUser ?? false) || adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals("DeleteFile")))
+                    {
+                        <a class="download-icon-link" data-media-id="@media.MediaId" onclick="openDeleteFileModal('@media.MediaId', '@media.ActiveFolderId')">
+                            <i class="dripicons-cross file-download-icon"></i>
+                        </a>
+                    }
                     <a href="@media.MediaPath" class="download-icon-link">
                         <i class="dripicons-download file-download-icon"></i>
                     </a>

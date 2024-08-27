@@ -79,6 +79,7 @@ namespace Coditech.API.Service
             List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
             List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
             List<AdminRoleMenuDetails> userRoleMenuList = new List<AdminRoleMenuDetails>();
+            List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList = GetAllRoleMediaFolderActionList();
             if (!userModel.IsAdminUser)
             {
                 userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.ToList();
@@ -90,7 +91,7 @@ namespace Coditech.API.Service
                 {
                     userAllModuleList = userAllModuleList.Where(x => x.ModuleCode != "CODITECHTOOLKIT")?.ToList();
                     //Bind Menu And Modules For Admin User
-                    BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
+                    BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList, userRoleMediaFolderActionList);
 
                     //Bind Balance Sheet
                     userModel.BalanceSheetList = BindAccountBalanceSheetByRoleId(userModel);
@@ -544,7 +545,7 @@ namespace Coditech.API.Service
         }
 
         //Bind Menu And Modules For Non Admin User
-        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetails> userRoleMenuList)
+        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetails> userRoleMenuList, List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList)
         {
             //Bind Menu & Module for non admin user
             foreach (AdminRoleMenuDetails item in userRoleMenuList)
@@ -577,6 +578,18 @@ namespace Coditech.API.Service
                         }
                     }
                 }
+            }
+
+            userModel.AdminRoleMediaFolderActionList = new List<AdminRoleMediaFolderActionModel>();
+
+            foreach (AdminRoleMediaFolderAction userRoleMediaFolderAction in userRoleMediaFolderActionList)
+            {              
+                userModel.AdminRoleMediaFolderActionList.Add(new AdminRoleMediaFolderActionModel()
+                {
+                    AdminRoleMediaFolderActionId = userRoleMediaFolderAction.AdminRoleMediaFolderActionId,
+                    AdminRoleMasterId = userRoleMediaFolderAction.AdminRoleMasterId,
+                    SelectedMediaActions = userRoleMediaFolderAction.MediaAction?.Split(",").ToList()
+                });
             }
         }
 
