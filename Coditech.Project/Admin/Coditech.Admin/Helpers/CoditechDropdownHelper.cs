@@ -1055,7 +1055,7 @@ namespace Coditech.Admin.Helpers
             else
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Pathology Test Name-------" });
 
-            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && dropdownViewModel.Parameter != "0")
             {
                 int hospitalPathologyPriceCategoryEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[0]);
                 HospitalPathologyTestPricesListResponse response = new HospitalPathologyTestPricesClient().List(hospitalPathologyPriceCategoryEnumId, null, null, null, 1, int.MaxValue);
