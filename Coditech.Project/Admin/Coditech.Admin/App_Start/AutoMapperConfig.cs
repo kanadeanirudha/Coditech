@@ -151,6 +151,8 @@ namespace Coditech.Admin
             CreateMap<HospitalPathologyTestGroupListModel, HospitalPathologyTestGroupListViewModel>().ReverseMap();
             CreateMap<HospitalPathologyTestModel, HospitalPathologyTestViewModel>().ReverseMap();
             CreateMap<HospitalPathologyTestListModel, HospitalPathologyTestListViewModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestPricesModel, HospitalPathologyTestPricesViewModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestPricesListModel, HospitalPathologyTestPricesListViewModel>().ReverseMap();
             #endregion
 
             #region Inventory

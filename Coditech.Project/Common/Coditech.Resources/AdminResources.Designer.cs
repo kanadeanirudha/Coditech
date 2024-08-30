@@ -442,6 +442,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test Prices due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPathologyTestPrices
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTestPrices", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctor Visiting Charges details due to associate record..
         /// </summary>
         public static string ErrorDeleteHospitalDoctorVisitingCharges
