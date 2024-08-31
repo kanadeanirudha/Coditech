@@ -4,20 +4,20 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
 using System.Data;
-
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class HospitalPathologyTestPricesService : IHospitalPathologyTestPricesService
+    public class HospitalPathologyTestPricesService : BaseService, IHospitalPathologyTestPricesService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<HospitalPathologyTestPrices> _hospitalPathologyTestPricesRepository;
-        public HospitalPathologyTestPricesService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public HospitalPathologyTestPricesService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -71,8 +71,18 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalPathologyTestPricesID"));
 
             //Get the HospitalPathologyTestPrices Details based on id.
-            HospitalPathologyTestPrices hospitalPathologyTestPrices = _hospitalPathologyTestPricesRepository.Table.FirstOrDefault(x => x.HospitalPathologyTestPricesId == hospitalPathologyTestPricesId);
-            HospitalPathologyTestPricesModel hospitalPathologyTestPricesModel = hospitalPathologyTestPrices?.FromEntityToModel<HospitalPathologyTestPricesModel>();
+            HospitalPathologyTestPrices hospitalPathologyTestPrices = _hospitalPathologyTestPricesRepository.Table.Where(x => x.HospitalPathologyTestPricesId == hospitalPathologyTestPricesId)?.FirstOrDefault();
+            HospitalPathologyTestPricesModel hospitalPathologyTestPricesModel = IsNotNull(hospitalPathologyTestPrices) ? hospitalPathologyTestPrices?.FromEntityToModel<HospitalPathologyTestPricesModel>() : new HospitalPathologyTestPricesModel();
+            if (IsNotNull(hospitalPathologyTestPricesModel))
+            {
+                HospitalPathologyTestModel hospitalPathologyTestModel = GetHospitalPathologyTest(hospitalPathologyTestPricesModel.HospitalPathologyTestId);
+                if (IsNotNull(hospitalPathologyTestPricesModel))
+                {
+                    hospitalPathologyTestPricesModel.PathologyTestName = hospitalPathologyTestModel.PathologyTestName;
+                    // hospitalPathologyTestPricesModel.LastName = generalPersonModel.LastName;
+
+                }
+            }
             return hospitalPathologyTestPricesModel;
         }
 
