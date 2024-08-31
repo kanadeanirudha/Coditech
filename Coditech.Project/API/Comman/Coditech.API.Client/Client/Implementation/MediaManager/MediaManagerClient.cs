@@ -23,9 +23,9 @@ namespace Coditech.API.Client
             return Task.Run(async () => await UploadMediaAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0)
+        public virtual async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false)
         {
-            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId);
+            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId, adminRoleId, isAdminUser);
 
             HttpResponseMessage response = null;
             bool disposeResponse = true;

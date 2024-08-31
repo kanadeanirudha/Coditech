@@ -14,7 +14,7 @@
     }
 }
 
-@if ((userInfo?.IsAdminUser ?? false) || adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals("ViewFolder")))
+@if (userInfo.IsAdminUser || Model.adminRoleMediaFolders.Contains(Model.RootFolderId))
 {
     <div class="nav-link d-flex align-items-center @active folder-container"
          data-folder-id="@Model.RootFolderId"
@@ -72,14 +72,27 @@
     </div>
 }
 
-<div class="collapse show" id="collapseFolder-@Model.RootFolderId">
+@if (userInfo.IsAdminUser || Model.adminRoleMediaFolders.Contains(Model.RootFolderId))
+{
+    <div class="collapse show" id="collapseFolder-@Model.RootFolderId">
+        @if (Model.SubFolders.Any())
+        {
+            <div class="ms-4">
+                @foreach (var subFolder in Model.SubFolders)
+                {
+                    @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_FolderStructure.cshtml", subFolder)
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
     @if (Model.SubFolders.Any())
     {
-        <div class="ms-4">
-            @foreach (var subFolder in Model.SubFolders)
-            {
-                @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_FolderStructure.cshtml", subFolder)
-            }
-        </div>
+        @foreach (var subFolder in Model.SubFolders)
+        {
+            @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_FolderStructure.cshtml", subFolder)
+        }
     }
-</div>
+}
