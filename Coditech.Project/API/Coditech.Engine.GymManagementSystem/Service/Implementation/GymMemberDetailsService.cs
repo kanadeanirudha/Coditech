@@ -381,10 +381,9 @@ namespace Coditech.API.Service
                 NetAmount = salesInvoiceDetailList.Sum(x => x.ItemAmount),
                 TaxAmount = salesInvoiceDetailList.Sum(x => x.ItemTaxAmount),
                 DiscountAmount = gymMemberMembershipPlanModel.DiscountAmount,
-
             };
-            salesInvoiceMaster.BillAmount = gymMemberMembershipPlanModel.PlanAmount - salesInvoiceMaster.DiscountAmount;
             salesInvoiceMaster.TotalAmount = salesInvoiceMaster.NetAmount + salesInvoiceMaster.TaxAmount;
+            salesInvoiceMaster.BillAmount = salesInvoiceMaster.TotalAmount - salesInvoiceMaster.DiscountAmount;
 
             long salesInvoiceMasterId = _salesInvoiceMasterRepository.Insert(salesInvoiceMaster).SalesInvoiceMasterId;
             salesInvoiceDetailList.ForEach(x => x.SalesInvoiceMasterId = salesInvoiceMasterId);
