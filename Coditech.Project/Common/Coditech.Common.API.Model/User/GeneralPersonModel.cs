@@ -13,6 +13,7 @@
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public int Age { get; set; }
         public int GenderEnumId { get; set; }
         public string EmailId { get; set; }
         public string PhoneNumber { get; set; }

@@ -285,6 +285,12 @@ namespace Coditech.API.Service
                 }
                 return generalPersonModel;
             }
+
+            if (IsNull(generalPersonModel.DateOfBirth) && generalPersonModel.Age > 0)
+            {
+                generalPersonModel.DateOfBirth = new DateTime(CalculateBirthYear(generalPersonModel.Age), 1, 1);
+            }
+
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
             // Create new Person and return it.
@@ -337,6 +343,10 @@ namespace Coditech.API.Service
             GeneralPerson personData = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == personId);
             GeneralPersonModel generalPersonModel = personData.FromEntityToModel<GeneralPersonModel>();
 
+            if (IsNotNull(generalPersonModel?.DateOfBirth))
+            {
+                generalPersonModel.Age = CalculateAge(Convert.ToDateTime(generalPersonModel.DateOfBirth));
+            }
             if (generalPersonModel.PhotoMediaId > 0)
             {
                 var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId)?.FirstOrDefault();
@@ -583,7 +593,7 @@ namespace Coditech.API.Service
             userModel.AdminRoleMediaFolderActionList = new List<AdminRoleMediaFolderActionModel>();
 
             foreach (AdminRoleMediaFolderAction userRoleMediaFolderAction in userRoleMediaFolderActionList)
-            {              
+            {
                 userModel.AdminRoleMediaFolderActionList.Add(new AdminRoleMediaFolderActionModel()
                 {
                     AdminRoleMediaFolderActionId = userRoleMediaFolderAction.AdminRoleMediaFolderActionId,
@@ -887,6 +897,34 @@ namespace Coditech.API.Service
                 messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreContactNumber, organisationCentreMaster.PhoneNumberOffice, messageText);
             }
             return messageText;
+        }
+
+        protected virtual int CalculateAge(DateTime dateOfBirth)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - dateOfBirth.Year;
+
+            // Go back to the year the person was born in case of a leap year
+            if (dateOfBirth > today.AddYears(-age))
+            {
+                age--;
+            }
+            return age;
+        }
+
+        protected virtual int CalculateBirthYear(int age)
+        {
+            DateTime today = DateTime.Today;
+            int currentYear = today.Year;
+            int birthYear = currentYear - age;
+
+            // Adjust for cases where the birthday hasn't occurred yet this year
+            if (today < new DateTime(currentYear, today.Month, today.Day).AddYears(-age))
+            {
+                birthYear--;
+            }
+
+            return birthYear;
         }
         #endregion
     }
