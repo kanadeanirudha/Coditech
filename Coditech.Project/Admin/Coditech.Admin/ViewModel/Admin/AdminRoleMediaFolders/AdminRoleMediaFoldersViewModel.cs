@@ -1,10 +1,10 @@
-﻿using Coditech.Common.Helper;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
 {
-    public class AdminRoleMediaFolderActionViewModel : BaseViewModel
+    public class AdminRoleMediaFoldersViewModel : BaseViewModel
     {
 		public int AdminRoleMediaFolderActionId { get; set; }
         [Required]
@@ -17,10 +17,14 @@ namespace Coditech.Admin.ViewModel
         public string SanctionPostName { get; set; }
 
         [Required]
-        [Display(Name = "Media Action")]
-        public List<string> SelectedMediaActions { get; set; }
-        public List<SelectListItem> MediaActionList { get; set; }
+        [Display(Name = "Media Folder")]
+        public string SelectedMediaFolderList { get; set; }
+
         public string SelectedCentreCode { get; set; }
         public string SelectedDepartmentId { get; set; }
+
+        [Display(Name = "Media Folder")]
+        public List<TreeViewModel> TreeViewList { get; set; }
+        public string TreeViewJson { get; set; }
     }
 }

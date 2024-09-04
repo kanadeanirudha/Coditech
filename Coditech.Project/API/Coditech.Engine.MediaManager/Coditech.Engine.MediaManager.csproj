@@ -34,6 +34,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Data\ApplicationImages\" />
+	  <Folder Include="Data\Media\ApplicationIcon\" />
 	</ItemGroup>
 
 </Project>
