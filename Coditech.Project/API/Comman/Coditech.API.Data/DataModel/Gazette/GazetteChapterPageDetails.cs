@@ -2,7 +2,7 @@
 
 namespace Coditech.API.Data
 {
-    public partial class GazetteChaptersPageDetail
+    public partial class GazetteChapterPageDetails
     {
         [Key]
         public int GazetteChapterPageDetailId { get; set; }

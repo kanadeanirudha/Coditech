@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,13 @@ namespace Coditech.Admin.Controllers
     public class GazetteChaptersPageDetailController : BaseController
     {
         private readonly IGazetteChaptersPageDetailAgent _gazetteChaptersPageDetailAgent;
+        private readonly IGazetteChaptersAgent _gazetteChaptersAgent;
         private const string createEdit = "~/Views/Gazette/GazetteChapterPageDetails/CreateEdit.cshtml";
 
-        public GazetteChaptersPageDetailController(IGazetteChaptersPageDetailAgent gazetteChaptersPageDetailAgent)
+        public GazetteChaptersPageDetailController(IGazetteChaptersPageDetailAgent gazetteChaptersPageDetailAgent, IGazetteChaptersAgent gazetteChaptersAgent)
         {
             _gazetteChaptersPageDetailAgent = gazetteChaptersPageDetailAgent;
+            _gazetteChaptersAgent = gazetteChaptersAgent;
         }
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
@@ -28,9 +31,16 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Create()
+        public virtual ActionResult Create(int gazetteChapterId)
         {
-            return View(createEdit, new GazetteChaptersPageDetailViewModel());
+            GazetteChaptersViewModel gazetteChaptersViewModel = _gazetteChaptersAgent.GetGazetteChapters(gazetteChapterId);
+            return View(createEdit, new GazetteChaptersPageDetailViewModel()
+            {
+                GazetteChapterId = gazetteChapterId,
+                ChapterName = gazetteChaptersViewModel.ChapterName,
+                ChapterNumber = gazetteChaptersViewModel.ChapterNumber,
+                DistrictName = gazetteChaptersViewModel.DistrictName,
+            });
         }
 
         [HttpPost]
@@ -53,6 +63,10 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult Edit(int gazetteChaptersPageDetailId)
         {
             GazetteChaptersPageDetailViewModel gazetteChaptersPageDetailViewModel = _gazetteChaptersPageDetailAgent.GetGazetteChaptersPageDetail(gazetteChaptersPageDetailId);
+            GazetteChaptersViewModel gazetteChaptersViewModel = _gazetteChaptersAgent.GetGazetteChapters(gazetteChaptersPageDetailViewModel.GazetteChapterId);
+            gazetteChaptersPageDetailViewModel.ChapterName = gazetteChaptersViewModel.ChapterName;
+            gazetteChaptersPageDetailViewModel.ChapterNumber = gazetteChaptersViewModel.ChapterNumber;
+            gazetteChaptersPageDetailViewModel.DistrictName = gazetteChaptersViewModel.DistrictName;
             return ActionView(createEdit, gazetteChaptersPageDetailViewModel);
         }
 

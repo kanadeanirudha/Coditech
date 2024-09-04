@@ -82,7 +82,9 @@ namespace Coditech.API.Service
             GazetteChaptersModel gazetteChaptersModel = gazetteChapters?.FromEntityToModel<GazetteChaptersModel>();
             if (gazetteChaptersModel?.GeneralDistrictMasterId > 0)
             {
-                gazetteChaptersModel.GeneralRegionMasterId = Convert.ToInt16(_generalDistrictMasterRepository.Table.Where(x => x.GeneralDistrictMasterId == gazetteChaptersModel.GeneralDistrictMasterId)?.Select(y => y.GeneralRegionMasterId)?.FirstOrDefault());
+                GeneralDistrictMaster generalDistrictMaster = _generalDistrictMasterRepository.Table.Where(x => x.GeneralDistrictMasterId == gazetteChaptersModel.GeneralDistrictMasterId)?.FirstOrDefault();
+                gazetteChaptersModel.DistrictName = generalDistrictMaster.DistrictName;
+                gazetteChaptersModel.GeneralRegionMasterId = Convert.ToInt16(generalDistrictMaster.GeneralRegionMasterId);
             }
             if (gazetteChaptersModel.GeneralRegionMasterId > 0)
             {

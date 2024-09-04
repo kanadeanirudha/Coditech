@@ -18,7 +18,7 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GazetteChapters> _gazetteChaptersRepository;
-        private readonly ICoditechRepository<GazetteChaptersPageDetail> _gazetteChaptersPageDetailRepository;
+        private readonly ICoditechRepository<GazetteChapterPageDetails> _gazetteChaptersPageDetailRepository;
         private readonly ICoditechRepository<GeneralDistrictMaster> _generalDistrictMasterRepository;
         private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
         public GazetteChaptersPageDetailService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
@@ -26,7 +26,7 @@ namespace Coditech.API.Service
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _gazetteChaptersRepository = new CoditechRepository<GazetteChapters>(_serviceProvider.GetService<Coditech_Entities>());
-            _gazetteChaptersPageDetailRepository = new CoditechRepository<GazetteChaptersPageDetail>(_serviceProvider.GetService<Coditech_Entities>());
+            _gazetteChaptersPageDetailRepository = new CoditechRepository<GazetteChapterPageDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _generalDistrictMasterRepository = new CoditechRepository<GeneralDistrictMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
@@ -54,13 +54,10 @@ namespace Coditech.API.Service
             if (IsNull(gazetteChaptersPageDetailModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsChapterNameAlreadyExist(gazetteChaptersPageDetailModel.GazetteChapterId))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Chapter Name"));
-
-            GazetteChaptersPageDetail gazetteChaptersPageDetail = gazetteChaptersPageDetailModel.FromModelToEntity<GazetteChaptersPageDetail>();
+            GazetteChapterPageDetails gazetteChaptersPageDetail = gazetteChaptersPageDetailModel.FromModelToEntity<GazetteChapterPageDetails>();
 
             //Create new GazetteChaptersPageDetail and return it.
-            GazetteChaptersPageDetail gazetteChaptersPageDetailData = _gazetteChaptersPageDetailRepository.Insert(gazetteChaptersPageDetail);
+            GazetteChapterPageDetails gazetteChaptersPageDetailData = _gazetteChaptersPageDetailRepository.Insert(gazetteChaptersPageDetail);
             if (gazetteChaptersPageDetailData?.GazetteChapterPageDetailId > 0)
             {
                 gazetteChaptersPageDetailModel.GazetteChapterPageDetailId = gazetteChaptersPageDetailData.GazetteChapterPageDetailId;
@@ -80,7 +77,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GazetteChapterPageDetailID"));
 
             //Get the GazetteChapterPageDetail Details based on id.
-            GazetteChaptersPageDetail gazetteChaptersPageDetail = _gazetteChaptersPageDetailRepository.Table.FirstOrDefault(x => x.GazetteChapterPageDetailId == gazetteChaptersPageDetailId);
+            GazetteChapterPageDetails gazetteChaptersPageDetail = _gazetteChaptersPageDetailRepository.Table.FirstOrDefault(x => x.GazetteChapterPageDetailId == gazetteChaptersPageDetailId);
             GazetteChaptersPageDetailModel gazetteChaptersPageDetailModel = gazetteChaptersPageDetail?.FromEntityToModel<GazetteChaptersPageDetailModel>();
             if (gazetteChaptersPageDetailModel?.GazetteChapterPageDetailId > 0)
             {
@@ -102,10 +99,7 @@ namespace Coditech.API.Service
             if (gazetteChaptersPageDetailModel.GazetteChapterPageDetailId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GazetteChapterID"));
 
-            if (IsChapterNameAlreadyExist(gazetteChaptersPageDetailModel.GazetteChapterId, gazetteChaptersPageDetailModel.GazetteChapterPageDetailId))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Chapter Name"));
-
-            GazetteChaptersPageDetail gazetteChaptersPageDetail = gazetteChaptersPageDetailModel.FromModelToEntity<GazetteChaptersPageDetail>();
+            GazetteChapterPageDetails gazetteChaptersPageDetail = gazetteChaptersPageDetailModel.FromModelToEntity<GazetteChapterPageDetails>();
 
             //Update GazetteChaptersPageDetail.
             bool isGazetteChaptersPageDetailUpdated = _gazetteChaptersPageDetailRepository.Update(gazetteChaptersPageDetail);
@@ -133,9 +127,6 @@ namespace Coditech.API.Service
         }
 
         #region Protected Method
-        //Check if Chapter Name is already present or not.
-        protected virtual bool IsChapterNameAlreadyExist(int gazetteChapterId, int gazetteChaptersPageDetailId = 0)
-         => _gazetteChaptersPageDetailRepository.Table.Any(x => x.GazetteChapterId == gazetteChapterId && (x.GazetteChapterPageDetailId != gazetteChaptersPageDetailId || gazetteChaptersPageDetailId == 0));
         #endregion
     }
 }
