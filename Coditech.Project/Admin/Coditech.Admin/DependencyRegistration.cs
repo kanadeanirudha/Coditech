@@ -95,10 +95,13 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryStorageDimensionGroupAgent, InventoryStorageDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupAgent, InventoryItemTrackingDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterAgent, InventoryGeneralItemMasterAgent>();
-
             #endregion
 
+            #region Gazette
+            builder.Services.AddScoped<IGazetteChaptersAgent, GazetteChaptersAgent>();
+            builder.Services.AddScoped<IGazetteChaptersPageDetailAgent, GazetteChaptersPageDetailAgent>();
             #endregion
+            #endregion Agent
 
             #region Client
             #region Admin
@@ -175,6 +178,11 @@ namespace Coditech.Admin
             #region MediaManager            
             builder.Services.AddScoped<IMediaSettingMasterClient, MediaSettingMasterClient>();
             #endregion HMS
+
+            #region Gazette          
+            builder.Services.AddScoped<IGazetteChaptersClient, GazetteChaptersClient>();
+            builder.Services.AddScoped<IGazetteChaptersPageDetailClient, GazetteChaptersPageDetailClient>();
+            #endregion Gazette
 
             #endregion Client
         }

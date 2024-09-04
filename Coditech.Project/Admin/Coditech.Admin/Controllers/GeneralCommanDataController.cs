@@ -36,6 +36,17 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
+        public ActionResult GetDistrictListByRegionId(string generalRegionMasterId)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.District.ToString(),
+                DropdownName = "GeneralDistrictMasterId",
+                Parameter = generalRegionMasterId,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
+
         public ActionResult GetCityListByRegionId(string generalRegionMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()

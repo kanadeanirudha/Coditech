@@ -70,6 +70,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetRegionList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.District.ToString()))
+            {
+                GetDistrictList(dropdownViewModel, dropdownList);
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.ModuleList.ToString()))
             {
                 GetModuleList(dropdownViewModel, dropdownList);
@@ -403,6 +407,27 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
+
+        private static void GetDistrictList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralDistrictListModel list = new GeneralDistrictListModel();
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                GeneralDistrictListResponse response = new GeneralDistrictClient().GetDistrictByRegionWise(Convert.ToInt16(dropdownViewModel.Parameter));
+                list = new GeneralDistrictListModel { GeneralDistrictList = response?.GeneralDistrictList };
+            }
+            dropdownList.Add(new SelectListItem() { Text = "-------- Select District --------" });
+            foreach (var item in list?.GeneralDistrictList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.DistrictName,
+                    Value = item.GeneralDistrictMasterId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralDistrictMasterId)
+                });
+            }
+        }
+
 
         private static void GetTaxGroupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
@@ -1058,7 +1083,15 @@ namespace Coditech.Admin.Helpers
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && dropdownViewModel.Parameter != "0")
             {
                 int hospitalPathologyPriceCategoryEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[0]);
-                HospitalPathologyTestPricesListResponse response = new HospitalPathologyTestPricesClient().List(hospitalPathologyPriceCategoryEnumId, null, null, null, 1, int.MaxValue);
+                FilterCollection filters = null;
+                if (Convert.ToInt32(dropdownViewModel.DropdownSelectedValue) > 0)
+                {
+                    filters = new FilterCollection();
+                    filters.Add("a.HospitalPathologyTestId", ProcedureFilterOperators.Equals, dropdownViewModel.DropdownSelectedValue);
+                    hospitalPathologyPriceCategoryEnumId = 0;
+                }
+
+                HospitalPathologyTestPricesListResponse response = new HospitalPathologyTestPricesClient().List(hospitalPathologyPriceCategoryEnumId, null, filters, null, 1, int.MaxValue);
                 HospitalPathologyTestPricesListModel list = new HospitalPathologyTestPricesListModel() { HospitalPathologyTestPricesList = response.HospitalPathologyTestPricesList };
                 foreach (var item in list?.HospitalPathologyTestPricesList)
                 {

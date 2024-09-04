@@ -212,6 +212,34 @@ namespace Coditech.Admin.Agents
                 return (AdminRoleMediaFolderActionViewModel)GetViewModelWithErrorMessage(adminRoleMediaFolderActionViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+
+        //Get Admin Role Wise Media Folders By Id
+        public virtual AdminRoleMediaFoldersViewModel GetAdminRoleWiseMediaFoldersById(int adminRoleMasterId)
+        {
+            AdminRoleMediaFoldersResponse response = _adminRoleMasterClient.GetAdminRoleWiseMediaFoldersById(adminRoleMasterId);
+            AdminRoleMediaFoldersViewModel adminRoleMediaFoldersViewModel = response?.AdminRoleMediaFoldersModel.ToViewModel<AdminRoleMediaFoldersViewModel>();
+            adminRoleMediaFoldersViewModel.TreeViewJson = adminRoleMediaFoldersViewModel.TreeViewList?.Count > 0 ? Newtonsoft.Json.JsonConvert.SerializeObject(adminRoleMediaFoldersViewModel.TreeViewList) : string.Empty;
+            return adminRoleMediaFoldersViewModel;
+        }
+
+        //Update Admin RoleWise Media Folders.
+        public virtual AdminRoleMediaFoldersViewModel InsertUpdateAdminRoleWiseMediaFolders(AdminRoleMediaFoldersViewModel adminRoleMediaFoldersViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                AdminRoleMediaFoldersResponse response = _adminRoleMasterClient.InsertUpdateAdminRoleWiseMediaFolders(adminRoleMediaFoldersViewModel.ToModel<AdminRoleMediaFoldersModel>());
+                AdminRoleMediaFoldersModel mediaSettingMasterModel = response?.AdminRoleMediaFoldersModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                return IsNotNull(mediaSettingMasterModel) ? mediaSettingMasterModel.ToViewModel<AdminRoleMediaFoldersViewModel>() : (AdminRoleMediaFoldersViewModel)GetViewModelWithErrorMessage(new AdminRoleMediaFoldersViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return (AdminRoleMediaFoldersViewModel)GetViewModelWithErrorMessage(adminRoleMediaFoldersViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
         #endregion
 
         #region protected

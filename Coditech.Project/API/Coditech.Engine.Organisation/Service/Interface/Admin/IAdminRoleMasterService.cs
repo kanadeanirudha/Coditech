@@ -18,5 +18,7 @@ namespace Coditech.API.Service
         bool AssociateUnAssociateAdminRoleToUser(AdminRoleApplicableDetailsModel adminRoleApplicableDetailsModel);
         AdminRoleMediaFolderActionModel GetAdminRoleWiseMediaFolderActionById(int adminRoleMasterId);
         bool InsertUpdateAdminRoleWiseMediaFolderAction(AdminRoleMediaFolderActionModel adminRoleMediaFolderActionModel);
+        AdminRoleMediaFoldersModel GetAdminRoleWiseMediaFoldersById(int adminRoleMasterId);
+        bool InsertUpdateAdminRoleWiseMediaFolders(AdminRoleMediaFoldersModel adminRoleMediaFoldersModel);
     }
 }

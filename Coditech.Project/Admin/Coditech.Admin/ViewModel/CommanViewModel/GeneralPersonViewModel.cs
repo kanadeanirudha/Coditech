@@ -34,6 +34,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Date Of Birth")]
         public DateTime? DateOfBirth { get; set; }
 
+        [Display(Name = "Age")]
+        public int Age { get; set; }
+
         [Required]
         [Display(Name = "Gender")]
         public int GenderEnumId { get; set; }

@@ -80,11 +80,11 @@ namespace Coditech.API.Controllers
         [Route("/MediaManager/FolderStructure")]
         [HttpGet]
         [Produces(typeof(MediaManagerFolderResponse))]
-        public virtual async Task<IActionResult> GetFolderStructure(int rootFolderId = 0)
+        public virtual async Task<IActionResult> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false)
         {
             try
             {
-                MediaManagerFolderResponse MediaManagerFolderResponse = await _mediaManagerService.GetFolderStructure(rootFolderId);
+                MediaManagerFolderResponse MediaManagerFolderResponse = await _mediaManagerService.GetFolderStructure(rootFolderId, adminRoleId, isAdminUser);
                 if (MediaManagerFolderResponse != null)
                     return CreateOKResponse<MediaManagerFolderResponse>(MediaManagerFolderResponse);
                 else

@@ -15,6 +15,7 @@
         public string RootFolderName { get; set; }
         public bool IsActiveFolder { get; set; }
         public List<MediaFolderStructure> SubFolders { get; set; }
+        public List<int> adminRoleMediaFolders { get; set; }
 
         public MediaFolderStructure()
         {
@@ -29,5 +30,6 @@
         public string MediaName { get; set; }
         public long MediaSize { get; set; }
         public int ActiveFolderId { get; set; }
+        public string ContentType { get; set; }
     }
 }

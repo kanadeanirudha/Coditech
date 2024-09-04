@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -22,7 +23,8 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                MediaManagerFolderResponse mediaManagerFolderResponse = _mediaManagerClient.GetFolderStructure(rootFolderId).Result;
+                UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
+                MediaManagerFolderResponse mediaManagerFolderResponse = _mediaManagerClient.GetFolderStructure(rootFolderId, userModel.SelectedAdminRoleMasterId, userModel.IsAdminUser).Result;
                 return mediaManagerFolderResponse.MediaManagerFolderModel.ToViewModel<MediaManagerFolderListViewModel>();
             }
             catch (Exception ex)

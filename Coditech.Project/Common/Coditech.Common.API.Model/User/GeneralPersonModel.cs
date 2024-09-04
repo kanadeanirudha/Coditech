@@ -4,6 +4,7 @@
     {
         public long PersonId { get; set; }
         public long EntityId { get; set; }
+        public string UserName { get; set; }
         public string UserType { get; set; }
         public string Password { get; set; }
         public string PersonCode { get; set; }
@@ -12,6 +13,7 @@
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public int Age { get; set; }
         public int GenderEnumId { get; set; }
         public string EmailId { get; set; }
         public string PhoneNumber { get; set; }

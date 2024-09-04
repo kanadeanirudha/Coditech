@@ -62,6 +62,7 @@ namespace Coditech.API.Data
         public DbSet<AdminRoleMenuDetails> AdminRoleMenuDetails { get; set; }
         public DbSet<AdminSanctionPost> AdminSanctionPost { get; set; }
         public DbSet<AdminRoleMediaFolderAction> AdminRoleMediaFolderAction { get; set; }
+        public DbSet<AdminRoleMediaFolders> AdminRoleMediaFolders { get; set; }
         #endregion
 
         #region User
@@ -140,6 +141,12 @@ namespace Coditech.API.Data
         public DbSet<InventoryUoMMaster> InventoryUoMMaster { get; set; }
         public DbSet<InventoryItemTrackingDimensionGroup> InventoryItemTrackingDimensionGroup { get; set; }
         public DbSet<InventoryItemTrackingDimensionGroupMapper> InventoryItemTrackingDimensionGroupMapper { get; set; }
+
+        #endregion
+
+        #region Gazette
+        public DbSet<GazetteChapters> GazetteChapters { get; set; }
+        public DbSet<GazetteChapterPageDetails> GazetteChapterPageDetails { get; set; }
 
         #endregion
 

@@ -22,7 +22,7 @@
                     <div class="card-header">
                         <input type="hidden" id="SelectedCentreCode" value="@Model.CentreCode" />
                         <span class="card-title">Gym Sales Invoice</span>
-                        <a class="btn btn-success" href="/@controllerName/SaleInvoiceList/">Back</a>
+                        <a class="btn btn-secondary" href="/@controllerName/SaleInvoiceList/">Back</a>
                     </div>
                     <div id="PrintSalesInvoiceDivId">
                         <div class="card-body invoice-head">
@@ -232,13 +232,13 @@
                                 <div class="col-lg-12 col-xl-4 ms-auto align-self-center"  style="flex: 0 0 auto;margin-left: auto !important;width: 90%;align-self: center !important;">
                                     <div class="text-center" style="text-align:center;"><small class="font-12">Thank you very much for doing business with us.</small></div>
                                 </div>
-                                <div class="col-lg-12 col-xl-4" style="flex: 0 0 auto;margin-left: auto !important;width: 10%;">
-                                    <div class="float-end d-print-none">
-                                        <input type="button" class="btn btn-soft-info btn-sm" value="Print" onclick="GymSalesInvoice.Print()" />
-                                    </div>
-                                </div>
                             </div><!--end row-->
                         </div><!--end card-body-->
+                    </div>
+                    <div class="card-header">
+                        <div class="float-end d-print-none">
+                              <input type="button" class="btn btn-soft-info btn-sm" value="Print" onclick="GymSalesInvoice.Print()" />
+                         </div>
                     </div>
                 </div><!--end card-->
             </div>

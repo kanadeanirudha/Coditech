@@ -14,6 +14,7 @@
         TaxGroup,
         Country,
         Region,
+        District,
         ModuleList,
         MenuList,
         Nationality,
@@ -73,6 +74,7 @@
         HospitalPathologyTestGroup,
         HospitalPathologyTestGroupParent,
         TestSampleTypes,
+        GazetteChapter,
         PathologyPriceCategory,
         HospitalPathologyTestName,
         PathologyTestNameByPathologyPriceCategory
@@ -186,6 +188,7 @@
         RenameFolder,
         MoveFolder,
         DeleteFolder,
+        UploadFile,
         DeleteFile,
     }
 }
