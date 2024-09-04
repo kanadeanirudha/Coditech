@@ -144,6 +144,7 @@ namespace Coditech.API.Data
 
         #region Gazette
         public DbSet<GazetteChapters> GazetteChapters { get; set; }
+        public DbSet<GazetteChaptersPageDetail> GazetteChaptersPageDetail { get; set; }
 
         #endregion
 

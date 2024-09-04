@@ -12,6 +12,7 @@ namespace Coditech.API.Mapper
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
 
             CreateMap<GazetteChapters, GazetteChaptersModel>().ReverseMap();
+            CreateMap<GazetteChaptersPageDetail, GazetteChaptersPageDetailModel>().ReverseMap();
         }
     }
 }

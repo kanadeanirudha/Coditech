@@ -198,6 +198,8 @@ namespace Coditech.Admin
             #region Gazette
             CreateMap<GazetteChaptersModel, GazetteChaptersViewModel>().ReverseMap();
             CreateMap<GazetteChaptersListModel, GazetteChaptersListViewModel>().ReverseMap();
+            CreateMap<GazetteChaptersPageDetailModel, GazetteChaptersPageDetailViewModel>().ReverseMap();
+            CreateMap<GazetteChaptersPageDetailListModel, GazetteChaptersPageDetailListViewModel>().ReverseMap();
             #endregion
 
             #region LogMessage 

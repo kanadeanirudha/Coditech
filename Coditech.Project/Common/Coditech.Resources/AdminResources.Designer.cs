@@ -136,6 +136,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete gazette chapters Page Detail due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGazetteChaptersPageDetail
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGazetteChaptersPageDetail", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete country due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralCountryMaster

@@ -98,7 +98,8 @@
             SmsProviderMaster,
             HospitalPathologyTestGroup,
             HospitalPathologyTest,
-            GazetteChapter
+            GazetteChapter,
+            GazetteChapterPageDetail
         }
     }
 }

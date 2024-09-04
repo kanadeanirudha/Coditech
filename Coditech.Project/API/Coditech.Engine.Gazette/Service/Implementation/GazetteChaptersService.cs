@@ -19,12 +19,14 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GazetteChapters> _gazetteChaptersRepository;
         private readonly ICoditechRepository<GeneralDistrictMaster> _generalDistrictMasterRepository;
+        private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
         public GazetteChaptersService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _gazetteChaptersRepository = new CoditechRepository<GazetteChapters>(_serviceProvider.GetService<Coditech_Entities>());
             _generalDistrictMasterRepository = new CoditechRepository<GeneralDistrictMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GazetteChaptersListModel GetGazetteChaptersList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -81,6 +83,10 @@ namespace Coditech.API.Service
             if (gazetteChaptersModel?.GeneralDistrictMasterId > 0)
             {
                 gazetteChaptersModel.GeneralRegionMasterId = Convert.ToInt16(_generalDistrictMasterRepository.Table.Where(x => x.GeneralDistrictMasterId == gazetteChaptersModel.GeneralDistrictMasterId)?.Select(y => y.GeneralRegionMasterId)?.FirstOrDefault());
+            }
+            if (gazetteChaptersModel.GeneralRegionMasterId > 0)
+            {
+                gazetteChaptersModel.GeneralCountryMasterId = Convert.ToInt16(_generalRegionMasterRepository.Table.Where(x => x.GeneralRegionMasterId == gazetteChaptersModel.GeneralRegionMasterId).Select(y => y.GeneralCountryMasterId).FirstOrDefault());
             }
             return gazetteChaptersModel;
         }

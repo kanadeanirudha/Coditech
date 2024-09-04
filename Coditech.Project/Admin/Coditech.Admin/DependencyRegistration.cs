@@ -98,6 +98,7 @@ namespace Coditech.Admin
 
             #region Gazette
             builder.Services.AddScoped<IGazetteChaptersAgent, GazetteChaptersAgent>();
+            builder.Services.AddScoped<IGazetteChaptersPageDetailAgent, GazetteChaptersPageDetailAgent>();
             #endregion
             #endregion Agent
 
@@ -178,6 +179,7 @@ namespace Coditech.Admin
 
             #region Gazette          
             builder.Services.AddScoped<IGazetteChaptersClient, GazetteChaptersClient>();
+            builder.Services.AddScoped<IGazetteChaptersPageDetailClient, GazetteChaptersPageDetailClient>();
             #endregion Gazette
 
             #endregion Client

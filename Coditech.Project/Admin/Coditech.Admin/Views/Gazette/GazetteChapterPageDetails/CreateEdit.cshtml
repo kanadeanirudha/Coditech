@@ -1,0 +1,97 @@
+﻿@using Coditech.Admin.Utilities;
+@model GazetteChaptersPageDetailViewModel
+@{
+    ViewBag.Title = Model.GazetteChapterPageDetailId > 0 ? "Update Gazette Chapter Page Detail" : "Add Gazette Chapter Page Detail";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel countryDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Country.ToString(), DropdownName = "GeneralCountryMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"CoditechCommon.GetRegionListByCountryId()" };
+    DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"CoditechCommon.GetDistrictListByRegionId()" };
+    DropdownViewModel districtDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.District.ToString(), DropdownName = "GeneralDistrictMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralDistrictMasterId), Parameter = Convert.ToString(Model.GeneralRegionMasterId) };   
+    DropdownViewModel chapterDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.GazetteChapter.ToString(), DropdownName = "GazetteChapterId", DropdownSelectedValue = Model.ChapterName };
+}
+
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-item-center">
+                            <div class="col">
+                                @if (Model.GazetteChapterPageDetailId > 0)
+                                {
+                                    <h4 class="card-title">Update Gazette Chapter Page Detail</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Gazette Chapter Page Detail</h4>
+                                }
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.GazetteChapterPageDetailId)
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.GeneralCountryMasterId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", countryDropdown)
+                                        @Html.ValidationMessageFor(x => x.GeneralCountryMasterId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.GeneralRegionMasterId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", regionDropdown)
+                                        @Html.ValidationMessageFor(x => x.GeneralRegionMasterId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.GeneralDistrictMasterId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", districtDropdown)
+                                        @Html.ValidationMessageFor(x => x.GeneralDistrictMasterId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.ChapterName, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", chapterDropdown)
+                                        @Html.ValidationMessageFor(x => x.ChapterName)
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PageHeader, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.PageHeader, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.PageHeader)
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PageFooter, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.PageFooter, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.PageFooter)
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PageContent, new { @class = "form-label required" })
+                                        @Html.TextAreaFor(x => x.PageContent, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.PageContent)
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

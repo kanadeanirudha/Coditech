@@ -251,6 +251,7 @@ namespace Coditech.API.Common
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IGazetteChaptersService, GazetteChaptersService>();
+            builder.Services.AddScoped<IGazetteChaptersPageDetailService, GazetteChaptersPageDetailService>();
         }
         #endregion
     }

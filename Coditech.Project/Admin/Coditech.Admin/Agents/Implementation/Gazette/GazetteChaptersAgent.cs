@@ -35,8 +35,9 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
+                filters.Add("ChapterNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("ChapterName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("DistrictName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("DistrictName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);               
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -139,6 +140,12 @@ namespace Coditech.Admin.Agents
         protected virtual List<DatatableColumns> BindColumns()
         {
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Chapter Number",
+                ColumnCode = "ChapterNumber",
+                IsSortable = true,
+            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Chapter Name",
