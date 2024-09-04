@@ -54,12 +54,6 @@ namespace Coditech.Common.Service
             return organisationCentreList;
         }
 
-        protected virtual HospitalPathologyTestModel GetHospitalPathologyTest(long hospitalPathologyTestId)
-        {
-            HospitalPathologyTest hospitalPathologyTest = new CoditechRepository<HospitalPathologyTest>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.HospitalPathologyTestId == hospitalPathologyTestId);
-            return hospitalPathologyTest.FromEntityToModel<HospitalPathologyTestModel>();
-        }
-
         protected virtual List<UserModuleMaster> GetAllActiveModuleList()
         {
             List<UserModuleMaster> userAllModuleList = new CoditechRepository<UserModuleMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.ModuleActiveFlag == true)?.OrderBy(y => y.ModuleSeqNumber)?.ToList();

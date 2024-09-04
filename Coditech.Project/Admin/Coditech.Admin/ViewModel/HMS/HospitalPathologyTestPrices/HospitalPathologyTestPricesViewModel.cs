@@ -16,7 +16,7 @@ namespace Coditech.Admin.ViewModel
         public bool IsActive { get; set; }
         [Display(Name = "Pathology Test Name")]
         public string PathologyTestName { get; set; }
-        [Display(Name = "Hospital Pathology Price Category")]
+        [Display(Name = "Price Category")]
         public string HospitalPathologyPriceCategory { get; set; }
     }
 }

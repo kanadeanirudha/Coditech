@@ -146,7 +146,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Hospital Pathology Price Category",
+                ColumnName = "Price Category",
                 ColumnCode = "HospitalPathologyPriceCategory",
                 IsSortable = true,
             });
