@@ -38,7 +38,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("PathologyTestName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "PathologyTestName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             HospitalPathologyTestPricesListResponse response = _hospitalPathologyTestPricesClient.List(hospitalPathologyPriceCategoryEnumId,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalPathologyTestPricesListModel hospitalPathologyTestPricesList = new HospitalPathologyTestPricesListModel { HospitalPathologyTestPricesList = response?.HospitalPathologyTestPricesList };

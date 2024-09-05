@@ -47,7 +47,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("UAHNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             HospitalPatientRegistrationListResponse response = _hospitalPatientRegistrationClient.List(selectedCentreCode, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalPatientRegistrationListModel hospitalPatientRegistrationList = new HospitalPatientRegistrationListModel { HospitalPatientRegistrationList = response?.HospitalPatientRegistrationList };
