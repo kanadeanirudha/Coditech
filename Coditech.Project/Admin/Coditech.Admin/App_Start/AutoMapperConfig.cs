@@ -68,6 +68,8 @@ namespace Coditech.Admin
             CreateMap<GeneralWhatsAppProviderModel, GeneralWhatsAppProviderViewModel>().ReverseMap();
             CreateMap<GeneralDistrictModel, GeneralDistrictViewModel>().ReverseMap();
             CreateMap<GeneralDistrictListModel, GeneralDistrictListViewModel>().ReverseMap();
+            CreateMap<GeneralNotificationListModel, GeneralNotificationListViewModel>().ReverseMap();
+            CreateMap<GeneralNotificationModel, GeneralNotificationViewModel>().ReverseMap();
 
             #endregion            
 
