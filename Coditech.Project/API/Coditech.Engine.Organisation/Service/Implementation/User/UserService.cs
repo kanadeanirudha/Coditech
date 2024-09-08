@@ -79,7 +79,7 @@ namespace Coditech.API.Service
             List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
             List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
             List<AdminRoleMenuDetails> userRoleMenuList = new List<AdminRoleMenuDetails>();
-            List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList = GetAllRoleMediaFolderActionList();
+            List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList = new CoditechRepository<AdminRoleMediaFolderAction>(_serviceProvider.GetService<Coditech_Entities>()).Table?.ToList();
             if (!userModel.IsAdminUser)
             {
                 userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.ToList();
@@ -91,7 +91,8 @@ namespace Coditech.API.Service
                 {
                     userAllModuleList = userAllModuleList.Where(x => x.ModuleCode != "CODITECHTOOLKIT")?.ToList();
                     //Bind Menu And Modules For Admin User
-                    BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList, userRoleMediaFolderActionList);
+                    BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
+                    BindRoleMediaFolderAction(userModel, userRoleMediaFolderActionList);
 
                     //Bind Balance Sheet
                     userModel.BalanceSheetList = BindAccountBalanceSheetByRoleId(userModel);
@@ -109,6 +110,7 @@ namespace Coditech.API.Service
             {
                 //Bind Menu And Modules For Non Admin User
                 BindMenuAndModulesForAdminUser(userModel, userAllModuleList, userAllMenuList);
+                BindRoleMediaFolderAction(userModel, userRoleMediaFolderActionList);
                 userModel.AccessibleCentreList = OrganisationCentreList();
             }
             userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
@@ -544,8 +546,37 @@ namespace Coditech.API.Service
             }
         }
 
+        protected virtual void BindRoleMediaFolderAction(UserModel userModel, List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList)
+        {
+            userModel.AdminRoleMediaFolderActionList = new List<AdminRoleMediaFolderActionModel>();
+
+            if (userModel.IsAdminUser)
+            {
+                userModel.AdminRoleMediaFolderActionList.Add(new AdminRoleMediaFolderActionModel()
+                {
+                    SelectedMediaActions = Enum.GetValues(typeof(MediaFolderActionEnum))
+                        .Cast<MediaFolderActionEnum>()
+                        .Select(e => e.ToString())
+                        .ToList()
+                });
+            }
+            else
+            {
+                foreach (AdminRoleMediaFolderAction userRoleMediaFolderAction in userRoleMediaFolderActionList)
+                {
+                    userModel.AdminRoleMediaFolderActionList.Add(new AdminRoleMediaFolderActionModel()
+                    {
+                        AdminRoleMediaFolderActionId = userRoleMediaFolderAction.AdminRoleMediaFolderActionId,
+                        AdminRoleMasterId = userRoleMediaFolderAction.AdminRoleMasterId,
+                        SelectedMediaActions = userRoleMediaFolderAction.MediaAction?.Split(",").ToList()
+                    });
+                }
+            }
+            
+        }
+
         //Bind Menu And Modules For Non Admin User
-        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetails> userRoleMenuList, List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList)
+        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetails> userRoleMenuList)
         {
             //Bind Menu & Module for non admin user
             foreach (AdminRoleMenuDetails item in userRoleMenuList)
@@ -578,19 +609,7 @@ namespace Coditech.API.Service
                         }
                     }
                 }
-            }
-
-            userModel.AdminRoleMediaFolderActionList = new List<AdminRoleMediaFolderActionModel>();
-
-            foreach (AdminRoleMediaFolderAction userRoleMediaFolderAction in userRoleMediaFolderActionList)
-            {              
-                userModel.AdminRoleMediaFolderActionList.Add(new AdminRoleMediaFolderActionModel()
-                {
-                    AdminRoleMediaFolderActionId = userRoleMediaFolderAction.AdminRoleMediaFolderActionId,
-                    AdminRoleMasterId = userRoleMediaFolderAction.AdminRoleMasterId,
-                    SelectedMediaActions = userRoleMediaFolderAction.MediaAction?.Split(",").ToList()
-                });
-            }
+            }           
         }
 
         protected virtual List<UserBalanceSheetModel> BindAccountBalanceSheetByRoleId(UserModel userModel)

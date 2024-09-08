@@ -66,12 +66,6 @@ namespace Coditech.Common.Service
             return userAllMenuList;
         }
 
-        protected virtual List<AdminRoleMediaFolderAction> GetAllRoleMediaFolderActionList()
-        {
-            List<AdminRoleMediaFolderAction> adminRoleMediaFolderActionList = new CoditechRepository<AdminRoleMediaFolderAction>(_serviceProvider.GetService<Coditech_Entities>()).Table?.ToList();
-            return adminRoleMediaFolderActionList;
-        }
-
         protected virtual List<GeneralSystemGlobleSettingModel> GetSystemGlobleSettingList(string featureName = null)
         {
             List<GeneralSystemGlobleSettingMaster> settingList = new CoditechRepository<GeneralSystemGlobleSettingMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.FeatureName == featureName || featureName == null)?.ToList();

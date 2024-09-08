@@ -29,6 +29,42 @@ namespace Coditech.Admin.Controllers
         }
 
         [Route("/MediaManager/UploadFile")]
+        public virtual ActionResult PostUploadImage()
+        {
+            return RedirectToAction("Index", "MediaManager");
+        }
+
+        [Route("/MediaManager/CreateFolder")]
+        public virtual ActionResult CreateFolder()
+        {
+            return RedirectToAction("Index", "MediaManager");
+        }
+
+        [Route("/MediaManager/DeleteFolder")]
+        public virtual ActionResult DeleteFolder()
+        {
+            return RedirectToAction("Index", "MediaManager");
+        }
+
+        [Route("/MediaManager/DeleteFile")]
+        public virtual ActionResult DeleteFile()
+        {
+            return RedirectToAction("Index", "MediaManager");
+        }
+
+        [Route("/MediaManager/RenameFolder")]
+        public virtual ActionResult RenameFolder()
+        {
+            return RedirectToAction("Index", "MediaManager");
+        }
+
+        [Route("/MediaManager/MoveFolder")]
+        public ActionResult MoveFolder()
+        {
+            return RedirectToAction("Index", "MediaManager");
+        }
+
+        [Route("/MediaManager/UploadFile")]
         [HttpPost]
         public virtual ActionResult PostUploadImage(int folderId)
         {
