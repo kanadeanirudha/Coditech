@@ -1,5 +1,4 @@
 ﻿using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model.Responses.Inventory.InventoryGeneralItemMaster;
 
 namespace Coditech.Admin.Agents
 {
@@ -39,6 +38,5 @@ namespace Coditech.Admin.Agents
         /// <param name="inventoryGeneralItemMasterId">inventoryGeneralItemMasterId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteInventoryGeneralItemMaster(string inventoryGeneralItemMasterId, out string errorMessage);
-        InventoryGeneralItemMasterListResponse GetInventoryGeneralItemMasterList();
     }
 }
