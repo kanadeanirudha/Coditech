@@ -79,6 +79,7 @@ namespace Coditech.API.Service
             List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
             List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
             List<AdminRoleMenuDetails> userRoleMenuList = new List<AdminRoleMenuDetails>();
+            List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList = GetAllRoleMediaFolderActionList();
             if (!userModel.IsAdminUser)
             {
                 userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.ToList();
@@ -90,7 +91,7 @@ namespace Coditech.API.Service
                 {
                     userAllModuleList = userAllModuleList.Where(x => x.ModuleCode != "CODITECHTOOLKIT")?.ToList();
                     //Bind Menu And Modules For Admin User
-                    BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
+                    BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList, userRoleMediaFolderActionList);
 
                     //Bind Balance Sheet
                     userModel.BalanceSheetList = BindAccountBalanceSheetByRoleId(userModel);
@@ -284,6 +285,12 @@ namespace Coditech.API.Service
                 }
                 return generalPersonModel;
             }
+
+            if (IsNull(generalPersonModel.DateOfBirth) && generalPersonModel.Age > 0)
+            {
+                generalPersonModel.DateOfBirth = new DateTime(CalculateBirthYear(generalPersonModel.Age), 1, 1);
+            }
+
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
             // Create new Person and return it.
@@ -336,6 +343,10 @@ namespace Coditech.API.Service
             GeneralPerson personData = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == personId);
             GeneralPersonModel generalPersonModel = personData.FromEntityToModel<GeneralPersonModel>();
 
+            if (IsNotNull(generalPersonModel?.DateOfBirth))
+            {
+                generalPersonModel.Age = CalculateAge(Convert.ToDateTime(generalPersonModel.DateOfBirth));
+            }
             if (generalPersonModel.PhotoMediaId > 0)
             {
                 var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == generalPersonModel.PhotoMediaId)?.FirstOrDefault();
@@ -544,7 +555,7 @@ namespace Coditech.API.Service
         }
 
         //Bind Menu And Modules For Non Admin User
-        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetails> userRoleMenuList)
+        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetails> userRoleMenuList, List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList)
         {
             //Bind Menu & Module for non admin user
             foreach (AdminRoleMenuDetails item in userRoleMenuList)
@@ -577,6 +588,18 @@ namespace Coditech.API.Service
                         }
                     }
                 }
+            }
+
+            userModel.AdminRoleMediaFolderActionList = new List<AdminRoleMediaFolderActionModel>();
+
+            foreach (AdminRoleMediaFolderAction userRoleMediaFolderAction in userRoleMediaFolderActionList)
+            {
+                userModel.AdminRoleMediaFolderActionList.Add(new AdminRoleMediaFolderActionModel()
+                {
+                    AdminRoleMediaFolderActionId = userRoleMediaFolderAction.AdminRoleMediaFolderActionId,
+                    AdminRoleMasterId = userRoleMediaFolderAction.AdminRoleMasterId,
+                    SelectedMediaActions = userRoleMediaFolderAction.MediaAction?.Split(",").ToList()
+                });
             }
         }
 
@@ -874,6 +897,34 @@ namespace Coditech.API.Service
                 messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreContactNumber, organisationCentreMaster.PhoneNumberOffice, messageText);
             }
             return messageText;
+        }
+
+        protected virtual int CalculateAge(DateTime dateOfBirth)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - dateOfBirth.Year;
+
+            // Go back to the year the person was born in case of a leap year
+            if (dateOfBirth > today.AddYears(-age))
+            {
+                age--;
+            }
+            return age;
+        }
+
+        protected virtual int CalculateBirthYear(int age)
+        {
+            DateTime today = DateTime.Today;
+            int currentYear = today.Year;
+            int birthYear = currentYear - age;
+
+            // Adjust for cases where the birthday hasn't occurred yet this year
+            if (today < new DateTime(currentYear, today.Month, today.Day).AddYears(-age))
+            {
+                birthYear--;
+            }
+
+            return birthYear;
         }
         #endregion
     }

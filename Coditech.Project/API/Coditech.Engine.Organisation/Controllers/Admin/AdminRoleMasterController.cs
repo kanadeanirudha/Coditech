@@ -270,5 +270,49 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new AdminRoleMediaFolderActionResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/AdminRoleMaster/GetAdminRoleWiseMediaFoldersById")]
+        [HttpGet]
+        [Produces(typeof(AdminRoleMediaFoldersResponse))]
+        public virtual IActionResult GetAdminRoleWiseMediaFoldersById(int adminRoleMasterId)
+        {
+            try
+            {
+                AdminRoleMediaFoldersModel adminRoleMediaFoldersModel = _adminRoleMasterService.GetAdminRoleWiseMediaFoldersById(adminRoleMasterId);
+                return IsNotNull(adminRoleMediaFoldersModel) ? CreateOKResponse(new AdminRoleMediaFoldersResponse() { AdminRoleMediaFoldersModel = adminRoleMediaFoldersModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new AdminRoleMediaFoldersResponse { HasError = true, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AdminRoleMediaFoldersResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/AdminRoleMaster/InsertUpdateAdminRoleWiseMediaFolders")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(AdminRoleMediaFoldersResponse))]
+        public virtual IActionResult InsertUpdateAdminRoleWiseMediaFolders([FromBody] AdminRoleMediaFoldersModel model)
+        {
+            try
+            {
+                bool isUpdated = _adminRoleMasterService.InsertUpdateAdminRoleWiseMediaFolders(model);
+                return isUpdated ? CreateOKResponse(new AdminRoleMediaFoldersResponse { AdminRoleMediaFoldersModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new AdminRoleMediaFoldersResponse { HasError = true, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AdminRoleMediaFolderActionResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

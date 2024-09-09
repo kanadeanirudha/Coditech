@@ -23,16 +23,16 @@ namespace Coditech.API.Client
             return Task.Run(async () => await UploadMediaAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0)
+        public virtual async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false)
         {
-            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId);
+            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId, adminRoleId, isAdminUser);
 
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try
             {
                 ApiStatus status = new ApiStatus();
-               
+
                 response = await GetResourceFromEndpointAsync(endpoint, status, CancellationToken.None).ConfigureAwait(false);
                 Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
                 var status_ = (int)response.StatusCode;

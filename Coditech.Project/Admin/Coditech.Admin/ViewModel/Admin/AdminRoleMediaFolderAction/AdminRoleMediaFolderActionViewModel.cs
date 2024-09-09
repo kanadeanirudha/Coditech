@@ -1,6 +1,4 @@
-﻿using Coditech.Common.API.Model;
-using Coditech.Common.Helper;
-using Coditech.Resources;
+﻿using Coditech.Common.Helper;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 

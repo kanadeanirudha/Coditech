@@ -19,6 +19,7 @@ namespace Coditech.API.Mapper
             CreateMap<AdminRoleMaster, AdminRoleModel>().ReverseMap();
             CreateMap<AdminRoleApplicableDetails, AdminRoleApplicableDetailsModel>().ReverseMap();
             CreateMap<AdminRoleMediaFolderAction, AdminRoleMediaFolderActionModel>().ReverseMap();
+            CreateMap<AdminRoleMediaFolders, AdminRoleMediaFoldersModel>().ReverseMap();
 
             CreateMap<GeneralDepartmentMaster, GeneralDepartmentModel>().ReverseMap();
             CreateMap<GeneralCountryMaster, GeneralCountryModel>().ReverseMap();

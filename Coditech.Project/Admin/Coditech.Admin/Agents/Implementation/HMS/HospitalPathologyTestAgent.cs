@@ -36,10 +36,10 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("PathologyTestName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("TestSampleType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("PathologyTestGroupName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "PathologyTestName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             HospitalPathologyTestListResponse response = _hospitalPathologyTestClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalPathologyTestListModel hospitalPathologyTestList = new HospitalPathologyTestListModel { HospitalPathologyTestList = response?.HospitalPathologyTestList };

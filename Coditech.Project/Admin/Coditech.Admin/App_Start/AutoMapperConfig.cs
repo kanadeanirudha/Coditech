@@ -17,6 +17,7 @@ namespace Coditech.Admin
             CreateMap<AdminRoleApplicableDetailsModel, AdminRoleApplicableDetailsViewModel>().ReverseMap();
             CreateMap<AdminRoleApplicableDetailsListModel, AdminRoleApplicableDetailsListViewModel>().ReverseMap();
             CreateMap<AdminRoleMediaFolderActionModel, AdminRoleMediaFolderActionViewModel>().ReverseMap();
+            CreateMap<AdminRoleMediaFoldersModel, AdminRoleMediaFoldersViewModel>().ReverseMap();
             #endregion
 
             #region General Master
@@ -153,6 +154,8 @@ namespace Coditech.Admin
             CreateMap<HospitalPathologyTestGroupListModel, HospitalPathologyTestGroupListViewModel>().ReverseMap();
             CreateMap<HospitalPathologyTestModel, HospitalPathologyTestViewModel>().ReverseMap();
             CreateMap<HospitalPathologyTestListModel, HospitalPathologyTestListViewModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestPricesModel, HospitalPathologyTestPricesViewModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestPricesListModel, HospitalPathologyTestPricesListViewModel>().ReverseMap();
             #endregion
 
             #region Inventory
@@ -200,6 +203,8 @@ namespace Coditech.Admin
             #region Gazette
             CreateMap<GazetteChaptersModel, GazetteChaptersViewModel>().ReverseMap();
             CreateMap<GazetteChaptersListModel, GazetteChaptersListViewModel>().ReverseMap();
+            CreateMap<GazetteChaptersPageDetailModel, GazetteChaptersPageDetailViewModel>().ReverseMap();
+            CreateMap<GazetteChaptersPageDetailListModel, GazetteChaptersPageDetailListViewModel>().ReverseMap();
             #endregion
 
             #region LogMessage 

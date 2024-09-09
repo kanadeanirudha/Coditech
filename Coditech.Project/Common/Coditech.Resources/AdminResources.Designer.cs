@@ -156,6 +156,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete gazette chapters Page Detail due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGazetteChaptersPageDetail
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGazetteChaptersPageDetail", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete country due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralCountryMaster
@@ -479,6 +490,17 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("ErrorDeleteHospitalPathologyTest", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test Prices due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPathologyTestPrices
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTestPrices", resourceCulture);
             }
         }
 

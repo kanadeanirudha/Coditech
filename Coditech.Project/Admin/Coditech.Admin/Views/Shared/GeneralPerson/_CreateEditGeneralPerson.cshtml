@@ -55,11 +55,25 @@
        })   @Html.ValidationMessageFor(x => x.GenderEnumId)
         </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-2">
         <div class="mb-3">
             @Html.LabelFor(x => x.DateOfBirth, new { @class = "form-label" })
             @Html.TextBoxFor(x => x.DateOfBirth, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
             @Html.ValidationMessageFor(x => x.DateOfBirth)
+        </div>
+    </div>
+    <div class="col-lg-1">
+        <div class="mb-3">
+            @Html.LabelFor(x => x.Age, new { @class = "form-label" })
+            @if (Model.PersonId > 0)
+            {
+                @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @readonly = "true" })
+            }
+            else
+            {
+                @Html.TextBoxFor(x => x.Age, new { @class = "form-control" })
+            }
+            @Html.ValidationMessageFor(x => x.Age)
         </div>
     </div>
     <div class="col-lg-3">

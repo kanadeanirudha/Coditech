@@ -63,6 +63,7 @@ namespace Coditech.API.Data
         public DbSet<AdminRoleMenuDetails> AdminRoleMenuDetails { get; set; }
         public DbSet<AdminSanctionPost> AdminSanctionPost { get; set; }
         public DbSet<AdminRoleMediaFolderAction> AdminRoleMediaFolderAction { get; set; }
+        public DbSet<AdminRoleMediaFolders> AdminRoleMediaFolders { get; set; }
         #endregion
 
         #region User
@@ -113,6 +114,7 @@ namespace Coditech.API.Data
         public DbSet<HospitalPatientAppointment> HospitalPatientAppointment { get; set; }
         public DbSet<HospitalPathologyTestGroup> HospitalPathologyTestGroup { get; set; }
         public DbSet<HospitalPathologyTest> HospitalPathologyTest { get; set; }
+        public DbSet<HospitalPathologyTestPrices> HospitalPathologyTestPrices { get; set; }
         #endregion
 
         #region GeneralPerson
@@ -145,6 +147,7 @@ namespace Coditech.API.Data
 
         #region Gazette
         public DbSet<GazetteChapters> GazetteChapters { get; set; }
+        public DbSet<GazetteChapterPageDetails> GazetteChapterPageDetails { get; set; }
 
         #endregion
 
