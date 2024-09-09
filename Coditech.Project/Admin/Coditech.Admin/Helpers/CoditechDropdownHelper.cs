@@ -4,7 +4,6 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-using Coditech.Common.API.Model.Responses.Inventory.InventoryGeneralItemMaster;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -209,6 +208,10 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.HospitalPathologyTestGroupParent.ToString()))
             {
                 GetHospitalPathologyTestGroupParentList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.PathologyTestNameByPathologyPriceCategory.ToString()))
+            {
+                GetPathologyTestNameByPathologyPriceCategory(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -1069,6 +1072,37 @@ namespace Coditech.Admin.Helpers
             }
         }
 
+        private static void GetPathologyTestNameByPathologyPriceCategory(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Pathology Test Name-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Pathology Test Name-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && dropdownViewModel.Parameter != "0")
+            {
+                int hospitalPathologyPriceCategoryEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[0]);
+                FilterCollection filters = null;
+                if (Convert.ToInt32(dropdownViewModel.DropdownSelectedValue) > 0)
+                {
+                    filters = new FilterCollection();
+                    filters.Add("a.HospitalPathologyTestId", ProcedureFilterOperators.Equals, dropdownViewModel.DropdownSelectedValue);
+                    hospitalPathologyPriceCategoryEnumId = 0;
+                }
+
+                HospitalPathologyTestPricesListResponse response = new HospitalPathologyTestPricesClient().List(hospitalPathologyPriceCategoryEnumId, null, filters, null, 1, int.MaxValue);
+                HospitalPathologyTestPricesListModel list = new HospitalPathologyTestPricesListModel() { HospitalPathologyTestPricesList = response.HospitalPathologyTestPricesList };
+                foreach (var item in list?.HospitalPathologyTestPricesList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.PathologyTestName,
+                        Value = item.HospitalPathologyTestId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.HospitalPathologyTestId)
+                    });
+                }
+            }
+        }
         private static void GetWhatsAppProviderList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------Select WhatsApp Provider-------", Value = "" });

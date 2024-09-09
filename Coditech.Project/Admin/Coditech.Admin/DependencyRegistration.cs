@@ -61,6 +61,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralSmsProviderAgent, GeneralSmsProviderAgent>();
             builder.Services.AddScoped<IGeneralWhatsAppProviderAgent, GeneralWhatsAppProviderAgent>();
             builder.Services.AddScoped<IGeneralDistrictAgent, GeneralDistrictAgent>();
+            builder.Services.AddScoped<IGeneralNotificationAgent, GeneralNotificationAgent>();
 
 
 
@@ -76,6 +77,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPatientAppointmentAgent, HospitalPatientAppointmentAgent>();
             builder.Services.AddScoped<IHospitalPathologyTestGroupAgent, HospitalPathologyTestGroupAgent>();
             builder.Services.AddScoped<IHospitalPathologyTestAgent, HospitalPathologyTestAgent>();
+            builder.Services.AddScoped<IHospitalPathologyTestPricesAgent, HospitalPathologyTestPricesAgent>();
             #endregion
 
             #region MediaManager
@@ -98,6 +100,7 @@ namespace Coditech.Admin
 
             #region Gazette
             builder.Services.AddScoped<IGazetteChaptersAgent, GazetteChaptersAgent>();
+            builder.Services.AddScoped<IGazetteChaptersPageDetailAgent, GazetteChaptersPageDetailAgent>();
             #endregion
             #endregion Agent
 
@@ -157,6 +160,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralSmsProviderClient, GeneralSmsProviderClient>();
             builder.Services.AddScoped<IGeneralWhatsAppProviderClient, GeneralWhatsAppProviderClient>();
             builder.Services.AddScoped<IGeneralDistrictClient, GeneralDistrictClient>();
+            builder.Services.AddScoped<IGeneralNotificationClient, GeneralNotificationClient>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();
@@ -170,6 +174,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPatientAppointmentClient, HospitalPatientAppointmentClient>();
             builder.Services.AddScoped<IHospitalPathologyTestGroupClient, HospitalPathologyTestGroupClient>();
             builder.Services.AddScoped<IHospitalPathologyTestClient, HospitalPathologyTestClient>();
+            builder.Services.AddScoped<IHospitalPathologyTestPricesClient, HospitalPathologyTestPricesClient>();
             #endregion HMS
 
             #region MediaManager            
@@ -178,6 +183,7 @@ namespace Coditech.Admin
 
             #region Gazette          
             builder.Services.AddScoped<IGazetteChaptersClient, GazetteChaptersClient>();
+            builder.Services.AddScoped<IGazetteChaptersPageDetailClient, GazetteChaptersPageDetailClient>();
             #endregion Gazette
 
             #endregion Client
