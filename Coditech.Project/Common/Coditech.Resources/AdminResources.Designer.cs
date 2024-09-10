@@ -90,6 +90,16 @@ namespace Coditech.Resources
                 return ResourceManager.GetString("ErrorDeleteAdminRoleMaster", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete SystemGlobleSetting due to associate record..
+        /// </summary>
+        public static string ErrorSystemGlobleSettingMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
+            }
+        }
 
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete admin saction post due to associate record..
@@ -110,9 +120,19 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("ErrorDeleteEmployeeDetails", resourceCulture);
+
             }
         }
-
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete .
+        /// </summary>
+        public static string ErrorDeleteGeneralNotification
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteNotification", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete city due to associate record..
         /// </summary>
@@ -319,7 +339,17 @@ namespace Coditech.Resources
                 return ResourceManager.GetString("ErrorDeleteGeneralSmsProviderMaster", resourceCulture);
             }
         }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete General GeneralNotification.
+        /// </summary>
+        public static string ErrorDeleteGeneralNotificationMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralNotificationMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete tax group due to associate record..
         /// </summary>
@@ -1341,6 +1371,13 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelWhatsAppProviderList", resourceCulture);
+            }
+        }
+        public static string LabelNotificationList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelNotificationList", resourceCulture);
             }
         }
     }

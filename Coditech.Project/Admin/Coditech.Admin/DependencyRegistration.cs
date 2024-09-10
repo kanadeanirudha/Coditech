@@ -61,6 +61,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralSmsProviderAgent, GeneralSmsProviderAgent>();
             builder.Services.AddScoped<IGeneralWhatsAppProviderAgent, GeneralWhatsAppProviderAgent>();
             builder.Services.AddScoped<IGeneralDistrictAgent, GeneralDistrictAgent>();
+            builder.Services.AddScoped<IGeneralNotificationAgent, GeneralNotificationAgent>();
 
 
 
@@ -159,6 +160,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralSmsProviderClient, GeneralSmsProviderClient>();
             builder.Services.AddScoped<IGeneralWhatsAppProviderClient, GeneralWhatsAppProviderClient>();
             builder.Services.AddScoped<IGeneralDistrictClient, GeneralDistrictClient>();
+            builder.Services.AddScoped<IGeneralNotificationClient, GeneralNotificationClient>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();

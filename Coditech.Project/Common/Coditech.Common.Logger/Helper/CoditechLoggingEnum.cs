@@ -100,7 +100,8 @@
             GazetteChapter,
             GazetteChapterPageDetail,
             HospitalPathologyTest,
-            HospitalPathologyTestPrices
+            HospitalPathologyTestPrices,
+            NotificationMaster
         }
     }
 }
