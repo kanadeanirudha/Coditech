@@ -11,6 +11,8 @@ namespace Coditech.Common.API.Model
         public string SelectedCentreCode { get; set; }
         [Display(Name = "LabelDepartments")]
         public string SelectedDepartmentId { get; set; }
+        [Required]
+        public int InventoryGeneralItemLineId { get; set; }
         public int HospitalDoctorId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? UptoDate { get; set; }
@@ -24,5 +26,6 @@ namespace Coditech.Common.API.Model
         public string MedicalSpecilization { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+        public string ItemName { get; set; }
     }
 }
