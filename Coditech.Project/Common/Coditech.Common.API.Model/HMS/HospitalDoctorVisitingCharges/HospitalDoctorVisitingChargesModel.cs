@@ -26,6 +26,5 @@ namespace Coditech.Common.API.Model
         public string MedicalSpecilization { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
-        public string ItemName { get; set; }
     }
 }
