@@ -682,6 +682,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Registration Fee due to associate record..
+        /// </summary>
+        public static string ErrorDeleteRegistrationFeeDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteRegistrationFeeDetails", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Globle Setting due to associate record..
         /// </summary>
         public static string ErrorDeleteSystemGlobleSettingMaster

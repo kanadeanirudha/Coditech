@@ -255,6 +255,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomService, HospitalDoctorAllocatedOPDRoomService>();
             builder.Services.AddScoped<IHospitalDoctorLeaveScheduleService, HospitalDoctorLeaveScheduleService>();
             builder.Services.AddScoped<IHospitalPatientRegistrationService, HospitalPatientRegistrationService>();
+            builder.Services.AddScoped<IHospitalRegistrationFeeService, HospitalRegistrationFeeService>();
             builder.Services.AddScoped<IHospitalDoctorOPDScheduleService, HospitalDoctorOPDScheduleService>();
             builder.Services.AddScoped<IHospitalPatientAppointmentPurposeService, HospitalPatientAppointmentPurposeService>();
             builder.Services.AddScoped<IHospitalPatientTypeService, HospitalPatientTypeService>();

@@ -75,6 +75,7 @@
             CentrewiseUserName,
             HospitalDoctorVisitingCharges,
             HospitalPatientRegistration,
+            HospitalRegistrationFee,
             InventoryStorageDimensionGroup,
             InventoryItemTrackingDimensionGroup,
             HospitalDoctorOPDSchedule,
