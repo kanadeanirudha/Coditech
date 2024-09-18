@@ -14,7 +14,9 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
-
+        [Required]
+        [Display(Name = "Visiting Service")]
+        public int InventoryGeneralItemLineId { get; set; }
         [Required]
         [Display(Name = "Hospital Doctor")]
         public int HospitalDoctorId { get; set; }

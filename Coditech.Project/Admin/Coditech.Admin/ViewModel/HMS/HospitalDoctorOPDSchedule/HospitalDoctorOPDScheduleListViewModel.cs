@@ -4,10 +4,10 @@ namespace Coditech.Admin.ViewModel
 {
     public class HospitalDoctorOPDScheduleListViewModel : BaseViewModel
     {
-        public List<HospitalDoctorOPDScheduleViewModel> HospitalDoctorList { get; set; }
+        public List<HospitalDoctorOPDScheduleViewModel> HospitalDoctorOPDScheduleList { get; set; }
         public HospitalDoctorOPDScheduleListViewModel()
         {
-            HospitalDoctorList = new List<HospitalDoctorOPDScheduleViewModel>();
+            HospitalDoctorOPDScheduleList = new List<HospitalDoctorOPDScheduleViewModel>();
         }
         public string SelectedCentreCode { get; set; } = string.Empty;
         public int SelectedDepartmentId { get; set; }

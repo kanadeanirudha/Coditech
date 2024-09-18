@@ -39,11 +39,11 @@ namespace Coditech.Admin.Agents
                 filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("RoomName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FromTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("UptoTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             HospitalDoctorLeaveScheduleListResponse response = _hospitalDoctorLeaveScheduleClient.List(selectedCentreCode, selectedDepartmentId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalDoctorLeaveScheduleListModel hospitalDoctorLeaveScheduleList = new HospitalDoctorLeaveScheduleListModel { HospitalDoctorLeaveScheduleList = response?.HospitalDoctorLeaveScheduleList };

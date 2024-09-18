@@ -74,7 +74,10 @@
         HospitalPathologyTestGroup,
         HospitalPathologyTestGroupParent,
         TestSampleTypes,
-        GazetteChapter
+        GazetteChapter,
+        PathologyPriceCategory,
+        HospitalPathologyTestName,
+        PathologyTestNameByPathologyPriceCategory
     }
 
     public enum GeneralSystemGlobleSettingEnum

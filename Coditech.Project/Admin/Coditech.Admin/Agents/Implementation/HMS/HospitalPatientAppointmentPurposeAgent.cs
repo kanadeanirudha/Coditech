@@ -36,10 +36,10 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("HospitalPatientAppointmentPurpose", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("AppointmentPurpose", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "AppointmentPurpose" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             HospitalPatientAppointmentPurposeListResponse response = _hospitalPatientAppointmentPurposeClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             HospitalPatientAppointmentPurposeListModel PatientAppointmentPurposeList = new HospitalPatientAppointmentPurposeListModel { HospitalPatientAppointmentPurposeList = response?.HospitalPatientAppointmentPurposeList };

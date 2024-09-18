@@ -6,6 +6,7 @@ namespace Coditech.API.Data
     {
         [Key]
         public long HospitalDoctorVisitingChargesId { get; set; }
+        public int InventoryGeneralItemLineId { get; set; }
         public int HospitalDoctorId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? UptoDate { get; set; }

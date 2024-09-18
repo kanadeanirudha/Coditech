@@ -101,21 +101,6 @@ namespace Coditech.API.Service
                     }
                 }
             }
-            //foreach (IFormFile file in model?.MediaFileList)
-            //{
-            //    if (!Directory.Exists(_environment.WebRootPath + "\\Upload"))
-            //    {
-            //        Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
-            //    }
-            //    using (FileStream filestream = File.Create(_environment.WebRootPath + "\\Upload\\" + file.FileName))
-            //    {
-            //        string ImgName = "\\Upload\\" + file.FileName;
-            //        file.CopyTo(filestream);
-            //        filestream.Flush();
-            //    }
-            //}
-
-
             return model;
         }
 

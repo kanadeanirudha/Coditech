@@ -98,9 +98,11 @@
             District,
             SmsProviderMaster,
             HospitalPathologyTestGroup,
-            HospitalPathologyTest,
             GazetteChapter,
-            GazetteChapterPageDetail
+            GazetteChapterPageDetail,
+            HospitalPathologyTest,
+            HospitalPathologyTestPrices,
+            NotificationMaster
         }
     }
 }

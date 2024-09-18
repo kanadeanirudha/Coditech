@@ -262,6 +262,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IHospitalPatientAppointmentService, HospitalPatientAppointmentService>();
             builder.Services.AddScoped<IHospitalPathologyTestGroupService, HospitalPathologyTestGroupService>();
             builder.Services.AddScoped<IHospitalPathologyTestService, HospitalPathologyTestService>();
+            builder.Services.AddScoped<IHospitalPathologyTestPricesService, HospitalPathologyTestPricesService>();
         }
         #endregion
     }

@@ -9,23 +9,18 @@ namespace Coditech.Admin.ViewModel
     {
         [Required]
         public int HospitalDoctorId { get; set; }
-
         [Required]
         [Display(Name = "Employee")]
         public long EmployeeId { get; set; }
-
         [Required]
         [Display(Name = "Specilization")]
         public int MedicalSpecilizationEnumId { get; set; }
 
-        [Required]
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string SelectedCentreCode { get; set; }
 
-        [Required]
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
-
         public string ImagePath { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

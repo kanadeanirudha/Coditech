@@ -2,10 +2,10 @@
 {
     public class HospitalDoctorOPDScheduleListModel : BaseListModel
     {
-        public List<HospitalDoctorOPDScheduleModel> HospitalDoctorList { get; set; }
+        public List<HospitalDoctorOPDScheduleModel> HospitalDoctorOPDScheduleList { get; set; }
         public HospitalDoctorOPDScheduleListModel()
         {
-            HospitalDoctorList = new List<HospitalDoctorOPDScheduleModel>();
+            HospitalDoctorOPDScheduleList = new List<HospitalDoctorOPDScheduleModel>();
         }
     }
 }

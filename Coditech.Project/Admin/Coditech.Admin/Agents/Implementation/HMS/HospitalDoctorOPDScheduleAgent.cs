@@ -44,14 +44,14 @@ namespace Coditech.Admin.Agents
                 filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             HospitalDoctorOPDScheduleListResponse response = _hospitalDoctorOPDScheduleClient.List(selectedCentreCode, selectedDepartmentId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            HospitalDoctorOPDScheduleListModel hospitalDoctorOPDScheduleList = new HospitalDoctorOPDScheduleListModel { HospitalDoctorList = response?.HospitalDoctorList };
+            HospitalDoctorOPDScheduleListModel hospitalDoctorOPDScheduleList = new HospitalDoctorOPDScheduleListModel { HospitalDoctorOPDScheduleList = response?.HospitalDoctorOPDScheduleList };
             HospitalDoctorOPDScheduleListViewModel listViewModel = new HospitalDoctorOPDScheduleListViewModel();
-            listViewModel.HospitalDoctorList = hospitalDoctorOPDScheduleList?.HospitalDoctorList?.ToViewModel<HospitalDoctorOPDScheduleViewModel>().ToList();
+            listViewModel.HospitalDoctorOPDScheduleList = hospitalDoctorOPDScheduleList?.HospitalDoctorOPDScheduleList?.ToViewModel<HospitalDoctorOPDScheduleViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.HospitalDoctorList.Count, BindColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.HospitalDoctorOPDScheduleList.Count, BindColumns());
             return listViewModel;
         }
 

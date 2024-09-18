@@ -24,6 +24,7 @@ namespace Coditech.API.Mapper
             CreateMap<HospitalPatientAppointment, HospitalPatientAppointmentModel>().ReverseMap();
             CreateMap<HospitalPathologyTestGroup, HospitalPathologyTestGroupModel>().ReverseMap();
             CreateMap<HospitalPathologyTest, HospitalPathologyTestModel>().ReverseMap();
+            CreateMap<HospitalPathologyTestPrices, HospitalPathologyTestPricesModel>().ReverseMap();
         }
     }
 }

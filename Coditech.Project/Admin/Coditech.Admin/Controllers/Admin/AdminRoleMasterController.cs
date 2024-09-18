@@ -150,8 +150,7 @@ namespace Coditech.Admin.Controllers
         {
             AdminRoleMediaFolderActionViewModel adminRoleMediaFolderActionViewModel = _adminRoleMasterAgent.GetAdminRoleWiseMediaFolderActionById(adminRoleMasterId);
             adminRoleMediaFolderActionViewModel.MediaActionList = new List<SelectListItem>();
-            adminRoleMediaFolderActionViewModel.MediaActionList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
-            var mediaFolderActionList = Enum.GetValues(typeof(UserTypeEnum)).Cast<MediaFolderActionEnum>().ToList();
+            var mediaFolderActionList = Enum.GetValues(typeof(MediaFolderActionEnum)).Cast<MediaFolderActionEnum>().ToList();
             foreach (var item in mediaFolderActionList)
             {
                 adminRoleMediaFolderActionViewModel.MediaActionList.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString() });

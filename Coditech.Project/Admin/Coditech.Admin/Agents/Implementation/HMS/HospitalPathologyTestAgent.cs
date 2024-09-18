@@ -36,7 +36,7 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("PathologyTestName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("TestSampleType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("PathologyTestGroupName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "PathologyTestName" : dataTableModel.SortByColumn, dataTableModel.SortBy);

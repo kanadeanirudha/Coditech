@@ -37,6 +37,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralWhatsAppProvider> GeneralWhatsAppProvider { get; set; }
         public DbSet<CoditechApplicationSetting> CoditechApplicationSetting { get; set; }
         public DbSet<GeneralDistrictMaster> GeneralDistrictMaster { get; set; }
+        public DbSet<GeneralNotification> GeneralNotification { get; set; }
 
         #endregion
 
@@ -114,6 +115,7 @@ namespace Coditech.API.Data
         public DbSet<HospitalPatientAppointment> HospitalPatientAppointment { get; set; }
         public DbSet<HospitalPathologyTestGroup> HospitalPathologyTestGroup { get; set; }
         public DbSet<HospitalPathologyTest> HospitalPathologyTest { get; set; }
+        public DbSet<HospitalPathologyTestPrices> HospitalPathologyTestPrices { get; set; }
         #endregion
 
         #region GeneralPerson
