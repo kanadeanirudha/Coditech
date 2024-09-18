@@ -142,7 +142,7 @@ namespace Coditech.API.Service
             listModel.InventoryGeneralItemMasterList = (from a in _inventoryGeneralItemMasterRepository.Table
                                                         join b in _inventoryGeneralItemLineRepository.Table
                                                         on a.InventoryGeneralItemMasterId equals b.InventoryGeneralItemMasterId
-                                                        where a.ProductTypeEnumId == productTypeEnumId &&
+                                                        where a.ProductTypeEnumId == productTypeEnumId && a.IsActive &&
                                                              (searchText.Contains(a.ItemName) || searchText.Contains(a.ItemNumber) ||
                                                               searchText.Contains(a.HSNSACCode) || searchText.Contains(b.SKU) || searchText == null
                                                               )
