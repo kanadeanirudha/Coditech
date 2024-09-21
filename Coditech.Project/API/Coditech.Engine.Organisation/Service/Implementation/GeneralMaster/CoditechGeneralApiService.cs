@@ -1,5 +1,7 @@
 using Coditech.API.Data;
+using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
@@ -25,7 +27,7 @@ namespace Coditech.API.Service
             if (!string.IsNullOrEmpty(applicationCodes))
             {
                 List<string> applicationCodeList = applicationCodes.Split(",").ToList();
-                List<CoditechApplicationSetting> coditechApplicationSettingList = _coditechApplicationSettingRepository.Table.Where(x=> applicationCodeList.Contains(x.ApplicationCode))?.ToList();
+                List<CoditechApplicationSetting> coditechApplicationSettingList = _coditechApplicationSettingRepository.Table.Where(x => applicationCodeList.Contains(x.ApplicationCode))?.ToList();
                 foreach (CoditechApplicationSetting item in coditechApplicationSettingList)
                 {
                     listModel.CoditechApplicationSettingList.Add(item.FromEntityToModel<CoditechApplicationSettingModel>());
@@ -33,7 +35,18 @@ namespace Coditech.API.Service
             }
             return listModel;
         }
+
+        public virtual string GetDomainAPIKey(string requestKey)
+        {
+            string databaseApiDomainRequestKey = _coditechApplicationSettingRepository.Table.Where(x => x.ApplicationCode == "ApiDomainRequestKey")?.Select(y => y.ApplicationValue1)?.FirstOrDefault();
+            if (!string.IsNullOrEmpty(requestKey) && !string.IsNullOrEmpty(databaseApiDomainRequestKey) && requestKey == databaseApiDomainRequestKey)
+            {
+                return $"Basic {HelperUtility.EncodeBase64($"{ApiSettings.CoditechApiDomainName}|{ApiSettings.CoditechApiDomainKey}")}";
+            }
+            return string.Empty;
+        }
         #region Protected Method
+
         #endregion
     }
 }
