@@ -45,6 +45,7 @@ namespace Coditech.API.Controllers
             }
 
         }
+
         [Route("/GeneralNotificationMaster/CreateNotification")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GeneralNotificationListResponse))]
@@ -131,6 +132,31 @@ namespace Coditech.API.Controllers
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.NotificationMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
+        }
+
+        [HttpGet]
+        [Route("/GeneralNotificationMaster/GetActiveNotificationList")]
+        [Produces(typeof(GeneralNotificationListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetActiveNotificationList()
+        {
+            try
+            {
+                GeneralNotificationListModel list = _generalNotificationService.GetActiveNotificationList();
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GeneralNotificationListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.NotificationMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralNotificationListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.NotificationMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralNotificationListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+
         }
     }
 
