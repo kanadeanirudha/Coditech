@@ -315,8 +315,8 @@ namespace Coditech.API.Service
                 foreach (Media media in managerFolderResponse.MediaManagerFolderModel.MediaFiles)
                 {
                     TotalFileSizeInByte += media.MediaSize;
-
-                    media.MediaPath = GetMediaPathUrl(media.ContentType, url, media.MediaPath); 
+                    media.DownloadPath = $"{url}{media.MediaPath}";
+                    media.MediaPath = GetMediaPathUrl(media.ContentType, url, media.MediaPath);                   
                 }
 
                 managerFolderResponse.MediaManagerFolderModel.TotalFileSize = TotalFileSizeInByte > 0 ? ConvertBytesToMegabytes(TotalFileSizeInByte) : 0;
