@@ -119,14 +119,17 @@ namespace Coditech.API.Service
         {
             GeneralNotificationListModel listModel = new GeneralNotificationListModel();
 
-            DateTime todaysDate = DateTime.Now;
+            DateTime todaysDate = DateTime.Now.Date;
             listModel.GeneralNotificationList = (from a in _generalNotificationMasterRepository.Table
-                                                               where a.FromDate >= todaysDate && a.UptoDate <= todaysDate
-                                                               select new GeneralNotificationModel
-                                                               {
-                                                                   GeneralNotificationId = a.GeneralNotificationId,
-                                                                   NotificationDetails = a.NotificationDetails
-                                                               })?.ToList();
+                                                 where a.IsActive && todaysDate >= a.FromDate && todaysDate <= a.UptoDate
+                                                 select new GeneralNotificationModel
+                                                 {
+                                                     GeneralNotificationId = a.GeneralNotificationId,
+                                                     NotificationDetails = a.NotificationDetails,
+                                                     FromDate = a.FromDate,
+                                                     UptoDate = a.UptoDate,
+                                                     IsActive = a.IsActive
+                                                 })?.ToList();
 
             return listModel;
         }
