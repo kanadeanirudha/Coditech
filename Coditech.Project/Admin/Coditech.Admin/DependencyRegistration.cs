@@ -78,6 +78,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPathologyTestGroupAgent, HospitalPathologyTestGroupAgent>();
             builder.Services.AddScoped<IHospitalPathologyTestAgent, HospitalPathologyTestAgent>();
             builder.Services.AddScoped<IHospitalPathologyTestPricesAgent, HospitalPathologyTestPricesAgent>();
+            builder.Services.AddScoped<IHospitalRegistrationFeeAgent, HospitalRegistrationFeeAgent>();
             #endregion
 
             #region MediaManager
@@ -175,6 +176,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPathologyTestGroupClient, HospitalPathologyTestGroupClient>();
             builder.Services.AddScoped<IHospitalPathologyTestClient, HospitalPathologyTestClient>();
             builder.Services.AddScoped<IHospitalPathologyTestPricesClient, HospitalPathologyTestPricesClient>();
+            builder.Services.AddScoped<IHospitalRegistrationFeeClient, HospitalRegistrationFeeClient>();
             #endregion HMS
 
             #region MediaManager            

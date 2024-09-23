@@ -14,7 +14,9 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
-
+        [Required]
+        [Display(Name = "Visiting Service")]
+        public int InventoryGeneralItemLineId { get; set; }
         [Required]
         [Display(Name = "Hospital Doctor")]
         public int HospitalDoctorId { get; set; }
@@ -38,7 +40,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(500)]
         [Display(Name = "Remark")]
         public string Remark { get; set; }
-
+        public Boolean IsTaxExclusive { get; set; }
         public string ImagePath { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

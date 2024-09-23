@@ -4,9 +4,8 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Logger;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using System.Diagnostics;
 
 namespace Coditech.API.Controllers
@@ -20,11 +19,9 @@ namespace Coditech.API.Controllers
             _coditechGeneralApiService = coditechApplicationSettingService;
             _coditechLogging = coditechLogging;
         }
-
         [HttpGet]
         [Route("/CoditechGeneralApi/GetCoditechApplicationSettingList")]
         [Produces(typeof(CoditechApplicationSettingListResponse))]
-        [TypeFilter(typeof(BindQueryFilter))]
         public virtual IActionResult GetCoditechApplicationSettingList(string applicationCodes)
         {
             try
@@ -42,6 +39,31 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CoditechGeneralApi.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new CoditechApplicationSettingListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("/CoditechGeneralApi/GetDomainAPIKey")]
+        [Produces(typeof(StringResponse))]
+        public virtual IActionResult GetDomainAPIKey(string requestKey)
+        {
+            try
+            {
+                string apiDomainkey = _coditechGeneralApiService.GetDomainAPIKey(requestKey);
+                StringResponse response = new StringResponse() { Response = apiDomainkey };
+                string data = ApiHelper.ToJson(response);
+                return !string.IsNullOrEmpty(apiDomainkey) ? CreateOKResponse<StringResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CoditechGeneralApi.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new StringResponse { Response = "", ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CoditechGeneralApi.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new StringResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

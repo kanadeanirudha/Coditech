@@ -23,7 +23,6 @@ namespace Coditech.API.Service
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalNotificationMasterRepository = new CoditechRepository<GeneralNotification>(_serviceProvider.GetService<Coditech_Entities>());
-
         }
 
         public virtual GeneralNotificationListModel GetNotificationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -114,6 +113,25 @@ namespace Coditech.API.Service
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteGeneralNotification @GeneralNotoficationId,  @Status OUT", 1, out status);
 
             return status == 1 ? true : false;
+        }
+
+        public virtual GeneralNotificationListModel GetActiveNotificationList()
+        {
+            GeneralNotificationListModel listModel = new GeneralNotificationListModel();
+
+            DateTime todaysDate = DateTime.Now.Date;
+            listModel.GeneralNotificationList = (from a in _generalNotificationMasterRepository.Table
+                                                 where a.IsActive && todaysDate >= a.FromDate && todaysDate <= a.UptoDate
+                                                 select new GeneralNotificationModel
+                                                 {
+                                                     GeneralNotificationId = a.GeneralNotificationId,
+                                                     NotificationDetails = a.NotificationDetails,
+                                                     FromDate = a.FromDate,
+                                                     UptoDate = a.UptoDate,
+                                                     IsActive = a.IsActive
+                                                 })?.ToList();
+
+            return listModel;
         }
         #region Protected Method
         // Check if Notification code is already present or not.
