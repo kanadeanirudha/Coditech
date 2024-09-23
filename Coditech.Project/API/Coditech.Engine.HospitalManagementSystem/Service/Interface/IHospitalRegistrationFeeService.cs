@@ -7,8 +7,10 @@ namespace Coditech.API.Service
 {
     public interface IHospitalRegistrationFeeService
     {
-        HospitalRegistrationFeeListModel GetRegistrationFeeList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        HospitalRegistrationFeeListModel GetHospitalRegistrationFeeList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        HospitalRegistrationFeeModel CreateRegistrationFee(HospitalRegistrationFeeModel model);
         HospitalRegistrationFeeModel GetRegistrationFee(int hospitalRegistrationFeeId);
+        bool UpdateRegistrationFee(HospitalRegistrationFeeModel model);
         bool DeleteRegistrationFee(ParameterModel parameterModel);
     }
 }

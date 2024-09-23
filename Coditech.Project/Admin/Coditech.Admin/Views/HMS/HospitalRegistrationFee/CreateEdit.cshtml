@@ -39,25 +39,15 @@
                         {
                             @Html.HiddenFor(m => m.HospitalRegistrationFeeId)
                             @Html.HiddenFor(m => m.InventoryGeneralItemLineId)
-                            @Html.HiddenFor(m => m.FirstName)
-                            @Html.HiddenFor(m => m.LastName)
+                            @Html.HiddenFor(m => m.CentreCode)
                             <div class="row">
-                                @if (Model.HospitalRegistrationFeeId == 0)
-                                {
-
-                                    <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            @Html.LabelFor(x => x.CentreCode, new { @class = "form-label required" })
-                                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
-                                            @Html.ValidationMessageFor(x => x.CentreCode)
-                                        </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.CentreCode, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                                        @Html.ValidationMessageFor(x => x.CentreCode)
                                     </div>
-
-                                }
-                                else
-                                {
-                                    @Html.HiddenFor(m => m.CentreCode)
-                                }
+                                </div>
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.FromDate, new { @class = "form-label required" })
@@ -70,6 +60,19 @@
                                         @Html.LabelFor(x => x.UptoDate, new { @class = "form-label" })
                                         @Html.TextBoxFor(x => x.UptoDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.UptoDate)
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.RegistrationService, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownType = DropdownTypeEnum.InventoryGeneralServiecs.ToString(),
+                                   DropdownName = "InventoryGeneralItemLineId",
+                                   DropdownSelectedValue = Model.InventoryGeneralItemLineId
+                                    .ToString(),
+                               })
+                                        @Html.ValidationMessageFor(x => x.InventoryGeneralItemLineId)
                                     </div>
                                 </div>
                                 <div class="col-lg-3">

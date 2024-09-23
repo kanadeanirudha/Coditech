@@ -10,12 +10,13 @@ namespace Coditech.Admin.Controllers
     public class HospitalRegistrationFeeController : BaseController
     {
         private readonly IHospitalRegistrationFeeAgent _hospitalRegistrationFeeAgent;
-        private const string createEditRegistrationFee = "~/Views/HMS/HospitalRegistrationFee/CreateEditRegistrationFee.cshtml";
+        private const string createEdit = "~/Views/HMS/HospitalRegistrationFee/CreateEdit.cshtml";
 
         public HospitalRegistrationFeeController(IHospitalRegistrationFeeAgent hospitalRegistrationFeeAgent)
         {
             _hospitalRegistrationFeeAgent = hospitalRegistrationFeeAgent;
         }
+
         #region Registration Fee
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
@@ -34,49 +35,49 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult CreateRegistrationFee()
+        public virtual ActionResult Create()
         {
-            return View(createEditRegistrationFee, new HospitalRegistrationFeeCreateEditViewModel());
+            return View(createEdit, new HospitalRegistrationFeeViewModel());
         }
 
         [HttpPost]
-        public virtual ActionResult CreateRegistrationFee(HospitalRegistrationFeeCreateEditViewModel hospitalRegistrationFeeCreateEditViewModel, string selectedCentreCode)
+        public virtual ActionResult Create(HospitalRegistrationFeeViewModel hospitalRegistrationFeeViewModel)
         {
             if (ModelState.IsValid)
             {
-                hospitalRegistrationFeeCreateEditViewModel = _hospitalRegistrationFeeAgent.CreateRegistrationFee(hospitalRegistrationFeeCreateEditViewModel);
-                if (!hospitalRegistrationFeeCreateEditViewModel.HasError)
+                hospitalRegistrationFeeViewModel = _hospitalRegistrationFeeAgent.CreateRegistrationFee(hospitalRegistrationFeeViewModel);
+                if (!hospitalRegistrationFeeViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    // Redirect to the List action with selectedCentreCode and selectedDepartmentId
-                    return RedirectToAction("List", new { selectedCentreCode });
+                    //return RedirectToAction("List", new { selectedCentreCode });
+                    return RedirectToAction("List", CreateActionDataTable());
                 }
             }
-            SetNotificationMessage(GetErrorNotificationMessage(hospitalRegistrationFeeCreateEditViewModel.ErrorMessage));
-            return View(createEditRegistrationFee, hospitalRegistrationFeeCreateEditViewModel);
+            SetNotificationMessage(GetErrorNotificationMessage(hospitalRegistrationFeeViewModel.ErrorMessage));
+            return View(createEdit, hospitalRegistrationFeeViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult UpdateRegistrationFee(int hospitalRegistrationFeeId, long personId)
+        public virtual ActionResult Edit(int hospitalRegistrationFeeId)
         {
-            HospitalRegistrationFeeCreateEditViewModel hospitalRegistrationFeeCreateEditViewModel = _hospitalRegistrationFeeAgent.GetRegistrationFee(hospitalRegistrationFeeId, personId);
-            return ActionView(createEditRegistrationFee, hospitalRegistrationFeeCreateEditViewModel);
+            HospitalRegistrationFeeViewModel hospitalRegistrationFeeViewModel = _hospitalRegistrationFeeAgent.GetRegistrationFee(hospitalRegistrationFeeId);
+            return ActionView(createEdit, hospitalRegistrationFeeViewModel);
         }
 
         [HttpPost]
-        public virtual ActionResult UpdateRegistrationFee(HospitalRegistrationFeeCreateEditViewModel hospitalRegistrationFeeCreateEditViewModel)
+        public virtual ActionResult Edit(HospitalRegistrationFeeViewModel hospitalRegistrationFeeViewModel)
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_hospitalRegistrationFeeAgent.UpdateRegistrationFee(hospitalRegistrationFeeCreateEditViewModel).HasError
+                SetNotificationMessage(_hospitalRegistrationFeeAgent.UpdateRegistrationFee(hospitalRegistrationFeeViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("UpdateRegistrationFee", new { hospitalRegistrationFeeId = hospitalRegistrationFeeCreateEditViewModel.HospitalRegistrationFeeId, personId = hospitalRegistrationFeeCreateEditViewModel.PersonId });
+                return RedirectToAction("Edit", new { hospitalRegistrationFeeViewModel.HospitalRegistrationFeeId });
             }
-            return View(createEditRegistrationFee, hospitalRegistrationFeeCreateEditViewModel);
+            return View(createEdit, hospitalRegistrationFeeViewModel);
         }
 
-        public virtual ActionResult Delete(string hospitalRegistrationFeeIds, string SelectedCentreCode)
+        public virtual ActionResult Delete(string hospitalRegistrationFeeIds)
         {
             string message = string.Empty;
             bool status = false;
@@ -98,6 +99,6 @@ namespace Coditech.Admin.Controllers
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
             return RedirectToAction("List", dataTableViewModel);
         }
-        #endregion HospitalRegistrationFee
+        #endregion 
     }
 }

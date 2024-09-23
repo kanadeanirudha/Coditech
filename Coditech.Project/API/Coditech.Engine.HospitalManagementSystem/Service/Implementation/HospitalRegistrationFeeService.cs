@@ -4,7 +4,6 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -13,19 +12,19 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class HospitalRegistrationFeeService : BaseService, IHospitalRegistrationFeeService
+    public class HospitalRegistrationFeeService : IHospitalRegistrationFeeService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<HospitalRegistrationFee> _hospitalRegistrationFeeRepository;
-        public HospitalRegistrationFeeService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        public HospitalRegistrationFeeService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _hospitalRegistrationFeeRepository = new CoditechRepository<HospitalRegistrationFee>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual HospitalRegistrationFeeListModel GetRegistrationFeeList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual HospitalRegistrationFeeListModel GetHospitalRegistrationFeeList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
@@ -36,34 +35,67 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<HospitalRegistrationFeeModel> RegistrationFeeList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalRegistrationFeeList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            List<HospitalRegistrationFeeModel> registrationFeeList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalRegistrationFeeList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             HospitalRegistrationFeeListModel listModel = new HospitalRegistrationFeeListModel();
 
-            listModel.HospitalRegistrationFeeList = RegistrationFeeList?.Count > 0 ? RegistrationFeeList : new List<HospitalRegistrationFeeModel>();
+            listModel.HospitalRegistrationFeeList = registrationFeeList?.Count > 0 ? registrationFeeList : new List<HospitalRegistrationFeeModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
 
-        //Get RegistrationFee by RegistrationFee id.
+        //Create HospitalRegistrationFee.
+        public virtual HospitalRegistrationFeeModel CreateRegistrationFee(HospitalRegistrationFeeModel hospitalRegistrationFeeModel)
+        {
+            if (IsNull(hospitalRegistrationFeeModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            HospitalRegistrationFee hospitalRegistrationFee = hospitalRegistrationFeeModel.FromModelToEntity<HospitalRegistrationFee>();
+
+            //Create new HospitalRegistrationFee and return it.
+            HospitalRegistrationFee hospitalRegistrationFeeData = _hospitalRegistrationFeeRepository.Insert(hospitalRegistrationFee);
+            if (hospitalRegistrationFeeData?.HospitalRegistrationFeeId > 0)
+            {
+                hospitalRegistrationFeeModel.HospitalRegistrationFeeId = hospitalRegistrationFeeData.HospitalRegistrationFeeId;
+            }
+            else
+            {
+                hospitalRegistrationFeeModel.HasError = true;
+                hospitalRegistrationFeeModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return hospitalRegistrationFeeModel;
+        }
+
+        //Get HospitalRegistrationFee by HospitalRegistrationFee id.
         public virtual HospitalRegistrationFeeModel GetRegistrationFee(int hospitalRegistrationFeeId)
         {
             if (hospitalRegistrationFeeId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalRegistrationFeeId"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalRegistrationFeeID"));
 
-            //Get the PatientRegistration Details based on id.
-            HospitalRegistrationFee hospitalRegistrationFee = _hospitalRegistrationFeeRepository.Table.Where(x => x.HospitalRegistrationFeeId == hospitalRegistrationFeeId)?.FirstOrDefault();
-            HospitalRegistrationFeeModel hospitalRegistrationFeeModel = IsNotNull(hospitalRegistrationFee) ? hospitalRegistrationFee?.FromEntityToModel<HospitalRegistrationFeeModel>() : new HospitalRegistrationFeeModel();
-            if (IsNotNull(hospitalRegistrationFeeModel))
-            {
-                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(hospitalRegistrationFeeModel.PersonId);
-                if (IsNotNull(hospitalRegistrationFeeModel))
-                {
-                    hospitalRegistrationFeeModel.FirstName = generalPersonModel.FirstName;
-                    hospitalRegistrationFeeModel.LastName = generalPersonModel.LastName;
-
-                }
-            }
+            //Get the HospitalRegistrationFee Details based on id.
+            HospitalRegistrationFee hospitalRegistrationFee = _hospitalRegistrationFeeRepository.Table.FirstOrDefault(x => x.HospitalRegistrationFeeId == hospitalRegistrationFeeId);
+            HospitalRegistrationFeeModel hospitalRegistrationFeeModel = hospitalRegistrationFee?.FromEntityToModel<HospitalRegistrationFeeModel>();
             return hospitalRegistrationFeeModel;
+        }
+
+        //Update HospitalRegistrationFee.
+        public virtual bool UpdateRegistrationFee(HospitalRegistrationFeeModel hospitalRegistrationFeeModel)
+        {
+            if (IsNull(hospitalRegistrationFeeModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (hospitalRegistrationFeeModel.HospitalRegistrationFeeId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalRegistrationFeeID"));
+
+            HospitalRegistrationFee hospitalRegistrationFee = hospitalRegistrationFeeModel.FromModelToEntity<HospitalRegistrationFee>();
+
+            //Update HospitalRegistrationFee
+            bool isHospitalRegistrationFeeUpdated = _hospitalRegistrationFeeRepository.Update(hospitalRegistrationFee);
+            if (!isHospitalRegistrationFeeUpdated)
+            {
+                hospitalRegistrationFeeModel.HasError = true;
+                hospitalRegistrationFeeModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isHospitalRegistrationFeeUpdated;
         }
 
         //Delete RegistrationFee.
@@ -82,10 +114,6 @@ namespace Coditech.API.Service
         }
 
         #region Protected Method
-        //Check if Person code is already present or not.
-      //  protected virtual bool IsPersonCodeAlreadyExist(string personCode, int hospitalRegistrationFeeId = 0)
-      //   => _hospitalRegistrationFeeRepository.Table.Any(x => x.UAHNumber == personCode && (x.HospitalRegistrationFeeId != hospitalRegistrationFeeId || hospitalRegistrationFeeId == 0));
-
         #endregion
     }
 }

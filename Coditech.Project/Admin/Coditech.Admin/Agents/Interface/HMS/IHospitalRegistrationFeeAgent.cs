@@ -14,26 +14,26 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Create Registration Fee.
         /// </summary>
-        /// <param name="HospitalRegistrationFeeCreateEditViewModel">Registration Fee Create View Model.</param>
+        /// <param name="HospitalRegistrationFeeViewModel">Registration Fee Create View Model.</param>
         /// <returns>Returns created model.</returns>
-        HospitalRegistrationFeeCreateEditViewModel CreateRegistrationFee(HospitalRegistrationFeeCreateEditViewModel hospitalRegistrationFeeCreateEditViewModel);
+        HospitalRegistrationFeeViewModel CreateRegistrationFee(HospitalRegistrationFeeViewModel hospitalRegistrationFeeViewModel);
 
         /// <summary>
-        /// Get Registration Fee Personal Details by personId.
+        /// Get Registration Fee by hospitalRegistrationFeeId.
         /// </summary>
-        /// <param name="hospitalRegistrationFeeId">personId</param>
-        /// <returns>Returns HospitalRegistrationFeeCreateEditViewModel.</returns>
-        HospitalRegistrationFeeCreateEditViewModel GetRegistrationFee(int hospitalRegistrationFeeId, long personId);
+        /// <param name="hospitalRegistrationFeeId">hospitalRegistrationFeeId</param>
+        /// <returns>Returns HospitalRegistrationFeeViewModel.</returns>
+        HospitalRegistrationFeeViewModel GetRegistrationFee(int hospitalRegistrationFeeId);
 
         /// <summary>
-        /// Update RegistrationFee Personal Details.
+        /// Update HospitalRegistrationFee.
         /// </summary>
-        /// <param name="HospitalRegistrationFeeViewModel">HospitalRegistrationFeeCreateEditViewModel.</param>
-        /// <returns>Returns updated HospitalRegistrationFeeCreateEditViewModel</returns>
-        HospitalRegistrationFeeCreateEditViewModel UpdateRegistrationFee(HospitalRegistrationFeeCreateEditViewModel hospitalRegistrationFeeCreateEditViewModel);
+        /// <param name="hospitalRegistrationFeeViewModel">hospitalRegistrationFeeViewModel.</param>
+        /// <returns>Returns updated HospitalRegistrationFeeViewModel</returns>
+        HospitalRegistrationFeeViewModel UpdateRegistrationFee(HospitalRegistrationFeeViewModel hospitalRegistrationFeeViewModel);
 
         /// <summary>
-        /// Delete Registration Fee
+        /// Delete HospitalRegistrationFee.
         /// </summary>
         /// <param name="hospitalRegistrationFeeIds">hospitalRegistrationFeeIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>

@@ -5,14 +5,13 @@ using Coditech.Common.API.Model.Response;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
 
 using static Coditech.Common.Helper.HelperUtility;
 
-namespace Coditech.API.Controllers
+namespace Coditech.Engine.HospitalManagementSystem.Controllers
 {
     public class HospitalRegistrationFeeController : BaseController
     {
@@ -25,14 +24,14 @@ namespace Coditech.API.Controllers
         }
 
         [HttpGet]
-        [Route("/HospitalRegistrationFee/GetRegistrationFeeList")]
+        [Route("/HospitalRegistrationFee/GetHospitalRegistrationFeeList")]
         [Produces(typeof(HospitalRegistrationFeeListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetRegistrationFeeList(string selectedCentreCode, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetHospitalRegistrationFeeList(string selectedCentreCode, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                HospitalRegistrationFeeListModel list = _hospitalRegistrationFeeService.GetRegistrationFeeList(selectedCentreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                HospitalRegistrationFeeListModel list = _hospitalRegistrationFeeService.GetHospitalRegistrationFeeList(selectedCentreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalRegistrationFeeListResponse>(data) : CreateNoContentResponse();
             }
@@ -48,6 +47,28 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [Route("/HospitalRegistrationFee/CreateRegistrationFee")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(HospitalRegistrationFeeResponse))]
+        public virtual IActionResult CreateRegistrationFee([FromBody] HospitalRegistrationFeeModel model)
+        {
+            try
+            {
+                HospitalRegistrationFeeModel hospitalRegistrationFee = _hospitalRegistrationFeeService.CreateRegistrationFee(model);
+                return IsNotNull(hospitalRegistrationFee) ? CreateCreatedResponse(new HospitalRegistrationFeeResponse { HospitalRegistrationFeeModel = hospitalRegistrationFee }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new HospitalRegistrationFeeResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new HospitalRegistrationFeeResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
         [Route("/HospitalRegistrationFee/GetRegistrationFee")]
         [HttpGet]
         [Produces(typeof(HospitalRegistrationFeeResponse))]
@@ -57,6 +78,28 @@ namespace Coditech.API.Controllers
             {
                 HospitalRegistrationFeeModel hospitalRegistrationFeeModel = _hospitalRegistrationFeeService.GetRegistrationFee(hospitalRegistrationFeeId);
                 return IsNotNull(hospitalRegistrationFeeModel) ? CreateOKResponse(new HospitalRegistrationFeeResponse { HospitalRegistrationFeeModel = hospitalRegistrationFeeModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new HospitalRegistrationFeeResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new HospitalRegistrationFeeResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/HospitalRegistrationFee/UpdateRegistrationFee")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(HospitalRegistrationFeeResponse))]
+        public virtual IActionResult UpdateRegistrationFee([FromBody] HospitalRegistrationFeeModel model)
+        {
+            try
+            {
+                bool isUpdated = _hospitalRegistrationFeeService.UpdateRegistrationFee(model);
+                return isUpdated ? CreateOKResponse(new HospitalRegistrationFeeResponse { HospitalRegistrationFeeModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
