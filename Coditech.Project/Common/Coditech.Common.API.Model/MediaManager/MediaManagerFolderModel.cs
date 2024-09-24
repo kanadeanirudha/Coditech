@@ -31,5 +31,6 @@
         public long MediaSize { get; set; }
         public int ActiveFolderId { get; set; }
         public string ContentType { get; set; }
+        public string DownloadPath { get; set; }
     }
 }

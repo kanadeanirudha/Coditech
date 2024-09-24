@@ -42,7 +42,23 @@ namespace Coditech.Common.API
                 return Convert.ToString(settings["ValidateRequestAPI"]);
             }
         }
-    
+
+        public static string CoditechApiDomainName
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechApiDomainName"]);
+            }
+        }
+
+        public static string CoditechApiDomainKey
+        {
+            get
+            {
+                return Convert.ToString(settings["CoditechApiDomainKey"]);
+            }
+        }
+
         public static bool MinifiedJsonResponse
         {
             get
@@ -77,6 +93,13 @@ namespace Coditech.Common.API
             get
             {
                 return Convert.ToString(settings["ResetPasswordExpriedTimeInMinute"]);
+            }
+        }
+        public static string ApiDomainRequestKey
+        {
+            get
+            {
+                return Convert.ToString(settings["ApiDomainRequestKey"]);
             }
         }
     }

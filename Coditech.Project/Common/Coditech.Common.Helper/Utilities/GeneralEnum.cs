@@ -73,7 +73,7 @@
         CallingCode,
         HospitalPathologyTestGroup,
         HospitalPathologyTestGroupParent,
-        TestSampleTypes,
+        HospitalPathologyTestSampleTypes,
         GazetteChapter,
         PathologyPriceCategory,
         HospitalPathologyTestName,

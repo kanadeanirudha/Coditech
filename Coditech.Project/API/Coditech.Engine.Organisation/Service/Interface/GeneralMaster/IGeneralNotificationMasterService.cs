@@ -12,5 +12,6 @@ namespace Coditech.API.Service
         GeneralNotificationModel GetNotification(long NotificationId);
         bool UpdateNotification(GeneralNotificationModel model);
         bool DeleteNotification(ParameterModel parametermodel);
+        GeneralNotificationListModel GetActiveNotificationList();
     }
 }
