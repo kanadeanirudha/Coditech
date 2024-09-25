@@ -762,6 +762,7 @@ namespace Coditech.Admin.Helpers
                 {
                     Text = $"{item.ItemName}({item.HSNSACCode})",
                     Value = item.InventoryGeneralItemLineId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryGeneralItemLineId)
                 });
             }
         }
