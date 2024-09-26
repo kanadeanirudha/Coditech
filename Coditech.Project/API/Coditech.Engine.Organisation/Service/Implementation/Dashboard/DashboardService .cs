@@ -41,7 +41,7 @@ namespace Coditech.API.Service
                 dashboardModel.DashboardFormEnumCode = dashboardFormEnumCode;
                 if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetDashboardDetailsByUserId(0);
+                    DataSet dataset = GetGymDashboardDetailsByUserId(0);
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     GymDashboardModel gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
@@ -49,7 +49,7 @@ namespace Coditech.API.Service
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetDashboardDetailsByUserId(userMasterId);
+                    DataSet dataset = GetGymDashboardDetailsByUserId(userMasterId);
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     GymDashboardModel gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
@@ -60,11 +60,11 @@ namespace Coditech.API.Service
             return dashboardModel;
         }
 
-        protected virtual DataSet GetDashboardDetailsByUserId(long userId)
+        protected virtual DataSet GetGymDashboardDetailsByUserId(long userId)
         {
             ExecuteSpHelper objStoredProc = new ExecuteSpHelper(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.GetParameter("@UserId", userId, ParameterDirection.Input, SqlDbType.BigInt);
-            return objStoredProc.GetSPResultInDataSet("Coditech_GymDashboard");
+            return objStoredProc.GetSPResultInDataSet("Coditech_GetGymDashboard");
         }
     }
 }

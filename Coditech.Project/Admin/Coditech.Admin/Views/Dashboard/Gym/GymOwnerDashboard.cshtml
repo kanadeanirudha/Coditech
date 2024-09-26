@@ -3,6 +3,13 @@
 @model DashboardViewModel
 @{
     ViewBag.Title = "Dashboard";
+    PieChartViewModel pieChartViewModel = new PieChartViewModel()
+            {
+                PieChartId = "ActiveInActiveMemberPieChart",
+                XValues = ["Active Member", "InActive Member"],
+                YValues = [10, 20],
+                Title = "test"
+            };
 }
 <div class="page-content">
     <div class="container-fluid">
@@ -133,5 +140,11 @@
                 </div><!--end card-->
             </div> <!--end col-->
         </div><!--end row-->
+        <div class="row">
+            <div class="col-md-6 col-lg-3">
+                @Html.Partial("~/Views/Shared/Charts/PieChart.cshtml", pieChartViewModel)
+            </div>
+        </div>
+
     </div><!-- container -->
 </div>

@@ -1,0 +1,39 @@
+﻿@model PieChartViewModel
+@{
+    Layout = null;
+}
+<canvas id="ActiveInActiveMemberPieChart" width="300" height="300"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    debugger;
+    var xValues = @Html.Raw(@Model.XValues);//["A1","A2"]// ;
+    debugger;
+    var yValues = [12,10];
+    new Chart("ActiveInActiveMemberPieChart", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: yValues,
+                display: true,
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: '@Model.Title'
+                },
+                labels: {
+                    render: 'label',
+                    arc: true,
+                    fontColor: '#000',
+                    position: 'outside'
+                }
+
+            }
+        }
+    });
+</script>
