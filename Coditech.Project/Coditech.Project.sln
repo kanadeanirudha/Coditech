@@ -51,7 +51,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.SalesAndPur
 EndProject
 Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Coditech.Reports", "Coditech.Reports\Coditech.Reports.rptproj", "{43C7D927-ACD8-43AD-8BC8-87EA7607DD95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Engine.Gazette", "API\Coditech.Engine.Gazette\Coditech.Engine.Gazette.csproj", "{2B72888A-A016-4509-ABA3-057AA7811565}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Gazette", "API\Coditech.Engine.Gazette\Coditech.Engine.Gazette.csproj", "{2B72888A-A016-4509-ABA3-057AA7811565}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Engine.DBTM", "API\Coditech.Engine.DBTM\Coditech.Engine.DBTM.csproj", "{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -182,6 +184,12 @@ Global
 		{2B72888A-A016-4509-ABA3-057AA7811565}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{2B72888A-A016-4509-ABA3-057AA7811565}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B72888A-A016-4509-ABA3-057AA7811565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

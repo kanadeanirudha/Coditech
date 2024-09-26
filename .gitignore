@@ -89,3 +89,6 @@
 /Coditech.Project/API/Coditech.Engine.HospitalManagementSystem/.config/dotnet-tools.json
 /Coditech.Project/API/Coditech.Engine.HospitalManagementSystem/Properties/PublishProfiles
 /Coditech.Project/API/Coditech.Engine.HospitalManagementSystem/Coditech.Engine.HospitalManagementSystem.csproj.user
+/Coditech.Project/API/Coditech.Engine.DBTM/obj
+/Coditech.Project/API/Coditech.Engine.DBTM/Coditech.Engine.DBTM.csproj.user
+/Coditech.Project/API/Coditech.Engine.DBTM/bin
