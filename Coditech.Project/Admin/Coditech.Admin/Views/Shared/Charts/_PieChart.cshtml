@@ -2,16 +2,12 @@
 @{
     Layout = null;
 }
-<canvas id="ActiveInActiveMemberPieChart" width="300" height="300"></canvas>
-
+<canvas id="@Model.PieChartId" width="300" height="300"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
-    debugger;
-    var xValues = @Html.Raw(@Model.XValues);//["A1","A2"]// ;
-    debugger;
-    var yValues = [12,10];
-    new Chart("ActiveInActiveMemberPieChart", {
+    var xValues = @Html.Raw(Model.XValues);
+    var yValues = @Html.Raw(Model.YValues);
+    new Chart("@Model.PieChartId", {
         type: "pie",
         data: {
             labels: xValues,
@@ -24,7 +20,7 @@
             plugins: {
                 title: {
                     display: true,
-                    text: '@Model.Title'
+                    text: '@Html.Raw(@Model.Title)'
                 },
                 labels: {
                     render: 'label',
