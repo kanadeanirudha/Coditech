@@ -45,6 +45,9 @@ namespace Coditech.API.Service
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     GymDashboardModel gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
+                    dataset.Tables[1].TableName = "FinancialOverview";
+                    gymDashboardModel.TransactionOverviewList = new List<GymTransactionOverviewModel>();
+                    gymDashboardModel.TransactionOverviewList  = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["FinancialOverview"])?.ToList();
                     dashboardModel.GymDashboardModel = gymDashboardModel;
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
@@ -56,7 +59,6 @@ namespace Coditech.API.Service
                     dashboardModel.GymDashboardModel = gymDashboardModel;
                 }
             }
-
             return dashboardModel;
         }
 
@@ -64,6 +66,7 @@ namespace Coditech.API.Service
         {
             ExecuteSpHelper objStoredProc = new ExecuteSpHelper(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.GetParameter("@UserId", userId, ParameterDirection.Input, SqlDbType.BigInt);
+            objStoredProc.GetParameter("@NumberOfDaysRecord", 30, ParameterDirection.Input, SqlDbType.SmallInt);
             return objStoredProc.GetSPResultInDataSet("Coditech_GetGymDashboard");
         }
     }

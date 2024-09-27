@@ -8,6 +8,6 @@ namespace Coditech.Admin.Agents
         /// Get GetDashboardDetails.
         /// </summary>
         /// <returns>Returns DashboardViewModel.</returns>
-        DashboardViewModel GetDashboardDetails();
+        DashboardViewModel GetDashboardDetails(short numberOfDaysRecord);
     }
 }
