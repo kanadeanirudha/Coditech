@@ -37,7 +37,10 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
-            return View(createEdit, new HospitalRegistrationFeeViewModel());
+            return View(createEdit, new HospitalRegistrationFeeViewModel()
+            {
+                FromDate = DateTime.Now
+            });
         }
 
         [HttpPost]
@@ -49,7 +52,6 @@ namespace Coditech.Admin.Controllers
                 if (!hospitalRegistrationFeeViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    //return RedirectToAction("List", new { selectedCentreCode });
                     return RedirectToAction("List", CreateActionDataTable());
                 }
             }

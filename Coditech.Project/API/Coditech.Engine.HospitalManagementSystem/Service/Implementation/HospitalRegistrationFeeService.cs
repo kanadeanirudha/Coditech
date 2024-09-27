@@ -4,6 +4,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -12,12 +13,12 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class HospitalRegistrationFeeService : IHospitalRegistrationFeeService
+    public class HospitalRegistrationFeeService : BaseService, IHospitalRegistrationFeeService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<HospitalRegistrationFee> _hospitalRegistrationFeeRepository;
-        public HospitalRegistrationFeeService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public HospitalRegistrationFeeService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -72,8 +73,20 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "HospitalRegistrationFeeID"));
 
             //Get the HospitalRegistrationFee Details based on id.
-            HospitalRegistrationFee hospitalRegistrationFee = _hospitalRegistrationFeeRepository.Table.FirstOrDefault(x => x.HospitalRegistrationFeeId == hospitalRegistrationFeeId);
+            HospitalRegistrationFee hospitalRegistrationFee = _hospitalRegistrationFeeRepository.Table.Where(x => x.HospitalRegistrationFeeId == hospitalRegistrationFeeId)?.FirstOrDefault();
             HospitalRegistrationFeeModel hospitalRegistrationFeeModel = hospitalRegistrationFee?.FromEntityToModel<HospitalRegistrationFeeModel>();
+            if (hospitalRegistrationFeeModel?.HospitalRegistrationFeeId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(hospitalRegistrationFeeModel.HospitalRegistrationFeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    hospitalRegistrationFeeModel.FirstName = generalPersonModel.FirstName;
+                    hospitalRegistrationFeeModel.LastName = generalPersonModel.LastName;
+                    
+                    
+                }
+            }
+
             return hospitalRegistrationFeeModel;
         }
 

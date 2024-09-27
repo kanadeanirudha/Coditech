@@ -13,8 +13,8 @@ namespace Coditech.Admin.ViewModel
         public int InventoryGeneralItemLineId { get; set; }
 
         [MaxLength(15)]
-        [Required]
-        [Display(Name = "Centre", ResourceType = typeof(AdminResources))]
+       
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string CentreCode { get; set; }
 
         [Required]
