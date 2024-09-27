@@ -4,8 +4,10 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using System.Drawing.Printing;
 
 namespace Coditech.Admin.Agents
 {
@@ -19,13 +21,28 @@ namespace Coditech.Admin.Agents
             _mediaManagerClient = GetClient<IMediaManagerClient>(mediaManagerClient);
         }
 
-        public MediaManagerFolderListViewModel GetFolderStructure(int rootFolderId = 0)
+        public MediaManagerFolderListViewModel GetFolderStructure(int rootFolderId = 0, DataTableViewModel dataTableModel = null)
         {
             try
             {
+                FilterCollection filters = new FilterCollection();
+                dataTableModel = dataTableModel ?? new DataTableViewModel();
                 UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
-                MediaManagerFolderResponse mediaManagerFolderResponse = _mediaManagerClient.GetFolderStructure(rootFolderId, userModel.SelectedAdminRoleMasterId, userModel.IsAdminUser).Result;
-                return mediaManagerFolderResponse.MediaManagerFolderModel.ToViewModel<MediaManagerFolderListViewModel>();
+                MediaManagerFolderResponse mediaManagerFolderResponse = _mediaManagerClient.GetFolderStructure(rootFolderId, userModel.SelectedAdminRoleMasterId, userModel.IsAdminUser, dataTableModel.PageIndex, dataTableModel.PageSize).Result;
+
+
+                var result = mediaManagerFolderResponse.MediaManagerFolderModel.ToViewModel<MediaManagerFolderListViewModel>();
+
+                result.PageListViewModel.Page = Convert.ToInt32(mediaManagerFolderResponse.MediaManagerFolderModel.PageIndex);
+                result.PageListViewModel.RecordPerPage = Convert.ToInt32(mediaManagerFolderResponse.MediaManagerFolderModel.PageSize);
+                result.PageListViewModel.TotalPages = (int)Math.Ceiling((decimal)((double)mediaManagerFolderResponse.MediaManagerFolderModel.TotalCount / mediaManagerFolderResponse.MediaManagerFolderModel.PageSize));
+                result.PageListViewModel.TotalResults = Convert.ToInt32(mediaManagerFolderResponse.MediaManagerFolderModel.TotalCount);
+                result.PageListViewModel.TotalRecordCount = Convert.ToInt32(mediaManagerFolderResponse.MediaManagerFolderModel.MediaFiles.Count());
+                result.PageListViewModel.SearchBy = dataTableModel.SearchBy ?? string.Empty;
+                result.PageListViewModel.SortByColumn = dataTableModel.SortByColumn ?? string.Empty;
+                result.PageListViewModel.SortBy = dataTableModel.SortBy ?? string.Empty;
+
+                return result;
             }
             catch (Exception ex)
             {

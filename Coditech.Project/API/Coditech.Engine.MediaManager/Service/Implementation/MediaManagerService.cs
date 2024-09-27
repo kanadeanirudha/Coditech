@@ -259,12 +259,12 @@ namespace Coditech.API.Service
             return new TrueFalseResponse() { booleanModel = new BooleanModel() { ErrorMessage = "Failed to upload a file.", IsSuccess = false, HasError = true }, IsSuccess = false };
         }
 
-        public async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false)
+        public async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false, int pageIndex = 0, int pageSize = 0)
         {
             try
             {
                 MediaManagerFolderResponse managerFolderResponse = new();
-                List<MediaFolderMaster> mediaFolderMasterList = [.. _mediaFolderMasterRepository.Table];
+                List<MediaFolderMaster> mediaFolderMasterList = _mediaFolderMasterRepository.Table.ToList();
 
                 MediaFolderMaster rootMediaFolder = mediaFolderMasterList.FirstOrDefault(x => x.MediaFolderParentId == 0);
 
@@ -273,7 +273,10 @@ namespace Coditech.API.Service
                 List<int> adminRoleMediaFolders = new List<int>();
                 if (!isAdminUser)
                 {
-                    adminRoleMediaFolders = [.._adminRoleMediaFolderRepository.Table.Where(x => x.AdminRoleMasterId == adminRoleId).Select(y => y.MediaFolderMasterId)];
+                    adminRoleMediaFolders = _adminRoleMediaFolderRepository.Table
+                                            .Where(x => x.AdminRoleMasterId == adminRoleId)
+                                            .Select(y => y.MediaFolderMasterId)
+                                            .ToList();
                     if (!adminRoleMediaFolders.Contains(activeFolderId))
                     {
                         activeFolderId = 0;
@@ -281,42 +284,53 @@ namespace Coditech.API.Service
                 }
 
                 managerFolderResponse.MediaManagerFolderModel = new MediaManagerFolderModel
-                {                   
+                {
                     MediaRootFolder = new MediaFolderStructure()
                     {
                         SubFolders = GetSubFolders(rootMediaFolder.MediaFolderMasterId, mediaFolderMasterList, ref activeFolderId, adminRoleMediaFolders),
                         RootFolderId = rootMediaFolder.MediaFolderMasterId,
                         RootFolderName = rootMediaFolder.FolderName,
                         IsActiveFolder = activeFolderId == rootMediaFolder.MediaFolderMasterId,
-                        adminRoleMediaFolders = adminRoleMediaFolders                       
+                        adminRoleMediaFolders = adminRoleMediaFolders
                     },
                     ActiveFolderId = activeFolderId
                 };
 
                 List<int> folderIds = GetChildFolderIdsRecursive(mediaFolderMasterList, activeFolderId);
-
                 folderIds.Add(activeFolderId);
 
-                managerFolderResponse.MediaManagerFolderModel.MediaFiles = [.. (from media in _mediaDetailRepository.Table
-                              where folderIds.Contains(media.MediaFolderMasterId)
-                              select new Media()
-                              {
-                                  MediaId = media.MediaId,
-                                  MediaName = media.FileName,
-                                  MediaPath = media.Path,
-                                  MediaSize = Convert.ToInt64(media.Size),
-                                  ActiveFolderId = activeFolderId,
-                                  ContentType = media.Type
-                              })];
+                var mediaFilesQuery = from media in _mediaDetailRepository.Table
+                                      where folderIds.Contains(media.MediaFolderMasterId)
+                                      orderby media.CreatedDate descending
+                                      select new Media()
+                                      {
+                                          MediaId = media.MediaId,
+                                          MediaName = media.FileName,
+                                          MediaPath = media.Path,
+                                          MediaSize = Convert.ToInt64(media.Size),
+                                          ActiveFolderId = activeFolderId,
+                                          ContentType = media.Type,
+                                          CreatedDate = media.CreatedDate ?? DateTime.Now
+                                      };
+
+                managerFolderResponse.MediaManagerFolderModel.TotalCount = mediaFilesQuery.Count();
+
+                managerFolderResponse.MediaManagerFolderModel.MediaFiles = mediaFilesQuery
+                                                                  .Skip((pageIndex - 1) * pageSize) 
+                                                                  .Take(pageSize)
+                                                                  .ToList();
 
                 long TotalFileSizeInByte = 0;
+
+                PageListModel pageListModel = new PageListModel(new FilterCollection(), new System.Collections.Specialized.NameValueCollection(), pageIndex, pageSize);
+                managerFolderResponse.MediaManagerFolderModel.BindPageListModel(pageListModel);
 
                 string url = GetMediaUrl();
                 foreach (Media media in managerFolderResponse.MediaManagerFolderModel.MediaFiles)
                 {
                     TotalFileSizeInByte += media.MediaSize;
                     media.DownloadPath = $"{url}{media.MediaPath}";
-                    media.MediaPath = GetMediaPathUrl(media.ContentType, url, media.MediaPath);                   
+                    media.MediaPath = GetMediaPathUrl(media.ContentType, url, media.MediaPath);
                 }
 
                 managerFolderResponse.MediaManagerFolderModel.TotalFileSize = TotalFileSizeInByte > 0 ? ConvertBytesToMegabytes(TotalFileSizeInByte) : 0;
