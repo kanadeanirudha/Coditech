@@ -77,7 +77,8 @@
         GazetteChapter,
         PathologyPriceCategory,
         HospitalPathologyTestName,
-        PathologyTestNameByPathologyPriceCategory
+        PathologyTestNameByPathologyPriceCategory,
+        TrainerSpecilization
     }
 
     public enum GeneralSystemGlobleSettingEnum

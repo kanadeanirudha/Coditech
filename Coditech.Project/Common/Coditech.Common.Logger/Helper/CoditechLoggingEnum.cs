@@ -102,7 +102,8 @@
             GazetteChapterPageDetail,
             HospitalPathologyTest,
             HospitalPathologyTestPrices,
-            NotificationMaster
+            NotificationMaster,
+            Trainer
         }
     }
 }

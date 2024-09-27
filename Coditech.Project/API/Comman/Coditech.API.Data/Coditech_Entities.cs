@@ -38,6 +38,7 @@ namespace Coditech.API.Data
         public DbSet<CoditechApplicationSetting> CoditechApplicationSetting { get; set; }
         public DbSet<GeneralDistrictMaster> GeneralDistrictMaster { get; set; }
         public DbSet<GeneralNotification> GeneralNotification { get; set; }
+        public DbSet<GeneralTrainerMaster> GeneralTrainerMaster { get; set; }
 
         #endregion
 
