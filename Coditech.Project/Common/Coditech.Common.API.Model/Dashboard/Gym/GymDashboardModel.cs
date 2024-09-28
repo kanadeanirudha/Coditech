@@ -11,13 +11,4 @@
         public Decimal ManualPaymentCollection { get; set; }
         public List<GymTransactionOverviewModel> TransactionOverviewList { get; set; }
     }
-
-    public class GymTransactionOverviewModel : BaseModel
-    {
-        public DateTime TransactionDate { get; set; }
-        public Decimal NetAmount { get; set; }
-        public Decimal TaxAmount { get; set; }
-        public Decimal DiscountAmount { get; set; }
-        public Decimal TotalAmount { get; set; }
-    }
 }

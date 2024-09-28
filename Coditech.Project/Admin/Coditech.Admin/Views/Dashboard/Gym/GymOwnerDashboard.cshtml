@@ -4,14 +4,37 @@
 @model DashboardViewModel
 @{
     ViewBag.Title = "Dashboard";
-    string[] XValues = ["Active Member", "InActive Member"];
-    int[] YValues = [Model.GymDashboardModel.ActiveMemberCount, Model.GymDashboardModel.InActiveMemberCount];
+    string[] XValuesPie = ["Active Member", "InActive Member"];
+    int[] YValuesPie = [Model.GymDashboardModel.ActiveMemberCount, Model.GymDashboardModel.InActiveMemberCount];
     string[] backgroundColor = ["rgba(42, 118, 244, 0.18)", "rgba(42, 118, 244, 0.30)"];
     PieChartViewModel activeInActiveMemberPieChart = new PieChartViewModel()
             {
                 PieChartId = "ActiveInActiveMemberPieChart",
-                XValues = JsonConvert.SerializeObject(XValues),
-                YValues = JsonConvert.SerializeObject(YValues),
+                XValues = JsonConvert.SerializeObject(XValuesPie),
+                YValues = JsonConvert.SerializeObject(YValuesPie),
+                BackgroundColor = JsonConvert.SerializeObject(backgroundColor),
+            };
+
+    //Financial Overview
+    int dateCount = Model.GymDashboardModel.TransactionOverviewList.Count();
+    string[] XValuesBarFinancialOverview = new string[dateCount];
+    decimal[] YValuesBarFinancialOverview = new decimal[dateCount];
+    int count = 0;
+    foreach (var item in Model.GymDashboardModel.TransactionOverviewList)
+    {
+        XValuesBarFinancialOverview[count] = Convert.ToString(item.TransactionDate);
+        YValuesBarFinancialOverview[count] = item.BillAmount;
+        count++;
+    }
+ 
+    BarChartViewModel transactionOverviewModel = new BarChartViewModel()
+            {
+                BarChartId = "TransactionOverviewChart",
+                XValues = JsonConvert.SerializeObject(XValuesBarFinancialOverview),
+                YValues = JsonConvert.SerializeObject(YValuesBarFinancialOverview),
+                XAxisLabel = "Transaction Date",
+                YAxisLabel = "Total Amount",
+                Title = "Transaction Overview",
                 BackgroundColor = JsonConvert.SerializeObject(backgroundColor),
             };
 }
@@ -202,8 +225,9 @@
                         </div>
                     </div><!--end card-header-->
                     <div class="card-body">
-                        <div class="" style="position: relative;">
-                        </div>
+                        <div class="text-center" style="position: relative; padding-top:0px !important">
+                            @Html.Partial("~/Views/Shared/Charts/_BarChart.cshtml", transactionOverviewModel)
+                        </div><!--end card-body-->
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div>
