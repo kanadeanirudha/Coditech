@@ -13,5 +13,8 @@
         public List<GymTransactionOverviewModel> TransactionOverviewList { get; set; }
         public List<GymTransactionOverviewModel> RevenueByPaymentModeList { get; set; }
         public List<GymTransactionOverviewModel> YearlyFinancialOverviewList { get; set; }
+        public List<GymUpcomingPlanExpirationMembersModel> GymUpcomingPlanExpirationMembersList { get; set; }
+        public List<GymUpcomingEventsModel> GymUpcomingEventsList { get; set; }
+        public List<GymGeneralLeadGenerationSourceModel> GymGeneralLeadGenerationSourceList { get; set; }
     }
 }
