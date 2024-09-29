@@ -2,7 +2,6 @@
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
-using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
@@ -11,8 +10,6 @@ using Coditech.Resources;
 
 using System.Diagnostics;
 
-using static Coditech.Common.Helper.HelperUtility;
-
 namespace Coditech.Admin.Agents
 {
     public class HospitalRegistrationFeeAgent : BaseAgent, IHospitalRegistrationFeeAgent
@@ -20,31 +17,25 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IHospitalRegistrationFeeClient _hospitalRegistrationFeeClient;
-        private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
-        public HospitalRegistrationFeeAgent(ICoditechLogging coditechLogging, IHospitalRegistrationFeeClient hospitalRegistrationFeeClient, IUserClient userClient)
+        public HospitalRegistrationFeeAgent(ICoditechLogging coditechLogging, IHospitalRegistrationFeeClient hospitalRegistrationFeeClient)
         {
             _coditechLogging = coditechLogging;
             _hospitalRegistrationFeeClient = GetClient<IHospitalRegistrationFeeClient>(hospitalRegistrationFeeClient);
-            _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
 
         #region Public Methods
-        #region RegistrationFee
         public virtual HospitalRegistrationFeeListViewModel GetHospitalRegistrationFeeList(string selectedCentreCode, DataTableViewModel dataTableModel)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("UAHNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("RegistrationService", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Charges", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -58,19 +49,14 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
-        //Create RegistrationFee
-        public virtual HospitalRegistrationFeeCreateEditViewModel CreateRegistrationFee(HospitalRegistrationFeeCreateEditViewModel hospitalRegistrationFeeCreateEditViewModel)
+        //Create HospitalRegistrationFee.
+        public virtual HospitalRegistrationFeeViewModel CreateRegistrationFee(HospitalRegistrationFeeViewModel hospitalRegistrationFeeViewModel)
         {
             try
             {
-                hospitalRegistrationFeeCreateEditViewModel.UserType = UserTypeEnum.Patient.ToString();
-                GeneralPersonModel generalPersonModel = hospitalRegistrationFeeCreateEditViewModel.ToModel<GeneralPersonModel>();
-                generalPersonModel.SelectedCentreCode = hospitalRegistrationFeeCreateEditViewModel.SelectedCentreCode;
-               // generalPersonModel.HospitalPatientTypeId = hospitalRegistrationFeeCreateEditViewModel.HospitalRegistrationFeeId;
-
-                GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonModel);
-                generalPersonModel = response?.GeneralPersonModel;
-                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<HospitalRegistrationFeeCreateEditViewModel>() : new HospitalRegistrationFeeCreateEditViewModel();
+                HospitalRegistrationFeeResponse response = _hospitalRegistrationFeeClient.CreateRegistrationFee(hospitalRegistrationFeeViewModel.ToModel<HospitalRegistrationFeeModel>());
+                HospitalRegistrationFeeModel hospitalRegistrationFeeModel = response?.HospitalRegistrationFeeModel;
+                return HelperUtility.IsNotNull(hospitalRegistrationFeeModel) ? hospitalRegistrationFeeModel.ToViewModel<HospitalRegistrationFeeViewModel>() : new HospitalRegistrationFeeViewModel();
             }
             catch (CoditechException ex)
             {
@@ -78,67 +64,52 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
-                        return (HospitalRegistrationFeeCreateEditViewModel)GetViewModelWithErrorMessage(hospitalRegistrationFeeCreateEditViewModel, ex.ErrorMessage);
+                        return (HospitalRegistrationFeeViewModel)GetViewModelWithErrorMessage(hospitalRegistrationFeeViewModel, ex.ErrorMessage);
                     default:
-                        return (HospitalRegistrationFeeCreateEditViewModel)GetViewModelWithErrorMessage(hospitalRegistrationFeeCreateEditViewModel, GeneralResources.ErrorFailedToCreate);
+                        return (HospitalRegistrationFeeViewModel)GetViewModelWithErrorMessage(hospitalRegistrationFeeViewModel, GeneralResources.ErrorFailedToCreate);
                 }
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Error);
-                return (HospitalRegistrationFeeCreateEditViewModel)GetViewModelWithErrorMessage(hospitalRegistrationFeeCreateEditViewModel, GeneralResources.ErrorFailedToCreate);
+                return (HospitalRegistrationFeeViewModel)GetViewModelWithErrorMessage(hospitalRegistrationFeeViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 
-        //Get RegistrationFee Details by personId.
-        public virtual HospitalRegistrationFeeCreateEditViewModel GetRegistrationFee(int hospitalRegistrationFeeId, long personId)
+        //Get general HospitalRegistrationFee by hospitalRegistrationFee id.
+        public virtual HospitalRegistrationFeeViewModel GetRegistrationFee(int hospitalRegistrationFeeId)
         {
-            GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
-            HospitalRegistrationFeeCreateEditViewModel hospitalRegistrationFeeCreateEditViewModel = response?.GeneralPersonModel.ToViewModel<HospitalRegistrationFeeCreateEditViewModel>();
-            if (IsNotNull(hospitalRegistrationFeeCreateEditViewModel))
-            {
-                HospitalRegistrationFeeResponse hospitalRegistrationFeeResponse = _hospitalRegistrationFeeClient.GetRegistrationFee(hospitalRegistrationFeeId);
-                if (IsNotNull(hospitalRegistrationFeeResponse))
-                {
-                    hospitalRegistrationFeeCreateEditViewModel.SelectedCentreCode = hospitalRegistrationFeeResponse.HospitalRegistrationFeeModel.CentreCode;
-                    hospitalRegistrationFeeCreateEditViewModel.HospitalRegistrationFeeId = hospitalRegistrationFeeResponse.HospitalRegistrationFeeModel.HospitalRegistrationFeeId;
-                }
-                hospitalRegistrationFeeCreateEditViewModel.HospitalRegistrationFeeId = hospitalRegistrationFeeId;
-                hospitalRegistrationFeeCreateEditViewModel.PersonId = personId;
-            }
-            return hospitalRegistrationFeeCreateEditViewModel;
+            HospitalRegistrationFeeResponse response = _hospitalRegistrationFeeClient.GetRegistrationFee(hospitalRegistrationFeeId);
+            return response?.HospitalRegistrationFeeModel.ToViewModel<HospitalRegistrationFeeViewModel>();
         }
 
-        //Update RegistrationFee Personal Details
-        public virtual HospitalRegistrationFeeCreateEditViewModel UpdateRegistrationFee(HospitalRegistrationFeeCreateEditViewModel hospitalRegistrationFeeCreateEditViewModel)
+        //Update  HospitalRegistrationFee.
+        public virtual HospitalRegistrationFeeViewModel UpdateRegistrationFee(HospitalRegistrationFeeViewModel hospitalRegistrationFeeViewModel)
         {
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Info);
-                GeneralPersonModel generalPersonModel = hospitalRegistrationFeeCreateEditViewModel.ToModel<GeneralPersonModel>();
-                generalPersonModel.EntityId = hospitalRegistrationFeeCreateEditViewModel.HospitalRegistrationFeeId;
-                generalPersonModel.UserType = UserTypeEnum.Patient.ToString();
-                GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
-                generalPersonModel = response?.GeneralPersonModel;
+                HospitalRegistrationFeeResponse response = _hospitalRegistrationFeeClient.UpdateRegistrationFee(hospitalRegistrationFeeViewModel.ToModel<HospitalRegistrationFeeModel>());
+                HospitalRegistrationFeeModel hospitalRegistrationFeeModel = response?.HospitalRegistrationFeeModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Info);
-                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<HospitalRegistrationFeeCreateEditViewModel>() : (HospitalRegistrationFeeCreateEditViewModel)GetViewModelWithErrorMessage(new HospitalPatientRegistrationCreateEditViewModel(), GeneralResources.UpdateErrorMessage);
+                return HelperUtility.IsNotNull(hospitalRegistrationFeeModel) ? hospitalRegistrationFeeModel.ToViewModel<HospitalRegistrationFeeViewModel>() : (HospitalRegistrationFeeViewModel)GetViewModelWithErrorMessage(new HospitalRegistrationFeeViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Error);
-                return (HospitalRegistrationFeeCreateEditViewModel)GetViewModelWithErrorMessage(hospitalRegistrationFeeCreateEditViewModel, GeneralResources.UpdateErrorMessage);
+                return (HospitalRegistrationFeeViewModel)GetViewModelWithErrorMessage(hospitalRegistrationFeeViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
 
-        //Delete RegistrationFee.
-        public virtual bool DeleteRegistrationFee(string hospitalRegistrationFeeIds, out string errorMessage)
+        //Delete HospitalRegistrationFee.
+        public virtual bool DeleteRegistrationFee(string hospitalRegistrationFeeId, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.HospitalRegistrationFee.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _hospitalRegistrationFeeClient.DeleteRegistrationFee(new ParameterModel { Ids = hospitalRegistrationFeeIds });
+                TrueFalseResponse trueFalseResponse = _hospitalRegistrationFeeClient.DeleteRegistrationFee(new ParameterModel { Ids = hospitalRegistrationFeeId });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -147,7 +118,7 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AssociationDeleteError:
-                        errorMessage = AdminResources.ErrorDeleteRegistrationFeeDetails;
+                        errorMessage = AdminResources.ErrorDeleteHospitalRegistrationFee;
                         return false;
                     default:
                         errorMessage = GeneralResources.ErrorFailedToDelete;
@@ -161,8 +132,6 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
-
-        #endregion
         #endregion
 
         #region protected
@@ -171,42 +140,31 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Image",
-                ColumnCode = "Image",
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "UAH Number",
-                ColumnCode = "UAHNumber",
+                ColumnName = "Registration Service",
+                ColumnCode = "RegistrationService",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "First Name",
-                ColumnCode = "FirstName",
+                ColumnName = "From Date",
+                ColumnCode = "FromDate",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Last Name",
-                ColumnCode = "LastName",
+                ColumnName = "Upto Date",
+                ColumnCode = "UptoDate",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Gender",
-                ColumnCode = "Gender",
+                ColumnName = "Charges",
+                ColumnCode = "Charges",
                 IsSortable = true,
             });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Contact",
-                ColumnCode = "MobileNumber",
-                IsSortable = true,
-            });          
             return datatableColumnList;
         }
-
+        #endregion
     }
 }
-#endregion
+

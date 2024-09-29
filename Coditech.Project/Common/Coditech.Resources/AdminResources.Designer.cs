@@ -505,6 +505,18 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Registration Fee due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalRegistrationFee
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteHospitalRegistrationFee", resourceCulture);
+            }
+        }
+
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctor Visiting Charges details due to associate record..
         /// </summary>
         public static string ErrorDeleteHospitalDoctorVisitingCharges

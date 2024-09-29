@@ -141,8 +141,6 @@ namespace Coditech.Admin
             CreateMap<HospitalPatientRegistrationCreateEditViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<HospitalPatientRegistrationListModel, HospitalPatientRegistrationListViewModel>().ReverseMap();
             CreateMap<HospitalPatientRegistrationModel, HospitalPatientRegistrationViewModel>().ReverseMap();
-            CreateMap<HospitalRegistrationFeeCreateEditViewModel, GeneralPersonViewModel>().ReverseMap();
-            CreateMap<HospitalRegistrationFeeCreateEditViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<HospitalRegistrationFeeListModel, HospitalRegistrationFeeListViewModel>().ReverseMap();
             CreateMap<HospitalRegistrationFeeModel, HospitalRegistrationFeeViewModel>().ReverseMap();
             CreateMap<HospitalDoctorOPDScheduleListModel, HospitalDoctorOPDScheduleListViewModel>().ReverseMap();
