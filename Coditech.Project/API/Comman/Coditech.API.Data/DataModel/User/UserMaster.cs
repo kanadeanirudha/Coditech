@@ -15,6 +15,7 @@
         public string DeviceToken { get; set; }
         public string LastModuleCode { get; set; }
         public bool IsPasswordChange { get; set; }
+        public bool IsAcceptedTermsAndConditions { get; set; }
         public string ResetPasswordToken { get; set; }
         public DateTime? ResetPasswordTokenExpiredDate { get; set; }
         public Nullable<long> CreatedBy { get; set; }

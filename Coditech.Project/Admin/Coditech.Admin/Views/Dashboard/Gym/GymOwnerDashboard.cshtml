@@ -254,7 +254,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Upcoming Plan Expiration Members</h4>
+                                <h4 class="card-title">Upcoming Plan Expiration Members(In @Model.NumberOfDaysRecord Day's)</h4>
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
@@ -267,41 +267,20 @@
                                         <th class="border-top-0">Contact Number</th>
                                         <th class="border-top-0">Plan Name</th>
                                         <th class="border-top-0">Expiration Duration</th>
+                                        <th class="border-top-0">Expiration Duration In Day's</th>
                                     </tr><!--end tr-->
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><a href="#" class="text-primary">Organic search</a></td>
-                                        <td>10853<small class="text-muted">(52%)</small></td>
-                                        <td>566<small class="text-muted">(92%)</small></td>
-                                        <td> 52.80% <i class="fas fa-caret-up text-success font-16"></i></td>
-                                    </tr><!--end tr-->
-                                    <tr>
-                                        <td><a href="#" class="text-primary">Direct</a></td>
-                                        <td>2545<small class="text-muted">(47%)</small></td>
-                                        <td>498<small class="text-muted">(81%)</small></td>
-                                        <td> -17.20% <i class="fas fa-caret-down text-danger font-16"></i></td>
-
-                                    </tr><!--end tr-->
-                                    <tr>
-                                        <td><a href="#" class="text-primary">Referal</a></td>
-                                        <td>1836<small class="text-muted">(38%)</small></td>
-                                        <td>455<small class="text-muted">(74%)</small></td>
-                                        <td> 41.12% <i class="fas fa-caret-up text-success font-16"></i></td>
-
-                                    </tr><!--end tr-->
-                                    <tr>
-                                        <td><a href="#" class="text-primary">Email</a></td>
-                                        <td>1958<small class="text-muted">(31%)</small></td>
-                                        <td>361<small class="text-muted">(61%)</small></td>
-                                        <td> -8.24% <i class="fas fa-caret-down text-danger font-16"></i></td>
-                                    </tr><!--end tr-->
-                                    <tr>
-                                        <td><a href="#" class="text-primary">Social</a></td>
-                                        <td>1566<small class="text-muted">(26%)</small></td>
-                                        <td>299<small class="text-muted">(49%)</small></td>
-                                        <td> 29.33% <i class="fas fa-caret-up text-success"></i></td>
-                                    </tr><!--end tr-->
+                                    @foreach (var item in Model?.GymDashboardModel?.GymUpcomingPlanExpirationMembersList)
+                                    {
+                                        <tr>
+                                            <td><a href="/gymmemberdetails/UpdateMemberPersonalDetails?gymMemberDetailId=@item.GymMemberDetailId&personId=@item.PersonId" class="text-primary">@item.FirstName @item.LastName</a></td>
+                                            <td>@item.MobileNumber</td>
+                                            <td>@item.MembershipPlanName</td>
+                                            <td>@item.PlanStartDate.ToCoditechDateFormat() To @item.PlanDurationExpirationDate.ToCoditechDateFormat()</td>
+                                            <td>@item.PlanDurationExpiredInDays</td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table> <!--end table-->
                         </div><!--end /div-->
@@ -318,59 +297,27 @@
                         </div>  <!--end row-->
                     </div><!--end card-header-->
                     <div class="card-body">
-                        <div class="border-bottom-dashed mb-4">
-                            <div class="media mb-3">
-                                <img src="assets/images/brand-logo/amazon.png" height="40" class="me-3 align-self-center rounded" alt="...">
-                                <div class="media-body align-self-center">
-                                    <h6 class="mt-0 mb-1">Amazon</h6>
-                                    <p class="text-muted mb-1"><span class="text-success">+4.8%</span> From Yesterday</p>
-                                    <small class="float-end text-muted ms-3 font-11">42%</small>
-                                    <div class="progress mt-2" style="height:4px;">
-                                        <div class="progress-bar bg-warning-50" role="progressbar" style="width: 42%; border-radius:5px;" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div><!--end media body-->
+                        @{
+                            decimal? sum = Model?.GymDashboardModel?.RevenueByPaymentModeList?.Sum(x => x.BillAmount);
+                        }
+                        @foreach (var item in Model?.GymDashboardModel?.RevenueByPaymentModeList)
+                        {
+                            int percentage = @item.BillAmount > 0 ? Convert.ToInt32((@item.BillAmount * 100) / sum) : 0;
+                            string image = $"{@item.PaymentType.Replace(" ","")}.png";
+                            <div class="border-bottom-dashed mb-4">
+                                <div class="media mb-3">
+                                    <img src="../assets/images/@image" height="40" class="me-3 align-self-center rounded" alt="...">
+                                    <div class="media-body align-self-center">
+                                        <h6 class="mt-0 mb-1">@item.PaymentType</h6>
+                                        <p class="text-muted mb-1"><span class="text-success">+4.8%</span> From Yesterday</p>
+                                        <small class="float-end text-muted ms-3 font-11">@percentage %</small>
+                                        <div class="progress mt-2" style="height:4px;">
+                                            <div class="progress-bar bg-warning-50" role="progressbar" style="width: @percentage%; border-radius:5px;" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div><!--end media body-->
+                                </div>
                             </div>
-                        </div>
-                        <div class="border-bottom-dashed mb-4">
-                            <div class="media mb-3">
-                                <img src="assets/images/brand-logo/flipcart.png" height="40" class="me-3 align-self-center rounded" alt="...">
-                                <div class="media-body align-self-center">
-                                    <h6 class="mt-0 mb-1">Flipcart</h6>
-                                    <p class="text-muted mb-1"><span class="text-danger">-0.8%</span> From Yesterday</p>
-                                    <small class="float-end text-muted ms-3 font-11">28%</small>
-                                    <div class="progress mt-2" style="height:4px;">
-                                        <div class="progress-bar bg-warning-50" role="progressbar" style="width: 28%; border-radius:5px;" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div><!--end media body-->
-                            </div>
-                        </div>
-                        <div class="border-bottom-dashed mb-4">
-                            <div class="media mb-3">
-                                <img src="assets/images/brand-logo/facebook.png" height="40" class="me-3 align-self-center rounded" alt="...">
-                                <div class="media-body align-self-center">
-                                    <h6 class="mt-0 mb-1">Facebook</h6>
-                                    <p class="text-muted mb-1"><span class="text-success">+2.1%</span> From Yesterday</p>
-                                    <small class="float-end text-muted ms-3 font-11">18%</small>
-                                    <div class="progress mt-2" style="height:4px;">
-                                        <div class="progress-bar bg-warning-50" role="progressbar" style="width: 18%; border-radius:5px;" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div><!--end media body-->
-                            </div>
-                        </div>
-                        <div class="">
-                            <!-- <div id="Order_channel" class="apex-charts"></div> -->
-                            <div class="media mb-1">
-                                <img src="assets/images/brand-logo/insta.png" height="40" class="me-3 align-self-center rounded" alt="...">
-                                <div class="media-body align-self-center">
-                                    <h6 class="mt-0 mb-1">Instagram</h6>
-                                    <p class="text-muted mb-1"><span class="text-danger">-1.1%</span> From Yesterday</p>
-                                    <small class="float-end text-muted ms-3 font-11">12%</small>
-                                    <div class="progress mt-2" style="height:4px;">
-                                        <div class="progress-bar bg-warning-50" role="progressbar" style="width: 12%; border-radius:5px;" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div><!--end media body-->
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div><!--end card-->
             </div> <!--end col-->
@@ -515,79 +462,6 @@
                                                                     updated the status of <a href="#">Refund #1234</a> to awaiting customer response
                                                                 </p>
                                                                 <small class="text-muted">10 Min ago</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="activity-info">
-                                                        <div class="icon-info-activity">
-                                                            <i class="mdi mdi-timer-off bg-soft-primary"></i>
-                                                        </div>
-                                                        <div class="activity-info-text">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <p class="text-muted mb-0 font-13 w-75">
-                                                                    <span>Lucy Peterson</span>
-                                                                    was added to the group, group name is <a href="#">Overtake</a>
-                                                                </p>
-                                                                <small class="text-muted">50 Min ago</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="activity-info">
-                                                        <div class="icon-info-activity">
-                                                            <img src="./Dastone - Admin &amp; Dashboard Template_files/user-5.jpg" alt="" class="rounded-circle thumb-sm">
-                                                        </div>
-                                                        <div class="activity-info-text">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <p class="text-muted mb-0 font-13 w-75">
-                                                                    <span>Joseph Rust</span>
-                                                                    opened new showcase <a href="#">Mannat #112233</a> with theme market
-                                                                </p>
-                                                                <small class="text-muted">10 hours ago</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="activity-info">
-                                                        <div class="icon-info-activity">
-                                                            <i class="mdi mdi-clock-outline bg-soft-primary"></i>
-                                                        </div>
-                                                        <div class="activity-info-text">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <p class="text-muted mb-0 font-13 w-75">
-                                                                    <span>Donald</span>
-                                                                    updated the status of <a href="#">Refund #1234</a> to awaiting customer response
-                                                                </p>
-                                                                <small class="text-muted">Yesterday</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="activity-info">
-                                                        <div class="icon-info-activity">
-                                                            <i class="mdi mdi-alert-outline bg-soft-primary"></i>
-                                                        </div>
-                                                        <div class="activity-info-text">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <p class="text-muted mb-0 font-13 w-75">
-                                                                    <span>Lucy Peterson</span>
-                                                                    was added to the group, group name is <a href="#">Overtake</a>
-                                                                </p>
-                                                                <small class="text-muted">14 Nov 2019</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="activity-info">
-                                                        <div class="icon-info-activity">
-                                                            <img src="./Dastone - Admin &amp; Dashboard Template_files/user-4.jpg" alt="" class="rounded-circle thumb-sm">
-                                                        </div>
-                                                        <div class="activity-info-text">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <p class="text-muted mb-0 font-13 w-75">
-                                                                    <span>Joseph Rust</span>
-                                                                    opened new showcase <a href="#">Mannat #112233</a> with theme market
-                                                                </p>
-                                                                <small class="text-muted">15 Nov 2019</small>
                                                             </div>
                                                         </div>
                                                     </div>

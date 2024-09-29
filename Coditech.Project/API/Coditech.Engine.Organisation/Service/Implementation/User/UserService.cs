@@ -120,7 +120,22 @@ namespace Coditech.API.Service
             return userModel;
         }
 
+        public virtual bool AcceptTermsAndConditions(string userType, long entityId)
+        {
+            if (string.IsNullOrEmpty(userType))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "userType"));
 
+            if (entityId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EntityId"));
+
+            UserMaster userMaster = _userMasterRepository.Table.Where(x => x.UserType == userType && x.EntityId == entityId)?.FirstOrDefault();
+            if (userMaster == null)
+                return false;
+
+            userMaster.IsAcceptedTermsAndConditions = true;
+
+            return _userMasterRepository.Update(userMaster);
+        }
         #region ResetPassowrd
         public virtual ResetPasswordModel ResetPassword(ResetPasswordModel resetPasswordModel)
         {
@@ -582,7 +597,7 @@ namespace Coditech.API.Service
                     });
                 }
             }
-            
+
         }
 
         //Bind Menu And Modules For Non Admin User
@@ -619,7 +634,7 @@ namespace Coditech.API.Service
                         }
                     }
                 }
-            }           
+            }
         }
 
         protected virtual List<UserBalanceSheetModel> BindAccountBalanceSheetByRoleId(UserModel userModel)
