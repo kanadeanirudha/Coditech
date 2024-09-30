@@ -10,7 +10,7 @@ namespace Coditech.API.Data
         public string DeviceSerialCode { get; set; }
         public string Description { get; set; }
         public string ManufacturedBy { get; set; }
-        public int Status { get; set; }
+        public int StatusEnumId { get; set; }
         public bool IsMasterDevice { get; set; }
         public bool IsActive { get; set; }
         public DateTime RegistrationDate { get; set; }

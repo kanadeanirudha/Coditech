@@ -139,6 +139,17 @@ namespace Coditech.Admin.Utilities
 #endif
             }
         }
+        public static string CoditechDBTMApiRootUri
+        {
+            get
+            {
+#if DEBUG
+                return Convert.ToString(settings["CoditechDBTMApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}DBTM.{settings["ApiDomainName"]}");
+#endif
+            }
+        }
         public static string ApplicationLogoBackground
         {
             get

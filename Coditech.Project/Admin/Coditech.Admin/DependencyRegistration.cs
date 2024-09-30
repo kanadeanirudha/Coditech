@@ -63,6 +63,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralDistrictAgent, GeneralDistrictAgent>();
             builder.Services.AddScoped<IGeneralNotificationAgent, GeneralNotificationAgent>();
             builder.Services.AddScoped<IGeneralTrainerAgent, GeneralTrainerAgent>();
+           
 
 
             #region HMS
@@ -79,6 +80,11 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalPathologyTestAgent, HospitalPathologyTestAgent>();
             builder.Services.AddScoped<IHospitalPathologyTestPricesAgent, HospitalPathologyTestPricesAgent>();
             builder.Services.AddScoped<IHospitalRegistrationFeeAgent, HospitalRegistrationFeeAgent>();
+            #endregion
+
+            #region DBTM         
+            builder.Services.AddScoped<IDBTMDeviceAgent, DBTMDeviceAgent>();
+
             #endregion
 
             #region MediaManager
@@ -188,6 +194,12 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGazetteChaptersClient, GazetteChaptersClient>();
             builder.Services.AddScoped<IGazetteChaptersPageDetailClient, GazetteChaptersPageDetailClient>();
             #endregion Gazette
+
+            #region DBTM         
+            builder.Services.AddScoped<IDBTMDeviceClient, DBTMDeviceClient>();
+            
+            #endregion 
+
 
             #endregion Client
         }

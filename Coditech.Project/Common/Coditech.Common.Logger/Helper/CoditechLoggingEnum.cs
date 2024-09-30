@@ -103,7 +103,8 @@
             HospitalPathologyTest,
             HospitalPathologyTestPrices,
             NotificationMaster,
-            Trainer
+            Trainer,
+            DBTMDevice
         }
     }
 }

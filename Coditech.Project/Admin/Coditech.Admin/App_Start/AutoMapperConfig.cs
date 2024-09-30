@@ -214,6 +214,11 @@ namespace Coditech.Admin
             CreateMap<LogMessageModel, LogMessageViewModel>().ReverseMap();
             CreateMap<LogMessageListModel, LogMessageListViewModel>().ReverseMap();
             #endregion
+
+            #region DBTM
+            CreateMap<DBTMDeviceModel, DBTMDeviceViewModel>().ReverseMap();
+            CreateMap<DBTMDeviceListModel, DBTMDeviceListViewModel>().ReverseMap();
+            #endregion
         }
     }
 }

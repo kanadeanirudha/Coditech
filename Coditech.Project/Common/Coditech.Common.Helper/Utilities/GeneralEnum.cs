@@ -78,7 +78,8 @@
         PathologyPriceCategory,
         HospitalPathologyTestName,
         PathologyTestNameByPathologyPriceCategory,
-        TrainerSpecilization
+        TrainerSpecilization,
+        DBTMDeviceStatus
     }
 
     public enum GeneralSystemGlobleSettingEnum

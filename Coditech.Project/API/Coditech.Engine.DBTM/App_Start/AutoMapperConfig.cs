@@ -9,7 +9,8 @@ namespace Coditech.API.Mapper
     {
         public AutoMapperConfig()
         {
-           
+            CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
+            CreateMap<DBTMDeviceMaster, DBTMDeviceModel>().ReverseMap();
         }
     }
 }

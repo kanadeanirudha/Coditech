@@ -28,10 +28,4 @@
 		<ProjectReference Include="..\Comman\Coditech.Common.Service\Coditech.Common.Service.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Controllers\" />
-		<Folder Include="Service\Implementation\" />
-		<Folder Include="Service\Interface\" />
-	</ItemGroup>
-
 </Project>

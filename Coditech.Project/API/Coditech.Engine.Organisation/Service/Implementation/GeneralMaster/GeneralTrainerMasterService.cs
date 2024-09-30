@@ -38,7 +38,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralTrainerModel> trainerList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTrainerList @CentreCode,@DepartmentId,@IsAssociated,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 7, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralTrainerModel> trainerList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralTrainerList @CentreCode,@DepartmentId,@IsAssociated,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 7, out pageListModel.TotalRowCount)?.ToList();
             GeneralTrainerListModel listModel = new GeneralTrainerListModel();
 
             listModel.GeneralTrainerList = trainerList?.Count > 0 ? trainerList : new List<GeneralTrainerModel>();
