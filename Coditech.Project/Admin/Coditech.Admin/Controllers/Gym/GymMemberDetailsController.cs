@@ -166,13 +166,16 @@ namespace Coditech.Admin.Controllers
         #endregion
 
         #region MemberFollowUp
-        public ActionResult MemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public ActionResult MemberFollowUpList( DataTableViewModel dataTableModel)
         {
-            GymMemberFollowUpListViewModel list = _gymMemberDetailsAgent.GymMemberFollowUpList(gymMemberDetailId, personId, dataTableModel);
+            GymMemberFollowUpListViewModel list = _gymMemberDetailsAgent.GymMemberFollowUpList(Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt64(dataTableModel.SelectedParameter2), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberFollowUpList.cshtml", list);
             }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
+
             return View($"~/Views/Gym/GymMemberDetails/GymMemberFollowUpList.cshtml", list);
         }
         [HttpGet]
@@ -206,7 +209,7 @@ namespace Coditech.Admin.Controllers
                 ? gymMemberFollowUpViewModel.GymMemberFollowUpId > 0 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetErrorNotificationMessage(GeneralResources.ErrorFailedToCreate)
                 : gymMemberFollowUpViewModel.GymMemberFollowUpId > 0 ? GetSuccessNotificationMessage(GeneralResources.UpdateMessage) : GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
             }
-            return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberFollowUpViewModel.GymMemberDetailId, personId = gymMemberFollowUpViewModel.PersonId });
+            return RedirectToAction("MemberFollowUpList", new { SelectedParameter1 = gymMemberFollowUpViewModel.GymMemberDetailId, SelectedParameter2 = gymMemberFollowUpViewModel.PersonId });
         }
 
         public virtual ActionResult DeleteGymMemberFollowUp(string gymMemberFollowUpIdIds, int gymMemberDetailId, long personId)
