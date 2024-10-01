@@ -8,8 +8,8 @@
     <div id="datatable_filter" class="dataTables_filter">
         <label>
             Search:
-            <input id="DataTables_SearchById" type="text" class="form-control form-control-sm" value="@Model">
-            <a onclick="CoditechDataTable.LoadList('@controllerName','@actionName')"><i class="fas fa-search" title="Search"></i></a>
+            <input id="DataTables_SearchById" type="text" onkeyup="CoditechCommon.SearchDatatableData()" class="form-control form-control-sm" value="@Model">
+            <a id="DataTables_SearchButton" onclick="CoditechDataTable.LoadList('@controllerName','@actionName')"><i class="fas fa-search" title="Search"></i></a>
             @if (!string.IsNullOrEmpty(@Model))
             {
                 <a onclick="CoditechDataTable.ReloadLoadList('@controllerName','@actionName')"><i class="fas fa-times" title="Clear"></i></a>
