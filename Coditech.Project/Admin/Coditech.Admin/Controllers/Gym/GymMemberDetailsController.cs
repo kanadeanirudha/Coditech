@@ -353,14 +353,15 @@ namespace Coditech.Admin.Controllers
 
         #region GymMemberMembershipPlan
 
-        [HttpGet]
-        public ActionResult GetGymMemberMembershipPlan(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public ActionResult GetGymMemberMembershipPlan(DataTableViewModel dataTableModel)
         {
-            GymMemberMembershipPlanListViewModel list = _gymMemberDetailsAgent.GetGymMemberMembershipPlan(gymMemberDetailId, personId, dataTableModel);
+            GymMemberMembershipPlanListViewModel list = _gymMemberDetailsAgent.GetGymMemberMembershipPlan(Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt64(dataTableModel.SelectedParameter2), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/_GymMemberMembershipPlanList.cshtml", list);
             }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
             return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/GymMemberMembershipPlanList.cshtml", list);
         }
 
@@ -389,7 +390,7 @@ namespace Coditech.Admin.Controllers
                 if (!gymMemberMembershipPlanViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("GetGymMemberMembershipPlan", new { gymMemberDetailId = gymMemberMembershipPlanViewModel.GymMemberDetailId, personId = gymMemberMembershipPlanViewModel.PersonId });
+                    return RedirectToAction("GetGymMemberMembershipPlan", new { SelectedParameter1 = gymMemberMembershipPlanViewModel.GymMemberDetailId, SelectedParameter2 = gymMemberMembershipPlanViewModel.PersonId });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymMemberMembershipPlanViewModel.ErrorMessage));

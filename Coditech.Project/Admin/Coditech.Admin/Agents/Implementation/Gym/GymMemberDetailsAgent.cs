@@ -610,7 +610,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Plan Type",
                 ColumnCode = "PlanType",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
