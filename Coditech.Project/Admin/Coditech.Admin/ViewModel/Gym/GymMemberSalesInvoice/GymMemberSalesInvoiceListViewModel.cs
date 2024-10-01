@@ -20,5 +20,7 @@ namespace Coditech.Admin.ViewModel
         public DateTime FromDate { get; set; }
         [Display(Name = "To Date")]
         public DateTime ToDate { get; set; }
+        public string SelectedParameter1 { get; set; }
+        public string SelectedParameter2 { get; set; }
     }
 }

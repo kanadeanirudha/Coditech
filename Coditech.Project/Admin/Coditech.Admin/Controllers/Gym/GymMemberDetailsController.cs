@@ -396,14 +396,15 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/AssociateGymMemberMembershipPlan.cshtml", gymMemberMembershipPlanViewModel);
         }
 
-        [HttpGet]
-        public ActionResult MemberPaymentHistoryList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public ActionResult MemberPaymentHistoryList(DataTableViewModel dataTableModel)
         {
-            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(gymMemberDetailId, personId, dataTableModel);
+            GymMemberSalesInvoiceListViewModel list = _gymMemberDetailsAgent.GymMemberPaymentHistoryList(Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt64(dataTableModel.SelectedParameter2), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory/_GymMemberPaymentHistory.cshtml", list);
             }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
             return View($"~/Views/Gym/GymMemberDetails/GymMemberPaymentHistory/GymMemberPaymentHistory.cshtml", list);
         }
 
