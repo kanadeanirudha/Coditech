@@ -190,5 +190,12 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["ThemeColor"]);
             }
         }
+        public static short DefaultDashboardDataDays
+        {
+            get
+            {
+                return Convert.ToInt16(settings["DefaultDashboardDataDays"]);
+            }
+        }
     }
 }

@@ -49,6 +49,7 @@ namespace Coditech.API.Service
             {
                 EntityId = userMasterData.EntityId,
                 IsPasswordChange = userMasterData.IsPasswordChange,
+                IsAcceptedTermsAndConditions = userMasterData.IsAcceptedTermsAndConditions,
                 PhotoMediaPath = GetImagePath(generalPersonModel.PhotoMediaId),
                 PersonTitle = generalPersonModel.PersonTitle,
                 FirstName = generalPersonModel.FirstName,

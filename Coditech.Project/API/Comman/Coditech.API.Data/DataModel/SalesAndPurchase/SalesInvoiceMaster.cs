@@ -18,6 +18,9 @@ namespace Coditech.API.Data
         public decimal TotalAmount { get; set; }
         public decimal RoundUpAmount { get; set; }
         public short AccountBalanceSheetId { get; set; }
+        public int PaymentTypeEnumId { get; set; }
+        public string TransactionReference { get; set; }
+        public string Remark { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
