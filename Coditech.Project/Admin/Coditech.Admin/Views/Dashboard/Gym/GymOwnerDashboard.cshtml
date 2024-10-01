@@ -428,9 +428,10 @@
                                                 <div class="activity">
                                                     @foreach (var item in Model?.GymDashboardModel?.GymUpcomingEventsList)
                                                     {
+                                                        string image = $"{@item.Type.Replace(" ", "")}.jpg";
                                                         <div class="activity-info">
                                                             <div class="icon-info-activity">
-                                                                <i class="las la-user-clock bg-soft-primary"></i>
+                                                                <img src="../assets/images/@image" height="40" class="align-self-center rounded" alt="...">
                                                             </div>
                                                             <div class="activity-info-text">
 
@@ -443,10 +444,10 @@
                                                                                     Happy Birthday @item.FirstName @item.LastName! Wishing you a joyful day and a wonderful year ahead!
                                                                                 </text>
                                                                             }
-                                                                            else if (item.Type == "Anniversary")
+                                                                            else if (item.Type == "MarriageAnniversary")
                                                                             {
                                                                                 <text>
-                                                                                    Happy Anniversary @item.FirstName @item.LastName! Cheers to your beautiful journey together!
+                                                                                    Happy Marriage Anniversary @item.FirstName @item.LastName! Cheers to your beautiful journey together!
                                                                                 </text>
                                                                             }
                                                                         </span>
