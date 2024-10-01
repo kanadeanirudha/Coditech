@@ -294,5 +294,26 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [Route("/User/AcceptTermsAndConditions")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult AcceptTermsAndConditions(string userType, long entityId)
+        {
+            try
+            {
+                bool isAccepted = _userService.AcceptTermsAndConditions(userType, entityId);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = isAccepted });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Person.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

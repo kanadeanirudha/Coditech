@@ -1,4 +1,4 @@
-﻿@model List<Coditech.Common.API.Model.Media>
+﻿@model MediaManagerFolderListViewModel
 @{
     UserModel userInfo = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
 
@@ -17,7 +17,7 @@
 }
 <div class="card-body">
     <div class="d-flex file-box-content flex-wrap gap-3 justify-content-start">
-        @foreach (var media in Model)
+        @foreach (var media in Model.MediaFiles)
         {
             <div class="file-box">
                 <div class="align-items-center card-action-block d-flex flex-row-reverse justify-content-between mb-2">
@@ -27,7 +27,7 @@
                             <i class="dripicons-cross file-download-icon"></i>
                         </a>
                     }
-                    <a href="@media.DownloadPath" class="download-icon-link" download>
+                    <a target="_blank" href="@media.DownloadPath" class="download-icon-link" download>
                         <i class="dripicons-download file-download-icon"></i>
                     </a>
                 </div>
@@ -40,4 +40,7 @@
             </div>
         }
     </div>
+</div>
+<div style="padding-top:20px;">
+    @Html.Partial("~/Views/Shared/Datatable/_DatatablePagination.cshtml", Model.PageListViewModel)
 </div>

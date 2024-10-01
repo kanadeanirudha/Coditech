@@ -50,7 +50,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Telephone Number")]
         public string PhoneNumber { get; set; }
 
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Please enter valid mobile number")]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Please enter valid mobile number")]
         [MaxLength(10)]
         [Required]
         [Display(Name = "Mobile Number")]

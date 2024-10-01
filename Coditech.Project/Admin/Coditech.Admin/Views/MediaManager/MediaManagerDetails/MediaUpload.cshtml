@@ -3,7 +3,9 @@
     ViewBag.Title = "Media Manager";
 }
 <div id="MediaUpload">
-    @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_MediaDetails.cshtml", Model)
+    <div id="DataTablesDivId">
+        @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_MediaDetails.cshtml", Model)
+    </div>
 </div>
 
 
@@ -34,11 +36,11 @@
                         CoditechCommon.ShowLodder();
                     }
                 }).done(function (data) {
-                    $("#MediaUpload").html(data);
+                    $("#DataTablesDivId").html(data);
                     initializeEventHandlers();
                 }).fail(function (xhr, status, error) {
                     var msg = "Sorry but there was an error: ";
-                    $("#MediaUpload").html(msg + xhr.status + " " + xhr.statusText);
+                    $("#DataTablesDivId").html(msg + xhr.status + " " + xhr.statusText);
                 }).always(function () {
                     CoditechCommon.HideLodder();
                 });
@@ -67,6 +69,24 @@
         }
 
         $(document).ready(function () {
+
+            var targetNode = $("#DataTablesDivId")[0];
+
+            var config = { childList: true };
+
+            // Callback function to execute when mutations are observed
+            var callback = function (mutationsList, observer) {
+                mutationsList.forEach(function (mutation) {
+                    if (mutation.type === 'childList') {
+                        initializeEventHandlers();
+                    }
+                });
+            };
+
+            var observer = new MutationObserver(callback);
+
+            observer.observe(targetNode, config);
+
             CoditechCommon.ShowLodder();
             initializeEventHandlers(); // Initialize event handlers on page load
             CoditechCommon.HideLodder();

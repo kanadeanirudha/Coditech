@@ -3,6 +3,7 @@ using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.AspNetCore.Authorization;
@@ -80,11 +81,11 @@ namespace Coditech.API.Controllers
         [Route("/MediaManager/FolderStructure")]
         [HttpGet]
         [Produces(typeof(MediaManagerFolderResponse))]
-        public virtual async Task<IActionResult> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false)
+        public virtual async Task<IActionResult> GetFolderStructure([FromQuery] int rootFolderId = 0, [FromQuery] int adminRoleId = 0, [FromQuery] bool isAdminUser = false, [FromQuery] FilterCollection filter = null, [FromQuery] ExpandCollection expand = null, [FromQuery] SortCollection sort = null, [FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 0)
         {
             try
             {
-                MediaManagerFolderResponse MediaManagerFolderResponse = await _mediaManagerService.GetFolderStructure(rootFolderId, adminRoleId, isAdminUser);
+                MediaManagerFolderResponse MediaManagerFolderResponse = await _mediaManagerService.GetFolderStructure(rootFolderId, adminRoleId, isAdminUser, pageIndex, pageSize);
                 if (MediaManagerFolderResponse != null)
                     return CreateOKResponse<MediaManagerFolderResponse>(MediaManagerFolderResponse);
                 else

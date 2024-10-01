@@ -1,11 +1,12 @@
 ﻿namespace Coditech.Common.API.Model
 {
-    public class MediaManagerFolderModel : BaseModel
+    public class MediaManagerFolderModel : BaseListModel
     {
         public MediaFolderStructure MediaRootFolder { get; set; }
         public int ActiveFolderId { get; set; }
         public List<Media> MediaFiles { get; set; }
         public double TotalFileSize { get; set; }
+        public int TotalCount { get; set; }
 
     }
 
@@ -23,7 +24,7 @@
         }
     }
 
-    public class Media
+    public class Media : BaseModel
     {
         public long MediaId { get; set; }
         public string MediaPath { get; set; }

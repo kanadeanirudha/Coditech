@@ -381,6 +381,9 @@ namespace Coditech.API.Service
                 NetAmount = salesInvoiceDetailList.Sum(x => x.ItemAmount),
                 TaxAmount = salesInvoiceDetailList.Sum(x => x.ItemTaxAmount),
                 DiscountAmount = gymMemberMembershipPlanModel.DiscountAmount,
+                TransactionReference = gymMemberMembershipPlanModel.TransactionReference,
+                PaymentTypeEnumId = gymMemberMembershipPlanModel.PaymentTypeEnumId,
+                Remark = gymMemberMembershipPlanModel.Remark
             };
             salesInvoiceMaster.TotalAmount = salesInvoiceMaster.NetAmount + salesInvoiceMaster.TaxAmount;
             salesInvoiceMaster.BillAmount = salesInvoiceMaster.TotalAmount - salesInvoiceMaster.DiscountAmount;

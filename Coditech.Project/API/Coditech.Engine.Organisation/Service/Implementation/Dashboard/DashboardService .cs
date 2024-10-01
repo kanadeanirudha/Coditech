@@ -41,30 +41,57 @@ namespace Coditech.API.Service
                 dashboardModel.DashboardFormEnumCode = dashboardFormEnumCode;
                 if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetDashboardDetailsByUserId(0);
+                    DataSet dataset = GetGymDashboardDetailsByUserId(0);
+                    
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     GymDashboardModel gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
+                    
+                    dataset.Tables[1].TableName = "FinancialOverview";
+                    gymDashboardModel.TransactionOverviewList = new List<GymTransactionOverviewModel>();
+                    gymDashboardModel.TransactionOverviewList  = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["FinancialOverview"])?.ToList();
+                    
+                    dataset.Tables[2].TableName = "MembershipPlanExpirationMembersActivity";
+                    gymDashboardModel.GymUpcomingPlanExpirationMembersList = new List<GymUpcomingPlanExpirationMembersModel>();
+                    gymDashboardModel.GymUpcomingPlanExpirationMembersList = dataTable.ConvertDataTable<GymUpcomingPlanExpirationMembersModel>(dataset.Tables["MembershipPlanExpirationMembersActivity"])?.ToList();
+
+                    dataset.Tables[3].TableName = "RevenueByPaymentMode";
+                    gymDashboardModel.RevenueByPaymentModeList = new List<GymTransactionOverviewModel>();
+                    gymDashboardModel.RevenueByPaymentModeList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["RevenueByPaymentMode"])?.ToList();
+                    
+                    dataset.Tables[4].TableName = "LeadSource";
+                    gymDashboardModel.GymGeneralLeadGenerationSourceList = new List<GymGeneralLeadGenerationSourceModel>();
+                    gymDashboardModel.GymGeneralLeadGenerationSourceList = dataTable.ConvertDataTable<GymGeneralLeadGenerationSourceModel>(dataset.Tables["LeadSource"])?.ToList();
+                    
+                    
+                    dataset.Tables[5].TableName = "GymUpComingEvents";
+                    gymDashboardModel.GymUpcomingEventsList = new List<GymUpcomingEventsModel>();
+                    gymDashboardModel.GymUpcomingEventsList = dataTable.ConvertDataTable<GymUpcomingEventsModel>(dataset.Tables["GymUpComingEvents"])?.ToList();
+
+                    dataset.Tables[6].TableName = "YearlyFinancialOverview";
+                    gymDashboardModel.YearlyFinancialOverviewList = new List<GymTransactionOverviewModel>();
+                    gymDashboardModel.YearlyFinancialOverviewList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["YearlyFinancialOverview"])?.ToList();
+
                     dashboardModel.GymDashboardModel = gymDashboardModel;
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetDashboardDetailsByUserId(userMasterId);
+                    DataSet dataset = GetGymDashboardDetailsByUserId(userMasterId);
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     GymDashboardModel gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
                     dashboardModel.GymDashboardModel = gymDashboardModel;
                 }
             }
-
             return dashboardModel;
         }
 
-        protected virtual DataSet GetDashboardDetailsByUserId(long userId)
+        protected virtual DataSet GetGymDashboardDetailsByUserId(long userId)
         {
             ExecuteSpHelper objStoredProc = new ExecuteSpHelper(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.GetParameter("@UserId", userId, ParameterDirection.Input, SqlDbType.BigInt);
-            return objStoredProc.GetSPResultInDataSet("Coditech_GymDashboard");
+            objStoredProc.GetParameter("@NumberOfDaysRecord", 30, ParameterDirection.Input, SqlDbType.SmallInt);
+            return objStoredProc.GetSPResultInDataSet("Coditech_GetGymDashboard");
         }
     }
 }

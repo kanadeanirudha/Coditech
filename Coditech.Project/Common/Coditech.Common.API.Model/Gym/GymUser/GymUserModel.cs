@@ -23,5 +23,6 @@
         public string MedicalHistory { get; set; }
         public string OtherInformation { get; set; }
         public string PhotoMediaPath { get; set; }
+        public bool IsAcceptedTermsAndConditions { get; set; }
     }
 }

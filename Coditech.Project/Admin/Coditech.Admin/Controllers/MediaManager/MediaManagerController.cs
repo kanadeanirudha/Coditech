@@ -14,17 +14,24 @@ namespace Coditech.Admin.Controllers
             _mediaManagerFolderAgent = mediaManagerFolderAgent;
         }
 
-        public IActionResult Index(int rootFolderId = 0)
+        public IActionResult Index(int rootFolderId = 0, DataTableViewModel dataTableViewModel = null)
         {
-            if (AjaxHelper.IsAjaxRequest)
+            if (User.Identity.IsAuthenticated)
             {
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(rootFolderId);
-                return PartialView($"~/Views/MediaManager/MediaManagerDetails/_MediaDetails.cshtml", mediaViewModel);
+                if (AjaxHelper.IsAjaxRequest)
+                {
+                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(rootFolderId, dataTableViewModel);
+                    return PartialView($"~/Views/MediaManager/MediaManagerDetails/_MediaDetails.cshtml", mediaViewModel);
+                }
+                else
+                {
+                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(0, dataTableViewModel);
+                    return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                }
             }
             else
             {
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(0);
-                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
             }
         }
 
@@ -68,64 +75,85 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult PostUploadImage(int folderId)
         {
-            IFormFileCollection filess = Request.Form.Files;
-            if (filess.Count == 0)
+            if (User.Identity.IsAuthenticated)
             {
-                return Json(new { success = false, message = "No file uploaded." });
+                IFormFileCollection filess = Request.Form.Files;
+                if (filess.Count == 0)
+                {
+                    return Json(new { success = false, message = "No file uploaded." });
+                }
+
+                IFormFile file = filess[0];
+
+                if (file.Length == 0)
+                {
+                    return Json(new { success = false, message = "Empty file uploaded." });
+                }
+
+                BooleanModel status = _mediaManagerFolderAgent.UploadFile(folderId, file);
+
+                SetNotificationMessage(status.IsSuccess
+                       ? GetSuccessNotificationMessage(status.SuccessMessage)
+                       : GetErrorNotificationMessage(status.ErrorMessage));
+
+                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
+
+                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
             }
-
-            IFormFile file = filess[0];
-
-            if (file.Length == 0)
+            else
             {
-                return Json(new { success = false, message = "Empty file uploaded." });
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
             }
-
-            BooleanModel status = _mediaManagerFolderAgent.UploadFile(folderId, file);
-
-            SetNotificationMessage(status.IsSuccess
-                   ? GetSuccessNotificationMessage(status.SuccessMessage)
-                   : GetErrorNotificationMessage(status.ErrorMessage));
-
-            MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
-
-            return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
         }
 
         [Route("/MediaManager/CreateFolder")]
         [HttpPost]
         public virtual ActionResult CreateFolder(int rootFolderId, string folderName)
         {
-            BooleanModel booleanModel = _mediaManagerFolderAgent.CreateFolder(rootFolderId, folderName);
+            if (User.Identity.IsAuthenticated)
+            {
+                BooleanModel booleanModel = _mediaManagerFolderAgent.CreateFolder(rootFolderId, folderName);
 
-            SetNotificationMessage(booleanModel.IsSuccess
-                    ? GetSuccessNotificationMessage(booleanModel.SuccessMessage)
-                    : GetErrorNotificationMessage(booleanModel.ErrorMessage));
+                SetNotificationMessage(booleanModel.IsSuccess
+                        ? GetSuccessNotificationMessage(booleanModel.SuccessMessage)
+                        : GetErrorNotificationMessage(booleanModel.ErrorMessage));
 
-            MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(rootFolderId);
+                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(rootFolderId);
 
-            return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+            }
+            else
+            {
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
+            }
         }
 
         [Route("/MediaManager/DeleteFolder")]
         [HttpPost]
         public virtual ActionResult DeleteFolder(int folderId)
         {
-            try
+            if (User.Identity.IsAuthenticated)
             {
-                bool status = _mediaManagerFolderAgent.DeleteFolder(folderId);
+                try
+                {
+                    bool status = _mediaManagerFolderAgent.DeleteFolder(folderId);
 
-                SetNotificationMessage(status
-                    ? GetSuccessNotificationMessage("Folders/Files are successfully deleted.")
-                    : GetErrorNotificationMessage("Failed to delete."));
+                    SetNotificationMessage(status
+                        ? GetSuccessNotificationMessage("Folders/Files are successfully deleted.")
+                        : GetErrorNotificationMessage("Failed to delete."));
 
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(0);
+                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(0);
 
-                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                    return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = ex.Message });
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return Json(new { success = false, message = ex.Message });
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
             }
         }
 
@@ -133,37 +161,51 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult DeleteFile(int activeFolderId, int mediaId)
         {
-            try
+            if (User.Identity.IsAuthenticated)
             {
-                bool status = _mediaManagerFolderAgent.DeleteFile(mediaId);
+                try
+                {
+                    bool status = _mediaManagerFolderAgent.DeleteFile(mediaId);
 
-                SetNotificationMessage(status
-                    ? GetSuccessNotificationMessage("File is successfully deleted.")
-                    : GetErrorNotificationMessage("Failed to delete."));
+                    SetNotificationMessage(status
+                        ? GetSuccessNotificationMessage("File is successfully deleted.")
+                        : GetErrorNotificationMessage("Failed to delete."));
 
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(activeFolderId);
+                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(activeFolderId);
 
-                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                    return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = ex.Message });
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return Json(new { success = false, message = ex.Message });
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
             }
         }
 
         [Route("/MediaManager/RenameFolder")]
         [HttpPost]
-        public virtual ActionResult RenameFolder(int folderId, string folderName) 
+        public virtual ActionResult RenameFolder(int folderId, string folderName)
         {
-            bool status = _mediaManagerFolderAgent.RenameFolder(folderId, folderName);
+            if (User.Identity.IsAuthenticated)
+            {
+                bool status = _mediaManagerFolderAgent.RenameFolder(folderId, folderName);
 
-            SetNotificationMessage(status
-                    ? GetSuccessNotificationMessage("Renamed successfully.")
-                    : GetErrorNotificationMessage("Failed to rename."));
+                SetNotificationMessage(status
+                        ? GetSuccessNotificationMessage("Renamed successfully.")
+                        : GetErrorNotificationMessage("Failed to rename."));
 
-            MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
+                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 
-            return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+            }
+            else
+            {
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
+            }
         }
 
         [Route("/MediaManager/GetFolderDropdown")]
@@ -171,7 +213,7 @@ namespace Coditech.Admin.Controllers
         public JsonResult GetFolderDropdown(int excludeFolderId)
         {
             FolderListViewModel folders = _mediaManagerFolderAgent.GetAllFolders(excludeFolderId);
-            
+
             return Json(folders.Folders);
         }
 
@@ -179,21 +221,28 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public ActionResult MoveFolder(int folderId, int destinationFolderId)
         {
-            try
+            if (User.Identity.IsAuthenticated)
             {
-                bool status = _mediaManagerFolderAgent.MoveFolder(folderId, destinationFolderId);
+                try
+                {
+                    bool status = _mediaManagerFolderAgent.MoveFolder(folderId, destinationFolderId);
 
-                SetNotificationMessage(status
-                    ? GetSuccessNotificationMessage("Moved successfully.")
-                    : GetErrorNotificationMessage("Failed to move."));
+                    SetNotificationMessage(status
+                        ? GetSuccessNotificationMessage("Moved successfully.")
+                        : GetErrorNotificationMessage("Failed to move."));
 
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
+                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 
-                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                    return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = ex.Message });
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return Json(new { success = false, message = ex.Message });
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
             }
         }
 

@@ -160,4 +160,15 @@
             return false;
         }
     },
+
+    SearchDatatableData: function () {
+        debugger;
+        var charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode == 13) {
+            $("#DataTables_SearchButton").click();
+        }
+        else {
+            return false;
+        }
+    },
 }

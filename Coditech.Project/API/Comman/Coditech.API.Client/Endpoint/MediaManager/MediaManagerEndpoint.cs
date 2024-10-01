@@ -7,8 +7,8 @@ namespace Coditech.API.Endpoint
     {
         public string UploadMediaAsync() =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/UploadMedia";
-        public string GetFolderStructureAsync(int rootfolderId, int adminRoleId, bool isAdminUser) =>
-                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/FolderStructure?rootFolderId={rootfolderId}&adminRoleId={adminRoleId}&isAdminUser={isAdminUser}";
+        public string GetFolderStructureAsync(int rootfolderId, int adminRoleId, bool isAdminUser, int? pageIndex, int? pageSize) =>
+                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/FolderStructure?rootFolderId={rootfolderId}&adminRoleId={adminRoleId}&isAdminUser={isAdminUser}{BuildEndpointQueryString(true, null, null, null, pageIndex, pageSize)}";
         public string CreateFolderAsync(int rootFolderId, string folderName) =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/CreateFolder?rootFolderId={rootFolderId}&folderName={folderName}";
         public string RenameFolderAsync(int folderId, string renameFolderName) =>
