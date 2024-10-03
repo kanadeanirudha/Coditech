@@ -101,6 +101,11 @@ namespace Coditech.Admin.Controllers
             // Redirect to the List action with the selectedCentreCode
             return RedirectToAction("List", new { selectedCentreCode });
         }
+        public virtual ActionResult Cancel(string SelectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
+            return RedirectToAction("List", dataTableViewModel);
+        }
         #endregion
     }
 }

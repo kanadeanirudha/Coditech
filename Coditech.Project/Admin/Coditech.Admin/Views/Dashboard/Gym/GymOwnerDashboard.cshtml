@@ -124,7 +124,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users align-self-center text-muted icon-sm"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                    <i class="fas fa-user-check"></i>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <i class="fas fa-user-minus"></i>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <i class="fas fa-user-friends"></i>
                                 </div>
                             </div>
                         </div>
@@ -177,8 +177,8 @@
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
-                                <div class="report-main-icon bg-light-alt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <div class="report-main-icon bg-light-alt">                                
+                                    <i class="fas fa-bullhorn"></i>  
                                 </div>
                             </div>
                         </div>
@@ -196,7 +196,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <i class="fas fa-coins"></i>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +214,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <i class="fas fa-chart-line"></i>
                                 </div>
                             </div>
                         </div>
@@ -232,7 +232,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <i class="fas fa-money-check"></i>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +250,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-center text-muted icon-sm"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <i class="fas fa-hand-holding-usd"></i>
                                 </div>
                             </div>
                         </div>
@@ -326,11 +326,11 @@
                                             <td>
                                                 @if (item.PlanDurationExpiredInDays == 1)
                                                 {
-                                                    @(item.PlanDurationExpiredInDays + " day left")
+                                                    @(item.PlanDurationExpiredInDays + " Day Left")
                                                 }
                                                 else
                                                 {
-                                                    @(item.PlanDurationExpiredInDays + " days left")
+                                                    @(item.PlanDurationExpiredInDays + " Day's Left")
                                                 }
                                             </td>
                                         </tr>
