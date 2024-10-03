@@ -231,13 +231,15 @@ namespace Coditech.Admin.Controllers
         #endregion
 
         #region Gym Member Attendance
-        public ActionResult MemberAttendanceDetails(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public ActionResult MemberAttendanceDetails( DataTableViewModel dataTableModel)
         {
-            GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, UserTypeEnum.GymMember.ToString(), dataTableModel);
+            GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt64(dataTableModel.SelectedParameter2), UserTypeEnum.GymMember.ToString(), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAttendanceDetailsList.cshtml", list);
             }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
             return View($"~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetails/GeneralPersonAttendanceDetailsList.cshtml", list);
         }
         [HttpGet]
@@ -280,7 +282,7 @@ namespace Coditech.Admin.Controllers
                 ? generalPersonAttendanceDetailsViewModel.GeneralPersonAttendanceDetailId > 0 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetErrorNotificationMessage(GeneralResources.ErrorFailedToCreate)
                 : generalPersonAttendanceDetailsViewModel.GeneralPersonAttendanceDetailId > 0 ? GetSuccessNotificationMessage(GeneralResources.UpdateMessage) : GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
             }
-            return RedirectToAction("MemberAttendanceDetails", new { gymMemberDetailId = generalPersonAttendanceDetailsViewModel.GymMemberDetailId, personId = generalPersonAttendanceDetailsViewModel.PersonId });
+            return RedirectToAction("MemberAttendanceDetails", new { SelectedParameter1 = generalPersonAttendanceDetailsViewModel.GymMemberDetailId, SelectedParameter2 = generalPersonAttendanceDetailsViewModel.PersonId });
         }
 
         public virtual ActionResult DeleteGeneralPersonAttendanceDetails(string generalPersonAttendanceDetailIdIds, int gymMemberDetailId, long personId)
