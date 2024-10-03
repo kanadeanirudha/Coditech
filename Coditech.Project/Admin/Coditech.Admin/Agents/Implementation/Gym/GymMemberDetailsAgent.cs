@@ -504,6 +504,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Comments",
                 ColumnCode = "FollowupComment",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
@@ -520,6 +521,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Reminder Date",
                 ColumnCode = "ReminderDate",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
@@ -610,7 +612,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Plan Type",
                 ColumnCode = "PlanType",
-                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
