@@ -67,11 +67,11 @@
             @Html.LabelFor(x => x.Age, new { @class = "form-label" })
             @if (Model.PersonId > 0)
             {
-                @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @readonly = "true" })
+                @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @readonly = "true", onkeypress = "return CoditechCommon.ValidNumeric()" })
             }
             else
             {
-                @Html.TextBoxFor(x => x.Age, new { @class = "form-control" })
+                @Html.TextBoxFor(x => x.Age, new { @class = "form-control", onkeypress = "return CoditechCommon.ValidNumeric()" })
             }
             @Html.ValidationMessageFor(x => x.Age)
         </div>
@@ -274,6 +274,41 @@
                 },
                 minDate: "-80Y",
                 maxDate: new Date()
+            });
+
+            $('#DateOfBirth').change(function () {
+                var now = new Date();
+                var past = new Date($('#DateOfBirth').val());
+
+                var nowYear = now.getFullYear();
+                var pastYear = past.getFullYear();
+
+                var age = nowYear - pastYear;
+                $('#Age').val(age);
+            })
+
+            function calculateAge(dob) {
+                var now = new Date();
+                var dobDate = new Date(dob);
+                var age = now.getFullYear() - dobDate.getFullYear();
+                var monthDiff = now.getMonth() - dobDate.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < dobDate.getDate())) {
+                    age--;
+                }
+                return age;
+            }
+
+            function calculateDOB(age) {
+                var now = new Date();
+                var birthYear = now.getFullYear() - age;
+                return new Date(birthYear, 0, 1);
+            }
+
+            $('#Age').change(function () {
+                var age = $('#Age').val();
+
+                var dob = calculateDOB(age);
+                $('#DateOfBirth').datepicker('setDate', dob);
             });
 
 
