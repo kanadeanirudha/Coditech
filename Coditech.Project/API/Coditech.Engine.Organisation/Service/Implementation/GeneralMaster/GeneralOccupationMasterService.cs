@@ -48,7 +48,7 @@ namespace Coditech.API.Service
             if (IsNull(generalOccupationModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsOccupationCodeAlreadyExist(generalOccupationModel.OccupationName))
+            if (IsOccupationNameAlreadyExist(generalOccupationModel.OccupationName))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Occupation Name"));
 
             GeneralOccupationMaster generalOccupationMaster = generalOccupationModel.FromModelToEntity<GeneralOccupationMaster>();
@@ -88,7 +88,7 @@ namespace Coditech.API.Service
             if (generalOccupationModel.GeneralOccupationMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "OccupationID"));
 
-            if (IsOccupationCodeAlreadyExist(generalOccupationModel.OccupationName, generalOccupationModel.GeneralOccupationMasterId))
+            if (IsOccupationNameAlreadyExist(generalOccupationModel.OccupationName, generalOccupationModel.GeneralOccupationMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Occupation Name"));
 
             GeneralOccupationMaster generalOccupationMaster = generalOccupationModel.FromModelToEntity<GeneralOccupationMaster>();
@@ -120,7 +120,7 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Occupation code is already present or not.
-        protected virtual bool IsOccupationCodeAlreadyExist(string occupationName, short generalOccupationMasterId = 0)
+        protected virtual bool IsOccupationNameAlreadyExist(string occupationName, short generalOccupationMasterId = 0)
          => _generalOccupationMasterRepository.Table.Any(x => x.OccupationName == occupationName && (x.GeneralOccupationMasterId != generalOccupationMasterId || generalOccupationMasterId == 0));
         #endregion
     }
