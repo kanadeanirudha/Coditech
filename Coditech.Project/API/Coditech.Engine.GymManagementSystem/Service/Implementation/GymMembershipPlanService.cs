@@ -56,6 +56,9 @@ namespace Coditech.API.Service
             if (IsNull(gymMembershipPlanModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
+            if (IsMembershipPlanAlreadyExist(gymMembershipPlanModel))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Membership Plan"));
+
             GymMembershipPlan gymMembershipPlan = gymMembershipPlanModel.FromModelToEntity<GymMembershipPlan>();
 
             //Create new Country and return it.
@@ -102,6 +105,9 @@ namespace Coditech.API.Service
             if (gymMembershipPlanModel.GymMembershipPlanId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymMembershipPlanId"));
 
+            if (IsMembershipPlanAlreadyExist(gymMembershipPlanModel))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Membership Plan"));
+
 
             GymMembershipPlan gymMembershipPlan = gymMembershipPlanModel.FromModelToEntity<GymMembershipPlan>();
 
@@ -134,6 +140,7 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        #region Protected Method
         protected virtual bool DeleteGymMembershipPlanPackage(int gymMembershipPlanId)
         {
             if (IsNull(gymMembershipPlanId) || gymMembershipPlanId <= 0)
@@ -147,6 +154,7 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
+
         //Save Gym Membership Plan Package
         protected virtual void SaveGymMembershipPlanPackage(GymMembershipPlanModel gymMembershipPlanModel)
         {
@@ -164,5 +172,10 @@ namespace Coditech.API.Service
             _gymMembershipPlanPackageRepository.Insert(gymMembershipPlanPackageList);
         }
 
+
+        //Check if Country code is already present or not.
+        protected virtual bool IsMembershipPlanAlreadyExist(GymMembershipPlanModel gymMembershipPlanModel)
+         => _gymMembershipPlanRepository.Table.Any(x => x.CentreCode == gymMembershipPlanModel.CentreCode && x.PlanTypeEnumId == gymMembershipPlanModel.PlanTypeEnumId && x.MembershipPlanName == gymMembershipPlanModel.MembershipPlanName && x.PlanDurationTypeEnumId == gymMembershipPlanModel.PlanDurationTypeEnumId && (x.GymMembershipPlanId != gymMembershipPlanModel.GymMembershipPlanId || gymMembershipPlanModel.GymMembershipPlanId == 0));
+        #endregion
     }
 }
