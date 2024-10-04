@@ -735,7 +735,12 @@ namespace Coditech.Admin.Helpers
             if (dropdownViewModel.AddSelectItem)
             {
                 if (dropdownViewModel.IsRequired)
-                    dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                {
+                    if (dropdownViewModel.IsStringProperty)
+                        dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+                    else
+                        dropdownList.Add(new SelectListItem() { Text = GeneralResources.SelectLabel });
+                }
                 else
                     dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
             }
