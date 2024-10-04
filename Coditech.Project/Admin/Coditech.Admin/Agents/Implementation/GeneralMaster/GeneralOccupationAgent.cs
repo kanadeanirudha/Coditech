@@ -37,7 +37,6 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("OccupationName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("OccupationCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "OccupationName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
