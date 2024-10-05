@@ -754,12 +754,12 @@ namespace Coditech.API.Service
             }
             else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString() && string.IsNullOrEmpty(generalPersonModel.MobileNumber))
             {
-                errorMessage = "Mobile Number is null";
+                errorMessage = "Mobile Number is required";
                 return false;
             }
             else if (userNameBasedOn == UserNameRegistrationTypeEnum.EmailId.ToString() && string.IsNullOrEmpty(generalPersonModel.EmailId))
             {
-                errorMessage = "EmailId is null";
+                errorMessage = "EmailId is required";
                 return false;
             }
             else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString())
