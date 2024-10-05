@@ -218,6 +218,9 @@ namespace Coditech.Admin
             #region DBTM
             CreateMap<DBTMDeviceModel, DBTMDeviceViewModel>().ReverseMap();
             CreateMap<DBTMDeviceListModel, DBTMDeviceListViewModel>().ReverseMap();
+            CreateMap<DBTMTraineeDetailsModel, DBTMTraineeDetailsViewModel>().ReverseMap();
+            CreateMap<DBTMTraineeDetailsListModel, DBTMTraineeDetailsListViewModel>().ReverseMap();
+            CreateMap<DBTMTraineeDetailsCreateEditViewModel, GeneralPersonModel>().ReverseMap();
             #endregion
         }
     }

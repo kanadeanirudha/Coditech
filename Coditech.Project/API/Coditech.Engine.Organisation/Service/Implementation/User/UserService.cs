@@ -34,6 +34,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<EmployeeService> _employeeServiceRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
+        private readonly ICoditechRepository<DBTMTraineeDetails> _dBTMTraineeDetailsRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -53,6 +54,7 @@ namespace Coditech.API.Service
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeServiceRepository = new CoditechRepository<EmployeeService>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMTraineeDetailsRepository = new CoditechRepository<DBTMTraineeDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -300,6 +302,10 @@ namespace Coditech.API.Service
                 {
                     _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Error);
                 }
+                else if(generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.DBTMTraineeDetails.ToString(), TraceLevel.Error);
+                }
                 return generalPersonModel;
             }
 
@@ -330,6 +336,10 @@ namespace Coditech.API.Service
                 else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
                     InsertPatient(generalPersonModel, settingMasterList);
+                }
+                else if (generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    InsertDBTMTraineeDetails(generalPersonModel, settingMasterList);
                 }
             }
             else
@@ -745,7 +755,20 @@ namespace Coditech.API.Service
                     return false;
                 }
             }
-
+            if (generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
+                {
+                    errorMessage = "SelectedCentreCode is null";
+                    return false;
+                }
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.DBTMTraineeRegistration.ToString());
+                if (generalEnumaratorId == 0)
+                {
+                    errorMessage = "DBTMTraineeRegistration is null";
+                    return false;
+                }
+            }
             string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             if (string.IsNullOrEmpty(userNameBasedOn))
             {
@@ -884,6 +907,39 @@ namespace Coditech.API.Service
                 catch (Exception ex)
                 {
                     _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                }
+            }
+        }
+
+        protected virtual void InsertDBTMTraineeDetails(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
+        {
+            generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberForEnum.DBTMTraineeRegistration.ToString(), generalPersonModel.SelectedCentreCode);
+            DBTMTraineeDetails dBTMTraineeDetails = new DBTMTraineeDetails()
+            {
+                CentreCode = generalPersonModel.SelectedCentreCode,
+                PersonId = generalPersonModel.PersonId,
+                PersonCode = generalPersonModel.PersonCode,
+                UserType = generalPersonModel.UserType
+            };
+            dBTMTraineeDetails = _dBTMTraineeDetailsRepository.Insert(dBTMTraineeDetails);
+
+            //Check Is DBTM Trainee need to Login
+            if (dBTMTraineeDetails?.DBTMTraineeDetailId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsDBTMTraineeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
+            {
+                InsertUserMasterDetails(generalPersonModel, dBTMTraineeDetails.DBTMTraineeDetailId);
+                try
+                {
+                    GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel.SelectedCentreCode, EmailTemplateCodeEnum.DBTMTraineeRegistration.ToString());
+                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
+                    {
+                        string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, !string.IsNullOrEmpty(generalPersonModel.CentreName) ? generalPersonModel.CentreName : GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
+                        string messageText = ReplaceGymMemberEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
+                        _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTraineeDetails.ToString(), TraceLevel.Error);
                 }
             }
         }

@@ -84,6 +84,7 @@ namespace Coditech.Admin
 
             #region DBTM         
             builder.Services.AddScoped<IDBTMDeviceAgent, DBTMDeviceAgent>();
+            builder.Services.AddScoped<IDBTMTraineeDetailsAgent, DBTMTraineeDetailsAgent>();
 
             #endregion
 
@@ -197,6 +198,7 @@ namespace Coditech.Admin
 
             #region DBTM         
             builder.Services.AddScoped<IDBTMDeviceClient, DBTMDeviceClient>();
+            builder.Services.AddScoped<IDBTMTraineeDetailsClient, DBTMTraineeDetailsClient>();
             
             #endregion 
 
