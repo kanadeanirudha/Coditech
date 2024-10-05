@@ -165,7 +165,7 @@ namespace Coditech.Admin.Controllers
         }
         #endregion
 
-        #region MemberFollowUp
+        #region MemberFollowUpList
         public ActionResult MemberFollowUpList( DataTableViewModel dataTableModel)
         {
             GymMemberFollowUpListViewModel list = _gymMemberDetailsAgent.GymMemberFollowUpList(Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt64(dataTableModel.SelectedParameter2), dataTableModel);
@@ -222,11 +222,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
+                return RedirectToAction("MemberFollowUpList", new { SelectedParameter1 = gymMemberDetailId, SelectedParameter2 = personId });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
+            return RedirectToAction("MemberFollowUpList", new { SelectedParameter1 = gymMemberDetailId, SelectedParameter2 = personId });
         }
         #endregion
 
