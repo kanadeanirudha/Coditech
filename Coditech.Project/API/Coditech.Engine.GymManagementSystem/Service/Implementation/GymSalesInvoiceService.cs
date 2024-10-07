@@ -125,6 +125,7 @@ namespace Coditech.API.Service
                         MiddleName = generalPersonModel.MiddleName,
                         LastName = generalPersonModel.LastName,
                         MobileNumber = generalPersonModel.MobileNumber,
+                        EmailId = generalPersonModel.EmailId,
                     };
                 }
                 short organisationCentreMasterId = GetOrganisationCentreMasterIdByCentreCode(salesInvoicePrintModel.CentreCode);

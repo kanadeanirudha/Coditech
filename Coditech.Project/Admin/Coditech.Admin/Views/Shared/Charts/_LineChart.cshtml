@@ -1,18 +1,18 @@
-﻿@model BarChartViewModel
+﻿@model LineChartViewModel
 @{
     Layout = null;
 }
-<canvas id="@Model.BarChartId"></canvas>
+<canvas id="@Model.LineChartId"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>
     var xValues = @Html.Raw(@Model.XValues);
     var yValues = @Html.Raw(Model.YValues);
-    new Chart("@Model.BarChartId", {
-        type: "bar",
+    new Chart("@Model.LineChartId", {
+        type: "line",
         data: {
             labels: xValues,
             datasets: [{
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                backgroundColor: backgroundColor,
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,
                 data: yValues
@@ -50,6 +50,10 @@
                     }
                 }]
             },
+            // title: {
+            //     display: true,
+            //     text: 'Inspection Requests Per day'
+            // }
         }
     });
 </script>
