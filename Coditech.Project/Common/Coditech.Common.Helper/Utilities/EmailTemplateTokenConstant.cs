@@ -11,6 +11,11 @@
         public static string OTP { get; } = "#OTP#";
         public static string CentreUrl { get; } = "#CentreUrl#";
         public static string EmployeeUsername { get; } = "#EmployeeUsername#";
-        public static string TemporaryPassword { get; } = "#TemporaryPassword#";
+        public static string TemporaryPassword { get; } = "#TemporaryPassword#"; 
+        public static string MembershipPlanName { get; } = "#MembershipPlanName";
+        public static string PlanDurationType { get; } = "#PlanDurationType#";
+        public static string PaymentMethod { get; } = "#PaymentMethod#"; 
+        public static string PaidAmount { get; } = "#PaidAmount#";
+        public static string PlanDuration { get; } = "#PlanDuration#";
     }
 }

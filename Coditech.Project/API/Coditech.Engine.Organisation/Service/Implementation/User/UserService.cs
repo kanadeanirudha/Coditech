@@ -919,20 +919,6 @@ namespace Coditech.API.Service
             return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
         }
 
-        protected virtual string ReplaceEmailTemplateFooter(string centreCode, string messageText)
-        {
-            if (!string.IsNullOrEmpty(centreCode))
-            {
-                OrganisationCentreMaster organisationCentreMaster = GetOrganisationCentreDetails(centreCode);
-                string city = new CoditechRepository<GeneralCityMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GeneralCityMasterId == organisationCentreMaster.GeneralCityMasterId).FirstOrDefault().CityName;
-                string centreAddress = $"{organisationCentreMaster.CentreAddress}<br>{city}-{organisationCentreMaster.Pincode}";
-                messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, organisationCentreMaster.CentreName, messageText);
-                messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreAddress, centreAddress, messageText);
-                messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreContactNumber, organisationCentreMaster.PhoneNumberOffice, messageText);
-            }
-            return messageText;
-        }
-
         protected virtual int CalculateAge(DateTime dateOfBirth)
         {
             DateTime today = DateTime.Today;

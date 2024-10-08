@@ -161,7 +161,8 @@
         EmployeeRegistration,
         CustomerRegistration,
         GymMemberRegistration,
-        ResetPasswordLink
+        ResetPasswordLink,
+        AssociateGymMembershipPlan
     }
     public enum UserNameRegistrationTypeEnum
     {
