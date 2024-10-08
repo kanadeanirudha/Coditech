@@ -29,7 +29,7 @@ namespace Coditech.Admin.Controllers
                 }
                 else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return View("~/Views/Dashboard/Gym/GymOwnerDashboard.cshtml", dashboardViewModel);
+                    return View("~/Views/Dashboard/Gym/GymOperatorDashboard.cshtml", dashboardViewModel);
                 }
             }
 

@@ -80,6 +80,27 @@ namespace Coditech.API.Service
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     GymDashboardModel gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
+                    
+                    dataset.Tables[1].TableName = "FinancialOverview";
+                    gymDashboardModel.TransactionOverviewList = new List<GymTransactionOverviewModel>();
+                    gymDashboardModel.TransactionOverviewList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["FinancialOverview"])?.ToList();
+
+                    dataset.Tables[2].TableName = "MembershipPlanExpirationMembersActivity";
+                    gymDashboardModel.GymUpcomingPlanExpirationMembersList = new List<GymUpcomingPlanExpirationMembersModel>();
+                    gymDashboardModel.GymUpcomingPlanExpirationMembersList = dataTable.ConvertDataTable<GymUpcomingPlanExpirationMembersModel>(dataset.Tables["MembershipPlanExpirationMembersActivity"])?.ToList();
+
+                    dataset.Tables[3].TableName = "RevenueByPaymentMode";
+                    gymDashboardModel.RevenueByPaymentModeList = new List<GymTransactionOverviewModel>();
+                    gymDashboardModel.RevenueByPaymentModeList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["RevenueByPaymentMode"])?.ToList();
+
+                    dataset.Tables[4].TableName = "LeadSource";
+                    gymDashboardModel.GymGeneralLeadGenerationSourceList = new List<GymGeneralLeadGenerationSourceModel>();
+                    gymDashboardModel.GymGeneralLeadGenerationSourceList = dataTable.ConvertDataTable<GymGeneralLeadGenerationSourceModel>(dataset.Tables["LeadSource"])?.ToList();
+
+                    dataset.Tables[5].TableName = "GymUpComingEvents";
+                    gymDashboardModel.GymUpcomingEventsList = new List<GymUpcomingEventsModel>();
+                    gymDashboardModel.GymUpcomingEventsList = dataTable.ConvertDataTable<GymUpcomingEventsModel>(dataset.Tables["GymUpComingEvents"])?.ToList();
+
                     dashboardModel.GymDashboardModel = gymDashboardModel;
                 }
             }
