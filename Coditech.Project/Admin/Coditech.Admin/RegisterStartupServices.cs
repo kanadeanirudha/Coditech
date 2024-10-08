@@ -73,6 +73,9 @@ namespace Coditech.Admin
             //Assign value to automapper translator
             ConfigureAutomapperServices();
 
+            // Add Maintenance Middleware
+            app.UseMiddleware<MaintenanceMiddleware>();
+
             // Adds a middleware type to the application's request pipeline.
             app.UseMiddleware<RequestMiddleware>();
 

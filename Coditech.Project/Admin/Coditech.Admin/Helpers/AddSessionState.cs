@@ -35,8 +35,8 @@ namespace Coditech.Admin.Helpers
             //        options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(SessionStateSettings.DeletionInterval);
             //    });
             //else
-                // Distributed MemoryCache session settings.
-                builder.Services.AddDistributedMemoryCache();
+            // Distributed MemoryCache session settings.
+            builder.Services.AddDistributedMemoryCache();
 
             /// <summary>
             /// Adds services required for application session state.
@@ -45,7 +45,7 @@ namespace Coditech.Admin.Helpers
             /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(Convert.ToInt16(SessionStateSettings.IdleTimeout));
+                options.IdleTimeout = TimeSpan.FromMinutes(SessionStateSettings.IdleTimeout);
                 options.Cookie.IsEssential = true;
             });
         }
