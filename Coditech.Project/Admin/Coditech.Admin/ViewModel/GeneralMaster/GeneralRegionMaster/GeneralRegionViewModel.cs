@@ -21,7 +21,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         [Required]
         [Display(Name = "Short Name")]
-        public string ShortName { get; set; 
+        public string ShortName { get; set; } 
         public bool DefaultFlag { get; set; }
 
         [Required]

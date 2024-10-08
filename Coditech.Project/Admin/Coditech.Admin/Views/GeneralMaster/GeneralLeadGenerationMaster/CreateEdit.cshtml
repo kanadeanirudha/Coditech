@@ -40,6 +40,8 @@
                                    DropdownName = "UserTypeCode",
                                    GroupCode = DropdownTypeEnum.UserType.ToString(),
                                    IsTextValueSame = true,
+                                   IsRequired = true,
+                                   IsStringProperty = true
                                })    @Html.ValidationMessageFor(x => x.UserTypeCode)
                                     </div>
                                 </div>
@@ -53,7 +55,9 @@
                                    DropdownSelectedValue = Model.PersonTitle ?? string.Empty,
                                    DropdownName = "PersonTitle",
                                    GroupCode = DropdownTypeEnum.Title.ToString(),
-                                   IsTextValueSame = true
+                                   IsTextValueSame = true,
+                                   IsRequired = true,
+                                   IsStringProperty = true
                                })
                                         @Html.ValidationMessageFor(x => x.PersonTitle)
                                     </div>
@@ -126,6 +130,7 @@
                                    DropdownSelectedValue = Model.LeadGenerationSourceEnumId.ToString(),
                                    DropdownName = "LeadGenerationSourceEnumId",
                                    GroupCode = DropdownTypeEnum.GymSource.ToString()
+                                  
                                })
                                         @Html.ValidationMessageFor(x => x.LeadGenerationSourceEnumId)
                                     </div>
@@ -149,7 +154,10 @@
                                {
                                    DropdownSelectedValue = Model.LeadGenerationCategoryEnumIds,
                                    DropdownName = "LeadGenerationCategoryEnumIds",
+                                   IsRequired = true,
+                                   IsStringProperty = true,
                                    GroupCode = DropdownTypeEnum.LeadCategory.ToString()
+
                                })
                                         @Html.ValidationMessageFor(x => x.LeadGenerationCategoryEnumIds)
                                     </div>
