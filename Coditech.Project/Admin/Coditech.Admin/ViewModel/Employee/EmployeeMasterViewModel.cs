@@ -48,20 +48,24 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(10)]
         [Display(Name = "PAN Card Number")]
-        [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Only Alphabets and Numbers allowed.")]
+        [RegularExpression(@"^[A-Z]{5}[0-9]{4}[A-Z]$", ErrorMessage = "Please Enter Valid PAN Card Details.")]
         public string PANCardNumber { get; set; }
 
         [MaxLength(12)]
         [Display(Name = "UAN Number")]
+        [RegularExpression(@"^\d{12}", ErrorMessage = "Please Enter Valid UAN Number.")]
         public string UANNumber { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(9)]
+        [MinLength(8)]
         [Display(Name = "Passport Number")]
-        [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Only Alphabets and Numbers allowed.")]
+        [RegularExpression(@"^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$", ErrorMessage = "Please Enter Valid PassportNumber Details.")]
         public string PassportNumber { get; set; }
 
-        [MaxLength(12, ErrorMessage = "The Aadhaar Card Number must be exactly 12 digits long.")]
-        [Display(Name = "Aadhaar Card Number")]
+        [MaxLength(12)]
+        [MinLength(12)]
+        [Display(Name = "AdharCard Number")]
+        [RegularExpression(@"^\d{12}", ErrorMessage = "The AdharCardNumber Must Be Exactly 12 Digit Long.")]
         public string AdharCardNumber { get; set; }
 
         public string ImagePath { get; set; }

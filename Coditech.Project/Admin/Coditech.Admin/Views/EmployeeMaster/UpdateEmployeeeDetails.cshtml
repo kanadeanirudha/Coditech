@@ -81,8 +81,8 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.AdharCardNumber, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.AdharCardNumber, new { @class = "form-control", type = "number" })
+                                        @Html.LabelFor(x => x.AdharCardNumber, new { @class = "form-label"})
+                                        @Html.TextBoxFor(x => x.AdharCardNumber, new { @class = "form-control",@onkeypress="return CoditechCommom"})
                                         @Html.ValidationMessageFor(x => x.AdharCardNumber)
                                     </div>
                                 </div>
