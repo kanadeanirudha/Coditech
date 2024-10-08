@@ -93,6 +93,9 @@ namespace Coditech.Admin.ViewModel
         public bool IsActive { get; set; }
         public string CentreCode { get; set; }
         public short GeneralDepartmentMasterId { get; set; }
+       
+        [Display(Name = "Employee Role")]
+        public string SanctionPostName { get; set; }
     }
 
 }

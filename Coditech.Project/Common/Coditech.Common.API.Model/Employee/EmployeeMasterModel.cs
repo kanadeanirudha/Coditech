@@ -33,5 +33,6 @@ namespace Coditech.Common.API.Model
         public string FullName { get; set; }
         public string FullNameWithPersonCode { get; set; }
         public string Gender { get; set; }
+        public string SanctionPostName { get; set; }
     }
 }
