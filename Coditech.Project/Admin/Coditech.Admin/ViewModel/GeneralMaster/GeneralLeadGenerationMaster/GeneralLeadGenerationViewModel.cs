@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.Helper;
+using Coditech.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -94,8 +95,9 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Comments")]
         public string Comments { get; set; }
-
         [Display(Name = "Location")]
         public string Location { get; set; }
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
+        public string SelectedCentreCode { get; set; }
     }
 }

@@ -3,6 +3,8 @@
     ViewBag.Title = Model.GeneralLeadGenerationMasterId > 0 ? "Update LeadGeneration" : "Add Lead Generation";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode };
+
 }
 
 <!-- Page Content-->
@@ -31,6 +33,17 @@
                             @Html.HiddenFor(m => m.GeneralLeadGenerationMasterId)
 
                             <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.SelectedCentreCode, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                                        @Html.ValidationMessageFor(x => x.SelectedCentreCode)
+                                        @if (Model.GeneralLeadGenerationMasterId > 0)
+                                        {
+                                            @Html.HiddenFor(x => x.SelectedCentreCode)
+                                        }
+                                    </div>
+                                </div>
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.UserTypeCode, new { @class = "form-label required" })

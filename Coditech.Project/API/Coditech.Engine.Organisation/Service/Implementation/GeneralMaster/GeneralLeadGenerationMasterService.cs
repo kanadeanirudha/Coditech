@@ -4,7 +4,8 @@ using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
-using Coditech.Common.Logger;
+using Coditech.Common.Logger; 
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -13,12 +14,12 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class GeneralLeadGenerationMasterService : IGeneralLeadGenerationMasterService
+    public class GeneralLeadGenerationMasterService : BaseService, IGeneralLeadGenerationMasterService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralLeadGenerationMaster> _generalLeadGenerationMasterRepository;
-        public GeneralLeadGenerationMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public GeneralLeadGenerationMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -48,9 +49,6 @@ namespace Coditech.API.Service
             if (IsNull(generalLeadGenerationModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            //if (IsLeadGenerationCodeAlreadyExist(generalLeadGenerationModel.FirstName))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "First Name"));
-
             GeneralLeadGenerationMaster generalLeadGenerationMaster = generalLeadGenerationModel.FromModelToEntity<GeneralLeadGenerationMaster>();
 
             //Create new LeadGeneration and return it.
@@ -73,9 +71,18 @@ namespace Coditech.API.Service
             if (LeadGenerationId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "LeadGenerationID"));
 
-            //Get the LeadGeneration Details based on id.
-            GeneralLeadGenerationMaster generalLeadGenerationMaster = _generalLeadGenerationMasterRepository.Table.FirstOrDefault(x => x.GeneralLeadGenerationMasterId == LeadGenerationId);
+          
+            GeneralLeadGenerationMaster generalLeadGenerationMaster = _generalLeadGenerationMasterRepository.Table.Where(x => x.GeneralLeadGenerationMasterId == LeadGenerationId)?.FirstOrDefault();
             GeneralLeadGenerationModel generalLeadGenerationModel = generalLeadGenerationMaster?.FromEntityToModel<GeneralLeadGenerationModel>();
+            if (generalLeadGenerationModel?.GeneralLeadGenerationMasterId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(generalLeadGenerationModel.GeneralLeadGenerationMasterId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    generalLeadGenerationModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+
+                }
+            }
             return generalLeadGenerationModel;
         }
 
