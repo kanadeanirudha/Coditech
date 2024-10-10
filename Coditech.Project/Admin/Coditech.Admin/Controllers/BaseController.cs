@@ -1,4 +1,4 @@
-﻿//using AspNetCore.Reporting;
+﻿using AspNetCore.Reporting;
 
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
@@ -150,20 +150,19 @@ namespace Coditech.Admin.Controllers
 
         public Stream GetReport(IWebHostEnvironment _environment, string reportFolder, string rdlcReportName, DataTable dataTable, string dataSet, Dictionary<string, string> reportParameters)
         {
-            //string mimeType = "";
-            //int pageIndex = 1;
-            //var _reportPath = $"{_environment.ContentRootPath}\\Reports\\{reportFolder}\\{rdlcReportName}.rdlc";
-            //LocalReport localReport = new LocalReport(_reportPath);
+            string mimeType = "";
+            int pageIndex = 1;
+            var _reportPath = $"{_environment.ContentRootPath}\\Reports\\{reportFolder}\\{rdlcReportName}.rdlc";
+            LocalReport localReport = new LocalReport(_reportPath);
 
-            //localReport.AddDataSource(dataSet, dataTable);
+            localReport.AddDataSource(dataSet, dataTable);
 
-            //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            //var result = localReport.Execute(RenderType.Excel, pageIndex, reportParameters, mimeType);
-            //byte[] file = result.MainStream;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            var result = localReport.Execute(RenderType.Excel, pageIndex, reportParameters, mimeType);
+            byte[] file = result.MainStream;
 
-            //Stream stream = new MemoryStream(file);
-            //return stream;
-            return null;
+            Stream stream = new MemoryStream(file);
+            return stream;
         }
     }
 }
