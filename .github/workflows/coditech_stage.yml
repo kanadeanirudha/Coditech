@@ -54,7 +54,7 @@ jobs:
 
       - name: Restore Packages
         run: | 
-           & "C:\\GitAction\\Tools\\nuget.exe" restore './Coditech.Project/Coditech.Project.sln' -DirectDownload -MSBuildPath "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\"
+           & "C:\\GitAction\\nugettools\\nuget.exe" restore './Coditech.Project/Coditech.Project.sln' -DirectDownload -MSBuildPath "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\"
 
       - name: Build
         run: | 
