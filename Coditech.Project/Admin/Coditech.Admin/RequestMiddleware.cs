@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Exceptions;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Logger;
 
@@ -31,6 +32,13 @@ namespace Coditech.Admin
             {
                 // Let the middleware pipeline run
                 //CookieHelper.SetCookie("culture", CultureInfo.CurrentCulture.TwoLetterISOLanguageName, isCookieHttpOnly: false);
+                bool isMaintenance = CoditechAdminSettings.MaintenanceMode;
+                if (isMaintenance)
+                {
+                    context.Response.Redirect("/user/maintenance");
+                    return;
+                }
+
                 HelperUtility.ReplaceProxyToClientIp();
                 SetGlobalLoggingSetting();
                 SetDefaultGlobalTimeZone();

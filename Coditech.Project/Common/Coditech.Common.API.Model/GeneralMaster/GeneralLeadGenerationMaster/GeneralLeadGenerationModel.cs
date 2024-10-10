@@ -6,40 +6,40 @@ namespace Coditech.Common.API.Model
     {
         [Required]
         public long GeneralLeadGenerationMasterId { get; set; }
-        public string UserTypeCode { get; set; } 
+        public string UserTypeCode { get; set; }
 
         [MaxLength(50)]
         [Required]
-        public string PersonTitle { get; set; } 
+        public string PersonTitle { get; set; }
 
         [MaxLength(50)]
         [Required]
-        public string FirstName { get; set; }  
+        public string FirstName { get; set; }
 
         [MaxLength(50)]
-        public string MiddleName { get; set; }  
+        public string MiddleName { get; set; }
 
         [MaxLength(50)]
         [Required]
-        public string LastName { get; set; } 
+        public string LastName { get; set; }
 
-        public DateTime? DateOfBirth { get; set; }  
+        public DateTime? DateOfBirth { get; set; }
 
         [Required]
-        public int GenderEnumId { get; set; } 
+        public int GenderEnumId { get; set; }
 
         [MaxLength(250)]
-        public string EmailId { get; set; }  
+        public string EmailId { get; set; }
 
         [MaxLength(50)]
-        public string PhoneNumber { get; set; } 
+        public string PhoneNumber { get; set; }
 
         [MaxLength(15)]
         [Required]
-        public string MobileNumber { get; set; } 
+        public string MobileNumber { get; set; }
 
         [Required]
-        public int LeadGenerationSourceEnumId { get; set; } 
+        public int LeadGenerationSourceEnumId { get; set; }
         [MaxLength]
         [Required]
         public string LeadGenerationCategoryEnumIds { get; set; }
@@ -47,11 +47,11 @@ namespace Coditech.Common.API.Model
         public int LeadGenerationStatusEnumId { get; set; }
 
         [Required]
-        public bool IsConverted { get; set; } 
+        public bool IsConverted { get; set; }
         public string LeadGenerationSource { get; set; }
         public string LeadGenerationStatus { get; set; }
         public string Comments { get; set; }
         public string Location { get; set; }
-         public string SelectedCentreCode { get; set; }
+        public string CentreCode { get; set; }
     }
 }

@@ -97,6 +97,7 @@ namespace Coditech.Admin.Agents
                 if (generalLeadGenerationViewModel.IsConverted)
                 {
                     GeneralPersonModel generalPersonModel = generalLeadGenerationViewModel.ToModel<GeneralPersonModel>();
+                    generalPersonModel.SelectedCentreCode = generalLeadGenerationViewModel.CentreCode;
                     generalPersonModel.UserType = generalLeadGenerationViewModel.UserTypeCode;
                     GeneralPersonResponse generalPersonResponse = _userClient.InsertPersonInformation(generalPersonModel);
                     if (generalPersonResponse?.GeneralPersonModel.PersonId <= 0)

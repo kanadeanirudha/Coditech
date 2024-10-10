@@ -15,43 +15,49 @@ namespace Coditech.Admin.ViewModel
         public string UserTypeCode { get; set; }
 
         [MaxLength(50)]
-        [Display(Name = "Title")]
+        [MinLength(1)]
         [Required]
-        public string PersonTitle { get; set; } 
+        [Display(Name = "Title")]
+        public string PersonTitle { get; set; }
 
         [MaxLength(50)]
         [Required]
         [Display(Name = "First Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string FirstName { get; set; }
 
         [MaxLength(50)]
         [Display(Name = "Middle Name")]
-        public string MiddleName { get; set; } 
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
+        public string MiddleName { get; set; }
 
         [MaxLength(50)]
         [Required]
         [Display(Name = "Last Name")]
-        public string LastName { get; set; }  
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
+        public string LastName { get; set; }
 
         [Display(Name = "Date of Birth")]
         public DateTime? DateOfBirth { get; set; }  
 
         [Required]
         [Display(Name = "Gender")]
-        public int GenderEnumId { get; set; } 
+        public int GenderEnumId { get; set; }
 
-        [MaxLength(250)]
-        [Display(Name = "Email")]
-        public string EmailId { get; set; }  
+        [MaxLength(200)]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [Display(Name = "Email Id")]
+        public string EmailId { get; set; }
 
         [MaxLength(50)]
         [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; } 
+        public string PhoneNumber { get; set; }
 
-        [MaxLength(15)]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Please enter valid mobile number")]
+        [MaxLength(10)]
         [Required]
         [Display(Name = "Mobile Number")]
-        public string MobileNumber { get; set; } 
+        public string MobileNumber { get; set; }
 
         [Required]
         [Display(Name = "Lead Generation Source")]
@@ -97,7 +103,9 @@ namespace Coditech.Admin.ViewModel
         public string Comments { get; set; }
         [Display(Name = "Location")]
         public string Location { get; set; }
+
+        [Required]
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
-        public string SelectedCentreCode { get; set; }
+        public string CentreCode { get; set; }
     }
 }

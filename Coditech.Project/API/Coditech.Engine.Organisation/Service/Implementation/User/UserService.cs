@@ -715,7 +715,7 @@ namespace Coditech.API.Service
             {
                 if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
                 {
-                    errorMessage = "SelectedCentreCode is null";
+                    errorMessage = "Selected Centre Code is Required.";
                     return false;
                 }
                 generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString());

@@ -4,8 +4,7 @@ using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
-using Coditech.Common.Logger; 
-using Coditech.Common.Service;
+using Coditech.Common.Logger;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -14,12 +13,12 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class GeneralLeadGenerationMasterService : BaseService, IGeneralLeadGenerationMasterService
+    public class GeneralLeadGenerationMasterService : IGeneralLeadGenerationMasterService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralLeadGenerationMaster> _generalLeadGenerationMasterRepository;
-        public GeneralLeadGenerationMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        public GeneralLeadGenerationMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -49,8 +48,10 @@ namespace Coditech.API.Service
             if (IsNull(generalLeadGenerationModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            GeneralLeadGenerationMaster generalLeadGenerationMaster = generalLeadGenerationModel.FromModelToEntity<GeneralLeadGenerationMaster>();
+            if (IsLeadGenerationAlreadyExist(generalLeadGenerationModel))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "First Name"));
 
+            GeneralLeadGenerationMaster generalLeadGenerationMaster = generalLeadGenerationModel.FromModelToEntity<GeneralLeadGenerationMaster>();
             //Create new LeadGeneration and return it.
             GeneralLeadGenerationMaster LeadGenerationData = _generalLeadGenerationMasterRepository.Insert(generalLeadGenerationMaster);
             if (LeadGenerationData?.GeneralLeadGenerationMasterId > 0)
@@ -71,18 +72,9 @@ namespace Coditech.API.Service
             if (LeadGenerationId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "LeadGenerationID"));
 
-          
-            GeneralLeadGenerationMaster generalLeadGenerationMaster = _generalLeadGenerationMasterRepository.Table.Where(x => x.GeneralLeadGenerationMasterId == LeadGenerationId)?.FirstOrDefault();
+            //Get the LeadGeneration Details based on id.
+            GeneralLeadGenerationMaster generalLeadGenerationMaster = _generalLeadGenerationMasterRepository.Table.FirstOrDefault(x => x.GeneralLeadGenerationMasterId == LeadGenerationId);
             GeneralLeadGenerationModel generalLeadGenerationModel = generalLeadGenerationMaster?.FromEntityToModel<GeneralLeadGenerationModel>();
-            if (generalLeadGenerationModel?.GeneralLeadGenerationMasterId > 0)
-            {
-                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(generalLeadGenerationModel.GeneralLeadGenerationMasterId, UserTypeEnum.Employee.ToString());
-                if (IsNotNull(generalPersonModel))
-                {
-                    generalLeadGenerationModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
-
-                }
-            }
             return generalLeadGenerationModel;
         }
 
@@ -95,8 +87,8 @@ namespace Coditech.API.Service
             if (generalLeadGenerationModel.GeneralLeadGenerationMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "LeadGenerationID"));
 
-            //if (IsLeadGenerationCodeAlreadyExist(generalLeadGenerationModel.FirstName, generalLeadGenerationModel.GeneralLeadGenerationMasterId))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "FirstName"));
+            if (IsLeadGenerationAlreadyExist(generalLeadGenerationModel))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "FirstName"));
 
             GeneralLeadGenerationMaster generalLeadGenerationMaster = generalLeadGenerationModel.FromModelToEntity<GeneralLeadGenerationMaster>();
 
@@ -127,8 +119,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if LeadGeneration code is already present or not.
-        protected virtual bool IsLeadGenerationCodeAlreadyExist(string firstName, long generalLeadGenerationMasterId = 0)
-         => _generalLeadGenerationMasterRepository.Table.Any(x => x.FirstName == firstName && (x.GeneralLeadGenerationMasterId != generalLeadGenerationMasterId || generalLeadGenerationMasterId == 0));
+        protected virtual bool IsLeadGenerationAlreadyExist(GeneralLeadGenerationModel generalLeadGenerationModel)
+         => _generalLeadGenerationMasterRepository.Table.Any(x => x.FirstName == generalLeadGenerationModel.FirstName && x.LastName == generalLeadGenerationModel.LastName && x.MobileNumber == generalLeadGenerationModel.MobileNumber && (x.GeneralLeadGenerationMasterId != generalLeadGenerationModel.GeneralLeadGenerationMasterId || generalLeadGenerationModel.GeneralLeadGenerationMasterId == 0));
         #endregion
     }
 }
