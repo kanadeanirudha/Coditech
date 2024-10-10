@@ -53,7 +53,14 @@ Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Coditech.Reports", "Coditec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Gazette", "API\Coditech.Engine.Gazette\Coditech.Engine.Gazette.csproj", "{2B72888A-A016-4509-ABA3-057AA7811565}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Engine.DBTM", "API\Coditech.Engine.DBTM\Coditech.Engine.DBTM.csproj", "{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.DBTM", "API\Coditech.Engine.DBTM\Coditech.Engine.DBTM.csproj", "{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{29C2E38D-4779-47C1-8AC5-982E5A1EED8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{D88F3C77-8F56-4FCC-B6CD-CA1B0C562361}"
+	ProjectSection(SolutionItems) = preProject
+		coditech_stage.yml = coditech_stage.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -207,6 +214,7 @@ Global
 		{C9D196C7-C2FF-4CF4-A47F-970A82D3A987} = {63CCBF2E-0084-484D-84FC-AF5A48C5D073}
 		{A936949E-DB9D-4555-B199-A6143DBEA361} = {56B5A9D6-463C-47DE-8366-6A5976E51406}
 		{D7903B41-9CC4-46A1-AB8C-76AE2D840C73} = {63CCBF2E-0084-484D-84FC-AF5A48C5D073}
+		{D88F3C77-8F56-4FCC-B6CD-CA1B0C562361} = {29C2E38D-4779-47C1-8AC5-982E5A1EED8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C29948E7-3002-49F1-8F85-8AC9847A8945}
