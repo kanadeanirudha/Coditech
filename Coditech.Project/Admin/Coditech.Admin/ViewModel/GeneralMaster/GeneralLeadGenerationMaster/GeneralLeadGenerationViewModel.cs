@@ -107,5 +107,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string CentreCode { get; set; }
+        public string SelectedCentreCode { get; set; }
+       
     }
 }

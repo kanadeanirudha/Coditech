@@ -17,9 +17,14 @@ namespace Coditech.Admin.Controllers
             _generalLeadGenerationAgent = generalLeadGenerationAgent;
         }
 
-        public virtual ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
-            GeneralLeadGenerationListViewModel list = _generalLeadGenerationAgent.GetLeadGenerationList(dataTableModel);
+            GeneralLeadGenerationListViewModel list = new GeneralLeadGenerationListViewModel();
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
+            {
+                list = _generalLeadGenerationAgent.GetLeadGenerationList(dataTableViewModel);
+            }
+            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/GeneralMaster/GeneralLeadGenerationMaster/_List.cshtml", list);
@@ -42,7 +47,7 @@ namespace Coditech.Admin.Controllers
                 if (!generalLeadGenerationViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralLeadGenerationMasterController>(x => x.List(null));
+                    return RedirectToAction("List", new { selectedCentreCode = generalLeadGenerationViewModel.SelectedCentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalLeadGenerationViewModel.ErrorMessage));
@@ -69,7 +74,7 @@ namespace Coditech.Admin.Controllers
             return View(createEdit, generalLeadGenerationViewModel);
         }
 
-        public virtual ActionResult Delete(string LeadGenerationIds)
+        public virtual ActionResult Delete(string LeadGenerationIds, string selectedCentreCode)
         {
             string message = string.Empty;
             bool status = false;
@@ -79,11 +84,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<GeneralLeadGenerationMasterController>(x => x.List(null));
+                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<GeneralLeadGenerationMasterController>(x => x.List(null));
+            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
         }
 
         #region Protected

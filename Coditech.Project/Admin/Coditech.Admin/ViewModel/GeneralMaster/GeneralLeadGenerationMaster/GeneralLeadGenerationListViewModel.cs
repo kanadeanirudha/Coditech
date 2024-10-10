@@ -9,5 +9,6 @@ namespace Coditech.Admin.ViewModel
         {
             GeneralLeadGenerationList = new List<GeneralLeadGenerationViewModel>();
         }
+        public string SelectedCentreCode { get; set; }
     }
 }

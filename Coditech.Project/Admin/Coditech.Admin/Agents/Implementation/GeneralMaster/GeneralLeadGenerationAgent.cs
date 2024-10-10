@@ -35,12 +35,12 @@ namespace Coditech.Admin.Agents
         #region Public Methods
         public virtual GeneralLeadGenerationListViewModel GetLeadGenerationList(DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = null;
+            FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
+            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
-                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                 filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
