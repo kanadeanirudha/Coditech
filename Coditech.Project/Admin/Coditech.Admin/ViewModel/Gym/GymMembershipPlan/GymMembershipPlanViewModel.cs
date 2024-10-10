@@ -21,12 +21,12 @@ namespace Coditech.Admin.ViewModel
         [Range(1, double.MaxValue, ErrorMessage = "Maximum cost must be greater than zero.")]
         [Required]
         [Display(Name = "Max Cost")]
-        public decimal MaxCost { get; set; }
+        public Nullable<decimal> MaxCost { get; set; }
 
         [Range(1, double.MaxValue, ErrorMessage = "Minimum cost must be greater than zero.")]
         [Required]
         [Display(Name = "Min Cost")]
-        public decimal MinCost { get; set; }
+        public  Nullable<decimal> MinCost { get; set; }
 
         [Required]
         [Display(Name = "Plan Type")]
@@ -36,10 +36,10 @@ namespace Coditech.Admin.ViewModel
         public string PlanType { get; set; }
 
         [Display(Name = "Plan Duration In Month")]
-        public byte PlanDurationInMonth { get; set; }
+        public byte? PlanDurationInMonth { get; set; }
 
         [Display(Name = "Plan Duration In Days")]
-        public byte PlanDurationInDays { get; set; }
+        public byte? PlanDurationInDays { get; set; }
 
         [Display(Name = "Plan Duration In Session")]
         public Int16 PlanDurationInSession { get; set; }
