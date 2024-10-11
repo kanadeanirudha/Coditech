@@ -1,5 +1,4 @@
-﻿
-using Coditech.API.Data;
+﻿using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
@@ -31,10 +30,13 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GymMembershipPlanPackage> _gymMembershipPlanPackageRepository;
         private readonly ICoditechRepository<SalesInvoiceMaster> _salesInvoiceMasterRepository;
         private readonly ICoditechRepository<SalesInvoiceDetails> _salesInvoiceDetailsRepository;
-        public GymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        public GymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
+            _coditechEmail = coditechEmail;
+            _coditechSMS = coditechSMS;
+            _coditechWhatsApp = coditechWhatsApp;
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberFollowUpRepository = new CoditechRepository<GymMemberFollowUp>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberMembershipPlanRepository = new CoditechRepository<GymMemberMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
@@ -190,6 +192,7 @@ namespace Coditech.API.Service
             gymMemberFollowUpModel.ReminderDate = gymMemberFollowUpModel.IsSetReminder ? gymMemberFollowUpModel.ReminderDate : null;
             bool isGymMemberFollowUpUpdated = false;
             GymMemberFollowUp gymMemberFollowUp = gymMemberFollowUpModel.FromModelToEntity<GymMemberFollowUp>();
+            gymMemberFollowUpModel.FollowupType = GetEnumCodeByEnumId(gymMemberFollowUpModel.GymFollowupTypesEnumId);
 
             if (gymMemberFollowUpModel.GymMemberFollowUpId > 0)
             {
@@ -198,11 +201,16 @@ namespace Coditech.API.Service
             else
             {
                 GymMemberFollowUp gymMemberFollowUpData = _gymMemberFollowUpRepository.Insert(gymMemberFollowUp);
-                isGymMemberFollowUpUpdated = gymMemberFollowUpData?.GymMemberFollowUpId > 0 ? true : false;
+                isGymMemberFollowUpUpdated = gymMemberFollowUpData?.GymMemberFollowUpId > 0 ? true : false;               
             }
 
-            if (!isGymMemberFollowUpUpdated)
+            if (isGymMemberFollowUpUpdated)
             {
+                SendFollowUp(gymMemberFollowUpModel.GymMemberDetailId, gymMemberFollowUpModel.FollowupComment, gymMemberFollowUpModel.GymFollowupTypesEnumId);
+            }
+            else
+            {
+                
                 gymMemberFollowUpModel.HasError = true;
                 gymMemberFollowUpModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
@@ -302,9 +310,9 @@ namespace Coditech.API.Service
                 //Send Message for Email or SMS          
                 try
                 {
-                    GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(gymMemberMembershipPlanModel.GymMemberDetailId, UserTypeEnum.GymMember.ToString());                   
+                    GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(gymMemberMembershipPlanModel.GymMemberDetailId, UserTypeEnum.GymMember.ToString());
                     GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel.SelectedCentreCode, EmailTemplateCodeEnum.AssociateGymMembershipPlan.ToString());
-                 
+
                     if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                     {
                         string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, !string.IsNullOrEmpty(generalPersonModel.CentreName) ? generalPersonModel.CentreName : GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
@@ -474,15 +482,15 @@ namespace Coditech.API.Service
         protected virtual string ReplaceAssociateGymMembershipPlanEmailTemplate(GeneralPersonModel generalPersonModel, GymMemberMembershipPlanModel gymMemberMembershipPlanModel, string emailTemplate)
         {
             string messageText = emailTemplate;
-            
+
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
-            
+
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.MembershipPlanName, gymMemberMembershipPlanModel.MembershipPlanName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PlanDurationType, gymMemberMembershipPlanModel.PlanDurationType, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PaymentMethod, GetEnumDisplayTextByEnumId(gymMemberMembershipPlanModel.PaymentTypeEnumId), messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PaidAmount, gymMemberMembershipPlanModel.BillAmount.ToString(), messageText);
-           if (string.Equals(gymMemberMembershipPlanModel.PlanDurationType, APIConstant.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(gymMemberMembershipPlanModel.PlanDurationType, APIConstant.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
             {
                 messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PlanDuration, $"{gymMemberMembershipPlanModel.PlanStartDate.ToString()}-{gymMemberMembershipPlanModel.PlanDurationExpirationDate}", messageText);
             }
@@ -493,8 +501,30 @@ namespace Coditech.API.Service
             return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
         }
 
+
+        //Send FollowUp Method
+        protected virtual void SendFollowUp(int gymMemberDetailId, string followUpComment, int gymFollowupTypesEnumId)
+        {
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(gymMemberDetailId,UserTypeEnum.GymMember.ToString());
+            if (generalPersonModel != null && !string.IsNullOrEmpty(followUpComment))
+            {
+                string followupType = GetEnumCodeByEnumId(gymFollowupTypesEnumId);
+                if (followupType == GymFollowupTypesEnum.TextSMS.ToString())
+                {
+                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, followUpComment, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
+                }
+                else if (followupType == GymFollowupTypesEnum.WhatsAppSMS.ToString())
+                {
+                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, followUpComment, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
+                }
+            }
+            else
+            {
+                throw new CoditechException(ErrorCodes.InvalidData, "Follow-up comment is invalid.");
+            }
+        }
         #endregion
     }
 
-    
+
 }

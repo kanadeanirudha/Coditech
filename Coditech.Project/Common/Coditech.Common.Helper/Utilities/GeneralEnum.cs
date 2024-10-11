@@ -194,4 +194,13 @@
         UploadFile,
         DeleteFile,
     }
+
+    public enum GymFollowupTypesEnum
+    {
+        Call,
+        TextSMS,
+        WhatsAppSMS,
+        BulkSMS,
+        Visit
+    }
 }
