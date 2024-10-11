@@ -166,7 +166,7 @@
         CustomerRegistration,
         GymMemberRegistration,
         ResetPasswordLink,
-        DBTMTraineeRegistration
+        DBTMTraineeRegistration,
         AssociateGymMembershipPlan
     }
     public enum UserNameRegistrationTypeEnum
