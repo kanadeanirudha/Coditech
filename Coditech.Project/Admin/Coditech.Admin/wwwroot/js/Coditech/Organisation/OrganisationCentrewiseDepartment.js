@@ -28,7 +28,7 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    if (xhr.status == "401") {
+                    if (xhr.status == "401" || xhr.status == "403") {
                         location.reload();
                     }
                     CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
