@@ -80,7 +80,7 @@ jobs:
       - name: Copy Build file
         run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\Admin\ -Recurse -Force
       - name: Copy Build webroot
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\wwwroot\*  -Destination C:\HostingSites\CoditechStage\Admin\ -Recurse -Force
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\wwwroot\*  -Destination C:\HostingSites\CoditechStage\Admin\wwwroot\ -Recurse -Force
 
       - name: Start ADMIN IIS Site and App Pool
         run: |
@@ -108,7 +108,7 @@ jobs:
           Start-Sleep -Seconds 5
 
       - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\CoditechStage\CoditechStage\Coditech.Project\API\Coditech.Engine.Employee\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Employee\ -Recurse -Force 
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.Employee\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Employee\ -Recurse -Force 
 
       - name: Start Employee API IIS Site and App Pool
         run: |
@@ -136,7 +136,7 @@ jobs:
           Start-Sleep -Seconds 5
 
       - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\CoditechStage\CoditechStage\Coditech.Project\API\Coditech.Engine.GymManagementSystem\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\GMS\ -Recurse -Force 
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.GymManagementSystem\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\GMS\ -Recurse -Force 
 
       - name: Start GymManagementSystem IIS Site and App Pool
         run: |
@@ -164,7 +164,7 @@ jobs:
            Start-Sleep -Seconds 5
 
       - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\CoditechStage\CoditechStage\Coditech.Project\API\Coditech.Engine.Inventory\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Inventory\ -Recurse -Force 
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.Inventory\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Inventory\ -Recurse -Force 
 
       - name: Start Payment IIS Site and App Pool
         run: |
@@ -191,7 +191,7 @@ jobs:
            Start-Sleep -Seconds 5
 
       - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\CoditechStage\CoditechStage\Coditech.Project\API\Coditech.Engine.MediaManager\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\MediaManager\ -Recurse -Force 
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.MediaManager\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\MediaManager\ -Recurse -Force 
 
       - name: Start MediaManager IIS Site and App Pool
         run: |
@@ -217,7 +217,7 @@ jobs:
            Start-Sleep -Seconds 5
 
       - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\CoditechStage\CoditechStage\Coditech.Project\API\Coditech.Engine.Organisation\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Organisation\ -Recurse -Force 
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.Organisation\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Organisation\ -Recurse -Force 
 
       - name: Start Organisation IIS Site and App Pool
         run: |
