@@ -12,12 +12,13 @@
         public short RemainingSessionCount { get; set; }
         public decimal PlanAmount { get; set; }
         public decimal DiscountAmount { get; set; } = 0;
+        public decimal BillAmount { get; set; }
         public int PaymentTypeEnumId { get; set; }
         public string TransactionReference { get; set; }
         public string Remark { get; set; }
         public bool IsTransfered { get; set; }
         public int? TransferedGymMemberDetailId { get; set; }
-        public int SalesInvoiceMasterId { get; set; }
+        public long SalesInvoiceMasterId { get; set; }
         public bool IsExpired { get; set; }
         public string PlanType { get; set; }
         public string MembershipPlanName { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -45,6 +46,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("AdminRoleMasterId", ProcedureFilterOperators.Like, dataTableModel.SearchBy); 
             }
 
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
@@ -211,7 +213,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Employee Code",
                 ColumnCode = "PersonCode",
                 IsSortable = true,
-            });
+            });           
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "First Name",
@@ -240,7 +242,13 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Email Id",
                 ColumnCode = "EmailId",
                 IsSortable = true,
-            });            
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Employee Role",
+                ColumnCode = "SanctionPostName",
+                IsSortable = true,
+            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",

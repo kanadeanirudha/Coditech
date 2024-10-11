@@ -1,5 +1,4 @@
-﻿
-using Coditech.API.Data;
+﻿using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
@@ -13,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using System.Collections.Specialized;
 using System.Data;
-
+using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
@@ -21,6 +20,9 @@ namespace Coditech.API.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
+        protected readonly ICoditechEmail _coditechEmail;
+        protected readonly ICoditechSMS _coditechSMS;
+        protected readonly ICoditechWhatsApp _coditechWhatsApp;
         private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<GymMemberFollowUp> _gymMemberFollowUpRepository;
         private readonly ICoditechRepository<GymMemberMembershipPlan> _gymMemberMembershipPlanRepository;
@@ -28,10 +30,13 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GymMembershipPlanPackage> _gymMembershipPlanPackageRepository;
         private readonly ICoditechRepository<SalesInvoiceMaster> _salesInvoiceMasterRepository;
         private readonly ICoditechRepository<SalesInvoiceDetails> _salesInvoiceDetailsRepository;
-        public GymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        public GymMemberDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
+            _coditechEmail = coditechEmail;
+            _coditechSMS = coditechSMS;
+            _coditechWhatsApp = coditechWhatsApp;
             _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberFollowUpRepository = new CoditechRepository<GymMemberFollowUp>(_serviceProvider.GetService<Coditech_Entities>());
             _gymMemberMembershipPlanRepository = new CoditechRepository<GymMemberMembershipPlan>(_serviceProvider.GetService<Coditech_Entities>());
@@ -187,6 +192,7 @@ namespace Coditech.API.Service
             gymMemberFollowUpModel.ReminderDate = gymMemberFollowUpModel.IsSetReminder ? gymMemberFollowUpModel.ReminderDate : null;
             bool isGymMemberFollowUpUpdated = false;
             GymMemberFollowUp gymMemberFollowUp = gymMemberFollowUpModel.FromModelToEntity<GymMemberFollowUp>();
+            gymMemberFollowUpModel.FollowupType = GetEnumCodeByEnumId(gymMemberFollowUpModel.GymFollowupTypesEnumId);
 
             if (gymMemberFollowUpModel.GymMemberFollowUpId > 0)
             {
@@ -195,11 +201,16 @@ namespace Coditech.API.Service
             else
             {
                 GymMemberFollowUp gymMemberFollowUpData = _gymMemberFollowUpRepository.Insert(gymMemberFollowUp);
-                isGymMemberFollowUpUpdated = gymMemberFollowUpData?.GymMemberFollowUpId > 0 ? true : false;
+                isGymMemberFollowUpUpdated = gymMemberFollowUpData?.GymMemberFollowUpId > 0 ? true : false;               
             }
 
-            if (!isGymMemberFollowUpUpdated)
+            if (isGymMemberFollowUpUpdated)
             {
+                SendFollowUp(gymMemberFollowUpModel.GymMemberDetailId, gymMemberFollowUpModel.FollowupComment, gymMemberFollowUpModel.GymFollowupTypesEnumId);
+            }
+            else
+            {
+                
                 gymMemberFollowUpModel.HasError = true;
                 gymMemberFollowUpModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
@@ -274,19 +285,19 @@ namespace Coditech.API.Service
 
             GymMembershipPlan gymMembershipPlan = _gymMembershipPlanRepository.GetById(gymMemberMembershipPlanModel.GymMembershipPlanId);
 
-            long salesInvoiceMasterId = SaveSalesInvoiceDetails(gymMemberMembershipPlanModel, gymMembershipPlan);
+            SaveSalesInvoiceDetails(gymMemberMembershipPlanModel, gymMembershipPlan);
 
-            string planDurationType = GetEnumCodeByEnumId(gymMembershipPlan.PlanDurationTypeEnumId);
+            gymMemberMembershipPlanModel.PlanDurationType = GetEnumCodeByEnumId(gymMembershipPlan.PlanDurationTypeEnumId);
 
             GymMemberMembershipPlan gymMemberMembershipPlan = gymMemberMembershipPlanModel.FromModelToEntity<GymMemberMembershipPlan>();
             gymMemberMembershipPlan.PlanAmount = gymMembershipPlan.MaxCost;
             gymMemberMembershipPlan.DiscountAmount = gymMemberMembershipPlanModel.DiscountAmount;
-            gymMemberMembershipPlan.SalesInvoiceMasterId = salesInvoiceMasterId;
-            if (string.Equals(planDurationType, APIConstant.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
+            gymMemberMembershipPlan.SalesInvoiceMasterId = gymMemberMembershipPlanModel.SalesInvoiceMasterId;
+            if (string.Equals(gymMemberMembershipPlanModel.PlanDurationType, APIConstant.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
             {
                 gymMemberMembershipPlan.PlanDurationExpirationDate = Convert.ToDateTime(gymMemberMembershipPlanModel.PlanStartDate).AddMonths(Convert.ToInt32(gymMembershipPlan.PlanDurationInMonth)).AddDays(-1).AddDays(Convert.ToInt32(gymMembershipPlan.PlanDurationInDays));
             }
-            else if (string.Equals(planDurationType, APIConstant.PlanSessionType, StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(gymMemberMembershipPlanModel.PlanDurationType, APIConstant.PlanSessionType, StringComparison.InvariantCultureIgnoreCase))
             {
                 gymMemberMembershipPlan.RemainingSessionCount = Convert.ToInt16(gymMembershipPlan.PlanDurationInSession);
             }
@@ -295,6 +306,36 @@ namespace Coditech.API.Service
             if (gymMemberMembershipPlanData?.GymMemberMembershipPlanId > 0)
             {
                 gymMemberMembershipPlanModel.GymMemberMembershipPlanId = gymMemberMembershipPlanData.GymMemberMembershipPlanId;
+
+                //Send Message for Email or SMS          
+                try
+                {
+                    GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(gymMemberMembershipPlanModel.GymMemberDetailId, UserTypeEnum.GymMember.ToString());
+                    GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel.SelectedCentreCode, EmailTemplateCodeEnum.AssociateGymMembershipPlan.ToString());
+
+                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
+                    {
+                        string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, !string.IsNullOrEmpty(generalPersonModel.CentreName) ? generalPersonModel.CentreName : GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
+                        string messageText = ReplaceAssociateGymMembershipPlanEmailTemplate(generalPersonModel, gymMemberMembershipPlanModel, emailTemplateModel.EmailTemplate);
+                        _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
+                    }
+                    GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalPersonModel?.SelectedCentreCode, EmailTemplateCodeEnum.AssociateGymMembershipPlan.ToString());
+                    if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
+                    {
+                        string messageText = ReplaceAssociateGymMembershipPlanEmailTemplate(generalPersonModel, gymMemberMembershipPlanModel, emailTemplateModel.EmailTemplate);
+                        _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
+                    }
+                    GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalPersonModel?.SelectedCentreCode, EmailTemplateCodeEnum.AssociateGymMembershipPlan.ToString());
+                    if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
+                    {
+                        string messageText = ReplaceAssociateGymMembershipPlanEmailTemplate(generalPersonModel, gymMemberMembershipPlanModel, emailTemplateModel.EmailTemplate);
+                        _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
+                }
             }
             else
             {
@@ -342,7 +383,7 @@ namespace Coditech.API.Service
         #endregion
 
         #region Protected Method
-        protected virtual long SaveSalesInvoiceDetails(GymMemberMembershipPlanModel gymMemberMembershipPlanModel, GymMembershipPlan gymMembershipPlan)
+        protected virtual void SaveSalesInvoiceDetails(GymMemberMembershipPlanModel gymMemberMembershipPlanModel, GymMembershipPlan gymMembershipPlan)
         {
             string invoiceNumber = GenerateRegistrationCode(GeneralRunningNumberForEnum.InvoiceNumber.ToString(), gymMembershipPlan.CentreCode);
             if (string.IsNullOrEmpty(invoiceNumber))
@@ -392,8 +433,9 @@ namespace Coditech.API.Service
             salesInvoiceDetailList.ForEach(x => x.SalesInvoiceMasterId = salesInvoiceMasterId);
 
             _salesInvoiceDetailsRepository.Insert(salesInvoiceDetailList);
+            gymMemberMembershipPlanModel.SalesInvoiceMasterId = salesInvoiceMasterId;
+            gymMemberMembershipPlanModel.BillAmount = salesInvoiceMaster.BillAmount;
 
-            return salesInvoiceMasterId;
         }
 
         protected virtual void UpdateRuntimeMemeberMembershipPlan(int gymMemberDetailId)
@@ -436,6 +478,53 @@ namespace Coditech.API.Service
                 _gymMemberMembershipPlanRepository.BatchUpdate(UpdateGymMemberMembershipPlanList);
             }
         }
+
+        protected virtual string ReplaceAssociateGymMembershipPlanEmailTemplate(GeneralPersonModel generalPersonModel, GymMemberMembershipPlanModel gymMemberMembershipPlanModel, string emailTemplate)
+        {
+            string messageText = emailTemplate;
+
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.MembershipPlanName, gymMemberMembershipPlanModel.MembershipPlanName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PlanDurationType, gymMemberMembershipPlanModel.PlanDurationType, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PaymentMethod, GetEnumDisplayTextByEnumId(gymMemberMembershipPlanModel.PaymentTypeEnumId), messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PaidAmount, gymMemberMembershipPlanModel.BillAmount.ToString(), messageText);
+            if (string.Equals(gymMemberMembershipPlanModel.PlanDurationType, APIConstant.PlanDurationType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PlanDuration, $"{gymMemberMembershipPlanModel.PlanStartDate.ToString()}-{gymMemberMembershipPlanModel.PlanDurationExpirationDate}", messageText);
+            }
+            else if (string.Equals(gymMemberMembershipPlanModel.PlanDurationType, APIConstant.PlanSessionType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PlanDuration, $"{gymMemberMembershipPlanModel.PlanDurationInSession} Total Session", messageText);
+            }
+            return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
+        }
+
+
+        //Send FollowUp Method
+        protected virtual void SendFollowUp(int gymMemberDetailId, string followUpComment, int gymFollowupTypesEnumId)
+        {
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(gymMemberDetailId,UserTypeEnum.GymMember.ToString());
+            if (generalPersonModel != null && !string.IsNullOrEmpty(followUpComment))
+            {
+                string followupType = GetEnumCodeByEnumId(gymFollowupTypesEnumId);
+                if (followupType == GymFollowupTypesEnum.TextSMS.ToString())
+                {
+                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, followUpComment, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
+                }
+                else if (followupType == GymFollowupTypesEnum.WhatsAppSMS.ToString())
+                {
+                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, followUpComment, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
+                }
+            }
+            else
+            {
+                throw new CoditechException(ErrorCodes.InvalidData, "Follow-up comment is invalid.");
+            }
+        }
         #endregion
     }
+
+
 }

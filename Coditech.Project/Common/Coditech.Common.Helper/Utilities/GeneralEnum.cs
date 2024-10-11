@@ -167,6 +167,7 @@
         GymMemberRegistration,
         ResetPasswordLink,
         DBTMTraineeRegistration
+        AssociateGymMembershipPlan
     }
     public enum UserNameRegistrationTypeEnum
     {
@@ -197,5 +198,14 @@
         DeleteFolder,
         UploadFile,
         DeleteFile,
+    }
+
+    public enum GymFollowupTypesEnum
+    {
+        Call,
+        TextSMS,
+        WhatsAppSMS,
+        BulkSMS,
+        Visit
     }
 }
