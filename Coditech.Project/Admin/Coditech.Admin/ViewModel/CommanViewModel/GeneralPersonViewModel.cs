@@ -14,21 +14,25 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(50)]
         [MinLength(1)]
+        [Required]
         [Display(Name = "Title")]
         public string PersonTitle { get; set; }
 
         [MaxLength(50)]
         [Required]
         [Display(Name = "First Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string FirstName { get; set; }
 
         [MaxLength(50)]
         [Display(Name = "Middle Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string MiddleName { get; set; }
 
         [MaxLength(50)]
         [Required]
         [Display(Name = "Last Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string LastName { get; set; }
 
         [Display(Name = "Date Of Birth")]

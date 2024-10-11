@@ -104,7 +104,8 @@
             HospitalPathologyTestPrices,
             NotificationMaster,
             Trainer,
-            DBTMDevice
+            DBTMDevice,
+            DBTMTraineeDetails
         }
     }
 }

@@ -11,8 +11,7 @@
 <!-- Page Content-->
 <div class="page-content mt-5">
     <div class="container-fluid">
-        <div class="row" style="display: flex; align-items: center;">
-            <!-- Use flexbox for vertical centering -->
+        <div class="row">
             <div class="col-lg-2">
                 @Html.Partial("~/Views/Gym/GymMemberDetails/_GymMemberDetailsSidePannel.cshtml", keyValuePairs)
             </div>
@@ -34,7 +33,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- end page content -->
 @Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", addFollowUpModel)

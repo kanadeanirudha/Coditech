@@ -165,14 +165,17 @@ namespace Coditech.Admin.Controllers
         }
         #endregion
 
-        #region MemberFollowUp
-        public ActionResult MemberFollowUpList(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        #region MemberFollowUpList
+        public ActionResult MemberFollowUpList( DataTableViewModel dataTableModel)
         {
-            GymMemberFollowUpListViewModel list = _gymMemberDetailsAgent.GymMemberFollowUpList(gymMemberDetailId, personId, dataTableModel);
+            GymMemberFollowUpListViewModel list = _gymMemberDetailsAgent.GymMemberFollowUpList(Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt64(dataTableModel.SelectedParameter2), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/_GymMemberFollowUpList.cshtml", list);
             }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
+
             return View($"~/Views/Gym/GymMemberDetails/GymMemberFollowUpList.cshtml", list);
         }
         [HttpGet]
@@ -206,7 +209,7 @@ namespace Coditech.Admin.Controllers
                 ? gymMemberFollowUpViewModel.GymMemberFollowUpId > 0 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetErrorNotificationMessage(GeneralResources.ErrorFailedToCreate)
                 : gymMemberFollowUpViewModel.GymMemberFollowUpId > 0 ? GetSuccessNotificationMessage(GeneralResources.UpdateMessage) : GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
             }
-            return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberFollowUpViewModel.GymMemberDetailId, personId = gymMemberFollowUpViewModel.PersonId });
+            return RedirectToAction("MemberFollowUpList", new { SelectedParameter1 = gymMemberFollowUpViewModel.GymMemberDetailId, SelectedParameter2 = gymMemberFollowUpViewModel.PersonId });
         }
 
         public virtual ActionResult DeleteGymMemberFollowUp(string gymMemberFollowUpIdIds, int gymMemberDetailId, long personId)
@@ -219,22 +222,24 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
+                return RedirectToAction("MemberFollowUpList", new { SelectedParameter1 = gymMemberDetailId, SelectedParameter2 = personId });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("MemberFollowUpList", new { gymMemberDetailId = gymMemberDetailId, personId = personId });
+            return RedirectToAction("MemberFollowUpList", new { SelectedParameter1 = gymMemberDetailId, SelectedParameter2 = personId });
         }
         #endregion
 
         #region Gym Member Attendance
-        public ActionResult MemberAttendanceDetails(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public ActionResult MemberAttendanceDetails( DataTableViewModel dataTableModel)
         {
-            GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(gymMemberDetailId, personId, UserTypeEnum.GymMember.ToString(), dataTableModel);
+            GeneralPersonAttendanceDetailsListViewModel list = _gymMemberDetailsAgent.GeneralPersonAttendanceDetailsList(Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt64(dataTableModel.SelectedParameter2), UserTypeEnum.GymMember.ToString(), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAttendanceDetailsList.cshtml", list);
             }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
             return View($"~/Views/Gym/GymMemberDetails/GeneralPersonAttendanceDetails/GeneralPersonAttendanceDetailsList.cshtml", list);
         }
         [HttpGet]
@@ -277,7 +282,7 @@ namespace Coditech.Admin.Controllers
                 ? generalPersonAttendanceDetailsViewModel.GeneralPersonAttendanceDetailId > 0 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetErrorNotificationMessage(GeneralResources.ErrorFailedToCreate)
                 : generalPersonAttendanceDetailsViewModel.GeneralPersonAttendanceDetailId > 0 ? GetSuccessNotificationMessage(GeneralResources.UpdateMessage) : GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
             }
-            return RedirectToAction("MemberAttendanceDetails", new { gymMemberDetailId = generalPersonAttendanceDetailsViewModel.GymMemberDetailId, personId = generalPersonAttendanceDetailsViewModel.PersonId });
+            return RedirectToAction("MemberAttendanceDetails", new { SelectedParameter1 = generalPersonAttendanceDetailsViewModel.GymMemberDetailId, SelectedParameter2 = generalPersonAttendanceDetailsViewModel.PersonId });
         }
 
         public virtual ActionResult DeleteGeneralPersonAttendanceDetails(string generalPersonAttendanceDetailIdIds, int gymMemberDetailId, long personId)
@@ -353,14 +358,15 @@ namespace Coditech.Admin.Controllers
 
         #region GymMemberMembershipPlan
 
-        [HttpGet]
-        public ActionResult GetGymMemberMembershipPlan(int gymMemberDetailId, long personId, DataTableViewModel dataTableModel)
+        public ActionResult GetGymMemberMembershipPlan(DataTableViewModel dataTableModel)
         {
-            GymMemberMembershipPlanListViewModel list = _gymMemberDetailsAgent.GetGymMemberMembershipPlan(gymMemberDetailId, personId, dataTableModel);
+            GymMemberMembershipPlanListViewModel list = _gymMemberDetailsAgent.GetGymMemberMembershipPlan(Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt64(dataTableModel.SelectedParameter2), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/_GymMemberMembershipPlanList.cshtml", list);
             }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
             return View($"~/Views/Gym/GymMemberDetails/GymMemberMembershipPlan/GymMemberMembershipPlanList.cshtml", list);
         }
 
@@ -389,7 +395,7 @@ namespace Coditech.Admin.Controllers
                 if (!gymMemberMembershipPlanViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("GetGymMemberMembershipPlan", new { gymMemberDetailId = gymMemberMembershipPlanViewModel.GymMemberDetailId, personId = gymMemberMembershipPlanViewModel.PersonId });
+                    return RedirectToAction("GetGymMemberMembershipPlan", new { SelectedParameter1 = gymMemberMembershipPlanViewModel.GymMemberDetailId, SelectedParameter2 = gymMemberMembershipPlanViewModel.PersonId });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(gymMemberMembershipPlanViewModel.ErrorMessage));

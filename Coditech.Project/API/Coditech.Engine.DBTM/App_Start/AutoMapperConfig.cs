@@ -11,6 +11,8 @@ namespace Coditech.API.Mapper
         {
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
             CreateMap<DBTMDeviceMaster, DBTMDeviceModel>().ReverseMap();
+            CreateMap<DBTMTraineeDetails, DBTMTraineeDetailsModel>().ReverseMap();
+            CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
         }
     }
 }

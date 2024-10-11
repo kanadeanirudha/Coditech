@@ -155,7 +155,10 @@ namespace Coditech.API.Data
 
         #region DBTM
         public DbSet<DBTMDeviceMaster> DBTMDeviceMaster { get; set; }
+        public DbSet<DBTMTraineeDetails> DBTMTraineeDetails { get; set; }
+
         #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }

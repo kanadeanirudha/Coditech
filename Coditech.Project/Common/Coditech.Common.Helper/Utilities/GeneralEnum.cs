@@ -79,7 +79,8 @@
         HospitalPathologyTestName,
         PathologyTestNameByPathologyPriceCategory,
         TrainerSpecilization,
-        DBTMDeviceStatus
+        DBTMDeviceStatus,
+        DBTMTraineeRegistration
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -95,7 +96,8 @@
         PriceRoundOff,
         InventoryRoundOff,
         DateFormat,
-        DateFormatForCalendar
+        DateFormatForCalendar,
+        IsDBTMTraineeLogin
     }
 
     public enum UserTypeEnum
@@ -104,7 +106,8 @@
         Employee,
         Customer,
         GymMember,
-        Patient
+        Patient,
+        DBTMTrainee
     }
 
     public enum ActiveProjectNameEnum
@@ -133,6 +136,7 @@
         EmployeeRegistration,
         InvoiceNumber,
         PatientUAHNumber,
+        DBTMTraineeRegistration
     }
     public enum DashboardFormEnum
     {
@@ -162,6 +166,7 @@
         CustomerRegistration,
         GymMemberRegistration,
         ResetPasswordLink,
+        DBTMTraineeRegistration
         AssociateGymMembershipPlan
     }
     public enum UserNameRegistrationTypeEnum

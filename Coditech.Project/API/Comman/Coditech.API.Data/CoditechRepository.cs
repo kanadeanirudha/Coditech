@@ -59,7 +59,7 @@ namespace Coditech.API.Data
         public virtual IQueryable<T> Table => this.Entities;
 
         //Returns a DbSet instance for access to entities of the given type in the context
-        protected virtual Microsoft.EntityFrameworkCore.DbSet<T> Entities
+        protected virtual DbSet<T> Entities
         {
             get
             {

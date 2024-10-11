@@ -25,7 +25,7 @@
         </div><!--end row-->
         <!-- end page title end breadcrumb -->
         <div class="row justify-content-center">
-            @foreach (UserModuleModel item in userData?.ModuleList)
+            @foreach (UserModuleModel item in userData?.ModuleList?.OrderBy(x => x.ModuleSeqNumber))
             {
                 <div class="col-md-6 col-lg-3">
                     <a href="/@item.DefaultMenuLink">
