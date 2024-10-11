@@ -49,8 +49,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        # with:
-        #   ref: Stage
+        with:
+          ref: Stage
 
       - name: Restore Packages
         run: | 
