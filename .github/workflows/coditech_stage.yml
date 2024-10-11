@@ -78,9 +78,9 @@ jobs:
           Start-Sleep -Seconds 5
 
       - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\CoditechStage\CoditechStage\Coditech.Project\Admin\Coditech.Admin\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\Admin\ -Recurse -Force
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\Admin\ -Recurse -Force
       - name: Copy Build webroot
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\CoditechStage\CoditechStage\Coditech.Project\Admin\Coditech.Admin\wwwroot\*  -Destination C:\HostingSites\CoditechStage\Admin\ -Recurse -Force
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\wwwroot\*  -Destination C:\HostingSites\CoditechStage\Admin\ -Recurse -Force
 
       - name: Start ADMIN IIS Site and App Pool
         run: |
