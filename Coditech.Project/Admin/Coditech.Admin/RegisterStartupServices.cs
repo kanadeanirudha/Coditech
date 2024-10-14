@@ -30,6 +30,8 @@ namespace Coditech.Admin
             // service. 
             builder.Services.AddHttpContextAccessor();
 
+            builder.Services.AddHostedService<ScheduledTaskMiddleware>();
+
             //Register custom filters.
             builder.RegisterFilters();
             // Adds distributed sqlsessioncache and memorycache.
@@ -91,7 +93,6 @@ namespace Coditech.Admin
 
             // Adds the<see cref= "AuthorizationMiddleware" /> to the specified < see cref = "IApplicationBuilder" />, which enables authorization capabilities.
             app.UseAuthorization();
-
             // Adds a route to the Microsoft.AspNetCore.Routing.IRouteBuilder with the specified
             // name and template.
             app.RegisterRoute();
