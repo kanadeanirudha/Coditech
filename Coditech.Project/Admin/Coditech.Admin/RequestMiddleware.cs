@@ -35,8 +35,8 @@ namespace Coditech.Admin
                 bool isMaintenance = CoditechAdminSettings.MaintenanceMode;
                 if (isMaintenance)
                 {
-                    context.Response.Redirect("/user/maintenance");
-                    return;
+                    context.Response.Redirect("maintenance.html");
+                    await _next(context);
                 }
 
                 HelperUtility.ReplaceProxyToClientIp();
