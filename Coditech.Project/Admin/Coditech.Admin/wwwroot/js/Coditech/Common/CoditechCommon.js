@@ -39,6 +39,9 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == "401" || xhr.status == "403") {
+                        location.reload();
+                    }
                     CoditechNotification.DisplayNotificationMessage("Failed to retrieve Departments.", "error")
                     CoditechCommon.HideLodder();
                 }
@@ -80,6 +83,9 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == "401" || xhr.status == "403") {
+                        location.reload();
+                    }
                     CoditechNotification.DisplayNotificationMessage("Failed to retrieve Hospital Doctors List", "error")
                     CoditechCommon.HideLodder();
                 }
@@ -103,6 +109,9 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == "401" || xhr.status == "403") {
+                        location.reload();
+                    }
                     CoditechNotification.DisplayNotificationMessage("Failed to retrieve Region.", "error")
                     CoditechCommon.HideLodder();
                 }
@@ -128,6 +137,9 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == "401" || xhr.status == "403") {
+                        location.reload();
+                    }
                     CoditechNotification.DisplayNotificationMessage("Failed to retrieve District.", "error")
                     CoditechCommon.HideLodder();
                 }

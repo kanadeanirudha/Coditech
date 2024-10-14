@@ -49,8 +49,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        # with:
-        #   ref: Stage
+        with:
+          ref: Stage
 
       - name: Restore Packages
         run: | 
@@ -81,6 +81,10 @@ jobs:
         run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\Admin\ -Recurse -Force
       - name: Copy Build webroot
         run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\wwwroot\*  -Destination C:\HostingSites\CoditechStage\Admin\wwwroot\ -Recurse -Force
+      - name: Copy Build views
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\Views\*  -Destination C:\HostingSites\CoditechStage\Admin\Views\ -Recurse -Force
+      - name: Copy Build report folder
+        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\Admin\Coditech.Admin\Reports\*  -Destination C:\HostingSites\CoditechStage\Admin\Reports\ -Recurse -Force
 
       - name: Start ADMIN IIS Site and App Pool
         run: |
