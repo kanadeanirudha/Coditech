@@ -1,5 +1,7 @@
 ﻿using Coditech.Common.Helper;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+
 namespace Coditech.Admin.ViewModel
 {
     public class EmployeeMasterViewModel : BaseViewModel
@@ -17,7 +19,6 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(50)]
         [Display(Name = "First Name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string FirstName { get; set; }
 
         [MaxLength(50)]
@@ -25,8 +26,7 @@ namespace Coditech.Admin.ViewModel
         public string MiddleName { get; set; }
 
         [MaxLength(50)]
-        [Display(Name = "LastName Name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Display(Name = "Date Of Birth")]

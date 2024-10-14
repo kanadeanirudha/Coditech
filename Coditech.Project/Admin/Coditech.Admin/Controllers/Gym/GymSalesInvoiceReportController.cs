@@ -72,13 +72,13 @@ namespace Coditech.Admin.Controllers
 
                     Stream stream = GetReport(this.Environment, "Gym", "GymSalesInvoice", dataTable, "DataSet1", reportParameters);
 
-                    if (model.ReportType == "pdf")
+                    if (model.ReportType == "xls")
                     {
-                        return File(stream, "application/pdf", $"{reportName}.pdf");
+                        return File(stream, "application/xls", $"{reportName}.xls");
                     }
                     else
                     {
-                        return File(stream, "application/xls", $"{reportName}.xls");
+                        return File(stream, "application/pdf", $"{reportName}.pdf");
                         //return File(stream, "application/xls");
                     }
                 }

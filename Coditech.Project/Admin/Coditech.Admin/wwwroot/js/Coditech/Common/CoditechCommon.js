@@ -160,16 +160,7 @@
             return false;
         }
     },
-    AllowOnlyAlphabetWithoutSpacing: function ()
-   {
-        var charCode = (event.which) ? event.which : event.keyCode;
-    if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
-     return true; 
-    }
-    else
-    {
-        return false;
- }
+
     SearchDatatableData: function () {
         debugger;
         var charCode = (event.which) ? event.which : event.keyCode;

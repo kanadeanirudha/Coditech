@@ -14,7 +14,6 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         [Required]
         [Display(Name = "First Name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string FirstName { get; set; }
 
         [MaxLength(50)]
@@ -24,7 +23,6 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         [Required]
         [Display(Name = "Last Name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string LastName { get; set; }
 
         [MaxLength(200)]
@@ -68,7 +66,6 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(250)]
         [EmailAddress]
-        [Required]
         [Display(Name = "Email Id")]
         public string EmailAddress { get; set; }
 

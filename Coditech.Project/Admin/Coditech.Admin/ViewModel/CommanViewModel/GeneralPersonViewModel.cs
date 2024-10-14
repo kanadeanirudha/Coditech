@@ -39,7 +39,7 @@ namespace Coditech.Admin.ViewModel
         public DateTime? DateOfBirth { get; set; }
 
         [Display(Name = "Age")]
-        public int? Age { get; set; }
+        public Nullable<int> Age { get; set; }
 
         [Required]
         [Display(Name = "Gender")]
