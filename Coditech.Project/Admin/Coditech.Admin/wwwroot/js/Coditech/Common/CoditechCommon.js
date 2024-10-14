@@ -172,6 +172,16 @@
             return false;
         }
     },
+    AllowOnlyAlphabetWithouSpacing: function ()
+    {
+        debugger;   
+        const charCode = event.which || event.keyCode;
+        if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 8)
+        {
+           return true;
+        }
+           return false;
+    },
 
     SearchDatatableData: function () {
         debugger;
