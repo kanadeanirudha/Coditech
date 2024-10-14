@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-16"?>
+<GeneralNotification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GeneralNotificationId>0</GeneralNotificationId>
+  <NotificationDetails>hii</NotificationDetails>
+  <FromDate>0001-01-01T00:00:00</FromDate>
+  <UptoDate>0001-01-01T00:00:00</UptoDate>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-09-02T10:17:08.6982544+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-09-02T10:17:08.6982544+05:30</ModifiedDate>
+</GeneralNotification><?xml version="1.0" encoding="utf-16"?>
+<GeneralNotification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GeneralNotificationId>0</GeneralNotificationId>
+  <NotificationDetails>hii</NotificationDetails>
+  <FromDate>0001-01-01T00:00:00</FromDate>
+  <UptoDate>0001-01-01T00:00:00</UptoDate>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-09-02T10:17:37.0048664+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-09-02T10:17:37.0048664+05:30</ModifiedDate>
+</GeneralNotification><?xml version="1.0" encoding="utf-16"?>
+<GeneralNotification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GeneralNotificationId>0</GeneralNotificationId>
+  <NotificationDetails>gajju</NotificationDetails>
+  <FromDate>0001-01-01T00:00:00</FromDate>
+  <UptoDate>0001-01-01T00:00:00</UptoDate>
+  <IsActive>true</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-09-02T14:49:47.006033+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-09-02T14:49:47.006033+05:30</ModifiedDate>
+</GeneralNotification><?xml version="1.0" encoding="utf-16"?>
+<GeneralNotification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GeneralNotificationId>0</GeneralNotificationId>
+  <NotificationDetails>thiss</NotificationDetails>
+  <FromDate>0001-01-01T00:00:00</FromDate>
+  <UptoDate>0001-01-01T00:00:00</UptoDate>
+  <IsActive>false</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-09-02T15:22:21.85196+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-09-02T15:22:21.85196+05:30</ModifiedDate>
+</GeneralNotification><?xml version="1.0" encoding="utf-16"?>
+<GeneralNotification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GeneralNotificationId>0</GeneralNotificationId>
+  <NotificationDetails>thiss</NotificationDetails>
+  <FromDate>0001-01-01T00:00:00</FromDate>
+  <UptoDate>0001-01-01T00:00:00</UptoDate>
+  <IsActive>false</IsActive>
+  <CreatedBy>1</CreatedBy>
+  <CreatedDate>2024-09-02T15:24:14.7732366+05:30</CreatedDate>
+  <ModifiedBy>1</ModifiedBy>
+  <ModifiedDate>2024-09-02T15:24:14.7732366+05:30</ModifiedDate>
+</GeneralNotification>

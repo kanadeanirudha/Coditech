@@ -27,12 +27,16 @@ namespace Coditech.API.Service
 
         public virtual OrganisationCentrewiseBuildingRoomsListModel GetOrganisationCentrewiseBuildingRoomsList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
+            string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.OrganisationCentrewiseBuildingMasterId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
+            filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedCentreCode);
+
             string organisationCentrewiseBuildingMasterId = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.OrganisationCentrewiseBuildingMasterId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
             filters.RemoveAll(x => x.FilterName == FilterKeys.OrganisationCentrewiseBuildingMasterId);
 
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<OrganisationCentrewiseBuildingRoomsModel> objStoredProc = new CoditechViewRepository<OrganisationCentrewiseBuildingRoomsModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@OrganisationCentrewiseBuildingMasterId", organisationCentrewiseBuildingMasterId, ParameterDirection.Input, DbType.Int16);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
