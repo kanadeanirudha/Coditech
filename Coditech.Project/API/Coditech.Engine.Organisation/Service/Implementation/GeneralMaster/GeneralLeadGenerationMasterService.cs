@@ -27,15 +27,19 @@ namespace Coditech.API.Service
 
         public virtual GeneralLeadGenerationListModel GetLeadGenerationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
+            string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
+            filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedCentreCode);
+
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralLeadGenerationModel> objStoredProc = new CoditechViewRepository<GeneralLeadGenerationModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralLeadGenerationModel> LeadGenerationList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetLeadGenerationList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralLeadGenerationModel> LeadGenerationList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetLeadGenerationList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             GeneralLeadGenerationListModel listModel = new GeneralLeadGenerationListModel();
 
             listModel.GeneralLeadGenerationList = LeadGenerationList?.Count > 0 ? LeadGenerationList : new List<GeneralLeadGenerationModel>();
