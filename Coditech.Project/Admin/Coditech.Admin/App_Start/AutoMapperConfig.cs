@@ -73,6 +73,9 @@ namespace Coditech.Admin
             CreateMap<GeneralNotificationModel, GeneralNotificationViewModel>().ReverseMap();
             CreateMap<GeneralTrainerListModel, GeneralTrainerListViewModel>().ReverseMap();
             CreateMap<GeneralTrainerModel, GeneralTrainerViewModel>().ReverseMap();
+            CreateMap<GeneralTraineeAssociatedToTrainerListModel, GeneralTraineeAssociatedToTrainerListViewModel>().ReverseMap();
+            CreateMap<GeneralTraineeAssociatedToTrainerModel, GeneralTraineeAssociatedToTrainerViewModel>().ReverseMap();
+           
             #endregion            
 
             #region Organisation

@@ -60,6 +60,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralDistrictMaster, GeneralDistrictModel>().ReverseMap();
             CreateMap<GeneralNotification, GeneralNotificationModel>().ReverseMap();
             CreateMap<GeneralTrainerMaster, GeneralTrainerModel>().ReverseMap();
+            CreateMap<GeneralTraineeAssociatedToTrainer, GeneralTraineeAssociatedToTrainerModel>().ReverseMap();
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();

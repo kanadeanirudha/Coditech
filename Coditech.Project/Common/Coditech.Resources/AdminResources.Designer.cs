@@ -137,6 +137,18 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete AssociatedTrainer detaild due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAssociatedTrainer
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAssociatedTrainer", resourceCulture);
+
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete .
         /// </summary>
         public static string ErrorDeleteGeneralNotification
