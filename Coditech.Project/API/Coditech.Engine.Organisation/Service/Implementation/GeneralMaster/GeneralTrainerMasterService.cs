@@ -18,11 +18,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralTrainerMaster> _generalTrainerRepository;
+        private readonly ICoditechRepository<GeneralTraineeAssociatedToTrainer> _generalTraineeAssociatedToTrainerRepository;
         public GeneralTrainerMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalTrainerRepository = new CoditechRepository<GeneralTrainerMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalTraineeAssociatedToTrainerRepository = new CoditechRepository<GeneralTraineeAssociatedToTrainer>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralTrainerListModel GetTrainerList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -131,6 +133,129 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
+
+        #region AssociatedTrainer
+        public virtual GeneralTraineeAssociatedToTrainerListModel GetAssociatedTrainerList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, long entityId, string userType, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        {
+            //Bind the Filter, sorts & Paging details.
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+            CoditechViewRepository<GeneralTraineeAssociatedToTrainerModel> objStoredProc = new CoditechViewRepository<GeneralTraineeAssociatedToTrainerModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@DepartmentId", selectedDepartmentId, ParameterDirection.Input, DbType.Int16);
+            objStoredProc.SetParameter("@IsAssociated", isAssociated, ParameterDirection.Input, DbType.Boolean);
+            objStoredProc.SetParameter("@UserType", userType, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@EntityId", entityId, ParameterDirection.Input, DbType.Int64);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<GeneralTraineeAssociatedToTrainerModel> trainerList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralTraineeAssociatedToTrainerList @CentreCode,@DepartmentId,@IsAssociated,@UserType,@EntityId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 9, out pageListModel.TotalRowCount)?.ToList();
+            GeneralTraineeAssociatedToTrainerListModel listModel = new GeneralTraineeAssociatedToTrainerListModel();
+
+            listModel.AssociatedTrainerList = trainerList?.Count > 0 ? trainerList : new List<GeneralTraineeAssociatedToTrainerModel>();
+            listModel.BindPageListModel(pageListModel);
+            if (personId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+                if (IsNotNull(listModel))
+                {
+                    listModel.FirstName = generalPersonModel.FirstName;
+                    listModel.LastName = generalPersonModel.LastName;
+                }
+            }
+            listModel.EntityId = entityId;
+            listModel.PersonId = personId;
+            return listModel;
+        }
+
+        //Insert AssociatedTrainer.
+        public virtual GeneralTraineeAssociatedToTrainerModel InsertAssociatedTrainer(GeneralTraineeAssociatedToTrainerModel generalTraineeAssociatedToTrainerModel)
+        {
+            if (IsNull(generalTraineeAssociatedToTrainerModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+
+            GeneralTraineeAssociatedToTrainer generalTraineeAssociatedToTrainer = generalTraineeAssociatedToTrainerModel.FromModelToEntity<GeneralTraineeAssociatedToTrainer>();
+
+            //Insert new Associated Trainer and return it.
+            GeneralTraineeAssociatedToTrainer generalTraineeAssociatedToTrainerData = _generalTraineeAssociatedToTrainerRepository.Insert(generalTraineeAssociatedToTrainer);
+            if (generalTraineeAssociatedToTrainerData?.GeneralTraineeAssociatedToTrainerId > 0)
+            {
+                generalTraineeAssociatedToTrainerModel.GeneralTraineeAssociatedToTrainerId = generalTraineeAssociatedToTrainerData.GeneralTraineeAssociatedToTrainerId;
+            }
+            else
+            {
+                generalTraineeAssociatedToTrainerModel.HasError = true;
+                generalTraineeAssociatedToTrainerModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return generalTraineeAssociatedToTrainerModel;
+        }
+
+        //Get AssociatedTrainer by  generalTraineeAssociatedToTrainer Id.
+        public virtual GeneralTraineeAssociatedToTrainerModel GetAssociatedTrainer(long generalTraineeAssociatedToTrainerId)
+        {
+            if (generalTraineeAssociatedToTrainerId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralTraineeAssociatedToTrainerId"));
+
+            //Get the AssociatedTrainer Details based on id.
+            GeneralTraineeAssociatedToTrainer generalTraineeAssociatedToTrainer = _generalTraineeAssociatedToTrainerRepository.Table.Where(x => x.GeneralTraineeAssociatedToTrainerId == generalTraineeAssociatedToTrainerId)?.FirstOrDefault();
+            GeneralTraineeAssociatedToTrainerModel generalTrainerModel = generalTraineeAssociatedToTrainer?.FromEntityToModel<GeneralTraineeAssociatedToTrainerModel>();
+            if (generalTrainerModel?.GeneralTraineeAssociatedToTrainerId > 0)
+            {
+                GeneralPersonModel GeneralTraineeDetails = GetGeneralPersonDetailsByEntityType(generalTrainerModel.EntityId, generalTraineeAssociatedToTrainer.UserType);
+                if (IsNotNull(GeneralTraineeDetails))
+                {
+                    generalTrainerModel.FirstName = GeneralTraineeDetails.FirstName;
+                    generalTrainerModel.LastName = GeneralTraineeDetails.LastName;
+                    GeneralPersonModel GeneralTrainerDetails = GetGeneralPersonDetailsByEntityType(generalTrainerModel.GeneralTrainerMasterId, UserTypeEnum.Employee.ToString());
+                    if (IsNotNull(GeneralTrainerDetails))
+                    {
+                        generalTrainerModel.SelectedCentreCode = GeneralTrainerDetails.SelectedCentreCode;
+                        generalTrainerModel.SelectedDepartmentId = GeneralTrainerDetails.SelectedDepartmentId;
+                    }
+                }
+            }
+            return generalTrainerModel;
+        }
+
+        //Update AssociatedTrainer.
+        public virtual bool UpdateAssociatedTrainer(GeneralTraineeAssociatedToTrainerModel generalTraineeAssociatedToTrainerModel)
+        {
+            if (IsNull(generalTraineeAssociatedToTrainerModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (generalTraineeAssociatedToTrainerModel.GeneralTraineeAssociatedToTrainerId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralTraineeAssociatedToTrainerId"));
+
+
+            GeneralTraineeAssociatedToTrainer generalTraineeAssociatedToTrainer = _generalTraineeAssociatedToTrainerRepository.GetById(generalTraineeAssociatedToTrainerModel.GeneralTraineeAssociatedToTrainerId);
+            generalTraineeAssociatedToTrainer.IsCurrentTrainer = generalTraineeAssociatedToTrainerModel.IsCurrentTrainer;
+            //Update AssociatedTrainer
+            bool isAssociatedTrainerUpdated = _generalTraineeAssociatedToTrainerRepository.Update(generalTraineeAssociatedToTrainer);
+            if (!isAssociatedTrainerUpdated)
+            {
+                generalTraineeAssociatedToTrainerModel.HasError = true;
+                generalTraineeAssociatedToTrainerModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isAssociatedTrainerUpdated;
+        }
+
+        //Delete Associated Trainer
+        public virtual bool DeleteAssociatedTrainer(ParameterModel parameterModel)
+        {
+            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralTraineeAssociatedToTrainerId"));
+
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("GeneralTraineeAssociatedToTrainerIds", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
+            int status = 0;
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteGeneralTraineeAssociatedToTrainer @GeneralTraineeAssociatedToTrainerIds,  @Status OUT", 1, out status);
+
+            return status == 1 ? true : false;
+        }
+        #endregion
 
         #region Protected Method
         //Check if EmployeeId is already present or not.

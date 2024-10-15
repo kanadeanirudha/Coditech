@@ -39,6 +39,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralDistrictMaster> GeneralDistrictMaster { get; set; }
         public DbSet<GeneralNotification> GeneralNotification { get; set; }
         public DbSet<GeneralTrainerMaster> GeneralTrainerMaster { get; set; }
+        public DbSet<GeneralTraineeAssociatedToTrainer> GeneralTraineeAssociatedToTrainer { get; set; }
 
         #endregion
 

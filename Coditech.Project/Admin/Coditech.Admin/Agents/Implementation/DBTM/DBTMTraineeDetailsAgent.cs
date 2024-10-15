@@ -22,14 +22,16 @@ namespace Coditech.Admin.Agents
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IDBTMTraineeDetailsClient _dBTMTraineeDetailsClient;
         private readonly IUserClient _userClient;
+        private readonly IGeneralTrainerClient _generalTrainerClient;
         #endregion
 
         #region Public Constructor
-        public DBTMTraineeDetailsAgent(ICoditechLogging coditechLogging, IDBTMTraineeDetailsClient dBTMTraineeDetailsClient, IUserClient userClient)
+        public DBTMTraineeDetailsAgent(ICoditechLogging coditechLogging, IDBTMTraineeDetailsClient dBTMTraineeDetailsClient, IUserClient userClient, IGeneralTrainerClient generalTrainerClient)
         {
             _coditechLogging = coditechLogging;
             _dBTMTraineeDetailsClient = GetClient<IDBTMTraineeDetailsClient>(dBTMTraineeDetailsClient);
             _userClient = GetClient<IUserClient>(userClient);
+            _generalTrainerClient = GetClient<IGeneralTrainerClient>(generalTrainerClient);
         }
         #endregion
 
@@ -196,6 +198,143 @@ namespace Coditech.Admin.Agents
         }
         #endregion
 
+        #region TraineeAssociatedToTrainer
+        public virtual GeneralTraineeAssociatedToTrainerListViewModel GetAssociatedTrainerList(long dBTMTraineeDetailId, long personId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = new FilterCollection();
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GeneralTraineeAssociatedToTrainerListResponse response = _generalTrainerClient.GetAssociatedTrainerList(null, 0, true, dBTMTraineeDetailId, UserTypeEnum.DBTMTrainee.ToString(), personId, null, filters, sortlist, dataTableModel.PageIndex, int.MaxValue);
+            GeneralTraineeAssociatedToTrainerListModel associatedTrainerList = new GeneralTraineeAssociatedToTrainerListModel { AssociatedTrainerList = response?.AssociatedTrainerList };
+            GeneralTraineeAssociatedToTrainerListViewModel listViewModel = new GeneralTraineeAssociatedToTrainerListViewModel();
+            listViewModel.AssociatedTrainerList = associatedTrainerList?.AssociatedTrainerList?.ToViewModel<GeneralTraineeAssociatedToTrainerViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AssociatedTrainerList.Count, BindAssociatedTraineeColumns());
+            listViewModel.DBTMTraineeDetailId = dBTMTraineeDetailId;
+            listViewModel.PersonId = personId;
+            listViewModel.FirstName = response.FirstName;
+            listViewModel.LastName = response.LastName;
+            return listViewModel;
+        }
+
+        //Get AssociatedTrainer by general Trainer id.
+        public virtual GeneralTraineeAssociatedToTrainerViewModel AssociatedTrainer(long dBTMTraineeDetailId, long personId)
+        {
+
+            GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
+            GeneralTraineeAssociatedToTrainerViewModel generalTraineeAssociatedToTrainerViewModel = new GeneralTraineeAssociatedToTrainerViewModel()
+            {
+                FirstName = response.GeneralPersonModel.FirstName,
+                LastName = response.GeneralPersonModel.LastName,
+                EntityId = dBTMTraineeDetailId,
+                PersonId = personId
+            };
+            return generalTraineeAssociatedToTrainerViewModel;
+        }
+
+
+        //Insert AssociatedTrainer
+        public virtual GeneralTraineeAssociatedToTrainerViewModel InsertAssociatedTrainer(GeneralTraineeAssociatedToTrainerViewModel generalTraineeAssociatedToTrainerViewModel)
+        {
+            try
+            {
+                long personId = generalTraineeAssociatedToTrainerViewModel.PersonId;
+                long dBTMTraineeDetailId = generalTraineeAssociatedToTrainerViewModel.EntityId;
+                generalTraineeAssociatedToTrainerViewModel.UserType = UserTypeEnum.DBTMTrainee.ToString();
+                GeneralTraineeAssociatedToTrainerResponse response = _generalTrainerClient.InsertAssociatedTrainer(generalTraineeAssociatedToTrainerViewModel.ToModel<GeneralTraineeAssociatedToTrainerModel>());
+                GeneralTraineeAssociatedToTrainerModel generalTraineeAssociatedToTrainerModel = response?.GeneralTraineeAssociatedToTrainerModel;
+                generalTraineeAssociatedToTrainerViewModel = IsNotNull(generalTraineeAssociatedToTrainerModel) ? generalTraineeAssociatedToTrainerModel.ToViewModel<GeneralTraineeAssociatedToTrainerViewModel>() : new GeneralTraineeAssociatedToTrainerViewModel();
+                generalTraineeAssociatedToTrainerViewModel.PersonId = personId;
+                generalTraineeAssociatedToTrainerViewModel.EntityId = dBTMTraineeDetailId;
+                return generalTraineeAssociatedToTrainerViewModel;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AssociatedTrainer.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (GeneralTraineeAssociatedToTrainerViewModel)GetViewModelWithErrorMessage(generalTraineeAssociatedToTrainerViewModel, ex.ErrorMessage);
+                    default:
+                        return (GeneralTraineeAssociatedToTrainerViewModel)GetViewModelWithErrorMessage(generalTraineeAssociatedToTrainerViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AssociatedTrainer.ToString(), TraceLevel.Error);
+                return (GeneralTraineeAssociatedToTrainerViewModel)GetViewModelWithErrorMessage(generalTraineeAssociatedToTrainerViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get AssociatedTrainer by general Trainer id.
+        public virtual GeneralTraineeAssociatedToTrainerViewModel GetAssociatedTrainer(long generalTraineeAssociatedToTrainerId)
+        {
+            GeneralTraineeAssociatedToTrainerResponse response = _generalTrainerClient.GetAssociatedTrainer(generalTraineeAssociatedToTrainerId);
+            return response?.GeneralTraineeAssociatedToTrainerModel.ToViewModel<GeneralTraineeAssociatedToTrainerViewModel>();
+        }
+
+        //Update  AssociatedTrainer.
+        public virtual GeneralTraineeAssociatedToTrainerViewModel UpdateAssociatedTrainer(GeneralTraineeAssociatedToTrainerViewModel generalTraineeAssociatedToTrainerViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AssociatedTrainer.ToString(), TraceLevel.Info);
+                GeneralTraineeAssociatedToTrainerResponse response = _generalTrainerClient.UpdateAssociatedTrainer(generalTraineeAssociatedToTrainerViewModel.ToModel<GeneralTraineeAssociatedToTrainerModel>());
+                GeneralTraineeAssociatedToTrainerModel generalTraineeAssociatedToTrainerModel = response?.GeneralTraineeAssociatedToTrainerModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AssociatedTrainer.ToString(), TraceLevel.Info);
+                return HelperUtility.IsNotNull(generalTraineeAssociatedToTrainerModel) ? generalTraineeAssociatedToTrainerModel.ToViewModel<GeneralTraineeAssociatedToTrainerViewModel>() : (GeneralTraineeAssociatedToTrainerViewModel)GetViewModelWithErrorMessage(new GeneralTraineeAssociatedToTrainerViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AssociatedTrainer.ToString(), TraceLevel.Error);
+                return (GeneralTraineeAssociatedToTrainerViewModel)GetViewModelWithErrorMessage(generalTraineeAssociatedToTrainerViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Delete Associated Trainer Details .
+        public virtual bool DeleteAssociatedTrainer(string generalTraineeAssociatedToTrainerIds, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AssociatedTrainer.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _generalTrainerClient.DeleteAssociatedTrainer(new ParameterModel { Ids = generalTraineeAssociatedToTrainerIds });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AssociatedTrainer.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteAssociatedTrainer;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AssociatedTrainer.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
+        #endregion
+
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {
@@ -239,6 +378,47 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "IsActive",
                 ColumnCode = "IsActive",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindAssociatedTraineeColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Image",
+                ColumnCode = "Image",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Contact",
+                ColumnCode = "MobileNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Email Id",
+                ColumnCode = "EmailId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Current Trainer",
+                ColumnCode = "IsCurrentTrainer",
                 IsSortable = true,
             });
             return datatableColumnList;

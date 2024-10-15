@@ -96,7 +96,7 @@ namespace Coditech.Common.Service
             short generalDepartmentMasterId = 0;
             if (entityType == UserTypeEnum.GymMember.ToString())
             {
-                GymMemberDetails gymMemberDetails = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.GymMemberDetailId == entityId);
+                GymMemberDetails gymMemberDetails = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId)?.FirstOrDefault();
                 if (IsNotNull(gymMemberDetails))
                 {
                     personId = gymMemberDetails.PersonId;
@@ -112,6 +112,15 @@ namespace Coditech.Common.Service
                     centreCode = employeeMaster.CentreCode;
                     personCode = employeeMaster.PersonCode;
                     generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
+                }
+            }
+            else if(entityType == UserTypeEnum.DBTMTrainee.ToString())
+            {
+                DBTMTraineeDetails dbtmTraineeDetails = new CoditechRepository<DBTMTraineeDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.DBTMTraineeDetailId == entityId);
+                if (IsNotNull(dbtmTraineeDetails))
+                {
+                    personId = dbtmTraineeDetails.PersonId;
+                    centreCode = dbtmTraineeDetails.CentreCode;
                 }
             }
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
