@@ -72,10 +72,11 @@
 @section scripts {
     <script type="text/javascript">
         $(function () {
+            // Initialize FromDate datepicker
             $("#FromDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()", // Use actual date format
                 language: "en",
                 autoSize: true,
                 gotoCurrent: true,
@@ -83,19 +84,31 @@
                 showButtonPanel: true,
                 closeText: 'Clear',
                 onClose: function (dateText, inst) {
+                    // Check if the Clear button is clicked
                     if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
                         document.getElementById(this.id).value = '';
                     }
                 },
-                minDate: "0M",
-                maxDate: "+2Y"
+                onSelect: function (selectedDate) {
+                    var fromDate = $(this).datepicker("getDate");
+
+                    if (fromDate) {
+                        // Set UptoDate's min date to selected FromDate
+                        var minUptoDate = new Date(fromDate.getTime());
+                        var maxUptoDate = new Date(fromDate.getTime());
+                        maxUptoDate.setFullYear(fromDate.getFullYear() + 2); // Max 2 years after
+
+                        $("#UptoDate").datepicker("option", "minDate", minUptoDate);
+                        $("#UptoDate").datepicker("option", "maxDate", maxUptoDate);
+                    }
+                }
             });
-        });
-        $(function () {
+
+            // Initialize UptoDate datepicker
             $("#UptoDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()", // Use actual date format
                 language: "en",
                 autoSize: true,
                 gotoCurrent: true,
@@ -103,12 +116,24 @@
                 showButtonPanel: true,
                 closeText: 'Clear',
                 onClose: function (dateText, inst) {
+                    // Check if the Clear button is clicked
                     if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
                         document.getElementById(this.id).value = '';
                     }
                 },
-                minDate: "0M",
-                maxDate: "+2Y"
+                onSelect: function (selectedDate) {
+                    var uptoDate = new Date(selectedDate);
+
+                    if (uptoDate) {
+                        // Set FromDate's max date to selected UptoDate
+                        var maxFromDate = new Date(uptoDate.getTime());
+                        var minFromDate = new Date(uptoDate.getTime());
+                        minFromDate.setFullYear(uptoDate.getFullYear() - 2); // Min 2 years before
+
+                        $("#FromDate").datepicker("option", "minDate", minFromDate);
+                        $("#FromDate").datepicker("option", "maxDate", uptoDate);
+                    }
+                }
             });
         });
     </script>
