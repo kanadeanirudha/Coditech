@@ -302,7 +302,7 @@ namespace Coditech.API.Service
                 {
                     _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Error);
                 }
-                else if(generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                else if (generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
                     _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.DBTMTraineeDetails.ToString(), TraceLevel.Error);
                 }
@@ -865,6 +865,7 @@ namespace Coditech.API.Service
                         GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(employeeMaster.CentreCode, EmailTemplateCodeEnum.EmployeeRegistration.ToString());
                         if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                         {
+                            generalPersonModel.Password = MD5Hash(generalPersonModel.Password);
                             string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, generalPersonModel.CentreName, emailTemplateModel.Subject);
                             string messageText = ReplaceEmployeeEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
                             _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
