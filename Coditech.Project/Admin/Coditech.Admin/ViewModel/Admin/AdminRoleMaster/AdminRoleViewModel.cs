@@ -23,9 +23,9 @@ namespace Coditech.Admin.ViewModel
         public string SanctionPostName { get; set; }
         [Display(Name = "Monitoring Level")]
         public string MonitoringLevel { get; set; }
-        [Display(Name = "Is Login Allow From Out side")]
+        [Display(Name = "Is Login Allowed From Outside")]
         public bool IsLoginAllowFromOutside { get; set; }
-        [Display(Name = "Is Attendace Allow From Out side")]
+        [Display(Name = "Is Attendace Allowed From Out side")]
         public bool IsAttendaceAllowFromOutside { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
@@ -33,7 +33,7 @@ namespace Coditech.Admin.ViewModel
         public string SelectedCentreNameForSelf { get; set; }
         public List<SelectListItem> MonitoringLevelList { get; set; }
         public List<UserAccessibleCentreModel> AllCentreList { get; set; }
-        [Display(Name = "Accesible Centre")]
+        [Display(Name = "Accessible Centre")]
         public List<string> SelectedRoleWiseCentres { get; set; }
 		[Display(Name = "Dashboard")]
 		public int DashboardFormEnumId { get; set; }
