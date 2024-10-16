@@ -157,6 +157,7 @@ namespace Coditech.API.Data
         #region DBTM
         public DbSet<DBTMDeviceMaster> DBTMDeviceMaster { get; set; }
         public DbSet<DBTMTraineeDetails> DBTMTraineeDetails { get; set; }
+        public DbSet<DBTMActivityCategory> DBTMActivityCategory { get; set; }
 
         #endregion
 

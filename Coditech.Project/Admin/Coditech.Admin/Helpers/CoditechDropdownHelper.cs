@@ -217,6 +217,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetUnAssociatedTrainerList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMActivityCategory.ToString()))
+            {
+                GetDBTMActivityCategoryList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -1222,6 +1226,27 @@ namespace Coditech.Admin.Helpers
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTrainerMasterId)
                     });
                 }
+            }
+        }
+
+        private static void GetDBTMActivityCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            DBTMActivityCategoryListResponse response = new DBTMActivityCategoryClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Category-------" });
+
+            DBTMActivityCategoryListModel list = new DBTMActivityCategoryListModel { DBTMActivityCategoryList = response.DBTMActivityCategoryList };
+            foreach (var item in list.DBTMActivityCategoryList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.DBTMActivityCategoryId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.ActivityCategoryName, " (", item.ActivityCategoryCode, ")"),
+                    Value = Convert.ToString(item.DBTMActivityCategoryId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMActivityCategoryId)
+                });
             }
         }
     }
