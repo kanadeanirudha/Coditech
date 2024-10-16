@@ -323,7 +323,7 @@ namespace Coditech.API.Service
                 generalPersonModel.PersonId = personData.PersonId;
                 List<GeneralSystemGlobleSettingModel> settingMasterList = GetSystemGlobleSettingList();
                 string password = settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.DefaultPassword.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue;
-                generalPersonModel.Password = MD5Hash(password);
+                generalPersonModel.Password = password;
                 generalPersonModel.CentreName = GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode);
                 if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -683,6 +683,7 @@ namespace Coditech.API.Service
             string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
+            userMaster.Password = MD5Hash(userMaster.Password);
             if (string.IsNullOrEmpty(userNameBasedOn))
             {
                 userMaster.UserName = generalPersonModel.PersonCode;
@@ -865,7 +866,6 @@ namespace Coditech.API.Service
                         GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(employeeMaster.CentreCode, EmailTemplateCodeEnum.EmployeeRegistration.ToString());
                         if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                         {
-                            generalPersonModel.Password = MD5Hash(generalPersonModel.Password);
                             string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, generalPersonModel.CentreName, emailTemplateModel.Subject);
                             string messageText = ReplaceEmployeeEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
                             _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
