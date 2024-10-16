@@ -60,9 +60,13 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                GeneralLeadGenerationResponse response = _generalLeadGenerationClient.CreateLeadGeneration(generalLeadGenerationViewModel.ToModel<GeneralLeadGenerationModel>());
+                string centreCode = generalLeadGenerationViewModel.CentreCode;
+
+				GeneralLeadGenerationResponse response = _generalLeadGenerationClient.CreateLeadGeneration(generalLeadGenerationViewModel.ToModel<GeneralLeadGenerationModel>());
                 GeneralLeadGenerationModel generalLeadGenerationModel = response?.GeneralLeadGenerationModel;
-                return IsNotNull(generalLeadGenerationModel) ? generalLeadGenerationModel.ToViewModel<GeneralLeadGenerationViewModel>() : new GeneralLeadGenerationViewModel();
+				generalLeadGenerationViewModel = IsNotNull(generalLeadGenerationModel) ? generalLeadGenerationModel.ToViewModel<GeneralLeadGenerationViewModel>() : new GeneralLeadGenerationViewModel();
+                generalLeadGenerationViewModel.SelectedCentreCode = centreCode;
+				return generalLeadGenerationViewModel;
             }
             catch (CoditechException ex)
             {
