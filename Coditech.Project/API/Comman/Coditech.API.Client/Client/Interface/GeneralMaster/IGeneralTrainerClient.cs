@@ -40,5 +40,39 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteTrainer(ParameterModel body);
+
+        /// <summary>
+        /// Get list of AssociatedTrainer.
+        /// </summary>
+        /// <returns>GeneralTraineeAssociatedToTrainerListResponse</returns>
+        GeneralTraineeAssociatedToTrainerListResponse GetAssociatedTrainerList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, long entityId, string userType, long personId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+        /// <summary>
+        /// Insert AssociatedTrainer.
+        /// </summary>
+        /// <param name="GeneralTraineeAssociatedToTrainerModel">GeneralTraineeAssociatedToTrainerModel.</param>
+        /// <returns>Returns GeneralTraineeAssociatedToTrainerResponse.</returns>
+        GeneralTraineeAssociatedToTrainerResponse InsertAssociatedTrainer(GeneralTraineeAssociatedToTrainerModel body);
+        
+        /// <summary>
+        /// Get AssociatedTrainer by generalTraineeAssociatedToTrainerId.
+        /// </summary>
+        /// <param name="generalTraineeAssociatedToTrainerId">generalTraineeAssociatedToTrainerId</param>
+        /// <returns>Returns GeneralTraineeAssociatedToTrainerResponse.</returns>
+        GeneralTraineeAssociatedToTrainerResponse GetAssociatedTrainer(long generalTraineeAssociatedToTrainerId);
+
+        /// <summary>
+        /// Update AssociatedTrainer.
+        /// </summary>
+        /// <param name="GeneralTraineeAssociatedToTrainerModel">GeneralTraineeAssociatedToTrainerModel.</param>
+        /// <returns>Returns updated GeneralTraineeAssociatedToTrainerResponse</returns>
+        GeneralTraineeAssociatedToTrainerResponse UpdateAssociatedTrainer(GeneralTraineeAssociatedToTrainerModel model);
+
+        /// <summary>
+        /// Delete Associated Trainer.
+        /// </summary>
+        /// <param name="ParameterModel">ParameterModel.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        TrueFalseResponse DeleteAssociatedTrainer(ParameterModel body);
     }
 }

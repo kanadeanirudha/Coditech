@@ -53,5 +53,43 @@ namespace Coditech.Admin.Agents
         /// <param name="dBTMTraineeDetailIds">dBTMTraineeDetailIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteDBTMTraineeDetails(string dBTMTraineeDetailIds, out string errorMessage);
+
+        /// <summary>
+        /// Get list of Associated Trainer.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GeneralTraineeAssociatedToTrainerListViewModel</returns>
+        GeneralTraineeAssociatedToTrainerListViewModel GetAssociatedTrainerList(long dBTMTraineeDetailId, long personId, DataTableViewModel dataTableModel);
+
+
+        GeneralTraineeAssociatedToTrainerViewModel AssociatedTrainer(long dBTMTraineeDetailId, long personId);
+
+        /// <summary>
+        /// Insert AssociatedTrainer.
+        /// </summary>
+        /// <param name="generalTraineeAssociatedToTrainerViewModel">General Trainee Associated To Trainer View Model.</param>
+        /// <returns>Returns created model.</returns>
+        GeneralTraineeAssociatedToTrainerViewModel InsertAssociatedTrainer(GeneralTraineeAssociatedToTrainerViewModel generalTraineeAssociatedToTrainerViewModel);
+
+        /// <summary>
+        /// Get AssociatedTrainer by generalTraineeAssociatedToTrainerId.
+        /// </summary>
+        /// <param name="generalTraineeAssociatedToTrainerId">generalTraineeAssociatedToTrainerId</param>
+        /// <returns>Returns GeneralTraineeAssociatedToTrainerViewModel.</returns>
+        GeneralTraineeAssociatedToTrainerViewModel GetAssociatedTrainer(long generalTraineeAssociatedToTrainerId);
+
+        /// <summary>
+        /// Update AssociatedTrainer.
+        /// </summary>
+        /// <param name="generalTraineeAssociatedToTrainerViewModel">generalTraineeAssociatedToTrainerViewModel.</param>
+        /// <returns>Returns updated GeneralTraineeAssociatedToTrainerViewModel</returns>
+        GeneralTraineeAssociatedToTrainerViewModel UpdateAssociatedTrainer(GeneralTraineeAssociatedToTrainerViewModel generalTraineeAssociatedToTrainerViewModel);
+
+        /// <summary>
+        /// Delete Associated Trainer Details.
+        /// </summary>
+        /// <param name="generalTraineeAssociatedToTrainerIds">generalTraineeAssociatedToTrainerIds.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        bool DeleteAssociatedTrainer(string generalTraineeAssociatedToTrainerIds, out string errorMessage);
     }
 }

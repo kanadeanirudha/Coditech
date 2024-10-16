@@ -105,7 +105,8 @@
             NotificationMaster,
             Trainer,
             DBTMDevice,
-            DBTMTraineeDetails
+            DBTMTraineeDetails,
+            AssociatedTrainer
         }
     }
 }

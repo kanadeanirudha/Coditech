@@ -80,7 +80,8 @@
         PathologyTestNameByPathologyPriceCategory,
         TrainerSpecilization,
         DBTMDeviceStatus,
-        DBTMTraineeRegistration
+        DBTMTraineeRegistration,
+        UnAssociatedTrainerList
     }
 
     public enum GeneralSystemGlobleSettingEnum

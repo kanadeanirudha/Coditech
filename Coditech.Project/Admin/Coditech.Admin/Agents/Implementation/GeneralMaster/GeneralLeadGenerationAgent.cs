@@ -188,6 +188,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Lead Generation Status",
                 ColumnCode = "LeadGenerationStatusEnumId",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
