@@ -46,7 +46,6 @@ namespace Coditech.Admin.Agents
                 filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("AdminRoleMasterId", ProcedureFilterOperators.Like, dataTableModel.SearchBy); 
             }
 
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
