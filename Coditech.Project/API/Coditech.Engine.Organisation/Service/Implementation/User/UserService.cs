@@ -315,9 +315,11 @@ namespace Coditech.API.Service
             }
 
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
-
-            // Create new Person and return it.
-            GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
+            generalPerson.FirstName = generalPerson.FirstName.ToFirstLetterCapital();
+            generalPerson.LastName = generalPerson.LastName.ToFirstLetterCapital();
+            generalPerson.MiddleName = generalPerson.MiddleName.ToFirstLetterCapital();
+			// Create new Person and return it.
+			GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
             if (personData?.PersonId > 0)
             {
                 generalPersonModel.PersonId = personData.PersonId;
