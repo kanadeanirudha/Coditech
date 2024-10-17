@@ -16,5 +16,7 @@ namespace Coditech.Admin.ViewModel
         public string AdminRoleCode { get; set; }
         [Display(Name = "Role Description")]
         public string SanctionPostName { get; set; }
-    }
+        public string SelectedParameter1 { get; set; }
+
+	}
 }
