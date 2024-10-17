@@ -233,7 +233,7 @@ namespace Coditech.Admin.Controllers
             {
                 DropdownType = DropdownTypeEnum.UnAssociatedTrainerList.ToString(),
                 DropdownName = "GeneralTrainerMasterId",
-                Parameter = $"{selectedCentreCode}~{selectedDepartmentId}~{entityId}~{UserTypeEnum.DBTMTrainee.ToString()}",
+                Parameter = $"{selectedCentreCode}~{selectedDepartmentId}~{entityId}~{UserTypeEnum.DBTMTrainee.ToString()}~false",
             };  
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }

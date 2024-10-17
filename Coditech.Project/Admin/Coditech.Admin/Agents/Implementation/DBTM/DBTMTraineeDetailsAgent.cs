@@ -230,14 +230,14 @@ namespace Coditech.Admin.Agents
         //Get AssociatedTrainer by general Trainer id.
         public virtual GeneralTraineeAssociatedToTrainerViewModel AssociatedTrainer(long dBTMTraineeDetailId, long personId)
         {
-
             GeneralPersonResponse response = _userClient.GetPersonInformation(personId);
             GeneralTraineeAssociatedToTrainerViewModel generalTraineeAssociatedToTrainerViewModel = new GeneralTraineeAssociatedToTrainerViewModel()
             {
                 FirstName = response.GeneralPersonModel.FirstName,
                 LastName = response.GeneralPersonModel.LastName,
                 EntityId = dBTMTraineeDetailId,
-                PersonId = personId
+                PersonId = personId,
+                UserType= UserTypeEnum.DBTMTrainee.ToString()
             };
             return generalTraineeAssociatedToTrainerViewModel;
         }
