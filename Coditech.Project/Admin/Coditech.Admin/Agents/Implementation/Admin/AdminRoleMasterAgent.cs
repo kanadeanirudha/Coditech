@@ -159,6 +159,8 @@ namespace Coditech.Admin.Agents
             listViewModel.AdminRoleCode = response?.AdminRoleApplicableDetailsList?.AdminRoleCode;
             listViewModel.SanctionPostName = response?.AdminRoleApplicableDetailsList?.SanctionPostName;
             listViewModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.AdminRoleApplicableDetailsList?.ToViewModel<AdminRoleApplicableDetailsViewModel>()?.ToList();
+            listViewModel.SelectedParameter1 = Convert.ToString(adminRoleMasterId);
+            listViewModel.AdminRoleMasterId = adminRoleMasterId;
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AdminRoleApplicableDetailsList.Count, BindRoleAllocatedToUserListColumns());
             return listViewModel;
         }
@@ -290,8 +292,8 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "PersonCode",
-                ColumnCode = "Person Code",
+                ColumnName = "Person Code",
+                ColumnCode = "PersonCode",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
