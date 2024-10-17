@@ -62,7 +62,7 @@ namespace Coditech.API.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AdminSanctionPost.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new AdminSanctionPostResponse { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new AdminSanctionPostResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
