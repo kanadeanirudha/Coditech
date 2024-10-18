@@ -56,7 +56,7 @@
                                                             foreach (var value in item.GymMemberBodyMeasurementValueList)
                                                             {
                                                                 <tr>
-                                                                    <td>@value.BodyMeasurementDate.ToCoditechDateFormat()</td>
+                                                                    <td>@value.BodyMeasurementDate.ToCoditechDateWithTimeFormat()</td>
                                                                     <td>@value.BodyMeasurementValue @value.MeasurementUnitShortCode</td>
                                                                     <td>
                                                                         <div class="d-flex justify-content-start">
