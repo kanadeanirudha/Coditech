@@ -227,16 +227,17 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode, SelectedDepartmentId = selectedDepartmentId });
         }
 
-        public virtual ActionResult GetTrainerList(string selectedCentreCode, short selectedDepartmentId,long entityId)
+        public virtual ActionResult GetTrainerList(string selectedCentreCode, string selectedDepartmentId,long entityId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.UnAssociatedTrainerList.ToString(),
                 DropdownName = "GeneralTrainerMasterId",
                 Parameter = $"{selectedCentreCode}~{selectedDepartmentId}~{entityId}~{UserTypeEnum.DBTMTrainee.ToString()}~false",
-            };  
+            };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
+
         public virtual ActionResult Cancel(string SelectedCentreCode, short selectedDepartmentId)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedDepartmentId = selectedDepartmentId };
@@ -244,7 +245,7 @@ namespace Coditech.Admin.Controllers
         }
         #endregion TraineeAssociatedToTrainer
 
-        public virtual ActionResult Cancel(string SelectedCentreCode)
+        public virtual ActionResult DBTMTraineeDetailsCancel(string SelectedCentreCode)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);

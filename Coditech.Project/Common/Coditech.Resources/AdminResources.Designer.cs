@@ -137,6 +137,18 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete DBTMTestMaster detaild due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMTestMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteDBTMTestMaster", resourceCulture);
+
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete AssociatedTrainer detaild due to associate record..
         /// </summary>
         public static string ErrorDeleteAssociatedTrainer
