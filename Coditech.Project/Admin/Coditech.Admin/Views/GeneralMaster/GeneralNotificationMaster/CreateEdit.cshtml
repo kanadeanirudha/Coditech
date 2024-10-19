@@ -69,9 +69,12 @@
     </div>
 </div>
 
-@section scripts {
+@section scripts 
+{
     <script type="text/javascript">
         $(function () {
+             $("#FromDate").val('');
+             $("#UptoDate").val('');
             // Initialize FromDate datepicker
             $("#FromDate").datepicker({
                 changeMonth: true,

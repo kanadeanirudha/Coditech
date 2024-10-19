@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.Common.API.Model.Response
+﻿namespace Coditech.Common.API.Model.Response
 {
     public class AdminRoleApplicableDetailsListResponse : BaseListResponse
     {

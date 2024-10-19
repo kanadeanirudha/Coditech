@@ -16,6 +16,8 @@
         public decimal TotalAmount { get; set; }
         public string CentreCode { get; set; }
         public string PaymentType { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
         public string TransactionReference { get; set; }
         public List<SalesInvoiceTaxModel> SalesInvoiceTaxList { get; set; }
         public List<SalesInvoiceDetailsPrintModel> SalesInvoiceDetailsList { get; set; }

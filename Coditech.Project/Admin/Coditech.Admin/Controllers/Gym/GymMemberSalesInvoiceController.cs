@@ -23,6 +23,8 @@ namespace Coditech.Admin.Controllers
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
             {
                 list = _gymSaleInvoiceAgent.GymMemberServiceSalesInvoiceList(dataTableModel);
+                list.FromDate = Convert.ToDateTime(dataTableModel.SelectedParameter1);
+                list.ToDate = Convert.ToDateTime(dataTableModel.SelectedParameter2);
             }
             else
             {
@@ -38,11 +40,14 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult GetSalesInvoiceDetails(long salesInvoiceMasterId)
+        public virtual ActionResult GetSalesInvoiceDetails(long salesInvoiceMasterId ,string SelectedParameter1, string SelectedParameter2,string CentreCode)
         {
             SalesInvoicePrintModel salesInvoicePrintModel = _gymSaleInvoiceAgent.GetSalesInvoiceDetails(salesInvoiceMasterId);
-            return View($"~/Views/Gym/GymSalesInvoice/SalesInvoicePrint.cshtml", salesInvoicePrintModel);
-        }
+            salesInvoicePrintModel.CentreCode = CentreCode;
+            salesInvoicePrintModel.FromDate = SelectedParameter1;
+            salesInvoicePrintModel.ToDate = SelectedParameter2;
+			return View($"~/Views/Gym/GymSalesInvoice/SalesInvoicePrint.cshtml", salesInvoicePrintModel);
+		}
         #endregion
     }
 }

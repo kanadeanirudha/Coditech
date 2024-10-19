@@ -85,5 +85,11 @@ namespace Coditech.Admin.Helpers
             string dateTimeformat = dateTime.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString()));
             return dateTimeformat;
         }
+
+        public static string ToCoditechDateWithTimeFormat(this DateTime dateTime)
+        {
+            string dateTimeformat = dateTime.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString())+ " h:mm tt");
+            return dateTimeformat;
+        }
     }
 }

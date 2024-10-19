@@ -95,15 +95,9 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", dataTableViewModel);
         }
 
-        public virtual ActionResult RoleAllocatedToUserList(int adminRoleMasterId, DataTableViewModel dataTableViewModel)
+        public virtual ActionResult RoleAllocatedToUserList(DataTableViewModel dataTableModel)
         {
-            AdminRoleApplicableDetailsListViewModel list = new AdminRoleApplicableDetailsListViewModel();
-            if (adminRoleMasterId > 0 || Convert.ToInt32(dataTableViewModel.SelectedParameter1) > 0)
-            {
-                adminRoleMasterId = adminRoleMasterId > 0 ? adminRoleMasterId : Convert.ToInt32(dataTableViewModel.SelectedParameter1);
-                list = _adminRoleMasterAgent.RoleAllocatedToUserList(adminRoleMasterId, dataTableViewModel);
-            }
-            list.AdminRoleMasterId = adminRoleMasterId;
+            AdminRoleApplicableDetailsListViewModel list = _adminRoleMasterAgent.RoleAllocatedToUserList(Convert.ToInt32(dataTableModel.SelectedParameter1), dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Admin/AdminRoleMaster/_RoleAllocatedToUserList.cshtml", list);
@@ -139,7 +133,8 @@ namespace Coditech.Admin.Controllers
 
                 if (!status)
                 {
-                    return RedirectToAction("RoleAllocatedToUserList", new { adminRoleMasterId = adminRoleApplicableDetailsViewModel.AdminRoleMasterId });
+                    DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedParameter1 = Convert.ToString(adminRoleApplicableDetailsViewModel.AdminRoleMasterId) };
+                    return RedirectToAction("RoleAllocatedToUserList", dataTableViewModel);
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleApplicableDetailsViewModel.ErrorMessage));

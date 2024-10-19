@@ -23,7 +23,6 @@ namespace Coditech.Admin.Controllers
             _authenticationHelper = authenticationHelper;
         }
 
-
         [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult Login(string returnUrl)
