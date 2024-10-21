@@ -83,12 +83,12 @@ namespace Coditech.Engine.DBTM.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTest.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new DBTMDeviceResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new DBTMTestResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTest.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new DBTMDeviceResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new DBTMTestResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
@@ -105,12 +105,12 @@ namespace Coditech.Engine.DBTM.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTest.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new DBTMDeviceResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new DBTMTestResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTest.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new DBTMDeviceResponse { HasError = true, ErrorMessage = ex.Message });
+                return CreateInternalServerErrorResponse(new DBTMTestResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 

@@ -237,6 +237,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete DBTMDeviceRegistrationDetails due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMDeviceRegistrationDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteDBTMDeviceRegistrationDetails", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete department due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralDepartmentMaster

@@ -108,7 +108,8 @@
             DBTMTraineeDetails,
             AssociatedTrainer,
             DBTMActivityCategory,
-            DBTMTest
+            DBTMTest,
+            DBTMDeviceRegistrationDetails
         }
     }
 }
