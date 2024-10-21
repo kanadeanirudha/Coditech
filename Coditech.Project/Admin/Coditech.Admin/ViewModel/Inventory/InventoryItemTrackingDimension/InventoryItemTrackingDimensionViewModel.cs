@@ -7,8 +7,10 @@ namespace Coditech.Admin.ViewModel
     {
         public short InventoryItemTrackingDimensionId { get; set; }
         [Display(Name = "Tracking Dimension Name")]
+        [Required]
         public string TrackingDimensionName { get; set; }
         [Display(Name = "Tracking Dimension Code")]
+        [Required]
         public string TrackingDimensionCode { get; set; }
     }
 }
