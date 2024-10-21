@@ -123,6 +123,12 @@ namespace Coditech.Admin
             CreateMap<GymMemberMembershipPlanListModel, GymMemberMembershipPlanListViewModel>().ReverseMap();
             CreateMap<GymMemberSalesInvoiceModel, GymMemberSalesInvoiceViewModel>().ReverseMap();
             CreateMap<GymMemberSalesInvoiceListModel, GymMemberSalesInvoiceListViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanModel, GymWorkoutPlanViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanListModel, GymWorkoutPlanListViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanDetailsModel, GymWorkoutPlanDetailsViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanDetailsListModel, GymWorkoutPlanDetailsListViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanSetModel, GymWorkoutPlanSetViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanSetListModel, GymWorkoutPlanSetListViewModel>().ReverseMap();
             #endregion
 
             #region Person

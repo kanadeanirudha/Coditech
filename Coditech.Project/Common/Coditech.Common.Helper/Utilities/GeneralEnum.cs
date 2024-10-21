@@ -108,7 +108,8 @@
         Customer,
         GymMember,
         Patient,
-        DBTMTrainee
+        DBTMTrainee,
+        GymWorkoutPlan
     }
 
     public enum ActiveProjectNameEnum
