@@ -135,5 +135,30 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        
+        [HttpGet]
+        [Route("/DBTMTestMaster/GetDBTMTestParameter")]
+        [Produces(typeof(DBTMTestParameterListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetDBTMTestParameter()
+        {
+            try
+            {
+                DBTMTestParameterListModel list = _dBTMTestMasterService.GetDBTMTestParameter();
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<DBTMTestParameterListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTestParameter.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMTestParameterListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTestParameter.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMTestParameterListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
     }
 }

@@ -135,5 +135,28 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/DBTMDeviceMaster/IsValidDeviceSerialCode")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult IsValidDeviceSerialCode([FromBody] string deviceSerialCode)
+        {
+            try
+            {
+                bool isUpdated = _dBTMDeviceMasterService.IsValidDeviceSerialCode(deviceSerialCode);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = isUpdated });
+                
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMDevice.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new DBTMDeviceResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMDevice.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMDeviceResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

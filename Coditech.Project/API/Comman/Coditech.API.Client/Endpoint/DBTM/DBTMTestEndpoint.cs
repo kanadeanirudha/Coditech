@@ -22,5 +22,8 @@ namespace Coditech.API.Endpoint
 
         public string DeleteDBTMTestAsync() =>
                   $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMTestMaster/DeleteDBTMTest";
+
+        public string GetDBTMTestParameterAsync() =>
+           $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMTestMaster/GetDBTMTestParameter";
     }
 }

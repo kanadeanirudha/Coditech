@@ -4,6 +4,7 @@ using Coditech.Admin.ViewModel;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -30,7 +31,9 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
-            return View(createEdit, new DBTMTestViewModel());
+            DBTMTestViewModel dBTMTestViewModel = new DBTMTestViewModel();
+            BindDBTMTestParameter(dBTMTestViewModel);
+            return View(createEdit, dBTMTestViewModel);
         }
 
         [HttpPost]
@@ -45,6 +48,7 @@ namespace Coditech.Admin.Controllers
                     return RedirectToAction("List", CreateActionDataTable());
                 }
             }
+            BindDBTMTestParameter(dBTMTestViewModel);
             SetNotificationMessage(GetErrorNotificationMessage(dBTMTestViewModel.ErrorMessage));
             return View(createEdit, dBTMTestViewModel);
         }
@@ -53,6 +57,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult Edit(int dBTMTestMasterId)
         {
             DBTMTestViewModel dBTMTestViewModel = _dBTMTestAgent.GetDBTMTest(dBTMTestMasterId);
+            BindDBTMTestParameter(dBTMTestViewModel);
             return ActionView(createEdit, dBTMTestViewModel);
         }
 
@@ -66,6 +71,7 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { dBTMTestMasterId = dBTMTestViewModel.DBTMTestMasterId });
             }
+            BindDBTMTestParameter(dBTMTestViewModel);
             return View(createEdit, dBTMTestViewModel);
         }
 
@@ -87,7 +93,23 @@ namespace Coditech.Admin.Controllers
         }
 
         #region Protected
+        protected virtual void BindDBTMTestParameter(DBTMTestViewModel dBTMTestViewModel)
+        {
+            dBTMTestViewModel.DBTMTestParameterList = dBTMTestViewModel.DBTMTestParameterList ?? new List<SelectListItem>();
+            DBTMTestParameterListViewModel parameterList = _dBTMTestAgent.DBTMTestParameter();
 
+            if (parameterList?.DBTMTestParameterList != null)
+            {
+                foreach (var item in parameterList.DBTMTestParameterList)
+                {
+                    dBTMTestViewModel.DBTMTestParameterList.Add(new SelectListItem
+                    {
+                        Text = item.ParameterName,
+                        Value = item.DBTMTestParameterId.ToString()
+                    });
+                }
+            }
+        }
         #endregion
     }
 }

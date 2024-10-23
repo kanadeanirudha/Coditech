@@ -17,11 +17,15 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMTestMaster> _dBTMTestMasterRepository;
+        private readonly ICoditechRepository<DBTMTestParameter> _dBTMTestParameterRepository;
+        private readonly ICoditechRepository<DBTMParametersAssociatedToTest> _dBTMParametersAssociatedToTestRepository;
         public DBTMTestMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _dBTMTestMasterRepository = new CoditechRepository<DBTMTestMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMTestParameterRepository = new CoditechRepository<DBTMTestParameter>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMParametersAssociatedToTestRepository = new CoditechRepository<DBTMParametersAssociatedToTest>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual DBTMTestListModel GetDBTMTestList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -55,7 +59,19 @@ namespace Coditech.API.Service
             if (dBTMTestData?.DBTMTestMasterId > 0)
             {
                 dBTMTestModel.DBTMTestMasterId = dBTMTestData.DBTMTestMasterId;
+                List<DBTMParametersAssociatedToTest> parametersAssociatedToTestlist = new List<DBTMParametersAssociatedToTest>();
+                foreach (string item in dBTMTestModel.DBTMSelectedTestParameter)
+                {
+                    parametersAssociatedToTestlist.Add(new DBTMParametersAssociatedToTest()
+                    {
+                        DBTMTestMasterId = dBTMTestModel.DBTMTestMasterId,
+                        DBTMTestParameterId = Convert.ToByte(item)
+                    });
+                }
+
+                _dBTMParametersAssociatedToTestRepository.InsertAsync(parametersAssociatedToTestlist);
             }
+
             else
             {
                 dBTMTestModel.HasError = true;
@@ -73,6 +89,10 @@ namespace Coditech.API.Service
             //Get the DBTMTest Details based on id.
             DBTMTestMaster dBTMTestMaster = _dBTMTestMasterRepository.Table.Where(x => x.DBTMTestMasterId == dBTMTestMasterId)?.FirstOrDefault();
             DBTMTestModel dBTMTestModel = dBTMTestMaster?.FromEntityToModel<DBTMTestModel>();
+            if (IsNotNull(dBTMTestMaster))
+            {
+                dBTMTestModel.DBTMSelectedTestParameter = _dBTMParametersAssociatedToTestRepository.Table.Where(x => x.DBTMTestMasterId == dBTMTestMasterId)?.Select(y => y.DBTMTestParameterId.ToString())?.ToList();
+            }
             return dBTMTestModel;
         }
 
@@ -89,7 +109,51 @@ namespace Coditech.API.Service
 
             //Update DBTMTest
             bool isdBTMTestUpdated = _dBTMTestMasterRepository.Update(dBTMTestMaster);
-            if (!isdBTMTestUpdated)
+            if (isdBTMTestUpdated)
+            {
+                List<DBTMParametersAssociatedToTest> deleteDBTMParametersAssociatedToTest = null;
+                List<DBTMParametersAssociatedToTest> insertDBTMParametersAssociatedToTest = null;
+                List<DBTMParametersAssociatedToTest> parametersAssociatedToTestList = _dBTMParametersAssociatedToTestRepository.Table.Where(x => x.DBTMTestMasterId == dBTMTestModel.DBTMTestMasterId)?.ToList();
+
+                foreach (string item in dBTMTestModel.DBTMSelectedTestParameter)
+                {
+                    if (!parametersAssociatedToTestList.Any(x => x.DBTMTestParameterId.ToString() == item))
+                    {
+                        if (IsNull(insertDBTMParametersAssociatedToTest))
+                        {
+                            insertDBTMParametersAssociatedToTest = new List<DBTMParametersAssociatedToTest>();
+                        }
+                        insertDBTMParametersAssociatedToTest.Add(new DBTMParametersAssociatedToTest()
+                        {
+                            DBTMTestMasterId = dBTMTestModel.DBTMTestMasterId,
+                            DBTMTestParameterId = Convert.ToByte(item)
+                        });
+                    }
+                }
+
+                foreach (DBTMParametersAssociatedToTest item in parametersAssociatedToTestList)
+                {
+                    if (!dBTMTestModel.DBTMSelectedTestParameter.Any(x => x == item.DBTMTestParameterId.ToString()))
+                    {
+                        if (IsNull(deleteDBTMParametersAssociatedToTest))
+                        {
+                            deleteDBTMParametersAssociatedToTest = new List<DBTMParametersAssociatedToTest>();
+                        }
+                        deleteDBTMParametersAssociatedToTest.Add(item);
+                    }
+                }
+
+                if (insertDBTMParametersAssociatedToTest?.Count > 0)
+                {
+                    _dBTMParametersAssociatedToTestRepository.Insert(insertDBTMParametersAssociatedToTest);
+                }
+
+                if(deleteDBTMParametersAssociatedToTest?.Count > 0)
+                {
+                    _dBTMParametersAssociatedToTestRepository.Delete(deleteDBTMParametersAssociatedToTest);
+                }
+            }
+            else
             {
                 dBTMTestModel.HasError = true;
                 dBTMTestModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
@@ -112,8 +176,22 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        public virtual DBTMTestParameterListModel GetDBTMTestParameter()
+        {
+            DBTMTestParameterListModel list = new DBTMTestParameterListModel
+            {
+                DBTMTestParameterList = (from a in _dBTMTestParameterRepository.Table
+                                         select new DBTMTestParameterModel
+                                         {
+                                             DBTMTestParameterId = a.DBTMTestParameterId,
+                                             ParameterName = a.ParameterName,
+                                         }).ToList()
+            };
+
+            return list;
+        }
         #region Protected Method
-        
+
         #endregion
     }
 }

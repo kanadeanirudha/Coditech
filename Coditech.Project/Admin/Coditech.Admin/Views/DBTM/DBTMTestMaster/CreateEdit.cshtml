@@ -63,6 +63,13 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
+                                    <div class="mb-3 multiselect-dropdown">
+                                        @Html.LabelFor(x => x.DBTMSelectedTestParameter, new { @class = "form-label required" })
+                                        @Html.ListBoxFor(x => x.DBTMSelectedTestParameter, new SelectList(Model.DBTMTestParameterList, "Value", "Text"), new { @class = "selectpicker form-control", multiple = "multiple" })
+                                        @Html.ValidationMessageFor(x => x.DBTMSelectedTestParameter)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.IsActive, new { @class = "form-label"})
                                         <div class="form-check">
