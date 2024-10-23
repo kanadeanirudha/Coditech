@@ -5,10 +5,8 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     string css = Model.GymWorkoutPlanId > 0 ? "col-lg-10" : "col-lg-12";
-    //string css = Model.PersonId > 0 ? "col-lg-10" : "col-lg-12";
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("GymWorkoutPlanId", Model.GymWorkoutPlanId.ToString());
-   // keyValuePairs.Add("PersonId", Model.PersonId.ToString());
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "", IsDisabled = Model.GymWorkoutPlanId > 0, IsRequired = true };
 }
 <!-- Page Content-->

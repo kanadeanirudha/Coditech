@@ -93,6 +93,7 @@ namespace Coditech.API.Data
         public DbSet<GymMemberMembershipPlan> GymMemberMembershipPlan { get; set; }
         public DbSet<GymMembershipPlanPackage> GymMembershipPlanPackage { get; set; }
         public DbSet<GymWorkoutPlan> GymWorkoutPlan { get; set; }
+        public DbSet<GymWorkoutPlanDetails> GymWorkoutPlanDetails { get; set; }
         #endregion
 
         #region MediaManager

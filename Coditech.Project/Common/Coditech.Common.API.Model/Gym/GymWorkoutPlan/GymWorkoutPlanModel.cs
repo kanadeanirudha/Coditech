@@ -9,8 +9,5 @@
         public byte NumberOfWeeks { get; set; } 
         public short NumberOfDaysPerWeek { get; set; } 
         public bool IsActive { get; set; }
-        public long PersonId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
     }
 }

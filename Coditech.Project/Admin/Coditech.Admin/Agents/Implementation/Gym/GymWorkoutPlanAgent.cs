@@ -21,14 +21,17 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IGymWorkoutPlanClient _gymWorkoutPlanClient;
+        private readonly IGymWorkoutPlanClient _gymWorkoutPlanDetailsClient;
         private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
-        public GymWorkoutPlanAgent(ICoditechLogging coditechLogging, IGymWorkoutPlanClient gymWorkoutPlanClient, IUserClient userClient)
+        public GymWorkoutPlanAgent(ICoditechLogging coditechLogging, IGymWorkoutPlanClient gymWorkoutPlanClient, IGymWorkoutPlanClient gymWorkoutPlanDetailsClient, IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
             _gymWorkoutPlanClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
+            _gymWorkoutPlanDetailsClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
+
             _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
@@ -36,7 +39,7 @@ namespace Coditech.Admin.Agents
         #region Public Methods
         public virtual GymWorkoutPlanListViewModel GetGymWorkoutPlanList(DataTableViewModel dataTableModel, string listType = null)
         {
-            FilterCollection filters = new FilterCollection();           
+            FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
 
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
@@ -60,6 +63,7 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
+        #region Gym Workout Plan
         //Create Gym Workout Plan .
         public virtual GymWorkoutPlanViewModel CreateGymWorkoutPlan(GymWorkoutPlanViewModel gymWorkoutPlanViewModel)
         {
@@ -86,50 +90,6 @@ namespace Coditech.Admin.Agents
                 return (GymWorkoutPlanViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
-
-        #region WorkoutPlanDetails
-
-        //Get  Gym Workout Plan details by gymWorkoutPlanId
-        public virtual GymWorkoutPlanViewModel GetGymWorkoutPlanDetails(long gymWorkoutPlanId)
-        {
-            GeneralPersonResponse response = _userClient.GetPersonInformation(gymWorkoutPlanId);
-            GymWorkoutPlanViewModel gymWorkoutPlanViewModel = response?.GeneralPersonModel.ToViewModel<GymWorkoutPlanViewModel>();
-            if (IsNotNull(gymWorkoutPlanViewModel))
-            {
-                GymWorkoutPlanResponse gymWorkoutPlanResponse = _gymWorkoutPlanClient.GetGymWorkoutPlan(gymWorkoutPlanId);
-                if (IsNotNull(gymWorkoutPlanResponse))
-                {
-                    gymWorkoutPlanViewModel.CentreCode = gymWorkoutPlanResponse.GymWorkoutPlanModel.CentreCode;
-                }
-                gymWorkoutPlanViewModel.GymWorkoutPlanId = gymWorkoutPlanId;
-
-            }
-            return gymWorkoutPlanViewModel;
-        }
-
-        //Update Gym Workout Plan details
-        public virtual GymWorkoutPlanViewModel UpdateGymWorkoutPlanDetails(GymWorkoutPlanViewModel gymWorkoutPlanViewModel)
-        {
-            try
-            {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Info);
-                GeneralPersonModel generalPersonModel = gymWorkoutPlanViewModel.ToModel<GeneralPersonModel>();
-                generalPersonModel.EntityId = gymWorkoutPlanViewModel.GymWorkoutPlanId;
-                generalPersonModel.UserType = UserTypeEnum.GymWorkoutPlan.ToString();
-                GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
-                generalPersonModel = response?.GeneralPersonModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Info);
-                return IsNotNull(generalPersonModel) ? generalPersonModel.ToViewModel<GymWorkoutPlanViewModel>() : (GymWorkoutPlanViewModel)GetViewModelWithErrorMessage(new GymWorkoutPlanViewModel(), GeneralResources.UpdateErrorMessage);
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTraineeDetails.ToString(), TraceLevel.Error);
-                return (GymWorkoutPlanViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanViewModel, GeneralResources.UpdateErrorMessage);
-            }
-        }
-        #endregion
-
-        #region Gym Workout Plan
         //Get  Gym Workout Plan
         public virtual GymWorkoutPlanViewModel GetGymWorkoutPlan(long gymWorkoutPlanId)
         {
@@ -137,8 +97,6 @@ namespace Coditech.Admin.Agents
             GymWorkoutPlanViewModel gymWorkoutPlanViewModel = response?.GymWorkoutPlanModel.ToViewModel<GymWorkoutPlanViewModel>();
             return gymWorkoutPlanViewModel;
         }
-
-      
 
         //Update Gym Workout Plan.
         public virtual GymWorkoutPlanViewModel UpdateGymWorkoutPlan(GymWorkoutPlanViewModel gymWorkoutPlanViewModel)
@@ -157,14 +115,21 @@ namespace Coditech.Admin.Agents
                 return (GymWorkoutPlanViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+        #endregion
 
-      
+        #region Gym Workout Plan Details
+        public virtual GymWorkoutPlanDetailsViewModel GetWorkoutPlanDetails(long gymWorkoutPlanId)
+        {
+            GymWorkoutPlanDetailsResponse response = _gymWorkoutPlanDetailsClient.GetWorkoutPlanDetails(gymWorkoutPlanId);
+            GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel = response?.GymWorkoutPlanDetailsModel.ToViewModel<GymWorkoutPlanDetailsViewModel>();
+            return gymWorkoutPlanDetailsViewModel;
+        }
+        #endregion
 
         //Delete  Gym Workout Plan .
         public virtual bool DeleteGymWorkoutPlan(string gymWorkoutPlanIds, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
-
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Info);
@@ -191,9 +156,6 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
-        #endregion
-
-
 
         #region protected
         protected virtual List<DatatableColumns> BindColumns()

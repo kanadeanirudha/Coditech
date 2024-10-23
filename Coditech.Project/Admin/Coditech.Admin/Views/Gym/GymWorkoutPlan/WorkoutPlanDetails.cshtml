@@ -1,0 +1,75 @@
+﻿@model GymWorkoutPlanDetailsViewModel
+@{
+    ViewBag.Title = "Gym Workout Plan Details";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("GymWorkoutPlanId", Model.GymWorkoutPlanModel.GymWorkoutPlanId.ToString());
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/Gym/GymWorkoutPlan/_GymWorkoutPlanSidePannel.cshtml", keyValuePairs)
+            </div>
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h4 class="card-title">Workout Plan Details- @Model.GymWorkoutPlanModel.WorkoutPlanName</h4>
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <h5>Target : @Model.GymWorkoutPlanModel.Target kg</h5>
+                            <h5>Plan Duration : @Model.GymWorkoutPlanModel.NumberOfWeeks weeks</h5>
+                            @for (int week = 1; week <= Model.GymWorkoutPlanModel.NumberOfWeeks; week++)
+                            {
+                                        <div class="col-lg-12 mb-3">
+                                            <div class="card">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <h4 class="card-title">Week @week</h4>
+                                                    <div class="d-flex justify-content-end">
+                                                        <a data-bs-toggle="modal" data-bs-target="" href="void javascritp(0)" onclick="GymWorkoutDetails.AddGymWorkoutPlanDetails()" title="Add " class="btn btn-sm btn-soft-success btn-circle float-end"><i class="fas ti-plus"></i></a>                       
+                                                        <a href="../@controllerName/Delete?" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                @for (int day = 1; day <= Model.GymWorkoutPlanModel.NumberOfDaysPerWeek; day++)
+                                                {
+                                                                    <div class="col-lg-6 mb-3">
+                                                                        <div class="card">
+                                                                            <div class="card-header">
+                                                                                        <h4 class="card-title">Day @day</h4>
+                                                                                        <div class="d-flex justify-content-end">
+                                                                                            <a data-bs-toggle="modal" data-bs-target="" href="void javascritp(0)" onclick="GymWorkoutDetails.AddGymWorkoutPlanDetails()" title="Add " class="btn btn-sm btn-soft-success btn-circle float-end"><i class="fas ti-plus"></i></a>
+                                                                                            <a href="../@controllerName/Delete?" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                                                                        </div>
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                        No Result Found
+
+                                                                                        <div class="text-center mt-3">
+                                                                                            <button type="button" class="btn btn-success" onclick="addWorkout(@week)">Add Workout</button>
+                                                                                        </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                }
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿using Coditech.API.Endpoint;
+﻿using Coditech.API.Data;
+using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -221,6 +222,57 @@ namespace Coditech.API.Client
             }
         }
 
+        #region WorkoutPlanDetails
+        public virtual GymWorkoutPlanDetailsResponse GetWorkoutPlanDetails(long gymWorkoutPlanId)
+        {
+            return Task.Run(async () => await GetWorkoutPlanDetailsAsync(gymWorkoutPlanId, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<GymWorkoutPlanDetailsResponse> GetWorkoutPlanDetailsAsync(long gymWorkoutPlanId, CancellationToken cancellationToken)
+        {
+            if (gymWorkoutPlanId <= 0)
+                throw new System.ArgumentNullException("gymWorkoutPlanId");
+
+            string endpoint = gymWorkoutPlanEndpoint.GetWorkoutPlanDetailsAsync(gymWorkoutPlanId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<GymWorkoutPlanDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new GymWorkoutPlanDetailsResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    GymWorkoutPlanResponse typedBody = JsonConvert.DeserializeObject<GymWorkoutPlanResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        #endregion
         public virtual TrueFalseResponse DeleteGymWorkoutPlan(ParameterModel body)
         {
             return Task.Run(async () => await DeleteGymWorkoutPlanAsync(body, CancellationToken.None)).GetAwaiter().GetResult();

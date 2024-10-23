@@ -12,5 +12,6 @@ namespace Coditech.API.Service
         GymWorkoutPlanModel GetGymWorkoutPlan(long gymWorkoutPlanId);
         bool UpdateGymWorkoutPlan(GymWorkoutPlanModel model);
         bool DeleteGymWorkoutPlan(ParameterModel parameterModel);
+        GymWorkoutPlanDetailsModel GetWorkoutPlanDetails(long gymWorkoutPlanId);
     }
 }

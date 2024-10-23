@@ -32,8 +32,6 @@ namespace Coditech.Admin.ViewModel
  
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public long PersonId { get; set; }
+        
     }
 }

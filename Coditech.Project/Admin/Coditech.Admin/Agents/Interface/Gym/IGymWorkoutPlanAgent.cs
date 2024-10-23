@@ -11,28 +11,12 @@ namespace Coditech.Admin.Agents
         /// <returns>GymWorkoutPlanListViewModel</returns>
         GymWorkoutPlanListViewModel GetGymWorkoutPlanList(DataTableViewModel dataTableModel, string listType = null);
 
-
         /// <summary>
         /// Create GymWorkoutPlan.
         /// </summary>
         /// <param name="gymWorkoutPlanViewModel">Gym Workout Plan View Model.</param>
         /// <returns>Returns created model.</returns>
         GymWorkoutPlanViewModel CreateGymWorkoutPlan(GymWorkoutPlanViewModel gymWorkoutPlanViewModel);
-
-        /// <summary>
-        /// Get GymWorkoutPlan Details by gymWorkoutPlanId.
-        /// </summary>
-        /// <param name="gymWorkoutPlanId">gymWorkoutPlanId</param>
-        /// <returns>Returns GymWorkoutPlanViewModel.</returns>
-        GymWorkoutPlanViewModel GetGymWorkoutPlanDetails(long gymWorkoutPlanId);
-
-        /// <summary>
-        /// Update Gym Workout Plan Details.
-        /// </summary>
-        /// <param name="gymWorkoutPlanViewModel">gymWorkoutPlanViewModel.</param>
-        /// <returns>Returns updated GymWorkoutPlanViewModel</returns>
-        GymWorkoutPlanViewModel UpdateGymWorkoutPlanDetails(GymWorkoutPlanViewModel gymWorkoutPlanViewModel);
-
 
         /// <summary>
         /// Get GymWorkoutPlan by gymWorkoutPlanId.
@@ -48,7 +32,6 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns updated GymWorkoutPlanViewModel</returns>
         GymWorkoutPlanViewModel UpdateGymWorkoutPlan(GymWorkoutPlanViewModel gymWorkoutPlanModel);
 
-
         /// <summary>
         /// Delete Gym Workout Plan.
         /// </summary>
@@ -56,5 +39,22 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteGymWorkoutPlan(string gymWorkoutPlanIds, out string errorMessage);
 
+        #region GymWorkoutPlanDetails
+
+        /// <summary>
+        /// Get WorkoutPlanDetails by GymWorkoutPlanId 
+        /// </summary>
+        /// <param name="gymWorkoutPlanId">The ID of the gym Workout Plan Id.</param>
+        /// <returns>Returns GymWorkoutPlanDetailsResponse.</returns>
+        GymWorkoutPlanDetailsViewModel GetWorkoutPlanDetails(long gymWorkoutPlanId);
+
+        ///// <summary>
+        ///// Delete GymWorkoutPlanDetails.
+        ///// </summary>
+        ///// <param name="GymGymWorkoutPlanIds">GymGymGymWorkoutPlanIds.</param>
+        ///// <returns>Returns true if deleted successfully else return false.</returns>
+        //bool DeleteGymWorkoutPlanDetails(string GymGymWorkoutPlanIds, out string errorMessage);
+
+        #endregion
     }
 }

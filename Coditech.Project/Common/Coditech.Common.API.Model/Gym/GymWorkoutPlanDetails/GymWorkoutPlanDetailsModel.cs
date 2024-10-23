@@ -2,8 +2,8 @@
 {
     public class GymWorkoutPlanDetailsModel : BaseModel
     {
+        public GymWorkoutPlanModel GymWorkoutPlanModel { get; set; }
         public long GymWorkoutPlanDetailId { get; set; }
-        public string CentreCode { get; set; }
         public long GymWorkoutPlanId { get; set; } 
         public string WorkoutName { get; set; }
         public short WorkoutWeek { get; set; }

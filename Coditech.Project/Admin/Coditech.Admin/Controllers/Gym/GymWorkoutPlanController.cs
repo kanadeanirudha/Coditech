@@ -11,11 +11,14 @@ namespace Coditech.Admin.Controllers
     public class GymWorkoutPlanController : BaseController
     {
         private readonly IGymWorkoutPlanAgent _gymWorkoutPlanAgent;
-        private const string createEditGymWorkoutPlan = "~/Views/Gym/GymWorkoutPlan/GymWorkoutPlanDetails.cshtml";
+        private readonly IGymWorkoutPlanAgent _gymWorkoutPlanDetailsAgent;
 
-        public GymWorkoutPlanController(IGymWorkoutPlanAgent gymWorkoutPlanAgent)
+        private const string createEditGymWorkoutPlan = "~/Views/Gym/GymWorkoutPlan/GymWorkoutPlan.cshtml";
+
+        public GymWorkoutPlanController(IGymWorkoutPlanAgent gymWorkoutPlanAgent, IGymWorkoutPlanAgent gymWorkoutPlanDetailsAgent)
         {
             _gymWorkoutPlanAgent = gymWorkoutPlanAgent;
+            _gymWorkoutPlanDetailsAgent = gymWorkoutPlanDetailsAgent;
         }
 
         #region GymWorkoutPlan
@@ -75,17 +78,16 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_gymWorkoutPlanAgent.UpdateGymWorkoutPlan(gymWorkoutPlanViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("UpdateGymWorkoutPlanDetails", new { gymWorkoutPlanId = gymWorkoutPlanViewModel.GymWorkoutPlanId });
+                return RedirectToAction("GymWorkoutPlan", new { gymWorkoutPlanId = gymWorkoutPlanViewModel.GymWorkoutPlanId });
             }
             return View(createEditGymWorkoutPlan, gymWorkoutPlanViewModel);
         }
-
-        //GymWorkoutPlanDetails
+     
         [HttpGet]
         public virtual ActionResult GymWorkoutPlan(long gymWorkoutPlanId)
         {
             GymWorkoutPlanViewModel gymWorkoutPlanViewModel = _gymWorkoutPlanAgent.GetGymWorkoutPlan(gymWorkoutPlanId);
-            return View("~/Views/Gym/GymWorkoutPlan/UpdateGymWorkoutPlan.cshtml", gymWorkoutPlanViewModel);
+            return View("~/Views/Gym/GymWorkoutPlan/GymWorkoutPlan.cshtml", gymWorkoutPlanViewModel);
         }
 
         [HttpPost]
@@ -98,8 +100,18 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("GymWorkoutPlan", new { gymWorkoutPlanId = gymWorkoutPlanViewModel.GymWorkoutPlanId });
             }
-            return View("~/Views/Gym/GymWorkoutPlan/UpdateGymWorkoutPlan.cshtml", gymWorkoutPlanViewModel);
+            return View("~/Views/Gym/GymWorkoutPlan/GymWorkoutPlan.cshtml", gymWorkoutPlanViewModel);
         }
+
+        #region GymWorkoutPlanDetails
+        //GymWorkoutPlanDetails
+        [HttpGet]
+        public virtual ActionResult GetWorkoutPlanDetails(long gymWorkoutPlanId)
+        {
+            GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel = _gymWorkoutPlanDetailsAgent.GetWorkoutPlanDetails(gymWorkoutPlanId);
+            return View("~/Views/Gym/GymWorkoutPlan/WorkoutPlanDetails.cshtml", gymWorkoutPlanDetailsViewModel);
+        }
+        #endregion
 
         public virtual ActionResult Delete(string gymWorkoutPlanIds, string selectedCentreCode)
         {
@@ -121,9 +133,9 @@ namespace Coditech.Admin.Controllers
         }
         #endregion GymWorkoutPlan
 
-        public virtual ActionResult Cancel(string SelectedCentreCode)
+        public virtual ActionResult Cancel(string selectedCentreCode)
         {
-            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = selectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
     }

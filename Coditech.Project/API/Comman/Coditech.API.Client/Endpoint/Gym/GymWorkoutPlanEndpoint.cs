@@ -22,5 +22,9 @@ namespace Coditech.API.Endpoint
 
         public string DeleteGymWorkoutPlanAsync() =>
                   $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymWorkoutPlan/DeleteGymWorkoutPlan";
+
+        public string GetWorkoutPlanDetailsAsync(long gymWorkoutPlanId) =>
+            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymWorkoutPlan/GetWorkoutPlanDetails?gymWorkoutPlanId={gymWorkoutPlanId}";
+       
     }
 }
