@@ -82,7 +82,8 @@
         DBTMDeviceStatus,
         DBTMTraineeRegistration,
         UnAssociatedTrainerList,
-        DBTMActivityCategory
+        DBTMActivityCategory,
+        DBTMDeviceRegistrationDetails
     }
 
     public enum GeneralSystemGlobleSettingEnum

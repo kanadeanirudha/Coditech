@@ -12,7 +12,6 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Trainer")]
         public long GeneralTrainerMasterId { get; set; }
-        [Required]
         [Display(Name = "Is Current Trainer")]
         public bool IsCurrentTrainer { get; set; }
         public string FirstName { get; set; }
