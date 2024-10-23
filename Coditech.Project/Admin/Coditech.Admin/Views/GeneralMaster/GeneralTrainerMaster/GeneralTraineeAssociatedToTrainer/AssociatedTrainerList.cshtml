@@ -1,7 +1,7 @@
 ﻿@using Coditech.Admin.Utilities;
 @model GeneralTraineeAssociatedToTrainerListViewModel
 @{
-    ViewBag.Title = "Associated Trainer List";
+    ViewBag.Title = "Associate Trainer List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
@@ -18,8 +18,8 @@
             <div class="col-10">
                 <div class="card">
                     <div class="card-header">
-                        <span class="card-title">Associated Trainer List : @Model.FirstName @Model.LastName</span>
-                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/InsertAssociatedTrainer?dBTMTraineeDetailId=@Model.DBTMTraineeDetailId&personId=@Model.PersonId" role="button"><i class="fas fa-plus me-2"></i>Add Associated Trainer</a>
+                        <span class="card-title">Associate Trainer List : @Model.FirstName @Model.LastName</span>
+                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/InsertAssociatedTrainer?dBTMTraineeDetailId=@Model.DBTMTraineeDetailId&personId=@Model.PersonId" role="button"><i class="fas fa-plus me-2"></i>Associate Trainer</a>
                     </div>
                     <div class="card-body">
                         <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">

@@ -50,12 +50,12 @@
                                         @Html.ValidationMessageFor(x => x.PrintShortDesc)
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                <div class="mb-3">
-                                        @Html.LabelFor(x => x.WorkActivity, new { @class = "form-check-label" })
-                                    <div class="form-check">
-                                        @Html.CheckBoxFor(x => x.WorkActivity, new { @class = "form-check-input" })                                      
-                                    </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.WorkActivity, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.WorkActivity, new { @class = "form-check-input" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>

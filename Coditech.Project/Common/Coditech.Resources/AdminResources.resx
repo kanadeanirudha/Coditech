@@ -280,7 +280,7 @@
     <value>Enum Group</value>
   </data>
   <data name="LabelFinancialYearList" xml:space="preserve">
-    <value>FinancialYear List</value>
+    <value>Financial Year List</value>
   </data>
   <data name="LabelGlobleSettingList" xml:space="preserve">
     <value>Globle Setting List</value>
@@ -382,7 +382,7 @@
     <value>Failed to delete Inventory StorageDimension Group due to associate record.</value>
   </data>
   <data name="LabelInventoryStorageDimensionGroupList" xml:space="preserve">
-    <value>Inventory StorageDimension Group List</value>
+    <value>Inventory Storage Dimension Group List</value>
   </data>
   <data name="ErrorDeleteHospitalDoctorVisitingCharges" xml:space="preserve">
     <value>Failed to delete Hospital Doctor Visiting Charges details due to associate record.</value>

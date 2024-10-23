@@ -7,8 +7,10 @@ namespace Coditech.Admin.ViewModel
     {
         public int InventoryProductDimensionId { get; set; }
         [Display(Name = "Product Dimension Name")]
+        [Required]
         public string ProductDimensionName { get; set; }
         [Display(Name = "Product Dimension Code")]
+        [Required]
         public string ProductDimensionCode { get; set; }
     }
 }
