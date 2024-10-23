@@ -47,7 +47,7 @@ namespace Coditech.Admin.Controllers
                 if (!generalLeadGenerationViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new { selectedCentreCode = generalLeadGenerationViewModel.SelectedCentreCode });
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = generalLeadGenerationViewModel.SelectedCentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalLeadGenerationViewModel.ErrorMessage));

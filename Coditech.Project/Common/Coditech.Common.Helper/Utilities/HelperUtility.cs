@@ -92,5 +92,18 @@ namespace Coditech.Common.Helper
             String r = generator.Next(0, 1000000).ToString($"D{length}");
             return r;
         }
-    }
+
+		public static string ToFirstLetterCapital(this string data)
+		{
+			if (string.IsNullOrEmpty(data))
+			{
+				return data;
+			}
+
+			char[] chars = data.ToCharArray();
+			chars[0] = char.ToUpper(chars[0]);
+			return new string(chars);
+		}
+	}
 }
+

@@ -53,3 +53,18 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".view-password").click(function () {
+                $(this).toggleClass("fa fa-eye-slash");
+                var inputAttribute = $('.password-input');
+                if (inputAttribute.attr("type") == "password") {
+                    inputAttribute.attr("type", "text");
+                } else {
+                    inputAttribute.attr("type", "password");
+                }
+            });
+        });
+    </script>
+}

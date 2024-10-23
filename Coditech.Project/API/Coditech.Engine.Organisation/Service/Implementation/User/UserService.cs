@@ -302,7 +302,7 @@ namespace Coditech.API.Service
                 {
                     _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Error);
                 }
-                else if(generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                else if (generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
                     _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.DBTMTraineeDetails.ToString(), TraceLevel.Error);
                 }
@@ -315,15 +315,17 @@ namespace Coditech.API.Service
             }
 
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
-
-            // Create new Person and return it.
-            GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
+            generalPerson.FirstName = generalPerson.FirstName.ToFirstLetterCapital();
+            generalPerson.LastName = generalPerson.LastName.ToFirstLetterCapital();
+            generalPerson.MiddleName = generalPerson.MiddleName.ToFirstLetterCapital();
+			// Create new Person and return it.
+			GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
             if (personData?.PersonId > 0)
             {
                 generalPersonModel.PersonId = personData.PersonId;
                 List<GeneralSystemGlobleSettingModel> settingMasterList = GetSystemGlobleSettingList();
                 string password = settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.DefaultPassword.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue;
-                generalPersonModel.Password = MD5Hash(password);
+                generalPersonModel.Password = password;
                 generalPersonModel.CentreName = GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode);
                 if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -683,6 +685,7 @@ namespace Coditech.API.Service
             string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
+            userMaster.Password = MD5Hash(userMaster.Password);
             if (string.IsNullOrEmpty(userNameBasedOn))
             {
                 userMaster.UserName = generalPersonModel.PersonCode;

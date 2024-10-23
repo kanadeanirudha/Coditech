@@ -102,27 +102,30 @@ namespace Coditech.Admin.Agents
         }
 
         //Get general MemberBodyMeasurement by general MemberBodyMeasurement  id.
-        public virtual GymMemberBodyMeasurementViewModel GetMemberBodyMeasurement(long GymMemberBodyMeasurementId,short GymBodyMeasurementTypeId)
+        public virtual GymMemberBodyMeasurementViewModel GetMemberBodyMeasurement(long GymMemberBodyMeasurementId, short GymBodyMeasurementTypeId)
         {
             GymMemberBodyMeasurementResponse response = _GymMemberBodyMeasurementClient.GetMemberBodyMeasurement(GymMemberBodyMeasurementId, GymBodyMeasurementTypeId);
             return response?.GymMemberBodyMeasurementModel.ToViewModel<GymMemberBodyMeasurementViewModel>();
         }
 
         //Update GymMemberBodyMeasurement.
-        public virtual GymMemberBodyMeasurementViewModel UpdateMemberBodyMeasurement(GymMemberBodyMeasurementViewModel GymMemberBodyMeasurementViewModel)
+        public virtual GymMemberBodyMeasurementViewModel UpdateMemberBodyMeasurement(GymMemberBodyMeasurementViewModel gymMemberBodyMeasurementViewModel)
         {
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.MemberBodyMeasurement.ToString(), TraceLevel.Info);
-                GymMemberBodyMeasurementResponse response = _GymMemberBodyMeasurementClient.UpdateMemberBodyMeasurement(GymMemberBodyMeasurementViewModel.ToModel<GymMemberBodyMeasurementModel>());
+                long personId = gymMemberBodyMeasurementViewModel.PersonId;
+                GymMemberBodyMeasurementResponse response = _GymMemberBodyMeasurementClient.UpdateMemberBodyMeasurement(gymMemberBodyMeasurementViewModel.ToModel<GymMemberBodyMeasurementModel>());
                 GymMemberBodyMeasurementModel GymMemberBodyMeasurementModel = response?.GymMemberBodyMeasurementModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.MemberBodyMeasurement.ToString(), TraceLevel.Info);
-                return IsNotNull(GymMemberBodyMeasurementModel) ? GymMemberBodyMeasurementModel.ToViewModel<GymMemberBodyMeasurementViewModel>() : (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(new GymMemberBodyMeasurementViewModel(), GeneralResources.UpdateErrorMessage);
+                gymMemberBodyMeasurementViewModel = IsNotNull(GymMemberBodyMeasurementModel) ? GymMemberBodyMeasurementModel.ToViewModel<GymMemberBodyMeasurementViewModel>() : (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(new GymMemberBodyMeasurementViewModel(), GeneralResources.UpdateErrorMessage);
+                gymMemberBodyMeasurementViewModel.PersonId = personId;
+                return gymMemberBodyMeasurementViewModel;
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MemberBodyMeasurement.ToString(), TraceLevel.Error);
-                return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(GymMemberBodyMeasurementViewModel, GeneralResources.UpdateErrorMessage);
+                return (GymMemberBodyMeasurementViewModel)GetViewModelWithErrorMessage(gymMemberBodyMeasurementViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
 

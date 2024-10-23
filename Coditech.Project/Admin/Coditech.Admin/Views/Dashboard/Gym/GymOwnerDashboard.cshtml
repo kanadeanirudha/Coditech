@@ -82,7 +82,7 @@
                 BackgroundColor = JsonConvert.SerializeObject(backgroundColor),
             };
 }
-<div class="page-content">
+<div class="page-content dashboard-wrapper">
     <div class="container-fluid">
         <!-- Page-Title -->
         <div class="row">
@@ -258,9 +258,9 @@
                 </div><!--end card-->
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-lg-9">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -268,7 +268,7 @@
                             </div>
                         </div>
                     </div><!--end card-header-->
-                    <div class="card-body">
+                    <div class="card-body scroll-wrapper">
                         <div class="text-center" style="position: relative; padding-top:0px !important">
                             @Html.Partial("~/Views/Shared/Charts/_BarChart.cshtml", transactionOverviewModel)
                         </div><!--end card-body-->
@@ -277,7 +277,7 @@
             </div>
 
             <div class="col-lg-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -285,7 +285,7 @@
                             </div>
                         </div>
                     </div><!--end card-header-->
-                    <div class="card-body">
+                    <div class="card-body scroll-wrapper">
                         <div class="text-center" style="position: relative; padding-top:0px !important">
                             @Html.Partial("~/Views/Shared/Charts/_PieChart.cshtml", activeInActiveMemberPieChart)
                         </div><!--end card-body-->
@@ -293,9 +293,9 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-lg-9">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -342,7 +342,7 @@
                 </div><!--end card-->
             </div> <!--end col-->
             <div class="col-lg-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -350,7 +350,7 @@
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
-                    <div class="card-body">
+                    <div class="card-body scroll-wrapper">
                         @{
                             decimal? sum = Model?.GymDashboardModel?.RevenueByPaymentModeList?.Sum(x => x.BillAmount);
                         }
@@ -376,9 +376,9 @@
                 </div><!--end card-->
             </div> <!--end col-->
         </div><!--end row-->
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-lg-6">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -394,7 +394,7 @@
                 </div><!--end card-->
             </div>
             <div class="col-lg-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -402,7 +402,7 @@
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
-                    <div class="card-body" style="position: relative;">
+                    <div class="card-body position-absolute bottom-15">
                         <div class="" style="position: relative;">
                             @Html.Partial("~/Views/Shared/Charts/_BarChart.cshtml", leadGenerationSourceModel)
                         </div>
@@ -410,7 +410,7 @@
                 </div><!--end card-->
             </div> <!--end col-->
             <div class="col-lg-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -418,7 +418,7 @@
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
-                    <div class="card-body">
+                    <div class="card-body scroll-wrapper">
                         <div class="analytic-dash-activity" data-simplebar="init">
                             <div class="simplebar-wrapper" style="margin: 0px;">
                                 <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">

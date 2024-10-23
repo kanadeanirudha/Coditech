@@ -160,6 +160,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Item Prefix",
                 ColumnCode = "ItemPrefix",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

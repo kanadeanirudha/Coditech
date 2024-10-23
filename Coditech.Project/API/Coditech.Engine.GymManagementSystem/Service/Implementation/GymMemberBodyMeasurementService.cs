@@ -112,7 +112,7 @@ namespace Coditech.API.Service
                 GymMemberDetailId = gymMemberBodyMeasurementModel.GymMemberDetailId,
                 GymBodyMeasurementTypeId = gymMemberBodyMeasurementModel.GymBodyMeasurementTypeId,
                 BodyMeasurementValue = gymMemberBodyMeasurementModel.BodyMeasurementValue,
-                BodyMeasurementDate = gymMemberBodyMeasurementModel.BodyMeasurementDate
+                BodyMeasurementDate = gymMemberBodyMeasurementModel.BodyMeasurementDate.Add(DateTime.Now.TimeOfDay)
             };
 
             //Create new MemberBodyMeasurement and return it.
@@ -152,6 +152,7 @@ namespace Coditech.API.Service
             
             GymMemberBodyMeasurement gymMemberBodyMeasurement = gymMemberBodyMeasurementModel.FromModelToEntity<GymMemberBodyMeasurement>();
 
+            gymMemberBodyMeasurement.BodyMeasurementDate = gymMemberBodyMeasurementModel.BodyMeasurementDate.Add(DateTime.Now.TimeOfDay);
             //Update MemberBodyMeasurement
             bool isMemberBodyMeasurementUpdated = _gymMemberBodyMeasurementRepository.Update(gymMemberBodyMeasurement);
             if (!isMemberBodyMeasurementUpdated)
