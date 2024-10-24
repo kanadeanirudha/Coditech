@@ -8,6 +8,7 @@ namespace Coditech.Admin.ViewModel
         public short GeneralCountryMasterId { get; set; }
         [Required]
         [Display(Name = "Country Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string CountryName { get; set; }
 
         [Display(Name = "Country Code")]
