@@ -10,6 +10,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [MaxLength(60)]
         [Display(Name = "Occupation Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string OccupationName { get; set; }
 
         [Display(Name = "Display Order")]
