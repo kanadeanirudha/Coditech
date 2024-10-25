@@ -48,8 +48,9 @@ namespace Coditech.API.Service
             if (IsNull(generalFinancialYearModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            //if (IsFinancialYearCodeAlreadyExist(generalFinancialYearModel.FinancialYearCode))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "FinancialYear Code"));
+            if (IsFinancialYearEntryAlreadyExist(generalFinancialYearModel.FromDate, generalFinancialYearModel.ToDate, generalFinancialYearModel.GeneralFinancialYearId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Financial Year"));
+
 
             GeneralFinancialYear generalFinancialYearMaster = generalFinancialYearModel.FromModelToEntity<GeneralFinancialYear>();
 
@@ -85,12 +86,14 @@ namespace Coditech.API.Service
             if (IsNull(generalFinancialYearModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
+            if (IsFinancialYearEntryAlreadyExist(generalFinancialYearModel.FromDate, generalFinancialYearModel.ToDate, generalFinancialYearModel.GeneralFinancialYearId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Financial Year"));
+
+
             if (generalFinancialYearModel.GeneralFinancialYearId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "FinancialYearID"));
 
-            //if (IsFinancialYearCodeAlreadyExist(generalFinancialYearModel.FinancialYearCode, generalFinancialYearModel.GeneralFinancialYearId))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "FinancialYear Code"));
-
+            
             GeneralFinancialYear generalFinancialYearMaster = generalFinancialYearModel.FromModelToEntity<GeneralFinancialYear>();
 
             //Update FinancialYear
@@ -122,6 +125,10 @@ namespace Coditech.API.Service
         //Check if FinancialYear code is already present or not.
         //protected virtual bool IsFinancialYearCodeAlreadyExist(string financialYearName, short generalFinancialYearMasterId = 0)
         // => _generalFinancialYearMasterRepository.Table.Any(x => x.FinancialYearName == financialYearName && (x.GeneralFinancialYearMasterId != generalFinancialYearMasterId || generalFinancialYearMasterId == 0));
+
+        protected virtual bool IsFinancialYearEntryAlreadyExist(DateTime FromDate, DateTime ToDate, short generalFinancialYearId = 0)
+        => _generalFinancialYearMasterRepository.Table.Any(x => x.FromDate == FromDate && x.ToDate == ToDate && (x.GeneralFinancialYearId != generalFinancialYearId || generalFinancialYearId == 0));
+
         #endregion
     }
 }

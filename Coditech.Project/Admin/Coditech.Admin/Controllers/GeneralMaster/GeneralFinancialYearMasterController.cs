@@ -61,8 +61,9 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_generalFinancialYearAgent.UpdateFinancialYear(generalFinancialYearViewModel).HasError
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                generalFinancialYearViewModel = _generalFinancialYearAgent.UpdateFinancialYear(generalFinancialYearViewModel);
+                SetNotificationMessage(generalFinancialYearViewModel.HasError
+                ? GetErrorNotificationMessage(generalFinancialYearViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { generalFinancialYearId = generalFinancialYearViewModel.GeneralFinancialYearId });
             }
