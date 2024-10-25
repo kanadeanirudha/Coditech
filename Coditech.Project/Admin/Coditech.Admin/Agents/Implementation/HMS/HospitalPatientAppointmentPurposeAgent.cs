@@ -149,6 +149,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Is Active",
                 ColumnCode = "IsActive",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
