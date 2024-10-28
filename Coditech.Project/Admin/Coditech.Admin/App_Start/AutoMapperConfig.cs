@@ -224,6 +224,14 @@ namespace Coditech.Admin
             CreateMap<DBTMTraineeDetailsModel, DBTMTraineeDetailsViewModel>().ReverseMap();
             CreateMap<DBTMTraineeDetailsListModel, DBTMTraineeDetailsListViewModel>().ReverseMap();
             CreateMap<DBTMTraineeDetailsCreateEditViewModel, GeneralPersonModel>().ReverseMap();
+            CreateMap<DBTMActivityCategoryModel, DBTMActivityCategoryViewModel>().ReverseMap();
+            CreateMap<DBTMActivityCategoryListModel, DBTMActivityCategoryListViewModel>().ReverseMap();
+            CreateMap<DBTMTestModel, DBTMTestViewModel>().ReverseMap();
+            CreateMap<DBTMTestListModel, DBTMTestListViewModel>().ReverseMap();
+            CreateMap<DBTMDeviceRegistrationDetailsModel, DBTMDeviceRegistrationDetailsViewModel>().ReverseMap();
+            CreateMap<DBTMDeviceRegistrationDetailsListModel, DBTMDeviceRegistrationDetailsListViewModel>().ReverseMap();
+            CreateMap<DBTMTestParameterModel, DBTMTestParameterViewModel>().ReverseMap();
+            CreateMap<DBTMTestParameterListModel, DBTMTestParameterListViewModel>().ReverseMap();
             #endregion
         }
     }

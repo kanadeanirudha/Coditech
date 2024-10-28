@@ -106,7 +106,11 @@
             Trainer,
             DBTMDevice,
             DBTMTraineeDetails,
-            AssociatedTrainer
+            AssociatedTrainer,
+            DBTMActivityCategory,
+            DBTMTest,
+            DBTMDeviceRegistrationDetails,
+            DBTMTestParameter
         }
     }
 }

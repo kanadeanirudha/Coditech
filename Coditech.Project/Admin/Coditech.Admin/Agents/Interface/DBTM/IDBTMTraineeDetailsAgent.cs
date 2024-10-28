@@ -9,7 +9,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>DBTMTraineeDetailsListViewModel</returns>
-        DBTMTraineeDetailsListViewModel GetDBTMTraineeDetailsList(DataTableViewModel dataTableModelstring, string listType = null);
+        DBTMTraineeDetailsListViewModel GetDBTMTraineeDetailsList(DataTableViewModel dataTableModel, string listType = null);
 
         /// <summary>
         /// Create DBTMTraineeDetails.
@@ -44,7 +44,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="DBTMTraineeDetailsModel">DBTMTraineeDetailsModel.</param>
         /// <returns>Returns updated DBTMTraineeDetailsViewModel</returns>
-        DBTMTraineeDetailsViewModel UpdateDBTMTraineeOtherDetails(DBTMTraineeDetailsViewModel gymMemberDetailsModel);
+        DBTMTraineeDetailsViewModel UpdateDBTMTraineeOtherDetails(DBTMTraineeDetailsViewModel dBTMTraineeDetailsModel);
 
 
         /// <summary>
