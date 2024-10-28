@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.Helper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -22,5 +23,10 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+
+        [Required]
+        [Display(Name = "Parameter")]
+        public List<string> DBTMSelectedTestParameter { get; set; }
+        public List<SelectListItem> DBTMTestParameterList { get; set; }
     }
 }

@@ -183,7 +183,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Medical Specilization",
-                ColumnCode = "MedicalSpecilization",
+                ColumnCode = "MedicalSpecilizationEnumId",
                 IsSortable = true,
             });
             return datatableColumnList;

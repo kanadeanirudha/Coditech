@@ -832,7 +832,11 @@ namespace Coditech.Admin.Helpers
         private static void GetHospitalPathologyTestGroupParentList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             HospitalPathologyTestGroupListResponse response = new HospitalPathologyTestGroupClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Pathology Test Group-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
 
             HospitalPathologyTestGroupListModel list = new HospitalPathologyTestGroupListModel { HospitalPathologyTestGroupList = response.HospitalPathologyTestGroupList };
             foreach (var item in list.HospitalPathologyTestGroupList)
@@ -1223,7 +1227,7 @@ namespace Coditech.Admin.Helpers
                 long entityId = Convert.ToInt64(dropdownViewModel.Parameter.Split("~")[2]);
                 string userType = Convert.ToString(dropdownViewModel.Parameter.Split("~")[3]);
                 bool isAssociated = Convert.ToBoolean(dropdownViewModel.Parameter.Split("~")[4]);
-                GeneralTraineeAssociatedToTrainerListResponse response = new GeneralTrainerClient().GetAssociatedTrainerList(selectedCentreCode, selectedDepartmentId, isAssociated, entityId, userType,0, null, null, null, 1, int.MaxValue);
+                GeneralTraineeAssociatedToTrainerListResponse response = new GeneralTrainerClient().GetAssociatedTrainerList(selectedCentreCode, selectedDepartmentId, isAssociated, entityId, userType, 0, null, null, null, 1, int.MaxValue);
                 GeneralTraineeAssociatedToTrainerListModel list = new GeneralTraineeAssociatedToTrainerListModel() { AssociatedTrainerList = response.AssociatedTrainerList };
                 foreach (var item in list?.AssociatedTrainerList)
                 {

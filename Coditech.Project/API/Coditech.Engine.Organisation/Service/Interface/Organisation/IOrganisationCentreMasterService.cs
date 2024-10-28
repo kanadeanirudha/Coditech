@@ -30,6 +30,7 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
         bool UpdateCentrewiseSMSTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
         OrganisationCentrewiseEmailTemplateModel GetCentrewiseWhatsAppTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
         bool UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
+        bool IsCentreNameAlreadyExist(string centreName);
     }
 }
 

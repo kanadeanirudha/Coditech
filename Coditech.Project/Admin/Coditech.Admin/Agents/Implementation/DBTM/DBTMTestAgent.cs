@@ -132,6 +132,17 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+
+        public virtual DBTMTestParameterListViewModel DBTMTestParameter()
+        {
+
+            DBTMTestParameterListResponse response = _dBTMTestClient.GetDBTMTestParameter();
+            DBTMTestParameterListModel dBTMTestParameterList = new DBTMTestParameterListModel { DBTMTestParameterList = response?.DBTMTestParameterList };
+            DBTMTestParameterListViewModel listViewModel = new DBTMTestParameterListViewModel();
+            listViewModel.DBTMTestParameterList = dBTMTestParameterList?.DBTMTestParameterList?.ToViewModel<DBTMTestParameterViewModel>().ToList();
+            return listViewModel;
+        }
+
         #endregion
 
         #region protected

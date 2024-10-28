@@ -151,7 +151,6 @@ namespace Coditech.API.Data
         #region Gazette
         public DbSet<GazetteChapters> GazetteChapters { get; set; }
         public DbSet<GazetteChapterPageDetails> GazetteChapterPageDetails { get; set; }
-
         #endregion
 
         #region DBTM
@@ -160,7 +159,8 @@ namespace Coditech.API.Data
         public DbSet<DBTMActivityCategory> DBTMActivityCategory { get; set; }
         public DbSet<DBTMTestMaster> DBTMTestMaster { get; set; }
         public DbSet<DBTMDeviceRegistrationDetails> DBTMDeviceRegistrationDetails { get; set; }
-
+        public DbSet<DBTMTestParameter> DBTMTestParameter { get; set; }
+        public DbSet<DBTMParametersAssociatedToTest> DBTMParametersAssociatedToTest { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

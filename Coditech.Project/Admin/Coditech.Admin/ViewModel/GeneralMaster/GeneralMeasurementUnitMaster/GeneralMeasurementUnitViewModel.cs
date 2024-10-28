@@ -9,6 +9,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [MaxLength(50)]
         [Display(Name = "Unit Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string MeasurementUnitDisplayName { get; set; }
         [Display(Name = "Unit Short Code")]
         [Required]

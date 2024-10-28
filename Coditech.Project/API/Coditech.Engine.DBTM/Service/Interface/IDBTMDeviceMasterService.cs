@@ -12,5 +12,6 @@ namespace Coditech.API.Service
         DBTMDeviceModel GetDBTMDevice(long dBTMDeviceId);
         bool UpdateDBTMDevice(DBTMDeviceModel model);
         bool DeleteDBTMDevice(ParameterModel parameterModel);
+        bool IsValidDeviceSerialCode(string deviceSerialCode);
     }
 }

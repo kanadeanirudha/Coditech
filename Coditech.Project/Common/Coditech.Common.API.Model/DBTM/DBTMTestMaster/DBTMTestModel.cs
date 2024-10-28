@@ -15,5 +15,8 @@ namespace Coditech.Common.API.Model
         [MaxLength(50)]
         public string TestCode { get; set; }
         public bool IsActive { get; set; }
+        [Required]
+        public List<string> DBTMSelectedTestParameter { get; set; }
+       public string DBTMTestParameterId { get; set; }
     }
 }

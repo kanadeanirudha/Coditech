@@ -7,6 +7,7 @@ namespace Coditech.Admin.ViewModel
     {
         public short GeneralNationalityMasterId { get; set; }
         [Display(Name = "Nationality")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         [Required]
         public string Description { get; set; }
         [Display(Name = "Is Default")]
