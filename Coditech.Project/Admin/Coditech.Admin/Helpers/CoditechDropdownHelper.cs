@@ -225,6 +225,18 @@ namespace Coditech.Admin.Helpers
             {
                 GetDBTMDeviceRegistrationDetailsList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseDBTMTrainer.ToString()))
+            {
+                GetCentrewiseDBTMTrainerList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.TraineeDetailsListByDBTMTrainer.ToString()))
+            {
+                GetTraineeDetailByCentreCodeAndgeneralTrainerList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMTest.ToString()))
+            {
+                GetDBTMTestList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -1275,6 +1287,72 @@ namespace Coditech.Admin.Helpers
                     Text = string.Concat(item.DeviceName, " (", item.DeviceSerialCode, ")"),
                     Value = Convert.ToString(item.DBTMDeviceMasterId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMDeviceMasterId)
+                });
+            }
+        }
+
+        private static void GetCentrewiseDBTMTrainerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+
+            GeneralTrainerListModel list = new GeneralTrainerListModel();
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                string centreCode = SpiltCentreCode(dropdownViewModel.Parameter);
+                GeneralTrainerListResponse response = new DBTMTraineeAssignmentClient().GetTrainerByCentreCode(centreCode);
+                list = new GeneralTrainerListModel { GeneralTrainerList = response?.GeneralTrainerList };
+            }
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Trainer-------", Value = "" });
+            foreach (var item in list?.GeneralTrainerList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = $"{item.FirstName} {item.LastName}",
+                    Value = item.GeneralTrainerMasterId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTrainerMasterId)
+                });
+            }
+        }
+
+        private static void GetTraineeDetailByCentreCodeAndgeneralTrainerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+
+            DBTMTraineeDetailsListModel list = new DBTMTraineeDetailsListModel();
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                string centreCode = dropdownViewModel.Parameter.Split("~")[0];
+                long generalTrainerId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                DBTMTraineeDetailsListResponse response = new DBTMTraineeAssignmentClient().GetTraineeDetailByCentreCodeAndgeneralTrainerId(centreCode, generalTrainerId);
+                list = new DBTMTraineeDetailsListModel { DBTMTraineeDetailsList = response?.DBTMTraineeDetailsList };
+            }
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Trainee Details-------", Value = "" });
+            foreach (var item in list?.DBTMTraineeDetailsList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = $"{item.FirstName} {item.LastName}",
+                    Value = item.DBTMTraineeDetailId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTraineeDetailId)
+                });
+            }
+        }
+
+        private static void GetDBTMTestList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            DBTMTestListResponse response = new DBTMTestClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Test-------" });
+
+            DBTMTestListModel list = new DBTMTestListModel { DBTMTestList = response.DBTMTestList };
+            foreach (var item in list.DBTMTestList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.DBTMTestMasterId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.TestName, " (", item.TestCode, ")"),
+                    Value = Convert.ToString(item.DBTMTestMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTestMasterId)
                 });
             }
         }

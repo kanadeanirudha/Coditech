@@ -255,6 +255,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IDBTMActivityCategoryService, DBTMActivityCategoryService>();
             builder.Services.AddScoped<IDBTMTestMasterService, DBTMTestMasterService>();
             builder.Services.AddScoped<IDBTMDeviceRegistrationDetailsService, DBTMDeviceRegistrationDetailsService>();
+            builder.Services.AddScoped<IDBTMTraineeAssignmentService, DBTMTraineeAssignmentService>();
         }
         #endregion
     }
