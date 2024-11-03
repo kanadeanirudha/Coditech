@@ -1,6 +1,8 @@
 ﻿using Coditech.Admin.Agents;
+using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -12,13 +14,15 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IGymWorkoutPlanAgent _gymWorkoutPlanAgent;
         private readonly IGymWorkoutPlanAgent _gymWorkoutPlanDetailsAgent;
+        private readonly IGymWorkoutPlanAgent _gymWorkoutPlanSetAgent;
 
         private const string createEditGymWorkoutPlan = "~/Views/Gym/GymWorkoutPlan/GymWorkoutPlan.cshtml";
 
-        public GymWorkoutPlanController(IGymWorkoutPlanAgent gymWorkoutPlanAgent, IGymWorkoutPlanAgent gymWorkoutPlanDetailsAgent)
+        public GymWorkoutPlanController(IGymWorkoutPlanAgent gymWorkoutPlanAgent, IGymWorkoutPlanAgent gymWorkoutPlanDetailsAgent, IGymWorkoutPlanAgent gymWorkoutPlanSetAgent)
         {
             _gymWorkoutPlanAgent = gymWorkoutPlanAgent;
             _gymWorkoutPlanDetailsAgent = gymWorkoutPlanDetailsAgent;
+            _gymWorkoutPlanSetAgent = gymWorkoutPlanSetAgent;
         }
 
         #region GymWorkoutPlan
@@ -82,7 +86,7 @@ namespace Coditech.Admin.Controllers
             }
             return View(createEditGymWorkoutPlan, gymWorkoutPlanViewModel);
         }
-     
+
         [HttpGet]
         public virtual ActionResult GymWorkoutPlan(long gymWorkoutPlanId)
         {
@@ -111,6 +115,42 @@ namespace Coditech.Admin.Controllers
             GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel = _gymWorkoutPlanDetailsAgent.GetWorkoutPlanDetails(gymWorkoutPlanId);
             return View("~/Views/Gym/GymWorkoutPlan/WorkoutPlanDetails.cshtml", gymWorkoutPlanDetailsViewModel);
         }
+
+        # region Add Workout Plan Details
+        [HttpGet]
+        public virtual ActionResult AddWorkoutPlanDetails( long gymWorkoutPlanId, short numberOfWeeks, byte numberOfDaysPerWeek)
+        {
+             
+            GymWorkoutPlanSetViewModel gymWorkoutPlanSetViewModel = new GymWorkoutPlanSetViewModel()
+                {                  
+                    GymWorkoutPlanDetailsModel = new GymWorkoutPlanDetailsModel
+                    {
+                        GymWorkoutPlanId = gymWorkoutPlanId,
+                        WorkoutWeek = numberOfWeeks,
+                        WorkoutDay = numberOfDaysPerWeek
+                    }
+            };                   
+            return PartialView("~/Views/Gym/GymWorkoutPlan/_WorkoutPlanDetailsPopUp.cshtml", gymWorkoutPlanSetViewModel);
+        }
+        
+        [HttpPost]
+        public virtual ActionResult AddWorkoutPlanDetails(GymWorkoutPlanSetViewModel gymWorkoutPlanSetViewModel)
+        {
+            if (ModelState.IsValid)
+            {                
+
+                gymWorkoutPlanSetViewModel = _gymWorkoutPlanSetAgent.AddWorkoutPlanDetails(gymWorkoutPlanSetViewModel);
+                if (!gymWorkoutPlanSetViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("GetWorkoutPlanDetails", new { gymWorkoutPlanId = gymWorkoutPlanSetViewModel.GymWorkoutPlanDetailsModel.GymWorkoutPlanId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(gymWorkoutPlanSetViewModel.ErrorMessage));
+            return PartialView("~/Views/Gym/GymWorkoutPlan/_WorkoutPlanDetailsPopUp.cshtml", gymWorkoutPlanSetViewModel);           
+        }
+
+
         #endregion
 
         public virtual ActionResult Delete(string gymWorkoutPlanIds, string selectedCentreCode)
@@ -138,5 +178,6 @@ namespace Coditech.Admin.Controllers
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = selectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
+        #endregion
     }
 }

@@ -23,6 +23,7 @@ namespace Coditech.API.Mapper
             CreateMap<UserMaster, GymUserModel>().ReverseMap();
             CreateMap<GymWorkoutPlanModel, GymWorkoutPlan>().ReverseMap();
             CreateMap<GymWorkoutPlanDetailsModel, GymWorkoutPlanDetails>().ReverseMap();
+            CreateMap<GymWorkoutPlanSetModel, GymWorkoutPlanSet>().ReverseMap();
         }
     }
 }

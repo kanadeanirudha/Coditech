@@ -10,6 +10,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
 
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 using static Coditech.Common.Helper.HelperUtility;
@@ -22,15 +23,17 @@ namespace Coditech.Admin.Agents
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IGymWorkoutPlanClient _gymWorkoutPlanClient;
         private readonly IGymWorkoutPlanClient _gymWorkoutPlanDetailsClient;
+        private readonly IGymWorkoutPlanClient _gymWorkoutPlanSetClient;
         private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
-        public GymWorkoutPlanAgent(ICoditechLogging coditechLogging, IGymWorkoutPlanClient gymWorkoutPlanClient, IGymWorkoutPlanClient gymWorkoutPlanDetailsClient, IUserClient userClient)
+        public GymWorkoutPlanAgent(ICoditechLogging coditechLogging, IGymWorkoutPlanClient gymWorkoutPlanClient, IGymWorkoutPlanClient gymWorkoutPlanDetailsClient, IGymWorkoutPlanClient gymWorkoutPlanSetClient,IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
             _gymWorkoutPlanClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
             _gymWorkoutPlanDetailsClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
+            _gymWorkoutPlanSetClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
 
             _userClient = GetClient<IUserClient>(userClient);
         }
@@ -124,6 +127,43 @@ namespace Coditech.Admin.Agents
             GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel = response?.GymWorkoutPlanDetailsModel.ToViewModel<GymWorkoutPlanDetailsViewModel>();
             return gymWorkoutPlanDetailsViewModel;
         }
+
+        //Create Gym Workout Plan Details.
+        public virtual GymWorkoutPlanSetViewModel AddWorkoutPlanDetails(GymWorkoutPlanSetViewModel gymWorkoutPlanSetViewModel)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(gymWorkoutPlanSetViewModel.GymWorkoutPlanData))
+                {
+                    List<GymWorkoutPlanSetModel> gymWorkoutPlanSetList = JsonConvert.DeserializeObject<List<GymWorkoutPlanSetModel>>(gymWorkoutPlanSetViewModel.GymWorkoutPlanData);
+                    gymWorkoutPlanSetViewModel.GymWorkoutPlanSetList = gymWorkoutPlanSetList;
+                }
+
+                GymWorkoutPlanSetResponse response = _gymWorkoutPlanSetClient.AddWorkoutPlanDetails(gymWorkoutPlanSetViewModel.ToModel<GymWorkoutPlanSetModel>());
+                GymWorkoutPlanSetModel gymWorkoutPlanSetModel = response?.GymWorkoutPlanSetModel;
+                gymWorkoutPlanSetViewModel = IsNotNull(gymWorkoutPlanSetModel) ? gymWorkoutPlanSetModel.ToViewModel<GymWorkoutPlanSetViewModel>() : new GymWorkoutPlanSetViewModel();
+     
+                return gymWorkoutPlanSetViewModel;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (GymWorkoutPlanSetViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanSetViewModel, ex.ErrorMessage);
+                    default:
+                        return (GymWorkoutPlanSetViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanSetViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                return (GymWorkoutPlanSetViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanSetViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+       
         #endregion
 
         //Delete  Gym Workout Plan .

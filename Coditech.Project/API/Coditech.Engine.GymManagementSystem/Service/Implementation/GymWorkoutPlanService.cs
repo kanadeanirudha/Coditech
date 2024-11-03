@@ -18,6 +18,7 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GymWorkoutPlan> _gymWorkoutPlanRepository;
+        private readonly ICoditechRepository<GymWorkoutPlanSet> _gymWorkoutPlanSetRepository;
         private readonly ICoditechRepository<GymWorkoutPlanDetails> _gymWorkoutPlanDetailsRepository;
 
         public GymWorkoutPlanService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
@@ -26,6 +27,7 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _gymWorkoutPlanRepository = new CoditechRepository<GymWorkoutPlan>(_serviceProvider.GetService<Coditech_Entities>());
             _gymWorkoutPlanDetailsRepository = new CoditechRepository<GymWorkoutPlanDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _gymWorkoutPlanSetRepository = new CoditechRepository<GymWorkoutPlanSet>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GymWorkoutPlanListModel GetGymWorkoutPlanList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -124,10 +126,42 @@ namespace Coditech.API.Service
             GymWorkoutPlan gymWorkoutPlan = _gymWorkoutPlanRepository.Table.FirstOrDefault(x => x.GymWorkoutPlanId == gymWorkoutPlanId);
             GymWorkoutPlanDetailsModel gymWorkoutPlanDetailsModel = new GymWorkoutPlanDetailsModel() ;
 
+            if (IsNotNull(gymWorkoutPlan))
+            {
+                gymWorkoutPlanDetailsModel.WorkoutName = gymWorkoutPlan.WorkoutPlanName;
+       
+            }
             gymWorkoutPlanDetailsModel.GymWorkoutPlanModel = gymWorkoutPlan?.FromEntityToModel<GymWorkoutPlanModel>();
-            return gymWorkoutPlanDetailsModel;
+            return gymWorkoutPlanDetailsModel; 
         }
 
+
+        //Create Workout Plan Details for set.
+        public virtual GymWorkoutPlanSetModel AddWorkoutPlanDetails(GymWorkoutPlanSetModel gymWorkoutPlanSetModel)
+        {
+            if (IsNull(gymWorkoutPlanSetModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            //if (IsWorkoutPlanAlreadyExist(gymWorkoutPlanSetModel.WorkoutPlanName))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Workout Plan"));
+
+            GymWorkoutPlanSet gymWorkoutPlanSet = gymWorkoutPlanSetModel.FromModelToEntity<GymWorkoutPlanSet>();
+
+            //Create new Workout plan and return it.
+            GymWorkoutPlanSet gymWorkoutPlanSetData = _gymWorkoutPlanSetRepository.Insert(gymWorkoutPlanSet);
+            if (gymWorkoutPlanSetData?.GymWorkoutPlanDetailId > 0)
+            {
+                gymWorkoutPlanSetModel.GymWorkoutPlanDetailId = gymWorkoutPlanSetData.GymWorkoutPlanDetailId;
+                InsertUpdateGymWorkoutPlan(gymWorkoutPlanSetModel);
+            }
+            else
+            {
+                gymWorkoutPlanSetModel.HasError = true;
+                gymWorkoutPlanSetModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return gymWorkoutPlanSetModel;
+        }
+      
 
         //Delete Gym Workout Plan
         public virtual bool DeleteGymWorkoutPlan(ParameterModel parameterModel)
@@ -151,7 +185,36 @@ namespace Coditech.API.Service
 
         => _gymWorkoutPlanRepository.Table.Any(x => x.WorkoutPlanName == workoutPlanName && (x.GymWorkoutPlanId != gymWorkoutPlanId || gymWorkoutPlanId == 0));
 
+
+       
+        protected virtual void InsertUpdateGymWorkoutPlan(GymWorkoutPlanSetModel gymWorkoutPlanSetModel)
+        {
+            if (gymWorkoutPlanSetModel?.GymWorkoutPlanDetailsList?.Count > 0)
+            {
+                List<GymWorkoutPlanSet> workoutPlanInsertList = new List<GymWorkoutPlanSet>();
+                List<GymWorkoutPlanSet> workoutPlanUpdateList = new List<GymWorkoutPlanSet>();
+
+                foreach (GymWorkoutPlanDetailsModel item in gymWorkoutPlanSetModel.GymWorkoutPlanDetailsList)
+                {
+                    GymWorkoutPlanSet workoutPlanSet = item.FromModelToEntity<GymWorkoutPlanSet>();
+                    workoutPlanSet.GymWorkoutPlanDetailId = gymWorkoutPlanSetModel.GymWorkoutPlanDetailId;
+
+                    if (item.GymWorkoutPlanDetailId > 0)
+                        workoutPlanUpdateList.Add(workoutPlanSet);
+                    else
+                        workoutPlanInsertList.Add(workoutPlanSet);
+                }
+
+                if (workoutPlanInsertList.Count > 0)
+                    _gymWorkoutPlanSetRepository.Insert(workoutPlanInsertList);
+
+                if (workoutPlanUpdateList.Count > 0)
+                    _gymWorkoutPlanSetRepository.BatchUpdate(workoutPlanUpdateList);
+            }
+        }
+
         #endregion
+
 
     }
 }

@@ -72,6 +72,7 @@ namespace Coditech.API.Controllers
             }
         }
 
+
         [Route("/GymWorkoutPlan/GetGymWorkoutPlan")]
         [HttpGet]
         [Produces(typeof(GymWorkoutPlanResponse))]
@@ -138,6 +139,32 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new GymWorkoutPlanDetailsResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        
+
+        //Create
+        [Route("/GymWorkoutPlan/AddWorkoutPlanDetails")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(GymWorkoutPlanSetResponse))]
+        public virtual IActionResult AddWorkoutPlanDetails([FromBody] GymWorkoutPlanSetModel model)
+        {
+            try
+            {
+                GymWorkoutPlanSetModel gymWorkoutPlanSet = _gymWorkoutPlanService.AddWorkoutPlanDetails(model);
+                return IsNotNull(gymWorkoutPlanSet) ? CreateCreatedResponse(new GymWorkoutPlanSetResponse { GymWorkoutPlanSetModel = gymWorkoutPlanSet }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GymWorkoutPlanSetResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymWorkoutPlanSetResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
 
         [Route("/GymWorkoutPlan/DeleteGymWorkoutPlan")]
         [HttpPost, ValidateModel]

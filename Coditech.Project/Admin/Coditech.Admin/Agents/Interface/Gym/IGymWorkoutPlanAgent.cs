@@ -48,6 +48,21 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns GymWorkoutPlanDetailsResponse.</returns>
         GymWorkoutPlanDetailsViewModel GetWorkoutPlanDetails(long gymWorkoutPlanId);
 
+        /// <summary>
+        /// Create WorkoutPlanDetails.
+        /// </summary>
+        /// <param name="gymWorkoutPlanSetViewModel">General AddWorkoutPlanDetails View Model.</param>
+        /// <returns>Returns created model.</returns>
+        GymWorkoutPlanSetViewModel AddWorkoutPlanDetails(GymWorkoutPlanSetViewModel gymWorkoutPlanSetViewModel);
+
+        ///// <summary>
+        ///// Get MGymWorkoutPlanSetViewModel by GymWorkoutPlanDetailId and GymWorkoutPlanId.
+        ///// </summary>
+        ///// <param name="gymWorkoutPlanDetailId">The ID of the gym Workout Plan Detail.</param>
+        ///// <param name="gymWorkoutPlanId">The ID of the gym Workout Plan.</param>
+        ///// <returns>Returns GymWorkoutPlanSetViewModel.</returns>
+        //GymWorkoutPlanSetViewModel GetWorkoutPlanDetailsPopup(long gymWorkoutPlanId);
+
         ///// <summary>
         ///// Delete GymWorkoutPlanDetails.
         ///// </summary>

@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.API.Client.Endpoint;
+using Coditech.API.Data;
 using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Endpoint
@@ -25,6 +26,13 @@ namespace Coditech.API.Endpoint
 
         public string GetWorkoutPlanDetailsAsync(long gymWorkoutPlanId) =>
             $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymWorkoutPlan/GetWorkoutPlanDetails?gymWorkoutPlanId={gymWorkoutPlanId}";
-       
+
+        public string AddWorkoutPlanDetailsAsync() =>
+            $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymWorkoutPlan/AddWorkoutPlanDetails";
+
+
+        //public string GetWorkoutPlanDetailsPopupAsync(long gymWorkoutPlanId) =>
+        //    $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymWorkoutPlan/GetWorkoutPlanDetailsPopup?gymWorkoutPlanId={gymWorkoutPlanId}";
+
     }
 }
