@@ -183,7 +183,7 @@ namespace Coditech.Engine.DBTM.Controllers
         }
 
         [Route("/DBTMTraineeAssignment/GetDBTMTraineeAssignment")]
-        [HttpGet]
+        [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
         public virtual IActionResult SendAssignmentReminder([FromBody] string dBTMTraineeAssignmentId)
         {

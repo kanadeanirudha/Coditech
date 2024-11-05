@@ -111,7 +111,8 @@
             DBTMTest,
             DBTMDeviceRegistrationDetails,
             DBTMTestParameter,
-            DBTMTraineeAssignment
+            DBTMTraineeAssignment,
+            DBTMNewRegistration
         }
     }
 }
