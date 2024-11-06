@@ -143,9 +143,10 @@
     public enum DashboardFormEnum
     {
         GymOwnerDashboard,
-        GymOperatorDashboard
+        GymOperatorDashboard,
+        DBTMCentreDashboard,
+        DBTMTraineeDashboard
     }
-
     public enum ErrorMessageTypeEnum
     {
         Application
