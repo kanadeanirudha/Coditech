@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -35,15 +36,15 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters.Add("Trainer", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("Activity", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("Status", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("TestName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("TestStatus", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
+          
+            filters.Add(FilterKeys.GeneralTrainerMasterId, ProcedureFilterOperators.Equals, dataTableModel.SelectedParameter1);
 
-            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedParameter1);
-            filters.Add(FilterKeys.GeneralTrainerMasterId, ProcedureFilterOperators.Equals, Convert.ToString(dataTableModel.SelectedParameter2));
-
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "Trainer" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             DBTMTraineeAssignmentListResponse response = _dBTMTraineeAssignmentClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             DBTMTraineeAssignmentListModel deviceList = new DBTMTraineeAssignmentListModel { DBTMTraineeAssignmentList = response?.DBTMTraineeAssignmentList };
@@ -141,7 +142,7 @@ namespace Coditech.Admin.Agents
         //Send Reminder Assignment.
         public virtual bool SendAssignmentReminder(string dBTMTraineeAssignmentId, out string errorMessage)
         {
-            errorMessage = GeneralResources.ErrorFailedToDelete;
+            errorMessage = "ErrorFailedToSendReminder";
 
             try
             {
@@ -164,26 +165,26 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Trainer",
-                ColumnCode = "GeneralTrainerMasterId",
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Activity",
-                ColumnCode = "DBTMTestMasterId",
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Activity Time",
-                ColumnCode = "AssignmentTime",
+                ColumnName = "Test Name",
+                ColumnCode = "TestName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Status",
-                ColumnCode = "DBTMTestStatus",
+                ColumnName = "Test Status",
+                ColumnCode = "TestStatus",
                 IsSortable = true,
             });
             return datatableColumnList;

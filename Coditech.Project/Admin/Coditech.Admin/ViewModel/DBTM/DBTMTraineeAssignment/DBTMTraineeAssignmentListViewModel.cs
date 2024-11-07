@@ -9,7 +9,7 @@ namespace Coditech.Admin.ViewModel
         {
             DBTMTraineeAssignmentList = new List<DBTMTraineeAssignmentViewModel>();
         }
-        public string SelectedCentreCode { get; set; } = string.Empty;
+        public string SelectedCentreCode { get; set; }
         public long GeneralTrainerMasterId { get; set; }
     }
 }

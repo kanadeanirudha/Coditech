@@ -37,21 +37,21 @@
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.SelectedCentreCode, new { @class = "form-label required"})
+                                        @Html.LabelFor(x => x.SelectedCentreCode, new { @class = "form-label" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
                                         @Html.ValidationMessageFor(x => x.SelectedCentreCode)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.GeneralTrainerMasterId, new { @class = "form-label required"})
+                                        @Html.LabelFor(x => x.GeneralTrainerMasterId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", trainerDropdown)
                                         @Html.ValidationMessageFor(x => x.GeneralTrainerMasterId)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.DBTMTraineeDetailId, new { @class = "form-label required"})
+                                        @Html.LabelFor(x => x.DBTMTraineeDetailId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
                                    DropdownType = DropdownTypeEnum.TraineeDetailsListByDBTMTrainer.ToString(),
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.DBTMTestMasterId, new { @class = "form-label required"})
+                                        @Html.LabelFor(x => x.TestName, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
                                    DropdownType = DropdownTypeEnum.DBTMTest.ToString(),
@@ -78,21 +78,21 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.AssignmentDate, new { @class = "form-label required"})
+                                        @Html.LabelFor(x => x.AssignmentDate, new { @class = "form-label required" })
                                         @Html.TextBoxFor(x => x.AssignmentDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.AssignmentDate)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.AssignmentTime, new { @class = "form-label"})
-                                        @Html.TextBoxFor(x => x.AssignmentTime, new { @class = "form-control", type = "time"})
+                                        @Html.LabelFor(x => x.AssignmentTime, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.AssignmentTime, new { @class = "form-control", type = "time" })
                                         @Html.ValidationMessageFor(x => x.AssignmentTime)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.DBTMTestStatus, new { @class = "form-label required"})
+                                        @Html.LabelFor(x => x.TestStatus, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
                                    DropdownSelectedValue = Model.DBTMTestStatusEnumId.ToString(),
@@ -119,7 +119,7 @@
         $(function () {
             var today = new Date();
             var oneYearFromNow = new Date();
-            oneYearFromNow.setFullYear(today.getFullYear() + 1); 
+            oneYearFromNow.setFullYear(today.getFullYear() + 1);
 
             $("#AssignmentDate").datepicker({
                 changeMonth: true,
@@ -136,8 +136,8 @@
                         document.getElementById(this.id).value = '';
                     }
                 },
-                minDate: today,        
-                maxDate: oneYearFromNow 
+                minDate: today,
+                maxDate: oneYearFromNow
             });
         });
     </script>
@@ -165,38 +165,6 @@
 
 
 
-
-
-@* <script src="~/js/layout/daterangepicker.js"></script>
-
-@section scripts {
-    <script type="text/javascript">
-        $(function () {
-            var today = new Date();
-            var twoYearsAgo = new Date();
-            twoYearsAgo.setFullYear(today.getFullYear() - 2);
-
-            $("#RegistrationDate").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
-                language: "en",
-                autoSize: true,
-                gotoCurrent: true,
-                clearBtn: true,
-                showButtonPanel: true,
-                closeText: 'Clear',
-                onClose: function (dateText, inst) {
-                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
-                        document.getElementById(this.id).value = '';
-                    }
-                },
-                minDate: twoYearsAgo, // Set minimum date to two years ago
-                maxDate: today,       // Set maximum date to today
-            });
-        });
-    </script>
-} *@
 
 
 

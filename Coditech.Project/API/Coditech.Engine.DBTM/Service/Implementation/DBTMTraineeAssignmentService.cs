@@ -4,6 +4,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 using System.Collections.Specialized;
 using System.Data;
@@ -11,7 +12,7 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class DBTMTraineeAssignmentService : IDBTMTraineeAssignmentService
+    public class DBTMTraineeAssignmentService : BaseService, IDBTMTraineeAssignmentService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
@@ -22,7 +23,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<DBTMTraineeDetails> _dBTMTraineeDetailsRepository;
         private readonly ICoditechRepository<GeneralTraineeAssociatedToTrainer> _generalTraineeAssociatedToTrainerRepository;
 
-        public DBTMTraineeAssignmentService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        public DBTMTraineeAssignmentService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -36,26 +37,35 @@ namespace Coditech.API.Service
 
         public virtual DBTMTraineeAssignmentListModel GetDBTMTraineeAssignmentList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            int generalTrainerMasterId = 0;
-            int.TryParse(filters?.Find(x => string.Equals(x.FilterName, FilterKeys.GeneralTrainerMasterId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue, out generalTrainerMasterId);
+            //long personId = 1;
+            //long.TryParse(filters?.Find(x => string.Equals(x.FilterName, FilterKeys.PersonId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue, out personId);
 
-            string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
-
-            filters.RemoveAll(x => x.FilterName == FilterKeys.GeneralTrainerMasterId || x.FilterName == FilterKeys.SelectedCentreCode);
+            string generalTrainerMasterId = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.GeneralTrainerMasterId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
+            filters.RemoveAll(x => x.FilterName == FilterKeys.GeneralTrainerMasterId);
 
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<DBTMTraineeAssignmentModel> objStoredProc = new CoditechViewRepository<DBTMTraineeAssignmentModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@GeneralTrainerMasterId", generalTrainerMasterId, ParameterDirection.Input, DbType.Int16);
+            objStoredProc.SetParameter("@GeneralTrainerMasterId", generalTrainerMasterId, ParameterDirection.Input, DbType.Int64);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<DBTMTraineeAssignmentModel> dBTMTraineeAssignmentList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetDBTMTraineeAssignmentList @CentreCode,@DepartmentId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<DBTMTraineeAssignmentModel> dBTMTraineeAssignmentList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetDBTMTraineeAssignmentList @GeneralTrainerMasterId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             DBTMTraineeAssignmentListModel listModel = new DBTMTraineeAssignmentListModel();
 
+            //if (personId > 0)
+            //{
+            //    GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            //    if (IsNotNull(listModel))
+            //    {
+            //        listModel.FirstName = generalPersonModel.FirstName;
+            //        listModel.LastName = generalPersonModel.LastName;
+            //    }
+            //}
+            
+            //listModel.PersonId = personId;
             listModel.DBTMTraineeAssignmentList = dBTMTraineeAssignmentList?.Count > 0 ? dBTMTraineeAssignmentList : new List<DBTMTraineeAssignmentModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
@@ -147,7 +157,7 @@ namespace Coditech.API.Service
                                        on b.PersonId equals c.PersonId
 
                                        where (b.CentreCode == centreCode || centreCode == null)
-                                       
+
                                        select new GeneralTrainerModel()
                                        {
                                            GeneralTrainerMasterId = a.GeneralTrainerMasterId,

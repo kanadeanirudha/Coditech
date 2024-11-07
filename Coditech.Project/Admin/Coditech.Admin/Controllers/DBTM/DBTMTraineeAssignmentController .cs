@@ -18,19 +18,20 @@ namespace Coditech.Admin.Controllers
             _dBTMTraineeAssignmentAgent = dBTMTraineeAssignmentAgent;
         }
 
-        public virtual ActionResult List(DataTableViewModel dataTableViewModel)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             DBTMTraineeAssignmentListViewModel list = new DBTMTraineeAssignmentListViewModel();
-            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
-            {
-                list = _dBTMTraineeAssignmentAgent.GetDBTMTraineeAssignmentList(dataTableViewModel);
-            }
-            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
 
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter1))
+            {
+                list = _dBTMTraineeAssignmentAgent.GetDBTMTraineeAssignmentList(dataTableModel);
+            }
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/DBTM/DBTMTraineeAssignment/_List.cshtml", list);
             }
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+
             return View($"~/Views/DBTM/DBTMTraineeAssignment/List.cshtml", list);
         }
 
@@ -95,6 +96,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
         }
 
+        [HttpPut]
         public virtual ActionResult SendAssignmentReminder(string dBTMTraineeAssignmentId, string selectedCentreCode)
         {
             string message = string.Empty;
@@ -134,7 +136,7 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", traineeDetailsDropdown);
         }
 
-        public virtual ActionResult Cancel(string SelectedCentreCode,string GeneralTrainerMasterId)
+        public virtual ActionResult Cancel(string SelectedCentreCode, string GeneralTrainerMasterId)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedParameter1 = SelectedCentreCode, SelectedParameter2 = GeneralTrainerMasterId };
             return RedirectToAction("List", dataTableViewModel);

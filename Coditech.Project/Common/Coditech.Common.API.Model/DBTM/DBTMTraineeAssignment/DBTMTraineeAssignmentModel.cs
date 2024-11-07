@@ -16,5 +16,9 @@ namespace Coditech.Common.API.Model
         public TimeSpan? AssignmentTime { get; set; }
         [Required]
         public int DBTMTestStatusEnumId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string TestName { get; set; }
+        public string TestStatus { get; set; }
     }
 }

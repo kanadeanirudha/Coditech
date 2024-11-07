@@ -17,7 +17,6 @@ namespace Coditech.Admin.ViewModel
         public long DBTMTraineeDetailId { get; set; }
 
         [Required]
-        [Display(Name = "DBTM Test")]
         public int DBTMTestMasterId { get; set; }
 
         [Required]
@@ -30,11 +29,18 @@ namespace Coditech.Admin.ViewModel
         [Required]
         public int DBTMTestStatusEnumId { get; set; }
 
-        [Display(Name = "DBTM Test Status")]
-        public string DBTMTestStatus { get; set; }
+        [Display(Name = "Test Status")]
+        public string TestStatus { get; set; }
 
         [Required]
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string SelectedCentreCode { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+       
+        [Display(Name = "Test Name")]
+        public string TestName { get; set; }
+
     }
 }

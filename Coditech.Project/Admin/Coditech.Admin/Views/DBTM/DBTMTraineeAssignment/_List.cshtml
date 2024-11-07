@@ -18,10 +18,10 @@
                     foreach (var item in Model?.DBTMTraineeAssignmentList)
                     {
                         <tr>
-                            <td>@item.GeneralTrainerMasterId</td>
-                            <td>@item.DBTMTestMasterId</td>
-                            <td>@item.AssignmentTime</td>
-                            <td>@item.DBTMTestStatus</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.TestName</td> 
+                            <td>@item.TestStatus</td>
                             <td class="text-center">
                                 <a href="../@controllerName/Edit?dBTMTraineeAssignmentId=@item.DBTMTraineeAssignmentId" title="Update" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
                                 <a href="../@controllerName/SendAssignmentReminder?dBTMTraineeAssignmentId=@item.DBTMTraineeAssignmentId" title="SetReminder" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-exclamation-triangle"></i></a>
