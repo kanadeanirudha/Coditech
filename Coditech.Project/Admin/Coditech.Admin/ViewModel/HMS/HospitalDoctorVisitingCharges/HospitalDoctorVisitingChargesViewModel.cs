@@ -40,6 +40,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(500)]
         [Display(Name = "Remark")]
         public string Remark { get; set; }
+        [Display(Name = "Is Tax Exclusive")]
         public Boolean IsTaxExclusive { get; set; }
         public string ImagePath { get; set; }
         public string FirstName { get; set; }

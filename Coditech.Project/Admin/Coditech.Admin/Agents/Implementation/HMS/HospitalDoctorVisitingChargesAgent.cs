@@ -214,6 +214,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "From Date",
                 ColumnCode = "FromDate",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
