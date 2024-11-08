@@ -25,6 +25,8 @@ namespace Coditech.Common.API.Model
         public string MobileNumber { get; set; }
         public string ImagePath { get; set; }
         public int MedicalSpecilizationEnumId { get; set; }
+        public int CentreCode { get; set; }
         public string SelectedCentreCode { get; set; }
+       
     }
 }

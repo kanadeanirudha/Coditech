@@ -211,4 +211,8 @@
         BulkSMS,
         Visit
     }
+    public enum HospitalApprovalStatusEnum
+    {
+        HospitalPending
+    }
 }
