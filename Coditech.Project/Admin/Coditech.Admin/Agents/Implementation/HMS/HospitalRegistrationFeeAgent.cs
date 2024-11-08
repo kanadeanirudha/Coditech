@@ -141,7 +141,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Registration Service",
-                ColumnCode = "RegistrationService",
+                ColumnCode = "ItemName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
