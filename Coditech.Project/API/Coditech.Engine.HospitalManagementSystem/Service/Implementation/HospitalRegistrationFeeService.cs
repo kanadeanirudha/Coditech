@@ -57,6 +57,7 @@ namespace Coditech.API.Service
             if (hospitalRegistrationFeeData?.HospitalRegistrationFeeId > 0)
             {
                 hospitalRegistrationFeeModel.HospitalRegistrationFeeId = hospitalRegistrationFeeData.HospitalRegistrationFeeId;
+                hospitalRegistrationFeeModel.SelectedCentreCode = hospitalRegistrationFeeModel.CentreCode;
             }
             else
             {
@@ -82,8 +83,8 @@ namespace Coditech.API.Service
                 {
                     hospitalRegistrationFeeModel.FirstName = generalPersonModel.FirstName;
                     hospitalRegistrationFeeModel.LastName = generalPersonModel.LastName;
-                    
-                    
+
+
                 }
             }
 
