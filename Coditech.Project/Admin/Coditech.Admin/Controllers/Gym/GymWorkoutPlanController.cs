@@ -112,45 +112,41 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult GetWorkoutPlanDetails(long gymWorkoutPlanId)
         {
-            GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel = _gymWorkoutPlanDetailsAgent.GetWorkoutPlanDetails(gymWorkoutPlanId);
-            return View("~/Views/Gym/GymWorkoutPlan/WorkoutPlanDetails.cshtml", gymWorkoutPlanDetailsViewModel);
+            GymWorkoutPlanViewModel gymWorkoutPlanViewModel = _gymWorkoutPlanAgent.GetWorkoutPlanDetails(gymWorkoutPlanId);
+            return View("~/Views/Gym/GymWorkoutPlan/WorkoutPlanDetails.cshtml", gymWorkoutPlanViewModel);
         }
 
         # region Add Workout Plan Details
         [HttpGet]
-        public virtual ActionResult AddWorkoutPlanDetails( long gymWorkoutPlanId, short numberOfWeeks, byte numberOfDaysPerWeek)
+        public virtual ActionResult AddWorkoutPlanDetails(long gymWorkoutPlanId, short numberOfWeeks, byte numberOfDaysPerWeek)
         {
-             
-            GymWorkoutPlanSetViewModel gymWorkoutPlanSetViewModel = new GymWorkoutPlanSetViewModel()
-                {                  
-                    GymWorkoutPlanDetailsModel = new GymWorkoutPlanDetailsModel
-                    {
-                        GymWorkoutPlanId = gymWorkoutPlanId,
-                        WorkoutWeek = numberOfWeeks,
-                        WorkoutDay = numberOfDaysPerWeek
-                    }
-            };                   
-            return PartialView("~/Views/Gym/GymWorkoutPlan/_WorkoutPlanDetailsPopUp.cshtml", gymWorkoutPlanSetViewModel);
+
+            GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel = new GymWorkoutPlanDetailsViewModel()
+            {
+                GymWorkoutPlanId = gymWorkoutPlanId,
+                WorkoutWeek = numberOfWeeks,
+                WorkoutDay = numberOfDaysPerWeek
+
+            };
+            return PartialView("~/Views/Gym/GymWorkoutPlan/_WorkoutPlanDetailsPopUp.cshtml", gymWorkoutPlanDetailsViewModel);
         }
-        
+
         [HttpPost]
-        public virtual ActionResult AddWorkoutPlanDetails(GymWorkoutPlanSetViewModel gymWorkoutPlanSetViewModel)
+        public virtual ActionResult AddWorkoutPlanDetails(GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel)
         {
             if (ModelState.IsValid)
-            {                
+            {
 
-                gymWorkoutPlanSetViewModel = _gymWorkoutPlanSetAgent.AddWorkoutPlanDetails(gymWorkoutPlanSetViewModel);
-                if (!gymWorkoutPlanSetViewModel.HasError)
+                gymWorkoutPlanDetailsViewModel = _gymWorkoutPlanSetAgent.AddWorkoutPlanDetails(gymWorkoutPlanDetailsViewModel);
+                if (!gymWorkoutPlanDetailsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("GetWorkoutPlanDetails", new { gymWorkoutPlanId = gymWorkoutPlanSetViewModel.GymWorkoutPlanDetailsModel.GymWorkoutPlanId });
                 }
             }
-            SetNotificationMessage(GetErrorNotificationMessage(gymWorkoutPlanSetViewModel.ErrorMessage));
-            return PartialView("~/Views/Gym/GymWorkoutPlan/_WorkoutPlanDetailsPopUp.cshtml", gymWorkoutPlanSetViewModel);           
+            SetNotificationMessage(GetErrorNotificationMessage(gymWorkoutPlanDetailsViewModel.ErrorMessage));
+            return RedirectToAction("GetWorkoutPlanDetails", new { gymWorkoutPlanId = gymWorkoutPlanDetailsViewModel.GymWorkoutPlanId });
         }
-
-
+       
         #endregion
 
         public virtual ActionResult Delete(string gymWorkoutPlanIds, string selectedCentreCode)

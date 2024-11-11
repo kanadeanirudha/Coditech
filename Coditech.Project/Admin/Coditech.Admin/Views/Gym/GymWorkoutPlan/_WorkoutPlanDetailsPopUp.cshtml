@@ -1,8 +1,9 @@
 ﻿@using Coditech.Admin.Utilities;
-@model GymWorkoutPlanSetViewModel
+@model GymWorkoutPlanDetailsViewModel
 @{
     Layout = null;
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
 
 <div class="modal-header">
@@ -16,78 +17,94 @@
 @using (Html.BeginForm("AddWorkoutPlanDetails", controllerName, FormMethod.Post, new { id = "frmWorkoutPlanDetails" }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.GymWorkoutPlanId)
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.WorkoutWeek)
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.WorkoutDay)
+    @Html.HiddenFor(x => x.GymWorkoutPlanId)
+    @Html.HiddenFor(x => x.WorkoutWeek)
+    @Html.HiddenFor(x => x.WorkoutDay)
     @Html.HiddenFor(x => x.GymWorkoutPlanData)
-    @* @Html.Hidden("GymWorkoutPlanData", "", new { id = "GymWorkoutPlanData" }) *@
 
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="mb-3">
-                    @Html.LabelFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName, new { @class = "form-label required" })
-                    @Html.TextBoxFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName, new { @class = "form-control", placeholder = "Workout Name" })
-                    @Html.ValidationMessageFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName)
-                            </div>
-
-                            <div class="table-responsive">
-                                    <table class="table table-bordered table-sm" id="makeEditable">
-                                    <thead>
-                                        <tr>
-                                            <th>Weight </th>
-                                            <th>Repetitions</th>
-                                            <th>Duration </th>
-                                            <th> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="setsContainer">
-                                    <tr class="set-fields">
-                                       <td>
-                                            @Html.TextBoxFor(x => x.Weight, new { @class = "form-control", id = "Weight_", placeholder = "Weight in kgs" })
-                                            @Html.ValidationMessageFor(x => x.Weight)
-                                        </td>
-                                        <td>
-                                             @Html.TextBoxFor(x => x.Repetitions, new { @class = "form-control", id = "Repetitions_", placeholder = "No. of Repetitions" })
-                                             @Html.ValidationMessageFor(x => x.Repetitions)
-                                        </td>
-                                        <td>
-                                             @Html.TextBoxFor(x => x.Duration, new { @class = "form-control", id = "Duration_", placeholder = "Duration in sec" })
-                                             @Html.ValidationMessageFor(x => x.Duration)
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-soft-danger deleteSetButton" style="display:none;">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                  </tr>
-                                  </tbody>
-                                  </table>
-                              </div>
-
-                            <div class="col-lg-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-soft-secondary btn-sm" id="addSetButton">Add Set</button>
-                            </div>
-                        </div>
-                    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.WorkoutName, new { @class = "form-label required" })
+                    @Html.TextBoxFor(x => x.WorkoutName, new { @class = "form-control", placeholder = "Workout Name" })
+                    @Html.ValidationMessageFor(x => x.WorkoutName)
                 </div>
 
-                <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" onclick="GymWorkoutPlan.SaveData()">Add</button>
-                    <button type="button" class="btn btn-soft-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="makeEditable">
+                        <thead>
+                            <tr>
+                                <th>Weight </th>
+                                <th>Repetitions</th>
+                                <th>Duration </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="setsContainer">
+
+                            <tr class="set-fields">
+
+                                <td>
+                                    <input type="text" class="form-control" id="Weight_" placeholder="Weight in kgs" required  onkeypress="return CoditechCommon.ValidDecimalNumeric()">
+                                    @* @Html.ValidationMessageFor(x => x.GymWorkoutPlanSetList[0].Weight) *@
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="Repetitions_" placeholder="No. of Repetitions" required onkeypress="return CoditechCommon.ValidNumeric()">
+                                    @*  @Html.ValidationMessageFor(x => x.GymWorkoutPlanSetList[0].Repetitions) *@
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="Duration_" placeholder="Duration in sec" required onkeypress="return CoditechCommon.ValidNumeric()">
+                                    @* @Html.ValidationMessageFor(x => x.GymWorkoutPlanSetList[0].Duration) *@
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-soft-danger deleteSetButton" style="display:none;">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
                 </div>
+
+                <div class="col-lg-12 d-flex justify-content-end">
+                    <button type="button" class="btn btn-secondary" id="addSetButton">Add Set</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success" onclick="GymWorkoutPlan.SaveData()">@AdminResources.LabelSave</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    </div>
 }
 
 @Html.Partial("_ValidationScriptsPartial")
+@section scripts {
+    <!-- end page content -->
+    <script src="~/js/coditech/gym/GymWorkoutPlan.js"></script>
+}
+
 
 <script type="text/javascript">
     $(document).ready(function () {
         $('.set-fields:first .deleteSetButton').hide();
 
         $('#addSetButton').click(function () {
+            var newSetIndex = $('#setsContainer tr').length;
+
             var newSet = $('.set-fields:first').clone();
             newSet.find('input').val('');
+
+
+            newSet.find('input[type="hidden"]').each(function (i) {
+                $(this).attr('id', 'GymWorkoutSet_' + newSetIndex);
+                $(this).attr('name', 'GymWorkoutPlanSetList[' + newSetIndex + '].GymWorkoutSetId');
+            });
+
+
             newSet.find('.deleteSetButton').show();
             $('#setsContainer').append(newSet);
         });
@@ -97,217 +114,5 @@
         });
     });
 </script>
-<script src="/js/coditech/gym/GymWorkoutPlan.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* @using Coditech.Admin.Utilities;
-@model GymWorkoutPlanSetViewModel
-@{
-    Layout = null;
-    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-}
-
-<div class="modal-header">
-    @{
-        string actionLabel = Model.GymWorkoutPlanDetailId > 0 ? "Update" : "Add";
-    }
-    <h6 class="modal-title m-0" id="exampleModalDefaultLabel">@actionLabel Workout</h6>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-
-@using (Html.BeginForm("AddWorkoutPlanDetails", controllerName, FormMethod.Post, new { id = "frmWorkoutPlanDetails" }))
-{
-    @Html.AntiForgeryToken()
-    ;
- @*    @Html.HiddenFor(x => x.GymWorkoutPlanDetailId) *@
-@* @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.GymWorkoutPlanId)
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.WorkoutWeek)
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.WorkoutDay)
-
-
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="mb-3">
-                    @Html.LabelFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName, new { @class = "form-label required" })
-                    @Html.TextBoxFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName, new { @class = "form-control", placeholder = "Workout Name" })
-                    @Html.ValidationMessageFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName)
-                </div>
-                <div id="setsContainer">
-                    <div class="set-fields">
-                        <div class="row mb-3">
-                            <div class="col-lg-3">
-                                @Html.LabelFor(x => x.Weight, new { @class = "form-label required" })
-                                @Html.TextBoxFor(x => x.Weight, new { @class = "form-control", placeholder = "Weight in kgs" })
-                                @Html.ValidationMessageFor(x => x.Weight)
-                            </div>
-                            <div class="col-lg-3">
-                                @Html.LabelFor(x => x.Repetitions, new { @class = "form-label required" })
-                                @Html.TextBoxFor(x => x.Repetitions, new { @class = "form-control", placeholder = "No. of repetitions" })
-                                @Html.ValidationMessageFor(x => x.Repetitions)
-                            </div>
-                            <div class="col-lg-3">
-                                @Html.LabelFor(x => x.Duration, new { @class = "form-label required" })
-                                @Html.TextBoxFor(x => x.Duration, new { @class = "form-control", placeholder = "Duration in sec" })
-                                @Html.ValidationMessageFor(x => x.Duration)
-                            </div>
-                            <div class="col-lg-3">
-                                <button type="button" class="btn btn-sm btn-soft-danger btn-circle deleteSetButton" style="display:none;">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-12 d-flex justify-content-end">
-                    <button type="button" class="btn btn-soft-secondary btn-sm" id="addSetButton">Add Set</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-success" data-test-selector="linkSave">ADD</button>
-        <button type="button" class="btn btn-soft-secondary btn-sm" data-bs-dismiss="modal">CANCEL</button>
-    </div>
-}
-
-@Html.Partial("_ValidationScriptsPartial")
-
-<script type="text/javascript">
-    $(document).ready(function () {       
-        $('.set-fields:first .deleteSetButton').hide();
-
-        $('#addSetButton').click(function () {
-            var newSet = $('.set-fields:first').clone();
-            newSet.find('input').val('');  
-            newSet.find('.deleteSetButton').show(); 
-            $('#setsContainer').append(newSet);
-        });
-
-        $(document).on('click', '.deleteSetButton', function () {
-            $(this).closest('.set-fields').remove();  
-        });
-
-        $('#frmWorkoutPlanDetails').on('submit', function (e) {
-            console.log($(this).serialize()); 
-        });
-    });
-</script>
- *@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* @using Coditech.Admin.Utilities;
-@model GymWorkoutPlanSetViewModel
-@{
-    Layout = null;
-    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-}
-<!-- Page Content-->
-<div class="modal-header">
-    @{
-        string actionLabel = Model.GymWorkoutPlanDetailId > 0 ? "Update" : "Add";
-    }
-    <h6 class="modal-title m-0" id="AddGymWorkoutPlanDetailsModelPopupId",id="exampleModalDefaultLabel">@actionLabel Workout</h6>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-@using (Html.BeginForm("AddWorkoutPlanDetails", controllerName, FormMethod.Post, new { id = "frmWorkoutPlanDetails" }))
-{
-    @Html.AntiForgeryToken()
-    ;
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailId)
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.GymWorkoutPlanId)
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.WorkoutWeek)
-    @Html.HiddenFor(x => x.GymWorkoutPlanDetailsModel.WorkoutDay)
-
-
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="mb-3">
-                    @Html.LabelFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName, new { @class = "form-label required" })
-                    @Html.TextBoxFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.GymWorkoutPlanDetailsModel.WorkoutName)
-                </div>
-                <div class="mb-3">
-                    @Html.LabelFor(x => x.Weight, new { @class = "form-label required" })
-                    @Html.TextBoxFor(x => x.Weight, new { @class = "form-control", placeholder = "Weight in kgs" })
-                    @Html.ValidationMessageFor(x => x.Weight)
-                </div>
-                <div class="mb-3">
-                    @Html.LabelFor(x => x.Repetitions, new { @class = "form-label required" })
-                    @Html.TextBoxFor(x => x.Repetitions, new { @class = "form-control", placeholder = "No.of repetitions" })
-                    @Html.ValidationMessageFor(x => x.Repetitions)
-                </div>
-                <div class="mb-3">
-                    @Html.LabelFor(x => x.Duration, new { @class = "form-label required" })
-                    @Html.TextBoxFor(x => x.Duration, new { @class = "form-control", placeholder = "Duration in sec" })
-                    @Html.ValidationMessageFor(x => x.Duration)
-                </div>
-
-            </div>
-
-        </div><!-- end row -->
-    </div>
-    @* <button type="submit" class="btn btn-success" data-test-selector="linkSave">ADD SET</button> *@
-<!-- end modal-body -->
-@*  <div class="modal-footer">
-
-        <button type="submit" class="btn btn-success" data-test-selector="linkSave">ADD</button>
-        <button type="button" class="btn btn-soft-secondary btn-sm" data-bs-dismiss="modal">CANCEL</button>
-    </div>
-}
-@Html.Partial("_ValidationScriptsPartial") *@
-
 
 

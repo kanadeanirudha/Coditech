@@ -6,9 +6,11 @@ namespace Coditech.Common.API.Model
     {
         public long GymWorkoutSetId { get; set; }
         public long GymWorkoutPlanDetailId { get; set; }
+        [Required(ErrorMessage = "Please enter weight.")]
         public decimal Weight { get; set; }
+        [Required(ErrorMessage = "Please enter the number of repetitions.")]
         public short Repetitions { get; set; }
+        [Required(ErrorMessage = "Please enter duration in seconds.")]
         public short Duration { get; set; }
-        public string GymWorkoutPlanData { get; set; }
     }
 }

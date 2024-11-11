@@ -6,7 +6,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
-using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections.Specialized;
 using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
@@ -118,50 +117,74 @@ namespace Coditech.API.Service
             return isUpdated;
         }
 
-        public virtual GymWorkoutPlanDetailsModel GetWorkoutPlanDetails(long gymWorkoutPlanId)
+        public virtual GymWorkoutPlanModel GetWorkoutPlanDetails(long gymWorkoutPlanId)
         {
             if (gymWorkoutPlanId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymWorkoutPlanId"));
 
             GymWorkoutPlan gymWorkoutPlan = _gymWorkoutPlanRepository.Table.FirstOrDefault(x => x.GymWorkoutPlanId == gymWorkoutPlanId);
-            GymWorkoutPlanDetailsModel gymWorkoutPlanDetailsModel = new GymWorkoutPlanDetailsModel() ;
-
-            if (IsNotNull(gymWorkoutPlan))
+            GymWorkoutPlanModel gymWorkoutPlanmodel = new GymWorkoutPlanModel();
+            gymWorkoutPlanmodel = gymWorkoutPlan?.FromEntityToModel<GymWorkoutPlanModel>();
+            List<GymWorkoutPlanDetails> gymWorkoutPlanDetailsList = _gymWorkoutPlanDetailsRepository.Table.Where(x => x.GymWorkoutPlanId == gymWorkoutPlanId)?.ToList();
+            if (gymWorkoutPlanDetailsList?.Count > 0)
             {
-                gymWorkoutPlanDetailsModel.WorkoutName = gymWorkoutPlan.WorkoutPlanName;
-       
+                List<long> gymWorkoutPlanDetailIds = gymWorkoutPlanDetailsList.Select(y => y.GymWorkoutPlanDetailId).ToList();
+                List<GymWorkoutPlanSet> gymWorkoutPlanSetlist = _gymWorkoutPlanSetRepository.Table.Where(x => gymWorkoutPlanDetailIds.Contains(x.GymWorkoutPlanDetailId))?.ToList();
+                gymWorkoutPlanmodel.GymWorkoutPlanDetailList = new List<GymWorkoutPlanDetailsModel>();
+                foreach (GymWorkoutPlanDetails item in gymWorkoutPlanDetailsList)
+                {
+                    GymWorkoutPlanDetailsModel gymWorkoutPlanDetailsModel = new GymWorkoutPlanDetailsModel()
+                    {
+                        GymWorkoutPlanDetailId = item.GymWorkoutPlanDetailId,
+                        GymWorkoutPlanId = item.GymWorkoutPlanId,
+                        WorkoutName = item.WorkoutName,
+                        WorkoutWeek = item.WorkoutWeek,
+                        WorkoutDay = item.WorkoutDay,
+                    };
+                    gymWorkoutPlanDetailsModel.GymWorkoutPlanSetList = new List<GymWorkoutPlanSetModel>();
+                    foreach (GymWorkoutPlanSet item2 in gymWorkoutPlanSetlist.Where(x => x.GymWorkoutPlanDetailId == item.GymWorkoutPlanDetailId))
+                    {
+                        gymWorkoutPlanDetailsModel.GymWorkoutPlanSetList.Add(new GymWorkoutPlanSetModel()
+                        {
+                            GymWorkoutSetId = item2.GymWorkoutSetId,
+                            GymWorkoutPlanDetailId = item2.GymWorkoutPlanDetailId,
+                            Weight = item2.Weight,
+                            Repetitions = item2.Repetitions,
+                            Duration = item2.Duration
+                        });
+                    }
+                    gymWorkoutPlanmodel.GymWorkoutPlanDetailList.Add(gymWorkoutPlanDetailsModel);
+                }
             }
-            gymWorkoutPlanDetailsModel.GymWorkoutPlanModel = gymWorkoutPlan?.FromEntityToModel<GymWorkoutPlanModel>();
-            return gymWorkoutPlanDetailsModel; 
+            return gymWorkoutPlanmodel;
         }
 
-
         //Create Workout Plan Details for set.
-        public virtual GymWorkoutPlanSetModel AddWorkoutPlanDetails(GymWorkoutPlanSetModel gymWorkoutPlanSetModel)
+        public virtual GymWorkoutPlanDetailsModel AddWorkoutPlanDetails(GymWorkoutPlanDetailsModel gymWorkoutPlanDetailsModel)
         {
-            if (IsNull(gymWorkoutPlanSetModel))
+            if (IsNull(gymWorkoutPlanDetailsModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             //if (IsWorkoutPlanAlreadyExist(gymWorkoutPlanSetModel.WorkoutPlanName))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Workout Plan"));
 
-            GymWorkoutPlanSet gymWorkoutPlanSet = gymWorkoutPlanSetModel.FromModelToEntity<GymWorkoutPlanSet>();
+            GymWorkoutPlanDetails gymWorkoutPlanDetails = gymWorkoutPlanDetailsModel.FromModelToEntity<GymWorkoutPlanDetails>();
 
             //Create new Workout plan and return it.
-            GymWorkoutPlanSet gymWorkoutPlanSetData = _gymWorkoutPlanSetRepository.Insert(gymWorkoutPlanSet);
-            if (gymWorkoutPlanSetData?.GymWorkoutPlanDetailId > 0)
+            GymWorkoutPlanDetails gymWorkoutPlanDetailsData = _gymWorkoutPlanDetailsRepository.Insert(gymWorkoutPlanDetails);
+            if (gymWorkoutPlanDetailsData?.GymWorkoutPlanDetailId > 0)
             {
-                gymWorkoutPlanSetModel.GymWorkoutPlanDetailId = gymWorkoutPlanSetData.GymWorkoutPlanDetailId;
-                InsertUpdateGymWorkoutPlan(gymWorkoutPlanSetModel);
+                gymWorkoutPlanDetailsModel.GymWorkoutPlanDetailId = gymWorkoutPlanDetailsData.GymWorkoutPlanDetailId;
+                InsertGymWorkoutPlanSet(gymWorkoutPlanDetailsModel);
             }
             else
             {
-                gymWorkoutPlanSetModel.HasError = true;
-                gymWorkoutPlanSetModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                gymWorkoutPlanDetailsModel.HasError = true;
+                gymWorkoutPlanDetailsModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
-            return gymWorkoutPlanSetModel;
+            return gymWorkoutPlanDetailsModel;
         }
-      
+
 
         //Delete Gym Workout Plan
         public virtual bool DeleteGymWorkoutPlan(ParameterModel parameterModel)
@@ -179,42 +202,32 @@ namespace Coditech.API.Service
         }
 
         #region Protected Method
-
         //Check if Workout Plan is already present or not.
         protected virtual bool IsWorkoutPlanAlreadyExist(string workoutPlanName, long gymWorkoutPlanId = 0)
 
         => _gymWorkoutPlanRepository.Table.Any(x => x.WorkoutPlanName == workoutPlanName && (x.GymWorkoutPlanId != gymWorkoutPlanId || gymWorkoutPlanId == 0));
 
-
-       
-        protected virtual void InsertUpdateGymWorkoutPlan(GymWorkoutPlanSetModel gymWorkoutPlanSetModel)
+        protected virtual void InsertGymWorkoutPlanSet(GymWorkoutPlanDetailsModel gymWorkoutPlanDetailsModel)
         {
-            if (gymWorkoutPlanSetModel?.GymWorkoutPlanDetailsList?.Count > 0)
+            if (gymWorkoutPlanDetailsModel?.GymWorkoutPlanSetList?.Count > 0)
             {
                 List<GymWorkoutPlanSet> workoutPlanInsertList = new List<GymWorkoutPlanSet>();
-                List<GymWorkoutPlanSet> workoutPlanUpdateList = new List<GymWorkoutPlanSet>();
 
-                foreach (GymWorkoutPlanDetailsModel item in gymWorkoutPlanSetModel.GymWorkoutPlanDetailsList)
+                foreach (GymWorkoutPlanSetModel item in gymWorkoutPlanDetailsModel.GymWorkoutPlanSetList)
                 {
-                    GymWorkoutPlanSet workoutPlanSet = item.FromModelToEntity<GymWorkoutPlanSet>();
-                    workoutPlanSet.GymWorkoutPlanDetailId = gymWorkoutPlanSetModel.GymWorkoutPlanDetailId;
-
-                    if (item.GymWorkoutPlanDetailId > 0)
-                        workoutPlanUpdateList.Add(workoutPlanSet);
-                    else
-                        workoutPlanInsertList.Add(workoutPlanSet);
+                    workoutPlanInsertList.Add(new GymWorkoutPlanSet()
+                    {
+                        GymWorkoutPlanDetailId = gymWorkoutPlanDetailsModel.GymWorkoutPlanDetailId,
+                        Weight = item.Weight,
+                        Repetitions = item.Repetitions,
+                        Duration = item.Duration
+                    });
                 }
 
                 if (workoutPlanInsertList.Count > 0)
                     _gymWorkoutPlanSetRepository.Insert(workoutPlanInsertList);
-
-                if (workoutPlanUpdateList.Count > 0)
-                    _gymWorkoutPlanSetRepository.BatchUpdate(workoutPlanUpdateList);
             }
         }
-
         #endregion
-
-
     }
 }

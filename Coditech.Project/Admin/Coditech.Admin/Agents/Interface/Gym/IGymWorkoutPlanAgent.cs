@@ -42,26 +42,19 @@ namespace Coditech.Admin.Agents
         #region GymWorkoutPlanDetails
 
         /// <summary>
-        /// Get WorkoutPlanDetails by GymWorkoutPlanId 
+        /// Get WorkoutPlan by GymWorkoutPlanId 
         /// </summary>
         /// <param name="gymWorkoutPlanId">The ID of the gym Workout Plan Id.</param>
-        /// <returns>Returns GymWorkoutPlanDetailsResponse.</returns>
-        GymWorkoutPlanDetailsViewModel GetWorkoutPlanDetails(long gymWorkoutPlanId);
+        /// <returns>Returns GymWorkoutPlanResponse.</returns>
+        GymWorkoutPlanViewModel GetWorkoutPlanDetails(long gymWorkoutPlanId);
 
         /// <summary>
         /// Create WorkoutPlanDetails.
         /// </summary>
-        /// <param name="gymWorkoutPlanSetViewModel">General AddWorkoutPlanDetails View Model.</param>
+        /// <param name="gymWorkoutPlanDetailsViewModel">General AddWorkoutPlanDetails View Model.</param>
         /// <returns>Returns created model.</returns>
-        GymWorkoutPlanSetViewModel AddWorkoutPlanDetails(GymWorkoutPlanSetViewModel gymWorkoutPlanSetViewModel);
+        GymWorkoutPlanDetailsViewModel AddWorkoutPlanDetails(GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel);
 
-        ///// <summary>
-        ///// Get MGymWorkoutPlanSetViewModel by GymWorkoutPlanDetailId and GymWorkoutPlanId.
-        ///// </summary>
-        ///// <param name="gymWorkoutPlanDetailId">The ID of the gym Workout Plan Detail.</param>
-        ///// <param name="gymWorkoutPlanId">The ID of the gym Workout Plan.</param>
-        ///// <returns>Returns GymWorkoutPlanSetViewModel.</returns>
-        //GymWorkoutPlanSetViewModel GetWorkoutPlanDetailsPopup(long gymWorkoutPlanId);
 
         ///// <summary>
         ///// Delete GymWorkoutPlanDetails.

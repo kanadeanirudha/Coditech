@@ -8,6 +8,8 @@ namespace Coditech.Admin.ViewModel
 {
     public class GymWorkoutPlanViewModel : BaseViewModel
     {
+        public List<GymWorkoutPlanDetailsModel> GymWorkoutPlanDetailList { get; set; }
+        public List<GymWorkoutPlanSetModel> GymWorkoutPlanSetList { get; set; }
         public long GymWorkoutPlanId { get; set; }
 
         [Required]

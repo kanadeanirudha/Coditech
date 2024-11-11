@@ -121,29 +121,29 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Gym Workout Plan Details
-        public virtual GymWorkoutPlanDetailsViewModel GetWorkoutPlanDetails(long gymWorkoutPlanId)
+        public virtual GymWorkoutPlanViewModel GetWorkoutPlanDetails(long gymWorkoutPlanId)
         {
-            GymWorkoutPlanDetailsResponse response = _gymWorkoutPlanDetailsClient.GetWorkoutPlanDetails(gymWorkoutPlanId);
-            GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel = response?.GymWorkoutPlanDetailsModel.ToViewModel<GymWorkoutPlanDetailsViewModel>();
-            return gymWorkoutPlanDetailsViewModel;
+            GymWorkoutPlanResponse response = _gymWorkoutPlanClient.GetWorkoutPlanDetails(gymWorkoutPlanId);
+            GymWorkoutPlanViewModel gymWorkoutPlanViewModel = response?.GymWorkoutPlanModel.ToViewModel<GymWorkoutPlanViewModel>();
+            return gymWorkoutPlanViewModel;
         }
 
         //Create Gym Workout Plan Details.
-        public virtual GymWorkoutPlanSetViewModel AddWorkoutPlanDetails(GymWorkoutPlanSetViewModel gymWorkoutPlanSetViewModel)
+        public virtual GymWorkoutPlanDetailsViewModel AddWorkoutPlanDetails(GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel)
         {
             try
             {
-                if (!string.IsNullOrEmpty(gymWorkoutPlanSetViewModel.GymWorkoutPlanData))
+                if (!string.IsNullOrEmpty(gymWorkoutPlanDetailsViewModel.GymWorkoutPlanData))
                 {
-                    List<GymWorkoutPlanSetModel> gymWorkoutPlanSetList = JsonConvert.DeserializeObject<List<GymWorkoutPlanSetModel>>(gymWorkoutPlanSetViewModel.GymWorkoutPlanData);
-                    gymWorkoutPlanSetViewModel.GymWorkoutPlanSetList = gymWorkoutPlanSetList;
+                    List<GymWorkoutPlanSetModel> gymWorkoutPlanSetList = JsonConvert.DeserializeObject<List<GymWorkoutPlanSetModel>>(gymWorkoutPlanDetailsViewModel.GymWorkoutPlanData);
+                    gymWorkoutPlanDetailsViewModel.GymWorkoutPlanSetList = gymWorkoutPlanSetList;
                 }
 
-                GymWorkoutPlanSetResponse response = _gymWorkoutPlanSetClient.AddWorkoutPlanDetails(gymWorkoutPlanSetViewModel.ToModel<GymWorkoutPlanSetModel>());
-                GymWorkoutPlanSetModel gymWorkoutPlanSetModel = response?.GymWorkoutPlanSetModel;
-                gymWorkoutPlanSetViewModel = IsNotNull(gymWorkoutPlanSetModel) ? gymWorkoutPlanSetModel.ToViewModel<GymWorkoutPlanSetViewModel>() : new GymWorkoutPlanSetViewModel();
-     
-                return gymWorkoutPlanSetViewModel;
+                GymWorkoutPlanDetailsResponse response = _gymWorkoutPlanDetailsClient.AddWorkoutPlanDetails(gymWorkoutPlanDetailsViewModel.ToModel<GymWorkoutPlanDetailsModel>());
+                GymWorkoutPlanDetailsModel gymWorkoutPlanDetailsModel = response?.GymWorkoutPlanDetailsModel;
+                return IsNotNull(gymWorkoutPlanDetailsModel) ? gymWorkoutPlanDetailsModel.ToViewModel<GymWorkoutPlanDetailsViewModel>() : new GymWorkoutPlanDetailsViewModel();
+               
+
             }
             catch (CoditechException ex)
             {
@@ -151,15 +151,15 @@ namespace Coditech.Admin.Agents
                 switch (ex.ErrorCode)
                 {
                     case ErrorCodes.AlreadyExist:
-                        return (GymWorkoutPlanSetViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanSetViewModel, ex.ErrorMessage);
+                        return (GymWorkoutPlanDetailsViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanDetailsViewModel, ex.ErrorMessage);
                     default:
-                        return (GymWorkoutPlanSetViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanSetViewModel, GeneralResources.ErrorFailedToCreate);
+                        return (GymWorkoutPlanDetailsViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanDetailsViewModel, GeneralResources.ErrorFailedToCreate);
                 }
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
-                return (GymWorkoutPlanSetViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanSetViewModel, GeneralResources.ErrorFailedToCreate);
+                return (GymWorkoutPlanDetailsViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanDetailsViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
 

@@ -2,6 +2,7 @@
 {
     public class GymWorkoutPlanModel : BaseModel
     {
+        public List<GymWorkoutPlanDetailsModel> GymWorkoutPlanDetailList { get; set; }
         public long GymWorkoutPlanId { get; set; }
         public string CentreCode { get; set; }
         public string WorkoutPlanName { get; set; } 

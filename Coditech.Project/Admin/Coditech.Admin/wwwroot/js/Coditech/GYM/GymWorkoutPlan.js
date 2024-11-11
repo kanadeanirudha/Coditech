@@ -41,11 +41,9 @@
         $('#makeEditable tbody tr.set-fields').each(function () {
             var row = $(this);
             var rowData = {
-                GymWorkoutSetId: parseInt(row.find('input[id^="GymWorkoutSetId_"]').val()),
-                GymWorkoutPlanDetailId: parseInt(row.find('input[id^="GymWorkoutPlanDetailId_"]').val()),
-                Weight: parseFloat(row.find('input[id^="Weight_"]').val()) || null,  
-                Repetitions: parseInt(row.find('input[id^="Repetitions_"]').val()) || null,  
-                Duration: parseInt(row.find('input[id^="Duration_"]').val()) || null 
+                Weight: parseFloat(row.find('input[id^="Weight_"]').val()),  
+                Repetitions: parseInt(row.find('input[id^="Repetitions_"]').val()),  
+                Duration: parseInt(row.find('input[id^="Duration_"]').val())  
             };
             data.push(rowData);
         });

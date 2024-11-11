@@ -223,12 +223,12 @@ namespace Coditech.API.Client
         }
 
         #region WorkoutPlanDetails
-        public virtual GymWorkoutPlanDetailsResponse GetWorkoutPlanDetails(long gymWorkoutPlanId)
+        public virtual GymWorkoutPlanResponse GetWorkoutPlanDetails(long gymWorkoutPlanId)
         {
             return Task.Run(async () => await GetWorkoutPlanDetailsAsync(gymWorkoutPlanId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymWorkoutPlanDetailsResponse> GetWorkoutPlanDetailsAsync(long gymWorkoutPlanId, CancellationToken cancellationToken)
+        public virtual async Task<GymWorkoutPlanResponse> GetWorkoutPlanDetailsAsync(long gymWorkoutPlanId, CancellationToken cancellationToken)
         {
             if (gymWorkoutPlanId <= 0)
                 throw new System.ArgumentNullException("gymWorkoutPlanId");
@@ -245,7 +245,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<GymWorkoutPlanDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<GymWorkoutPlanResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -255,7 +255,7 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 204)
                 {
-                    return new GymWorkoutPlanDetailsResponse();
+                    return new GymWorkoutPlanResponse();
                 }
                 else
                 {
@@ -273,12 +273,12 @@ namespace Coditech.API.Client
         }
 
         //Create Workout Plan Details
-        public virtual GymWorkoutPlanSetResponse AddWorkoutPlanDetails(GymWorkoutPlanSetModel body)
+        public virtual GymWorkoutPlanDetailsResponse AddWorkoutPlanDetails(GymWorkoutPlanDetailsModel body)
         {
             return Task.Run(async () => await AddWorkoutPlanDetailsAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymWorkoutPlanSetResponse> AddWorkoutPlanDetailsAsync(GymWorkoutPlanSetModel body, CancellationToken cancellationToken)
+        public virtual async Task<GymWorkoutPlanDetailsResponse> AddWorkoutPlanDetailsAsync(GymWorkoutPlanDetailsModel body, CancellationToken cancellationToken)
         {
             string endpoint = gymWorkoutPlanEndpoint.AddWorkoutPlanDetailsAsync();
             HttpResponseMessage response = null;
@@ -293,7 +293,7 @@ namespace Coditech.API.Client
                 {
                     case HttpStatusCode.OK:
                         {
-                            ObjectResponseResult<GymWorkoutPlanSetResponse> objectResponseResult2 = await ReadObjectResponseAsync<GymWorkoutPlanSetResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<GymWorkoutPlanDetailsResponse> objectResponseResult2 = await ReadObjectResponseAsync<GymWorkoutPlanDetailsResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                             if (objectResponseResult2.Object == null)
                             {
                                 throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
@@ -303,7 +303,7 @@ namespace Coditech.API.Client
                         }
                     case HttpStatusCode.Created:
                         {
-                            ObjectResponseResult<GymWorkoutPlanSetResponse> objectResponseResult = await ReadObjectResponseAsync<GymWorkoutPlanSetResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<GymWorkoutPlanDetailsResponse> objectResponseResult = await ReadObjectResponseAsync<GymWorkoutPlanDetailsResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                             if (objectResponseResult.Object == null)
                             {
                                 throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
@@ -314,7 +314,7 @@ namespace Coditech.API.Client
                     default:
                         {
                             string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
-                            GymWorkoutPlanSetResponse result = JsonConvert.DeserializeObject<GymWorkoutPlanSetResponse>(value);
+                            GymWorkoutPlanDetailsResponse result = JsonConvert.DeserializeObject<GymWorkoutPlanDetailsResponse>(value);
                             UpdateApiStatus(result, status, response);
                             throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                         }

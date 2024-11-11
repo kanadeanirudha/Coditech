@@ -43,26 +43,19 @@ namespace Coditech.API.Client
         TrueFalseResponse DeleteGymWorkoutPlan(ParameterModel body);
 
         /// <summary>
-        /// Get WorkoutPlanDetails by gymWorkoutPlanId.
+        /// Get WorkoutPlan by gymWorkoutPlanId.
         /// </summary>
         /// <param name="gymWorkoutPlanId">gymWorkoutPlanId</param>
-        /// <returns>Returns WorkoutPlanDetailsResponse.</returns>
-        GymWorkoutPlanDetailsResponse GetWorkoutPlanDetails(long gymWorkoutPlanId);
+        /// <returns>Returns WorkoutPlanResponse.</returns>
+        GymWorkoutPlanResponse GetWorkoutPlanDetails(long gymWorkoutPlanId);
 
         /// <summary>
         /// Create WorkoutPlanDetails.
         /// </summary>
-        /// <param name="GymWorkoutPlanSetModel">GymWorkoutPlanSetModel.</param>
-        /// <returns>Returns GymWorkoutPlanSetResponse.</returns>
-        GymWorkoutPlanSetResponse AddWorkoutPlanDetails(GymWorkoutPlanSetModel body);
+        /// <param name="GymWorkoutPlanDetailsModel">GymWorkoutPlanDetailsModel.</param>
+        /// <returns>Returns GymWorkoutPlanDetailsResponse.</returns>
+        GymWorkoutPlanDetailsResponse AddWorkoutPlanDetails(GymWorkoutPlanDetailsModel body);
 
-        ////
-        ///// <summary>
-        ///// Retrieves a gym Workout Plan Detail by its ID and gym Workout Plan ID.
-        ///// </summary>
-        ///// <param name="gymWorkoutPlanDetailId">The ID of the gym Workout Plan Detail.</param>
-        ///// <param name="gymWorkoutPlanId">The ID of the gym Workout Plan.</param>
-        ///// <returns>Returns a response containing the gym Workout Plan Detail.</returns>
-        //GymWorkoutPlanSetResponse GetWorkoutPlanDetailsPopup(long gymWorkoutPlanId);
+        
     }
 }
