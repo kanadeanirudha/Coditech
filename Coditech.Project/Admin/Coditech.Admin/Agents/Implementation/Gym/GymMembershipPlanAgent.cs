@@ -162,8 +162,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Plan Type",
-                ColumnCode = "PlanTypeEnumId",
-                IsSortable = true,
+                ColumnCode = "PlanType",
             });
 
             datatableColumnList.Add(new DatatableColumns()
