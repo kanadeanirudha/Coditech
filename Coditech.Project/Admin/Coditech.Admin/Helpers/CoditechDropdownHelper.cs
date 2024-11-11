@@ -1046,8 +1046,8 @@ namespace Coditech.Admin.Helpers
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
-                int medicalSpecilizationEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
-                HospitalDoctorsListResponse response = new HospitalPatientAppointmentClient().GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecilizationEnumId);
+                int medicalSpecializationEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                HospitalDoctorsListResponse response = new HospitalPatientAppointmentClient().GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecializationEnumId);
                 HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
                 foreach (var item in list?.HospitalDoctorsList)
                 {

@@ -39,15 +39,15 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.MedicalSpecilizationEnumId, new { @class = "form-label required"})
+                                        @Html.LabelFor(x => x.MedicalSpecializationEnumId, new { @class = "form-label required"})
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
-                                   DropdownSelectedValue = Model.MedicalSpecilizationEnumId.ToString(),
-                                   DropdownName = "MedicalSpecilizationEnumId",
-                                   GroupCode = DropdownTypeEnum.MedicalSpecilization.ToString(),
+                                   DropdownSelectedValue = Model.MedicalSpecializationEnumId.ToString(),
+                                   DropdownName = "MedicalSpecializationEnumId",
+                                   GroupCode = DropdownTypeEnum.MedicalSpecialization.ToString(),
                                    ChangeEvent = "HospitalPatientAppointment.GetDoctorsAndPatientsListByCentreCodeAndSpecialization()"
                                })
-                                        @Html.ValidationMessageFor(x => x.MedicalSpecilizationEnumId)
+                                        @Html.ValidationMessageFor(x => x.MedicalSpecializationEnumId)
                                     </div>
                                 </div>
                                 @if (Model.HospitalPatientAppointmentId > 0)
@@ -65,7 +65,7 @@
                                    DropdownName = "HospitalDoctorId",
                                    DropdownSelectedValue = Model.HospitalDoctorId
                                     .ToString(),
-                                   Parameter = !string.IsNullOrEmpty(Model.SelectedCentreCode) ? $"{Model.SelectedCentreCode}~{Model.MedicalSpecilizationEnumId}" : "",
+                                   Parameter = !string.IsNullOrEmpty(Model.SelectedCentreCode) ? $"{Model.SelectedCentreCode}~{Model.MedicalSpecializationEnumId}" : "",
                                    ChangeEvent = "HospitalPatientAppointment.GetTimeSlotByDoctorsAndAppointmentDate()"
                                })
                                             @Html.ValidationMessageFor(x => x.HospitalDoctorId)

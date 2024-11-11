@@ -201,8 +201,8 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Medical Specilization",
-                ColumnCode = "MedicalSpecilization",
+                ColumnName = "Medical Specialization",
+                ColumnCode = "MedicalSpecialization",
             });
             return datatableColumnList;
         }

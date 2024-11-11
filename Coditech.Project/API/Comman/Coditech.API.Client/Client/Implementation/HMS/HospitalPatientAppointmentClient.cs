@@ -262,14 +262,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual HospitalDoctorsListResponse GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        public virtual HospitalDoctorsListResponse GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecializationEnumId)
         {
-            return Task.Run(async () => await GetDoctorsByCentreCodeAndSpecializationAsync(selectedCentreCode, medicalSpecilizationEnumId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetDoctorsByCentreCodeAndSpecializationAsync(selectedCentreCode, medicalSpecializationEnumId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<HospitalDoctorsListResponse> GetDoctorsByCentreCodeAndSpecializationAsync(string selectedCentreCode, int medicalSpecilizationEnumId, CancellationToken cancellationToken)
+        public virtual async Task<HospitalDoctorsListResponse> GetDoctorsByCentreCodeAndSpecializationAsync(string selectedCentreCode, int medicalSpecializationEnumId, CancellationToken cancellationToken)
         {
-            string endpoint = hospitalPatientAppointmentEndpoint.GetDoctorsByCentreCodeAndSpecializationAsync(selectedCentreCode, medicalSpecilizationEnumId);
+            string endpoint = hospitalPatientAppointmentEndpoint.GetDoctorsByCentreCodeAndSpecializationAsync(selectedCentreCode, medicalSpecializationEnumId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

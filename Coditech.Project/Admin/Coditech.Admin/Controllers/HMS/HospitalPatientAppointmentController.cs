@@ -92,15 +92,15 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<HospitalPatientAppointmentController>(x => x.List(null));
         }
 
-        public virtual ActionResult GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        public virtual ActionResult GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecializationEnumId)
         {
-            DropdownViewModel medicalSpecilizationDropdown = new DropdownViewModel()
+            DropdownViewModel medicalSpecializationDropdown = new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.HospitalDoctorsListBySpecialization.ToString(),
                 DropdownName = "HospitalDoctorId",
-                Parameter = $"{selectedCentreCode}~{medicalSpecilizationEnumId}",
+                Parameter = $"{selectedCentreCode}~{medicalSpecializationEnumId}",
             };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", medicalSpecilizationDropdown);
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", medicalSpecializationDropdown);
         }
 
 

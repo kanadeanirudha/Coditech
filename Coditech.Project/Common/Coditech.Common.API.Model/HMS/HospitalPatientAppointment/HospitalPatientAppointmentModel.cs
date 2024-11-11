@@ -25,7 +25,7 @@ namespace Coditech.Common.API.Model
         [MaxLength(15)]
         public string MobileNumber { get; set; }
         public string ImagePath { get; set; }
-        public int MedicalSpecilizationEnumId { get; set; }
+        public int MedicalSpecializationEnumId { get; set; }
         public int CentreCode { get; set; }
         public string SelectedCentreCode { get; set; }
        

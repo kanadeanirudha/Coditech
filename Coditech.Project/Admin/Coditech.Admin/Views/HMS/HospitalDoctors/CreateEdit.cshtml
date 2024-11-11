@@ -71,14 +71,14 @@
                                     }
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            @Html.LabelFor(x => x.MedicalSpecilizationEnumId, new { @class = "form-label required "})
+                                            @Html.LabelFor(x => x.MedicalSpecializationEnumId, new { @class = "form-label required "})
                                             @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                    {
-                                       DropdownSelectedValue = Model.MedicalSpecilizationEnumId.ToString(),
-                                       DropdownName = "MedicalSpecilizationEnumId",
-                                       GroupCode = DropdownTypeEnum.MedicalSpecilization.ToString()
+                                       DropdownSelectedValue = Model.MedicalSpecializationEnumId.ToString(),
+                                       DropdownName = "MedicalSpecializationEnumId",
+                                       GroupCode = DropdownTypeEnum.MedicalSpecialization.ToString()
                                    })
-                                            @Html.ValidationMessageFor(x => x.MedicalSpecilizationEnumId)
+                                            @Html.ValidationMessageFor(x => x.MedicalSpecializationEnumId)
                                         </div>
                                     </div>
                                 </div>

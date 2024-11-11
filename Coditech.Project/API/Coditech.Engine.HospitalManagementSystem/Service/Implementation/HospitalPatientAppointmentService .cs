@@ -135,7 +135,7 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
-        public virtual HospitalDoctorsListModel GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        public virtual HospitalDoctorsListModel GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecializationEnumId)
         {
 
             HospitalDoctorsListModel listModel = new HospitalDoctorsListModel();
@@ -145,7 +145,7 @@ namespace Coditech.API.Service
                                              on a.EmployeeId equals b.EmployeeId
                                              join c in _generalPersonRepository.Table
                                              on b.PersonId equals c.PersonId
-                                             where a.MedicalSpecilizationEnumId == medicalSpecilizationEnumId
+                                             where a.MedicalSpecializationEnumId == medicalSpecializationEnumId
                                              && b.CentreCode == selectedCentreCode
                                              && b.IsActive
                                              select new HospitalDoctorsModel
@@ -153,7 +153,7 @@ namespace Coditech.API.Service
                                                  HospitalDoctorId = a.HospitalDoctorId,
                                                  FirstName = c.FirstName,
                                                  LastName = c.LastName,
-                                                 MedicalSpecilizationEnumId = a.MedicalSpecilizationEnumId,
+                                                 MedicalSpecializationEnumId = a.MedicalSpecializationEnumId,
                                              })?.ToList();
             return listModel;
         }
