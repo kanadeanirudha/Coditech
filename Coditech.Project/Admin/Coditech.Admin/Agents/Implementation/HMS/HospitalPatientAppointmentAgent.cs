@@ -193,6 +193,8 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Is Attended",
                 ColumnCode = "IsAttended",
+                IsSortable = true,
+
             });
             return datatableColumnList;
         }

@@ -32,6 +32,7 @@ namespace Coditech.Admin.ViewModel
         public short HospitalPatientAppointmentPurposeId { get; set; }
 
         public int ApprovalStatusEnumId { get; set; }
+        public string ApprovalStatus { get; set; }
 
         [Required]
         public bool IsAttended { get; set; }

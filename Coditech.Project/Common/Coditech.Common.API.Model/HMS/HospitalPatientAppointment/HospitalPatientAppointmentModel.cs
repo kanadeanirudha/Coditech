@@ -12,6 +12,7 @@ namespace Coditech.Common.API.Model
         public int HospitalDoctorId { get; set; }
         public TimeSpan? RequestedTimeSlot { get; set; }
         public short HospitalPatientAppointmentPurposeId { get; set; }
+        public string ApprovalStatus { get; set; }
         public int ApprovalStatusEnumId { get; set; }
         [Required]
         public bool IsAttended { get; set; }
