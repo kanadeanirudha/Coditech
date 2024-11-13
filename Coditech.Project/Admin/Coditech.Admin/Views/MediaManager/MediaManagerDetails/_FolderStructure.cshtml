@@ -41,7 +41,7 @@
 <!-- Context Menu -->
 @if ((userInfo?.IsAdminUser ?? false) || adminRoleMediaFolderActionModel.SelectedMediaActions.Count > 0)
 {
-    <div id="contextMenu" class="dropdown-menu" style="display: none; position: absolute;">
+    <div id="contextMenu" class="dropdown-menu-md" style="display: none; position: absolute;">
         @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.CreateFolder.ToString())))
         {
             <a class="dropdown-item" id="createFolder">Create Folder</a>
