@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 
 namespace Coditech.Admin.Agents
 {
@@ -32,13 +33,6 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns updated GymWorkoutPlanViewModel</returns>
         GymWorkoutPlanViewModel UpdateGymWorkoutPlan(GymWorkoutPlanViewModel gymWorkoutPlanModel);
 
-        /// <summary>
-        /// Delete Gym Workout Plan.
-        /// </summary>
-        /// <param name="gymWorkoutPlanIds">gymWorkoutPlanIds.</param>
-        /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeleteGymWorkoutPlan(string gymWorkoutPlanIds, out string errorMessage);
-
         #region GymWorkoutPlanDetails
 
         /// <summary>
@@ -55,13 +49,38 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns created model.</returns>
         GymWorkoutPlanDetailsViewModel AddWorkoutPlanDetails(GymWorkoutPlanDetailsViewModel gymWorkoutPlanDetailsViewModel);
 
+        #region DeleteGymWorkoutPlanDetails
 
-        ///// <summary>
-        ///// Delete GymWorkoutPlanDetails.
-        ///// </summary>
-        ///// <param name="GymGymWorkoutPlanIds">GymGymGymWorkoutPlanIds.</param>
-        ///// <returns>Returns true if deleted successfully else return false.</returns>
-        //bool DeleteGymWorkoutPlanDetails(string GymGymWorkoutPlanIds, out string errorMessage);
+        /// <summary>
+        /// Delete GymWorkoutPlanDetailsList.
+        /// </summary>
+        /// <param name="gymWorkoutPlanId">gymWorkoutPlanIds.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        bool DeleteWorkoutPlanDetailsList(long gymWorkoutPlanId, out string errorMessage);
+
+        /// <summary>
+        /// Delete GymWorkoutPlanDetailsWeek.
+        /// </summary>
+        /// <param name="gymWorkoutPlanId">gymWorkoutPlanIds.</param>
+        /// <param name="workoutWeekNumber">gymWorkoutPlanIds.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        bool DeleteWorkoutPlanDetailsWeek(long gymWorkoutPlanId, short workoutWeekNumber, out string errorMessage);
+
+        /// <summary>
+        /// Delete GymWorkoutPlanDetailsDay.
+        /// </summary>
+        /// <param name="gymWorkoutPlanId">gymWorkoutPlanIds.</param>
+        /// <param name="workoutWeekNumber">gymWorkoutPlanIds.</param>
+        /// <param name="workoutDayNumber">gymWorkoutPlanIds.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        bool DeleteWorkoutPlanDetailsDay(long gymWorkoutPlanId, short workoutWeekNumber, byte workoutDayNumber, out string errorMessage);
+
+        /// <summary>
+        /// Delete WorkoutPlanDetailsSet
+        /// </summary>
+        /// <param name="gymWorkoutPlanDetailId">gymWorkoutPlanIds.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        bool DeleteWorkoutPlanDetailsSet(long gymWorkoutPlanDetailId, out string errorMessage);
 
         #endregion
     }

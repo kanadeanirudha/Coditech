@@ -166,14 +166,14 @@ namespace Coditech.API.Controllers
         }
 
 
-        [Route("/GymWorkoutPlan/DeleteGymWorkoutPlan")]
+        [Route("/GymWorkoutPlan/DeleteGymWorkoutPlanDetails")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteGymWorkoutPlan([FromBody] ParameterModel gymWorkoutPlanIds)
+        public virtual IActionResult DeleteGymWorkoutPlanDetails([FromBody] DeleteWorkoutPlanDetailsModel gymWorkoutPlanIds)
         {
             try
             {
-                bool deleted = _gymWorkoutPlanService.DeleteGymWorkoutPlan(gymWorkoutPlanIds);
+                bool deleted = _gymWorkoutPlanService.DeleteGymWorkoutPlanDetails(gymWorkoutPlanIds);
                 return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
             }
             catch (CoditechException ex)

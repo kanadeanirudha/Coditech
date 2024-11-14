@@ -28,7 +28,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Constructor
-        public GymWorkoutPlanAgent(ICoditechLogging coditechLogging, IGymWorkoutPlanClient gymWorkoutPlanClient, IGymWorkoutPlanClient gymWorkoutPlanDetailsClient, IGymWorkoutPlanClient gymWorkoutPlanSetClient,IUserClient userClient)
+        public GymWorkoutPlanAgent(ICoditechLogging coditechLogging, IGymWorkoutPlanClient gymWorkoutPlanClient, IGymWorkoutPlanClient gymWorkoutPlanDetailsClient, IGymWorkoutPlanClient gymWorkoutPlanSetClient, IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
             _gymWorkoutPlanClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
@@ -142,7 +142,7 @@ namespace Coditech.Admin.Agents
                 GymWorkoutPlanDetailsResponse response = _gymWorkoutPlanDetailsClient.AddWorkoutPlanDetails(gymWorkoutPlanDetailsViewModel.ToModel<GymWorkoutPlanDetailsModel>());
                 GymWorkoutPlanDetailsModel gymWorkoutPlanDetailsModel = response?.GymWorkoutPlanDetailsModel;
                 return IsNotNull(gymWorkoutPlanDetailsModel) ? gymWorkoutPlanDetailsModel.ToViewModel<GymWorkoutPlanDetailsViewModel>() : new GymWorkoutPlanDetailsViewModel();
-               
+
 
             }
             catch (CoditechException ex)
@@ -163,17 +163,109 @@ namespace Coditech.Admin.Agents
             }
         }
 
-       
         #endregion
-
-        //Delete  Gym Workout Plan .
-        public virtual bool DeleteGymWorkoutPlan(string gymWorkoutPlanIds, out string errorMessage)
+        #region
+        //DeleteWorkoutPlanDetailsList
+        public virtual bool DeleteWorkoutPlanDetailsList(long gymWorkoutPlanId, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _gymWorkoutPlanClient.DeleteGymWorkoutPlan(new ParameterModel { Ids = gymWorkoutPlanIds });
+                TrueFalseResponse trueFalseResponse = _gymWorkoutPlanClient.DeleteGymWorkoutPlanDetails(new DeleteWorkoutPlanDetailsModel { GymWorkoutplanDeleteType = "WorkoutPlan", GymWorkoutPlanId = gymWorkoutPlanId });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteGymWorkoutPlanDetails;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
+        //DeleteWorkoutPlanDetailsWeek
+        public virtual bool DeleteWorkoutPlanDetailsWeek(long gymWorkoutPlanId, short workoutWeekNumber, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _gymWorkoutPlanClient.DeleteGymWorkoutPlanDetails(new DeleteWorkoutPlanDetailsModel { GymWorkoutplanDeleteType = "WorkoutWeek", GymWorkoutPlanId = gymWorkoutPlanId, WorkoutWeekNumber = workoutWeekNumber });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteGymWorkoutPlanDetails;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
+        //DeleteWorkoutPlanDetailsDay
+        public virtual bool DeleteWorkoutPlanDetailsDay(long gymWorkoutPlanId, short workoutWeekNumber, byte workoutDayNumber, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _gymWorkoutPlanClient.DeleteGymWorkoutPlanDetails(new DeleteWorkoutPlanDetailsModel { GymWorkoutplanDeleteType = "WorkoutDay", GymWorkoutPlanId = gymWorkoutPlanId, WorkoutWeekNumber = workoutWeekNumber, WorkoutDayNumber = workoutDayNumber });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteGymWorkoutPlanDetails;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
+        //Delete  Gym Workout Plan Set.
+        public virtual bool DeleteWorkoutPlanDetailsSet(long gymWorkoutPlanDetailId, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _gymWorkoutPlanClient.DeleteGymWorkoutPlanDetails(new DeleteWorkoutPlanDetailsModel { GymWorkoutplanDeleteType = "WorkoutSet", GymWorkoutPlandetailId = gymWorkoutPlanDetailId });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -196,7 +288,7 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
-
+        #endregion
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {

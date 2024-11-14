@@ -6,6 +6,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Specialized;
 using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
@@ -187,16 +188,21 @@ namespace Coditech.API.Service
 
 
         //Delete Gym Workout Plan
-        public virtual bool DeleteGymWorkoutPlan(ParameterModel parameterModel)
+        public virtual bool DeleteGymWorkoutPlanDetails(DeleteWorkoutPlanDetailsModel parameterModel)
         {
-            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymWorkoutPlanId"));
+           
+            if (IsNull(parameterModel) || parameterModel.GymWorkoutPlanId <= 0)
+                  throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymWorkoutPlanId"));
 
             CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("GymWorkoutPlanIds", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("GymWorkoutplanDeleteType", parameterModel.GymWorkoutplanDeleteType, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("GymWorkoutPlanId", parameterModel.GymWorkoutPlanId, ParameterDirection.Input, DbType.Int64);
+            objStoredProc.SetParameter("WorkoutWeekNumber", parameterModel.WorkoutWeekNumber, ParameterDirection.Input, DbType.Int16);
+            objStoredProc.SetParameter("WorkoutDayNumber", parameterModel.WorkoutDayNumber, ParameterDirection.Input, DbType.Byte);
+            objStoredProc.SetParameter("GymWorkoutPlandetailId", parameterModel.GymWorkoutPlandetailId, ParameterDirection.Input, DbType.Int64);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteGymWorkoutPlan @GymWorkoutPlanIds,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteWorkoutPlanDetails @GymWorkoutplanDeleteType, @GymWorkoutPlanId, @WorkoutWeekNumber,  @WorkoutDayNumber, @GymWorkoutPlandetailId, @Status OUT", 5, out status);
 
             return status == 1 ? true : false;
         }

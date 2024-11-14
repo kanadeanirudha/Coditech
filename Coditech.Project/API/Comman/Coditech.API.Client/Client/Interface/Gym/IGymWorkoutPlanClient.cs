@@ -36,13 +36,6 @@ namespace Coditech.API.Client
         GymWorkoutPlanResponse UpdateGymWorkoutPlan(GymWorkoutPlanModel body);
 
         /// <summary>
-        /// Delete GymWorkoutPlan.
-        /// </summary>
-        /// <param name="ParameterModel">ParameterModel.</param>
-        /// <returns>Returns true if deleted successfully else return false.</returns>
-        TrueFalseResponse DeleteGymWorkoutPlan(ParameterModel body);
-
-        /// <summary>
         /// Get WorkoutPlan by gymWorkoutPlanId.
         /// </summary>
         /// <param name="gymWorkoutPlanId">gymWorkoutPlanId</param>
@@ -56,6 +49,15 @@ namespace Coditech.API.Client
         /// <returns>Returns GymWorkoutPlanDetailsResponse.</returns>
         GymWorkoutPlanDetailsResponse AddWorkoutPlanDetails(GymWorkoutPlanDetailsModel body);
 
-        
+        #region
+        /// <summary>
+        /// Delete GymWorkoutPlan.
+        /// </summary>
+        /// <param name="DeleteWorkoutPlanDetailsModel">ParameterModel.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        TrueFalseResponse DeleteGymWorkoutPlanDetails(DeleteWorkoutPlanDetailsModel body);
+
+        #endregion
+
     }
 }

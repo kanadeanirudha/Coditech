@@ -329,16 +329,18 @@ namespace Coditech.API.Client
             }
         }
 
-        
+
         #endregion
-        public virtual TrueFalseResponse DeleteGymWorkoutPlan(ParameterModel body)
+        #region Delete Workout Plan Details
+
+        public virtual TrueFalseResponse DeleteGymWorkoutPlanDetails(DeleteWorkoutPlanDetailsModel body)
         {
-            return Task.Run(async () => await DeleteGymWorkoutPlanAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await DeleteGymWorkoutPlanDetailsAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<TrueFalseResponse> DeleteGymWorkoutPlanAsync(ParameterModel body, CancellationToken cancellationToken)
+        public virtual async Task<TrueFalseResponse> DeleteGymWorkoutPlanDetailsAsync(DeleteWorkoutPlanDetailsModel body, CancellationToken cancellationToken)
         {
-            string endpoint = gymWorkoutPlanEndpoint.DeleteGymWorkoutPlanAsync();
+            string endpoint = gymWorkoutPlanEndpoint.DeleteGymWorkoutPlanDetailsAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -372,5 +374,6 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+        #endregion
     }
 }
