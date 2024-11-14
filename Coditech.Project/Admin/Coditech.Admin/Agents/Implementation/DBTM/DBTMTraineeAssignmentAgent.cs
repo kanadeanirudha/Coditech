@@ -46,7 +46,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            DBTMTraineeAssignmentListResponse response = _dBTMTraineeAssignmentClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            DBTMTraineeAssignmentListResponse response = _dBTMTraineeAssignmentClient.List(dataTableModel.GeneralTrainerMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             DBTMTraineeAssignmentListModel deviceList = new DBTMTraineeAssignmentListModel { DBTMTraineeAssignmentList = response?.DBTMTraineeAssignmentList };
             DBTMTraineeAssignmentListViewModel listViewModel = new DBTMTraineeAssignmentListViewModel();
             listViewModel.DBTMTraineeAssignmentList = deviceList?.DBTMTraineeAssignmentList?.ToViewModel<DBTMTraineeAssignmentViewModel>().ToList();

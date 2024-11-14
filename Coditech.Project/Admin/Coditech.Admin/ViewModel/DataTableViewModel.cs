@@ -12,6 +12,7 @@ namespace Coditech.Admin.ViewModel
         public string SelectedCentreCode { get; set; } = string.Empty;
         public short SelectedDepartmentId { get; set; }
         public string HospitalDoctorId { get; set; }
+        public long GeneralTrainerMasterId { get; set; }
         public string SelectedParameter1 { get; set; } = string.Empty;
         public string SelectedParameter2 { get; set; } = string.Empty;
         public string SelectedParameter3 { get; set; } = string.Empty;

@@ -251,6 +251,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralDistrictMasterService, GeneralDistrictMasterService>();
             builder.Services.AddScoped<IGeneralNotificationMasterService, GeneralNotificationService>();
             builder.Services.AddScoped<IGeneralTrainerMasterService, GeneralTrainerMasterService>();
+            builder.Services.AddScoped<IGeneralBatchMasterService, GeneralBatchMasterService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();

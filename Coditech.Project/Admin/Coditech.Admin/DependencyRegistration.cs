@@ -68,6 +68,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IDBTMDeviceRegistrationDetailsAgent, DBTMDeviceRegistrationDetailsAgent>();
             builder.Services.AddScoped<IDBTMTraineeAssignmentAgent, DBTMTraineeAssignmentAgent>();
             builder.Services.AddScoped<IDBTMNewRegistrationAgent, DBTMNewRegistrationAgent>();
+            builder.Services.AddScoped<IGeneralBatchAgent, GeneralBatchAgent>();
            
 
 
@@ -175,6 +176,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralDistrictClient, GeneralDistrictClient>();
             builder.Services.AddScoped<IGeneralNotificationClient, GeneralNotificationClient>();
             builder.Services.AddScoped<IGeneralTrainerClient, GeneralTrainerClient>();
+            builder.Services.AddScoped<IGeneralBatchClient, GeneralBatchClient>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();

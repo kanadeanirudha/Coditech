@@ -1,32 +1,30 @@
-﻿using Coditech.API.Endpoint;
+﻿using Coditech.API.Data;
+using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
-
 using Newtonsoft.Json;
-
 using System.Net;
 
 namespace Coditech.API.Client
 {
-    public class DBTMTraineeAssignmentClient : BaseClient, IDBTMTraineeAssignmentClient
+    public class GeneralBatchClient : BaseClient, IGeneralBatchClient
     {
-        DBTMTraineeAssignmentEndpoint dBTMTraineeAssignmentEndpoint = null;
-        public DBTMTraineeAssignmentClient()
+        GeneralBatchEndpoint generalBatchEndpoint = null;
+        public GeneralBatchClient()
         {
-            dBTMTraineeAssignmentEndpoint = new DBTMTraineeAssignmentEndpoint();
+            generalBatchEndpoint = new GeneralBatchEndpoint();
+        }
+        public virtual GeneralBatchListResponse List(string SelectedCentreCode, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            return Task.Run(async () => await ListAsync(SelectedCentreCode,expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual DBTMTraineeAssignmentListResponse List(long generalTrainerMasterId,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual async Task<GeneralBatchListResponse> ListAsync(string SelectedCentreCode,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            return Task.Run(async () => await ListAsync(generalTrainerMasterId,expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
-        }
-
-        public virtual async Task<DBTMTraineeAssignmentListResponse> ListAsync(long generalTrainerMasterId,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
-        {
-            string endpoint = dBTMTraineeAssignmentEndpoint.ListAsync(generalTrainerMasterId,expand, filter, sort, pageIndex, pageSize);
+            string endpoint = generalBatchEndpoint.ListAsync(SelectedCentreCode,expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -38,7 +36,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<DBTMTraineeAssignmentListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<GeneralBatchListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -47,12 +45,12 @@ namespace Coditech.API.Client
                 }
                 else if (status_ == 204)
                 {
-                    return new DBTMTraineeAssignmentListResponse();
+                    return new GeneralBatchListResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    DBTMTraineeAssignmentListResponse typedBody = JsonConvert.DeserializeObject<DBTMTraineeAssignmentListResponse>(responseData);
+                    GeneralBatchListResponse typedBody = JsonConvert.DeserializeObject<GeneralBatchListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -64,14 +62,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual DBTMTraineeAssignmentResponse CreateDBTMTraineeAssignment(DBTMTraineeAssignmentModel body)
+        public virtual GeneralBatchResponse CreateGeneralBatch(GeneralBatchModel body)
         {
-            return Task.Run(async () => await CreateDBTMTraineeAssignmentAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await CreateGeneralBatchAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<DBTMTraineeAssignmentResponse> CreateDBTMTraineeAssignmentAsync(DBTMTraineeAssignmentModel body, CancellationToken cancellationToken)
+        public virtual async Task<GeneralBatchResponse> CreateGeneralBatchAsync(GeneralBatchModel body, CancellationToken cancellationToken)
         {
-            string endpoint = dBTMTraineeAssignmentEndpoint.CreateDBTMTraineeAssignmentAsync();
+            string endpoint = generalBatchEndpoint.CreateGeneralBatchAsync();
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try
@@ -84,7 +82,7 @@ namespace Coditech.API.Client
                 {
                     case HttpStatusCode.OK:
                         {
-                            ObjectResponseResult<DBTMTraineeAssignmentResponse> objectResponseResult2 = await ReadObjectResponseAsync<DBTMTraineeAssignmentResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<GeneralBatchResponse> objectResponseResult2 = await ReadObjectResponseAsync<GeneralBatchResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                             if (objectResponseResult2.Object == null)
                             {
                                 throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
@@ -94,7 +92,7 @@ namespace Coditech.API.Client
                         }
                     case HttpStatusCode.Created:
                         {
-                            ObjectResponseResult<DBTMTraineeAssignmentResponse> objectResponseResult = await ReadObjectResponseAsync<DBTMTraineeAssignmentResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<GeneralBatchResponse> objectResponseResult = await ReadObjectResponseAsync<GeneralBatchResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                             if (objectResponseResult.Object == null)
                             {
                                 throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
@@ -105,7 +103,7 @@ namespace Coditech.API.Client
                     default:
                         {
                             string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
-                            DBTMTraineeAssignmentResponse result = JsonConvert.DeserializeObject<DBTMTraineeAssignmentResponse>(value);
+                            GeneralBatchResponse result = JsonConvert.DeserializeObject<GeneralBatchResponse>(value);
                             UpdateApiStatus(result, status, response);
                             throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                         }
@@ -120,17 +118,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual DBTMTraineeAssignmentResponse GetDBTMTraineeAssignment(long dBTMTraineeAssignmentId)
+        public virtual GeneralBatchResponse GetGeneralBatch(int generalBatchMasterId)
         {
-            return Task.Run(async () => await GetDBTMTraineeAssignmentAsync(dBTMTraineeAssignmentId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetGeneralBatchAsync(generalBatchMasterId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<DBTMTraineeAssignmentResponse> GetDBTMTraineeAssignmentAsync(long dBTMTraineeAssignmentId, CancellationToken cancellationToken)
+        public virtual async Task<GeneralBatchResponse> GetGeneralBatchAsync(int generalBatchMasterId, System.Threading.CancellationToken cancellationToken)
         {
-            if (dBTMTraineeAssignmentId <= 0)
-                throw new System.ArgumentNullException("dBTMTraineeAssignmentId");
+            if (generalBatchMasterId <= 0)
+                throw new System.ArgumentNullException("generalBatchMasterId");
 
-            string endpoint = dBTMTraineeAssignmentEndpoint.GetDBTMTraineeAssignmentAsync(dBTMTraineeAssignmentId);
+            string endpoint = generalBatchEndpoint.GetGeneralBatchAsync(generalBatchMasterId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -142,7 +140,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<DBTMTraineeAssignmentResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<GeneralBatchResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -152,12 +150,12 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 204)
                 {
-                    return new DBTMTraineeAssignmentResponse();
+                    return new GeneralBatchResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    DBTMTraineeAssignmentResponse typedBody = JsonConvert.DeserializeObject<DBTMTraineeAssignmentResponse>(responseData);
+                    GeneralBatchResponse typedBody = JsonConvert.DeserializeObject<GeneralBatchResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -169,14 +167,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual DBTMTraineeAssignmentResponse UpdateDBTMTraineeAssignment(DBTMTraineeAssignmentModel body)
+        public virtual GeneralBatchResponse UpdateGeneralBatch(GeneralBatchModel body)
         {
-            return Task.Run(async () => await UpdateDBTMTraineeAssignmentAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await UpdateGeneralBatchAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<DBTMTraineeAssignmentResponse> UpdateDBTMTraineeAssignmentAsync(DBTMTraineeAssignmentModel body, CancellationToken cancellationToken)
+        public virtual async Task<GeneralBatchResponse> UpdateGeneralBatchAsync(GeneralBatchModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = dBTMTraineeAssignmentEndpoint.UpdateDBTMTraineeAssignmentAsync();
+            string endpoint = generalBatchEndpoint.UpdateGeneralBatchAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -189,7 +187,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<DBTMTraineeAssignmentResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<GeneralBatchResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -199,7 +197,7 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 201)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<DBTMTraineeAssignmentResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<GeneralBatchResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -209,7 +207,7 @@ namespace Coditech.API.Client
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    DBTMTraineeAssignmentResponse typedBody = JsonConvert.DeserializeObject<DBTMTraineeAssignmentResponse>(responseData);
+                    GeneralBatchResponse typedBody = JsonConvert.DeserializeObject<GeneralBatchResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -222,14 +220,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual TrueFalseResponse DeleteDBTMTraineeAssignment(ParameterModel body)
+        public virtual TrueFalseResponse DeleteGeneralBatch(ParameterModel body)
         {
-            return Task.Run(async () => await DeleteDBTMTraineeAssignmentAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await DeleteGeneralBatchAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<TrueFalseResponse> DeleteDBTMTraineeAssignmentAsync(ParameterModel body, CancellationToken cancellationToken)
+        public virtual async Task<TrueFalseResponse> DeleteGeneralBatchAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = dBTMTraineeAssignmentEndpoint.DeleteDBTMTraineeAssignmentAsync();
+            string endpoint = generalBatchEndpoint.DeleteGeneralBatchAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -264,17 +262,16 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralTrainerListResponse GetTrainerByCentreCode(string centreCode)
+        public virtual GeneralBatchUserListResponse GetGeneralBatchUserList(int generalBatchMasterId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await GetDBTMTrainerByCentreCode(centreCode, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GeneralBatchUserListAsync(generalBatchMasterId, userType, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralTrainerListResponse> GetDBTMTrainerByCentreCode(string centreCode, CancellationToken cancellationToken)
+        public virtual async Task<GeneralBatchUserListResponse> GeneralBatchUserListAsync(int generalBatchMasterId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = dBTMTraineeAssignmentEndpoint.GetDBTMTrainerByCentreCode(centreCode);
+            string endpoint = generalBatchEndpoint.GeneralBatchUserListAsync(generalBatchMasterId, userType,expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
-
             try
             {
                 ApiStatus status = new ApiStatus();
@@ -284,7 +281,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<GeneralTrainerListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<GeneralBatchUserListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -293,12 +290,12 @@ namespace Coditech.API.Client
                 }
                 else if (status_ == 204)
                 {
-                    return new GeneralTrainerListResponse();
+                    return new GeneralBatchUserListResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    GeneralTrainerListResponse typedBody = JsonConvert.DeserializeObject<GeneralTrainerListResponse>(responseData);
+                    GeneralBatchUserListResponse typedBody = JsonConvert.DeserializeObject<GeneralBatchUserListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -310,73 +307,27 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual DBTMTraineeDetailsListResponse GetTraineeDetailByCentreCodeAndgeneralTrainerId(string centreCode, long generalTrainerId)
+        public virtual GeneralBatchUserResponse AssociateUnAssociateBatchwiseUser(GeneralBatchUserModel body)
         {
-            return Task.Run(async () => await GetTraineeDetailsByCentreCodeAndgeneralTrainerId(centreCode, generalTrainerId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await AssociateUnAssociateBatchwiseUserAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<DBTMTraineeDetailsListResponse> GetTraineeDetailsByCentreCodeAndgeneralTrainerId(string centreCode, long generalTrainerId, CancellationToken cancellationToken)
+        public virtual async Task<GeneralBatchUserResponse> AssociateUnAssociateBatchwiseUserAsync(GeneralBatchUserModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = dBTMTraineeAssignmentEndpoint.GetTraineeDetailsByCentreCodeAndgeneralTrainerId(centreCode, generalTrainerId);
-            HttpResponseMessage response = null;
-            var disposeResponse = true;
-
-            try
-            {
-                ApiStatus status = new ApiStatus();
-
-                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
-                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
-                var status_ = (int)response.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse = await ReadObjectResponseAsync<DBTMTraineeDetailsListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse.Object == null)
-                    {
-                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
-                    }
-                    return objectResponse.Object;
-                }
-                else if (status_ == 204)
-                {
-                    return new DBTMTraineeDetailsListResponse();
-                }
-                else
-                {
-                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    DBTMTraineeDetailsListResponse typedBody = JsonConvert.DeserializeObject<DBTMTraineeDetailsListResponse>(responseData);
-                    UpdateApiStatus(typedBody, status, response);
-                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-                }
-            }
-            finally
-            {
-                if (disposeResponse)
-                    response.Dispose();
-            }
-        }
-
-        public virtual TrueFalseResponse SendAssignmentReminder(string dBTMTraineeAssignmentId)
-        {
-            return Task.Run(async () => await SendAssignmentReminderAsync(dBTMTraineeAssignmentId, CancellationToken.None)).GetAwaiter().GetResult();
-        }
-
-        public virtual async Task<TrueFalseResponse> SendAssignmentReminderAsync(string dBTMTraineeAssignmentId, CancellationToken cancellationToken)
-        {
-
-            string endpoint = dBTMTraineeAssignmentEndpoint.SendAssignmentReminderAsync(dBTMTraineeAssignmentId);
+            string endpoint = generalBatchEndpoint.AssociateUnAssociateBatchwiseUserAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
             {
                 ApiStatus status = new ApiStatus();
 
-                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
-                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<TrueFalseResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<GeneralBatchUserResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -384,14 +335,19 @@ namespace Coditech.API.Client
                     return objectResponse.Object;
                 }
                 else
-                if (status_ == 204)
+                if (status_ == 201)
                 {
-                    return new TrueFalseResponse();
+                    var objectResponse = await ReadObjectResponseAsync<GeneralBatchUserResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
+                    GeneralBatchUserResponse typedBody = JsonConvert.DeserializeObject<GeneralBatchUserResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }

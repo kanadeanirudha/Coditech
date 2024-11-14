@@ -112,7 +112,10 @@
             DBTMDeviceRegistrationDetails,
             DBTMTestParameter,
             DBTMTraineeAssignment,
-            DBTMNewRegistration
+            DBTMNewRegistration,
+            GeneralBatch,
+            GeneralBatchUser,
+            AssociateUnAssociateBatchwiseUser
         }
     }
 }

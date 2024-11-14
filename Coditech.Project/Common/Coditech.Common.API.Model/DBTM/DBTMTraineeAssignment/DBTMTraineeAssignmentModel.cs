@@ -20,5 +20,6 @@ namespace Coditech.Common.API.Model
         public string LastName { get; set; }
         public string TestName { get; set; }
         public string TestStatus { get; set; }
+        public string SelectedCentreCode { get; set; }
     }
 }

@@ -336,6 +336,28 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Batch details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAssociatedBatch
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAssociatedBatch", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete GeneralBatch due to associate record..
+        /// </summary>
+        public static string ErrorDeleteBatchDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteBatchDetails", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete Lead Generation due to associate record..
         /// </summary>
         public static string ErrorDeleteGeneralLeadGenerationMaster

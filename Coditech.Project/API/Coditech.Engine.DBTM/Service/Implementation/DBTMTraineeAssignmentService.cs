@@ -35,13 +35,13 @@ namespace Coditech.API.Service
             _generalTraineeAssociatedToTrainerRepository = new CoditechRepository<GeneralTraineeAssociatedToTrainer>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual DBTMTraineeAssignmentListModel GetDBTMTraineeAssignmentList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual DBTMTraineeAssignmentListModel GetDBTMTraineeAssignmentList(long generalTrainerMasterId,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //long personId = 1;
             //long.TryParse(filters?.Find(x => string.Equals(x.FilterName, FilterKeys.PersonId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue, out personId);
 
-            string generalTrainerMasterId = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.GeneralTrainerMasterId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
-            filters.RemoveAll(x => x.FilterName == FilterKeys.GeneralTrainerMasterId);
+            //string generalTrainerMasterId = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.GeneralTrainerMasterId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
+            //filters.RemoveAll(x => x.FilterName == FilterKeys.GeneralTrainerMasterId);
 
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);

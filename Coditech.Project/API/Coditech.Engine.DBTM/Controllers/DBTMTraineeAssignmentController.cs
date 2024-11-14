@@ -28,11 +28,11 @@ namespace Coditech.Engine.DBTM.Controllers
         [Route("/DBTMTraineeAssignment/GetDBTMTraineeAssignmentList")]
         [Produces(typeof(DBTMTraineeAssignmentListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetDBTMTraineeAssignmentList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetDBTMTraineeAssignmentList(long generalTrainerMasterId,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                DBTMTraineeAssignmentListModel list = _dBTMTraineeAssignmentService.GetDBTMTraineeAssignmentList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                DBTMTraineeAssignmentListModel list = _dBTMTraineeAssignmentService.GetDBTMTraineeAssignmentList(generalTrainerMasterId,filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<DBTMTraineeAssignmentListResponse>(data) : CreateNoContentResponse();
             }
