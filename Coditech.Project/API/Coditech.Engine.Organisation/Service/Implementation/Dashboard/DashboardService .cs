@@ -41,16 +41,16 @@ namespace Coditech.API.Service
                 dashboardModel.DashboardFormEnumCode = dashboardFormEnumCode;
                 if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
+
                     DataSet dataset = GetGymDashboardDetailsByUserId(0);
-                    
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     GymDashboardModel gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
-                    
+
                     dataset.Tables[1].TableName = "FinancialOverview";
                     gymDashboardModel.TransactionOverviewList = new List<GymTransactionOverviewModel>();
-                    gymDashboardModel.TransactionOverviewList  = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["FinancialOverview"])?.ToList();
-                    
+                    gymDashboardModel.TransactionOverviewList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["FinancialOverview"])?.ToList();
+
                     dataset.Tables[2].TableName = "MembershipPlanExpirationMembersActivity";
                     gymDashboardModel.GymUpcomingPlanExpirationMembersList = new List<GymUpcomingPlanExpirationMembersModel>();
                     gymDashboardModel.GymUpcomingPlanExpirationMembersList = dataTable.ConvertDataTable<GymUpcomingPlanExpirationMembersModel>(dataset.Tables["MembershipPlanExpirationMembersActivity"])?.ToList();
@@ -58,12 +58,12 @@ namespace Coditech.API.Service
                     dataset.Tables[3].TableName = "RevenueByPaymentMode";
                     gymDashboardModel.RevenueByPaymentModeList = new List<GymTransactionOverviewModel>();
                     gymDashboardModel.RevenueByPaymentModeList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["RevenueByPaymentMode"])?.ToList();
-                    
+
                     dataset.Tables[4].TableName = "LeadSource";
                     gymDashboardModel.GymGeneralLeadGenerationSourceList = new List<GymGeneralLeadGenerationSourceModel>();
                     gymDashboardModel.GymGeneralLeadGenerationSourceList = dataTable.ConvertDataTable<GymGeneralLeadGenerationSourceModel>(dataset.Tables["LeadSource"])?.ToList();
-                    
-                    
+
+
                     dataset.Tables[5].TableName = "GymUpComingEvents";
                     gymDashboardModel.GymUpcomingEventsList = new List<GymUpcomingEventsModel>();
                     gymDashboardModel.GymUpcomingEventsList = dataTable.ConvertDataTable<GymUpcomingEventsModel>(dataset.Tables["GymUpComingEvents"])?.ToList();
@@ -73,6 +73,7 @@ namespace Coditech.API.Service
                     gymDashboardModel.YearlyFinancialOverviewList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["YearlyFinancialOverview"])?.ToList();
 
                     dashboardModel.GymDashboardModel = gymDashboardModel;
+
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -80,7 +81,7 @@ namespace Coditech.API.Service
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     GymDashboardModel gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
-                    
+
                     dataset.Tables[1].TableName = "FinancialOverview";
                     gymDashboardModel.TransactionOverviewList = new List<GymTransactionOverviewModel>();
                     gymDashboardModel.TransactionOverviewList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["FinancialOverview"])?.ToList();
@@ -102,6 +103,41 @@ namespace Coditech.API.Service
                     gymDashboardModel.GymUpcomingEventsList = dataTable.ConvertDataTable<GymUpcomingEventsModel>(dataset.Tables["GymUpComingEvents"])?.ToList();
 
                     dashboardModel.GymDashboardModel = gymDashboardModel;
+
+                }
+                else if (dashboardFormEnumCode.Equals(DashboardFormEnum.DBTMCentreDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    DataSet dataset = GetGymDashboardDetailsByUserId(0);
+                    var dBTMCentreDashboardModel = new DBTMCentreDashboardModel()
+                    {
+                        NumberOfTrainees = 120,
+                        NumberOfTrainers = 45
+                    };
+
+                    dashboardModel.DBTMCentreDashboardModel = dBTMCentreDashboardModel;
+                }
+                else if (dashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTraineeDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+
+                    DataSet dataset = GetGymDashboardDetailsByUserId(userMasterId);
+                    var dBTMTrainerDashboardModel = new DBTMTrainerDashboardModel()
+                    {
+                        NumberOfTrainees = 100,
+                        TotalNumberOfActivityPerformedDuringWeek = 30,
+                        TopActivityPerformed = "Running",
+                        DueTodayAssignments = new List<AssignmentModel>()
+                        {
+                            new AssignmentModel { AssignmentId = 1, Description = "Running", Status = "InProgress"},
+                            new AssignmentModel { AssignmentId = 2, Description = "Weightlifting", Status = "Completed" }
+                        },
+                        Top3Trainee = new List<TraineeModel>()
+                        {
+                            new TraineeModel { TraineeId = 1, Name = "Nikita" },
+                            new TraineeModel { TraineeId = 2, Name = "Tanuja" },
+                            new TraineeModel { TraineeId = 3, Name = "Samruddhi" }
+                        }
+                    };
+                    dashboardModel.DBTMTrainerDashboardModel = dBTMTrainerDashboardModel;
                 }
             }
             return dashboardModel;

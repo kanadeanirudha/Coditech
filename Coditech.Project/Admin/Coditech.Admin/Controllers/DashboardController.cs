@@ -25,11 +25,19 @@ namespace Coditech.Admin.Controllers
             {
                 if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return View("~/Views/Dashboard/Gym/GymOwnerDashboard.cshtml", dashboardViewModel);
+                    return View("~/Views/Dashboard/Gym/GymOwnerDashboard.cshtml", dashboardViewModel);                  
                 }
                 else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
                     return View("~/Views/Dashboard/Gym/GymOperatorDashboard.cshtml", dashboardViewModel);
+                }
+                else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.DBTMCentreDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return View("~/Views/Dashboard/DBTM/DBTMCentreDashboard.cshtml", dashboardViewModel);
+                }
+                else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTraineeDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return View("~/Views/Dashboard/DBTM/DBTMTrainerDashboard.cshtml", dashboardViewModel);
                 }
             }
 

@@ -110,7 +110,8 @@
         Customer,
         GymMember,
         Patient,
-        DBTMTrainee
+        DBTMTrainee,
+        GymWorkoutPlan
     }
 
     public enum ActiveProjectNameEnum
@@ -144,9 +145,10 @@
     public enum DashboardFormEnum
     {
         GymOwnerDashboard,
-        GymOperatorDashboard
+        GymOperatorDashboard,
+        DBTMCentreDashboard,
+        DBTMTraineeDashboard
     }
-
     public enum ErrorMessageTypeEnum
     {
         Application

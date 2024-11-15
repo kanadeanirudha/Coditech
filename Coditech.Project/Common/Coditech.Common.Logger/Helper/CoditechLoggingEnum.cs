@@ -110,7 +110,8 @@
             DBTMActivityCategory,
             DBTMTest,
             DBTMDeviceRegistrationDetails,
-            DBTMTestParameter
+            DBTMTestParameter,
+            GymWorkoutPlan
         }
     }
 }
