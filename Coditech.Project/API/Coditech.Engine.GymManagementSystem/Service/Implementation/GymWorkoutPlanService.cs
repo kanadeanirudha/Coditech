@@ -191,7 +191,7 @@ namespace Coditech.API.Service
         public virtual bool DeleteGymWorkoutPlanDetails(DeleteWorkoutPlanDetailsModel parameterModel)
         {
            
-            if (IsNull(parameterModel) || parameterModel.GymWorkoutPlanId <= 0)
+            if (IsNull(parameterModel))
                   throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GymWorkoutPlanId"));
 
             CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
