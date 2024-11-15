@@ -56,8 +56,11 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "First Name"));
 
             GeneralLeadGenerationMaster generalLeadGenerationMaster = generalLeadGenerationModel.FromModelToEntity<GeneralLeadGenerationMaster>();
+			generalLeadGenerationMaster.FirstName = generalLeadGenerationMaster.FirstName.ToFirstLetterCapital();
+			generalLeadGenerationMaster.LastName = generalLeadGenerationMaster.LastName.ToFirstLetterCapital(); 
+			generalLeadGenerationMaster.MiddleName = generalLeadGenerationMaster.MiddleName.ToFirstLetterCapital(); 
             //Create new LeadGeneration and return it.
-            GeneralLeadGenerationMaster LeadGenerationData = _generalLeadGenerationMasterRepository.Insert(generalLeadGenerationMaster);
+			GeneralLeadGenerationMaster LeadGenerationData = _generalLeadGenerationMasterRepository.Insert(generalLeadGenerationMaster);
             if (LeadGenerationData?.GeneralLeadGenerationMasterId > 0)
             {
                 generalLeadGenerationModel.GeneralLeadGenerationMasterId = LeadGenerationData.GeneralLeadGenerationMasterId;

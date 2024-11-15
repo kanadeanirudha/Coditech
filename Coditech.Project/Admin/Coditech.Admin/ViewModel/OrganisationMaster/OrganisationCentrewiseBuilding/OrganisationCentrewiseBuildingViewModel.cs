@@ -19,6 +19,6 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         [Display(Name = "Area sq.ft")]
-        public short Area { get; set; }        
+        public Nullable<short> Area { get; set; }        
     }
 }

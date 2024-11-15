@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/RoleAllocatedToUserList?adminRoleMasterId=@Model.AdminRoleMasterId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                            <a href="../@controllerName/RoleAllocatedToUserList?SelectedParameter1=@Model.AdminRoleMasterId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>
@@ -94,24 +94,46 @@
 @section scripts {
     <script type="text/javascript">
         $(function () {
+            var dateFormat = "@AdminGeneralHelper.DateFormatForCalendar()";
 
+            // Initialize WorkFromDate Datepicker
             $("#WorkFromDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                dateFormat: dateFormat,
                 language: "en",
                 autoSize: true,
-                minYear: parseInt(moment().format('YYYY'), 10)
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                },
+                onSelect: function (selectedDate) {
+                    // Set WorkToDate's minimum date to the selected WorkFromDate
+                    $("#WorkToDate").datepicker("option", "minDate", selectedDate);
+                }
             });
 
-
+            // Initialize WorkToDate Datepicker
             $("#WorkToDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                dateFormat: dateFormat,
                 language: "en",
                 autoSize: true,
-                minYear: parseInt(moment().format('YYYY'), 10)
+                gotoCurrent: true,
+                clearBtn: true,
+                showButtonPanel: true,
+                closeText: 'Clear',
+                onClose: function (dateText, inst) {
+                    if ($(window.event.srcElement).hasClass('ui-datepicker-close')) {
+                        document.getElementById(this.id).value = '';
+                    }
+                }
             });
         });
     </script>

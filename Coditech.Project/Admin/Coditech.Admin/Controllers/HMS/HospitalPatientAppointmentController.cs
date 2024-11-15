@@ -18,9 +18,14 @@ namespace Coditech.Admin.Controllers
             _hospitalPatientAppointmentAgent = hospitalPatientAppointmentAgent;
         }
 
-        public virtual ActionResult List(DataTableViewModel dataTableModel)
+        public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
-            HospitalPatientAppointmentListViewModel list = _hospitalPatientAppointmentAgent.GetHospitalPatientAppointmentList(dataTableModel);
+            HospitalPatientAppointmentListViewModel list = new HospitalPatientAppointmentListViewModel();
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
+            {
+                list = _hospitalPatientAppointmentAgent.GetHospitalPatientAppointmentList(dataTableViewModel);
+            }
+            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/HMS/HospitalPatientAppointment/_List.cshtml", list);
@@ -43,8 +48,7 @@ namespace Coditech.Admin.Controllers
                 if (!hospitalPatientAppointmentViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    //return RedirectToAction("List", CreateActionDataTable(hospitalPatientAppointmentViewModel.SelectedCentreCode, Convert.ToInt16(hospitalPatientAppointmentViewModel.SelectedDepartmentId)));
-                    return RedirectToAction("List", new { selectedCentreCode });
+                    return RedirectToAction("List", new { selectedCentreCode = hospitalPatientAppointmentViewModel.SelectedCentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalPatientAppointmentViewModel.ErrorMessage));
@@ -71,7 +75,7 @@ namespace Coditech.Admin.Controllers
             return View(createEdit, hospitalPatientAppointmentViewModel);
         }
 
-        public virtual ActionResult Delete(string hospitalPatientAppointmentIds)
+        public virtual ActionResult Delete(string hospitalPatientAppointmentIds, string selectedCentreCode)
         {
             string message = string.Empty;
             bool status = false;
@@ -81,22 +85,22 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<HospitalPatientAppointmentController>(x => x.List(null));
+                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<HospitalPatientAppointmentController>(x => x.List(null));
         }
 
-        public virtual ActionResult GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        public virtual ActionResult GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecializationEnumId)
         {
-            DropdownViewModel medicalSpecilizationDropdown = new DropdownViewModel()
+            DropdownViewModel medicalSpecializationDropdown = new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.HospitalDoctorsListBySpecialization.ToString(),
                 DropdownName = "HospitalDoctorId",
-                Parameter = $"{selectedCentreCode}~{medicalSpecilizationEnumId}",
+                Parameter = $"{selectedCentreCode}~{medicalSpecializationEnumId}",
             };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", medicalSpecilizationDropdown);
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", medicalSpecializationDropdown);
         }
 
 
@@ -121,6 +125,11 @@ namespace Coditech.Admin.Controllers
                 Parameter = $"{hospitalDoctorId}~{appointmentDate}",
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", timeSlotList);
+        }
+        public virtual ActionResult Cancel(string SelectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
+            return RedirectToAction("List", dataTableViewModel);
         }
 
         #region Protected

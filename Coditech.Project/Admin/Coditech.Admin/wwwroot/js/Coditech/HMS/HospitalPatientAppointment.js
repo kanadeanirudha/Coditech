@@ -9,16 +9,16 @@
     GetDoctorsAndPatientsListByCentreCodeAndSpecialization: function () {
 
         var selectedCentreCode = $("#SelectedCentreCode").val();
-        var medicalSpecilizationEnumId = $("#MedicalSpecilizationEnumId").val();
+        var medicalSpecializationEnumId = $("#MedicalSpecializationEnumId").val();
 
-        if (selectedCentreCode != "" && medicalSpecilizationEnumId != "") {
+        if (selectedCentreCode != "" && medicalSpecializationEnumId != "") {
             CoditechCommon.ShowLodder();
             $.ajax({
                 cache: false,
                 type: "GET",
                 dataType: "html",
                 url: "/HospitalPatientAppointment/GetDoctorsByCentreCodeAndSpecialization",
-                data: { "selectedCentreCode": selectedCentreCode, "medicalSpecilizationEnumId": medicalSpecilizationEnumId },
+                data: { "selectedCentreCode": selectedCentreCode, "medicalSpecializationEnumId": medicalSpecializationEnumId },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     $("#HospitalDoctorId").html("").html(data);

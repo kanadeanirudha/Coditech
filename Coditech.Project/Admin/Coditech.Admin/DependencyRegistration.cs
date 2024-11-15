@@ -63,6 +63,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralDistrictAgent, GeneralDistrictAgent>();
             builder.Services.AddScoped<IGeneralNotificationAgent, GeneralNotificationAgent>();
             builder.Services.AddScoped<IGeneralTrainerAgent, GeneralTrainerAgent>();
+            builder.Services.AddScoped<IDBTMActivityCategoryAgent, DBTMActivityCategoryAgent>();
+            builder.Services.AddScoped<IDBTMTestAgent, DBTMTestAgent>();
+            builder.Services.AddScoped<IDBTMDeviceRegistrationDetailsAgent, DBTMDeviceRegistrationDetailsAgent>();
+           
             builder.Services.AddScoped<IGymWorkoutPlanAgent, GymWorkoutPlanAgent>();
 
 
@@ -202,6 +206,9 @@ namespace Coditech.Admin
             #region DBTM         
             builder.Services.AddScoped<IDBTMDeviceClient, DBTMDeviceClient>();
             builder.Services.AddScoped<IDBTMTraineeDetailsClient, DBTMTraineeDetailsClient>();
+            builder.Services.AddScoped<IDBTMActivityCategoryClient, DBTMActivityCategoryClient>();
+            builder.Services.AddScoped<IDBTMTestClient, DBTMTestClient>();
+            builder.Services.AddScoped<IDBTMDeviceRegistrationDetailsClient, DBTMDeviceRegistrationDetailsClient>();
             
             #endregion 
 

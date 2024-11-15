@@ -534,6 +534,27 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [Route("/OrganisationCentreMaster/IsCentreNameAlreadyExist")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult IsCentreNameAlreadyExist([FromBody] string centreName)
+        {
+            try
+            {
+                bool isUpdated = _organisationCentreMasterService.IsCentreNameAlreadyExist(centreName);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = isUpdated });
 
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

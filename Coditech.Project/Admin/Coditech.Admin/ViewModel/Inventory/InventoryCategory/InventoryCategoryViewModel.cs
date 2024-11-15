@@ -7,7 +7,7 @@ namespace Coditech.Admin.ViewModel
     {
         public short InventoryCategoryId { get; set; }
 
-        [Display(Name = "Parent Inventory")]
+        [Display(Name = "Parent Category")]
         public short ParentInventoryCategoryId { get; set; }
 
         [Display(Name = " Category Code")]

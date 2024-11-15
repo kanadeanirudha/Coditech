@@ -158,15 +158,16 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "IsActive",
-                ColumnCode = "DefaultFlag",
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
         #endregion
         #region
-         //it will return all Notification list from database 
-       public virtual GeneralNotificationListResponse GetNotificationList()
+        //it will return all Notification list from database 
+        public virtual GeneralNotificationListResponse GetNotificationList()
         {
             GeneralNotificationListResponse NotificationList = _generalNotificationClient.List(null, null, null, 1, int.MaxValue);
             return NotificationList?.GeneralNotificationList?.Count > 0 ? NotificationList : new GeneralNotificationListResponse();

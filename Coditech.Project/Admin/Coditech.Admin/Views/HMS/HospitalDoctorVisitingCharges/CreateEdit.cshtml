@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/GetHospitalDoctorVisitingChargesByDoctorIdList?hospitalDoctorId=@Model.HospitalDoctorId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                            <a href="../@controllerName/GetHospitalDoctorVisitingChargesByDoctorIdList?SelectedParameter1=@Model.HospitalDoctorId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>
@@ -109,6 +109,7 @@
 @section scripts {
     <script type="text/javascript">
         $(function () {
+            $('#Charges').val('');
             $("#FromDate").datepicker({
                 changeMonth: true,
                 changeYear: true,

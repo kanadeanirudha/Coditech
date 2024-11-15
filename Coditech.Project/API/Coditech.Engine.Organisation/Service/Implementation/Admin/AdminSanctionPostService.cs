@@ -66,7 +66,7 @@ namespace Coditech.API.Service
 
             if (IsNameAlreadyExist(adminSanctionPostModel))
             {
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "AdminSanctionPost code"));
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Admin Sanction Post"));
             }
             EmployeeDesignationMaster employeeDesignationMaster = GetDesignationDetails(adminSanctionPostModel.DesignationId);
             GeneralDepartmentMaster generalDepartmentMaster = GetDepartmentDetails(adminSanctionPostModel.DepartmentId);
@@ -172,7 +172,7 @@ namespace Coditech.API.Service
         #region Protected Method
         //Check if adminSanctionPost code is already present or not.
         protected virtual bool IsNameAlreadyExist(AdminSanctionPostModel adminSanctionPostModel)
-             => _adminSanctionPostRepository.Table.Any(x => x.CentreCode == adminSanctionPostModel.CentreCode && x.DepartmentId == adminSanctionPostModel.DepartmentId && x.DesignationId == adminSanctionPostModel.DesignationId);
+             => _adminSanctionPostRepository.Table.Any(x => x.CentreCode == adminSanctionPostModel.CentreCode && x.DepartmentId == adminSanctionPostModel.DepartmentId && x.DesignationId == adminSanctionPostModel.DesignationId && (x.AdminSanctionPostId != adminSanctionPostModel.AdminSanctionPostId || adminSanctionPostModel.AdminSanctionPostId == 0));
         #endregion
     }
 }

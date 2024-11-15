@@ -42,16 +42,12 @@
 								</div>
 							</td>
 							<td>@AdminGeneralHelper.FormatPriceWithCurrency(@item.BillAmount)</td>
-							<td>
-								@if (item.PaymentType.Equals("Cash", StringComparison.InvariantCultureIgnoreCase))
+							<td style="text-align: center; width: 0px">
+								@if (!string.IsNullOrEmpty(item?.PlanDurationType))
 								{
-									<i class="fas fa-coins"></i>
+									string image = $"{@item.PaymentType.Replace(" ", "")}.png";
+									<img src="../assets/images/@image" class="rounded-circle thumb-xs me-1" title="@item.PaymentType" />
 								}
-								else
-								{
-									<i class="fas fa-credit-card"></i>
-								}
-								@item.PaymentType
 							</td>
 							<td>
 								@if (item.PaymentReceivedBy.Equals("Super Admin", StringComparison.InvariantCultureIgnoreCase))
@@ -69,7 +65,7 @@
 								@item.PaymentReceivedBy
 							</td>
 							<td class="text-center data-action">
-								<a href="../@controllerName/GetSalesInvoiceDetails?salesInvoiceMasterId=@item.SalesInvoiceMasterId" title="Print" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-print"></i></a>
+								<a href="../@controllerName/GetSalesInvoiceDetails?salesInvoiceMasterId=@item.SalesInvoiceMasterId&SelectedParameter1=@Model.SelectedParameter1&SelectedParameter2=@Model.SelectedParameter2&CentreCode=@Model.SelectedCentreCode" title="Print" class="btn btn-sm btn-soft-success btn-circle"><i class="fas fa-print"></i></a>
 							</td>
 						</tr>
 					}

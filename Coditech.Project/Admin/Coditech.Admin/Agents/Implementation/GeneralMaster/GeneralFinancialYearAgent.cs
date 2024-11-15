@@ -96,6 +96,17 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.FinancialYearMaster.ToString(), TraceLevel.Info);
                 return IsNotNull(generalFinancialYearModel) ? generalFinancialYearModel.ToViewModel<GeneralFinancialYearViewModel>() : (GeneralFinancialYearViewModel)GetViewModelWithErrorMessage(new GeneralFinancialYearViewModel(), GeneralResources.UpdateErrorMessage);
             }
+           catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.FinancialYearMaster.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (GeneralFinancialYearViewModel)GetViewModelWithErrorMessage(generalFinancialYearViewModel, ex.ErrorMessage);
+                    default:
+                        return (GeneralFinancialYearViewModel)GetViewModelWithErrorMessage(generalFinancialYearViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.FinancialYearMaster.ToString(), TraceLevel.Error);

@@ -5,7 +5,6 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
-
 using System.Collections.Specialized;
 using System.Data;
 
@@ -112,8 +111,20 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        public virtual bool IsValidDeviceSerialCode(string deviceSerialCode)
+        {
+            if (string.IsNullOrWhiteSpace(deviceSerialCode))
+            {
+                throw new ArgumentException("Device Serial Code cannot be null or empty");
+            }
+
+            // Return true if the device code exists in the repository, false otherwise
+            return _dBTMDeviceMasterRepository.Table
+                .Any(x => x.DeviceSerialCode == deviceSerialCode);
+        }
+
         #region Protected Method
-        
+
         #endregion
     }
 }

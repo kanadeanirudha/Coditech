@@ -604,6 +604,17 @@ namespace Coditech.API.Service
             return isOrganisationCentrewiseUserNameUpdated;
         }
 
+        public virtual bool IsCentreNameAlreadyExist(string centreName)
+        {
+            if (string.IsNullOrWhiteSpace(centreName))
+            {
+                throw new ArgumentException("Centre name cannot be null or empty");
+            }
+
+            // Return true if the device code exists in the repository, false otherwise
+            return _organisationCentreMasterRepository.Table.Any(x => x.CentreName == centreName);
+        }
+
         #region Protected Method
         //Check if Centre code is already present or not.
         protected virtual bool IsCentreCodeAlreadyExist(string centreCode, short organisationCentreMasterId = 0)
@@ -611,8 +622,8 @@ namespace Coditech.API.Service
 
         protected virtual bool IsCentrewiseUserNameAlreadyExist(string centreCode, string userType, short organisationCentrewiseUserNameRegistrationId = 0)
         => _organisationCentrewiseUserNameRegistrationRepository.Table.Any(x => x.CentreCode == centreCode && x.UserType == userType && (x.OrganisationCentrewiseUserNameRegistrationId != organisationCentrewiseUserNameRegistrationId || organisationCentrewiseUserNameRegistrationId == 0));
-
         #endregion
+        
     }
 }
 

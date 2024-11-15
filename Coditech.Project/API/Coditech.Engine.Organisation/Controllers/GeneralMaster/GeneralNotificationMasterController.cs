@@ -25,11 +25,11 @@ namespace Coditech.API.Controllers
         [Route("/GeneralNotificationMaster/GetNotificationList")]
         [Produces(typeof(GeneralNotificationListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetNotificationList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int PageIndex, int pazeSize)
+        public virtual IActionResult GetNotificationList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int PageIndex, int PageSize)
         {
             try
             {
-                GeneralNotificationListModel list = _generalNotificationService.GetNotificationList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), PageIndex, pazeSize);
+                GeneralNotificationListModel list = _generalNotificationService.GetNotificationList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), PageIndex, PageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GeneralNotificationListResponse>(data) : CreateNoContentResponse();
             }

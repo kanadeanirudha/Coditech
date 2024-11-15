@@ -33,21 +33,19 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/HMS/HospitalDoctorVisitingCharges/List.cshtml", list);
         }
-
-        public virtual ActionResult GetHospitalDoctorVisitingChargesByDoctorIdList(int hospitalDoctorId, DataTableViewModel dataTableModel)
+        public virtual ActionResult GetHospitalDoctorVisitingChargesByDoctorIdList(DataTableViewModel dataTableModel)
         {
-            HospitalDoctorVisitingChargesListViewModel list = new HospitalDoctorVisitingChargesListViewModel();
-            if (hospitalDoctorId > 0)
+            HospitalDoctorVisitingChargesListViewModel list =new HospitalDoctorVisitingChargesListViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedParameter1))
             {
-                list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesByDoctorList(hospitalDoctorId, dataTableModel);
+                list = _hospitalDoctorVisitingChargesAgent.GetHospitalDoctorVisitingChargesByDoctorList(Convert.ToInt32(dataTableModel.SelectedParameter1), dataTableModel);
             }
-            list.HospitalDoctorId = hospitalDoctorId;
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/HMS/HospitalDoctorVisitingCharges/_HospitalDoctorVisitingChargesByDoctorIdList.cshtml", list);
             }
             return View($"~/Views/HMS/HospitalDoctorVisitingCharges/HospitalDoctorVisitingChargesByDoctorIdList.cshtml", list);
-
         }
 
         [HttpGet]
@@ -66,7 +64,7 @@ namespace Coditech.Admin.Controllers
                 hospitalDoctorVisitingChargesViewModel = _hospitalDoctorVisitingChargesAgent.CreateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel);
                 if (!hospitalDoctorVisitingChargesViewModel.HasError)
                 {
-                    dataTableModel.HospitalDoctorId = Convert.ToString(hospitalDoctorVisitingChargesViewModel.HospitalDoctorId);
+                    dataTableModel.SelectedParameter1 = Convert.ToString(hospitalDoctorVisitingChargesViewModel.HospitalDoctorId);
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", dataTableModel);
                 }
@@ -89,7 +87,7 @@ namespace Coditech.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                dataTableModel.HospitalDoctorId = Convert.ToString(hospitalDoctorVisitingChargesViewModel.HospitalDoctorId);
+                dataTableModel.SelectedParameter1 = Convert.ToString(hospitalDoctorVisitingChargesViewModel.HospitalDoctorId);
 
                 SetNotificationMessage(_hospitalDoctorVisitingChargesAgent.UpdateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
@@ -109,16 +107,16 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { hospitalDoctorId = hospitalDoctorId });
+                return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { SelectedParameter1 = hospitalDoctorId });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { hospitalDoctorId = hospitalDoctorId });
+            return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { SelectedParameter1 = hospitalDoctorId });
         }
 
         public virtual ActionResult Cancel(int hospitalDoctorId)
         {
-            return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { hospitalDoctorId = hospitalDoctorId });
+            return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", new { SelectedParameter1 = hospitalDoctorId });
         }
         #region Protected
 

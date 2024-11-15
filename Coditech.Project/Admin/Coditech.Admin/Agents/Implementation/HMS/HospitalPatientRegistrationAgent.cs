@@ -195,7 +195,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Gender",
-                ColumnCode = "Gender",
+                ColumnCode = "GenderEnumId",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()

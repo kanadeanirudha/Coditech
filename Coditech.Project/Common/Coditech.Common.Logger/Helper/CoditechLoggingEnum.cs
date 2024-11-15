@@ -107,6 +107,10 @@
             DBTMDevice,
             DBTMTraineeDetails,
             AssociatedTrainer,
+            DBTMActivityCategory,
+            DBTMTest,
+            DBTMDeviceRegistrationDetails,
+            DBTMTestParameter,
             GymWorkoutPlan
         }
     }

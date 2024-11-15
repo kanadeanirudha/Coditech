@@ -217,6 +217,14 @@ namespace Coditech.Admin.Helpers
             {
                 GetUnAssociatedTrainerList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMActivityCategory.ToString()))
+            {
+                GetDBTMActivityCategoryList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMDeviceRegistrationDetails.ToString()))
+            {
+                GetDBTMDeviceRegistrationDetailsList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -470,7 +478,11 @@ namespace Coditech.Admin.Helpers
 
         private static void GetCentrewiseBuildingList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Building-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+
 
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
@@ -820,7 +832,11 @@ namespace Coditech.Admin.Helpers
         private static void GetHospitalPathologyTestGroupParentList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             HospitalPathologyTestGroupListResponse response = new HospitalPathologyTestGroupClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Pathology Test Group-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
+
 
             HospitalPathologyTestGroupListModel list = new HospitalPathologyTestGroupListModel { HospitalPathologyTestGroupList = response.HospitalPathologyTestGroupList };
             foreach (var item in list.HospitalPathologyTestGroupList)
@@ -1030,8 +1046,8 @@ namespace Coditech.Admin.Helpers
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
-                int medicalSpecilizationEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
-                HospitalDoctorsListResponse response = new HospitalPatientAppointmentClient().GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecilizationEnumId);
+                int medicalSpecializationEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                HospitalDoctorsListResponse response = new HospitalPatientAppointmentClient().GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecializationEnumId);
                 HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
                 foreach (var item in list?.HospitalDoctorsList)
                 {
@@ -1211,7 +1227,7 @@ namespace Coditech.Admin.Helpers
                 long entityId = Convert.ToInt64(dropdownViewModel.Parameter.Split("~")[2]);
                 string userType = Convert.ToString(dropdownViewModel.Parameter.Split("~")[3]);
                 bool isAssociated = Convert.ToBoolean(dropdownViewModel.Parameter.Split("~")[4]);
-                GeneralTraineeAssociatedToTrainerListResponse response = new GeneralTrainerClient().GetAssociatedTrainerList(selectedCentreCode, selectedDepartmentId, isAssociated, entityId, userType,0, null, null, null, 1, int.MaxValue);
+                GeneralTraineeAssociatedToTrainerListResponse response = new GeneralTrainerClient().GetAssociatedTrainerList(selectedCentreCode, selectedDepartmentId, isAssociated, entityId, userType, 0, null, null, null, 1, int.MaxValue);
                 GeneralTraineeAssociatedToTrainerListModel list = new GeneralTraineeAssociatedToTrainerListModel() { AssociatedTrainerList = response.AssociatedTrainerList };
                 foreach (var item in list?.AssociatedTrainerList)
                 {
@@ -1222,6 +1238,48 @@ namespace Coditech.Admin.Helpers
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTrainerMasterId)
                     });
                 }
+            }
+        }
+
+        private static void GetDBTMActivityCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            DBTMActivityCategoryListResponse response = new DBTMActivityCategoryClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Category-------" });
+
+            DBTMActivityCategoryListModel list = new DBTMActivityCategoryListModel { DBTMActivityCategoryList = response.DBTMActivityCategoryList };
+            foreach (var item in list.DBTMActivityCategoryList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.DBTMActivityCategoryId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.ActivityCategoryName, " (", item.ActivityCategoryCode, ")"),
+                    Value = Convert.ToString(item.DBTMActivityCategoryId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMActivityCategoryId)
+                });
+            }
+        }
+
+        private static void GetDBTMDeviceRegistrationDetailsList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            DBTMDeviceListResponse response = new DBTMDeviceClient().List(null, null, null, 1, int.MaxValue);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Registration Details-------" });
+
+            DBTMDeviceListModel list = new DBTMDeviceListModel { DBTMDeviceList = response.DBTMDeviceList };
+            foreach (var item in list.DBTMDeviceList)
+            {
+                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.DBTMDeviceMasterId == Convert.ToInt16(dropdownViewModel.Parameter))
+                {
+                    continue;
+                }
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = string.Concat(item.DeviceName, " (", item.DeviceSerialCode, ")"),
+                    Value = Convert.ToString(item.DBTMDeviceMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMDeviceMasterId)
+                });
             }
         }
     }

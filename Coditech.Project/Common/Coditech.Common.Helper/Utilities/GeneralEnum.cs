@@ -36,7 +36,7 @@
         LeadStatus,
         LeadCategory,
         UserType,
-        MedicalSpecilization,
+        MedicalSpecialization,
         WeekDays,
         CentrewiseBuildingRooms,
         Floors,
@@ -78,10 +78,12 @@
         PathologyPriceCategory,
         HospitalPathologyTestName,
         PathologyTestNameByPathologyPriceCategory,
-        TrainerSpecilization,
+        TrainerSpecialization,
         DBTMDeviceStatus,
         DBTMTraineeRegistration,
-        UnAssociatedTrainerList
+        UnAssociatedTrainerList,
+        DBTMActivityCategory,
+        DBTMDeviceRegistrationDetails
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -210,5 +212,9 @@
         WhatsAppSMS,
         BulkSMS,
         Visit
+    }
+    public enum HospitalApprovalStatusEnum
+    {
+        HospitalPending
     }
 }

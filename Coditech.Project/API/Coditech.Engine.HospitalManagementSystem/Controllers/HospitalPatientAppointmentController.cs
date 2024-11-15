@@ -141,11 +141,11 @@ namespace Coditech.Engine.HospitalManagementSystem.Controllers
         [Route("/HospitalPatientAppointment/GetDoctorsByCentreCodeAndSpecialization")]
         [Produces(typeof(HospitalDoctorsListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        public virtual IActionResult GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecializationEnumId)
         {
             try
             {
-                HospitalDoctorsListModel list = _hospitalPatientAppointmentService.GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecilizationEnumId);
+                HospitalDoctorsListModel list = _hospitalPatientAppointmentService.GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecializationEnumId);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<HospitalDoctorsListResponse>(data) : CreateNoContentResponse();
             }

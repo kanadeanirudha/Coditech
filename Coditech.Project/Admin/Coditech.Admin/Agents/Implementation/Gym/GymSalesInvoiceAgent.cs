@@ -43,7 +43,9 @@ namespace Coditech.Admin.Agents
             GymMemberSalesInvoiceListModel gymMemberSalesInvoiceList = new GymMemberSalesInvoiceListModel { GymMemberSalesInvoiceList = response?.GymMemberSalesInvoiceList };
             GymMemberSalesInvoiceListViewModel listViewModel = new GymMemberSalesInvoiceListViewModel();
             listViewModel.GymMemberSalesInvoiceList = gymMemberSalesInvoiceList?.GymMemberSalesInvoiceList?.ToViewModel<GymMemberSalesInvoiceViewModel>().ToList();
-
+            listViewModel.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            listViewModel.SelectedParameter2 = dataTableModel.SelectedParameter2;
+            listViewModel.SelectedCentreCode = dataTableModel.SelectedCentreCode;
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymMemberSalesInvoiceList.Count, BindColumns());
             return listViewModel;
         }

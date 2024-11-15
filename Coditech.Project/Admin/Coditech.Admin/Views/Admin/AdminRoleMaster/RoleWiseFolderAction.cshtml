@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="mb-3">
+                                    <div class="mb-3 multiselect-dropdown">
                                         @Html.LabelFor(x => x.SelectedMediaActions, new { @class = "form-label required" })
                                         @Html.ListBoxFor(x => x.SelectedMediaActions, new SelectList(Model.MediaActionList, "Text", "Value"), new { @class = "selectpicker form-control", multiple = "multiple" })
                                         @Html.ValidationMessageFor(x => x.SelectedMediaActions)

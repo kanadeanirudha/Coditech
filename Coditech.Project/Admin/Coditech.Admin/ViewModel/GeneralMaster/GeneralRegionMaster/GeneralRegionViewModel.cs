@@ -12,6 +12,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         [Required]
         [Display(Name = "State Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string RegionName { get; set; }
 
         [Required]
@@ -21,7 +22,10 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         [Required]
         [Display(Name = "Short Name")]
-        public string ShortName { get; set; } 
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
+        public string ShortName { get; set; }
+
+        [Display(Name = "Default Flag")]
         public bool DefaultFlag { get; set; }
 
         [Required]

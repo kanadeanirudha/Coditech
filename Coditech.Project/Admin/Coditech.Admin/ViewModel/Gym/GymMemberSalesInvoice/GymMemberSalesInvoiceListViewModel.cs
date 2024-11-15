@@ -22,5 +22,7 @@ namespace Coditech.Admin.ViewModel
         public DateTime ToDate { get; set; }
         public string SelectedParameter1 { get; set; }
         public string SelectedParameter2 { get; set; }
+        public string salesInvoiceMasterId { get; set; }
+
     }
 }

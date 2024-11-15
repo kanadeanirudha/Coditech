@@ -120,8 +120,8 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if InventoryCategory code is already present or not.
-        protected virtual bool IsInventoryCategoryCodeAlreadyExist(string categoryName, short inventoryCategoryId = 0)
-         => _inventoryCategoryRepository.Table.Any(x => x.CategoryName == categoryName && (x.InventoryCategoryId != inventoryCategoryId || inventoryCategoryId == 0));
+        protected virtual bool IsInventoryCategoryCodeAlreadyExist(string categoryCode, short inventoryCategoryId = 0)
+         => _inventoryCategoryRepository.Table.Any(x => x.CategoryCode == categoryCode && (x.InventoryCategoryId != inventoryCategoryId || inventoryCategoryId == 0));
         #endregion
     }
 }

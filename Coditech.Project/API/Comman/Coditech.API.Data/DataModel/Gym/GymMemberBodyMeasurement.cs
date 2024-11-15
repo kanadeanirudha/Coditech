@@ -10,7 +10,7 @@ namespace Coditech.API.Data
         public int GymMemberDetailId { get; set; }
         public short GymBodyMeasurementTypeId { get; set; }
         public string BodyMeasurementValue { get; set; }
-        public DateTime? BodyMeasurementDate { get; set; }
+        public DateTime BodyMeasurementDate { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

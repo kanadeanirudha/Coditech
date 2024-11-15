@@ -26,6 +26,7 @@ namespace Coditech.Common.API.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string RegistrationService { get; set; }
+        public string SelectedCentreCode { get; set; }
 
     }
 }

@@ -156,6 +156,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Consider In Prod Report",
                 ColumnCode = "ConsiderInProdReport",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

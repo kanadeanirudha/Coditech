@@ -41,7 +41,7 @@ namespace Coditech.API.Client
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteHospitalPatientAppointment(ParameterModel body);
 
-        HospitalDoctorsListResponse GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId);
+        HospitalDoctorsListResponse GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecializationEnumId);
         HospitalPatientTimeSlotListResponse GetTimeSlotByDoctorsAndAppointmentDate(int hospitalDoctorId, DateTime appointmentDate);
     }
 }
