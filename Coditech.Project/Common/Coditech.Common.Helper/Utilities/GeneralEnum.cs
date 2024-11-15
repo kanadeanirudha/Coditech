@@ -36,7 +36,7 @@
         LeadStatus,
         LeadCategory,
         UserType,
-        MedicalSpecilization,
+        MedicalSpecialization,
         WeekDays,
         CentrewiseBuildingRooms,
         Floors,
@@ -78,7 +78,7 @@
         PathologyPriceCategory,
         HospitalPathologyTestName,
         PathologyTestNameByPathologyPriceCategory,
-        TrainerSpecilization,
+        TrainerSpecialization,
         DBTMDeviceStatus,
         DBTMTraineeRegistration,
         UnAssociatedTrainerList,
@@ -114,7 +114,8 @@
         Customer,
         GymMember,
         Patient,
-        DBTMTrainee
+        DBTMTrainee,
+        GymWorkoutPlan
     }
 
     public enum ActiveProjectNameEnum
@@ -148,9 +149,10 @@
     public enum DashboardFormEnum
     {
         GymOwnerDashboard,
-        GymOperatorDashboard
+        GymOperatorDashboard,
+        DBTMCentreDashboard,
+        DBTMTraineeDashboard
     }
-
     public enum ErrorMessageTypeEnum
     {
         Application
@@ -214,5 +216,9 @@
         WhatsAppSMS,
         BulkSMS,
         Visit
+    }
+    public enum HospitalApprovalStatusEnum
+    {
+        HospitalPending
     }
 }

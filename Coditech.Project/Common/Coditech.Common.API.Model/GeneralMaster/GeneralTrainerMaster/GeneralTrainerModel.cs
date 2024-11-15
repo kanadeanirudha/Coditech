@@ -8,7 +8,7 @@ namespace Coditech.Common.API.Model
         [Required]
         public long EmployeeId { get; set; }
         [Required]
-        public int TrainerSpecilizationEnumId { get; set; }
+        public int TrainerSpecializationEnumId { get; set; }
         [Required]
         public string SelectedCentreCode { get; set; }
         [Required]
@@ -19,7 +19,7 @@ namespace Coditech.Common.API.Model
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public bool IsAssociated { get; set; }
-        public string TrainerSpecilization { get; set; }
+        public string TrainerSpecialization { get; set; }
         public string PersonCode { get; set; }
     }
 }

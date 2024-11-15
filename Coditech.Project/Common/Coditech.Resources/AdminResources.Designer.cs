@@ -149,6 +149,30 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete GymWorkoutPlan detaild due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymWorkoutPlan
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGymWorkoutPlan", resourceCulture);
+
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete GymWorkoutPlan detaild due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymWorkoutPlanDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGymWorkoutPlanDetails", resourceCulture);
+
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete AssociatedTrainer detaild due to associate record..
         /// </summary>
         public static string ErrorDeleteAssociatedTrainer

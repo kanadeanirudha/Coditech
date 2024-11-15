@@ -96,9 +96,7 @@ namespace Coditech.Admin.Controllers
                        ? GetSuccessNotificationMessage(status.SuccessMessage)
                        : GetErrorNotificationMessage(status.ErrorMessage));
 
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
-
-                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                return RedirectToAction("Index", "MediaManager", new { rootFolderId = folderId });
             }
             else
             {

@@ -11,6 +11,8 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(100)]
         [Required]
         [Display(Name = "City Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
+
         public string CityName { get; set; }
 
         [Display(Name = "Is Default")]

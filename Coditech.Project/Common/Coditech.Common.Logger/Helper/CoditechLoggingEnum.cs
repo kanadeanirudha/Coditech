@@ -111,6 +111,7 @@
             DBTMTest,
             DBTMDeviceRegistrationDetails,
             DBTMTestParameter,
+            GymWorkoutPlan,
             DBTMTraineeAssignment,
             DBTMNewRegistration,
             GeneralBatch,

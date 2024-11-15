@@ -34,15 +34,18 @@ namespace Coditech.API.Service
 
         public virtual HospitalPatientAppointmentListModel GetHospitalPatientAppointmentList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
+            string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
+            filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedCentreCode);
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<HospitalPatientAppointmentModel> objStoredProc = new CoditechViewRepository<HospitalPatientAppointmentModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<HospitalPatientAppointmentModel> hospitalPatientAppointmentList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalPatientAppointmentList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<HospitalPatientAppointmentModel> hospitalPatientAppointmentList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetHospitalPatientAppointmentList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             HospitalPatientAppointmentListModel listModel = new HospitalPatientAppointmentListModel();
 
             listModel.HospitalPatientAppointmentList = hospitalPatientAppointmentList?.Count > 0 ? hospitalPatientAppointmentList : new List<HospitalPatientAppointmentModel>();
@@ -57,6 +60,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             HospitalPatientAppointment hospitalPatientAppointment = hospitalPatientAppointmentModel.FromModelToEntity<HospitalPatientAppointment>();
+            hospitalPatientAppointment.ApprovalStatusEnumId = GetEnumIdByEnumCode(HospitalApprovalStatusEnum.HospitalPending.ToString());
 
             //Create new HospitalPatientAppointment and return it.
             HospitalPatientAppointment hospitalPatientAppointmentData = _hospitalPatientAppointmentRepository.Insert(hospitalPatientAppointment);
@@ -131,7 +135,7 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
-        public virtual HospitalDoctorsListModel GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecilizationEnumId)
+        public virtual HospitalDoctorsListModel GetDoctorsByCentreCodeAndSpecialization(string selectedCentreCode, int medicalSpecializationEnumId)
         {
 
             HospitalDoctorsListModel listModel = new HospitalDoctorsListModel();
@@ -141,7 +145,7 @@ namespace Coditech.API.Service
                                              on a.EmployeeId equals b.EmployeeId
                                              join c in _generalPersonRepository.Table
                                              on b.PersonId equals c.PersonId
-                                             where a.MedicalSpecilizationEnumId == medicalSpecilizationEnumId
+                                             where a.MedicalSpecializationEnumId == medicalSpecializationEnumId
                                              && b.CentreCode == selectedCentreCode
                                              && b.IsActive
                                              select new HospitalDoctorsModel
@@ -149,7 +153,7 @@ namespace Coditech.API.Service
                                                  HospitalDoctorId = a.HospitalDoctorId,
                                                  FirstName = c.FirstName,
                                                  LastName = c.LastName,
-                                                 MedicalSpecilizationEnumId = a.MedicalSpecilizationEnumId,
+                                                 MedicalSpecializationEnumId = a.MedicalSpecializationEnumId,
                                              })?.ToList();
             return listModel;
         }

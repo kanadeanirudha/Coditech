@@ -12,6 +12,7 @@ namespace Coditech.Common.API.Model
         public int HospitalDoctorId { get; set; }
         public TimeSpan? RequestedTimeSlot { get; set; }
         public short HospitalPatientAppointmentPurposeId { get; set; }
+        public string ApprovalStatus { get; set; }
         public int ApprovalStatusEnumId { get; set; }
         [Required]
         public bool IsAttended { get; set; }
@@ -24,7 +25,9 @@ namespace Coditech.Common.API.Model
         [MaxLength(15)]
         public string MobileNumber { get; set; }
         public string ImagePath { get; set; }
-        public int MedicalSpecilizationEnumId { get; set; }
+        public int MedicalSpecializationEnumId { get; set; }
+        public int CentreCode { get; set; }
         public string SelectedCentreCode { get; set; }
+       
     }
 }

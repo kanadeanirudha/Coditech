@@ -183,8 +183,8 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Trainer Specilization",
-                ColumnCode = "TrainerSpecilization",
+                ColumnName = "Trainer Specialization",
+                ColumnCode = "TrainerSpecialization",
                 IsSortable = true,
             });
             return datatableColumnList;

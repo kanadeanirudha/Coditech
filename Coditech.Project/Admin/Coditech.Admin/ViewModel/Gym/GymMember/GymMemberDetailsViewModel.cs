@@ -41,6 +41,7 @@ namespace Coditech.Admin.ViewModel
         public int? SourceEnumId { get; set; }
         public string ImagePath { get; set; }
         public string MobileNumber { get; set; }
+        public string SelectedCentreCode { get; set; }  
         public string EmailId { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }

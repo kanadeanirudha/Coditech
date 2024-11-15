@@ -9,6 +9,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(200)]
         [Required]
         [Display(Name = "District Name")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string DistrictName { get; set; }
 
         [Required]
