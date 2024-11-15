@@ -6,8 +6,8 @@ namespace Coditech.Model
     public class OrganisationCentrewiseWhatsAppSettingModel : BaseModel
     {
         [Required]
-        public short OrganisationCentrewiseWhatsAppSettingId { get; set; }
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentrewiseWhatsAppSettingId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [Required]
         public byte GeneralWhatsAppProviderId { get; set; }

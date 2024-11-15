@@ -5,7 +5,7 @@ namespace Coditech.API.Data
     public partial class OrganisationCentrewiseSmtpSetting
     {
         [Key]
-        public short OrganisationCentrewiseSmtpSettingId { get; set; }
+        public int OrganisationCentrewiseSmtpSettingId { get; set; }
         public string CentreCode { get; set; }
         public string ServerName { get; set; }
         public string UserName { get; set; }

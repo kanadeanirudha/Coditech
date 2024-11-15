@@ -232,14 +232,14 @@ namespace Coditech.Common.Service
             }
         }
 
-        protected virtual short GetOrganisationCentreMasterIdByCentreCode(string centreCode)
+        protected virtual int GetOrganisationCentreMasterIdByCentreCode(string centreCode)
         {
             CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            short organisationCentreMasterId = _organisationCentreMasterRepository.Table.Where(x => x.CentreCode == centreCode).Select(y => y.OrganisationCentreMasterId).FirstOrDefault();
+            int organisationCentreMasterId = _organisationCentreMasterRepository.Table.Where(x => x.CentreCode == centreCode).Select(y => y.OrganisationCentreMasterId).FirstOrDefault();
             return organisationCentreMasterId;
         }
 
-        protected virtual string GetOrganisationCentreCodeByOrganisationCentreMasterId(short organisationCentreMasterId)
+        protected virtual string GetOrganisationCentreCodeByOrganisationCentreMasterId(int organisationCentreMasterId)
         {
             CoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
             string CentreCode = _organisationCentreMasterRepository.Table.Where(x => x.OrganisationCentreMasterId == organisationCentreMasterId).Select(y => y.CentreCode).FirstOrDefault();

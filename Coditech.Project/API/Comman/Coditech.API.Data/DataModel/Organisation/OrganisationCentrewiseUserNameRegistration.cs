@@ -5,7 +5,7 @@ namespace Coditech.API.Data
     public partial class OrganisationCentrewiseUserNameRegistration
     {
         [Key]
-        public short OrganisationCentrewiseUserNameRegistrationId { get; set; }
+        public int OrganisationCentrewiseUserNameRegistrationId { get; set; }
         public string CentreCode { get; set; }
         public string UserType { get; set; }
         public string UserNameBasedOn { get; set; }

@@ -75,7 +75,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetOrganisationCentre")]
         [HttpGet]
         [Produces(typeof(OrganisationCentreResponse))]
-        public virtual IActionResult GetOrganisationCentre(short organisationCentreMasterId)
+        public virtual IActionResult GetOrganisationCentre(int organisationCentreMasterId)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetPrintingFormat")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrePrintingFormatResponse))]
-        public virtual IActionResult GetPrintingFormat(short organisationCentreMasterId)
+        public virtual IActionResult GetPrintingFormat(int organisationCentreMasterId)
         {
             try
             {
@@ -185,7 +185,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseGSTSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseGSTCredentialResponse))]
-        public virtual IActionResult GetCentrewiseGSTSetup(short organisationCentreMasterId)
+        public virtual IActionResult GetCentrewiseGSTSetup(int organisationCentreMasterId)
         {
             try
             {
@@ -229,7 +229,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseSmtpSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseSmtpSettingResponse))]
-        public virtual IActionResult GetCentrewiseSmtpSetup(short organisationCentreMasterId)
+        public virtual IActionResult GetCentrewiseSmtpSetup(int organisationCentreMasterId)
         {
             try
             {
@@ -273,7 +273,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseSmsSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseSmsSettingResponse))]
-        public virtual IActionResult GetCentrewiseSmsSetup(short organisationCentreMasterId, byte generalSmsProviderId)
+        public virtual IActionResult GetCentrewiseSmsSetup(int organisationCentreMasterId, byte generalSmsProviderId)
         {
             try
             {
@@ -317,7 +317,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseWhatsAppSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseWhatsAppSettingResponse))]
-        public virtual IActionResult GetCentrewiseWhatsAppSetup(short organisationCentreMasterId, byte generalWhatsAppProviderId)
+        public virtual IActionResult GetCentrewiseWhatsAppSetup(int organisationCentreMasterId, byte generalWhatsAppProviderId)
         {
             try
             {
@@ -361,7 +361,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseEmailTemplateSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
-        public virtual IActionResult GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode, string templateType)
+        public virtual IActionResult GetCentrewiseEmailTemplateSetup(int organisationCentreMasterId, string emailTemplateCode, string templateType)
         {
             try
             {
@@ -405,7 +405,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseSMSTemplateSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
-        public virtual IActionResult GetCentrewiseSMSTemplateSetup(short organisationCentreMasterId, string emailTemplateCode)
+        public virtual IActionResult GetCentrewiseSMSTemplateSetup(int organisationCentreMasterId, string emailTemplateCode)
         {
             try
             {
@@ -449,7 +449,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseWhatsAppTemplateSetup")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseEmailTemplateResponse))]
-        public virtual IActionResult GetCentrewiseWhatsAppTemplateSetup(short organisationCentreMasterId, string emailTemplateCode)
+        public virtual IActionResult GetCentrewiseWhatsAppTemplateSetup(int organisationCentreMasterId, string emailTemplateCode)
         {
             try
             {
@@ -493,7 +493,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetCentrewiseUserName")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseUserNameRegistrationResponse))]
-        public virtual IActionResult GetCentrewiseUserName(short organisationCentreMasterId, short organisationCentrewiseUserNameRegistrationId)
+        public virtual IActionResult GetCentrewiseUserName(int organisationCentreMasterId, int organisationCentrewiseUserNameRegistrationId)
         {
             try
             {

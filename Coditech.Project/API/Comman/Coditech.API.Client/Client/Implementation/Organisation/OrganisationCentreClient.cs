@@ -116,12 +116,12 @@ namespace Coditech.API.Client
                 }
             }
         }
-        public virtual OrganisationCentreResponse GetOrganisationCentre(short organisationCentreId)
+        public virtual OrganisationCentreResponse GetOrganisationCentre(int organisationCentreId)
         {
             return Task.Run(async () => await GetOrganisationAsync(organisationCentreId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentreResponse> GetOrganisationAsync(short organisationCentreId, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentreResponse> GetOrganisationAsync(int organisationCentreId, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -259,12 +259,12 @@ namespace Coditech.API.Client
         #endregion
 
         #region PrintingFormat
-        public virtual OrganisationCentrePrintingFormatResponse GetPrintingFormat(short organisationCentreId)
+        public virtual OrganisationCentrePrintingFormatResponse GetPrintingFormat(int organisationCentreId)
         {
             return Task.Run(async () => await GetPrintingFormatAsync(organisationCentreId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrePrintingFormatResponse> GetPrintingFormatAsync(short organisationCentreId, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrePrintingFormatResponse> GetPrintingFormatAsync(int organisationCentreId, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -360,12 +360,12 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseGSTSetup
-        public virtual OrganisationCentrewiseGSTCredentialResponse GetCentrewiseGSTSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseGSTCredentialResponse GetCentrewiseGSTSetup(int organisationCentreId)
         {
             return Task.Run(async () => await GetCentrewiseGSTSetupAsync(organisationCentreId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrewiseGSTCredentialResponse> GetCentrewiseGSTSetupAsync(short organisationCentreId, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseGSTCredentialResponse> GetCentrewiseGSTSetupAsync(int organisationCentreId, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -462,11 +462,11 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseSmtpSetup
-        public virtual OrganisationCentrewiseSmtpSettingResponse GetCentrewiseSmtpSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseSmtpSettingResponse GetCentrewiseSmtpSetup(int organisationCentreId)
         {
             return Task.Run(async () => await GetCentrewiseSmtpSetupAsync(organisationCentreId, CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<OrganisationCentrewiseSmtpSettingResponse> GetCentrewiseSmtpSetupAsync(short organisationCentreId, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseSmtpSettingResponse> GetCentrewiseSmtpSetupAsync(int organisationCentreId, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -564,11 +564,11 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseSmsSetup
-        public virtual OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId)
+        public virtual OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(int organisationCentreId, byte generalSmsProviderId)
         {
             return Task.Run(async () => await GetCentrewiseSmsSetupAsync(organisationCentreId, generalSmsProviderId, CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<OrganisationCentrewiseSmsSettingResponse> GetCentrewiseSmsSetupAsync(short organisationCentreId, byte generalSmsProviderId, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseSmsSettingResponse> GetCentrewiseSmsSetupAsync(int organisationCentreId, byte generalSmsProviderId, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -666,11 +666,11 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseWhatsAppSetup
-        public virtual OrganisationCentrewiseWhatsAppSettingResponse GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId)
+        public virtual OrganisationCentrewiseWhatsAppSettingResponse GetCentrewiseWhatsAppSetup(int organisationCentreId, byte generalWhatsAppProviderId)
         {
             return Task.Run(async () => await GetCentrewiseWhatsAppSetupAsync(organisationCentreId, generalWhatsAppProviderId, CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<OrganisationCentrewiseWhatsAppSettingResponse> GetCentrewiseWhatsAppSetupAsync(short organisationCentreId, byte generalWhatsAppProviderId, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseWhatsAppSettingResponse> GetCentrewiseWhatsAppSetupAsync(int organisationCentreId, byte generalWhatsAppProviderId, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -768,12 +768,12 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseEmailTemplate
-        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode, string templateType)
+        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(int organisationCentreId, string emailTemplateCode, string templateType)
         {
             return Task.Run(async () => await GetCentrewiseEmailTemplateSetupAsync(organisationCentreId, emailTemplateCode, templateType, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseEmailTemplateSetupAsync(short organisationCentreId, string emailTemplateCode, string templateType, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseEmailTemplateSetupAsync(int organisationCentreId, string emailTemplateCode, string templateType, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -871,12 +871,12 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseSMSTemplate
-        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseSMSTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             return Task.Run(async () => await GetCentrewiseSMSTemplateSetupAsync(organisationCentreId, emailTemplateCode, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseSMSTemplateSetupAsync(short organisationCentreId, string emailTemplateCode, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseSMSTemplateSetupAsync(int organisationCentreId, string emailTemplateCode, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -974,12 +974,12 @@ namespace Coditech.API.Client
         #endregion
 
         #region CentrewiseWhatsAppTemplate
-        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual OrganisationCentrewiseEmailTemplateResponse GetCentrewiseWhatsAppTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             return Task.Run(async () => await GetCentrewiseWhatsAppTemplateSetupAsync(organisationCentreId, emailTemplateCode, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseWhatsAppTemplateSetupAsync(short organisationCentreId, string emailTemplateCode, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseEmailTemplateResponse> GetCentrewiseWhatsAppTemplateSetupAsync(int organisationCentreId, string emailTemplateCode, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");
@@ -1077,11 +1077,11 @@ namespace Coditech.API.Client
         #endregion
 
         #region Centrewise UserName
-        public virtual OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
+        public virtual OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(int organisationCentreId, int organisationCentrewiseUserNameRegistrationId)
         {
             return Task.Run(async () => await GetCentrewiseUserNameAsync(organisationCentreId, organisationCentrewiseUserNameRegistrationId, CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<OrganisationCentrewiseUserNameRegistrationResponse> GetCentrewiseUserNameAsync(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseUserNameRegistrationResponse> GetCentrewiseUserNameAsync(int organisationCentreId, int organisationCentrewiseUserNameRegistrationId, CancellationToken cancellationToken)
         {
             if (organisationCentreId <= 0)
                 throw new System.ArgumentNullException("organisationCentreId");

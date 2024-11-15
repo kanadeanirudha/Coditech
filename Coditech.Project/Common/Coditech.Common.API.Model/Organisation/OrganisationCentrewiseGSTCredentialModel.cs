@@ -6,10 +6,10 @@ namespace Coditech.Model
     public partial class OrganisationCentrewiseGSTCredentialModel : BaseModel
     {
         [Required]
-        public short OrganisationCentrewiseGSTCredentialId { get; set; }
+        public int OrganisationCentrewiseGSTCredentialId { get; set; }
 
         [Required]
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [MaxLength(10)]
         [Required]

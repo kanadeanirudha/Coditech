@@ -9,7 +9,7 @@ namespace Coditech.API.Service
     {
         OrganisationCentrewiseBuildingRoomsListModel GetOrganisationCentrewiseBuildingRoomsList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         OrganisationCentrewiseBuildingRoomsModel CreateOrganisationCentrewiseBuildingRooms(OrganisationCentrewiseBuildingRoomsModel model);
-        OrganisationCentrewiseBuildingRoomsModel GetOrganisationCentrewiseBuildingRooms(short organisationCentrewiseBuildingRoomId);
+        OrganisationCentrewiseBuildingRoomsModel GetOrganisationCentrewiseBuildingRooms(int organisationCentrewiseBuildingRoomId);
         bool UpdateOrganisationCentrewiseBuildingRooms(OrganisationCentrewiseBuildingRoomsModel model);
         bool DeleteOrganisationCentrewiseBuildingRooms(ParameterModel parameterModel);
     }

@@ -82,7 +82,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centre by organisationCentreId.
-        public virtual OrganisationCentreViewModel GetOrganisationCentre(short organisationCentreId)
+        public virtual OrganisationCentreViewModel GetOrganisationCentre(int organisationCentreId)
         {
             OrganisationCentreResponse response = _organisationCentreClient.GetOrganisationCentre(organisationCentreId);
             return response?.OrganisationCentreModel.ToViewModel<OrganisationCentreViewModel>();
@@ -139,7 +139,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centre Printing Format by organisationCentreId.
-        public virtual OrganisationCentrePrintingFormatViewModel GetPrintingFormat(short organisationCentreId)
+        public virtual OrganisationCentrePrintingFormatViewModel GetPrintingFormat(int organisationCentreId)
         {
             OrganisationCentrePrintingFormatResponse response = _organisationCentreClient.GetPrintingFormat(organisationCentreId);
             return response?.OrganisationCentrePrintingFormatModel.ToViewModel<OrganisationCentrePrintingFormatViewModel>();
@@ -164,7 +164,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise GST Credential by organisationCentreId.
-        public virtual OrganisationCentrewiseGSTCredentialViewModel GetCentrewiseGSTSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseGSTCredentialViewModel GetCentrewiseGSTSetup(int organisationCentreId)
         {
             OrganisationCentrewiseGSTCredentialResponse response = _organisationCentreClient.GetCentrewiseGSTSetup(organisationCentreId);
             return response?.OrganisationCentrewiseGSTCredentialModel.ToViewModel<OrganisationCentrewiseGSTCredentialViewModel>();
@@ -189,7 +189,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise Smtp Setting by organisationCentreId.
-        public virtual OrganisationCentrewiseSmtpSettingViewModel GetCentrewiseSmtpSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseSmtpSettingViewModel GetCentrewiseSmtpSetup(int organisationCentreId)
         {
             OrganisationCentrewiseSmtpSettingResponse response = _organisationCentreClient.GetCentrewiseSmtpSetup(organisationCentreId);
             return response?.OrganisationCentrewiseSmtpSettingModel.ToViewModel<OrganisationCentrewiseSmtpSettingViewModel>();
@@ -214,7 +214,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise Sms Setting by organisationCentreId.
-        public virtual OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId)
+        public virtual OrganisationCentrewiseSmsSettingViewModel GetCentrewiseSmsSetup(int organisationCentreId, byte generalSmsProviderId)
         {
             OrganisationCentrewiseSmsSettingResponse response = _organisationCentreClient.GetCentrewiseSmsSetup(organisationCentreId, generalSmsProviderId);
             return response?.OrganisationCentrewiseSmsSettingModel.ToViewModel<OrganisationCentrewiseSmsSettingViewModel>();
@@ -244,7 +244,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise WhatsApp Setting by organisationCentreId.
-        public virtual OrganisationCentrewiseWhatsAppSettingViewModel GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId)
+        public virtual OrganisationCentrewiseWhatsAppSettingViewModel GetCentrewiseWhatsAppSetup(int organisationCentreId, byte generalWhatsAppProviderId)
         {
             OrganisationCentrewiseWhatsAppSettingResponse response = _organisationCentreClient.GetCentrewiseWhatsAppSetup(organisationCentreId, generalWhatsAppProviderId);
             return response?.OrganisationCentrewiseWhatsAppSettingModel.ToViewModel<OrganisationCentrewiseWhatsAppSettingViewModel>();
@@ -274,7 +274,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise Email Template by organisationCentreId.
-        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode, string templateType)
+        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseEmailTemplateSetup(int organisationCentreId, string emailTemplateCode, string templateType)
         {
             OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.GetCentrewiseEmailTemplateSetup(organisationCentreId, emailTemplateCode, templateType);
             return response?.OrganisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>();
@@ -299,7 +299,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise SMS Template by organisationCentreId.
-        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseSMSTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.GetCentrewiseSMSTemplateSetup(organisationCentreId, emailTemplateCode);
             return response?.OrganisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>();
@@ -325,7 +325,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise WhatsApp Template by organisationCentreId.
-        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseWhatsAppTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             OrganisationCentrewiseEmailTemplateResponse response = _organisationCentreClient.GetCentrewiseWhatsAppTemplateSetup(organisationCentreId, emailTemplateCode);
             return response?.OrganisationCentrewiseEmailTemplateModel.ToViewModel<OrganisationCentrewiseEmailTemplateViewModel>();
@@ -351,7 +351,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise UserName by organisationCentreId.
-        public virtual OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
+        public virtual OrganisationCentrewiseUserNameRegistrationViewModel GetCentrewiseUserName(int organisationCentreId, int organisationCentrewiseUserNameRegistrationId)
         {
             OrganisationCentrewiseUserNameRegistrationResponse response = _organisationCentreClient.GetCentrewiseUserName(organisationCentreId, organisationCentrewiseUserNameRegistrationId);
             return response?.OrganisationCentrewiseUserNameRegistrationModel.ToViewModel<OrganisationCentrewiseUserNameRegistrationViewModel>();

@@ -6,8 +6,8 @@ namespace Coditech.Admin.ViewModel
 {
     public class OrganisationCentrePrintingFormatViewModel : BaseViewModel
     {
-        public short OrganisationCentrePrintingFormatId { get; set; }
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentrePrintingFormatId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [Display(Name = "Centre Code")]
         public string CentreCode { get; set; }

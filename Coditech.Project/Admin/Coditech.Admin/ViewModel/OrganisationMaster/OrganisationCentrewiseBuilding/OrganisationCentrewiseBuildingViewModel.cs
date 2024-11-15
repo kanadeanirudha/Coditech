@@ -5,7 +5,7 @@ namespace Coditech.Admin.ViewModel
 {
     public class OrganisationCentrewiseBuildingViewModel : BaseViewModel
     {
-        public short OrganisationCentrewiseBuildingMasterId { get; set; }
+        public int OrganisationCentrewiseBuildingMasterId { get; set; }
 
         [MaxLength(15)]
         [Required]

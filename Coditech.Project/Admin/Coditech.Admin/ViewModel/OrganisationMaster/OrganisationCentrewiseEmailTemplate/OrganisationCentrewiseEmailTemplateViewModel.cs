@@ -6,10 +6,10 @@ namespace Coditech.Admin.ViewModel
     public class OrganisationCentrewiseEmailTemplateViewModel : BaseViewModel
     {
         [Required]
-        public short OrganisationCentrewiseEmailTemplateId { get; set; }
+        public int OrganisationCentrewiseEmailTemplateId { get; set; }
 
         [Required]
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [Required]
         [MaxLength(15)]

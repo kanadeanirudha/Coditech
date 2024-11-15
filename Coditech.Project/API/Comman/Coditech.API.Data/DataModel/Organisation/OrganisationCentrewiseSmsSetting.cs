@@ -5,7 +5,7 @@ namespace Coditech.API.Data
     public partial class OrganisationCentrewiseSmsSetting
     {
         [Key]
-        public short OrganisationCentrewiseSmsSettingId { get; set; }
+        public int OrganisationCentrewiseSmsSettingId { get; set; }
         public string CentreCode { get; set; }
         public byte GeneralSmsProviderId { get; set; }
         public string SmsPortalAccountId { get; set; }

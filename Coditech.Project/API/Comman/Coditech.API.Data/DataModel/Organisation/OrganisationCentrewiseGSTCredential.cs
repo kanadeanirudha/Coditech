@@ -4,8 +4,8 @@ namespace Coditech.API.Data
 {
     public partial class OrganisationCentrewiseGSTCredential
     {
-        public short OrganisationCentrewiseGSTCredentialId { get; set; }
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentrewiseGSTCredentialId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
         public string Version { get; set; }
         public string Urls { get; set; }
         public string EInvoiceUserName { get; set; }

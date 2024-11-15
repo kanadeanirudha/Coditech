@@ -5,11 +5,11 @@ namespace Coditech.Common.API.Model
     public class OrganisationCentrePrintingFormatModel : BaseModel
     {
         [Required]
-        public short OrganisationCentrePrintingFormatId { get; set; }
+        public int OrganisationCentrePrintingFormatId { get; set; }
 
         [Required]
         [Display(Name = "Centre Code")]
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [MaxLength(100)]
         [Display(Name = " PrintingLine 1 ")]

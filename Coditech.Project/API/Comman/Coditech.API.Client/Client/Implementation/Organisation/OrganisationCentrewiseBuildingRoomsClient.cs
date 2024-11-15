@@ -116,12 +116,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual OrganisationCentrewiseBuildingRoomsResponse GetOrganisationCentrewiseBuildingRooms(short organisationCentrewiseBuildingRoomId)
+        public virtual OrganisationCentrewiseBuildingRoomsResponse GetOrganisationCentrewiseBuildingRooms(int organisationCentrewiseBuildingRoomId)
         {
             return Task.Run(async () => await GetOrganisationCentrewiseBuildingRoomsAsync(organisationCentrewiseBuildingRoomId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrewiseBuildingRoomsResponse> GetOrganisationCentrewiseBuildingRoomsAsync(short organisationCentrewiseBuildingRoomId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseBuildingRoomsResponse> GetOrganisationCentrewiseBuildingRoomsAsync(int organisationCentrewiseBuildingRoomId, System.Threading.CancellationToken cancellationToken)
         {
             if (organisationCentrewiseBuildingRoomId <= 0)
                 throw new System.ArgumentNullException("organisationCentrewiseBuildingRoomId");

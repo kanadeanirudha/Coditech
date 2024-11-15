@@ -6,10 +6,10 @@ namespace Coditech.Model
     public partial class OrganisationCentrewiseSmtpSettingModel : BaseModel
     {
         [Required]
-        public short OrganisationCentrewiseSmtpSettingId { get; set; }
+        public int OrganisationCentrewiseSmtpSettingId { get; set; }
 
         [Required]
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [Required]
         [MaxLength(15)]

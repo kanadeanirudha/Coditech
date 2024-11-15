@@ -78,7 +78,7 @@ namespace Coditech.Admin.Agents
         }
 
         //Get Organisation Centrewise Building Rooms by organisationCentrewiseBuildingRoom id.
-        public virtual OrganisationCentrewiseBuildingRoomsViewModel GetOrganisationCentrewiseBuildingRooms(short organisationCentrewiseBuildingRoomId)
+        public virtual OrganisationCentrewiseBuildingRoomsViewModel GetOrganisationCentrewiseBuildingRooms(int organisationCentrewiseBuildingRoomId)
         {
             OrganisationCentrewiseBuildingRoomsResponse response = _organisationCentrewiseBuildingRoomsClient.GetOrganisationCentrewiseBuildingRooms(organisationCentrewiseBuildingRoomId);
             return response?.OrganisationCentrewiseBuildingRoomsModel.ToViewModel<OrganisationCentrewiseBuildingRoomsViewModel>();

@@ -7,10 +7,10 @@ namespace Coditech.Admin.ViewModel
     {
         [Required]
         [Display(Name = "SMS Setting ID")]
-        public short OrganisationCentrewiseSmsSettingId { get; set; }
+        public int OrganisationCentrewiseSmsSettingId { get; set; }
 
         [Required]
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [Required]
         [Display(Name = "SMS Provider ID")]

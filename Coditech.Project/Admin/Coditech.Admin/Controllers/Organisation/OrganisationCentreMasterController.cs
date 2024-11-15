@@ -61,7 +61,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short organisationCentreId)
+        public virtual ActionResult Edit(int organisationCentreId)
         {
             OrganisationCentreViewModel organisationCentreViewModel = _organisationCentreAgent.GetOrganisationCentre(organisationCentreId);
             return ActionView(createEdit, organisationCentreViewModel);
@@ -101,7 +101,7 @@ namespace Coditech.Admin.Controllers
 
         #region Centre Printing Format
         [HttpGet]
-        public virtual ActionResult PrintingFormat(short organisationCentreId)
+        public virtual ActionResult PrintingFormat(int organisationCentreId)
         {
             OrganisationCentrePrintingFormatViewModel organisationCentrePrintingFormatViewModel = _organisationCentreAgent.GetPrintingFormat(organisationCentreId);
             return ActionView(OrganisationCentrePrintingFormat, organisationCentrePrintingFormatViewModel);
@@ -123,7 +123,7 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseGSTSetup
         [HttpGet]
-        public virtual ActionResult CentrewiseGSTSetup(short organisationCentreId)
+        public virtual ActionResult CentrewiseGSTSetup(int organisationCentreId)
         {
             OrganisationCentrewiseGSTCredentialViewModel organisationCentrewiseGSTCredentialViewModel = _organisationCentreAgent.GetCentrewiseGSTSetup(organisationCentreId);
             return ActionView(OrganisationCentrewiseGSTCredential, organisationCentrewiseGSTCredentialViewModel);
@@ -145,7 +145,7 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseSMTPSetting
         [HttpGet]
-        public virtual ActionResult CentrewiseSmtpSetup(short organisationCentreId)
+        public virtual ActionResult CentrewiseSmtpSetup(int organisationCentreId)
         {
             OrganisationCentrewiseSmtpSettingViewModel organisationCentrewiseSmtpSettingViewModel = _organisationCentreAgent.GetCentrewiseSmtpSetup(organisationCentreId);
             return ActionView(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
@@ -168,7 +168,7 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseSMSSetting
         [HttpGet]
-        public virtual ActionResult CentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId = 0)
+        public virtual ActionResult CentrewiseSmsSetup(int organisationCentreId, byte generalSmsProviderId = 0)
         {
             OrganisationCentrewiseSmsSettingViewModel organisationCentrewiseSmsSettingViewModel = _organisationCentreAgent.GetCentrewiseSmsSetup(organisationCentreId, generalSmsProviderId);
             if (AjaxHelper.IsAjaxRequest)
@@ -194,7 +194,7 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseWhatsAppSetting
         [HttpGet]
-        public virtual ActionResult CentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId = 0)
+        public virtual ActionResult CentrewiseWhatsAppSetup(int organisationCentreId, byte generalWhatsAppProviderId = 0)
         {
             OrganisationCentrewiseWhatsAppSettingViewModel organisationCentrewiseWhatsAppSettingViewModel = _organisationCentreAgent.GetCentrewiseWhatsAppSetup(organisationCentreId, generalWhatsAppProviderId);
             if (AjaxHelper.IsAjaxRequest)
@@ -220,14 +220,14 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseEmailTemplate
         [HttpGet]
-        public virtual ActionResult CentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual ActionResult CentrewiseEmailTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, emailTemplateCode, "email");
             return ActionView(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult GetEmailTemplateByCentreCode(short organisationCentreId, string emailTemplateCode, string templateType)
+        public virtual ActionResult GetEmailTemplateByCentreCode(int organisationCentreId, string emailTemplateCode, string templateType)
         {
             OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseEmailTemplateSetup(organisationCentreId, emailTemplateCode, templateType);
             return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseEmailTemplate.cshtml", organisationCentrewiseEmailTemplateViewModel);
@@ -249,7 +249,7 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseSMSTemplate
         [HttpGet]
-        public virtual ActionResult CentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual ActionResult CentrewiseSMSTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseSMSTemplateSetup(organisationCentreId, emailTemplateCode);
             return ActionView(OrganisationCentrewiseSMSTemplate, organisationCentrewiseEmailTemplateViewModel);
@@ -271,7 +271,7 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseWhatsAppTemplate
         [HttpGet]
-        public virtual ActionResult CentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual ActionResult CentrewiseWhatsAppTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel = _organisationCentreAgent.GetCentrewiseWhatsAppTemplateSetup(organisationCentreId, emailTemplateCode);
             return ActionView(OrganisationCentrewiseWhatsAppTemplate, organisationCentrewiseEmailTemplateViewModel);
@@ -293,14 +293,14 @@ namespace Coditech.Admin.Controllers
 
         #region CentrewiseUserNameRegistration
         [HttpGet]
-        public virtual ActionResult CentrewiseUserNameRegistrationList(short organisationCentreId)
+        public virtual ActionResult CentrewiseUserNameRegistrationList(int organisationCentreId)
         {
             OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId);
             return ActionView("~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseUserNameRegistrationList.cshtml", organisationCentrewiseUserNameRegistrationViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult CentrewiseUserNameRegistration(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
+        public virtual ActionResult CentrewiseUserNameRegistration(int organisationCentreId, int organisationCentrewiseUserNameRegistrationId)
         {
             OrganisationCentrewiseUserNameRegistrationViewModel organisationCentrewiseUserNameRegistrationViewModel = _organisationCentreAgent.GetCentrewiseUserName(organisationCentreId, organisationCentrewiseUserNameRegistrationId);
             BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);

@@ -4,8 +4,8 @@
     {
         public int HospitalDoctorAllocatedOPDRoomId { get; set; }
         public int HospitalDoctorId { get; set; }
-        public short OrganisationCentrewiseBuildingRoomId { get; set; }
-        public short? OrganisationCentrewiseBuildingMasterId { get; set; }
+        public int OrganisationCentrewiseBuildingRoomId { get; set; }
+        public int? OrganisationCentrewiseBuildingMasterId { get; set; }
         public string RoomName { get; set; }
         public string ImagePath { get; set; }
         public string FirstName { get; set; }
