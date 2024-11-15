@@ -54,7 +54,13 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span class="card-title">Media Manager Upload</span>
-                        <div>
+                        <div class="d-flex align-items-center">
+                            <!-- Toggle Switch -->
+                            <div class="form-check form-switch me-3">
+                                <input class="form-check-input" type="checkbox" id="viewToggle" />
+                            </div>
+
+                            <!-- Upload File Button -->
                             @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.UploadFile.ToString())))
                             {
                                 <form asp-action="UploadFile" asp-controller="MediaManager" enctype="multipart/form-data" method="post" style="display:inline;">
@@ -64,7 +70,7 @@
                                     <input type="file" id="imageUpload" name="imageFile" style="display: none;" onchange="this.form.submit()" />
                                     <input type="hidden" name="folderId" value="@Model.ActiveFolderId" />
                                 </form>
-                            }                            
+                            }
                         </div>
                     </div>
                     <div class="card-body">
@@ -193,3 +199,36 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* Hide the labels by default */
+    .toggle-label {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    /* Grid label is initially visible */
+    #gridLabel {
+        left: 10px;
+        opacity: 1;
+    }
+
+    /* List label is hidden initially */
+    #listLabel {
+        right: 10px;
+        opacity: 0;
+    }
+
+    /* When the toggle is checked, switch labels */
+    #viewToggle:checked + .form-check-label #gridLabel {
+        opacity: 0;
+    }
+
+    #viewToggle:checked + .form-check-label #listLabel {
+        opacity: 1;
+    }
+
+</style>
+
