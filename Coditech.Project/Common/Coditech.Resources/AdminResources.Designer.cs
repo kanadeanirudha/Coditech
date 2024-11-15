@@ -149,6 +149,30 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete GymWorkoutPlan detaild due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymWorkoutPlan
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGymWorkoutPlan", resourceCulture);
+
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete GymWorkoutPlan detaild due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymWorkoutPlanDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGymWorkoutPlanDetails", resourceCulture);
+
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete AssociatedTrainer detaild due to associate record..
         /// </summary>
         public static string ErrorDeleteAssociatedTrainer
@@ -237,6 +261,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete DBTMTraineeAssignment due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDeleteDBTMTraineeAssignment
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteDeleteDBTMTraineeAssignment", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete DBTMDeviceRegistrationDetails due to associate record..
         /// </summary>
         public static string ErrorDeleteDBTMDeviceRegistrationDetails
@@ -321,6 +356,28 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("ErrorDeleteTrainerDetails", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Batch details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAssociatedBatch
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAssociatedBatch", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete GeneralBatch due to associate record..
+        /// </summary>
+        public static string ErrorDeleteBatchDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteBatchDetails", resourceCulture);
             }
         }
 
@@ -933,6 +990,17 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelCentre", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Centre.
+        /// </summary>
+        public static string LabelTrainer
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelTrainer", resourceCulture);
             }
         }
 

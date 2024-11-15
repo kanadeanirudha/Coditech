@@ -110,7 +110,13 @@
             DBTMActivityCategory,
             DBTMTest,
             DBTMDeviceRegistrationDetails,
-            DBTMTestParameter
+            DBTMTestParameter,
+            GymWorkoutPlan,
+            DBTMTraineeAssignment,
+            DBTMNewRegistration,
+            GeneralBatch,
+            GeneralBatchUser,
+            AssociateUnAssociateBatchwiseUser
         }
     }
 }

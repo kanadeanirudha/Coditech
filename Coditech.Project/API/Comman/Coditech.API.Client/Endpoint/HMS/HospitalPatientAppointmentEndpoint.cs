@@ -24,8 +24,8 @@ namespace Coditech.API.Endpoint
         public string DeleteHospitalPatientAppointmentAsync() =>
                   $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalPatientAppointment/DeleteHospitalPatientAppointment";
 
-        public string GetDoctorsByCentreCodeAndSpecializationAsync(string selectedCentreCode, int medicalSpecilizationEnumId) =>
-           $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalPatientAppointment/GetDoctorsByCentreCodeAndSpecialization?selectedCentreCode={selectedCentreCode}&medicalSpecilizationEnumId={medicalSpecilizationEnumId}";
+        public string GetDoctorsByCentreCodeAndSpecializationAsync(string selectedCentreCode, int medicalSpecializationEnumId) =>
+           $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalPatientAppointment/GetDoctorsByCentreCodeAndSpecialization?selectedCentreCode={selectedCentreCode}&medicalSpecializationEnumId={medicalSpecializationEnumId}";
 
         public string  GetTimeSlotByDoctorsAndAppointmentDateAsync(int hospitalDoctorId, DateTime appointmentDate) =>
           $"{CoditechAdminSettings.CoditechHospitalManagementSystemApiRootUri}/HospitalPatientAppointment/GetTimeSlotByDoctorsAndAppointmentDate?hospitalDoctorId={hospitalDoctorId}&appointmentDate={appointmentDate}";

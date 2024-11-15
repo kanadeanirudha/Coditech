@@ -34,7 +34,7 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters.Add("RegistrationService", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("ItemName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("Charges", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
@@ -141,7 +141,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Registration Service",
-                ColumnCode = "RegistrationService",
+                ColumnCode = "ItemName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()

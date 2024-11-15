@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +53,7 @@ namespace Coditech.Admin.Controllers
                 if (!hospitalRegistrationFeeViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = hospitalRegistrationFeeViewModel.SelectedCentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(hospitalRegistrationFeeViewModel.ErrorMessage));
@@ -74,12 +75,12 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_hospitalRegistrationFeeAgent.UpdateRegistrationFee(hospitalRegistrationFeeViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { hospitalRegistrationFeeViewModel.HospitalRegistrationFeeId });
+                return RedirectToAction("Edit", new { hospitalRegistrationFeeId = hospitalRegistrationFeeViewModel.HospitalRegistrationFeeId });
             }
             return View(createEdit, hospitalRegistrationFeeViewModel);
         }
 
-        public virtual ActionResult Delete(string hospitalRegistrationFeeIds)
+        public virtual ActionResult Delete(string hospitalRegistrationFeeIds, string selectedCentreCode)
         {
             string message = string.Empty;
             bool status = false;
@@ -89,7 +90,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<HospitalRegistrationFeeController>(x => x.List(null));
+                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
@@ -98,7 +99,7 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult Cancel(string SelectedCentreCode)
         {
-            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
         #endregion 

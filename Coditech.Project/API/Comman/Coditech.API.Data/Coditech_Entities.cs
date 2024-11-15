@@ -40,6 +40,8 @@ namespace Coditech.API.Data
         public DbSet<GeneralNotification> GeneralNotification { get; set; }
         public DbSet<GeneralTrainerMaster> GeneralTrainerMaster { get; set; }
         public DbSet<GeneralTraineeAssociatedToTrainer> GeneralTraineeAssociatedToTrainer { get; set; }
+        public DbSet<GeneralBatchMaster> GeneralBatchMaster { get; set; }
+        public DbSet<GeneralBatchUser> GeneralBatchUser { get; set; }
 
         #endregion
 
@@ -92,6 +94,9 @@ namespace Coditech.API.Data
         public DbSet<GeneralPersonAttendanceDetails> GeneralPersonAttendanceDetails { get; set; }
         public DbSet<GymMemberMembershipPlan> GymMemberMembershipPlan { get; set; }
         public DbSet<GymMembershipPlanPackage> GymMembershipPlanPackage { get; set; }
+        public DbSet<GymWorkoutPlan> GymWorkoutPlan { get; set; }
+        public DbSet<GymWorkoutPlanDetails> GymWorkoutPlanDetails { get; set; }
+        public DbSet<GymWorkoutPlanSet> GymWorkoutPlanSet { get; set; }
         #endregion
 
         #region MediaManager
@@ -161,6 +166,7 @@ namespace Coditech.API.Data
         public DbSet<DBTMDeviceRegistrationDetails> DBTMDeviceRegistrationDetails { get; set; }
         public DbSet<DBTMTestParameter> DBTMTestParameter { get; set; }
         public DbSet<DBTMParametersAssociatedToTest> DBTMParametersAssociatedToTest { get; set; }
+        public DbSet<DBTMTraineeAssignment> DBTMTraineeAssignment { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

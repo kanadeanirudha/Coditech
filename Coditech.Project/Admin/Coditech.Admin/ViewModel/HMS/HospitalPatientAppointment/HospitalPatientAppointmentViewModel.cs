@@ -32,6 +32,7 @@ namespace Coditech.Admin.ViewModel
         public short HospitalPatientAppointmentPurposeId { get; set; }
 
         public int ApprovalStatusEnumId { get; set; }
+        public string ApprovalStatus { get; set; }
 
         [Required]
         public bool IsAttended { get; set; }
@@ -54,8 +55,8 @@ namespace Coditech.Admin.ViewModel
         public string MobileNumber { get; set; }
 
         [Required]
-        [Display(Name = "Specilization")]
-        public int MedicalSpecilizationEnumId { get; set; }
+        [Display(Name = "Specialization")]
+        public int MedicalSpecializationEnumId { get; set; }
 
         [Required]
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]

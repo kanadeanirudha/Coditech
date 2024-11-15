@@ -9,7 +9,6 @@ namespace Coditech.Admin.ViewModel
         [Required]
         public int HospitalRegistrationFeeId { get; set; }
         [Required]
-        [Display(Name = "Registration Service")]
         public int InventoryGeneralItemLineId { get; set; }
 
         [MaxLength(15)]
@@ -33,7 +32,9 @@ namespace Coditech.Admin.ViewModel
         public bool IsTaxExclusive { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [Display(Name = "Registration Service")]
         public string RegistrationService { get; set; }
+        public string SelectedCentreCode { get; set; }
     }
 
 }

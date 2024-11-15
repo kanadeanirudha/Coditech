@@ -10,7 +10,7 @@ namespace Coditech.Admin.ViewModel
             HospitalPatientAppointmentList = new List<HospitalPatientAppointmentViewModel>();
         }
         public string SelectedCentreCode { get; set; } = string.Empty;
-        public int MedicalSpecilizationEnumId { get; set; }
+        public int MedicalSpecializationEnumId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

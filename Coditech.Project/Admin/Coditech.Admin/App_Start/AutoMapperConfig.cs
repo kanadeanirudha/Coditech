@@ -75,7 +75,10 @@ namespace Coditech.Admin
             CreateMap<GeneralTrainerModel, GeneralTrainerViewModel>().ReverseMap();
             CreateMap<GeneralTraineeAssociatedToTrainerListModel, GeneralTraineeAssociatedToTrainerListViewModel>().ReverseMap();
             CreateMap<GeneralTraineeAssociatedToTrainerModel, GeneralTraineeAssociatedToTrainerViewModel>().ReverseMap();
-           
+            CreateMap<GeneralBatchListModel, GeneralBatchListViewModel>().ReverseMap();
+            CreateMap<GeneralBatchModel, GeneralBatchViewModel>().ReverseMap();
+            CreateMap<GeneralBatchUserListModel, GeneralBatchUserListViewModel>().ReverseMap();
+            CreateMap<GeneralBatchUserModel, GeneralBatchUserViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation
@@ -123,6 +126,11 @@ namespace Coditech.Admin
             CreateMap<GymMemberMembershipPlanListModel, GymMemberMembershipPlanListViewModel>().ReverseMap();
             CreateMap<GymMemberSalesInvoiceModel, GymMemberSalesInvoiceViewModel>().ReverseMap();
             CreateMap<GymMemberSalesInvoiceListModel, GymMemberSalesInvoiceListViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanModel, GymWorkoutPlanViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanListModel, GymWorkoutPlanListViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanDetailsModel, GymWorkoutPlanDetailsViewModel>().ReverseMap();
+            CreateMap<GymWorkoutPlanSetModel, GymWorkoutPlanSetViewModel>().ReverseMap();
+
             #endregion
 
             #region Person
@@ -232,6 +240,9 @@ namespace Coditech.Admin
             CreateMap<DBTMDeviceRegistrationDetailsListModel, DBTMDeviceRegistrationDetailsListViewModel>().ReverseMap();
             CreateMap<DBTMTestParameterModel, DBTMTestParameterViewModel>().ReverseMap();
             CreateMap<DBTMTestParameterListModel, DBTMTestParameterListViewModel>().ReverseMap();
+            CreateMap<DBTMTraineeAssignmentModel, DBTMTraineeAssignmentViewModel>().ReverseMap();
+            CreateMap<DBTMTraineeAssignmentListModel, DBTMTraineeAssignmentListViewModel>().ReverseMap();
+            CreateMap<DBTMNewRegistrationModel, DBTMNewRegistrationViewModel>().ReverseMap();
             #endregion
         }
     }

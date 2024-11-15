@@ -11,7 +11,7 @@ namespace Coditech.Common.API.Model
         public long EmployeeId { get; set; }
 
         [Required]
-        public int MedicalSpecilizationEnumId { get; set; }
+        public int MedicalSpecializationEnumId { get; set; }
 
         public string SelectedCentreCode { get; set; }
 
@@ -24,7 +24,7 @@ namespace Coditech.Common.API.Model
         public string EmailId { get; set; }
         public bool IsAssociated { get; set; }
         public string CentreCode { get; set; }
-        public string MedicalSpecilization { get; set; }
+        public string MedicalSpecialization { get; set; }
         public string PersonCode { get; set; }
     }
 }

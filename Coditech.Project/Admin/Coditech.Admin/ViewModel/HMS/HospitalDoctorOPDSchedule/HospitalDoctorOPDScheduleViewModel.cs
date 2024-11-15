@@ -25,7 +25,7 @@ namespace Coditech.Admin.ViewModel
         public string ImagePath { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string MedicalSpecilization { get; set; }
+        public string MedicalSpecialization { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public string SelectedCentreCode { get; set; }
