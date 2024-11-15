@@ -4,10 +4,10 @@ namespace Coditech.Common.API.Model
 {
     public class OrganisationCentrewiseBuildingRoomsModel : BaseModel
     {
-        public short OrganisationCentrewiseBuildingRoomId { get; set; }
+        public int OrganisationCentrewiseBuildingRoomId { get; set; }
 
         [Required]
-        public short OrganisationCentrewiseBuildingMasterId { get; set; }
+        public int OrganisationCentrewiseBuildingMasterId { get; set; }
 
         [Required]
         public int BuildingFloorEnumId { get; set; }

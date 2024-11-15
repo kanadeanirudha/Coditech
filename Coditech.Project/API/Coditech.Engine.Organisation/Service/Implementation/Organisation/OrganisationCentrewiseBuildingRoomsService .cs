@@ -73,7 +73,7 @@ namespace Coditech.API.Service
         }
 
         //Get OrganisationCentrewiseBuildingRooms by organisationCentrewiseBuildingRoom id.
-        public virtual OrganisationCentrewiseBuildingRoomsModel GetOrganisationCentrewiseBuildingRooms(short organisationCentrewiseBuildingRoomId)
+        public virtual OrganisationCentrewiseBuildingRoomsModel GetOrganisationCentrewiseBuildingRooms(int organisationCentrewiseBuildingRoomId)
         {
             if (organisationCentrewiseBuildingRoomId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "OrganisationCentrewiseBuildingRoomId"));
@@ -125,7 +125,7 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Room Name is already present or not.
-        protected virtual bool IsRoomNameAlreadyExist(string roomName, short OrganisationCentrewiseBuildingMasterId, int BuildingFloorEnumId, short organisationCentrewiseBuildingRoomId = 0)
+        protected virtual bool IsRoomNameAlreadyExist(string roomName, int OrganisationCentrewiseBuildingMasterId, int BuildingFloorEnumId, int organisationCentrewiseBuildingRoomId = 0)
          => _organisationCentrewiseBuildingRoomsRepository.Table.Any(x => x.RoomName == roomName && x.OrganisationCentrewiseBuildingRoomId == OrganisationCentrewiseBuildingMasterId && x.BuildingFloorEnumId == BuildingFloorEnumId && (x.OrganisationCentrewiseBuildingRoomId != organisationCentrewiseBuildingRoomId || organisationCentrewiseBuildingRoomId == 0));
         #endregion
     }

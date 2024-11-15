@@ -25,7 +25,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentrewiseBuildingRoomId">organisationCentrewiseBuildingRoomId</param>
         /// <returns>Returns OrganisationCentrewiseBuildingRoomsResponse.</returns>
-        OrganisationCentrewiseBuildingRoomsResponse GetOrganisationCentrewiseBuildingRooms(short organisationCentrewiseBuildingRoomId);
+        OrganisationCentrewiseBuildingRoomsResponse GetOrganisationCentrewiseBuildingRooms(int organisationCentrewiseBuildingRoomId);
 
         /// <summary>
         /// Update OrganisationCentrewiseBuildingRooms.

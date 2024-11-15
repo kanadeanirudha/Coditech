@@ -4,7 +4,7 @@ namespace Coditech.Common.API.Model
 {
     public class OrganisationCentrewiseBuildingModel : BaseModel
     {
-        public short OrganisationCentrewiseBuildingMasterId { get; set; }
+        public int OrganisationCentrewiseBuildingMasterId { get; set; }
 
         [MaxLength(15)]
         [Required]

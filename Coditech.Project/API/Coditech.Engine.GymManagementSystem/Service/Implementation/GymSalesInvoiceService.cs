@@ -128,7 +128,7 @@ namespace Coditech.API.Service
                         EmailId = generalPersonModel.EmailId,
                     };
                 }
-                short organisationCentreMasterId = GetOrganisationCentreMasterIdByCentreCode(salesInvoicePrintModel.CentreCode);
+                int organisationCentreMasterId = GetOrganisationCentreMasterIdByCentreCode(salesInvoicePrintModel.CentreCode);
                 OrganisationCentrePrintingFormat organisationCentrePrintingFormat = _organisationCentrePrintingFormatRepository.Table.FirstOrDefault(x => x.OrganisationCentreMasterId == organisationCentreMasterId);
                 salesInvoicePrintModel.OrganisationCentreInvoicePrintingFormat = new OrganisationCentreInvoicePrintingFormat();
                 if (IsNotNull(organisationCentrePrintingFormat))

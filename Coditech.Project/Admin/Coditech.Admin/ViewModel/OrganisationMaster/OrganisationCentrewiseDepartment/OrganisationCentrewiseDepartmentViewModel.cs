@@ -4,7 +4,7 @@ namespace Coditech.Admin.ViewModel
 {
     public class OrganisationCentrewiseDepartmentViewModel : BaseViewModel
     {
-        public short OrganisationCentrewiseDepartmentId { get; set; }
+        public int OrganisationCentrewiseDepartmentId { get; set; }
 
         public short GeneralDepartmentMasterId { get; set; }
 

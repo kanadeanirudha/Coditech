@@ -55,7 +55,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short organisationCentrewiseBuildingRoomId)
+        public virtual ActionResult Edit(int organisationCentrewiseBuildingRoomId)
         {
             OrganisationCentrewiseBuildingRoomsViewModel organisationCentrewiseBuildingRoomsViewModel = _organisationCentrewiseBuildingRoomsAgent.GetOrganisationCentrewiseBuildingRooms(organisationCentrewiseBuildingRoomId);
             return ActionView(createEdit, organisationCentrewiseBuildingRoomsViewModel);

@@ -15,7 +15,7 @@ namespace Coditech.API.Endpoint
         public string CreateOrganisationCentrewiseBuildingRoomsAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseBuildingRooms/CreateOrganisationCentrewiseBuildingRooms";
 
-        public string GetOrganisationCentrewiseBuildingRoomsAsync(short organisationCentrewiseBuildingRoomId) =>
+        public string GetOrganisationCentrewiseBuildingRoomsAsync(int organisationCentrewiseBuildingRoomId) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseBuildingRooms/GetOrganisationCentrewiseBuildingRooms?organisationCentrewiseBuildingRoomId={organisationCentrewiseBuildingRoomId}";
 
         public string UpdateOrganisationCentrewiseBuildingRoomsAsync() =>

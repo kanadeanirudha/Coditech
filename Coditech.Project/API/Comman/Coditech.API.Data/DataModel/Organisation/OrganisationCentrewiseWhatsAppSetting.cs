@@ -5,7 +5,7 @@ namespace Coditech.API.Data
     public partial class OrganisationCentrewiseWhatsAppSetting
     {
         [Key]
-        public short OrganisationCentrewiseWhatsAppSettingId { get; set; }
+        public int OrganisationCentrewiseWhatsAppSettingId { get; set; }
         public string CentreCode { get; set; }
         public byte GeneralWhatsAppProviderId { get; set; }
         public string WhatsAppPortalAccountId { get; set; }

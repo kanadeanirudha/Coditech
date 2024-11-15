@@ -5,7 +5,7 @@ namespace Coditech.API.Data
     public partial class OrganisationCentrewiseEmailTemplate
     {
         [Key]
-        public short OrganisationCentrewiseEmailTemplateId { get; set; }      
+        public int OrganisationCentrewiseEmailTemplateId { get; set; }      
         public string CentreCode { get; set; }
         public string EmailTemplateCode { get; set; }        
         public string Subject { get; set; }

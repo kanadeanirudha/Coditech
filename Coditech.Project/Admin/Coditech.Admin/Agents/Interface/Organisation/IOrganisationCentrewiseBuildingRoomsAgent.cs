@@ -23,7 +23,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="organisationCentrewiseBuildingRoomId">organisationCentrewiseBuildingRoomId</param>
         /// <returns>Returns OrganisationCentrewiseBuildingRoomsViewModel.</returns>
-        OrganisationCentrewiseBuildingRoomsViewModel GetOrganisationCentrewiseBuildingRooms(short organisationCentrewiseBuildingRoomId);
+        OrganisationCentrewiseBuildingRoomsViewModel GetOrganisationCentrewiseBuildingRooms(int organisationCentrewiseBuildingRoomId);
 
         /// <summary>
         /// Update OrganisationCentrewiseBuildingRooms.

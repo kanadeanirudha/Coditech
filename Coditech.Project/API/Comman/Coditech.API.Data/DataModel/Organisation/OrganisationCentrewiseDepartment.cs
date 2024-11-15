@@ -4,7 +4,7 @@ namespace Coditech.API.Data
 {
     public partial class OrganisationCentrewiseDepartment
     {
-        public short OrganisationCentrewiseDepartmentId { get; set; }
+        public int OrganisationCentrewiseDepartmentId { get; set; }
         public short GeneralDepartmentMasterId { get; set; }
         public string CentreCode { get; set; }
         public bool ActiveFlag { get; set; }

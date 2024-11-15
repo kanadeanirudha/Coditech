@@ -26,7 +26,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentreResponse.</returns>
-        OrganisationCentreResponse GetOrganisationCentre(short organisationCentreId);
+        OrganisationCentreResponse GetOrganisationCentre(int organisationCentreId);
 
         /// <summary>
         /// Update OrganisationCentre.
@@ -47,7 +47,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrePrintingFormatResponse.</returns>
-        OrganisationCentrePrintingFormatResponse GetPrintingFormat(short organisationCentreId);
+        OrganisationCentrePrintingFormatResponse GetPrintingFormat(int organisationCentreId);
 
         /// <summary>
         /// Update OrganisationCentrePrintingFormat.
@@ -61,7 +61,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseGSTCredentialResponse.</returns>
-        OrganisationCentrewiseGSTCredentialResponse GetCentrewiseGSTSetup(short organisationCentreId);
+        OrganisationCentrewiseGSTCredentialResponse GetCentrewiseGSTSetup(int organisationCentreId);
 
         /// <summary>
         /// Update OrganisationCentrewiseGSTCredential.
@@ -75,7 +75,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseSmtpSettingResponse.</returns>
-        OrganisationCentrewiseSmtpSettingResponse GetCentrewiseSmtpSetup(short organisationCentreId);
+        OrganisationCentrewiseSmtpSettingResponse GetCentrewiseSmtpSetup(int organisationCentreId);
 
         /// <summary>
         /// Update OrganisationCentrewiseSmtpSetting.
@@ -89,7 +89,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseSmsSettingResponse.</returns>
-        OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId);
+        OrganisationCentrewiseSmsSettingResponse GetCentrewiseSmsSetup(int organisationCentreId, byte generalSmsProviderId);
 
         /// <summary>
         /// Update OrganisationCentrewiseSmsSetting.
@@ -103,7 +103,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseWhatsAppSettingResponse.</returns>
-        OrganisationCentrewiseWhatsAppSettingResponse GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId);
+        OrganisationCentrewiseWhatsAppSettingResponse GetCentrewiseWhatsAppSetup(int organisationCentreId, byte generalWhatsAppProviderId);
 
         /// <summary>
         /// Update OrganisationCentrewiseWhatsAppSetting.
@@ -118,7 +118,7 @@ namespace Coditech.API.Client
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <param name="emailTemplateCode">emailTemplateCode</param>
         /// <returns>Returns OrganisationCentrewiseEmailTemplateResponse.</returns>
-        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode, string templateType);
+        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseEmailTemplateSetup(int organisationCentreId, string emailTemplateCode, string templateType);
 
         /// <summary>
         /// Update OrganisationCentrewiseEmailTemplate.
@@ -132,7 +132,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <returns>Returns OrganisationCentrewiseUserNameRegistrationResponse.</returns>
-        OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId);
+        OrganisationCentrewiseUserNameRegistrationResponse GetCentrewiseUserName(int organisationCentreId, int organisationCentrewiseUserNameRegistrationId);
 
         /// <summary>
         /// Update OrganisationCentrewiseUserName.
@@ -147,7 +147,7 @@ namespace Coditech.API.Client
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <param name="emailTemplateCode">emailTemplateCode</param>
         /// <returns>Returns OrganisationCentrewiseEmailTemplateResponse.</returns>
-        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode);
+        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseSMSTemplateSetup(int organisationCentreId, string emailTemplateCode);
 
         /// <summary>
         /// Update OrganisationCentrewiseSMSTemplate.
@@ -162,7 +162,7 @@ namespace Coditech.API.Client
         /// <param name="organisationCentreId">organisationCentreId</param>
         /// <param name="emailTemplateCode">emailTemplateCode</param>
         /// <returns>Returns OrganisationCentrewiseEmailTemplateResponse.</returns>
-        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode);
+        OrganisationCentrewiseEmailTemplateResponse GetCentrewiseWhatsAppTemplateSetup(int organisationCentreId, string emailTemplateCode);
 
         /// <summary>
         /// Update OrganisationCentrewiseWhatsAppTemplate.

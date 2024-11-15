@@ -9,7 +9,7 @@ namespace Coditech.Admin.ViewModel
         public int HospitalDoctorAllocatedOPDRoomId { get; set; }
         public int HospitalDoctorId { get; set; }
         [Display(Name = "Room Name")]
-        public short OrganisationCentrewiseBuildingRoomId { get; set; }
+        public int OrganisationCentrewiseBuildingRoomId { get; set; }
 
         [Display(Name = "Building Name")]
         public short? OrganisationCentrewiseBuildingMasterId { get; set; }

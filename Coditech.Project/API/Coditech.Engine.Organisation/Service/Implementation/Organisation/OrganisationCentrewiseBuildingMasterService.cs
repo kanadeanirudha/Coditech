@@ -127,7 +127,7 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Centre code is already present or not.
-        protected virtual bool IsCentreCodeAlreadyExist(string centreCode, string buildingName, short organisationCentrewiseBuildingMasterId = 0)
+        protected virtual bool IsCentreCodeAlreadyExist(string centreCode, string buildingName, int organisationCentrewiseBuildingMasterId = 0)
          => _organisationCentrewiseBuildingMasterRepository.Table.Any(x => x.CentreCode == centreCode && x.BuildingName == buildingName && (x.OrganisationCentrewiseBuildingMasterId != organisationCentrewiseBuildingMasterId || organisationCentrewiseBuildingMasterId == 0));
         #endregion
     }

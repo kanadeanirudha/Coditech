@@ -9,26 +9,26 @@ namespace Coditech.API.Organisation.Service.Interface.Organisation
     {
         OrganisationCentreListModel GetOrganisationCentreList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         OrganisationCentreModel CreateOrganisationCentre(OrganisationCentreModel model);
-        OrganisationCentreModel GetOrganisationCentre(short organisationCentreMasterId);
+        OrganisationCentreModel GetOrganisationCentre(int organisationCentreMasterId);
         bool UpdateOrganisationCentre(OrganisationCentreModel model);
         bool DeleteOrganisationCentre(ParameterModel parameterModel);
-        OrganisationCentrePrintingFormatModel GetPrintingFormat(short organisationCentreMasterId);
+        OrganisationCentrePrintingFormatModel GetPrintingFormat(int organisationCentreMasterId);
         bool UpdatePrintingFormat(OrganisationCentrePrintingFormatModel model);
-        OrganisationCentrewiseGSTCredentialModel GetCentrewiseGSTSetup(short organisationCentreMasterId);
+        OrganisationCentrewiseGSTCredentialModel GetCentrewiseGSTSetup(int organisationCentreMasterId);
         bool UpdateCentrewiseGSTSetup(OrganisationCentrewiseGSTCredentialModel model);
-        OrganisationCentrewiseSmtpSettingModel GetCentrewiseSmtpSetup(short organisationCentreMasterId);
+        OrganisationCentrewiseSmtpSettingModel GetCentrewiseSmtpSetup(int organisationCentreMasterId);
         bool UpdateCentrewiseSmtpSetup(OrganisationCentrewiseSmtpSettingModel model);
-        OrganisationCentrewiseSmsSettingModel GetCentrewiseSmsSetup(short organisationCentreMasterId, byte generalSmsProviderId);
+        OrganisationCentrewiseSmsSettingModel GetCentrewiseSmsSetup(int organisationCentreMasterId, byte generalSmsProviderId);
         bool UpdateCentrewiseSmsSetup(OrganisationCentrewiseSmsSettingModel model);
-        OrganisationCentrewiseWhatsAppSettingModel GetCentrewiseWhatsAppSetup(short organisationCentreMasterId, byte generalWhatsAppProviderId);
+        OrganisationCentrewiseWhatsAppSettingModel GetCentrewiseWhatsAppSetup(int organisationCentreMasterId, byte generalWhatsAppProviderId);
         bool UpdateCentrewiseWhatsAppSetup(OrganisationCentrewiseWhatsAppSettingModel model);
-        OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreMasterId, string emailTemplateCode, string templateType);
+        OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(int organisationCentreMasterId, string emailTemplateCode, string templateType);
         bool UpdateCentrewiseEmailTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
-        OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreMasterId,short organisationCentrewiseUserNameRegistrationId=0);
+        OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(int organisationCentreMasterId,int organisationCentrewiseUserNameRegistrationId=0);
         bool UpdateCentrewiseUserName(OrganisationCentrewiseUserNameRegistrationModel model);
-        OrganisationCentrewiseEmailTemplateModel GetCentrewiseSMSTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
+        OrganisationCentrewiseEmailTemplateModel GetCentrewiseSMSTemplateSetup(int organisationCentreMasterId, string emailTemplateCode);
         bool UpdateCentrewiseSMSTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
-        OrganisationCentrewiseEmailTemplateModel GetCentrewiseWhatsAppTemplateSetup(short organisationCentreMasterId, string emailTemplateCode);
+        OrganisationCentrewiseEmailTemplateModel GetCentrewiseWhatsAppTemplateSetup(int organisationCentreMasterId, string emailTemplateCode);
         bool UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
         bool IsCentreNameAlreadyExist(string centreName);
     }

@@ -38,7 +38,7 @@ namespace Coditech.Admin.ViewModel
         public short EmployeeDesignationMasterId { get; set; }
 
         [Display(Name = "Centre wise Department")]
-        public short OrganisationCentrewiseDepartmentId { get; set; }
+        public int OrganisationCentrewiseDepartmentId { get; set; }
 
         [Display(Name = "Is Employee Smoker ?")]
         public bool IsEmployeeSmoker { get; set; }

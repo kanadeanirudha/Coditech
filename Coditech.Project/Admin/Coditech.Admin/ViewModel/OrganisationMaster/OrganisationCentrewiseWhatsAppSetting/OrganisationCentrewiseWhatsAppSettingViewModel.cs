@@ -7,10 +7,10 @@ namespace Coditech.Admin.ViewModel
     {
         [Required]
         [Display(Name = "WhatsApp Setting ID")]
-        public short OrganisationCentrewiseWhatsAppSettingId { get; set; }
+        public int OrganisationCentrewiseWhatsAppSettingId { get; set; }
 
         [Required]
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [Required]
         [Display(Name = "WhatsApp Provider ID")]

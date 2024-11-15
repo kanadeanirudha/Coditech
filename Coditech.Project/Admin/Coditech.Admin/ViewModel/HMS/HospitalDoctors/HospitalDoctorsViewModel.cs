@@ -28,7 +28,7 @@ namespace Coditech.Admin.ViewModel
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public bool IsAssociated { get; set; }
-        public short OrganisationCentrewiseDepartmentId { get; set; }
+        public int OrganisationCentrewiseDepartmentId { get; set; }
         public string DepartmentName { get; set; }
         public string CentreCode { get; set; }
 

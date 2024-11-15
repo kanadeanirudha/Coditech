@@ -6,8 +6,8 @@ namespace Coditech.Model
     public partial class OrganisationCentrewiseSmsSettingModel : BaseModel
     {
         [Required]
-        public short OrganisationCentrewiseSmsSettingId { get; set; }
-        public short OrganisationCentreMasterId { get; set; }
+        public int OrganisationCentrewiseSmsSettingId { get; set; }
+        public int OrganisationCentreMasterId { get; set; }
 
         [Required]
         public byte GeneralSmsProviderId { get; set; }

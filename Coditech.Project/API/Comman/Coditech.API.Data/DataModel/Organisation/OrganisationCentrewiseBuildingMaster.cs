@@ -5,7 +5,7 @@ namespace Coditech.API.Data
     public partial class OrganisationCentrewiseBuildingMaster
     {
         [Key]
-        public short OrganisationCentrewiseBuildingMasterId { get; set; }
+        public int OrganisationCentrewiseBuildingMasterId { get; set; }
         public string CentreCode { get; set; }
         public string BuildingName { get; set; }
         public short Area { get; set; }

@@ -71,7 +71,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentrewiseBuildingRooms/GetOrganisationCentrewiseBuildingRooms")]
         [HttpGet]
         [Produces(typeof(OrganisationCentrewiseBuildingRoomsResponse))]
-        public virtual IActionResult GetOrganisationCentrewiseBuildingRooms(short organisationCentrewiseBuildingRoomId)
+        public virtual IActionResult GetOrganisationCentrewiseBuildingRooms(int organisationCentrewiseBuildingRoomId)
         {
             try
             {

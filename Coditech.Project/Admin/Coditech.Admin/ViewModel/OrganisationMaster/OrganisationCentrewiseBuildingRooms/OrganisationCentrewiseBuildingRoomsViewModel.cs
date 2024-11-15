@@ -5,11 +5,11 @@ namespace Coditech.Admin.ViewModel
 {
     public class OrganisationCentrewiseBuildingRoomsViewModel : BaseViewModel
     {
-        public short OrganisationCentrewiseBuildingRoomId { get; set; }
+        public int OrganisationCentrewiseBuildingRoomId { get; set; }
 
         [Required]
         [Display(Name = "Building Name")]
-        public short OrganisationCentrewiseBuildingMasterId { get; set; }
+        public int OrganisationCentrewiseBuildingMasterId { get; set; }
 
         [Required]
         [Display(Name = "Building Floor")]

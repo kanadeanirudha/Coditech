@@ -88,7 +88,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centre by organisationCentreMasterId.
-        public virtual OrganisationCentreModel GetOrganisationCentre(short organisationCentreId)
+        public virtual OrganisationCentreModel GetOrganisationCentre(int organisationCentreId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -138,7 +138,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centre Printing Format by organisationCentreMasterId.
-        public virtual OrganisationCentrePrintingFormatModel GetPrintingFormat(short organisationCentreId)
+        public virtual OrganisationCentrePrintingFormatModel GetPrintingFormat(int organisationCentreId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -186,7 +186,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise GST Credential by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseGSTCredentialModel GetCentrewiseGSTSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseGSTCredentialModel GetCentrewiseGSTSetup(int organisationCentreId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -233,7 +233,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise Smtp Setting by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseSmtpSettingModel GetCentrewiseSmtpSetup(short organisationCentreId)
+        public virtual OrganisationCentrewiseSmtpSettingModel GetCentrewiseSmtpSetup(int organisationCentreId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -275,7 +275,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise Sms Setting by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseSmsSettingModel GetCentrewiseSmsSetup(short organisationCentreId, byte generalSmsProviderId)
+        public virtual OrganisationCentrewiseSmsSettingModel GetCentrewiseSmsSetup(int organisationCentreId, byte generalSmsProviderId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -321,7 +321,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise WhatsApp Setting by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseWhatsAppSettingModel GetCentrewiseWhatsAppSetup(short organisationCentreId, byte generalWhatsAppProviderId)
+        public virtual OrganisationCentrewiseWhatsAppSettingModel GetCentrewiseWhatsAppSetup(int organisationCentreId, byte generalWhatsAppProviderId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -369,7 +369,7 @@ namespace Coditech.API.Service
 
 
         //Get Organisation Centrewise Email Template by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(short organisationCentreId, string emailTemplateCode, string templateType)
+        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseEmailTemplateSetup(int organisationCentreId, string emailTemplateCode, string templateType)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -439,7 +439,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise SMS Template by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseSMSTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseSMSTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -498,7 +498,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise WhatsApp Template by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseWhatsAppTemplateSetup(short organisationCentreId, string emailTemplateCode)
+        public virtual OrganisationCentrewiseEmailTemplateModel GetCentrewiseWhatsAppTemplateSetup(int organisationCentreId, string emailTemplateCode)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -556,7 +556,7 @@ namespace Coditech.API.Service
         }
 
         //Get Organisation Centrewise UserName Registration by organisationCentreMasterId.
-        public virtual OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(short organisationCentreId, short organisationCentrewiseUserNameRegistrationId)
+        public virtual OrganisationCentrewiseUserNameRegistrationModel GetCentrewiseUserName(int organisationCentreId, int organisationCentrewiseUserNameRegistrationId)
         {
             if (organisationCentreId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "organisationCentreId"));
@@ -617,10 +617,10 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if Centre code is already present or not.
-        protected virtual bool IsCentreCodeAlreadyExist(string centreCode, short organisationCentreMasterId = 0)
+        protected virtual bool IsCentreCodeAlreadyExist(string centreCode, int organisationCentreMasterId = 0)
          => _organisationCentreMasterRepository.Table.Any(x => x.CentreCode == centreCode && (x.OrganisationCentreMasterId != organisationCentreMasterId || organisationCentreMasterId == 0));
 
-        protected virtual bool IsCentrewiseUserNameAlreadyExist(string centreCode, string userType, short organisationCentrewiseUserNameRegistrationId = 0)
+        protected virtual bool IsCentrewiseUserNameAlreadyExist(string centreCode, string userType, int organisationCentrewiseUserNameRegistrationId = 0)
         => _organisationCentrewiseUserNameRegistrationRepository.Table.Any(x => x.CentreCode == centreCode && x.UserType == userType && (x.OrganisationCentrewiseUserNameRegistrationId != organisationCentrewiseUserNameRegistrationId || organisationCentrewiseUserNameRegistrationId == 0));
         #endregion
         

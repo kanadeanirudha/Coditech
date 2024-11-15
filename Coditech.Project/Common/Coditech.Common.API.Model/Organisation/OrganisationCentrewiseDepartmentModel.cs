@@ -4,7 +4,7 @@ namespace Coditech.Common.API.Model
 {
     public class OrganisationCentrewiseDepartmentModel : BaseModel
     {
-        public short OrganisationCentrewiseDepartmentId { get; set; }
+        public int OrganisationCentrewiseDepartmentId { get; set; }
 
         [Required]
         public short GeneralDepartmentMasterId { get; set; }
