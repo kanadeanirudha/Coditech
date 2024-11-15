@@ -83,7 +83,11 @@
         DBTMTraineeRegistration,
         UnAssociatedTrainerList,
         DBTMActivityCategory,
-        DBTMDeviceRegistrationDetails
+        DBTMDeviceRegistrationDetails,
+        CentrewiseDBTMTrainer,
+        TraineeDetailsListByDBTMTrainer,
+        DBTMTestStatus,
+        DBTMTest
     }
 
     public enum GeneralSystemGlobleSettingEnum

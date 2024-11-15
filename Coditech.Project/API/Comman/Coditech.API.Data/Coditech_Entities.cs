@@ -40,6 +40,8 @@ namespace Coditech.API.Data
         public DbSet<GeneralNotification> GeneralNotification { get; set; }
         public DbSet<GeneralTrainerMaster> GeneralTrainerMaster { get; set; }
         public DbSet<GeneralTraineeAssociatedToTrainer> GeneralTraineeAssociatedToTrainer { get; set; }
+        public DbSet<GeneralBatchMaster> GeneralBatchMaster { get; set; }
+        public DbSet<GeneralBatchUser> GeneralBatchUser { get; set; }
 
         #endregion
 
@@ -164,6 +166,7 @@ namespace Coditech.API.Data
         public DbSet<DBTMDeviceRegistrationDetails> DBTMDeviceRegistrationDetails { get; set; }
         public DbSet<DBTMTestParameter> DBTMTestParameter { get; set; }
         public DbSet<DBTMParametersAssociatedToTest> DBTMParametersAssociatedToTest { get; set; }
+        public DbSet<DBTMTraineeAssignment> DBTMTraineeAssignment { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

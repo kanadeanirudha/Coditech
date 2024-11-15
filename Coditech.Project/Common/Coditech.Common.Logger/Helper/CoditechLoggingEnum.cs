@@ -111,7 +111,12 @@
             DBTMTest,
             DBTMDeviceRegistrationDetails,
             DBTMTestParameter,
-            GymWorkoutPlan
+            GymWorkoutPlan,
+            DBTMTraineeAssignment,
+            DBTMNewRegistration,
+            GeneralBatch,
+            GeneralBatchUser,
+            AssociateUnAssociateBatchwiseUser
         }
     }
 }
