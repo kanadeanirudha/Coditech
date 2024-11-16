@@ -7,7 +7,9 @@
     {
         if (userInfo?.AdminRoleMediaFolderActionList?.Count > 0)
         {
-            adminRoleMediaFolderActionModel = userInfo?.AdminRoleMediaFolderActionList.Where(x => x.AdminRoleMasterId == userInfo.SelectedAdminRoleMasterId).FirstOrDefault();
+            adminRoleMediaFolderActionModel = userInfo?.AdminRoleMediaFolderActionList
+                .Where(x => x.AdminRoleMasterId == userInfo.SelectedAdminRoleMasterId)
+                .FirstOrDefault();
         }
     }
     else
@@ -16,14 +18,18 @@
     }
 }
 <div class="card-body">
-    <div class="d-flex file-box-content flex-wrap gap-5 justify-content-start">
+
+    <!-- Grid View -->
+    <div id="fileBoxContainer" class="file-box-content grid-view">
         @foreach (var media in Model.MediaFiles)
         {
             <div class="file-box">
                 <div class="align-items-center card-action-block d-flex flex-row-reverse justify-content-between mb-2">
-                    @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.DeleteFile.ToString())))
+                    @if (adminRoleMediaFolderActionModel.SelectedMediaActions
+                   .Any(x => x.Equals(MediaFolderActionEnum.DeleteFile.ToString())))
                     {
-                        <a class="download-icon-link" data-media-id="@media.MediaId" onclick="openDeleteFileModal('@media.MediaId', '@media.ActiveFolderId')">
+                        <a class="download-icon-link" data-media-id="@media.MediaId"
+                           onclick="openDeleteFileModal('@media.MediaId', '@media.ActiveFolderId')">
                             <i class="dripicons-cross file-download-icon"></i>
                         </a>
                     }
@@ -40,7 +46,144 @@
             </div>
         }
     </div>
+
+    <!-- List View -->
+    <div id="fileTableContainer" class="file-table-content list-view d-none">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>File Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var media in Model.MediaFiles)
+                {
+                    <tr>
+                        <td>
+                            <img src="@media.MediaPath" alt="@media.MediaName" class="img-thumbnail" style="width: 80px;">
+                        </td>
+                        <td>@media.MediaName</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                @if (adminRoleMediaFolderActionModel.SelectedMediaActions
+                               .Any(x => x.Equals(MediaFolderActionEnum.DeleteFile.ToString())))
+                                {
+                                    <a class="download-icon-link me-2" data-media-id="@media.MediaId"
+                                       onclick="openDeleteFileModal('@media.MediaId', '@media.ActiveFolderId')">
+                                        <i class="dripicons-cross file-download-icon"></i>
+                                    </a>
+                                }
+                                <a target="_blank" href="@media.DownloadPath" class="download-icon-link">
+                                    <i class="dripicons-download file-download-icon"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <div style="padding-top:20px;">
     @Html.Partial("~/Views/Shared/Datatable/_DatatablePagination.cshtml", Model.PageListViewModel)
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize toggle and view when the page loads
+        initializeToggleAndView();
+
+        // Observe pagination clicks and reinitialize view after DOM updates
+        document.body.addEventListener('click', function (event) {
+            if (event.target.matches('.pagination a')) {
+                const observer = new MutationObserver(() => {
+                    initializeToggleAndView(); // Reinitialize toggle and view after pagination
+                    observer.disconnect();
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                });
+            }
+        });
+
+        // Also observe changes when the folder changes (e.g., on page load)
+        const observer = new MutationObserver(initializeToggleAndView);
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+    });
+
+    // Function to initialize toggle state and view
+    function initializeToggleAndView() {
+        // Ensure the toggle is in the parent window
+        const toggle = window.parent.document.getElementById('viewToggle');
+        if (!toggle) {
+            console.error('Toggle element not found in parent!');
+            return;
+        }
+
+        // Initialize the view based on session storage (keeps the view consistent after page reload or pagination)
+        const isGridView = sessionStorage.getItem('isGridView') !== 'false'; // Default to true (grid view)
+        toggle.checked = isGridView; // Set the initial toggle state from session storage
+        setView(isGridView);
+
+        // Attach or re-attach the event listener to the toggle
+        toggle.removeEventListener('change', toggleChangeHandler); // Remove old event listener if present
+        toggle.addEventListener('change', toggleChangeHandler);
+
+        function toggleChangeHandler() {
+            // When the toggle is changed, update the session storage and view
+            const isGridView = toggle.checked;
+            sessionStorage.setItem('isGridView', isGridView); // Store the toggle state in session storage
+            setView(isGridView);
+        }
+
+        // Function to set the grid or list view based on the toggle state
+        function setView(isGridView) {
+            const gridContainer = document.getElementById('fileBoxContainer');
+            const tableContainer = document.getElementById('fileTableContainer');
+
+            if (isGridView) {
+                gridContainer.classList.remove('d-none');
+                tableContainer.classList.add('d-none');
+            } else {
+                gridContainer.classList.add('d-none');
+                tableContainer.classList.remove('d-none');
+            }
+        }
+    }
+
+</script>
+
+<style>
+    .grid-view {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+    }
+
+    .file-box {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        background-color: #f9f9f9;
+    }
+
+        .file-box img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: contain;
+        }
+
+    .list-view table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+</style>
