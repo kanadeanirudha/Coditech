@@ -588,12 +588,7 @@ namespace Coditech.Admin.Helpers
                 Value = "CO",
                 Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
             });
-            dropdownList.Add(new SelectListItem()
-            {
-                Text = "Head Office",
-                Value = "HO",
-                Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
-            });
+            
             dropdownList.Add(new SelectListItem()
             {
                 Text = "Regional Office",

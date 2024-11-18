@@ -14,10 +14,10 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
-        [Required]
-        public string OfficeType { get; set; }
         [MaxLength(5)]
         public string HoCoRoScFlag { get; set; }
+        [Display(Name = "Office Type")]
+        public string OfficeType { get; set; }
         public int? HoId { get; set; }
         public int? CoId { get; set; }
         public int? RoId { get; set; }
@@ -37,13 +37,15 @@ namespace Coditech.Admin.ViewModel
         public string Pincode { get; set; }
         [MaxLength(70)]
         [Required]
-        [Display(Name = "Email Address")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string EmailId { get; set; }
         [MaxLength(30)]
         public string Url { get; set; }
         [MaxLength(50)]
         [Required]
         [Display(Name = "Mobile Number")]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Please enter valid Mobile Number")]
+
         public string CellPhone { get; set; }
         [MaxLength(50)]
         [Display(Name = "Fax Number")]
