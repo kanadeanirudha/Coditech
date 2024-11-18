@@ -14,10 +14,11 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "State Name")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string RegionName { get; set; }
+        public string CountryName { get; set; }
 
         [Required]
         [Display(Name = "Country Name")]
-        public int GeneralCountryMasterId { get; set; }
+        public short GeneralCountryMasterId { get; set; }
 
         [MaxLength(50)]
         [Required]
