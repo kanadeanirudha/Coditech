@@ -4,6 +4,8 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     string css = Model.OrganisationCentreMasterId > 0 ? "col-lg-10" : "col-lg-12";
+    DropdownViewModel officetypedropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.RegionalOffice.ToString(), DropdownName = "OfficeType", DropdownSelectedValue = Convert.ToString(Model.OfficeType), IsDisabled = Model.OrganisationCentreMasterId > 0 };
+
 
 }
 <!-- Page Content-->
@@ -97,6 +99,11 @@
                                         @Html.LabelFor(x => x.InstituteCode, new { @class = "form-label" })
                                         @Html.TextBoxFor(x => x.InstituteCode, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.InstituteCode)
+                                    </div> 
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.OfficeType, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", officetypedropdown)
+                                        @Html.ValidationMessageFor(x => x.HoCoRoScFlag)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">

@@ -14,6 +14,8 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
+        [Required]
+        public string OfficeType { get; set; }
         [MaxLength(5)]
         public string HoCoRoScFlag { get; set; }
         public int? HoId { get; set; }
