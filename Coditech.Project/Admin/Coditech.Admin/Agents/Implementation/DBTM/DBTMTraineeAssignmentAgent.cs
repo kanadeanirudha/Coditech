@@ -39,12 +39,9 @@ namespace Coditech.Admin.Agents
                 filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("TestName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("TestStatus", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-
-            filters.Add(FilterKeys.GeneralTrainerMasterId, ProcedureFilterOperators.Equals, dataTableModel.SelectedParameter1);
-
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             DBTMTraineeAssignmentListResponse response = _dBTMTraineeAssignmentClient.List(Convert.ToInt64(dataTableModel.SelectedParameter1), null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             DBTMTraineeAssignmentListModel deviceList = new DBTMTraineeAssignmentListModel { DBTMTraineeAssignmentList = response?.DBTMTraineeAssignmentList };
@@ -184,7 +181,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Test Status",
-                ColumnCode = "TestStatus",
+                ColumnCode = "DBTMTestStatusEnumId",
                 IsSortable = true,
             });
             return datatableColumnList;

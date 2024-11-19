@@ -37,11 +37,6 @@ namespace Coditech.API.Service
 
         public virtual DBTMTraineeAssignmentListModel GetDBTMTraineeAssignmentList(long generalTrainerMasterId,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            //long personId = 1;
-            //long.TryParse(filters?.Find(x => string.Equals(x.FilterName, FilterKeys.PersonId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue, out personId);
-
-            //string generalTrainerMasterId = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.GeneralTrainerMasterId, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
-            //filters.RemoveAll(x => x.FilterName == FilterKeys.GeneralTrainerMasterId);
 
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
@@ -55,19 +50,19 @@ namespace Coditech.API.Service
             List<DBTMTraineeAssignmentModel> dBTMTraineeAssignmentList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetDBTMTraineeAssignmentList @GeneralTrainerMasterId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             DBTMTraineeAssignmentListModel listModel = new DBTMTraineeAssignmentListModel();
 
-            //if (personId > 0)
-            //{
-            //    GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
-            //    if (IsNotNull(listModel))
-            //    {
-            //        listModel.FirstName = generalPersonModel.FirstName;
-            //        listModel.LastName = generalPersonModel.LastName;
-            //    }
-            //}
-            
-            //listModel.PersonId = personId;
             listModel.DBTMTraineeAssignmentList = dBTMTraineeAssignmentList?.Count > 0 ? dBTMTraineeAssignmentList : new List<DBTMTraineeAssignmentModel>();
             listModel.BindPageListModel(pageListModel);
+
+            if (generalTrainerMasterId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(generalTrainerMasterId);
+                if (IsNotNull(listModel))
+                {
+                    listModel.FirstName = generalPersonModel.FirstName;
+                    listModel.LastName = generalPersonModel.LastName;
+                }
+            }
+            listModel.GeneralTrainerMasterId = generalTrainerMasterId;
             return listModel;
         }
 
@@ -99,9 +94,27 @@ namespace Coditech.API.Service
             if (dBTMTraineeAssignmentId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DBTMTraineeAssignmentId"));
 
+            ////Get the DBTMTraineeAssignment Details based on id.
+            //DBTMTraineeAssignment dBTMTraineeAssignment = _dBTMTraineeAssignmentRepository.Table.FirstOrDefault(x => x.DBTMTraineeAssignmentId == dBTMTraineeAssignmentId);
+            //DBTMTraineeAssignmentModel dBTMTraineeAssignmentModel = dBTMTraineeAssignment?.FromEntityToModel<DBTMTraineeAssignmentModel>();
+
+
             //Get the DBTMTraineeAssignment Details based on id.
-            DBTMTraineeAssignment dBTMTraineeAssignment = _dBTMTraineeAssignmentRepository.Table.FirstOrDefault(x => x.DBTMTraineeAssignmentId == dBTMTraineeAssignmentId);
+            DBTMTraineeAssignment dBTMTraineeAssignment = _dBTMTraineeAssignmentRepository.Table.Where(x => x.DBTMTraineeAssignmentId == dBTMTraineeAssignmentId)?.FirstOrDefault();
             DBTMTraineeAssignmentModel dBTMTraineeAssignmentModel = dBTMTraineeAssignment?.FromEntityToModel<DBTMTraineeAssignmentModel>();
+            if (dBTMTraineeAssignmentModel?.GeneralTrainerMasterId > 0)
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(dBTMTraineeAssignmentModel.GeneralTrainerMasterId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalPersonModel))
+                {
+                    //generalTrainerModel.FirstName = generalPersonModel.FirstName;
+                    // generalTrainerModel.LastName = generalPersonModel.LastName;
+                    dBTMTraineeAssignmentModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+                    //generalTrainerModel.SelectedDepartmentId = generalPersonModel.SelectedDepartmentId;
+                }
+            }
+
+
             return dBTMTraineeAssignmentModel;
         }
 

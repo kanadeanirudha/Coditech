@@ -86,6 +86,11 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<DBTMDeviceMasterController>(x => x.List(null));
         }
 
+        public virtual ActionResult Cancel()
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel();
+            return RedirectToAction("List", dataTableViewModel);
+        }
         #region Protected
 
         #endregion

@@ -21,7 +21,7 @@
                             <td>@item.DeviceName</td>
                             <td>@item.DeviceSerialCode</td>
                             <td>@item.DBTMDeviceStatus</td>
-                            <td>@item.RegistrationDate</td>
+                            <td>@item.RegistrationDate.ToCoditechDateFormat()</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsMasterDevice)
                             </td>
@@ -29,8 +29,8 @@
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
                             </td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?dBTMDeviceId=@item.DBTMDeviceMasterId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
-                                <a href="../@controllerName/Delete?dBTMDeviceIds=@item.DBTMDeviceMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                <a href="../@controllerName/Edit?dBTMDeviceId=@item.DBTMDeviceMasterId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>@* <span class="m-2">|</span> *@
+                                @* <a href="../@controllerName/Delete?dBTMDeviceIds=@item.DBTMDeviceMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
                             </td>
                         </tr>
                     }

@@ -5,9 +5,7 @@
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "DBTMTraineeAssignment.GetDBTMTrainerListByCentreCode()" };
     DropdownViewModel trainerDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseDBTMTrainer.ToString(), DropdownName = "SelectedParameter1", DropdownSelectedValue = Convert.ToString(Model.GeneralTrainerMasterId), ChangeEvent = "DBTMTraineeAssignment.GetDBTMTrainerListByGeneralTrainerMasterId('" + @controllerName + "','" + @actionName + "')" };
-    
-};
-
+}
 <!-- Page Content-->
 <div class="page-content mt-5">
     <div class="container-fluid">
@@ -17,7 +15,6 @@
                     <div class="card-header">
                         <span class="card-title">DBTM Trainee Assignment List</span>
                         <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Assignment</a>
-                        
                     </div>
                     <div class="card-header">
                         <div class="row">
@@ -49,4 +46,4 @@
     </div>
 </div>
 <!-- end page content -->
-<script src="~/js/coditech/DBTM/DBTMTraineeAssignment.js"></script> 
+<script src="~/js/coditech/DBTM/DBTMTraineeAssignment.js"></script>

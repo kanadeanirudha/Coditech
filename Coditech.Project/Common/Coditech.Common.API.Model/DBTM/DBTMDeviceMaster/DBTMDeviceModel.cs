@@ -17,9 +17,7 @@ namespace Coditech.Common.API.Model
         public string ManufacturedBy { get; set; }
         [Required]
         public int StatusEnumId { get; set; }
-        [Required]
         public bool IsMasterDevice { get; set; }
-        [Required]
         public bool IsActive { get; set; }
         [Required]
         public DateTime? RegistrationDate { get; set; }
