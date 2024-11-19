@@ -7,6 +7,7 @@
         {
             GymWorkoutPlanList = new List<GymWorkoutPlanModel>();
         }
+        public long GymWorkoutPlanId { get; set; }
 
     }
 }

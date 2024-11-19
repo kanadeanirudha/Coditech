@@ -20,6 +20,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GymWorkoutPlan> _gymWorkoutPlanRepository;
         private readonly ICoditechRepository<GymWorkoutPlanSet> _gymWorkoutPlanSetRepository;
         private readonly ICoditechRepository<GymWorkoutPlanDetails> _gymWorkoutPlanDetailsRepository;
+        private readonly ICoditechRepository<GymWorkoutPlanUser> _gymWorkoutPlanUserRepository;
 
         public GymWorkoutPlanService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -28,6 +29,7 @@ namespace Coditech.API.Service
             _gymWorkoutPlanRepository = new CoditechRepository<GymWorkoutPlan>(_serviceProvider.GetService<Coditech_Entities>());
             _gymWorkoutPlanDetailsRepository = new CoditechRepository<GymWorkoutPlanDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _gymWorkoutPlanSetRepository = new CoditechRepository<GymWorkoutPlanSet>(_serviceProvider.GetService<Coditech_Entities>());
+            _gymWorkoutPlanUserRepository = new CoditechRepository<GymWorkoutPlanUser>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GymWorkoutPlanListModel GetGymWorkoutPlanList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -206,6 +208,63 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
+       
+        public virtual GymWorkoutPlanUserListModel GetAssociatedMemberList(long gymWorkoutPlanId,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        {
+
+            //Bind the Filter, sorts & Paging details.
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+            CoditechViewRepository<GymWorkoutPlanUserModel> objStoredProc = new CoditechViewRepository<GymWorkoutPlanUserModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@GymWorkoutPlanId", gymWorkoutPlanId, ParameterDirection.Input, DbType.Int64);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<GymWorkoutPlanUserModel> gymWorkoutPlanUserList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGymWorkoutPlanUserAssociatedList @GymWorkoutPlanId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            GymWorkoutPlanUserListModel listModel = new GymWorkoutPlanUserListModel();
+
+            listModel.GymWorkoutPlanUserList = gymWorkoutPlanUserList?.Count > 0 ? gymWorkoutPlanUserList : new List<GymWorkoutPlanUserModel>();
+            listModel.BindPageListModel(pageListModel);
+
+            if (gymWorkoutPlanId > 0)
+            {
+                GymWorkoutPlanModel model = GetGymWorkoutPlan(gymWorkoutPlanId);
+                if (IsNotNull(listModel))
+                {
+                    listModel.WorkoutPlanName = model.WorkoutPlanName;
+                }
+            }
+            listModel.GymWorkoutPlanId = gymWorkoutPlanId;
+            return listModel;
+          
+        }   
+
+        //Update  Associate UnAssociate Centrewise Department.
+        public virtual bool AssociateUnAssociateWorkoutPlanUser(GymWorkoutPlanUserModel gymWorkoutPlanUserModel)
+        {          
+
+            bool isAssociateUnAssociateGymWorkoutPlanUser = false;
+            GymWorkoutPlanUser gymWorkoutPlanUser = new GymWorkoutPlanUser();
+            if (gymWorkoutPlanUserModel.GymWorkoutPlanUserId > 0)
+            {
+                gymWorkoutPlanUser = _gymWorkoutPlanUserRepository.Table.Where(x => x.GymWorkoutPlanUserId == gymWorkoutPlanUserModel.GymWorkoutPlanUserId)?.FirstOrDefault();
+                isAssociateUnAssociateGymWorkoutPlanUser = _gymWorkoutPlanUserRepository.Delete(gymWorkoutPlanUser);
+            }
+            else
+            {
+                gymWorkoutPlanUser = gymWorkoutPlanUserModel.FromModelToEntity<GymWorkoutPlanUser>();
+                gymWorkoutPlanUser = _gymWorkoutPlanUserRepository.Insert(gymWorkoutPlanUser);
+                isAssociateUnAssociateGymWorkoutPlanUser = gymWorkoutPlanUser.GymWorkoutPlanUserId > 0;
+            }
+
+            if (!isAssociateUnAssociateGymWorkoutPlanUser)
+            {
+                gymWorkoutPlanUserModel.HasError = true;
+                gymWorkoutPlanUserModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isAssociateUnAssociateGymWorkoutPlanUser;
+        }
 
         #region Protected Method
         //Check if Workout Plan is already present or not.
@@ -234,6 +293,9 @@ namespace Coditech.API.Service
                     _gymWorkoutPlanSetRepository.Insert(workoutPlanInsertList);
             }
         }
+
+        protected virtual bool IsCentreCodeAlreadyExist(string centreCode, long gymWorkoutPlanUserId = 0)
+        => _gymWorkoutPlanUserRepository.Table.Any(x => x.GymWorkoutPlanUserId != gymWorkoutPlanUserId || gymWorkoutPlanUserId == 0);
         #endregion
     }
 }

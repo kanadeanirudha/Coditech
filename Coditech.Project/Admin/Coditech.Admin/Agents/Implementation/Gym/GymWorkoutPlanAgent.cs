@@ -34,7 +34,6 @@ namespace Coditech.Admin.Agents
             _gymWorkoutPlanClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
             _gymWorkoutPlanDetailsClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
             _gymWorkoutPlanSetClient = GetClient<IGymWorkoutPlanClient>(gymWorkoutPlanClient);
-
             _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion
@@ -164,8 +163,8 @@ namespace Coditech.Admin.Agents
         }
 
         #endregion
-        #region
-        //DeleteWorkoutPlanDetailsList
+
+        #region Delete Workout Plan Details      
         public virtual bool DeleteWorkoutPlanDetailsList(long gymWorkoutPlanId, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
@@ -289,6 +288,64 @@ namespace Coditech.Admin.Agents
             }
         }
         #endregion
+
+        #region Gym Workout Plan User
+        public virtual GymWorkoutPlanUserListViewModel GetAssociatedMemberList(long gymWorkoutPlanId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = new FilterCollection();
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }           
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            GymWorkoutPlanUserListResponse response = _gymWorkoutPlanClient.GetAssociatedMemberList(gymWorkoutPlanId,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GymWorkoutPlanUserListModel gymWorkoutPlanUserList = new GymWorkoutPlanUserListModel { GymWorkoutPlanUserList = response?.GymWorkoutPlanUserList };
+            GymWorkoutPlanUserListViewModel listViewModel = new GymWorkoutPlanUserListViewModel();
+            listViewModel.GymWorkoutPlanUserList = gymWorkoutPlanUserList?.GymWorkoutPlanUserList?.ToViewModel<GymWorkoutPlanUserViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GymWorkoutPlanUserList.Count, BindAssociateWorkoutPlanUserColumns());
+            listViewModel.GymWorkoutPlanId = gymWorkoutPlanId;
+            listViewModel.WorkoutPlanName = response.WorkoutPlanName;
+            return listViewModel;
+        }    
+
+        //Update Associate UnAssociate Centrewise Department.
+        public virtual GymWorkoutPlanUserViewModel AssociateUnAssociateWorkoutPlanUser(GymWorkoutPlanUserViewModel gymWorkoutPlanUserViewModel)
+        {
+            try
+            {
+                long gymWorkoutPlanId = gymWorkoutPlanUserViewModel.GymWorkoutPlanId;
+                long gymWorkoutPlanUserId = gymWorkoutPlanUserViewModel.GymWorkoutPlanUserId;
+                GymWorkoutPlanUserResponse response = _gymWorkoutPlanClient.AssociateUnAssociateWorkoutPlanUser(gymWorkoutPlanUserViewModel.ToModel<GymWorkoutPlanUserModel>());
+                GymWorkoutPlanUserModel gymWorkoutPlanUserModel = response?.GymWorkoutPlanUserModel;
+                gymWorkoutPlanUserViewModel = IsNotNull(gymWorkoutPlanUserModel) ? gymWorkoutPlanUserModel.ToViewModel<GymWorkoutPlanUserViewModel>() : new GymWorkoutPlanUserViewModel();
+                gymWorkoutPlanUserViewModel.GymWorkoutPlanId = gymWorkoutPlanId;
+                gymWorkoutPlanUserViewModel.GymWorkoutPlanUserId = gymWorkoutPlanUserId;
+                return gymWorkoutPlanUserViewModel;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (GymWorkoutPlanUserViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanUserViewModel, ex.ErrorMessage);
+                    default:
+                        return (GymWorkoutPlanUserViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanUserViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                return (GymWorkoutPlanUserViewModel)GetViewModelWithErrorMessage(gymWorkoutPlanUserViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+        #endregion
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {
@@ -322,6 +379,40 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Is Active",
                 ColumnCode = "IsActive",
                 IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindAssociateWorkoutPlanUserColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Image",
+                ColumnCode = "Image",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Contact",
+                ColumnCode = "MobileNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Associated",
+                ColumnCode = "IsAssociated",
             });
             return datatableColumnList;
         }
