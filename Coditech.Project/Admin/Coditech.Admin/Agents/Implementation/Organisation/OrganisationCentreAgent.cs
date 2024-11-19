@@ -397,6 +397,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Office Type",
                 ColumnCode = "HoCoRoScFlag",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
