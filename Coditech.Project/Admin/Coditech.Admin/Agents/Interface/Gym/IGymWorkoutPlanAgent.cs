@@ -83,6 +83,24 @@ namespace Coditech.Admin.Agents
         bool DeleteWorkoutPlanDetailsSet(long gymWorkoutPlanDetailId, out string errorMessage);
 
         #endregion
+
+        #region Gym Workout Plan User
+        /// <summary>
+        /// Get list of Gym Workout Plan User.
+        /// </summary>
+        /// <param name="gymWorkoutPlanId">DataTable ViewModel.</param>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GymWorkoutPlanUserViewModelListViewModel</returns>
+        GymWorkoutPlanUserListViewModel GetAssociatedMemberList(long gymWorkoutPlanId, DataTableViewModel dataTableModel);
+
+        /// <summary>
+        /// Update Associate UnAssociate Workout Plan User.
+        /// </summary>
+        /// <param name="gymWorkoutPlanUserViewModel">gymWorkoutPlanUserViewModel.</param>
+        /// <returns>Returns updated GymWorkoutPlanUserViewModel</returns>
+        GymWorkoutPlanUserViewModel AssociateUnAssociateWorkoutPlanUser(GymWorkoutPlanUserViewModel gymWorkoutPlanUserViewModel);
+
+        #endregion
     }
     #endregion
 }

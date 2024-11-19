@@ -49,13 +49,29 @@ namespace Coditech.API.Client
         /// <returns>Returns GymWorkoutPlanDetailsResponse.</returns>
         GymWorkoutPlanDetailsResponse AddWorkoutPlanDetails(GymWorkoutPlanDetailsModel body);
 
-        #region
+        #region Delete
         /// <summary>
         /// Delete GymWorkoutPlan.
         /// </summary>
         /// <param name="DeleteWorkoutPlanDetailsModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteGymWorkoutPlanDetails(DeleteWorkoutPlanDetailsModel body);
+
+        #region Gym Workout Plan User
+        /// <summary>
+        /// Get list of Gym Workout Plan User.
+        /// </summary>
+        /// <param name="gymWorkoutPlanId">gymWorkoutPlanId</param>
+        /// <returns>GymWorkoutPlanUserListResponse</returns>
+        GymWorkoutPlanUserListResponse GetAssociatedMemberList(long gymWorkoutPlanId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+        /// <summary>
+        /// Update Associate UnAssociate Gym Workout Plan User.
+        /// </summary>
+        /// <param name="GymWorkoutPlanUserModel">GymWorkoutPlanUserModel.</param>
+        /// <returns>Returns updated GymWorkoutPlanUserResponse</returns>
+        GymWorkoutPlanUserResponse AssociateUnAssociateWorkoutPlanUser(GymWorkoutPlanUserModel body);
+        #endregion
 
         #endregion
 
