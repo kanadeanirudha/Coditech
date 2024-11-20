@@ -41,39 +41,52 @@
 <!-- Context Menu -->
 @if ((userInfo?.IsAdminUser ?? false) || adminRoleMediaFolderActionModel.SelectedMediaActions.Count > 0)
 {
-    <div id="contextMenu" class="dropdown-menu-md" style="display: none; position: absolute;">
-        @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.CreateFolder.ToString())))
+    bool hasRequiredActions = adminRoleMediaFolderActionModel.SelectedMediaActions
+        .Any(x => new[]
         {
-            <a class="dropdown-item" id="createFolder">Create Folder</a>
-        }else
-        {
-            <div id="createFolder" style="display:none;"></div>
-        }
-        @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.DeleteFolder.ToString())))
-        {
-            <a class="dropdown-item" id="deleteFolder">Delete</a>
-        }
-        else
-        {
-            <div id="deleteFolder" style="display:none;"></div>
-        }
-        @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.RenameFolder.ToString())))
-        {
-            <a class="dropdown-item" id="renameFolder" onclick="openRenameFolderModal('@Model.RootFolderId', '@Model.RootFolderName')">Rename</a>
-        }
-        else
-        {
-            <div id="renameFolder" style="display:none;"></div>
-        }
-        @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.MoveFolder.ToString())))
-        {
-            <a class="dropdown-item" id="moveFolder" onclick="openMoveFolderModal('@Model.RootFolderId')">Move</a>
-        }
-        else
-        {
-            <div id="moveFolder" style="display:none;"></div>
-        }
-    </div>
+            MediaFolderActionEnum.CreateFolder.ToString(),
+            MediaFolderActionEnum.DeleteFolder.ToString(),
+            MediaFolderActionEnum.RenameFolder.ToString(),
+            MediaFolderActionEnum.MoveFolder.ToString()
+                                }.Contains(x));
+
+    @if (hasRequiredActions)
+    {
+        <div id="contextMenu" class="dropdown-menu-md" style="display: none; position: absolute;">
+            @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.CreateFolder.ToString())))
+            {
+                <a class="dropdown-item" id="createFolder">Create Folder</a>
+            }
+            else
+            {
+                <div id="createFolder" style="display:none;"></div>
+            }
+            @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.DeleteFolder.ToString())))
+            {
+                <a class="dropdown-item" id="deleteFolder">Delete</a>
+            }
+            else
+            {
+                <div id="deleteFolder" style="display:none;"></div>
+            }
+            @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.RenameFolder.ToString())))
+            {
+                <a class="dropdown-item" id="renameFolder" onclick="openRenameFolderModal('@Model.RootFolderId', '@Model.RootFolderName')">Rename</a>
+            }
+            else
+            {
+                <div id="renameFolder" style="display:none;"></div>
+            }
+            @if (adminRoleMediaFolderActionModel.SelectedMediaActions.Any(x => x.Equals(MediaFolderActionEnum.MoveFolder.ToString())))
+            {
+                <a class="dropdown-item" id="moveFolder" onclick="openMoveFolderModal('@Model.RootFolderId')">Move</a>
+            }
+            else
+            {
+                <div id="moveFolder" style="display:none;"></div>
+            }
+        </div>
+    }
 }
 
 @if (userInfo.IsAdminUser || Model.adminRoleMediaFolders.Contains(Model.RootFolderId))

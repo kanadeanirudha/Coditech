@@ -8,6 +8,7 @@ namespace Coditech.Common.API.Model
         [MaxLength(15)]
         [Required]
         public string CentreCode { get; set; }
+        public string OfficeType { get; set; }
         [MaxLength(100)]
         [Required]
         public string CentreName { get; set; }

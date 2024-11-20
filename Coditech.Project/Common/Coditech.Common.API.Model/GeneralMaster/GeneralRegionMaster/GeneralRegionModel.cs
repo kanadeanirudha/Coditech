@@ -14,7 +14,7 @@ namespace Coditech.Common.API.Model
 
         [Required]
         [Display(Name = "Country Name")]
-        public int GeneralCountryMasterId { get; set; }
+        public short GeneralCountryMasterId { get; set; }
 
         [MaxLength(50)]
         [Required]
@@ -28,5 +28,6 @@ namespace Coditech.Common.API.Model
         public bool IsUserDefined { get; set; }
 
         public short? TinNumber { get; set; }
+        public string CountryName { get; set; }
     }
 }

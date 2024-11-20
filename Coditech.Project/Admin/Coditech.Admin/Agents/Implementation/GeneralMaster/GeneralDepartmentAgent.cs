@@ -157,6 +157,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Print Short Desc",
                 ColumnCode = "PrintShortDesc",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

@@ -24,7 +24,6 @@ namespace Coditech.API.Controllers
             _gymWorkoutPlanService = gymWorkoutPlanService;
             _coditechLogging = coditechLogging;
         }
-        //Changed here selected center code as a parameter
         [HttpGet]
         [Route("/GymWorkoutPlan/GetGymWorkoutPlanList")]
         [Produces(typeof(GymWorkoutPlanListResponse))]
@@ -117,7 +116,6 @@ namespace Coditech.API.Controllers
             }
         }
 
-        //WorkoutPlanDetails
         [Route("/GymWorkoutPlan/GetWorkoutPlanDetails")]
         [HttpGet]
         [Produces(typeof(GymWorkoutPlanResponse))]
@@ -140,9 +138,6 @@ namespace Coditech.API.Controllers
             }
         }
 
-        
-
-        //Create
         [Route("/GymWorkoutPlan/AddWorkoutPlanDetails")]
         [HttpPost, ValidateModel]
         [Produces(typeof(GymWorkoutPlanDetailsResponse))]
@@ -165,7 +160,6 @@ namespace Coditech.API.Controllers
             }
         }
 
-
         [Route("/GymWorkoutPlan/DeleteGymWorkoutPlanDetails")]
         [HttpPost, ValidateModel]
         [Produces(typeof(TrueFalseResponse))]
@@ -185,6 +179,52 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("/GymWorkoutPlan/GetAssociatedMemberList")]
+        [Produces(typeof(GymWorkoutPlanUserListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetAssociatedMemberList(long gymWorkoutPlanId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                GymWorkoutPlanUserListModel list = _gymWorkoutPlanService.GetAssociatedMemberList(gymWorkoutPlanId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GymWorkoutPlanUserListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymWorkoutPlanUserListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymWorkoutPlanUserListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+       
+        [Route("/GymWorkoutPlan/AssociateUnAssociateWorkoutPlanUser")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(GymWorkoutPlanUserResponse))]
+        public virtual IActionResult AssociateUnAssociateWorkoutPlanUser([FromBody] GymWorkoutPlanUserModel model)
+        {
+            try
+            {
+                bool isUpdated = _gymWorkoutPlanService.AssociateUnAssociateWorkoutPlanUser(model);
+                return isUpdated ? CreateOKResponse(new GymWorkoutPlanUserResponse { GymWorkoutPlanUserModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GymWorkoutPlanUserResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GymWorkoutPlan.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GymWorkoutPlanUserResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }
