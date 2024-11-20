@@ -807,7 +807,7 @@ namespace Coditech.API.Service
 
             if (!new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>()).Table.Any(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode == generalPersonModel.SelectedCentreCode))
             {
-                errorMessage = "General Running Numbers row not present";
+                errorMessage = "General Running Numbers is not set for Person Code.";
                 return false;
             }
             return true;
