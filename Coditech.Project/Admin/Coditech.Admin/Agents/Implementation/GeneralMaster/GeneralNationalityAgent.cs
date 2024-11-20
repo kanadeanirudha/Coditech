@@ -149,6 +149,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Is Default",
                 ColumnCode = "DefaultFlag",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

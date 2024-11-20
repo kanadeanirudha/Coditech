@@ -110,6 +110,7 @@ namespace Coditech.API.Service
             }
             gymWorkoutPlan.WorkoutPlanName = gymWorkoutPlanModel.WorkoutPlanName;
             gymWorkoutPlan.Target = gymWorkoutPlanModel.Target;
+            gymWorkoutPlan.IsActive = gymWorkoutPlanModel.IsActive;
 
             isUpdated = _gymWorkoutPlanRepository.Update(gymWorkoutPlan);
             if (!isUpdated)
