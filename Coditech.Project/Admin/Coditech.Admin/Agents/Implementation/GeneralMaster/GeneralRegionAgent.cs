@@ -40,6 +40,7 @@ namespace Coditech.Admin.Agents
                 filters = new FilterCollection();
                 filters.Add("RegionName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("ShortName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("CountryName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "RegionName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -157,12 +158,14 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Country",
-                ColumnCode = "GeneralCountryMasterId",
+                ColumnCode = "CountryName",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Default",
                 ColumnCode = "DefaultFlag",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
