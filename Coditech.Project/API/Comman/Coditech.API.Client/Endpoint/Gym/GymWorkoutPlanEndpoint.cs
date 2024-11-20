@@ -32,6 +32,15 @@ namespace Coditech.API.Endpoint
 
         public string DeleteGymWorkoutPlanDetailsAsync() =>
                   $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymWorkoutPlan/DeleteGymWorkoutPlanDetails";
-      
+
+        public string GetAssociatedMemberListAsync(long gymWorkoutPlanId,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymWorkoutPlan/GetAssociatedMemberList?gymWorkoutPlanId={gymWorkoutPlanId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
+        }
+
+        public string AssociateUnAssociateWorkoutPlanUserAsync() =>
+               $"{CoditechAdminSettings.CoditechGymManagementSystemApiRootUri}/GymWorkoutPlan/AssociateUnAssociateWorkoutPlanUser";
+        
     }
 }

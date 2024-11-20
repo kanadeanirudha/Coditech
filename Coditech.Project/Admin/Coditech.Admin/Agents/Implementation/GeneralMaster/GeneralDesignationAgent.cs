@@ -149,6 +149,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Short Code",
                 ColumnCode = "ShortCode",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
@@ -160,12 +161,14 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Grade",
                 ColumnCode = "Grade",
+                IsSortable = true,
             });
             
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",
                 ColumnCode = "IsActive",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

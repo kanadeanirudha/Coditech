@@ -38,7 +38,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("TestName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("TestCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "TestName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             DBTMTestListResponse response = _dBTMTestClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             DBTMTestListModel dBTMTestList = new DBTMTestListModel { DBTMTestList = response?.DBTMTestList };

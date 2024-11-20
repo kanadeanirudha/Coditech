@@ -149,11 +149,13 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Region",
                 ColumnCode = "RegionName",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Default",
                 ColumnCode = "DefaultFlag",
+                IsSortable = true,
             });
             return datatableColumnList;
         }

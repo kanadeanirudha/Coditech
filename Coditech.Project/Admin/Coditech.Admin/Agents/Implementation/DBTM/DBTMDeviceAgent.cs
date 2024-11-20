@@ -37,6 +37,7 @@ namespace Coditech.Admin.Agents
             {
                 filters.Add("DeviceName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("DeviceSerialCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("RegistrationDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "DeviceName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
@@ -153,7 +154,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = " DBTM Device Status",
-                ColumnCode = "DBTMDeviceStatus",
+                ColumnCode = "StatusEnumId",
                 IsSortable = true,
             }); datatableColumnList.Add(new DatatableColumns()
             {
@@ -165,14 +166,15 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Is Master Device",
                 ColumnCode = "IsMasterDevice",
+                IsSortable = true,
             }); datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",
                 ColumnCode = "IsActive",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
         #endregion
-       
     }
 }

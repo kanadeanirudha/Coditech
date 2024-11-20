@@ -29,11 +29,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "DBTM Device Status")]
         public string DBTMDeviceStatus { get; set; }
 
-        [Required]
         [Display(Name = "Is Master Device")]
         public bool IsMasterDevice { get; set; }
 
-        [Required]
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
 

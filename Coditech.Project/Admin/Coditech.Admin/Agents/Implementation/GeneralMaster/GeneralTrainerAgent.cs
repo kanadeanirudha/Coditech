@@ -44,7 +44,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FirstName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GeneralTrainerListResponse response = _generalTrainerClient.List(selectedCentreCode, selectedDepartmentId, true, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralTrainerListModel trainerList = new GeneralTrainerListModel { GeneralTrainerList = response?.GeneralTrainerList };
@@ -184,7 +184,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Trainer Specialization",
-                ColumnCode = "TrainerSpecialization",
+                ColumnCode = "TrainerSpecializationEnumId",
                 IsSortable = true,
             });
             return datatableColumnList;

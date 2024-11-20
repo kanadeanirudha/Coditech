@@ -92,7 +92,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_hospitalDoctorVisitingChargesAgent.UpdateHospitalDoctorVisitingCharges(hospitalDoctorVisitingChargesViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", UpdateActionDataTable(null, 0, dataTableModel));
+                  return RedirectToAction("GetHospitalDoctorVisitingChargesByDoctorIdList", dataTableModel);
             }
             return View(createEdit, hospitalDoctorVisitingChargesViewModel);
         }

@@ -127,7 +127,7 @@ namespace Coditech.API.Service
             list.GeneralDepartmentList = (from a in _generalDepartmentMasterRepository.Table
                                           join b in _organisationCentrewiseDepartmentRepository.Table
                                           on a.GeneralDepartmentMasterId equals b.GeneralDepartmentMasterId
-                                          where (b.CentreCode == centreCode || centreCode == null)
+                                          where (b.CentreCode == centreCode || centreCode == null)&& b.ActiveFlag
                                           select new GeneralDepartmentModel()
                                           {
                                               GeneralDepartmentMasterId = a.GeneralDepartmentMasterId,

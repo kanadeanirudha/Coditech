@@ -11,7 +11,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Employee")]
         public long EmployeeId { get; set; }
         [Required]
-        [Display(Name = "Specialization")]
         public int TrainerSpecializationEnumId { get; set; }
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string SelectedCentreCode { get; set; }
@@ -23,6 +22,7 @@ namespace Coditech.Admin.ViewModel
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public bool IsAssociated { get; set; }
+        [Display(Name = "Specialization")]
         public string TrainerSpecialization { get; set; }
         [MaxLength(50)]
         [Editable(false)]

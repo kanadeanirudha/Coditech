@@ -30,16 +30,16 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.DBTMTraineeAssignmentId)
-                            if (Model.DBTMTraineeAssignmentId > 0)
-                            {
-                                @Html.HiddenFor(m => m.SelectedCentreCode)
-                            }
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.SelectedCentreCode, new { @class = "form-label required"})
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
                                         @Html.ValidationMessageFor(x => x.SelectedCentreCode)
+                                        @if (Model.DBTMTraineeAssignmentId > 0)
+                                        {
+                                            @Html.HiddenFor(x => x.SelectedCentreCode)
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -47,6 +47,10 @@
                                         @Html.LabelFor(x => x.GeneralTrainerMasterId, new { @class = "form-label required"})
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", trainerDropdown)
                                         @Html.ValidationMessageFor(x => x.GeneralTrainerMasterId)
+                                        @if (Model.DBTMTraineeAssignmentId > 0)
+                                        {
+                                            @Html.HiddenFor(x => x.GeneralTrainerMasterId)
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -61,6 +65,10 @@
                                    Parameter = !string.IsNullOrEmpty(Model.SelectedCentreCode) ? $"{Model.SelectedCentreCode}~{Model.GeneralTrainerMasterId}" : "",
                                })
                                         @Html.ValidationMessageFor(x => x.DBTMTraineeDetailId)
+                                        @if (Model.DBTMTraineeAssignmentId > 0)
+                                        {
+                                            @Html.HiddenFor(x => x.DBTMTraineeDetailId)
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -104,7 +112,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.SelectedCentreCode&GeneralTrainerMasterId=@Model.GeneralTrainerMasterId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                            <a href="../@controllerName/Cancel?SelectedParameter1=@Model.SelectedCentreCode&SelectedParameter2=@Model.GeneralTrainerMasterId" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>

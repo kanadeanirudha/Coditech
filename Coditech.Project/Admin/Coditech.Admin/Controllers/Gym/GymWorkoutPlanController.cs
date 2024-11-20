@@ -9,6 +9,7 @@ using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 
 namespace Coditech.Admin.Controllers
 {
@@ -231,8 +232,39 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
         }
 
-        #endregion
+        #endregion        
+
         #endregion GymWorkoutPlan
+
+        #region Gym Associate Member
+        public virtual ActionResult GetAssociatedMemberList(DataTableViewModel dataTableViewModel)
+        {
+            GymWorkoutPlanUserListViewModel list = _gymWorkoutPlanAgent.GetAssociatedMemberList(Convert.ToInt64(dataTableViewModel.SelectedParameter1), dataTableViewModel);           
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/Gym/GymWorkoutPlan/_AssociatedMemberList.cshtml", list);
+            }
+            list.SelectedParameter1 = dataTableViewModel.SelectedParameter1;
+            return View($"~/Views/Gym/GymWorkoutPlan/AssociatedMemberList.cshtml", list);
+
+
+        }
+       
+        [HttpGet]
+        public virtual ActionResult GetAssociateUnAssociateWorkoutPlanUser(GymWorkoutPlanUserViewModel gymWorkoutPlanUserViewModel)
+        {
+            return PartialView("~/Views/Gym/GymWorkoutPlan/_AssociateUnAssociateWorkoutPlanUser.cshtml", gymWorkoutPlanUserViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult AssociateUnAssociateWorkoutPlanUser(GymWorkoutPlanUserViewModel gymWorkoutPlanUserViewModel)
+        {
+            SetNotificationMessage(_gymWorkoutPlanAgent.AssociateUnAssociateWorkoutPlanUser(gymWorkoutPlanUserViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+            return RedirectToAction("GetAssociatedMemberList", new DataTableViewModel { SelectedParameter1 = gymWorkoutPlanUserViewModel.GymWorkoutPlanId.ToString() });
+        }
+        #endregion
 
         public virtual ActionResult Cancel(string selectedCentreCode)
         {

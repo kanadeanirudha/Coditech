@@ -155,6 +155,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Is Other State",
                 ColumnCode = "IsOtherState",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
