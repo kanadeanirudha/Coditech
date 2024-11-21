@@ -46,18 +46,18 @@
                                     @Html.LabelFor(x => x.UserType, new { @class = "form-label required" })
                                     @if (Model.OrganisationCentrewiseUserNameRegistrationId > 0)
                                     {
-                                        @Html.DropDownList("UserType", ViewData["UserType"] as List<SelectListItem>, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.DropDownList("UserType", ViewData["UserType"] as List<SelectListItem>, new { @class = "form-select", @disabled = "disabled" })
                                     }
                                     else
                                     {
-                                        @Html.DropDownList("UserType", ViewData["UserType"] as List<SelectListItem>, new { @class = "form-control" })
+                                        @Html.DropDownList("UserType", ViewData["UserType"] as List<SelectListItem>, new { @class = "form-select" })
                                     }
                                     @Html.ValidationMessageFor(x => x.UserType)
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.UserNameBasedOn, new { @class = "form-label required" })
-                                        @Html.DropDownList("UserNameBasedOn", ViewData["UserNameBasedOn"] as List<SelectListItem>, new { @class = "form-control" })
+                                        @Html.DropDownList("UserNameBasedOn", ViewData["UserNameBasedOn"] as List<SelectListItem>, new { @class = "form-select" })
                                         @Html.ValidationMessageFor(x => x.UserNameBasedOn)
                                     </div>
                                 </div>
