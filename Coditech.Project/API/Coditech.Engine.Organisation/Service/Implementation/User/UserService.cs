@@ -318,8 +318,8 @@ namespace Coditech.API.Service
             generalPerson.FirstName = generalPerson.FirstName.ToFirstLetterCapital();
             generalPerson.LastName = generalPerson.LastName.ToFirstLetterCapital();
             generalPerson.MiddleName = generalPerson.MiddleName.ToFirstLetterCapital();
-			// Create new Person and return it.
-			GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
+            // Create new Person and return it.
+            GeneralPerson personData = _generalPersonRepository.Insert(generalPerson);
             if (personData?.PersonId > 0)
             {
                 generalPersonModel.PersonId = personData.PersonId;
@@ -502,6 +502,22 @@ namespace Coditech.API.Service
                     generalPersonAddressModel.HasError = true;
                     generalPersonAddressModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
                 }
+                else if (generalPersonAddressModel.IsCorrespondanceAddressSameAsPermanentAddress && generalPersonAddressModel.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString())
+                {
+                    long? generalPersonAddressId = _generalPersonAddressRepository.Table.Where(x => x.PersonId == generalPersonAddressModel.PersonId && x.AddressTypeEnum == AddressTypeEnum.CorrespondanceAddress.ToString())?.FirstOrDefault()?.GeneralPersonAddressId;
+                    generalPersonAddress.IsCorrespondanceAddressSameAsPermanentAddress = false;
+                    generalPersonAddress.AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString();
+                    if (generalPersonAddressId > 0)
+                    {
+                        generalPersonAddress.GeneralPersonAddressId = Convert.ToInt64(generalPersonAddressId);
+                        _generalPersonAddressRepository.Update(generalPersonAddress);
+                    }
+                    else
+                    {
+                        generalPersonAddress.GeneralPersonAddressId = 0;
+                        generalPersonAddress = _generalPersonAddressRepository.Insert(generalPersonAddress);
+                    }
+                }
             }
             else
             {
@@ -510,6 +526,13 @@ namespace Coditech.API.Service
                 {
                     generalPersonAddressModel.HasError = true;
                     generalPersonAddressModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                }
+                else if (generalPersonAddressModel.IsCorrespondanceAddressSameAsPermanentAddress && generalPersonAddressModel.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString())
+                {
+                    generalPersonAddress.GeneralPersonAddressId = 0;
+                    generalPersonAddress.IsCorrespondanceAddressSameAsPermanentAddress = false;
+                    generalPersonAddress.AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString();
+                    generalPersonAddress = _generalPersonAddressRepository.Insert(generalPersonAddress);
                 }
             }
             return generalPersonAddressModel;
