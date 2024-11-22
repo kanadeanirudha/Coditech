@@ -69,8 +69,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IDBTMTraineeAssignmentAgent, DBTMTraineeAssignmentAgent>();
             builder.Services.AddScoped<IDBTMNewRegistrationAgent, DBTMNewRegistrationAgent>();
             builder.Services.AddScoped<IGeneralBatchAgent, GeneralBatchAgent>();
-           
             builder.Services.AddScoped<IGymWorkoutPlanAgent, GymWorkoutPlanAgent>();
+            builder.Services.AddScoped<ITaskMasterAgent, TaskMasterAgent>();
 
 
 
@@ -180,6 +180,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralTrainerClient, GeneralTrainerClient>();
             builder.Services.AddScoped<IGeneralBatchClient, GeneralBatchClient>();
             builder.Services.AddScoped<IGymWorkoutPlanClient, GymWorkoutPlanClient>();
+            builder.Services.AddScoped<ITaskMasterClient, TaskMasterClient>();
 
 
             #region HMS

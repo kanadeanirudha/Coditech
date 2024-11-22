@@ -63,6 +63,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralTraineeAssociatedToTrainer, GeneralTraineeAssociatedToTrainerModel>().ReverseMap();
             CreateMap<GeneralBatchMaster, GeneralBatchModel>().ReverseMap();
             CreateMap<GeneralBatchUser, GeneralBatchUserModel>().ReverseMap();
+            CreateMap<TaskMaster, TaskMasterModel>().ReverseMap();
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();

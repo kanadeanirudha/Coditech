@@ -79,6 +79,7 @@ namespace Coditech.Admin
             CreateMap<GeneralBatchModel, GeneralBatchViewModel>().ReverseMap();
             CreateMap<GeneralBatchUserListModel, GeneralBatchUserListViewModel>().ReverseMap();
             CreateMap<GeneralBatchUserModel, GeneralBatchUserViewModel>().ReverseMap();
+            CreateMap<TaskMasterModel, TaskMasterViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation
