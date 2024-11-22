@@ -69,7 +69,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IDBTMTraineeAssignmentAgent, DBTMTraineeAssignmentAgent>();
             builder.Services.AddScoped<IDBTMNewRegistrationAgent, DBTMNewRegistrationAgent>();
             builder.Services.AddScoped<IGeneralBatchAgent, GeneralBatchAgent>();
-           
+            builder.Services.AddScoped<ITaskApprovalSettingAgent, TaskApprovalSettingAgent>();
+
             builder.Services.AddScoped<IGymWorkoutPlanAgent, GymWorkoutPlanAgent>();
 
 
@@ -179,6 +180,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralNotificationClient, GeneralNotificationClient>();
             builder.Services.AddScoped<IGeneralTrainerClient, GeneralTrainerClient>();
             builder.Services.AddScoped<IGeneralBatchClient, GeneralBatchClient>();
+            builder.Services.AddScoped<ITaskApprovalSettingClient, TaskApprovalSettingClient>();
             builder.Services.AddScoped<IGymWorkoutPlanClient, GymWorkoutPlanClient>();
 
 

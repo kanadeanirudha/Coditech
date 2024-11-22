@@ -42,6 +42,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralTraineeAssociatedToTrainer> GeneralTraineeAssociatedToTrainer { get; set; }
         public DbSet<GeneralBatchMaster> GeneralBatchMaster { get; set; }
         public DbSet<GeneralBatchUser> GeneralBatchUser { get; set; }
+        public DbSet<TaskApprovalSetting> TaskApprovalSetting { get; set; }
 
         #endregion
 
