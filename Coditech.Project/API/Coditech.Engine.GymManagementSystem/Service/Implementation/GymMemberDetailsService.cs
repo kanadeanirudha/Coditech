@@ -387,7 +387,7 @@ namespace Coditech.API.Service
         {
             string invoiceNumber = GenerateRegistrationCode(GeneralRunningNumberForEnum.InvoiceNumber.ToString(), gymMembershipPlan.CentreCode);
             if (string.IsNullOrEmpty(invoiceNumber))
-                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+                throw new CoditechException(ErrorCodes.NotFound, "General Running Numbers is not set for Invoice.");
 
             List<GymMembershipPlanPackage> gymMembershipPlanPackageList = _gymMembershipPlanPackageRepository.Table.Where(x => x.GymMembershipPlanId == gymMemberMembershipPlanModel.GymMembershipPlanId)?.ToList();
 

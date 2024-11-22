@@ -46,7 +46,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.MonitoringLevel, new { @class = "form-label required" })
-                                        @Html.DropDownListFor(m => m.MonitoringLevel, new SelectList(Model.MonitoringLevelList, "Value", "Text"), new { @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.MonitoringLevel, new SelectList(Model.MonitoringLevelList, "Value", "Text"), new { @class = "form-select" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">

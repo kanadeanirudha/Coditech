@@ -72,7 +72,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
 
-        [Display(Name ="Same as Permanent Address")]
+        [Display(Name = "Is Correspondance Address Same As Permanent Address?")]
         public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }
         public bool IsDefault { get; set; }
     }
