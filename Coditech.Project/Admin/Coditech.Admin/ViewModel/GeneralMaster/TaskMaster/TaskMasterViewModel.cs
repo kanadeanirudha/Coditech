@@ -11,8 +11,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Task Code")]
         public string TaskCode { get; set; }
         [Display(Name = "Task Description")]
-        public string TaskDescription { get; set; } 
-        public bool IsActive { get; set; }  
+        public string TaskDescription { get; set; }
+        [Display(Name = "Is Active")]
+        public bool IsActive { get; set; }
 
     }
 }
