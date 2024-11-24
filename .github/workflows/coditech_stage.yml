@@ -15,11 +15,6 @@ on:
          required: true
          default: false
          type: boolean
-       employee_api_deploy:
-         description: 'Deloy Employee API'
-         required: true
-         default: false
-         type: boolean
        gymmanagementsystem_api_deploy:
          description: 'Deloy GymManagementSystem API'
          required: true
@@ -103,34 +98,6 @@ jobs:
 
           # Start the associated app pool
           Start-WebAppPool -Name "pahpc-admin"
-
-  employee_api_deploy:
-    runs-on: [self-hosted, Windows, x64, coditech_Stage]
-    needs: coditech_build
-    if: github.event.inputs.employee_api_deploy == 'true'
-
-    steps:
-      - name: Stop Employee API IIS Site and App Pool
-        run: |
-          # Stop the IIS site
-          Stop-WebSite -Name "pahpc-api-employee" 
-
-          # Stop the associated app pool
-          Stop-WebAppPool -Name "pahpc-api-employee"
-
-          # Wait for a few seconds (optional, if needed)
-          Start-Sleep -Seconds 5
-
-      - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.Employee\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Employee\ -Recurse -Force 
-
-      - name: Start Employee API IIS Site and App Pool
-        run: |
-          # Start the IIS site
-          Start-WebSite -Name "pahpc-api-employee"
-
-          # Start the associated app pool
-          Start-WebAppPool -Name "pahpc-api-employee"
 
   gymmanagementsystem_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
