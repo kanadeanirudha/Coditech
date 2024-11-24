@@ -8,22 +8,16 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeMaster/GetEmployeeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string GetEmployeeOtherDetailAsync(long employeeId) =>
-            $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeOtherDetail?employeeId={employeeId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeMaster/GetEmployeeOtherDetail?employeeId={employeeId}";
 
         public string UpdateEmployeeOtherDetailAsync() =>
-               $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/UpdateEmployeeOtherDetail";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeMaster/UpdateEmployeeOtherDetail";
 
         public string DeleteEmployeeAsync() =>
-                  $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/DeleteEmployeeMaster";
-
-       // public string EmployeeServiceListAsync(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
-      //  {
-      //      string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeMaster/GetEmployeeList?employeeId={employeeId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
-      //      return endpoint;
-      //  }
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeMaster/DeleteEmployeeMaster";
     }
 }

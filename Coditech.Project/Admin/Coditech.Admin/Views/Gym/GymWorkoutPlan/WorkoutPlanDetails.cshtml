@@ -36,32 +36,32 @@
                                             <div class="d-flex justify-content-end">
                                                 <a data-bs-toggle="modal" data-bs-target="#@addGymWorkoutPlanDetailsModel.ModelPopUpId" href="void javascritp(0)" onclick="GymWorkoutPlan.AddWorkoutPlanDetails('@addGymWorkoutPlanDetailsModel.ModalContentId','@Model.GymWorkoutPlanId','@week')" title="Add " class="btn btn-sm btn-soft-success btn-circle float-end"><i class="fas ti-plus"></i></a>
 
-                                                @* <!-- Delete Button for week -->
-                                                <a href="#" title="Delete" class="btn btn-sm btn-soft-danger btn-circle" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_@week">
+                                                <!-- Delete Button for week -->
+                                                <a href="#" title="Delete" class="btn btn-sm btn-soft-danger btn-circle" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_Week_@week">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>
                                                 <!-- Delete Confirmation Modal -->
-                                                <div class="modal fade" id="confirmDeleteModal_@week" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="confirmDeleteModal_Week_@week" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel_Week_@week" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                                                                <h5 class="modal-title" id="confirmDeleteModalLabel_Week_@week">Confirm Delete for Week @week</h5>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body" style="text-align: left;">
                                                                 <span style="font-size: 24px; margin-right: 10px;"><i class="fas fa-exclamation-triangle text-danger"></i></span>
-                                                                <span style="font-size: 16px;">Are you sure you want to delete this week?</span>
+                                                                <span style="font-size: 16px;">Are you sure you want to delete this week @week?</span>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                                 <!-- Delete action with selectedCentreCode parameter -->
-                                                                <a href="../@controllerName/DeleteWorkoutPlanDetailsWeek?gymWorkoutPlanId=@Model.GymWorkoutPlanId&workoutWeekNumber=@week" class="btn btn-outline-danger" onclick="GymWorkoutPlan.DeleteWorkoutPlanDetailsWeek('@week')">Delete</a>
+                                                                <a href="../@controllerName/DeleteWorkoutPlanDetailsWeek?gymWorkoutPlanId=@Model.GymWorkoutPlanId&workoutWeekNumber=@week" class="btn btn-outline-danger" onclick="GymWorkoutPlan.DeleteWorkoutPlanDetailsWeek('@Model.GymWorkoutPlanId','@week')">Delete</a>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div> *@
+                                                </div>
 
-                                                <a href="../@controllerName/DeleteWorkoutPlanDetailsWeek?gymWorkoutPlanId=@Model.GymWorkoutPlanId&workoutWeekNumber=@week" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                                @*  <a href="../@controllerName/DeleteWorkoutPlanDetailsWeek?gymWorkoutPlanId=@Model.GymWorkoutPlanId&workoutWeekNumber=@week" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
                                             </div>
                                         </div>
                                         <div class="card-body">
@@ -75,25 +75,25 @@
                                                                 <div class="d-flex justify-content-end">
                                                                     <a data-bs-toggle="modal" data-bs-target="#@addGymWorkoutPlanDetailsModel.ModelPopUpId" href="javascritp:void(0)" onclick="GymWorkoutPlan.AddWorkoutPlanDetails('@addGymWorkoutPlanDetailsModel.ModalContentId','@Model.GymWorkoutPlanId','@week','@day')" title="Add " class="btn btn-sm btn-soft-success btn-circle float-end"><i class="fas ti-plus"></i></a>
                                                                    @*  <!-- Delete Button for Day-->
-                                                                    <a href="#" title="Delete" class="btn btn-sm btn-soft-danger btn-circle" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_@day">
+                                                                    <a href="#" title="Delete" class="btn btn-sm btn-soft-danger btn-circle" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_Day_@day">
                                                                         <i class="fas fa-trash-alt"></i>
                                                                     </a>
                                                                     <!-- Delete Confirmation Modal -->
-                                                                    <div class="modal fade" id="confirmDeleteModal_@day" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                                                    <div class="modal fade" id="confirmDeleteModal_Day_@day" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel_Day_@day" aria-hidden="true">
                                                                         <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;" role="document">
                                                                             <div class="modal-content">
                                                                                 <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                                                                                    <h5 class="modal-title" id="confirmDeleteModalLabel_Day_@day">Confirm Delete for Day @day</h5>
                                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                 </div>
                                                                                 <div class="modal-body" style="text-align: left;">
                                                                                     <span style="font-size: 24px; margin-right: 10px;"><i class="fas fa-exclamation-triangle text-danger"></i></span>
-                                                                                    <span style="font-size: 16px;">Are you sure you want to delete this day?</span>
+                                                                                    <span style="font-size: 16px;">Are you sure you want to delete this day @day?</span>
                                                                                 </div>
                                                                                 <div class="modal-footer">
                                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                                                     <!-- Delete action with selectedCentreCode parameter -->
-                                                                                    <a href="../@controllerName/DeleteWorkoutPlanDetailsDay?gymWorkoutPlanId=@Model.GymWorkoutPlanId&workoutWeekNumber=@week&workoutDayNumber=@day" class="btn btn-outline-danger" onclick="GymWorkoutPlan.DeleteWorkoutPlanDetailsDay('@day')">Delete</a>
+                                                                                    <a href="../@controllerName/DeleteWorkoutPlanDetailsDay?gymWorkoutPlanId=@Model.GymWorkoutPlanId&workoutWeekNumber=@week&workoutDayNumber=@day" class="btn btn-outline-danger" onclick="GymWorkoutPlan.DeleteWorkoutPlanDetailsDay('@Model.GymWorkoutPlanId','@week','@day')">Delete</a>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -127,7 +127,7 @@
                                                                                         <th rowspan="@item.GymWorkoutPlanSetList.Count">@item.GymWorkoutPlanSetList.Count</th>
                                                                                         <td>@item1.Weight Kg @item1.Repetitions Rep @item1.Duration Sec</td>
                                                                                         <th rowspan="@item.GymWorkoutPlanSetList.Count">
-                                                                                         @*    <!-- Delete Button for Set-->
+                                                                                            <!-- Delete Button for Set-->
                                                                                             <a href="#" title="Delete" class="btn btn-sm btn-soft-danger btn-circle" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_@item.GymWorkoutPlanDetailId">
                                                                                                 <i class="fas fa-trash-alt"></i>
                                                                                             </a>
@@ -136,7 +136,7 @@
                                                                                                 <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;" role="document">
                                                                                                     <div class="modal-content">
                                                                                                         <div class="modal-header">
-                                                                                                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                                                                                                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete for Set</h5>
                                                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                                         </div>
                                                                                                         <div class="modal-body" style="text-align: left;">
@@ -146,12 +146,12 @@
                                                                                                         <div class="modal-footer">
                                                                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                                                                             <!-- Delete action with selectedCentreCode parameter -->
-                                                                                                            <a href="../@controllerName/DeleteWorkoutPlanDetailsSet?gymWorkoutPlanDetailId=@item.GymWorkoutPlanDetailId" title="Delete" class="btn btn-outline-danger" onclick="GymWorkoutPlan.DeleteWorkoutPlanDetailsSet('@item.GymWorkoutPlanDetailId')">Delete</a>
+                                                                                                            <a href="../@controllerName/DeleteWorkoutPlanDetailsSet?gymWorkoutPlanId=@Model.GymWorkoutPlanId&gymWorkoutPlanDetailId=@item.GymWorkoutPlanDetailId" title="Delete" class="btn btn-outline-danger" onclick="GymWorkoutPlan.DeleteWorkoutPlanDetailsSet('@item.GymWorkoutPlanDetailId')">Delete</a>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div> *@
-                                                                                            <a href="../@controllerName/DeleteWorkoutPlanDetailsSet?gymWorkoutPlanId=@Model.GymWorkoutPlanId&gymWorkoutPlanDetailId=@item.GymWorkoutPlanDetailId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                                                                            </div>
+                                                                                            @*  <a href="../@controllerName/DeleteWorkoutPlanDetailsSet?gymWorkoutPlanId=@Model.GymWorkoutPlanId&gymWorkoutPlanDetailId=@item.GymWorkoutPlanDetailId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
                                                                                         </th>
                                                                                     </tr>
                                                                                 }
@@ -195,5 +195,3 @@
     <!-- end page content -->
     <script src="~/js/coditech/gym/GymWorkoutPlan.js"></script>
 }
-
-

@@ -252,7 +252,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralNotificationMasterService, GeneralNotificationService>();
             builder.Services.AddScoped<IGeneralTrainerMasterService, GeneralTrainerMasterService>();
             builder.Services.AddScoped<IGeneralBatchMasterService, GeneralBatchMasterService>();
-
+           
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
             builder.Services.AddScoped<IOrganisationCentreMasterService, OrganisationCentreMasterService>();
@@ -270,6 +270,16 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralPersonAttendanceDetailsService, GeneralPersonAttendanceDetailsService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();
             builder.Services.AddScoped<IGeneralCommonService, GeneralCommonService>();
+
+            #region Task Approval
+            builder.Services.AddScoped<ITaskMasterService, TaskMasterService>();
+            builder.Services.AddScoped<ITaskApprovalSettingService, TaskApprovalSettingService>();
+            #endregion
+
+            #region Employee
+            builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
+            builder.Services.AddScoped<IEmployeeServiceService, EmployeeServiceService>();
+            #endregion
         }
         #endregion
     }
