@@ -55,8 +55,25 @@ namespace Coditech.API.Service
                 if (gymMemberBodyMeasurementValueList?.Count > 0)
                 {
                     item.GymMemberBodyMeasurementValueList = new List<GymMemberBodyMeasurementValueModel>();
-                    foreach (GymMemberBodyMeasurement gymMemberBodyMeasurement in gymMemberBodyMeasurementValueList)
+                    decimal? previousMeasurementValue = null; // Track the previous valid measurement value
+
+                    foreach (GymMemberBodyMeasurement gymMemberBodyMeasurement in gymMemberBodyMeasurementValueList?.OrderBy(y=>y.BodyMeasurementDate))
                     {
+                        string trendArrow = "";
+                        if (decimal.TryParse(gymMemberBodyMeasurement.BodyMeasurementValue, out decimal currentMeasurementValue))
+                        {
+                            if (previousMeasurementValue.HasValue)
+                            {
+                                if (currentMeasurementValue > previousMeasurementValue.Value)
+                                    trendArrow = "UP"; // Current value is greater than previous, show UP
+                                else if (currentMeasurementValue < previousMeasurementValue.Value)
+                                    trendArrow = "DOWN"; // Current value is less than previous, show DOWN
+                                else 
+                                    trendArrow = "NOCHANGE"; // Both values are the same, show NOCHANGES
+                            }
+                            previousMeasurementValue = currentMeasurementValue;
+                        }
+                        
                         item.GymMemberBodyMeasurementValueList.Add(new GymMemberBodyMeasurementValueModel()
                         {
                             GymMemberBodyMeasurementId = gymMemberBodyMeasurement.GymMemberBodyMeasurementId,
@@ -64,9 +81,11 @@ namespace Coditech.API.Service
                             BodyMeasurementValue = gymMemberBodyMeasurement.BodyMeasurementValue,
                             MeasurementUnitDisplayName = item.MeasurementUnitDisplayName,
                             MeasurementUnitShortCode = item.MeasurementUnitShortCode,
+                            MeasurementIndicator = trendArrow,
                             BodyMeasurementDate = Convert.ToDateTime(gymMemberBodyMeasurement.BodyMeasurementDate)
                         });
                     }
+                    item.GymMemberBodyMeasurementValueList = item.GymMemberBodyMeasurementValueList.OrderByDescending(x => x.BodyMeasurementDate).ToList();
                 }
             }
 
