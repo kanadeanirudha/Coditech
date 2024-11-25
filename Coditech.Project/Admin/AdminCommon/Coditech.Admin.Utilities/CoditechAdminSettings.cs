@@ -216,5 +216,12 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToBoolean(settings["MaintenanceMode"]);
             }
         }
+        public static string ApplicationCode
+        {
+            get
+            {
+                return Convert.ToString(settings["ApplicationCode"]);
+            }
+        }
     }
 }
