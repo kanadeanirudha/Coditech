@@ -41,15 +41,37 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralBatch.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TaskApprovalSettingListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralBatch.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TaskApprovalSettingListResponse { HasError = true, ErrorMessage = ex.Message });
             }
-        }       
-       
+        }
+
+
+        [Route("/TaskApprovalSetting/GetTaskApprovalSetting")]
+        [HttpGet]
+        [Produces(typeof(TaskApprovalSettingResponse))]
+        public virtual IActionResult GetTaskApprovalSetting(short taskMasterId, string centreCode)
+        {
+            try
+            {
+                TaskApprovalSettingModel taskApprovalSettingModel = _taskApprovalSettingService.GetTaskApprovalSetting(taskMasterId, centreCode);
+                return IsNotNull(taskApprovalSettingModel) ? CreateOKResponse(new TaskApprovalSettingResponse { TaskApprovalSettingModel = taskApprovalSettingModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }
