@@ -97,13 +97,27 @@
                 @Html.ValidationMessageFor(x => x.Postalcode)
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="mb-3">
-                @Html.LabelFor(x => x.CompanyName, new { @class = "form-label" })
-                @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.CompanyName)
+        @if (Model.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString())
+        {
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.IsCorrespondanceAddressSameAsPermanentAddress, new { @class = "form-label" })
+                    <div class="form-check">
+                        @Html.CheckBoxFor(x => x.IsCorrespondanceAddressSameAsPermanentAddress, new { @class = "form-check-input" })
+                    </div>
+                </div>
             </div>
-        </div>
+        }
+        @if (Model.AddressTypeEnum == AddressTypeEnum.BusinessAddress.ToString())
+        {
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.CompanyName, new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.CompanyName)
+                </div>
+            </div>
+        }
     </div>
     <button type="submit" id="saveDraft_@Model.AddressTypeEnum" class="btn btn-success" data-test-selector="linkSave" onclick="User.SaveGeneralPersonalAddress('@Model.AddressTypeEnum'); return false;">
         @AdminResources.LabelSave

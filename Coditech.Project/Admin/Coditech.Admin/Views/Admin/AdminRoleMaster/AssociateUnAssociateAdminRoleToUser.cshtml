@@ -44,11 +44,11 @@
                                         @Html.LabelFor(x => x.EmployeeId, new { @class = "form-label required" })
                                         @if (Model.AdminRoleApplicableDetailId > 0)
                                         {
-                                            @Html.DropDownList("EmployeeId", ViewData["EmployeeList"] as List<SelectListItem>, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.DropDownList("EmployeeId", ViewData["EmployeeList"] as List<SelectListItem>, new { @class = "form-select", @readonly = "readonly" })
                                         }
                                         else
                                         {
-                                            @Html.DropDownList("EmployeeId", ViewData["EmployeeList"] as List<SelectListItem>, new { @class = "form-control" })
+                                            @Html.DropDownList("EmployeeId", ViewData["EmployeeList"] as List<SelectListItem>, new { @class = "form-select" })
                                         }
                                         @Html.ValidationMessageFor(x => x.EmployeeId)
                                     </div>

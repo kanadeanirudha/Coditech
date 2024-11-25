@@ -53,14 +53,14 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.PostType, new { @class = "form-label required" })
-                                        @Html.DropDownList("PostType", ViewData["PostType"] as List<SelectListItem>, new {@class = "form-control" })
+                                        @Html.DropDownList("PostType", ViewData["PostType"] as List<SelectListItem>, new { @class = "form-select" })
                                         @Html.ValidationMessageFor(x => x.PostType)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.DesignationType, new { @class = "form-label required" })
-                                        @Html.DropDownList("DesignationType", ViewData["DesignationType"] as List<SelectListItem>, new {@class = "form-control" })
+                                        @Html.DropDownList("DesignationType", ViewData["DesignationType"] as List<SelectListItem>, new { @class = "form-select" })
                                         @Html.ValidationMessageFor(x => x.DesignationType)
                                     </div>
                                 </div>

@@ -102,6 +102,18 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete ErrorDeleteTaskMaster due to associate record..
+        /// </summary>
+        public static string ErrorDeleteTaskMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteTaskMaster", resourceCulture);
+            }
+        }
+
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete admin saction post due to associate record..
         /// </summary>
         public static string ErrorDeleteAdminSanctionPost
@@ -1034,6 +1046,17 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to LabelTaskMaster List
+        /// </summary>
+        public static string LabelTaskMasterList
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelTaskMasterList", resourceCulture);
             }
         }
 
