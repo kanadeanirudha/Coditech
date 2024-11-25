@@ -170,6 +170,7 @@ namespace Coditech.API.Data
         public DbSet<DBTMTestParameter> DBTMTestParameter { get; set; }
         public DbSet<DBTMParametersAssociatedToTest> DBTMParametersAssociatedToTest { get; set; }
         public DbSet<DBTMTraineeAssignment> DBTMTraineeAssignment { get; set; }
+        public DbSet<DBTMBatchActivity> DBTMBatchActivity { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

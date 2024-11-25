@@ -38,8 +38,7 @@ namespace Coditech.Admin.Agents
         /// <param name="generalBatchMasterId">generalBatchMasterId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteGeneralBatch(string generalBatchMasterId, out string errorMessage);
-
-        //DBTMActivityCategoryListResponse GetDBTMActivityCategoryList();
+       
 
         /// <summary>
         /// Get list of Associated Batch.

@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -236,6 +237,10 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMTest.ToString()))
             {
                 GetDBTMTestList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMBatchActivity.ToString()))
+            {
+                GetDBTMBatchActivityList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -1353,6 +1358,29 @@ namespace Coditech.Admin.Helpers
                     Value = Convert.ToString(item.DBTMTestMasterId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTestMasterId)
                 });
+            }
+        }
+        
+        private static void GetDBTMBatchActivityList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Activity-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                int generalBatchMasterId = Convert.ToInt32(dropdownViewModel.Parameter.Split("~")[0]);
+                bool isAssociated = Convert.ToBoolean(dropdownViewModel.Parameter.Split("~")[1]);
+                
+                DBTMBatchActivityListResponse response = new DBTMBatchActivityClient().GetDBTMBatchActivityList(generalBatchMasterId,isAssociated, null, null, null, 1, int.MaxValue);
+                DBTMBatchActivityListModel list = new DBTMBatchActivityListModel() { DBTMBatchActivityList = response.DBTMBatchActivityList };
+                foreach (var item in list?.DBTMBatchActivityList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = $"{item.TestName}",
+                        Value = item.DBTMTestMasterId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTestMasterId)
+                    });
+                }
             }
         }
     }
