@@ -91,7 +91,6 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
         }
 
-
         public virtual ActionResult GetGeneralBatchUserList(DataTableViewModel dataTableViewModel)
         {
             GeneralBatchUserListViewModel list = _generalBatchAgent.GetGeneralBatchUserList(Convert.ToInt32(dataTableViewModel.SelectedParameter1), Convert.ToString(dataTableViewModel.SelectedParameter2), dataTableViewModel);

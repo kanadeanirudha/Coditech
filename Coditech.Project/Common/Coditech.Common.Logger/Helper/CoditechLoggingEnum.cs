@@ -116,7 +116,8 @@
             DBTMNewRegistration,
             GeneralBatch,
             GeneralBatchUser,
-            AssociateUnAssociateBatchwiseUser
+            AssociateUnAssociateBatchwiseUser,
+            DBTMBatchActivity
         }
     }
 }

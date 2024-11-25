@@ -166,7 +166,6 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/GeneralMaster/GeneralTrainerMaster/GeneralTraineeAssociatedToTrainer/AssociatedTrainerList.cshtml", list);
         }
 
-
         [HttpGet]
         public virtual ActionResult InsertAssociatedTrainer(long dBTMTraineeDetailId, long personId)
         {

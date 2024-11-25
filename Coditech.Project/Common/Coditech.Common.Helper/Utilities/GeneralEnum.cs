@@ -87,7 +87,8 @@
         CentrewiseDBTMTrainer,
         TraineeDetailsListByDBTMTrainer,
         DBTMTestStatus,
-        DBTMTest
+        DBTMTest,
+        DBTMBatchActivity
     }
 
     public enum GeneralSystemGlobleSettingEnum
