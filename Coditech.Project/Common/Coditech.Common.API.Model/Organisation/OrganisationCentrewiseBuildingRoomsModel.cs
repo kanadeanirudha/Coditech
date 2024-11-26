@@ -20,5 +20,6 @@ namespace Coditech.Common.API.Model
         public short Area { get; set; }
         public string BuildingName { get; set; }
         public string BuildingFloor { get; set; }
+        public string SelectedCentreCode { get; set; }
     }
 }
