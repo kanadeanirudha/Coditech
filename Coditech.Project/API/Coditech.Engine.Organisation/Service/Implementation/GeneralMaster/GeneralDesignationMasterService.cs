@@ -108,13 +108,13 @@ namespace Coditech.API.Service
         public virtual bool DeleteDesignation(ParameterModel parameterModel)
         {
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DesignationId"));
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeDesignationMasterId"));
 
             CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("DesignationId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("EmployeeDesignationMasterId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteEmployeeDesignationMaster @DesignationId,  @Status OUT", 1, out status);
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteEmployeeDesignationMaster @EmployeeDesignationMasterId,  @Status OUT", 1, out status);
             return status == 1 ? true : false;
         }
 
