@@ -1,6 +1,5 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.ViewModel;
-using Coditech.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +18,12 @@ namespace Coditech.Admin.Controllers
         [AllowAnonymous]
         public virtual ActionResult NewRegistration()
         {
+            TempData["FormSizeClass"] = "col-lg-8";
             return View("~/Views/DBTM/DBTMNewRegistration/DBTMNewRegistration.cshtml", new DBTMNewRegistrationViewModel());
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public virtual ActionResult NewRegistration(DBTMNewRegistrationViewModel dBTMNewRegistrationViewModel)
         {
@@ -32,7 +33,6 @@ namespace Coditech.Admin.Controllers
                 if (!dBTMNewRegistrationViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage("Your Registration successfully."));
-                    //return RedirectToAction<DBTMNewRegistrationController>(x => x.login());
                     return RedirectToAction("Login");
                 }
             }

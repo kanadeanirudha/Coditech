@@ -29,9 +29,6 @@ namespace Coditech.API.Service
 
         public virtual GeneralBatchListModel GetBatchList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            //string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
-            //filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedCentreCode);
-
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralBatchModel> objStoredProc = new CoditechViewRepository<GeneralBatchModel>(_serviceProvider.GetService<Coditech_Entities>());
@@ -54,9 +51,6 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalBatchModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
-            //if (IsDBTMActivityCategoryCodeAlreadyExist(generalBatchModel.ActivityCategoryCode))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "ActivityCategoryCode"));
 
             GeneralBatchMaster generalBatchMaster = generalBatchModel.FromModelToEntity<GeneralBatchMaster>();
 
@@ -94,9 +88,6 @@ namespace Coditech.API.Service
 
             if (generalBatchModel.GeneralBatchMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralBatchMasterId"));
-
-            //if (IsDBTMActivityCategoryCodeAlreadyExist(dBTMActivityCategoryModel.ActivityCategoryCode, dBTMActivityCategoryModel.DBTMActivityCategoryId))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Activity Category Code"));
 
             GeneralBatchMaster generalBatchMaster = generalBatchModel.FromModelToEntity<GeneralBatchMaster>();
 
@@ -157,9 +148,6 @@ namespace Coditech.API.Service
             return listModel;
         }
 
-
-       
-
         public virtual bool AssociateUnAssociateBatchwiseUser(GeneralBatchUserModel generalBatchUserModel)
         {
             bool isAssociateUnAssociateBatchwiseUser = false;
@@ -184,7 +172,6 @@ namespace Coditech.API.Service
             }
             return isAssociateUnAssociateBatchwiseUser;  
         }
-
         #endregion
     }
 }

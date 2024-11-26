@@ -1,0 +1,65 @@
+﻿@model TaskApprovalSettingViewModel
+@{
+    ViewBag.Title = Model.TaskMasterId > 0 ? "Update TaskApprovalSetting" : "Add TaskApprovalSetting";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string css = Model.TaskMasterId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("TaskApprovalSettingId", Model.TaskMasterId.ToString());
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.TaskMasterId > 0)
+                                {
+                                    <h4 class="card-title">Update Task Approval Setting</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Task Approval Setting</h4>
+                                }
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.TaskMasterId)
+                            @Html.HiddenFor(m => m.CentreCode)
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.TaskCode, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.TaskCode, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(x => x.TaskCode)
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.CentreCode, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(x => x.CentreCode)
+                                    </div>
+                                </div>                               
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <a class=" btn btn-sm btn-soft-primary" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Approver</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.CentreCode" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

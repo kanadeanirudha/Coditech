@@ -54,17 +54,7 @@ namespace Coditech.Admin.Utilities
 #endif
             }
         }
-        public static string CoditechEmployeeApiRootUri
-        {
-            get
-            {
-#if DEBUG
-                return Convert.ToString(settings["CoditechEmployeeApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}employee.{settings["ApiDomainName"]}");
-#endif
-            }
-        }
+       
         public static string CoditechGymManagementSystemApiRootUri
         {
             get
@@ -214,6 +204,13 @@ namespace Coditech.Admin.Utilities
             get
             {
                 return Convert.ToBoolean(settings["MaintenanceMode"]);
+            }
+        }
+        public static string ApplicationCode
+        {
+            get
+            {
+                return Convert.ToString(settings["ApplicationCode"]);
             }
         }
     }

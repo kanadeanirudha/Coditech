@@ -39,7 +39,6 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralEnumaratorGroup, GeneralEnumaratorGroupModel>().ReverseMap();
             CreateMap<GeneralEnumaratorMaster, GeneralEnumaratorModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseGSTCredential, OrganisationCentrewiseGSTCredentialModel>().ReverseMap();
-            CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<GeneralSystemGlobleSettingMaster, GeneralSystemGlobleSettingModel>().ReverseMap();
             CreateMap<GeneralOccupationMaster, GeneralOccupationModel>().ReverseMap();
             CreateMap<GeneralMeasurementUnitMaster, GeneralMeasurementUnitModel>().ReverseMap();
@@ -73,6 +72,11 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralPersonAddress, GeneralPersonAddressModel>().ReverseMap();
             CreateMap<GeneralPersonFollowUp, GeneralPersonFollowUpModel>().ReverseMap();
             CreateMap<GeneralPersonAttendanceDetails, GeneralPersonAttendanceDetailsModel>().ReverseMap();
+            #endregion
+
+            #region Employee
+            CreateMap<EmployeeMaster, EmployeeMasterModel>().ReverseMap();
+            CreateMap<EmployeeService, EmployeeServiceModel>().ReverseMap();
             #endregion
         }
     }

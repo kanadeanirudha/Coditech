@@ -10,5 +10,6 @@ namespace Coditech.Admin.ViewModel
             GeneralBatchList = new List<GeneralBatchViewModel>();
         }
         public string SelectedCentreCode { get; set; } = string.Empty;
+        public long DBTMBatchActivityId { get; set; }
     }
 }

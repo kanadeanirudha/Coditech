@@ -10,6 +10,8 @@ namespace Coditech.API.Endpoint
         {
             string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskApprovalSetting/GetTaskApprovalSettingList?selectedCentreCode={selectedCentreCode}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
-        }       
+        }
+        public string GetTaskApprovalSettingAsync(short taskMasterId, string centreCode) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskApprovalSetting/GetTaskApprovalSetting?taskMasterId={taskMasterId}&centreCode={centreCode}";
     }
 }

@@ -10,5 +10,7 @@
         public bool IsFinalApproval { get; set; }
         public string TaskCode { get; set; }
         public string TaskDescription { get; set; }
+        public string CentreName { get; set; }
+    
     }
 }

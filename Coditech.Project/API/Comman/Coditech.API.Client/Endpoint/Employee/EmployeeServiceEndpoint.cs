@@ -8,20 +8,20 @@ namespace Coditech.API.Endpoint
     {
         public string EmployeeServiceListAsync(long employeeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeServiceList?employeeId={employeeId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeService/GetEmployeeServiceList?employeeId={employeeId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string CreateEmployeeServiceAsync() =>
            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeService/CreateEmployeeService";
 
         public string GetEmployeeServiceAsync(long employeeId, long personId, long employeeServiceId) =>
-            $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/GetEmployeeService?employeeId={employeeId}&personId={personId}&employeeServiceId={employeeServiceId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeService/GetEmployeeService?employeeId={employeeId}&personId={personId}&employeeServiceId={employeeServiceId}";
 
         public string UpdateEmployeeServiceAsync() =>
-               $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/UpdateEmployeeService";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeService/UpdateEmployeeService";
 
         public string DeleteEmployeeServiceAsync() =>
-                  $"{CoditechAdminSettings.CoditechEmployeeApiRootUri}/EmployeeService/DeleteEmployeeService";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/EmployeeService/DeleteEmployeeService";
 
     }
 }

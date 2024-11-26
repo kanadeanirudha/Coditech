@@ -81,6 +81,7 @@ namespace Coditech.API.Service
             //Get the OrganisationCentrewiseBuildingRooms Details based on id.
             OrganisationCentrewiseBuildingRooms organisationCentrewiseBuildingRooms = _organisationCentrewiseBuildingRoomsRepository.Table.FirstOrDefault(x => x.OrganisationCentrewiseBuildingRoomId == organisationCentrewiseBuildingRoomId);
             OrganisationCentrewiseBuildingRoomsModel organisationCentrewiseBuildingRoomsModel = organisationCentrewiseBuildingRooms?.FromEntityToModel<OrganisationCentrewiseBuildingRoomsModel>();
+            organisationCentrewiseBuildingRoomsModel.SelectedCentreCode= new CoditechRepository<OrganisationCentrewiseBuildingMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x=>x.OrganisationCentrewiseBuildingMasterId == organisationCentrewiseBuildingRoomsModel.OrganisationCentrewiseBuildingMasterId)?.Select(y=>y.CentreCode)?.FirstOrDefault();
             return organisationCentrewiseBuildingRoomsModel;
         }
 
