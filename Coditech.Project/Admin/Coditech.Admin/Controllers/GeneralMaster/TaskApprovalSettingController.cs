@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -31,11 +32,33 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/GeneralMaster/TaskApprovalSetting/List.cshtml", list);
         }
-     
-        public virtual ActionResult Cancel(string SelectedCentreCode)
+       
+
+        [HttpGet]
+        public virtual ActionResult UpdateTaskApprovalSetting(short taskMasterId, string centreCode)
         {
-            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
+            TaskApprovalSettingViewModel taskApprovalSettingViewModel = _taskApprovalSettingAgent.GetTaskApprovalSetting(taskMasterId, centreCode);
+            return ActionView(createEditTaskApprovalSetting, taskApprovalSettingViewModel);
+        }
+       
+
+        public virtual ActionResult Cancel(string selectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = selectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

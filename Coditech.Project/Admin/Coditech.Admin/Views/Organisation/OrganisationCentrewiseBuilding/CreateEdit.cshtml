@@ -3,7 +3,7 @@
     ViewBag.Title = Model.OrganisationCentrewiseBuildingMasterId > 0 ? "Update Building" : "Add Building";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "HospitalDoctors.GetOrganisationCentrewiseBuildingAndRoomByCentreCode()", IsDisabled = Model.OrganisationCentrewiseBuildingMasterId > 0 };
+        DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "HospitalDoctors.GetOrganisationCentrewiseBuildingAndRoomByCentreCode()", IsDisabled = Model.OrganisationCentrewiseBuildingMasterId > 0 };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -29,6 +29,10 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.OrganisationCentrewiseBuildingMasterId)
+                            @if (Model.OrganisationCentrewiseBuildingMasterId > 0)
+                            {
+                                @Html.HiddenFor(m => m.CentreCode)
+                            }
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">

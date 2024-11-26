@@ -18,18 +18,19 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<TaskApprovalSetting> _taskApprovalSettingRepository;
+        private readonly ICoditechRepository<TaskMaster> _taskMasterRepository;
 
         public TaskApprovalSettingService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _taskApprovalSettingRepository = new CoditechRepository<TaskApprovalSetting>(_serviceProvider.GetService<Coditech_Entities>());
-
+            _taskMasterRepository = new CoditechRepository<TaskMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual TaskApprovalSettingListModel GetTaskApprovalSettingList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            
+
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<TaskApprovalSettingModel> objStoredProc = new CoditechViewRepository<TaskApprovalSettingModel>(_serviceProvider.GetService<Coditech_Entities>());
@@ -47,7 +48,38 @@ namespace Coditech.API.Service
             return listModel;
         }
 
+        //Get TaskApprovalSetting by taskApprovalSetting id.
+        public virtual TaskApprovalSettingModel GetTaskApprovalSetting(short taskMasterId, string centreCode)
+        {
+            if (taskMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaskMasterId"));
+
+            TaskApprovalSettingModel taskApprovalSettingModel = new TaskApprovalSettingModel();
+            taskApprovalSettingModel.TaskCode = _taskMasterRepository.Table.Where(x => x.TaskMasterId == taskMasterId)?.FirstOrDefault().TaskCode;
+            taskApprovalSettingModel.CentreName = GetOrganisationCentreDetails(centreCode).CentreName;
+            taskApprovalSettingModel.CentreCode = centreCode;
+            
+            return taskApprovalSettingModel;
+        }
+
        
-        
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

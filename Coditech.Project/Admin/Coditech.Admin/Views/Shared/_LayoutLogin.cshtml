@@ -4,6 +4,11 @@
     string applicationLogoPath = CoditechAdminSettings.ApplicationLogoPath;
     string applicationLayoutBackground = CoditechAdminSettings.ApplicationLayoutBackground;
     string applicationTitle = CoditechAdminSettings.ApplicationTitle;
+    string formSizeClass = "col-lg-4";
+    if (!string.IsNullOrEmpty(Convert.ToString(TempData["FormSizeClass"])))
+    {
+        formSizeClass = Convert.ToString(TempData["FormSizeClass"]);
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +31,7 @@
     {
         <link href="~/css/layout/@CoditechAdminSettings.ThemeColor-theme.css" rel="stylesheet" />
     }
+
 </head>
 <body data-layout="horizontal" class="account-body accountbg" data-new-gr-c-s-check-loaded="14.1113.0" data-gr-ext-installed="" style="background: url(@applicationLayoutBackground);background-position: center;background-repeat: no-repeat;background-size: cover;">
     <!-- Log In page -->
@@ -34,7 +40,7 @@
         <div class="row vh-100 d-flex justify-content-center">
             <div class="col-12 align-self-center">
                 <div class="row">
-                    <div class="col-lg-4 mx-auto">
+                    <div class="@formSizeClass mx-auto">
                         <div class="card">
                             <div class="card-body p-0 auth-header-box">
                                 <div class="text-center p-3">

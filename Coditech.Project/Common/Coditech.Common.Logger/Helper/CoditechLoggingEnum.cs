@@ -117,7 +117,9 @@
             GeneralBatch,
             GeneralBatchUser,
             AssociateUnAssociateBatchwiseUser,
-            TaskMaster
+            TaskMaster,
+            DBTMBatchActivity,
+            TaskApprovalSetting,
         }
     }
 }

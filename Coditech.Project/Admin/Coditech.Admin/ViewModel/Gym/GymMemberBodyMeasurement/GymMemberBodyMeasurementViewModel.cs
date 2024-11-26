@@ -27,6 +27,7 @@ namespace Coditech.Admin.ViewModel
         public string BodyMeasurementType { get; set; }
         public string MeasurementUnitShortCode { get; set; }
         public string MeasurementUnitDisplayName { get; set; }
+        public string MeasurementIndicator { get; set; }
         public long PersonId { get; set; }
 
         public List<GymMemberBodyMeasurementValueModel> GymMemberBodyMeasurementValueList { get; set; }

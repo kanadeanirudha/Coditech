@@ -13,6 +13,13 @@ namespace Coditech.API.Client
         /// </summary>
         /// <returns>TaskApprovalSettingListResponse</returns>
         TaskApprovalSettingListResponse List(string SelectedCentreCode, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
-            
+
+        /// <summary>
+        /// Get TaskApprovalSetting by taskApprovalSettingId.
+        /// </summary>
+        /// <param name="taskMasterId">taskMasterId</param>
+        /// <param name="centreCode">centreCode</param>
+        /// <returns>Returns TaskApprovalSettingResponse.</returns>
+        TaskApprovalSettingResponse GetTaskApprovalSetting(short taskMasterId, string centreCode);
     }
 }

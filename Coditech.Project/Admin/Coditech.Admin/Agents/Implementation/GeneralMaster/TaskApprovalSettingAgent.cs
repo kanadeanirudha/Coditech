@@ -50,7 +50,16 @@ namespace Coditech.Admin.Agents
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.TaskApprovalSettingList.Count, BindColumns());
             return listViewModel;
         }
-    
+
+
+        //Get taskMaster by taskMasterId.
+        public virtual TaskApprovalSettingViewModel GetTaskApprovalSetting(short taskMasterId, string centreCode)
+        {
+            TaskApprovalSettingResponse response = _taskApprovalSettingClient.GetTaskApprovalSetting(taskMasterId, centreCode);
+            return response?.TaskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>();
+        }
+
+
         #endregion
 
         #region protected

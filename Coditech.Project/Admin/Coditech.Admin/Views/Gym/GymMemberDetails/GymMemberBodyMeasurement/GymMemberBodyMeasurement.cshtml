@@ -57,7 +57,21 @@
                                                             {
                                                                 <tr>
                                                                     <td>@value.BodyMeasurementDate.ToCoditechDateWithTimeFormat()</td>
-                                                                    <td>@value.BodyMeasurementValue @value.MeasurementUnitShortCode</td>
+                                                                    <td>
+                                                                        @if (value.MeasurementIndicator == "UP")
+                                                                        {
+                                                                            <a class="fas fa-arrow-up btn-soft-success"></a>
+                                                                        }
+                                                                        else if (value.MeasurementIndicator == "DOWN")
+                                                                        {
+                                                                            <a class="fas fa-arrow-down btn-soft-danger"></a>
+                                                                        }
+                                                                        else if (value.MeasurementIndicator == "NOCHANGE")
+                                                                        {
+                                                                            <i class="fas fa-arrow-right btn-soft-secondary"></i>
+                                                                        }
+                                                                        @value.BodyMeasurementValue @value.MeasurementUnitShortCode
+                                                                    </td>
                                                                     <td>
                                                                         <div class="d-flex justify-content-start">
                                                                             <a data-bs-toggle="modal" data-bs-target="#@addGymMemberBodyMeasurementModel.ModelPopUpId" href="void javascritp(0)"

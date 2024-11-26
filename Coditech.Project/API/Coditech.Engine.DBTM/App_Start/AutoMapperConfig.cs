@@ -17,6 +17,7 @@ namespace Coditech.API.Mapper
             CreateMap<DBTMTestMaster, DBTMTestModel>().ReverseMap();
             CreateMap<DBTMDeviceRegistrationDetails, DBTMDeviceRegistrationDetailsModel>().ReverseMap();
             CreateMap<DBTMTraineeAssignment, DBTMTraineeAssignmentModel>().ReverseMap();
+            CreateMap<DBTMBatchActivity, DBTMBatchActivityModel>().ReverseMap();
         }
     }
 }
