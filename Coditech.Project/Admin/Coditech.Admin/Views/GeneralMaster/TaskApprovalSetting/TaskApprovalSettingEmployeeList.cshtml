@@ -1,0 +1,23 @@
+﻿@using Coditech.Admin.Utilities;
+@using Coditech.Common.API.Model;
+@model TaskApprovalSettingEmployeeViewModel
+@{
+    Layout = null;
+}
+<!-- Page Content-->
+@for (int i = 1; i <= Model.CountNumber; i++)
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="mb-3">
+                @Html.DropDownList("EmployeeId", ViewData["EmployeeList"] as List<SelectListItem>, new { @class = "form-select"})
+                @Html.ValidationMessageFor(x => x.EmployeeId)
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="mb-3">
+                @i
+            </div>
+        </div>
+    </div>
+}

@@ -61,8 +61,6 @@ namespace Coditech.API.Service
             
             return taskApprovalSettingModel;
         }
-
-       
     }
 }
 

@@ -13,6 +13,12 @@ namespace Coditech.API.Client
         EmployeeMasterListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
+        /// Get list of Employee.
+        /// </summary>
+        /// <returns>EmployeeMasterListResponse</returns>
+        EmployeeMasterListResponse ListByCentreCode(string centreCode, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+        /// <summary>
         /// Get Employee by employeeId.
         /// </summary>
         /// <param name="employeeId">employeeId</param>

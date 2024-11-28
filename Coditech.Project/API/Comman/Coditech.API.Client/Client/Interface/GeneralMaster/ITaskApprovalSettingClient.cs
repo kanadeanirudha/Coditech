@@ -20,6 +20,6 @@ namespace Coditech.API.Client
         /// <param name="taskMasterId">taskMasterId</param>
         /// <param name="centreCode">centreCode</param>
         /// <returns>Returns TaskApprovalSettingResponse.</returns>
-        TaskApprovalSettingResponse GetTaskApprovalSetting(short taskMasterId, string centreCode);
+        TaskApprovalSettingResponse GetTaskApprovalSetting(short taskMasterId, string centreCode);       
     }
 }

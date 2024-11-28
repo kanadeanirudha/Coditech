@@ -72,6 +72,6 @@ namespace Coditech.API.Controllers
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message });
             }
-        }
+        }       
     }
 }

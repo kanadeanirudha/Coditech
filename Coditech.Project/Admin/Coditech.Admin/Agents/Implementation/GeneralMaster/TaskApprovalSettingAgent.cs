@@ -3,13 +3,9 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using Coditech.Resources;
-using System.Diagnostics;
-using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
 {
@@ -18,13 +14,15 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ITaskApprovalSettingClient _taskApprovalSettingClient;
+        private readonly IEmployeeMasterClient _employeeMasterClient;
         #endregion
 
         #region Public Constructor
-        public TaskApprovalSettingAgent(ICoditechLogging coditechLogging, ITaskApprovalSettingClient taskApprovalSettingClient)
+        public TaskApprovalSettingAgent(ICoditechLogging coditechLogging, ITaskApprovalSettingClient taskApprovalSettingClient, IEmployeeMasterClient employeeMasterClient)
         {
             _coditechLogging = coditechLogging;
             _taskApprovalSettingClient = GetClient<ITaskApprovalSettingClient> (taskApprovalSettingClient);
+            _employeeMasterClient = GetClient<IEmployeeMasterClient>(employeeMasterClient);
         }
         #endregion
 
@@ -51,7 +49,6 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
-
         //Get taskMaster by taskMasterId.
         public virtual TaskApprovalSettingViewModel GetTaskApprovalSetting(short taskMasterId, string centreCode)
         {
@@ -59,6 +56,13 @@ namespace Coditech.Admin.Agents
             return response?.TaskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>();
         }
 
+        //Get Employee List By Centre Code
+        public virtual List<EmployeeMasterModel> GetEmployeeListByCentreCode(string centreCode)
+        {
+            FilterCollection filters = new FilterCollection();
+            EmployeeMasterListResponse response = _employeeMasterClient.ListByCentreCode(centreCode, null, null, null,1, int.MaxValue);            
+            return response.EmployeeMasterList;
+        }
 
         #endregion
 

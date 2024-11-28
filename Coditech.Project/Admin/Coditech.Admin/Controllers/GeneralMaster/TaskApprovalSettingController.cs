@@ -1,10 +1,10 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.Helper.Utilities;
-using Coditech.Resources;
+using Coditech.Common.API.Model;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -32,7 +32,7 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/GeneralMaster/TaskApprovalSetting/List.cshtml", list);
         }
-       
+
 
         [HttpGet]
         public virtual ActionResult UpdateTaskApprovalSetting(short taskMasterId, string centreCode)
@@ -40,7 +40,27 @@ namespace Coditech.Admin.Controllers
             TaskApprovalSettingViewModel taskApprovalSettingViewModel = _taskApprovalSettingAgent.GetTaskApprovalSetting(taskMasterId, centreCode);
             return ActionView(createEditTaskApprovalSetting, taskApprovalSettingViewModel);
         }
-       
+
+        [HttpGet]
+        public virtual ActionResult GetEmployeeListByCentreCode(string centreCode, byte countNumber)
+        {
+            TaskApprovalSettingEmployeeViewModel taskApprovalSettingEmployeeViewModel = new TaskApprovalSettingEmployeeViewModel() { CountNumber = countNumber };
+            taskApprovalSettingEmployeeViewModel.EmployeeList = _taskApprovalSettingAgent.GetEmployeeListByCentreCode(centreCode);
+
+            List<SelectListItem> employeeList = new List<SelectListItem>();
+
+            employeeList.Add(new SelectListItem { Text = "--------Select--------", Value = "" });
+
+            foreach (EmployeeMasterModel item in taskApprovalSettingEmployeeViewModel?.EmployeeList)
+            {
+                employeeList.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}({item.PersonCode}-{item.DepartmentName})", Value = item.EmployeeId.ToString() });
+            }
+
+            ViewData["EmployeeList"] = employeeList;
+            
+            return PartialView($"~/Views/GeneralMaster/TaskApprovalSetting/TaskApprovalSettingEmployeeList.cshtml", taskApprovalSettingEmployeeViewModel);
+        }
+
 
         public virtual ActionResult Cancel(string selectedCentreCode)
         {

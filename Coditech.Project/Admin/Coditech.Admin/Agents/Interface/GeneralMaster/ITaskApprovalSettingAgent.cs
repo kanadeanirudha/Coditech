@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 
 namespace Coditech.Admin.Agents
 {
@@ -18,5 +19,12 @@ namespace Coditech.Admin.Agents
         /// <param name="taskMasterId">taskApprovalSettingId</param>
         /// <returns>Returns TaskApprovalSettingViewModel.</returns>
         TaskApprovalSettingViewModel GetTaskApprovalSetting(short taskMasterId, string centreCode);
+
+        // <summary>
+        /// Get TaskApprovalSetting by TaskApprovalSettingId.
+        /// </summary>
+        /// <param name="centreCode">centreCode</param>
+        /// <returns>Returns EmployeeMasterModel.</returns>
+        List<EmployeeMasterModel> GetEmployeeListByCentreCode(string centreCode);
     }
 }
