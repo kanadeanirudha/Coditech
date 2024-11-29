@@ -22,28 +22,6 @@ namespace Coditech.Engine.DBTM.Controllers
             _coditechLogging = coditechLogging;
         }
 
-        //[Route("/DBTMBatchActivity/GetDBTMBatchActivity")]
-        //[HttpGet]
-        //[Produces(typeof(DBTMBatchActivityResponse))]
-        //public virtual IActionResult GetDBTMBatchActivity(int generalBatchMasterId)
-        //{
-        //    try
-        //    {
-        //        DBTMBatchActivityModel dBTMBatchActivityModel = _dBTMBatchActivityService.GetDBTMBatchActivity(generalBatchMasterId);
-        //        return IsNotNull(dBTMBatchActivityModel) ? CreateOKResponse(new DBTMBatchActivityResponse { DBTMBatchActivityModel = dBTMBatchActivityModel }) : CreateNoContentResponse();
-        //    }
-        //    catch (CoditechException ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMBatchActivity.ToString(), TraceLevel.Warning);
-        //        return CreateInternalServerErrorResponse(new DBTMBatchActivityResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMBatchActivity.ToString(), TraceLevel.Error);
-        //        return CreateInternalServerErrorResponse(new DBTMBatchActivityResponse { HasError = true, ErrorMessage = ex.Message });
-        //    }
-        //}
-
         [HttpGet]
         [Route("/DBTMBatchActivity/GetDBTMBatchActivityList")]
         [Produces(typeof(DBTMBatchActivityListResponse))]
