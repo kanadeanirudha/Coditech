@@ -146,31 +146,71 @@
 
 @section scripts {
     <script type="text/javascript">
-        $(function () {
+        $(function ()
+        {
+            // Joining Date Datepicker
             $("#JoiningDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
                 language: "en",
-                autoSize: true
+                autoSize: true,
+                onSelect: function () {
+                    var joiningDate = $(this).datepicker('getDate');
+                    console.log("Joining Date selected:", joiningDate);
+
+                    // Set the minimum date for Promotion/Demotion Date and Date of Leaving
+                    $("#PromotionDemotionDate").datepicker("option", "minDate", joiningDate);
+                    $("#DateOfLeaving").datepicker("option", "minDate", joiningDate);
+                }
             });
-        });
-        $(function () {
+
+            // Promotion/Demotion Date Datepicker
             $("#PromotionDemotionDate").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
-                language: "en"
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                onSelect: function () {
+                    var promotionDate = $(this).datepicker('getDate');
+                    console.log("Promotion/Demotion Date selected:", promotionDate);
+
+                    // Set the minimum date for Date of Leaving
+                    $("#DateOfLeaving").datepicker("option", "minDate", promotionDate);
+                },
+                beforeShow: function () {
+                    // Ensure minDate is set to Joining Date when the calendar opens
+                    var joiningDate = $("#JoiningDate").datepicker("getDate");
+                    if (joiningDate) {
+                        $(this).datepicker("option", "minDate", joiningDate);
+                    }
+                }
             });
-        });
-        $(function () {
+
+            // Date of Leaving Datepicker
             $("#DateOfLeaving").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "@AdminGeneralHelper.DateFormatForCalendar()",
-                language: "en"
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                language: "en",
+                autoSize: true,
+                beforeShow: function () {
+                    // Ensure minDate is dynamically adjusted
+                    var joiningDate = $("#JoiningDate").datepicker("getDate");
+                    var promotionDate = $("#PromotionDemotionDate").datepicker("getDate");
+
+                    if (promotionDate) {
+                        // Set minDate to Promotion/Demotion Date if it exists
+                        $(this).datepicker("option", "minDate", promotionDate);
+                    } else if (joiningDate) {
+                        // Otherwise, set minDate to Joining Date
+                        $(this).datepicker("option", "minDate", joiningDate);
+                    }
+                }
             });
         });
+
         $(function () {
             $("#OrderDate").datepicker({
                 changeMonth: true,

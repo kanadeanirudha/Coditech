@@ -160,7 +160,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmtpSetup(organisationCentrewiseSmtpSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMTPSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentrewiseSmtpSettingId });
+                return RedirectToAction("CentrewiseSMTPSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentreMasterId });
             }
             return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
         }
@@ -186,7 +186,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmsSetup(organisationCentrewiseSmsSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentrewiseSmsSettingId, generalSmsProviderId = organisationCentrewiseSmsSettingViewModel.GeneralSmsProviderId });
+                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentreMasterId, generalSmsProviderId = organisationCentrewiseSmsSettingViewModel.GeneralSmsProviderId });
             }
             return View(OrganisationCentrewiseSmsSetting, organisationCentrewiseSmsSettingViewModel);
         }
