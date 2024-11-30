@@ -17,7 +17,6 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMBatchActivity> _dBTMBatchActivityRepository;
         private readonly ICoditechRepository<GeneralBatchMaster> _generalBatchMasterRepository;
-        private readonly ICoditechRepository<DBTMTestMaster> _dBTMTestMasterRepository;
 
         public DBTMBatchActivityService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -25,7 +24,6 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _dBTMBatchActivityRepository = new CoditechRepository<DBTMBatchActivity>(_serviceProvider.GetService<Coditech_Entities>());
             _generalBatchMasterRepository = new CoditechRepository<GeneralBatchMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _dBTMTestMasterRepository = new CoditechRepository<DBTMTestMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual DBTMBatchActivityListModel GetDBTMBatchActivityList(int generalBatchMasterId, bool isAssociated, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)

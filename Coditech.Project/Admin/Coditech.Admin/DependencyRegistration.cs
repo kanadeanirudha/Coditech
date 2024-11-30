@@ -54,7 +54,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryProductDimensionAgent, InventoryProductDimensionAgent>();
             builder.Services.AddScoped<IGeneralUserMainMenuAgent, GeneralUserMainMenuAgent>();
             builder.Services.AddScoped<IEmployeeServiceAgent, EmployeeServiceAgent>();
-            builder.Services.AddScoped<IGeneralCommanDataAgent, GeneralCommanDataAgent>();
+            builder.Services.AddScoped<IGeneralCommonAgent, GeneralCommonAgent>();
             builder.Services.AddScoped<ICoditechApplicationSettingAgent, CoditechApplicationSettingAgent>();
             builder.Services.AddScoped<IMediaManagerFolderAgent, MediaManagerFolderAgent>();
             builder.Services.AddScoped<ILogMessageAgent, LogMessageAgent>();
@@ -72,7 +72,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITaskApprovalSettingAgent, TaskApprovalSettingAgent>();
             builder.Services.AddScoped<IGymWorkoutPlanAgent, GymWorkoutPlanAgent>();
             builder.Services.AddScoped<ITaskMasterAgent, TaskMasterAgent>();
-
 
 
             #region HMS
@@ -184,6 +183,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITaskApprovalSettingClient, TaskApprovalSettingClient>();
             builder.Services.AddScoped<IGymWorkoutPlanClient, GymWorkoutPlanClient>();
             builder.Services.AddScoped<ITaskMasterClient, TaskMasterClient>();
+            builder.Services.AddScoped<IGeneralCommonClient, GeneralCommonClient>();
 
 
             #region HMS
