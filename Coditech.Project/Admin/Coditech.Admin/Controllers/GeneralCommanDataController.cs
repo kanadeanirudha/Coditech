@@ -1,7 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper.Utilities;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
@@ -25,6 +25,7 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
+        [AllowAnonymous]
         public ActionResult GetRegionListByCountryId(string generalCountryMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
@@ -36,6 +37,7 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
+        [AllowAnonymous]
         public ActionResult GetDistrictListByRegionId(string generalRegionMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
@@ -47,6 +49,7 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
+        [AllowAnonymous]
         public ActionResult GetCityListByRegionId(string generalRegionMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()

@@ -121,6 +121,35 @@
             $("#GeneralRegionMasterId").html("");
         }
     },
+
+    GetCityListByRegionId: function () {
+        var selectedItem = $("#GeneralRegionMasterId").val();
+        if (selectedItem != "") {
+            CoditechCommon.ShowLodder();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "html",
+                url: "/GeneralCommanData/GetCityListByRegionId",
+                data: { "generalRegionMasterId": selectedItem },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#GeneralCityMasterId").html("").html(data);
+                    CoditechCommon.HideLodder();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == "401" || xhr.status == "403") {
+                        location.reload();
+                    }
+                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve City.", "error")
+                    CoditechCommon.HideLodder();
+                }
+            });
+        }
+        else {
+            $("#GeneralRegionMasterId").html("");
+        }
+    },
     GetDistrictListByRegionId: function () {
         var selectedItem = $("#GeneralRegionMasterId").val();
         if (selectedItem != "") {
@@ -174,7 +203,6 @@
     },
     AllowOnlyAlphabetWithouSpacing: function ()
     {
-        debugger;   
         const charCode = event.which || event.keyCode;
         if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 8)
         {
