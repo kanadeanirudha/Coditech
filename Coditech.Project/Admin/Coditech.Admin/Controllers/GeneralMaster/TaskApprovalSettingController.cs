@@ -2,7 +2,7 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
-
+using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -44,23 +44,45 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult GetEmployeeListByCentreCode(string centreCode, byte countNumber)
         {
-            TaskApprovalSettingEmployeeViewModel taskApprovalSettingEmployeeViewModel = new TaskApprovalSettingEmployeeViewModel() { CountNumber = countNumber };
-            taskApprovalSettingEmployeeViewModel.EmployeeList = _taskApprovalSettingAgent.GetEmployeeListByCentreCode(centreCode);
+            TaskApprovalSettingViewModel taskApprovalSettingViewModel = new TaskApprovalSettingViewModel() { CountNumber = countNumber };
+            taskApprovalSettingViewModel.EmployeeList = _taskApprovalSettingAgent.GetEmployeeListByCentreCode(centreCode);
 
             List<SelectListItem> employeeList = new List<SelectListItem>();
 
             employeeList.Add(new SelectListItem { Text = "--------Select--------", Value = "" });
 
-            foreach (EmployeeMasterModel item in taskApprovalSettingEmployeeViewModel?.EmployeeList)
+            foreach (EmployeeMasterModel item in taskApprovalSettingViewModel?.EmployeeList)
             {
                 employeeList.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}({item.PersonCode}-{item.DepartmentName})", Value = item.EmployeeId.ToString() });
             }
 
             ViewData["EmployeeList"] = employeeList;
-            
-            return PartialView($"~/Views/GeneralMaster/TaskApprovalSetting/TaskApprovalSettingEmployeeList.cshtml", taskApprovalSettingEmployeeViewModel);
+
+            return PartialView($"~/Views/GeneralMaster/TaskApprovalSetting/TaskApprovalSettingEmployeeList.cshtml", taskApprovalSettingViewModel);
         }
 
+        [HttpPost]
+        public virtual ActionResult AddUpdateTaskApprovalSetting(TaskApprovalSettingViewModel taskApprovalSettingViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+                taskApprovalSettingViewModel = _taskApprovalSettingAgent.AddUpdateTaskApprovalSetting(taskApprovalSettingViewModel);
+                if (!taskApprovalSettingViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                }
+                else
+                {
+                    SetNotificationMessage(GetErrorNotificationMessage(taskApprovalSettingViewModel.ErrorMessage));
+                }
+            }
+            else
+            {
+                SetNotificationMessage(GetErrorNotificationMessage(taskApprovalSettingViewModel.ErrorMessage));
+            }
+            return RedirectToAction("UpdateTaskApprovalSetting", new { taskMasterId = taskApprovalSettingViewModel.TaskMasterId, centreCode = taskApprovalSettingViewModel.CentreCode });
+        }
 
         public virtual ActionResult Cancel(string selectedCentreCode)
         {

@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using Coditech.Resources;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,5 +19,10 @@ namespace Coditech.Admin.ViewModel
         public string TaskCode { get; set; }
         public string TaskDescription { get; set; }
         public byte CountNumber { get; set; }
+        public string EmployeeIds { get; set; }
+        public byte ApprovalSequenceNumber { get; set; }
+        public bool IsFinalApproval { get; set; }
+        public List<EmployeeMasterModel> EmployeeList { get; set; }
+        public bool IsAssociated { get; set; }
     }
 }

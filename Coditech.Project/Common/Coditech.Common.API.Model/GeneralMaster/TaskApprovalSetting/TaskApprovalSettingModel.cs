@@ -11,6 +11,9 @@
         public string CentreName { get; set; }
         public byte CountNumber { get; set; }
         public List<EmployeeMasterModel> EmployeeList { get; set; }
-
+        public string EmployeeIds { get; set; }
+        public byte ApprovalSequenceNumber { get; set; }
+        public bool IsFinalApproval { get; set; }
+        public bool IsAssociated { get; set; }
     }
 }

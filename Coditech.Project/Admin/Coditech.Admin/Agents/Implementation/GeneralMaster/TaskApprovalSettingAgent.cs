@@ -3,9 +3,14 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
+using static Coditech.Common.Helper.HelperUtility;
 using Coditech.Common.Logger;
+using Coditech.Resources;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Coditech.Admin.Agents
 {
@@ -64,6 +69,32 @@ namespace Coditech.Admin.Agents
             return response.EmployeeMasterList;
         }
 
+        //AddEmployeeList
+        public virtual TaskApprovalSettingViewModel AddUpdateTaskApprovalSetting(TaskApprovalSettingViewModel taskApprovalSettingViewModel)
+        {
+            try
+            {
+                TaskApprovalSettingResponse response = _taskApprovalSettingClient.AddUpdateTaskApprovalSetting(taskApprovalSettingViewModel.ToModel<TaskApprovalSettingModel>());
+                TaskApprovalSettingModel taskApprovalSettingModel = response?.TaskApprovalSettingModel;
+                return IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : new TaskApprovalSettingViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, ex.ErrorMessage);
+                    default:
+                        return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
         #endregion
 
         #region protected

@@ -3,11 +3,10 @@
         TaskApprovalSetting.constructor();
     },
     constructor: function () {
-
     },
 
     GetEmployeeListByCentreCode: function (centreCode, countNumber) {
-       
+
         CoditechCommon.ShowLodder();
         countNumber = $("#CountNumber").val();
         $.ajax({
@@ -30,7 +29,20 @@
                 }
             }
         });
-    }
+    },
 
-    
-};
+    SaveData: function () {
+        var dropdownValues = [];
+        $('#makeEditable tbody tr').each(function () {
+            var employeeId = $(this).find('select').val();
+            if (employeeId) {
+                dropdownValues.push(employeeId); 
+            }
+        });
+
+        $('#EmployeeIds').val(dropdownValues.join(","));
+        console.log('Prepared JSON Data:', jsonData);
+
+        $("#frmTaskApprovalSetting").submit();
+    }
+}

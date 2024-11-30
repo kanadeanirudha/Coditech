@@ -11,5 +11,6 @@ namespace Coditech.Admin.ViewModel
         }
         public string SelectedCentreCode { get; set; } = string.Empty;
         public int TaskApprovalSettingId { get; set; }
+        public bool IsAssociated { get; set; }
     }
 }
