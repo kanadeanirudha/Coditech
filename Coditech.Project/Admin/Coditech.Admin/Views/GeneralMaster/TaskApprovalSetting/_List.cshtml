@@ -25,7 +25,7 @@
                             <td>@item.TaskDescription</td>
                             <td class="text-center data-action">
                                 <a href="../@controllerName/UpdateTaskApprovalSetting?taskMasterId=@item.TaskMasterId&centreCode=@Model.SelectedCentreCode" title="UpdateTaskApprovalSetting" class="btn btn-sm btn-soft-success btn-circle">
-                                    @if (Model.IsAssociated)
+                                    @if (item.IsAssociated)
                                     {
                                         <i class="fas fa-edit"></i>
                                     }
