@@ -120,7 +120,8 @@
             TaskMaster,
             DBTMBatchActivity,
             TaskApprovalSetting,
-            GeneralMessages
+            GeneralMessages,
+            DBTMUser
         }
     }
 }
