@@ -260,7 +260,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Is Associated",
                 ColumnCode = "IsAssociated",
-                IsSortable = true,
             });
             return datatableColumnList;
         }

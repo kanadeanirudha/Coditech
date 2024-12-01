@@ -4,6 +4,7 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
@@ -34,6 +35,31 @@ namespace Coditech.API.Controllers
             try
             {
                 EmployeeMasterListModel list = _employeeMasterService.GetEmployeeList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<EmployeeMasterListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new EmployeeMasterListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new EmployeeMasterListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        //EmployeeListByCentreCode
+        [HttpGet]
+        [Route("/EmployeeMaster/GetEmployeeListByCentreCode")]
+        [Produces(typeof(EmployeeMasterListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetEmployeeListByCentreCode(string centreCode, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                EmployeeMasterListModel list = _employeeMasterService.GetEmployeeListByCentreCode(centreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<EmployeeMasterListResponse>(data) : CreateNoContentResponse();
             }

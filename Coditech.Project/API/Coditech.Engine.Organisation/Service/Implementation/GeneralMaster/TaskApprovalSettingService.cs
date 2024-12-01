@@ -19,6 +19,7 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<TaskApprovalSetting> _taskApprovalSettingRepository;
         private readonly ICoditechRepository<TaskMaster> _taskMasterRepository;
+        private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
 
         public TaskApprovalSettingService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -58,13 +59,38 @@ namespace Coditech.API.Service
             taskApprovalSettingModel.TaskCode = _taskMasterRepository.Table.Where(x => x.TaskMasterId == taskMasterId)?.FirstOrDefault().TaskCode;
             taskApprovalSettingModel.CentreName = GetOrganisationCentreDetails(centreCode).CentreName;
             taskApprovalSettingModel.CentreCode = centreCode;
-            
+
             return taskApprovalSettingModel;
         }
 
-       
+        //TaskApprovalSetting for EmployeeList.
+        public virtual TaskApprovalSettingModel AddUpdateTaskApprovalSetting(TaskApprovalSettingModel taskApprovalSettingModel)
+        {
+
+            List<long> employeeIdList = taskApprovalSettingModel.EmployeeIds?.Split(',').Where(id => !string.IsNullOrWhiteSpace(id)).Select(long.Parse).ToList();
+
+            List<TaskApprovalSetting> insertList = new List<TaskApprovalSetting>();
+            for (int i = 1; i <= employeeIdList.Count; i++)
+            {
+                insertList.Add(new TaskApprovalSetting
+                {
+                    CentreCode = taskApprovalSettingModel.CentreCode,
+                    TaskMasterId = taskApprovalSettingModel.TaskMasterId,
+                    EmployeeId = employeeIdList[i - 1],
+                    ApprovalSequenceNumber = (byte)i,
+                    IsFinalApproval = (i == employeeIdList.Count)
+                });
+            }
+            if (employeeIdList.Count > 0)
+            {
+                _taskApprovalSettingRepository.Insert(insertList);
+            }
+            return taskApprovalSettingModel;
+
+        }
     }
 }
+
 
 
 

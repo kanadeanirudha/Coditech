@@ -13,5 +13,8 @@ namespace Coditech.API.Endpoint
         }
         public string GetTaskApprovalSettingAsync(short taskMasterId, string centreCode) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskApprovalSetting/GetTaskApprovalSetting?taskMasterId={taskMasterId}&centreCode={centreCode}";
+
+        public string AddUpdateTaskApprovalSettingAsync() =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskApprovalSetting/AddUpdateTaskApprovalSetting";
     }
 }
