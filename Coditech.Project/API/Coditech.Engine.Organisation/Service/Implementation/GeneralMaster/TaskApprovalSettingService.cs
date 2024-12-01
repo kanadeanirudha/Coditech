@@ -56,10 +56,17 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaskMasterId"));
 
             TaskApprovalSettingModel taskApprovalSettingModel = new TaskApprovalSettingModel();
-            taskApprovalSettingModel.TaskCode = _taskMasterRepository.Table.Where(x => x.TaskMasterId == taskMasterId)?.FirstOrDefault().TaskCode;
-            taskApprovalSettingModel.CentreName = GetOrganisationCentreDetails(centreCode).CentreName;
-            taskApprovalSettingModel.CentreCode = centreCode;
-
+            TaskMaster taskMaster = _taskMasterRepository.Table.Where(x => x.TaskMasterId == taskMasterId)?.FirstOrDefault();
+            if (IsNotNull(taskMaster))
+            {
+                taskApprovalSettingModel.TaskCode = taskMaster.TaskCode;
+                taskApprovalSettingModel.TaskDescription = taskMaster.TaskDescription;
+            }
+            if (!string.IsNullOrEmpty(centreCode))
+            {
+                taskApprovalSettingModel.CentreName = GetOrganisationCentreDetails(centreCode).CentreName;
+                taskApprovalSettingModel.CentreCode = centreCode;
+            }
             return taskApprovalSettingModel;
         }
 

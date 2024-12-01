@@ -1,9 +1,8 @@
 ﻿@model TaskApprovalSettingViewModel
 @{
-    ViewBag.Title = Model.TaskMasterId > 0 ? "Update TaskApprovalSetting" : "Add TaskApprovalSetting";
+    ViewBag.Title = Model.TaskMasterId > 0 ? "Update Task Approval Setting" : "Add Task Approval Setting";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    string css = Model.TaskMasterId > 0 ? "col-lg-10" : "col-lg-12";
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("TaskApprovalSettingId", Model.TaskMasterId.ToString());
 }
@@ -41,7 +40,13 @@
                                         @Html.ValidationMessageFor(x => x.TaskCode)
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.TaskDescription, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.TaskDescription, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.CentreCode, new { @class = "form-label" })
                                         @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control", @disabled = "disabled" })
@@ -51,7 +56,7 @@
                                 <div class="col-lg-2">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.CountNumber, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.CountNumber, new { @class = "form-control" })
+                                        @Html.TextBoxFor(x => x.CountNumber, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()", @maxlength = "3" })
                                         @Html.ValidationMessageFor(x => x.CountNumber)
                                     </div>
                                 </div>

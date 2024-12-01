@@ -10,7 +10,5 @@ namespace Coditech.Admin.ViewModel
             TaskApprovalSettingList = new List<TaskApprovalSettingViewModel>();
         }
         public string SelectedCentreCode { get; set; } = string.Empty;
-        public int TaskApprovalSettingId { get; set; }
-        public bool IsAssociated { get; set; }
     }
 }
