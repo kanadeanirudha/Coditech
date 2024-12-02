@@ -22,10 +22,10 @@ namespace Coditech.Engine.DBTM.Controllers
             _coditechLogging = coditechLogging;
         }
 
-        [Route("/DBTMNewRegistration/DBTMNewRegistration")]
+        [Route("/DBTMCentreRegistration/CentreRegistration")]
         [HttpPost, ValidateModel]
         [Produces(typeof(DBTMNewRegistrationResponse))]
-        public virtual IActionResult DBTMNewRegistration([FromBody] DBTMNewRegistrationModel model)
+        public virtual IActionResult CentreRegistration([FromBody] DBTMNewRegistrationModel model)
         {
             try
             {
