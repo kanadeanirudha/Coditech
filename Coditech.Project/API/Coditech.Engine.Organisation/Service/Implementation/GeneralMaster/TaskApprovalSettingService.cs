@@ -75,8 +75,8 @@ namespace Coditech.API.Service
             if (IsNull(taskApprovalSettingModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsTaskCodeAlreadyExist(taskApprovalSettingModel.TaskCode, taskApprovalSettingModel.TaskMasterId))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Task Code"));
+            if (IsTaskApprovalSettingAlreadyExist(taskApprovalSettingModel))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Task Approval Setting"));
 
             List<long> employeeIdList = taskApprovalSettingModel.EmployeeIds?.Split(',').Where(id => !string.IsNullOrWhiteSpace(id)).Select(long.Parse).ToList();
 
@@ -101,12 +101,8 @@ namespace Coditech.API.Service
         }
 
         #region Protected Method
-
-        //Check if Task code is already present or not.
-        protected virtual bool IsTaskCodeAlreadyExist(string taskCode, short taskMasterId = 0)
-
-         => _taskMasterRepository.Table.Any(x => x.TaskCode == taskCode && (x.TaskMasterId != taskMasterId || taskMasterId == 0));
-
+        protected virtual bool IsTaskApprovalSettingAlreadyExist(TaskApprovalSettingModel taskApprovalSettingModel)
+         => _taskApprovalSettingRepository.Table.Any(x => x.TaskMasterId == taskApprovalSettingModel.TaskMasterId && x.CentreCode == taskApprovalSettingModel .CentreCode);
         #endregion
     }
 
