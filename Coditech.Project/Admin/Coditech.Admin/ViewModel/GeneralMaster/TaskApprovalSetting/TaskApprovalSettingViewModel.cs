@@ -19,6 +19,7 @@ namespace Coditech.Admin.ViewModel
         public string TaskCode { get; set; }
         [Display(Name = "Task Description")]
         public string TaskDescription { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "The Count Number must be greater than 0.")]
         [Display(Name = "Number Of Approver")]
         public byte CountNumber { get; set; }
         public string EmployeeIds { get; set; }

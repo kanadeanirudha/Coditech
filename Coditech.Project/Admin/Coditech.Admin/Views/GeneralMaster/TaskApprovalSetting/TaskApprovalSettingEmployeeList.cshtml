@@ -21,7 +21,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DropDownList("EmployeeId_" + i, ViewData["EmployeeList"] as List<SelectListItem>, new { @class = "form-select" })
+                        @Html.DropDownList("EmployeeId_" + i, ViewData["EmployeeList"] as List<SelectListItem>, new { @class = "form-select employee-dropdown", data_index = i })
                         @Html.ValidationMessageFor(x => x.EmployeeIds)
                     </td>
                     <td>

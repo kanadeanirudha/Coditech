@@ -6,7 +6,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
-
 using System.Collections.Specialized;
 using System.Data;
 
@@ -73,6 +72,11 @@ namespace Coditech.API.Service
         //TaskApprovalSetting for EmployeeList.
         public virtual TaskApprovalSettingModel AddUpdateTaskApprovalSetting(TaskApprovalSettingModel taskApprovalSettingModel)
         {
+            if (IsNull(taskApprovalSettingModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            if (IsTaskCodeAlreadyExist(taskApprovalSettingModel.TaskCode, taskApprovalSettingModel.TaskMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Task Code"));
 
             List<long> employeeIdList = taskApprovalSettingModel.EmployeeIds?.Split(',').Where(id => !string.IsNullOrWhiteSpace(id)).Select(long.Parse).ToList();
 
@@ -95,8 +99,27 @@ namespace Coditech.API.Service
             return taskApprovalSettingModel;
 
         }
+
+        #region Protected Method
+
+        //Check if Task code is already present or not.
+        protected virtual bool IsTaskCodeAlreadyExist(string taskCode, short taskMasterId = 0)
+
+         => _taskMasterRepository.Table.Any(x => x.TaskCode == taskCode && (x.TaskMasterId != taskMasterId || taskMasterId == 0));
+
+        #endregion
     }
+
 }
+
+
+
+
+
+
+
+
+
 
 
 
