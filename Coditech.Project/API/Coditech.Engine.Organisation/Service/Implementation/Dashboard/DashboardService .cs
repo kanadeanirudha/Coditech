@@ -116,7 +116,7 @@ namespace Coditech.API.Service
 
                     dashboardModel.DBTMCentreDashboardModel = dBTMCentreDashboardModel;
                 }
-                else if (dashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTraineeDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                else if (dashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTrainerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
 
                     DataSet dataset = GetGymDashboardDetailsByUserId(userMasterId);
