@@ -6,10 +6,11 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
+using static Coditech.Common.Helper.HelperUtility;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+using Newtonsoft.Json;
 using System.Diagnostics;
-using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
 {
@@ -18,13 +19,15 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ITaskApprovalSettingClient _taskApprovalSettingClient;
+        private readonly IEmployeeMasterClient _employeeMasterClient;
         #endregion
 
         #region Public Constructor
-        public TaskApprovalSettingAgent(ICoditechLogging coditechLogging, ITaskApprovalSettingClient taskApprovalSettingClient)
+        public TaskApprovalSettingAgent(ICoditechLogging coditechLogging, ITaskApprovalSettingClient taskApprovalSettingClient, IEmployeeMasterClient employeeMasterClient)
         {
             _coditechLogging = coditechLogging;
             _taskApprovalSettingClient = GetClient<ITaskApprovalSettingClient> (taskApprovalSettingClient);
+            _employeeMasterClient = GetClient<IEmployeeMasterClient>(employeeMasterClient);
         }
         #endregion
 
@@ -51,7 +54,6 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
-
         //Get taskMaster by taskMasterId.
         public virtual TaskApprovalSettingViewModel GetTaskApprovalSetting(short taskMasterId, string centreCode)
         {
@@ -59,7 +61,40 @@ namespace Coditech.Admin.Agents
             return response?.TaskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>();
         }
 
+        //Get Employee List By Centre Code
+        public virtual List<EmployeeMasterModel> GetEmployeeListByCentreCode(string centreCode)
+        {
+            FilterCollection filters = new FilterCollection();
+            EmployeeMasterListResponse response = _employeeMasterClient.ListByCentreCode(centreCode, null, null, null,1, int.MaxValue);            
+            return response.EmployeeMasterList;
+        }
 
+        //AddEmployeeList
+        public virtual TaskApprovalSettingViewModel AddUpdateTaskApprovalSetting(TaskApprovalSettingViewModel taskApprovalSettingViewModel)
+        {
+            try
+            {
+                TaskApprovalSettingResponse response = _taskApprovalSettingClient.AddUpdateTaskApprovalSetting(taskApprovalSettingViewModel.ToModel<TaskApprovalSettingModel>());
+                TaskApprovalSettingModel taskApprovalSettingModel = response?.TaskApprovalSettingModel;
+                return IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : new TaskApprovalSettingViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, ex.ErrorMessage);
+                    default:
+                        return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
         #endregion
 
         #region protected

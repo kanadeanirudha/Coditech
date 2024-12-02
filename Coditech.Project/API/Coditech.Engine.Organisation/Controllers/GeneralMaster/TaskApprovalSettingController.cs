@@ -73,5 +73,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/TaskApprovalSetting/AddUpdateTaskApprovalSetting")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TaskApprovalSettingResponse))]
+        public virtual IActionResult AddUpdateTaskApprovalSetting([FromBody] TaskApprovalSettingModel model)
+        {
+            try
+            {
+                TaskApprovalSettingModel taskApprovalSettingModel = _taskApprovalSettingService.AddUpdateTaskApprovalSetting(model);
+                return IsNotNull(taskApprovalSettingModel) ? CreateCreatedResponse(new TaskApprovalSettingResponse { TaskApprovalSettingModel = taskApprovalSettingModel }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

@@ -8,10 +8,10 @@ namespace Coditech.Admin.Controllers
 {
     public class GeneralCommanDataController : BaseController
     {
-        private readonly IGeneralCommanDataAgent _generalCommanDataAgent;
-        public GeneralCommanDataController(IGeneralCommanDataAgent generalCommanDataAgent) 
+        private readonly IGeneralCommonAgent _generalCommonAgent;
+        public GeneralCommanDataController(IGeneralCommonAgent generalCommonAgent) 
         {
-            _generalCommanDataAgent = generalCommanDataAgent;
+            _generalCommonAgent = generalCommonAgent;
         }
         //Get Departments By CentreCode
         public ActionResult GetDepartmentsByCentreCode(string centreCode)
@@ -88,7 +88,7 @@ namespace Coditech.Admin.Controllers
                 return Json(new { success = false, message = "Empty file uploaded." });
             }
 
-            var response = _generalCommanDataAgent.UploadImage(file);
+            var response = _generalCommonAgent.UploadImage(file);
 
             return Json(new { imageUrl = response.UploadMediaModel.MediaPathUrl, photoMediaId = response.UploadMediaModel.MediaId });
         }

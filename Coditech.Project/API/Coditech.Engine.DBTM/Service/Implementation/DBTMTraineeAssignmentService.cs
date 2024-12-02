@@ -94,11 +94,6 @@ namespace Coditech.API.Service
             if (dBTMTraineeAssignmentId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "DBTMTraineeAssignmentId"));
 
-            ////Get the DBTMTraineeAssignment Details based on id.
-            //DBTMTraineeAssignment dBTMTraineeAssignment = _dBTMTraineeAssignmentRepository.Table.FirstOrDefault(x => x.DBTMTraineeAssignmentId == dBTMTraineeAssignmentId);
-            //DBTMTraineeAssignmentModel dBTMTraineeAssignmentModel = dBTMTraineeAssignment?.FromEntityToModel<DBTMTraineeAssignmentModel>();
-
-
             //Get the DBTMTraineeAssignment Details based on id.
             DBTMTraineeAssignment dBTMTraineeAssignment = _dBTMTraineeAssignmentRepository.Table.Where(x => x.DBTMTraineeAssignmentId == dBTMTraineeAssignmentId)?.FirstOrDefault();
             DBTMTraineeAssignmentModel dBTMTraineeAssignmentModel = dBTMTraineeAssignment?.FromEntityToModel<DBTMTraineeAssignmentModel>();
@@ -107,14 +102,9 @@ namespace Coditech.API.Service
                 GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(dBTMTraineeAssignmentModel.GeneralTrainerMasterId, UserTypeEnum.Employee.ToString());
                 if (IsNotNull(generalPersonModel))
                 {
-                    //generalTrainerModel.FirstName = generalPersonModel.FirstName;
-                    // generalTrainerModel.LastName = generalPersonModel.LastName;
                     dBTMTraineeAssignmentModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
-                    //generalTrainerModel.SelectedDepartmentId = generalPersonModel.SelectedDepartmentId;
                 }
             }
-
-
             return dBTMTraineeAssignmentModel;
         }
 
