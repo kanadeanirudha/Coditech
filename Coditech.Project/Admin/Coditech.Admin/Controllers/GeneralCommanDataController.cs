@@ -1,14 +1,16 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
+using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Admin.Controllers
 {
     public class GeneralCommanDataController : BaseController
     {
         private readonly IGeneralCommonAgent _generalCommonAgent;
-        public GeneralCommanDataController(IGeneralCommonAgent generalCommonAgent) 
+        public GeneralCommanDataController(IGeneralCommonAgent generalCommonAgent)
         {
             _generalCommonAgent = generalCommonAgent;
         }
@@ -24,6 +26,7 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
+        [AllowAnonymous]
         public ActionResult GetRegionListByCountryId(string generalCountryMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
@@ -35,6 +38,7 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
+        [AllowAnonymous]
         public ActionResult GetDistrictListByRegionId(string generalRegionMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
@@ -46,6 +50,7 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
+        [AllowAnonymous]
         public ActionResult GetCityListByRegionId(string generalRegionMasterId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
@@ -87,6 +92,23 @@ namespace Coditech.Admin.Controllers
             var response = _generalCommonAgent.UploadImage(file);
 
             return Json(new { imageUrl = response.UploadMediaModel.MediaPathUrl, photoMediaId = response.UploadMediaModel.MediaId });
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult GetTermsAndCondition()
+        {
+            Dictionary<string, string> termsAndConditionDictionary = new Dictionary<string, string>();
+            CoditechApplicationSettingListViewModel coditechApplicationSettingListViewModel = _generalCommonAgent.GetCoditechApplicationSettingList("TermsAndCondition");
+            if (IsNotNull(coditechApplicationSettingListViewModel) && coditechApplicationSettingListViewModel.CoditechApplicationSettingList?.Count > 0)
+            {
+                string termsAndCondition = coditechApplicationSettingListViewModel.CoditechApplicationSettingList.FirstOrDefault().ApplicationValue1;
+                if (!string.IsNullOrEmpty(termsAndCondition))
+                {
+                    termsAndConditionDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(termsAndCondition);
+                }
+            }
+            return PartialView("~/Views/Shared/Control/_TermsAndCondition.cshtml", termsAndConditionDictionary);
         }
     }
 }

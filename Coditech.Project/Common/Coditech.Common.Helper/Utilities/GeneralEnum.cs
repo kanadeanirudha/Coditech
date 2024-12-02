@@ -151,7 +151,7 @@
         GymOwnerDashboard,
         GymOperatorDashboard,
         DBTMCentreDashboard,
-        DBTMTraineeDashboard
+        DBTMTrainerDashboard
     }
     public enum ErrorMessageTypeEnum
     {

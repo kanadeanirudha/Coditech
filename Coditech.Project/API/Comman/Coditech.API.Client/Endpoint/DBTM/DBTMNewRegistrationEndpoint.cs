@@ -6,6 +6,6 @@ namespace Coditech.API.Endpoint
     public class DBTMNewRegistrationEndpoint : BaseEndpoint
     {
         public string NewRegistrationAsync() =>
-            $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMNewRegistration/DBTMNewRegistration";
+            $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMNewRegistration/CentreRegistration";
     }
 }

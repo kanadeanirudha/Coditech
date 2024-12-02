@@ -16,17 +16,28 @@ namespace Coditech.Admin.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public virtual ActionResult NewRegistration()
+        public virtual ActionResult CentreRegistration()
+        {
+            TempData["FormSizeClass"] = "col-lg-8";
+            return View("~/Views/DBTM/DBTMNewRegistration/DBTMNewRegistration.cshtml", new DBTMNewRegistrationViewModel() { IsCentreRegistration = true });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public virtual ActionResult IndividualRegistration()
         {
             TempData["FormSizeClass"] = "col-lg-8";
             return View("~/Views/DBTM/DBTMNewRegistration/DBTMNewRegistration.cshtml", new DBTMNewRegistrationViewModel());
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public virtual ActionResult NewRegistration(DBTMNewRegistrationViewModel dBTMNewRegistrationViewModel)
+        public virtual ActionResult CentreIndividualRegistration(DBTMNewRegistrationViewModel dBTMNewRegistrationViewModel)
         {
+            TempData["FormSizeClass"] = "col-lg-8";
+            if (!dBTMNewRegistrationViewModel.IsCentreRegistration) {
+                dBTMNewRegistrationViewModel.CentreName = "DBTMCentre";
+            }
             if (ModelState.IsValid)
             {
                 dBTMNewRegistrationViewModel = _dBTMNewRegistrationAgent.DBTMNewRegistration(dBTMNewRegistrationViewModel);
