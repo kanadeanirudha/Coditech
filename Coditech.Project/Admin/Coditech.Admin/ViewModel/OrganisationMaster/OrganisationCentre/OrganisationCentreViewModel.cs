@@ -41,11 +41,10 @@ namespace Coditech.Admin.ViewModel
         public string EmailId { get; set; }
         [MaxLength(30)]
         public string Url { get; set; }
-        [MaxLength(50)]
+        [MaxLength(10)]
         [Required]
         [Display(Name = "Mobile Number")]
         [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Please enter valid Mobile Number")]
-
         public string CellPhone { get; set; }
         [MaxLength(50)]
         [Display(Name = "Fax Number")]

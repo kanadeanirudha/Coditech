@@ -32,7 +32,7 @@ namespace Coditech.Common.API.Model
         public string EmailId { get; set; }
         [MaxLength(30)]
         public string Url { get; set; }
-        [MaxLength(50)]
+        [MaxLength(10)]
         [Required]
         public string CellPhone { get; set; }
         [MaxLength(50)]
