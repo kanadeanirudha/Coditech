@@ -145,7 +145,7 @@ namespace Coditech.Admin.Controllers
         {
             if (string.IsNullOrEmpty(sendOTPOn) || string.IsNullOrEmpty(otp))
             {
-                return Json(new { success = false, message = "Please enter otp" });
+                return Json(new { success = false, message = "Please enter OTP" });
             }
             if (Convert.ToString(TempData[sendOTPOn.ToLower() + "otp"]) == otp)
             {

@@ -231,8 +231,14 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
                     if (result.success == true) {
-                        $("#MobileNumberSendOTPDivId").hide();
-                        $("#MobileNumberTokenDivId").show();
+                        if (sendOTPOn == "mobile") {
+                            $("#MobileNumberSendOTPDivId").hide();
+                            $("#MobileNumberTokenDivId").show();
+                        }
+                        else if (sendOTPOn == "email") {
+                            $("#EmailIdSendOTPDivId").hide();
+                            $("#EmailIdTokenDivId").show();
+                        }
                         CoditechNotification.DisplayNotificationMessage(result.message, "success");
                     }
                     else {
@@ -275,13 +281,15 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
                     if (result.success == true) {
-                        $("#MobileNumberSendOTPDivId").hide();
-                        $("#MobileNumberTokenDivId").hide();
                         if (sendOTPOn == "mobile") {
+                            $("#MobileNumberSendOTPDivId").hide();
+                            $("#MobileNumberTokenDivId").hide();
                             $("#IsMobileNumberVerifed").prop("checked", true);
                             $("#MobileNumberVerifiedOTPDivId").show();
                         }
                         else if (sendOTPOn == "email") {
+                            $("#EmailIdSendOTPDivId").hide();
+                            $("#EmailIdTokenDivId").hide();
                             $("#IsEmailIdVerifed").prop("checked", true);
                             $("#EmailIdVerifiedOTPDivId").show();
                         }
