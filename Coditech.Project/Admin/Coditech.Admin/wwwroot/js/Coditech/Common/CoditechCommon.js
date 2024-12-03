@@ -178,6 +178,29 @@
             $("#GeneralDistrictMasterId").html("");
         }
     },
+    GetTermsAndCondition: function (modelPopContentId) {
+        CoditechCommon.ShowLodder(); // Show the loader
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: "html",
+            url: "/GeneralCommanData/GetTermsAndCondition",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                // Populate the modal content with the fetched data
+                $('#' + modelPopContentId).html(result);
+                CoditechCommon.HideLodder(); // Hide the loader
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status === 401 || xhr.status === 403) {
+                    location.reload(); // Reload page for unauthorized errors
+                }
+                CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
+                CoditechCommon.HideLodder(); // Hide the loader
+            }
+        });
+    },
+
     ValidNumeric: function () {
         var charCode = (event.which) ? event.which : event.keyCode;
         if (charCode >= 48 && charCode <= 57) { return true; }
@@ -201,14 +224,12 @@
             return false;
         }
     },
-    AllowOnlyAlphabetWithouSpacing: function ()
-    {
+    AllowOnlyAlphabetWithouSpacing: function () {
         const charCode = event.which || event.keyCode;
-        if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 8)
-        {
-           return true;
+        if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 8) {
+            return true;
         }
-           return false;
+        return false;
     },
 
     SearchDatatableData: function () {

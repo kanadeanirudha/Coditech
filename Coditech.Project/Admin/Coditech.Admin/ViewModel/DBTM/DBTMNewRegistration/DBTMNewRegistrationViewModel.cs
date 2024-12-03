@@ -25,7 +25,6 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "City")]
         public int? GeneralCityMasterId { get; set; }
-
         [Required]
         [Display(Name = "Country")]
         public short GeneralCountryMasterId { get; set; }
@@ -48,7 +47,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Pin code")]
         public string Pincode { get; set; }
         [Required]
-
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Please enter valid Mobile number")]
         [MaxLength(15)]
         [Display(Name = "Mobile Number")]

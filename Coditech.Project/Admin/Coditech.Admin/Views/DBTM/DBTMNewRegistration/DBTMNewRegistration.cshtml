@@ -3,32 +3,43 @@
 @{
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
     ViewBag.Title = "New Registration";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel countryDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Country.ToString(), DropdownName = "GeneralCountryMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"CoditechCommon.GetRegionListByCountryId()" };
     DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"CoditechCommon.GetCityListByRegionId()" };
     DropdownViewModel cityDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.City.ToString(), DropdownName = "GeneralCityMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCityMasterId), Parameter = Convert.ToString(Model.GeneralRegionMasterId) };
-
+    ModelPopUpViewModel termsAndConditionsModel = new ModelPopUpViewModel() { ModelPopUpId = "AddTermsAndConditionsModelPopupId", ModalContentId = "AddTermsAndConditionsContentId" };
+    string centreActive = Model.IsCentreRegistration ? "active" : "";
+    string individualActive = !Model.IsCentreRegistration ? "active" : "";
 }
 <div class="card-body p-0 auth-content" style="max-height: 550px; overflow-y: auto;">
     <ul class="nav-border nav nav-pills" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active fw-semibold" data-bs-toggle="tab" href="/dbtmnewregistration/newregistration" role="tab">New Registration</a>
+            <a class="nav-link @centreActive fw-semibold" href="/dbtmnewregistration/centreregistration" role="tab">Centre Registration</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link @individualActive fw-semibold" href="/dbtmnewregistration/individualRegistration" role="tab">Individual Registration</a>
         </li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active p-3" id="LogIn_Tab" role="tabpanel">
-            @using (Html.BeginForm(actionName, "DBTMNewRegistration", FormMethod.Post))
+            @using (Html.BeginForm("CentreIndividualRegistration", controllerName, FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.IsCentreRegistration)
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="mb-3">
-                            @Html.LabelFor(x => x.CentreName, new { @class = "form-label required" })
-                            @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.CentreName)
+                    @if (Model.IsCentreRegistration)
+                    {
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                @Html.LabelFor(x => x.CentreName, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.CentreName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.CentreName)
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div class="col-lg-6">
                         <div class="mb-3">
                             @Html.LabelFor(x => x.FirstName, new { @class = "form-label required" })
@@ -43,22 +54,36 @@
                             @Html.ValidationMessageFor(x => x.LastName)
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            @Html.LabelFor(x => x.EmailId, new { @class = "form-label required" })
-                            @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.EmailId)
+                    <div class="row">
+                        <!-- Email ID -->
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(x => x.EmailId, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.EmailId)
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                @Html.LabelFor(x => x.CallingCode, new { @class = "form-label required" })
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                       {
+                           DropdownType = DropdownTypeEnum.CallingCode.ToString(),
+                           DropdownName = "CallingCode",
+                           DropdownSelectedValue = Model.CallingCode,
+                           IsRequired = true
+                       })
+                                @Html.ValidationMessageFor(x => x.CallingCode)
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                                @Html.LabelFor(x => x.CellPhone, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.CellPhone, new { @class = "form-control", onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                @Html.ValidationMessageFor(x => x.CellPhone)
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            @Html.LabelFor(x => x.CellPhone, new { @class = "form-label required" })
-                            @Html.TextBoxFor(x => x.CellPhone, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.CellPhone)
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-3">
                             @Html.LabelFor(x => x.AddressLine1, new { @class = "form-label required" })
@@ -102,19 +127,6 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="mb-3">
-                            @Html.LabelFor(x => x.DeviceSerialCode, new { @class = "form-label required" })
-                            @Html.TextBoxFor(x => x.DeviceSerialCode, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.DeviceSerialCode)
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="mb-3">
-                            <label class="form-label"></label>
-                            <button class="btn btn-primary w-70 waves-effect waves-light">AddMoreDevice<i class="fas fa-sign-in-alt ms-1"></i></button>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
                         <div class="form-group mb-3">
                             @Html.LabelFor(x => x.Password, new { @class = "form-label" })
                             <div class="input-group password-input-wraper">
@@ -136,11 +148,31 @@
                             @Html.ValidationMessageFor(m => m.ErrorMessage, null)
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            @Html.LabelFor(x => x.DeviceSerialCode, new { @class = "form-label required" })
+                            @Html.TextBoxFor(x => x.DeviceSerialCode, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.DeviceSerialCode)
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="form-check" style="padding-left:0px !important;">
+                                <button class="btn btn-primary w-70 waves-effect waves-light">Add More Device<i class="fas fa-sign-in-alt ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="mb-3">
                             @Html.LabelFor(x => x.IsTermsAndCondition, new { @class = "form-label" })
                             <div class="form-check">
-                                @Html.CheckBoxFor(x => x.IsTermsAndCondition, new { @class = "form-check-input" })
+
+                                <!-- Checkbox for accepting Terms and Conditions -->
+                                @Html.CheckBoxFor(x => x.IsTermsAndCondition, new { @class = "form-check-input", id = "termsCheckbox" })
+                                <label class="form-check-label" for="termsCheckbox">
+                                    I agree to the terms and conditions
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -168,7 +200,10 @@
             }
         </div>
     </div>
-</div><script src="~/js/coditech/common/coditechcommon.js"></script>
+</div>
+@Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", termsAndConditionsModel)
+<script src="~/js/coditech/Common/CoditechCommon.js"></script>
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {

@@ -1,0 +1,26 @@
+﻿@using Coditech.Admin.Utilities;
+@model string
+@{
+    Layout = null;
+}
+<div class="modal-header">
+    <h5 class="modal-title" id="termsAndConditionsModalLabel">Terms and Conditions</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" style="text-align: left; padding: 20px; border: 2px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+    <p style="font-size: 16px;">The platform is not responsible for damages caused by technical issues, user errors, or unauthorized access.</p>
+    <p style="font-size: 16px;">User Responsibilities: Users must provide accurate information and keep their account credentials secure.</p>
+    <p style="font-size: 16px;">Termination of Account: Accounts may be suspended or terminated for violating the platform’s rules or engaging in prohibited activities.</p>
+    <div class="form-check mt-3">
+        <i class="fas fa-clipboard-list"></i> <!-- Repeat icon for emphasis -->
+        @* @Html.CheckBoxFor(x => x.IsTermsAndCondition, new { @class = "form-check-input", id = "modalTermsCheckbox" }) *@
+        <label class="form-check-label" for="IsTermsAndCondition">I agree to the terms and conditions</label>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>
+@section scripts {
+    <!-- end page content -->
+    <script src="~/js/coditech/Common/CoditechCommon.js"></script>
+}
