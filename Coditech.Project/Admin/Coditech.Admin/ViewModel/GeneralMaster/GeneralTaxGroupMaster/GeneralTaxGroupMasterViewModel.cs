@@ -10,7 +10,6 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         [Required]
         [Display(Name = "Tax Group Name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string TaxGroupName { get; set; }
         public decimal TaxGroupRate { get; set; }
 
