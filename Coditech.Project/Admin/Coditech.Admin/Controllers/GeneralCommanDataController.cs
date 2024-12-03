@@ -98,17 +98,17 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public ActionResult GetTermsAndCondition()
         {
-            Dictionary<string, string> termsAndConditionDictionary = new Dictionary<string, string>();
+            List<TermsAndConditionsViewModel> termsAndConditionList = new List<TermsAndConditionsViewModel>();
             CoditechApplicationSettingListViewModel coditechApplicationSettingListViewModel = _generalCommonAgent.GetCoditechApplicationSettingList("TermsAndCondition");
             if (IsNotNull(coditechApplicationSettingListViewModel) && coditechApplicationSettingListViewModel.CoditechApplicationSettingList?.Count > 0)
             {
                 string termsAndCondition = coditechApplicationSettingListViewModel.CoditechApplicationSettingList.FirstOrDefault().ApplicationValue1;
                 if (!string.IsNullOrEmpty(termsAndCondition))
                 {
-                    termsAndConditionDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(termsAndCondition);
+                    termsAndConditionList = JsonConvert.DeserializeObject<List<TermsAndConditionsViewModel>>(termsAndCondition);
                 }
             }
-            return PartialView("~/Views/Shared/Control/_TermsAndCondition.cshtml", termsAndConditionDictionary);
+            return PartialView("~/Views/Shared/PageTemplates/_TermsAndCondition.cshtml", termsAndConditionList);
         }
     }
 }

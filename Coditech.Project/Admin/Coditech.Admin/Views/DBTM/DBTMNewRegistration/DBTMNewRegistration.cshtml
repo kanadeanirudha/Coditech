@@ -165,12 +165,11 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            @Html.LabelFor(x => x.IsTermsAndCondition, new { @class = "form-label" })
                             <div class="form-check">
-
-                                <!-- Checkbox for accepting Terms and Conditions -->
-                                @Html.CheckBoxFor(x => x.IsTermsAndCondition, new { @class = "form-check-input", id = "termsCheckbox" })
-                                <label class="form-check-label" for="termsCheckbox">
+                                <a data-bs-toggle="modal" data-bs-target="#@termsAndConditionsModel.ModelPopUpId" href="void javascritp(0)" onclick="CoditechCommon.GetTermsAndCondition('@termsAndConditionsModel.ModalContentId')">
+                                @Html.CheckBoxFor(x => x.IsTermsAndCondition, new { @class = "form-check-input"})
+                                </a>
+                                <label class="form-check-label text-muted" for="termsCheckbox">
                                     I agree to the terms and conditions
                                 </label>
                             </div>

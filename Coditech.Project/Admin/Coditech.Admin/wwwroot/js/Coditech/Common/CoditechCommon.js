@@ -201,6 +201,9 @@
         });
     },
 
+    AcceptedTermsAndConditions: function () {
+        $("#IsTermsAndCondition").prop("checked", true);
+    },
     ValidNumeric: function () {
         var charCode = (event.which) ? event.which : event.keyCode;
         if (charCode >= 48 && charCode <= 57) { return true; }
@@ -233,7 +236,6 @@
     },
 
     SearchDatatableData: function () {
-        debugger;
         var charCode = (event.which) ? event.which : event.keyCode;
         if (charCode == 13) {
             $("#DataTables_SearchButton").click();
