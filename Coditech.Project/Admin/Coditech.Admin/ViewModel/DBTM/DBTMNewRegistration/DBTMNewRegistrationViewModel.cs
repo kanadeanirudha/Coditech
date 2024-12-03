@@ -21,7 +21,8 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Email Address")]
         public string EmailId { get; set; }
-
+        public string EmailIdToken { get; set; }
+        public bool IsEmailIdVerifed { get; set; }
         [Required]
         [Display(Name = "City")]
         public int? GeneralCityMasterId { get; set; }
@@ -50,7 +51,9 @@ namespace Coditech.Admin.ViewModel
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Please enter valid Mobile number")]
         [MaxLength(15)]
         [Display(Name = "Mobile Number")]
-        public string CellPhone { get; set; }
+        public string MobileNumber { get; set; }
+        public string MobileNumberToken { get; set; }
+        public bool IsMobileNumberVerifed { get; set; }
         [Required]
         [Display(Name = "Device Serial Code")]
         public string DeviceSerialCode { get; set; }

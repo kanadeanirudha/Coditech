@@ -14,7 +14,7 @@
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetRegionListByCountryId",
+                url: "/GeneralCommon/GetRegionListByCountryId",
                 data: { "generalCountryMasterId": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -43,7 +43,7 @@
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetCityListByRegionId",
+                url: "/GeneralCommon/GetCityListByRegionId",
                 data: { "generalRegionMasterId": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {

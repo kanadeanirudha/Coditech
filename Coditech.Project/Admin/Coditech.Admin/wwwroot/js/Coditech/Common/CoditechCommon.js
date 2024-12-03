@@ -31,7 +31,7 @@
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetDepartmentsByCentreCode",
+                url: "/GeneralCommon/GetDepartmentsByCentreCode",
                 data: { "centreCode": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -75,7 +75,7 @@
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetHospitalDoctorsList",
+                url: "/GeneralCommon/GetHospitalDoctorsList",
                 data: { "selectedCentreCode": selectedCentreCode, "selectedDepartmentId": selectedDepartmentId },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -101,7 +101,7 @@
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetRegionListByCountryId",
+                url: "/GeneralCommon/GetRegionListByCountryId",
                 data: { "generalCountryMasterId": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -130,7 +130,7 @@
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetCityListByRegionId",
+                url: "/GeneralCommon/GetCityListByRegionId",
                 data: { "generalRegionMasterId": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -158,7 +158,7 @@
                 cache: false,
                 type: "GET",
                 dataType: "html",
-                url: "/GeneralCommanData/GetDistrictListByRegionId",
+                url: "/GeneralCommon/GetDistrictListByRegionId",
                 data: { "generalRegionMasterId": selectedItem },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -184,25 +184,123 @@
             cache: false,
             type: "GET",
             dataType: "html",
-            url: "/GeneralCommanData/GetTermsAndCondition",
+            url: "/GeneralCommon/GetTermsAndCondition",
             contentType: "application/json; charset=utf-8",
             success: function (result) {
                 // Populate the modal content with the fetched data
                 $('#' + modelPopContentId).html(result);
-                CoditechCommon.HideLodder(); // Hide the loader
+                CoditechCommon.HideLodder();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 if (xhr.status === 401 || xhr.status === 403) {
                     location.reload(); // Reload page for unauthorized errors
                 }
                 CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
-                CoditechCommon.HideLodder(); // Hide the loader
+                CoditechCommon.HideLodder();
             }
         });
     },
 
     AcceptedTermsAndConditions: function () {
         $("#IsTermsAndCondition").prop("checked", true);
+    },
+
+    SendOTP: function (sendOTPOn) {
+        var mobileNumber = $("#MobileNumber").val();
+        var callingCode = $("#CallingCode").val();
+        var emailId = $("#EmailId").val();
+        if (sendOTPOn == "") {
+            CoditechNotification.DisplayNotificationMessage("Invalid data send.", "error");
+        }
+        else if (sendOTPOn == "mobile" && $("#CallingCode").val() == "") {
+            CoditechNotification.DisplayNotificationMessage("Please select calling code.", "error");
+        }
+        else if (sendOTPOn == "mobile" && $("#MobileNumber").val() == "") {
+            CoditechNotification.DisplayNotificationMessage("Please enter mobile number.", "error");
+        }
+        else if (sendOTPOn == "email" && $("#EmailId").val() == "") {
+            CoditechNotification.DisplayNotificationMessage("Please enter EmailId.", "error");
+        }
+        else {
+            CoditechCommon.ShowLodder(); // Show the loader
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "json",
+                url: "/GeneralCommon/SendOTP?sendOTPOn=" + sendOTPOn + "&mobileNumber=" + mobileNumber + "&callingCode=" + callingCode + "&emailId=" + emailId,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    if (result.success == true) {
+                        $("#MobileNumberSendOTPDivId").hide();
+                        $("#MobileNumberTokenDivId").show();
+                        CoditechNotification.DisplayNotificationMessage(result.message, "success");
+                    }
+                    else {
+                        CoditechNotification.DisplayNotificationMessage(result.message, "error");
+                    }
+                    CoditechCommon.HideLodder();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status === 401 || xhr.status === 403) {
+                        location.reload(); // Reload page for unauthorized errors
+                    }
+                    CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
+                    CoditechCommon.HideLodder();
+                }
+            });
+        }
+    },
+
+    VerifySendOTP: function (sendOTPOn) {
+        var token = "";
+        if (sendOTPOn == "") {
+            CoditechNotification.DisplayNotificationMessage("Invalid data send.", "error");
+        }
+        else if (sendOTPOn == "mobile" && $("#MobileNumberToken").val() != "") {
+            token = $("#MobileNumberToken").val();
+        }
+        else if (sendOTPOn == "email" && $("#EmailIdToken").val() != "") {
+            token = $("#EmailIdToken").val();
+        }
+        else {
+            CoditechNotification.DisplayNotificationMessage("Please enter OTP.", "error");
+        }
+        if (token != "") {
+            CoditechCommon.ShowLodder(); // Show the loader
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "json",
+                url: "/GeneralCommon/VerifySendOTP?sendOTPOn=" + sendOTPOn + "&otp=" + token,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    if (result.success == true) {
+                        $("#MobileNumberSendOTPDivId").hide();
+                        $("#MobileNumberTokenDivId").hide();
+                        if (sendOTPOn == "mobile") {
+                            $("#IsMobileNumberVerifed").prop("checked", true);
+                            $("#MobileNumberVerifiedOTPDivId").show();
+                        }
+                        else if (sendOTPOn == "email") {
+                            $("#IsEmailIdVerifed").prop("checked", true);
+                            $("#EmailIdVerifiedOTPDivId").show();
+                        }
+                        CoditechNotification.DisplayNotificationMessage(result.message, "success");
+                    }
+                    else {
+                        CoditechNotification.DisplayNotificationMessage(result.message, "error");
+                    }
+                    CoditechCommon.HideLodder();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status === 401 || xhr.status === 403) {
+                        location.reload(); // Reload page for unauthorized errors
+                    }
+                    CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
+                    CoditechCommon.HideLodder();
+                }
+            });
+        }
     },
     ValidNumeric: function () {
         var charCode = (event.which) ? event.which : event.keyCode;

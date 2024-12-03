@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Admin.Controllers
 {
-    public class GeneralCommanDataController : BaseController
+    public class GeneralCommonController : BaseController
     {
         private readonly IGeneralCommonAgent _generalCommonAgent;
-        public GeneralCommanDataController(IGeneralCommonAgent generalCommonAgent)
+        public GeneralCommonController(IGeneralCommonAgent generalCommonAgent)
         {
             _generalCommonAgent = generalCommonAgent;
         }
@@ -73,7 +73,7 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
-        [Route("/GeneralCommanData/UploadMedia")]
+        [Route("/GeneralCommon/UploadMedia")]
         public virtual ActionResult PostUploadImage()
         {
             IFormFileCollection filess = Request.Form.Files;
@@ -109,6 +109,51 @@ namespace Coditech.Admin.Controllers
                 }
             }
             return PartialView("~/Views/Shared/PageTemplates/_TermsAndCondition.cshtml", termsAndConditionList);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult SendOTP(string sendOTPOn, string mobileNumber = null, string callingCode = null, string emailId = null)
+        {
+            if (string.IsNullOrEmpty(sendOTPOn))
+            {
+                return Json(new { success = false, message = "Invalid data send." });
+            }
+            
+            GeneralMessagesViewModel generalMessagesViewModel = new()
+            {
+                IsSendOnEmail = sendOTPOn.ToLower() == "email",
+                IsSendOnMobile = sendOTPOn.ToLower() == "mobile",
+                IsSendOnWhatsapp = sendOTPOn.ToLower() == "whatsapp",
+                MobileNumber = sendOTPOn.ToLower() == "mobile" ? mobileNumber : null,
+                EmailAddress = sendOTPOn.ToLower() == "email" ? emailId : null
+            };
+            generalMessagesViewModel.MobileNumber = sendOTPOn.ToLower() == "whatsapp" ? $"{callingCode}{mobileNumber}" : mobileNumber;
+            generalMessagesViewModel = _generalCommonAgent.SendOTP(generalMessagesViewModel);
+            if (!string.IsNullOrEmpty(generalMessagesViewModel?.OTP))
+            {
+                TempData.Remove(sendOTPOn.ToLower() + "otp");
+                TempData[sendOTPOn.ToLower() + "otp"] = generalMessagesViewModel?.OTP;
+                return Json(new { success = true, message = "OTP Send." });
+            }
+            return Json(new { success = false, message = "Failed to Send OTP." });
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult VerifySendOTP(string sendOTPOn, string otp)
+        {
+            if (string.IsNullOrEmpty(sendOTPOn) || string.IsNullOrEmpty(otp))
+            {
+                return Json(new { success = false, message = "Please enter otp" });
+            }
+            if (Convert.ToString(TempData[sendOTPOn.ToLower() + "otp"]) == otp)
+            {
+                TempData.Remove(sendOTPOn.ToLower() + "otp");
+                return Json(new { success = true, message = "OTP Verified." });
+            }
+            else
+                return Json(new { success = false, message = "Invalid OTP." });
         }
     }
 }

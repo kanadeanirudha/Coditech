@@ -54,33 +54,55 @@
                             @Html.ValidationMessageFor(x => x.LastName)
                         </div>
                     </div>
-                    <div class="row">
-                        <!-- Email ID -->
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                @Html.LabelFor(x => x.EmailId, new { @class = "form-label required" })
-                                @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x.EmailId)
+                    <!-- Email ID -->
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            @Html.LabelFor(x => x.EmailId, new { @class = "form-label required" })
+                            @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.EmailId)
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="mb-3">
+                            @Html.LabelFor(x => x.CallingCode, new { @class = "form-label required" })
+                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                   {
+                       DropdownType = DropdownTypeEnum.CallingCode.ToString(),
+                       DropdownName = "CallingCode",
+                       DropdownSelectedValue = Model.CallingCode,
+                       IsRequired = true
+                   })
+                            @Html.ValidationMessageFor(x => x.CallingCode)
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            @Html.LabelFor(x => x.MobileNumber, new { @class = "form-label required" })
+                            @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control", onkeypress = "return CoditechCommon.ValidNumeric()" })
+                            @Html.ValidationMessageFor(x => x.MobileNumber)
+                        </div>
+                    </div>
+                    <div class="col-lg-6" id="MobileNumberSendOTPDivId">
+                        <div class="mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="form-check" style="padding-left:0px !important; display:block !important">
+                                <button type="button" class="btn btn-warning" onclick="CoditechCommon.SendOTP('mobile')">Send OTP</button>
                             </div>
                         </div>
-                        <div class="col-lg-2">
-                            <div class="mb-3">
-                                @Html.LabelFor(x => x.CallingCode, new { @class = "form-label required" })
-                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                       {
-                           DropdownType = DropdownTypeEnum.CallingCode.ToString(),
-                           DropdownName = "CallingCode",
-                           DropdownSelectedValue = Model.CallingCode,
-                           IsRequired = true
-                       })
-                                @Html.ValidationMessageFor(x => x.CallingCode)
-                            </div>
+                    </div>
+                    <div class="col-lg-6" id="MobileNumberTokenDivId" style="display:none">
+                        <div class="mb-3">
+                            <label class="form-label">Verify OTP</label>
+                            @Html.TextBoxFor(x => x.MobileNumberToken, new { @class = "form-control", onkeypress = "return CoditechCommon.ValidNumeric()", @style = "width:40%" })
+                            <button type="button" class="btn btn-warning" onclick="CoditechCommon.VerifySendOTP('mobile')">Verify OTP</button>
+                            <button type="button" class="btn btn-warning" onclick="CoditechCommon.SendOTP('mobile')">Send OTP Again</button>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="mb-3">
-                                @Html.LabelFor(x => x.CellPhone, new { @class = "form-label required" })
-                                @Html.TextBoxFor(x => x.CellPhone, new { @class = "form-control", onkeypress = "return CoditechCommon.ValidNumeric()" })
-                                @Html.ValidationMessageFor(x => x.CellPhone)
+                    </div>
+                    <div class="col-lg-6" id="MobileNumberVerifiedOTPDivId" style="display:none">
+                        <div class="mb-3">
+                            <label class="form-label">Verification Status</label>
+                            <div class="form-check">
+                                @Html.CheckBoxFor(x => x.IsMobileNumberVerifed, new { @class = "form-check-input", @disabled = "disabled" })
                             </div>
                         </div>
                     </div>
@@ -159,7 +181,7 @@
                         <div class="mb-3">
                             <label class="form-label">&nbsp;</label>
                             <div class="form-check" style="padding-left:0px !important;">
-                                <button class="btn btn-primary w-70 waves-effect waves-light">Add More Device<i class="fas fa-sign-in-alt ms-1"></i></button>
+                                <button type="button" class="btn btn-primary w-70 waves-effect waves-light">Add More Device<i class="fas fa-sign-in-alt ms-1"></i></button>
                             </div>
                         </div>
                     </div>
@@ -167,7 +189,7 @@
                         <div class="mb-3">
                             <div class="form-check">
                                 <a data-bs-toggle="modal" data-bs-target="#@termsAndConditionsModel.ModelPopUpId" href="void javascritp(0)" onclick="CoditechCommon.GetTermsAndCondition('@termsAndConditionsModel.ModalContentId')">
-                                @Html.CheckBoxFor(x => x.IsTermsAndCondition, new { @class = "form-check-input"})
+                                    @Html.CheckBoxFor(x => x.IsTermsAndCondition, new { @class = "form-check-input" })
                                 </a>
                                 <label class="form-check-label text-muted" for="termsCheckbox">
                                     I agree to the terms and conditions

@@ -239,7 +239,7 @@
                 CoditechCommon.ShowLodder();
                 formData.append('files', fileInput.files[0]);
                 $.ajax({
-                    url: '/GeneralCommanData/UploadMedia',  // Ensure this matches the route
+                    url: '/GeneralCommon/UploadMedia',  // Ensure this matches the route
                     type: 'POST',
                     data: formData,
                     processData: false,
