@@ -35,7 +35,7 @@ namespace Coditech.Admin.Controllers
                 {
                     return View("~/Views/Dashboard/DBTM/DBTMCentreDashboard.cshtml", dashboardViewModel);
                 }
-                else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTraineeDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTrainerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
                     return View("~/Views/Dashboard/DBTM/DBTMTrainerDashboard.cshtml", dashboardViewModel);
                 }

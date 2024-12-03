@@ -66,28 +66,40 @@ namespace Coditech.API.Service
         public virtual GeneralMessagesModel SendOTP(GeneralMessagesModel generalMessagesModel)
         {
 
-            generalMessagesModel.OTP = HelperUtility.GenerateOTP();
+            string token = HelperUtility.GenerateOTP();
 
             try
             {
                 string emailTemplateCodeEnum = EmailTemplateCodeEnum.SendOTP.ToString();
-                GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalMessagesModel?.CentreCode, emailTemplateCodeEnum);
-                if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalMessagesModel?.EmailAddress))
+                if (generalMessagesModel.IsSendOnEmail)
                 {
-                    string messageText = ReplaceResentOTP(generalMessagesModel, emailTemplateModel.EmailTemplate, generalMessagesModel.OTP);
-                    _coditechEmail.SendEmail(generalMessagesModel.CentreCode, generalMessagesModel.EmailAddress, "", emailTemplateModel.Subject, messageText, true);
+                    GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalMessagesModel?.CentreCode, emailTemplateCodeEnum);
+                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalMessagesModel?.EmailAddress))
+                    {
+                        string messageText = ReplaceResentOTP(generalMessagesModel, emailTemplateModel.EmailTemplate, token);
+                        _coditechEmail.SendEmail(generalMessagesModel.CentreCode, generalMessagesModel.EmailAddress, "", emailTemplateModel.Subject, messageText, true);
+                        generalMessagesModel.OTP = token;
+                    }
                 }
-                GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalMessagesModel?.CentreCode, emailTemplateCodeEnum);
-                if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalMessagesModel?.MobileNumber))
+                else if (generalMessagesModel.IsSendOnMobile)
                 {
-                    string messageText = ReplaceResentOTP(generalMessagesModel, smsTemplateModel.EmailTemplate, generalMessagesModel.OTP);
-                    _coditechSMS.SendSMS(generalMessagesModel.CentreCode, messageText, $"{generalMessagesModel.CallingCode}{generalMessagesModel?.MobileNumber}");
+                    GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalMessagesModel?.CentreCode, emailTemplateCodeEnum);
+                    if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalMessagesModel?.MobileNumber))
+                    {
+                        string messageText = ReplaceResentOTP(generalMessagesModel, smsTemplateModel.EmailTemplate, token);
+                        _coditechSMS.SendSMS(generalMessagesModel.CentreCode, messageText, $"{generalMessagesModel.CallingCode}{generalMessagesModel?.MobileNumber}");
+                        generalMessagesModel.OTP = token;
+                    }
                 }
-                GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalMessagesModel?.CentreCode, emailTemplateCodeEnum);
-                if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalMessagesModel?.MobileNumber))
+                else if (generalMessagesModel.IsSendOnWhatsapp)
                 {
-                    string messageText = ReplaceResentOTP(generalMessagesModel, whatsAppTemplateModel.EmailTemplate, generalMessagesModel.OTP);
-                    _coditechWhatsApp.SendWhatsAppMessage(generalMessagesModel.CentreCode, messageText, $"{generalMessagesModel.CallingCode}{generalMessagesModel?.MobileNumber}");
+                    GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalMessagesModel?.CentreCode, emailTemplateCodeEnum);
+                    if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalMessagesModel?.MobileNumber))
+                    {
+                        string messageText = ReplaceResentOTP(generalMessagesModel, whatsAppTemplateModel.EmailTemplate, token);
+                        _coditechWhatsApp.SendWhatsAppMessage(generalMessagesModel.CentreCode, messageText, $"{generalMessagesModel.CallingCode}{generalMessagesModel?.MobileNumber}");
+                        generalMessagesModel.OTP = token;
+                    }
                 }
             }
             catch (Exception ex)

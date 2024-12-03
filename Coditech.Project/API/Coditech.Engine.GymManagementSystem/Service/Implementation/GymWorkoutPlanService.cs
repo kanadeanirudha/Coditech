@@ -169,8 +169,8 @@ namespace Coditech.API.Service
             if (IsNull(gymWorkoutPlanDetailsModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            //if (IsWorkoutPlanAlreadyExist(gymWorkoutPlanSetModel.WorkoutPlanName))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Workout Plan"));
+            if (IsWorkoutNameAlreadyExist(gymWorkoutPlanDetailsModel.WorkoutName))
+               throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Workout Name"));
 
             GymWorkoutPlanDetails gymWorkoutPlanDetails = gymWorkoutPlanDetailsModel.FromModelToEntity<GymWorkoutPlanDetails>();
 
@@ -273,6 +273,10 @@ namespace Coditech.API.Service
 
         => _gymWorkoutPlanRepository.Table.Any(x => x.WorkoutPlanName == workoutPlanName && (x.GymWorkoutPlanId != gymWorkoutPlanId || gymWorkoutPlanId == 0));
 
+        //Check if Workout Name is already present or not.
+        protected virtual bool IsWorkoutNameAlreadyExist(string workoutName, long gymWorkoutPlanId = 0)
+
+        => _gymWorkoutPlanDetailsRepository.Table.Any(x => x.WorkoutName == workoutName && (x.GymWorkoutPlanId != gymWorkoutPlanId || gymWorkoutPlanId == 0));
         protected virtual void InsertGymWorkoutPlanSet(GymWorkoutPlanDetailsModel gymWorkoutPlanDetailsModel)
         {
             if (gymWorkoutPlanDetailsModel?.GymWorkoutPlanSetList?.Count > 0)

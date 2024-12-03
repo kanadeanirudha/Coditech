@@ -82,6 +82,7 @@ namespace Coditech.Admin
             CreateMap<TaskMasterModel, TaskMasterViewModel>().ReverseMap();
             CreateMap<TaskApprovalSettingListModel, TaskApprovalSettingListViewModel>().ReverseMap();
             CreateMap<TaskApprovalSettingModel, TaskApprovalSettingViewModel>().ReverseMap();
+            CreateMap<GeneralMessagesModel, GeneralMessagesViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation

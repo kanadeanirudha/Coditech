@@ -64,11 +64,11 @@
                                         @Html.LabelFor(x => x.CentreCode, new { @class = "form-label required" })
                                         @if (Model.OrganisationCentreMasterId > 0)
                                         {
-                                            @Html.TextBoxFor(x => x.CentreCode, new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.TextBoxFor(x => x.CentreCode, new { @class = "form-control", @readonly = "readonly" , onkeypress = "return CoditechCommon.AvoidSpacing()"})
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.CentreCode, new { @class = "form-control" })
+                                            @Html.TextBoxFor(x => x.CentreCode, new { @class = "form-control", onkeypress = "return CoditechCommon.AvoidSpacing()" })
                                         }
                                         @Html.ValidationMessageFor(x => x.CentreCode)
                                     </div>

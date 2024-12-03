@@ -53,31 +53,7 @@
                                 <a data-bs-toggle="modal" data-bs-target="#@manualAttendanceModel.ModelPopUpId" style="@(item.IsActive ? "" : "pointer-events: none;") @(item.IsActive ? "" : "color: grey;")" href="void(0)" onclick="@(item.IsActive ? $"GymMemberDetails.CreatEditGeneralPersonAttendanceDetails('{manualAttendanceModel.ModalContentId}','{item.GymMemberDetailId}','0','{item.PersonId}')" : "return false;")" title="Manual Attendance" class="btn btn-sm btn-soft-info btn-circle">
                                     <i class="fas fa-calendar-check"></i>
                                 </a>
-                                <span class="m-2">|</span>
-                                <!-- Delete Button -->
-                                <a href="#" title="Delete" class="btn btn-sm btn-soft-danger btn-circle" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_@item.GymMemberDetailId">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                                <!-- Delete Confirmation Modal -->
-                                <div class="modal fade" id="confirmDeleteModal_@item.GymMemberDetailId" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body" style="text-align: left;">
-                                                <span style="font-size: 24px; margin-right: 10px;"><i class="fas fa-exclamation-triangle text-danger"></i></span>
-                                                <span style="font-size: 16px;">Are you sure you want to delete this record?</span>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <!-- Delete action with selectedCentreCode parameter -->
-                                                <a href="/@controllerName/Delete?gymMemberDetailIds=@item.GymMemberDetailId&selectedCentreCode=@Model.SelectedCentreCode" class="btn btn-outline-danger" onclick="GymMemberDetails.Delete('@item.GymMemberDetailId')">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <span class="m-2">
 
                             </td>
                         </tr>

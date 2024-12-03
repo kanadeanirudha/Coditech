@@ -1,49 +1,81 @@
 ﻿using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
-
 namespace Coditech.Admin.ViewModel
 {
     public class DBTMNewRegistrationViewModel : BaseViewModel
     {
-        public long DBTMNewRegistrationId { get; set; }
-
         [MaxLength(100)]
-        [Required]
         [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
+        [MaxLength(50)]
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [MaxLength(50)]
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [MaxLength(70)]
         [Required]
         [Display(Name = "Email Address")]
         public string EmailId { get; set; }
-
-        [MaxLength(15)]
-        [Required]
-        [Display(Name = "Centre Code")]
-        public string CentreCode { get; set; }
-
+        public string EmailIdToken { get; set; }
+        public bool IsEmailIdVerifed { get; set; }
         [Required]
         [Display(Name = "City")]
         public int? GeneralCityMasterId { get; set; }
-
-        [MaxLength(100)]
         [Required]
-        [Display(Name = "Address")]
-        public string CentreAddress { get; set; }
+        [Display(Name = "Country")]
+        public short GeneralCountryMasterId { get; set; }
+
+        [Required]
+        [Display(Name = "Region")]
+        public short GeneralRegionMasterId { get; set; }
+
+        [MaxLength(200)]
+        [Required]
+        [Display(Name = "Address1")]
+        public string AddressLine1 { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "Address2")]
+        public string AddressLine2 { get; set; }
 
         [MaxLength(50)]
         [Required]
         [Display(Name = "Pin code")]
         public string Pincode { get; set; }
-
-        [MaxLength(50)]
         [Required]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Please enter valid Mobile number")]
+        [MaxLength(15)]
         [Display(Name = "Mobile Number")]
-        public string CellPhone { get; set; }
-
+        public string MobileNumber { get; set; }
+        public string MobileNumberToken { get; set; }
+        public bool IsMobileNumberVerifed { get; set; }
         [Required]
-        [Display(Name = "Organisation Name")]
-        public byte OrganisationId { get; set; }
-
+        [Display(Name = "Device Serial Code")]
+        public string DeviceSerialCode { get; set; }
+        [MaxLength(100)]
+        [MinLength(8)]
+        [Required(ErrorMessage = "Please Enter The Password")]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$",
+         ErrorMessage = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@$!%*?&#).")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+        [MaxLength(100)]
+        [MinLength(8)]
+        [Required(ErrorMessage = "Confirm Password Is Required")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirm Password")]
+        public string ConfirmPassword { get; set; }
+        [Display(Name = "Terms And Condition")]
+        public bool IsTermsAndCondition { get; set; }
+        public bool IsCentreRegistration { get; set; }
+        [Display(Name = "Calling Code")]
+        public string CallingCode { get; set; }
     }
 }
