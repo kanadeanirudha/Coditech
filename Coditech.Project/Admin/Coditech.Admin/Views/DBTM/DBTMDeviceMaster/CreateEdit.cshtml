@@ -45,7 +45,7 @@
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(x => x.DeviceSerialCode, new { @class = "form-control"})
+                                            @Html.TextBoxFor(x => x.DeviceSerialCode, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
                                         }
                                         @Html.ValidationMessageFor(x => x.DeviceSerialCode)
                                     </div>
