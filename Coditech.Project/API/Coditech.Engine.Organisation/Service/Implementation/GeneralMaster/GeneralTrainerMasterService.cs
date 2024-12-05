@@ -208,11 +208,12 @@ namespace Coditech.API.Service
                 {
                     generalTrainerModel.FirstName = GeneralTraineeDetails.FirstName;
                     generalTrainerModel.LastName = GeneralTraineeDetails.LastName;
-                    GeneralPersonModel GeneralTrainerDetails = GetGeneralPersonDetailsByEntityType(generalTrainerModel.GeneralTrainerMasterId, UserTypeEnum.Employee.ToString());
-                    if (IsNotNull(GeneralTrainerDetails))
+                    long employeeId = _generalTrainerRepository.Table.Where(x=>x.GeneralTrainerMasterId == generalTrainerModel.GeneralTrainerMasterId).Select(y=>y.EmployeeId).FirstOrDefault();
+                    GeneralPersonModel generalTrainerDetails = GetGeneralPersonDetailsByEntityType(employeeId, UserTypeEnum.Employee.ToString());
+                    if (IsNotNull(generalTrainerDetails))
                     {
-                        generalTrainerModel.SelectedCentreCode = GeneralTrainerDetails.SelectedCentreCode;
-                        generalTrainerModel.SelectedDepartmentId = GeneralTrainerDetails.SelectedDepartmentId;
+                        generalTrainerModel.SelectedCentreCode = generalTrainerDetails.SelectedCentreCode;
+                        generalTrainerModel.SelectedDepartmentId = generalTrainerDetails.SelectedDepartmentId;
                     }
                 }
             }
