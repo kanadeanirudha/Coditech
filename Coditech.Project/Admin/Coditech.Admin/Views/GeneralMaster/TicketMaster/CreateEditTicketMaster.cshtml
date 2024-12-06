@@ -1,0 +1,86 @@
+﻿@model TicketMasterViewModel
+@{
+    ViewBag.Title = Model.TicketMasterId > 0 ? "Update Ticket" : "Raise Ticket";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.TicketMasterId > 0)
+                                {
+                                    <h4 class="card-title">Update Ticket</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Raise Ticket</h4>
+                                }
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.TicketMasterId)
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.Subject, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.Subject, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Subject)
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.Details, new { @class = "form-label" })
+                                        @Html.TextAreaFor(x => x.Details, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Details)
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.TicketPriorityEnumId, new { @class = "form-label" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.TicketPriorityEnumId.ToString(),
+                                   DropdownName = "TicketPriorityEnumId",
+                                   GroupCode = DropdownTypeEnum.TicketPriority.ToString()
+                               })
+                                        @Html.ValidationMessageFor(x => x.TicketPriorityEnumId)
+                                    </div>
+                                </div>                                                                                                                         
+                                <div class="col-lg-8">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.AddCc, new { @class = "form-label" })
+                                        @Html.TextBoxFor(x => x.AddCc, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.AddCc)
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

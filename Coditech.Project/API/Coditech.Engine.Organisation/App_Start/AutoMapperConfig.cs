@@ -64,6 +64,8 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralBatchUser, GeneralBatchUserModel>().ReverseMap();
             CreateMap<TaskMaster, TaskMasterModel>().ReverseMap();
             CreateMap<TaskApprovalSetting, TaskApprovalSettingModel>().ReverseMap();
+            CreateMap<TicketMaster, TicketMasterModel>().ReverseMap();
+            CreateMap<TicketDetails, TicketDetailsModel>().ReverseMap();
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();

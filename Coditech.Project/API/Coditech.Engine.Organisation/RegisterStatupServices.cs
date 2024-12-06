@@ -275,6 +275,10 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<ITaskApprovalSettingService, TaskApprovalSettingService>();
             #endregion
 
+            #region Ticket Master
+            builder.Services.AddScoped<ITicketMasterService, TicketMasterService>();
+            #endregion
+
             #region Employee
             builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
             builder.Services.AddScoped<IEmployeeServiceService, EmployeeServiceService>();

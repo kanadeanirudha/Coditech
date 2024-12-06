@@ -88,7 +88,8 @@
         TraineeDetailsListByDBTMTrainer,
         DBTMTestStatus,
         DBTMTest,
-        DBTMBatchActivity
+        DBTMBatchActivity,
+        TicketPriority
     }
 
     public enum GeneralSystemGlobleSettingEnum

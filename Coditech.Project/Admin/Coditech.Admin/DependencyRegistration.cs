@@ -72,6 +72,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITaskApprovalSettingAgent, TaskApprovalSettingAgent>();
             builder.Services.AddScoped<IGymWorkoutPlanAgent, GymWorkoutPlanAgent>();
             builder.Services.AddScoped<ITaskMasterAgent, TaskMasterAgent>();
+            builder.Services.AddScoped<ITicketMasterAgent, TicketMasterAgent>();
 
 
             #region HMS
@@ -184,6 +185,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGymWorkoutPlanClient, GymWorkoutPlanClient>();
             builder.Services.AddScoped<ITaskMasterClient, TaskMasterClient>();
             builder.Services.AddScoped<IGeneralCommonClient, GeneralCommonClient>();
+            builder.Services.AddScoped<ITicketMasterClient, TicketMasterClient>();
 
 
             #region HMS

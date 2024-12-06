@@ -262,6 +262,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete TicketMaster due to associate record..
+        /// </summary>
+        public static string ErrorDeleteTicketMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteTicketMaster", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete DBTMActivityCategory due to associate record..
         /// </summary>
         public static string ErrorDeleteDBTMActivityCategory
