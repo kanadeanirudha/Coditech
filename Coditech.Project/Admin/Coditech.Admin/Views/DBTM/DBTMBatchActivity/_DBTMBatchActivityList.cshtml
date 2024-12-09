@@ -21,8 +21,6 @@
                     {
                         <tr>
                             <td>@item.TestName</td>
-                            <td>@Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsAssociated)</td>
-
                             <td class="text-center data-action">
                                 <!-- Delete Button -->
                                 <a href="#" title="Delete" class="btn btn-sm btn-soft-danger btn-circle" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_@item.DBTMBatchActivityId">
