@@ -181,7 +181,7 @@ namespace Coditech.API.Service
                                                 join c in _generalTraineeAssociatedToTrainerRepository.Table on a.DBTMTraineeDetailId equals c.EntityId
                                                 join d in _generalTrainerRepository.Table on c.GeneralTrainerMasterId equals d.GeneralTrainerMasterId
                                                 where (a.CentreCode == centreCode || centreCode == null)
-                                                && (c.GeneralTrainerMasterId == generalTrainerId)
+                                                && (c.GeneralTrainerMasterId == generalTrainerId) && a.IsActive
                                                 select new DBTMTraineeDetailsModel
                                                 {
                                                     DBTMTraineeDetailId = a.DBTMTraineeDetailId,

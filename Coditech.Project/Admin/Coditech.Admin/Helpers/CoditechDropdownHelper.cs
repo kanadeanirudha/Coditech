@@ -232,7 +232,7 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.TraineeDetailsListByDBTMTrainer.ToString()))
             {
-                GetTraineeDetailByCentreCodeAndgeneralTrainerList(dropdownViewModel, dropdownList);
+                GetTraineeDetailByCentreCodeAndGeneralTrainerList(dropdownViewModel, dropdownList);
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMTest.ToString()))
             {
@@ -1320,7 +1320,7 @@ namespace Coditech.Admin.Helpers
             }
         }
 
-        private static void GetTraineeDetailByCentreCodeAndgeneralTrainerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetTraineeDetailByCentreCodeAndGeneralTrainerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
 
             DBTMTraineeDetailsListModel list = new DBTMTraineeDetailsListModel();
