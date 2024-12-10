@@ -22,8 +22,7 @@
                             <td>@item.TicketStatus</td>
                             <td>@item.CreatedDate.ToCoditechDateFormat()</td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit" title="View" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fa fa-eye"></i></a>@* <span class="m-2">|</span> *@
-                                @* <a href="../@controllerName/Delete?dBTMDeviceIds=@item.DBTMDeviceMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
+                                <a href="../@controllerName/Edit?ticketMasterId=@item.TicketMasterId" title="View" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fa fa-eye"></i></a>@* <span class="m-2">|</span> *@
                             </td>
                         </tr>
                     }

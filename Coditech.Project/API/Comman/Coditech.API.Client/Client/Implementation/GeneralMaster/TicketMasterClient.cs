@@ -120,17 +120,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual TicketMasterResponse GetTicket(long userId)
+        public virtual TicketMasterResponse GetTicket(long ticketMasterId, long userMasterId)
         {
-            return Task.Run(async () => await GetTicketAsync(userId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetTicketAsync(ticketMasterId,userMasterId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<TicketMasterResponse> GetTicketAsync(long userId, CancellationToken cancellationToken)
+        public virtual async Task<TicketMasterResponse> GetTicketAsync(long ticketMasterId,long userMasterId, CancellationToken cancellationToken)
         {
-            if (userId <= 0)
-                throw new System.ArgumentNullException("userId");
+            if (ticketMasterId <= 0)
+                throw new System.ArgumentNullException("ticketMasterId");
 
-            string endpoint = ticketMasterEndpoint.GetTicketAsync(userId);
+            string endpoint = ticketMasterEndpoint.GetTicketAsync(ticketMasterId, userMasterId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

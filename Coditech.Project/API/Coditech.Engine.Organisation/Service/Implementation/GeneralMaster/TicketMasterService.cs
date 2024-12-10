@@ -51,7 +51,6 @@ namespace Coditech.API.Service
         {
             if (IsNull(ticketMasterModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            ticketMasterModel.TicketStatusEnumId = GetEnumIdByEnumCode("Open");
             ticketMasterModel.TicketNumber = $"{DateTime.Now.Year}{DateTime.Now.Month}{DateTime.Now.Day}{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}";
             TicketMaster ticketMasterData = ticketMasterModel.FromModelToEntity<TicketMaster>();
 
@@ -76,14 +75,30 @@ namespace Coditech.API.Service
         }
 
         //Get TicketMaster by TicketMaster id.
-        public virtual TicketMasterModel GetTicket(long userId)
+        public virtual TicketMasterModel GetTicket(long ticketMasterId, long userMasterId)
         {
-            if (userId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "userId"));
+            if (ticketMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "ticketMasterId"));
 
             //Get the TicketMaster Details based on id.
-            TicketMaster ticketMaster = _ticketMasterRepository.Table.FirstOrDefault(x => x.UserId == userId);
+            TicketMaster ticketMaster = _ticketMasterRepository.Table.FirstOrDefault(x => x.TicketMasterId == ticketMasterId);
             TicketMasterModel ticketMasterModel = ticketMaster?.FromEntityToModel<TicketMasterModel>();
+            List<TicketDetails> ticketDetailsList = _ticketDetailsRepository.Table.Where(x => x.TicketMasterId == ticketMasterId)?.ToList();
+            ticketMasterModel.TicketDetailsList = new List<TicketDetailsModel>();
+
+            foreach (TicketDetails item in ticketDetailsList)
+            {
+                TicketDetailsModel ticketDetailsModel = new TicketDetailsModel
+                {
+                    TicketDetailsId = item.TicketDetailsId,
+                    TicketMasterId = item.TicketMasterId,
+                    Details = item.Details,
+                    CreatedDate = (DateTime)item.CreatedDate
+                };
+
+                ticketMasterModel.TicketDetailsList.Add(ticketDetailsModel);
+            }
+
             return ticketMasterModel;
         }
 
@@ -96,7 +111,9 @@ namespace Coditech.API.Service
             if (ticketMasterModel.TicketMasterId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TicketMasterID"));
 
-            TicketMaster ticketMaster = ticketMasterModel.FromModelToEntity<TicketMaster>();
+            TicketMaster ticketMaster = _ticketMasterRepository.Table.FirstOrDefault(x => x.TicketMasterId == ticketMasterModel.TicketMasterId);
+            if (IsNull(ticketMaster))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
             //Update TicketMaster
             bool isTicketUpdated = _ticketMasterRepository.Update(ticketMaster);
@@ -105,6 +122,7 @@ namespace Coditech.API.Service
                 ticketMasterModel.HasError = true;
                 ticketMasterModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
+            InsertTicketDetails(ticketMasterModel);
             return isTicketUpdated;
         }
 
@@ -124,7 +142,19 @@ namespace Coditech.API.Service
         }
 
         #region Protected Method
+        protected virtual void InsertTicketDetails(TicketMasterModel ticketMasterModel)
+        {
+            if (!string.IsNullOrEmpty(ticketMasterModel.Details))
+            {
+                TicketDetails ticketDetails = new TicketDetails
+                {
+                    TicketMasterId = ticketMasterModel.TicketMasterId,
+                    Details = ticketMasterModel.Details,                   
+                };
 
+                _ticketDetailsRepository.Insert(ticketDetails);
+            }
+        }
         #endregion
     }
 }

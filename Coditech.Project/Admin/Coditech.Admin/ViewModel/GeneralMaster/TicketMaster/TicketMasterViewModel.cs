@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -39,5 +40,6 @@ namespace Coditech.Admin.ViewModel
         public string Details { get; set; }
         public string TicketStatus { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public List<TicketDetailsModel> TicketDetailsList { get; set; }
     }
 }

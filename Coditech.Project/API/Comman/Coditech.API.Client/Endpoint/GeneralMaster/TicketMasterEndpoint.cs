@@ -15,8 +15,8 @@ namespace Coditech.API.Endpoint
         public string CreateTicketAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TicketMaster/CreateTicket";
 
-        public string GetTicketAsync(long userId) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TicketMaster/GetTicket?userId={userId}";
+        public string GetTicketAsync(long ticketMasterId, long userMasterId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TicketMaster/GetTicket?ticketMasterId={ticketMasterId}&userMasterId={userMasterId}";
 
         public string UpdateTicketAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TicketMaster/UpdateTicket";

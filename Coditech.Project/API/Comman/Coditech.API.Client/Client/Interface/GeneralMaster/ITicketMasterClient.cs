@@ -1,4 +1,5 @@
-﻿using Coditech.Common.API.Model;
+﻿using Coditech.API.Data;
+using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
@@ -24,8 +25,9 @@ namespace Coditech.API.Client
         /// Get TicketMaster by ticketMasterId.
         /// </summary>
         /// <param name="ticketMasterId">ticketMasterId</param>
+        /// <param name="userMasterId">ticketMasterId</param>
         /// <returns>Returns TicketMasterResponse.</returns>
-        TicketMasterResponse GetTicket(long ticketMasterId);
+        TicketMasterResponse GetTicket(long ticketMasterId,long userMasterId);
 
         /// <summary>
         /// Update TicketMaster.

@@ -86,9 +86,9 @@ namespace Coditech.Admin.Agents
         }
 
         //GetTicketMaster by ticketMaster id.
-        public virtual TicketMasterViewModel GetTicket(long userId)
+        public virtual TicketMasterViewModel GetTicket(long ticketMasterId,long userMasterId)
         {
-            TicketMasterResponse response = _ticketMasterClient.GetTicket(userId);
+            TicketMasterResponse response = _ticketMasterClient.GetTicket(ticketMasterId, userMasterId);
             return response?.TicketMasterModel.ToViewModel<TicketMasterViewModel>();
         }
 

@@ -89,7 +89,8 @@
         DBTMTestStatus,
         DBTMTest,
         DBTMBatchActivity,
-        TicketPriority
+        TicketPriority,
+        TicketStatus
     }
 
     public enum GeneralSystemGlobleSettingEnum

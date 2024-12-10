@@ -21,9 +21,10 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Get Ticket by ticketMasterId.
         /// </summary>
-        /// <param name="userId">userId</param>
+        /// <param name="userMasterId">userId</param>
+        /// <param name="ticketMasterId">userId</param>
         /// <returns>Returns TicketMasterViewModel.</returns>
-        TicketMasterViewModel GetTicket(long userId);
+        TicketMasterViewModel GetTicket(long ticketMasterId,long userMasterId);
 
         /// <summary>
         /// Update TicketMaster.

@@ -9,7 +9,7 @@ namespace Coditech.API.Service
     {
         TicketMasterListModel GetTicketMasterList(long userMasterId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         TicketMasterModel CreateTicket(TicketMasterModel model);
-        TicketMasterModel GetTicket(long userId);
+        TicketMasterModel GetTicket(long ticketMasterId, long userMasterId);
         bool UpdateTicket(TicketMasterModel model);
         bool DeleteTicket(ParameterModel parameterModel);
     }

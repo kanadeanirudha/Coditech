@@ -74,11 +74,11 @@ namespace Coditech.Engine.DBTM.Controllers
         [Route("/TicketMaster/GetTicket")]
         [HttpGet]
         [Produces(typeof(TicketMasterResponse))]
-        public virtual IActionResult GetTicket(long userId)
+        public virtual IActionResult GetTicket(long ticketMasterId, long userMasterId)
         {
             try
             {
-                TicketMasterModel ticketMasterModel = _ticketMasterService.GetTicket(userId);
+                TicketMasterModel ticketMasterModel = _ticketMasterService.GetTicket(ticketMasterId, userMasterId);
                 return IsNotNull(ticketMasterModel) ? CreateOKResponse(new TicketMasterResponse { TicketMasterModel = ticketMasterModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

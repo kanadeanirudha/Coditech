@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -51,12 +52,13 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(long userId)
+        public virtual ActionResult Edit(long ticketMasterId)
         {
-            TicketMasterViewModel ticketMasterViewModel = _ticketMasterAgent.GetTicket(userId);
+            long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+            TicketMasterViewModel ticketMasterViewModel = _ticketMasterAgent.GetTicket(ticketMasterId, userMasterId);
             return ActionView(createEdit, ticketMasterViewModel);
         }
-
+        
         [HttpPost]
         public virtual ActionResult Edit(TicketMasterViewModel ticketMasterViewModel)
         {
@@ -65,7 +67,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_ticketMasterAgent.UpdateTicket(ticketMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { userMasterId = ticketMasterViewModel.UserId });
+                return RedirectToAction("Edit", new { ticketMasterId = ticketMasterViewModel.TicketMasterId });
             }
             return View(createEdit, ticketMasterViewModel);
         }
