@@ -611,7 +611,6 @@ namespace Coditech.API.Service
                 throw new ArgumentException("Centre name cannot be null or empty");
             }
 
-            // Return true if the device code exists in the repository, false otherwise
             return _organisationCentreMasterRepository.Table.Any(x => x.CentreName == centreName);
         }
 

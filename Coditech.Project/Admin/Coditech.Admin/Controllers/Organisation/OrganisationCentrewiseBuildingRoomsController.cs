@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -47,7 +48,7 @@ namespace Coditech.Admin.Controllers
                 if (!organisationCentrewiseBuildingRoomsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingRoomsViewModel.SelectedCentreCode });
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingRoomsViewModel.SelectedCentreCode, SelectedParameter1 = Convert.ToString(organisationCentrewiseBuildingRoomsViewModel.OrganisationCentrewiseBuildingMasterId) });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseBuildingRoomsViewModel.ErrorMessage));

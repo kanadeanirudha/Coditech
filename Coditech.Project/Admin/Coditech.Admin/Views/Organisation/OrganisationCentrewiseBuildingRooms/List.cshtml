@@ -4,7 +4,7 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingByCentreCode()" };
-    DropdownViewModel bulidingDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(), DropdownName = "SelectedParameter1", DropdownSelectedValue = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId), ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetBuildingRoomsByBuildingMasterId('" + @controllerName + "','" + @actionName + "')" };
+    DropdownViewModel bulidingDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseBuilding.ToString(), DropdownName = "SelectedParameter1", Parameter = Model.SelectedCentreCode, DropdownSelectedValue = Convert.ToString(Model.OrganisationCentrewiseBuildingMasterId), ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetBuildingRoomsByBuildingMasterId('" + @controllerName + "','" + @actionName + "')" };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">

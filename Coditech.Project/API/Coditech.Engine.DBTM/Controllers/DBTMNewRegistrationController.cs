@@ -4,6 +4,7 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Logger;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
@@ -25,6 +26,7 @@ namespace Coditech.Engine.DBTM.Controllers
         [Route("/DBTMCentreRegistration/CentreRegistration")]
         [HttpPost, ValidateModel]
         [Produces(typeof(DBTMNewRegistrationResponse))]
+        [AllowAnonymous]
         public virtual IActionResult CentreRegistration([FromBody] DBTMNewRegistrationModel model)
         {
             try

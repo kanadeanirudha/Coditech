@@ -4,7 +4,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.Extensions.DependencyInjection;
-
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 using static Coditech.Common.Helper.HelperUtility;
@@ -14,10 +14,12 @@ namespace Coditech.Common.Service
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
+        protected readonly ICoditechEmail _coditechEmail;
         public BaseService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = _serviceProvider.GetService<ICoditechLogging>();
+            _coditechEmail = new CoditechEmail(serviceProvider);
         }
         protected virtual EmployeeDesignationMaster GetDesignationDetails(short designationId)
         {
@@ -114,7 +116,7 @@ namespace Coditech.Common.Service
                     generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
                 }
             }
-            else if(entityType == UserTypeEnum.DBTMTrainee.ToString())
+            else if (entityType == UserTypeEnum.DBTMTrainee.ToString())
             {
                 DBTMTraineeDetails dbtmTraineeDetails = new CoditechRepository<DBTMTraineeDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.DBTMTraineeDetailId == entityId);
                 if (IsNotNull(dbtmTraineeDetails))
@@ -364,5 +366,106 @@ namespace Coditech.Common.Service
             return messageText;
         }
 
+        protected virtual GeneralPerson InsertGeneralPersonData(GeneralPersonModel generalPersonModel)
+        {
+            generalPersonModel.FirstName = generalPersonModel.FirstName.ToFirstLetterCapital();
+            generalPersonModel.LastName = generalPersonModel.LastName.ToFirstLetterCapital();
+            generalPersonModel.MiddleName = generalPersonModel.MiddleName.ToFirstLetterCapital();
+            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
+
+            // Create new Person and return it.
+            GeneralPerson personData = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalPerson);
+            return personData;
+        }
+
+        protected virtual long InsertEmployee(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
+        {
+            generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberForEnum.EmployeeRegistration.ToString(), generalPersonModel.SelectedCentreCode);
+            EmployeeMaster employeeMaster = new EmployeeMaster()
+            {
+                PersonId = generalPersonModel.PersonId,
+                PersonCode = generalPersonModel.PersonCode,
+                UserType = generalPersonModel.UserType,
+                CentreCode = generalPersonModel.SelectedCentreCode,
+                GeneralDepartmentMasterId = Convert.ToInt16(generalPersonModel.SelectedDepartmentId),
+                EmployeeDesignationMasterId = Convert.ToInt16(generalPersonModel.EmployeeDesignationMasterId)
+            };
+            employeeMaster = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(employeeMaster);
+            //Check Is Employee need to Login
+            if (employeeMaster?.EmployeeId > 0)
+            {
+                generalPersonModel.EntityId = employeeMaster.EmployeeId;
+                EmployeeService employeeService = new EmployeeService()
+                {
+                    EmployeeId = employeeMaster.EmployeeId,
+                    EmployeeCode = generalPersonModel.PersonCode,
+                    IsCurrentPosition = true,
+                    EmployeeDesignationMasterId = generalPersonModel.EmployeeDesignationMasterId,
+                    JoiningDate = DateTime.Now,
+                    EmployeeStageEnumId = GetEnumIdByEnumCode("Joining")
+                };
+                new CoditechRepository<EmployeeService>(_serviceProvider.GetService<Coditech_Entities>()).Insert(employeeService);
+                if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
+                {
+                    InsertUserMasterDetails(generalPersonModel, employeeMaster.EmployeeId);
+                    try
+                    {
+                        GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(employeeMaster.CentreCode, EmailTemplateCodeEnum.EmployeeRegistration.ToString());
+                        if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
+                        {
+                            string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, generalPersonModel.CentreName, emailTemplateModel.Subject);
+                            string messageText = ReplaceEmployeeEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
+                            _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+                    }
+                }
+            }
+            return employeeMaster.EmployeeId;
+        }
+
+        protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId)
+        {
+            string userNameBasedOn = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
+            UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
+            userMaster.EntityId = entityId;
+            userMaster.IsAcceptedTermsAndConditions = true;
+            userMaster.IsPasswordChange = false;
+            userMaster.Password = MD5Hash(userMaster.Password);
+            if (string.IsNullOrEmpty(userNameBasedOn))
+            {
+                userMaster.UserName = generalPersonModel.PersonCode;
+            }
+            else if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.EmailId.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.EmailId;
+            }
+            else if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.MobileNumber.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.MobileNumber;
+            }
+            else if (userNameBasedOn.Equals(UserNameRegistrationTypeEnum.PersonCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                userMaster.UserName = generalPersonModel.PersonCode;
+            }
+            generalPersonModel.UserName = userMaster.UserName;
+            userMaster = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(userMaster);
+        }
+
+        protected virtual string ReplaceEmployeeEmailTemplate(GeneralPersonModel generalPersonModel, string emailTemplate)
+        {
+            List<CoditechApplicationSetting> coditechApplicationSettingList = CoditechApplicationSetting();
+            string centreUrl = coditechApplicationSettingList.First(x => x.ApplicationCode == "CoditechAdminRootUri")?.ApplicationValue1;
+            string messageText = emailTemplate;
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreUrl, centreUrl, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.EmployeeUsername, generalPersonModel.UserName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.TemporaryPassword, generalPersonModel.Password, messageText);
+            return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
+        }
     }
 }

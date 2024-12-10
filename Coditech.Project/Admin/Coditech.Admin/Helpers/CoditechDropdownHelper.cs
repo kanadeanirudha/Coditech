@@ -9,6 +9,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data.Entity.Core.Mapping;
 
 namespace Coditech.Admin.Helpers
 {
@@ -232,7 +233,7 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.TraineeDetailsListByDBTMTrainer.ToString()))
             {
-                GetTraineeDetailByCentreCodeAndgeneralTrainerList(dropdownViewModel, dropdownList);
+                GetTraineeDetailByCentreCodeAndGeneralTrainerList(dropdownViewModel, dropdownList);
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMTest.ToString()))
             {
@@ -593,7 +594,7 @@ namespace Coditech.Admin.Helpers
                 Value = "CO",
                 Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(dropdownViewModel.Parameter)
             });
-            
+
             dropdownList.Add(new SelectListItem()
             {
                 Text = "Regional Office",
@@ -760,6 +761,10 @@ namespace Coditech.Admin.Helpers
         private static void GetGeneralEnumaratorList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             List<GeneralEnumaratorModel> generalEnumaratorList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.GeneralEnumaratorList;
+            if (generalEnumaratorList == null)
+            {
+                generalEnumaratorList = new GeneralCommonClient().GetDropdownListByCode(dropdownViewModel.GroupCode)?.GeneralEnumaratorList;
+            }
             if (dropdownViewModel.AddSelectItem)
             {
                 if (dropdownViewModel.IsRequired)
@@ -772,14 +777,17 @@ namespace Coditech.Admin.Helpers
                 else
                     dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
             }
-            foreach (var item in generalEnumaratorList?.Where(x => x.EnumGroupCode == dropdownViewModel.GroupCode)?.OrderBy(y => y.SequenceNumber))
+            if (generalEnumaratorList != null)
             {
-                dropdownList.Add(new SelectListItem()
+                foreach (var item in generalEnumaratorList?.Where(x => x.EnumGroupCode == dropdownViewModel.GroupCode)?.OrderBy(y => y.SequenceNumber))
                 {
-                    Text = item.EnumDisplayText,
-                    Value = dropdownViewModel.IsTextValueSame ? item.EnumName : Convert.ToString(item.GeneralEnumaratorId),
-                    Selected = dropdownViewModel.IsTextValueSame ? dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EnumName) : dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralEnumaratorId)
-                });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.EnumDisplayText,
+                        Value = dropdownViewModel.IsTextValueSame ? item.EnumName : Convert.ToString(item.GeneralEnumaratorId),
+                        Selected = dropdownViewModel.IsTextValueSame ? dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EnumName) : dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralEnumaratorId)
+                    });
+                }
             }
         }
 
@@ -1320,7 +1328,7 @@ namespace Coditech.Admin.Helpers
             }
         }
 
-        private static void GetTraineeDetailByCentreCodeAndgeneralTrainerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetTraineeDetailByCentreCodeAndGeneralTrainerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
 
             DBTMTraineeDetailsListModel list = new DBTMTraineeDetailsListModel();
@@ -1363,7 +1371,7 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-        
+
         private static void GetDBTMBatchActivityList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------Select Activity-------" });
@@ -1372,8 +1380,8 @@ namespace Coditech.Admin.Helpers
             {
                 int generalBatchMasterId = Convert.ToInt32(dropdownViewModel.Parameter.Split("~")[0]);
                 bool isAssociated = Convert.ToBoolean(dropdownViewModel.Parameter.Split("~")[1]);
-                
-                DBTMBatchActivityListResponse response = new DBTMBatchActivityClient().GetDBTMBatchActivityList(generalBatchMasterId,isAssociated, null, null, null, 1, int.MaxValue);
+
+                DBTMBatchActivityListResponse response = new DBTMBatchActivityClient().GetDBTMBatchActivityList(generalBatchMasterId, isAssociated, null, null, null, 1, int.MaxValue);
                 DBTMBatchActivityListModel list = new DBTMBatchActivityListModel() { DBTMBatchActivityList = response.DBTMBatchActivityList };
                 foreach (var item in list?.DBTMBatchActivityList)
                 {

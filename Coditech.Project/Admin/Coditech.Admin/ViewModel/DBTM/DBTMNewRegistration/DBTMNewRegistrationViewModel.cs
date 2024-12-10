@@ -7,6 +7,13 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(100)]
         [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
+
+        [MaxLength(50)]
+        [MinLength(1)]
+        [Required]
+        [Display(Name = "Title")]
+        public string PersonTitle { get; set; }
+
         [MaxLength(50)]
         [Required]
         [Display(Name = "First Name")]
@@ -16,6 +23,10 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public int GenderEnumId { get; set; }
 
         [MaxLength(70)]
         [Required]
