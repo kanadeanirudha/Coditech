@@ -10,5 +10,8 @@ namespace Coditech.API.Endpoint
 
         public string GetCoditechApplicationSettingListAsync(string applicationCodes) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCommon/GetCoditechApplicationSettingList?applicationCodes={applicationCodes}";
+
+        public string GetDropdownListByCodeAsync(string groupCodes) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCommon/GetDropdownListByCode?groupCodes={groupCodes}";
     }
 }
