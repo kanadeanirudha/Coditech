@@ -374,6 +374,5 @@ namespace Coditech.API.Service
                 //Todo AdminRoleMenuDetails
             }
         }
-
     }
 }
