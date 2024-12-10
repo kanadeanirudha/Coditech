@@ -38,13 +38,19 @@ namespace Coditech.Admin.Controllers
             if (!dBTMNewRegistrationViewModel.IsCentreRegistration) {
                 dBTMNewRegistrationViewModel.CentreName = "DBTMCentre";
             }
-            if (ModelState.IsValid)
+            if (!dBTMNewRegistrationViewModel.IsTermsAndCondition) {
+                dBTMNewRegistrationViewModel.ErrorMessage = "Please accept Terms And Conditions.";
+            }
+            else
             {
-                dBTMNewRegistrationViewModel = _dBTMNewRegistrationAgent.DBTMNewRegistration(dBTMNewRegistrationViewModel);
-                if (!dBTMNewRegistrationViewModel.HasError)
+                if (ModelState.IsValid)
                 {
-                    SetNotificationMessage(GetSuccessNotificationMessage("Your Registration successfully."));
-                    return RedirectToAction("Login");
+                    dBTMNewRegistrationViewModel = _dBTMNewRegistrationAgent.DBTMNewRegistration(dBTMNewRegistrationViewModel);
+                    if (!dBTMNewRegistrationViewModel.HasError)
+                    {
+                        SetNotificationMessage(GetSuccessNotificationMessage("Your Registration successfully."));
+                        return RedirectToAction("Login");
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(dBTMNewRegistrationViewModel.ErrorMessage));
