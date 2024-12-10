@@ -26,7 +26,7 @@ namespace Coditech.Common.API.Model
 
         [Required]
         [Display(Name = "City")]
-        public int? GeneralCityMasterId { get; set; }
+        public int GeneralCityMasterId { get; set; }
         [Required]
         [Display(Name = "Country")]
         public short GeneralCountryMasterId { get; set; }
@@ -52,9 +52,16 @@ namespace Coditech.Common.API.Model
         [MaxLength(50)]
         [Required]
         [Display(Name = "Mobile Number")]
-        public string CellPhone { get; set; }
+        public string MobileNumber { get; set; }
         public string DeviceSerialCode { get; set; }
         public string Password { get; set; }
         public bool TermsAndCondition { get; set; }
+        public bool IsCentreRegistration { get; set; }
+        [Required]
+        public string PersonTitle { get; set; }
+        public int GenderEnumId { get; set; }
+        [Required]
+        public string CallingCode { get; set; }
+
     }
 }

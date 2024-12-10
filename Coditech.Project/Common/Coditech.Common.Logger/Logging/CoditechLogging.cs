@@ -32,14 +32,14 @@ namespace Coditech.Common.Logger
         #endregion
 
 
-        public void LogMessage(Exception ex, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, object obj = null, string errorMessageType = null)
+        public void LogMessage(Exception ex, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, string errorMessageType = null)
         {
-            LogMessage(ex.Message, componentName, traceLevel, obj);
+            LogMessage(ex.Message, componentName, traceLevel, ex, errorMessageType, null);
         }
 
         public void LogMessage(string message, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, object obj = null, string errorMessageType = null, [CallerMemberName] string methodName = "", [CallerFilePath] string fileName = "", [CallerLineNumber] int lineNumber = 0)
         {
-            //ToDo
+
             if (traceLevel == TraceLevel.Error || traceLevel == TraceLevel.Warning)
             {
                 WriteLogFiles(message, string.IsNullOrEmpty(componentName) ? LogFilePath : LogComponentFilePath, componentName);
