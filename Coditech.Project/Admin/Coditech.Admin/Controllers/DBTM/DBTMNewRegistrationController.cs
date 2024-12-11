@@ -48,8 +48,9 @@ namespace Coditech.Admin.Controllers
                     dBTMNewRegistrationViewModel = _dBTMNewRegistrationAgent.DBTMNewRegistration(dBTMNewRegistrationViewModel);
                     if (!dBTMNewRegistrationViewModel.HasError)
                     {
+                        TempData["FormSizeClass"] = "col-lg-4";
                         SetNotificationMessage(GetSuccessNotificationMessage("Your Registration successfully."));
-                        return RedirectToAction("Login");
+                        return RedirectToAction("Login","user");
                     }
                 }
             }

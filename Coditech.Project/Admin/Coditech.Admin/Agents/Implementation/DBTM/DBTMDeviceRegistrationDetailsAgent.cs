@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -31,21 +32,26 @@ namespace Coditech.Admin.Agents
         #region Public Methods
         public virtual DBTMDeviceRegistrationDetailsListViewModel GetDBTMDeviceRegistrationDetailsList(DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = new FilterCollection();
-            dataTableModel = dataTableModel ?? new DataTableViewModel();
-            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+            if (userMasterId > 0)
             {
-                filters.Add("PurchaseDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                FilterCollection filters = new FilterCollection();
+                dataTableModel = dataTableModel ?? new DataTableViewModel();
+                if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+                {
+                    filters.Add("PurchaseDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                }
+                SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? " " : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+                DBTMDeviceRegistrationDetailsListResponse response = _dBTMDeviceRegistrationDetailsClient.List(userMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+                DBTMDeviceRegistrationDetailsListModel dBTMDeviceRegistrationDetailsList = new DBTMDeviceRegistrationDetailsListModel { RegistrationDetailsList = response?.RegistrationDetailsList };
+                DBTMDeviceRegistrationDetailsListViewModel listViewModel = new DBTMDeviceRegistrationDetailsListViewModel();
+                listViewModel.RegistrationDetailsList = dBTMDeviceRegistrationDetailsList?.RegistrationDetailsList?.ToViewModel<DBTMDeviceRegistrationDetailsViewModel>().ToList();
+
+                SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.RegistrationDetailsList.Count, BindColumns());
+                return listViewModel;
             }
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? " " : dataTableModel.SortByColumn, dataTableModel.SortBy);
-
-            DBTMDeviceRegistrationDetailsListResponse response = _dBTMDeviceRegistrationDetailsClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            DBTMDeviceRegistrationDetailsListModel dBTMDeviceRegistrationDetailsList = new DBTMDeviceRegistrationDetailsListModel { RegistrationDetailsList = response?.RegistrationDetailsList };
-            DBTMDeviceRegistrationDetailsListViewModel listViewModel = new DBTMDeviceRegistrationDetailsListViewModel();
-            listViewModel.RegistrationDetailsList = dBTMDeviceRegistrationDetailsList?.RegistrationDetailsList?.ToViewModel<DBTMDeviceRegistrationDetailsViewModel>().ToList();
-
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.RegistrationDetailsList.Count, BindColumns());
-            return listViewModel;
+            return new DBTMDeviceRegistrationDetailsListViewModel();
         }
 
         //Create DBTMDeviceRegistrationDetails.

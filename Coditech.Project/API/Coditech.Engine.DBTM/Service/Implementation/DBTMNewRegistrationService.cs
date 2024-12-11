@@ -191,6 +191,7 @@ namespace Coditech.API.Service
                     OrganisationCentrewiseDepartment organisationCentrewiseDepartment = new OrganisationCentrewiseDepartment();
                     organisationCentrewiseDepartment.CentreCode = organisationCentreMaster.CentreCode;
                     organisationCentrewiseDepartment.GeneralDepartmentMasterId = item;
+                    organisationCentrewiseDepartment.ActiveFlag = true;
                     organisationCentrewiseDepartment.CreatedDate = currentDate;
                     organisationCentrewiseDepartment.ModifiedDate = currentDate;
                     organizationDeptList.Add(organisationCentrewiseDepartment);
@@ -386,6 +387,7 @@ namespace Coditech.API.Service
                 {
                     AdminRoleMasterId = adminRoleMaster.AdminRoleMasterId,
                     EmployeeId = employeeId,
+                    IsActive = true,
                     RoleType = "Regular",
                     CreatedDate = currentDate,
                     ModifiedDate = currentDate
