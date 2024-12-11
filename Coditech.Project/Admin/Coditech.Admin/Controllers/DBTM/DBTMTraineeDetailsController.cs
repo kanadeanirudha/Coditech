@@ -191,9 +191,11 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult UpdateAssociatedTrainer(long generalTraineeAssociatedToTrainerId)
+        public virtual ActionResult UpdateAssociatedTrainer(long generalTraineeAssociatedToTrainerId, long dBTMTraineeDetailId, long personId)
         {
             GeneralTraineeAssociatedToTrainerViewModel generalTraineeAssociatedToTrainerViewModel = _dBTMTraineeDetailsAgent.GetAssociatedTrainer(generalTraineeAssociatedToTrainerId);
+            generalTraineeAssociatedToTrainerViewModel.DBTMTraineeDetailId = dBTMTraineeDetailId;
+            generalTraineeAssociatedToTrainerViewModel.PersonId = personId;
             return ActionView(createEditAssociatedTrainer, generalTraineeAssociatedToTrainerViewModel);
         }
 
@@ -227,7 +229,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("GetAssociatedTrainerList", new { SelectedParameter1 = selectedCentreCode, SelectedParameter2 = selectedDepartmentId });
         }
 
-        public virtual ActionResult GetTrainerList(string selectedCentreCode, string selectedDepartmentId,long entityId)
+        public virtual ActionResult GetTrainerList(string selectedCentreCode, string selectedDepartmentId, long entityId)
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
             {

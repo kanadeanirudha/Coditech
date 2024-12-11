@@ -25,5 +25,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]
         public string SelectedDepartmentId { get; set; }
         public long PersonId { get; set; }
+        public long DBTMTraineeDetailId { get; set; }
     }
 }
