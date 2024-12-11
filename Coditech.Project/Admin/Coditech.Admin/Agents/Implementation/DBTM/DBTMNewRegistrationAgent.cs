@@ -44,6 +44,8 @@ namespace Coditech.Admin.Agents
                 {
                     case ErrorCodes.AlreadyExist:
                         return (DBTMNewRegistrationViewModel)GetViewModelWithErrorMessage(dBTMNewRegistrationViewModel, ex.ErrorMessage);
+                    case ErrorCodes.InvalidData:
+                        return (DBTMNewRegistrationViewModel)GetViewModelWithErrorMessage(dBTMNewRegistrationViewModel, ex.ErrorMessage);
                     default:
                         return (DBTMNewRegistrationViewModel)GetViewModelWithErrorMessage(dBTMNewRegistrationViewModel, GeneralResources.UpdateErrorMessage);
                 }

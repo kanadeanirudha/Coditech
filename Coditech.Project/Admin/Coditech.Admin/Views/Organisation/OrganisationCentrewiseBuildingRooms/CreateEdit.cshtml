@@ -29,6 +29,10 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.OrganisationCentrewiseBuildingRoomId)
+                            @if (Model.OrganisationCentrewiseBuildingRoomId > 0)
+                            {
+                                @Html.HiddenFor(m => m.SelectedCentreCode)
+                            }
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="mb-3">

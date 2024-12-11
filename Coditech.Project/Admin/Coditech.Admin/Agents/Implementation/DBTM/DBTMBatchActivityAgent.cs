@@ -161,11 +161,6 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "TestName",
                 IsSortable = true,
             });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Is Associated",
-                ColumnCode = "IsAssociated",
-            });
             return datatableColumnList;
         }
 
@@ -192,7 +187,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Active",
+                ColumnName = "IsActive",
                 ColumnCode = "IsActive",
                 IsSortable = true,
             });

@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -219,11 +220,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode, SelectedDepartmentId = selectedDepartmentId });
+                return RedirectToAction("GetAssociatedTrainerList", new { SelectedParameter1 = selectedCentreCode, SelectedParameter2 = selectedDepartmentId });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode, SelectedDepartmentId = selectedDepartmentId });
+            return RedirectToAction("GetAssociatedTrainerList", new { SelectedParameter1 = selectedCentreCode, SelectedParameter2 = selectedDepartmentId });
         }
 
         public virtual ActionResult GetTrainerList(string selectedCentreCode, string selectedDepartmentId,long entityId)

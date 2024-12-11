@@ -99,10 +99,11 @@ namespace Coditech.API.Service
             DBTMTraineeAssignmentModel dBTMTraineeAssignmentModel = dBTMTraineeAssignment?.FromEntityToModel<DBTMTraineeAssignmentModel>();
             if (dBTMTraineeAssignmentModel?.GeneralTrainerMasterId > 0)
             {
-                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(dBTMTraineeAssignmentModel.GeneralTrainerMasterId, UserTypeEnum.Employee.ToString());
-                if (IsNotNull(generalPersonModel))
+                long employeeId = _generalTrainerRepository.Table.Where(x => x.GeneralTrainerMasterId == dBTMTraineeAssignmentModel.GeneralTrainerMasterId).Select(y => y.EmployeeId).FirstOrDefault();
+                GeneralPersonModel generalTrainerDetails = GetGeneralPersonDetailsByEntityType(employeeId, UserTypeEnum.Employee.ToString());
+                if (IsNotNull(generalTrainerDetails))
                 {
-                    dBTMTraineeAssignmentModel.SelectedCentreCode = generalPersonModel.SelectedCentreCode;
+                    dBTMTraineeAssignmentModel.SelectedCentreCode = generalTrainerDetails.SelectedCentreCode;
                 }
             }
             return dBTMTraineeAssignmentModel;
@@ -180,7 +181,7 @@ namespace Coditech.API.Service
                                                 join c in _generalTraineeAssociatedToTrainerRepository.Table on a.DBTMTraineeDetailId equals c.EntityId
                                                 join d in _generalTrainerRepository.Table on c.GeneralTrainerMasterId equals d.GeneralTrainerMasterId
                                                 where (a.CentreCode == centreCode || centreCode == null)
-                                                && (c.GeneralTrainerMasterId == generalTrainerId)
+                                                && (c.GeneralTrainerMasterId == generalTrainerId) && a.IsActive
                                                 select new DBTMTraineeDetailsModel
                                                 {
                                                     DBTMTraineeDetailId = a.DBTMTraineeDetailId,

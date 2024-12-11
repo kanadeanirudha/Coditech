@@ -9,9 +9,7 @@ namespace Coditech.Common.API.Model
         public long EmployeeId { get; set; }
         [Required]
         public int TrainerSpecializationEnumId { get; set; }
-        [Required]
         public string SelectedCentreCode { get; set; }
-        [Required]
         public string SelectedDepartmentId { get; set; }
         public string ImagePath { get; set; }
         public string FirstName { get; set; }

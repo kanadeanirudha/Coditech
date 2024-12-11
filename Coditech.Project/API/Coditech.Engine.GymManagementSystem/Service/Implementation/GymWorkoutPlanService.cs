@@ -169,8 +169,8 @@ namespace Coditech.API.Service
             if (IsNull(gymWorkoutPlanDetailsModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsWorkoutNameAlreadyExist(gymWorkoutPlanDetailsModel.WorkoutName))
-               throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Workout Name"));
+            //if (IsWorkoutNameAlreadyExist(gymWorkoutPlanDetailsModel.WorkoutName))
+            //   throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Workout Name"));
 
             GymWorkoutPlanDetails gymWorkoutPlanDetails = gymWorkoutPlanDetailsModel.FromModelToEntity<GymWorkoutPlanDetails>();
 

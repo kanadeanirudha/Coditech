@@ -76,11 +76,12 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("List", CreateActionDataTable());
-            }
+                return RedirectToAction("GetDBTMBatchActivityList", new { SelectedParameter1 = generalBatchMasterId });
 
+            }
+            
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("List", CreateActionDataTable());
+            return RedirectToAction("GetDBTMBatchActivityList", new { SelectedParameter1 = generalBatchMasterId });
         }
 
         #region Protected
