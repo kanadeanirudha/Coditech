@@ -82,11 +82,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<DBTMDeviceMasterController>(x => x.List(null));
+                return RedirectToAction<TicketMasterController>(x => x.List(null));
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<DBTMDeviceMasterController>(x => x.List(null));
+            return RedirectToAction<TicketMasterController>(x => x.List(null));
         }
 
         public virtual ActionResult Cancel()

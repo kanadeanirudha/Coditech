@@ -20,6 +20,7 @@ namespace Coditech.API.Mapper
             CreateMap<DBTMTraineeAssignment, DBTMTraineeAssignmentModel>().ReverseMap();
             CreateMap<DBTMBatchActivity, DBTMBatchActivityModel>().ReverseMap();
             CreateMap<AdminSanctionPostModel, AdminSanctionPost>().ReverseMap();
+            CreateMap<DBTMSubscriptionPlan, DBTMSubscriptionPlanModel>().ReverseMap();
         }
     }
 }

@@ -122,7 +122,8 @@
             TaskApprovalSetting,
             GeneralMessages,
             DBTMUser,
-            TicketMaster
+            TicketMaster,
+            DBTMSubscriptionPlan
         }
     }
 }

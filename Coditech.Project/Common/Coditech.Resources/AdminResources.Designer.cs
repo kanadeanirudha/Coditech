@@ -273,6 +273,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete DBTMSubscriptionPlan due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMSubscriptionPlan
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteDBTMSubscriptionPlan", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete DBTMActivityCategory due to associate record..
         /// </summary>
         public static string ErrorDeleteDBTMActivityCategory
