@@ -63,9 +63,18 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                TicketMasterResponse response = _ticketMasterClient.CreateTicket(ticketMasterViewModel.ToModel<TicketMasterModel>());
-                TicketMasterModel ticketMasterModel = response?.TicketMasterModel;
-                return IsNotNull(ticketMasterModel) ? ticketMasterModel.ToViewModel<TicketMasterViewModel>() : new TicketMasterViewModel();
+                long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+                if (userMasterId > 0)
+                {
+                    ticketMasterViewModel.UserId = userMasterId;
+                    TicketMasterResponse response = _ticketMasterClient.CreateTicket(ticketMasterViewModel.ToModel<TicketMasterModel>());
+                    TicketMasterModel ticketMasterModel = response?.TicketMasterModel;
+                    return IsNotNull(ticketMasterModel) ? ticketMasterModel.ToViewModel<TicketMasterViewModel>() : new TicketMasterViewModel();
+                }
+                else
+                {
+                    return (TicketMasterViewModel)GetViewModelWithErrorMessage(ticketMasterViewModel, GeneralResources.ErrorFailedToCreate);
+                }
             }
             catch (CoditechException ex)
             {
@@ -86,7 +95,7 @@ namespace Coditech.Admin.Agents
         }
 
         //GetTicketMaster by ticketMaster id.
-        public virtual TicketMasterViewModel GetTicket(long ticketMasterId,long userMasterId)
+        public virtual TicketMasterViewModel GetTicket(long ticketMasterId, long userMasterId)
         {
             TicketMasterResponse response = _ticketMasterClient.GetTicket(ticketMasterId, userMasterId);
             return response?.TicketMasterModel.ToViewModel<TicketMasterViewModel>();
@@ -97,11 +106,20 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.TicketMaster.ToString(), TraceLevel.Info);
-                TicketMasterResponse response = _ticketMasterClient.UpdateTicket(ticketMasterViewModel.ToModel<TicketMasterModel>());
-                TicketMasterModel ticketMasterModel = response?.TicketMasterModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.TicketMaster.ToString(), TraceLevel.Info);
-                return IsNotNull(ticketMasterModel) ? ticketMasterModel.ToViewModel<TicketMasterViewModel>() : (TicketMasterViewModel)GetViewModelWithErrorMessage(new TicketMasterViewModel(), GeneralResources.UpdateErrorMessage);
+                long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+                if (userMasterId > 0)
+                {
+                    ticketMasterViewModel.UserId = userMasterId;
+                    _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.TicketMaster.ToString(), TraceLevel.Info);
+                    TicketMasterResponse response = _ticketMasterClient.UpdateTicket(ticketMasterViewModel.ToModel<TicketMasterModel>());
+                    TicketMasterModel ticketMasterModel = response?.TicketMasterModel;
+                    _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.TicketMaster.ToString(), TraceLevel.Info);
+                    return IsNotNull(ticketMasterModel) ? ticketMasterModel.ToViewModel<TicketMasterViewModel>() : (TicketMasterViewModel)GetViewModelWithErrorMessage(new TicketMasterViewModel(), GeneralResources.UpdateErrorMessage);
+                }
+                else
+                {
+                    return (TicketMasterViewModel)GetViewModelWithErrorMessage(ticketMasterViewModel, GeneralResources.ErrorFailedToCreate);
+                }
             }
             catch (Exception ex)
             {
@@ -146,13 +164,13 @@ namespace Coditech.Admin.Agents
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {
-            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();           
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Ticket Number",
                 ColumnCode = "TicketNumber",
                 IsSortable = true,
-            });            
+            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = " Ticket Status",
@@ -161,10 +179,10 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Created Date",
+                ColumnName = "Reported Date",
                 ColumnCode = "CreatedDate",
                 IsSortable = true,
-            });           
+            });
             return datatableColumnList;
         }
         #endregion

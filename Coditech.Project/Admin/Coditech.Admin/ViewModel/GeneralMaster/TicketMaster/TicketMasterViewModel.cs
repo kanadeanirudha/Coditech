@@ -13,7 +13,6 @@ namespace Coditech.Admin.ViewModel
         public string TicketNumber { get; set; }
         public long UserId { get; set; }
 
-        [Required]
         [Display(Name = "Ticket Status")]
         public int TicketStatusEnumId { get; set; }
 
@@ -26,7 +25,8 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Ticket Department")]
         public int TicketDepartmentEnumId { get; set; }
-
+        [Required]
+        [MaxLength(200)]
         [Display(Name = "Subject")]
         public string Subject { get; set; }
 
@@ -36,10 +36,11 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Add Cc")]
         public string AddCc { get; set; }
 
+        [Required]
         [Display(Name = "Details")]
+        [MaxLength(1000)]
         public string Details { get; set; }
         public string TicketStatus { get; set; }
-        public DateTime? CreatedDate { get; set; }
         public List<TicketDetailsModel> TicketDetailsList { get; set; }
     }
 }
