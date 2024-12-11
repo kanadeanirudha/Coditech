@@ -36,26 +36,30 @@ namespace Coditech.Admin.Agents
             long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
             if (userMasterId > 0)
             {
-                FilterCollection filters = new FilterCollection();
-                dataTableModel = dataTableModel ?? new DataTableViewModel();
-                if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
-                {
-                    filters.Add("TicketNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                    filters.Add("TicketStatusEnumId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                    filters.Add("CreatedDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                }
-                SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
-
-                TicketMasterListResponse response = _ticketMasterClient.List(userMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-                TicketMasterListModel ticketMasterList = new TicketMasterListModel { TicketMasterList = response?.TicketMasterList };
-                TicketMasterListViewModel listViewModel = new TicketMasterListViewModel();
-                listViewModel.TicketMasterList = ticketMasterList?.TicketMasterList?.ToViewModel<TicketMasterViewModel>().ToList();
-
-                SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.TicketMasterList.Count, BindColumns());
-                listViewModel.UserId = userMasterId;
-                return listViewModel;
+                return GetTicketMasterList(dataTableModel, userMasterId);
             }
             return new TicketMasterListViewModel();
+        }
+
+        public virtual TicketMasterListViewModel GetTicketMasterList(DataTableViewModel dataTableModel, long userMasterId)
+        {
+            FilterCollection filters = new FilterCollection();
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("TicketNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("TicketStatusEnumId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("CreatedDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            TicketMasterListResponse response = _ticketMasterClient.List(userMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            TicketMasterListModel ticketMasterList = new TicketMasterListModel { TicketMasterList = response?.TicketMasterList };
+            TicketMasterListViewModel listViewModel = new TicketMasterListViewModel();
+            listViewModel.TicketMasterList = ticketMasterList?.TicketMasterList?.ToViewModel<TicketMasterViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.TicketMasterList.Count, BindColumns());
+            return listViewModel;
         }
 
         //Create TicketMaster.

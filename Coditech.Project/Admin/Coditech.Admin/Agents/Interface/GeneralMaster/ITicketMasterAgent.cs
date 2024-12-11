@@ -12,6 +12,14 @@ namespace Coditech.Admin.Agents
         TicketMasterListViewModel GetTicketMasterList(DataTableViewModel dataTableModel);
 
         /// <summary>
+        /// Get list of Ticket Master.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <param name="userMasterId">userMasterId</param>
+        /// <returns>TicketMasterListViewModel</returns>
+        TicketMasterListViewModel GetTicketMasterList(DataTableViewModel dataTableModel, long userMasterId);
+
+        /// <summary>
         /// Create Ticket Master.
         /// </summary>
         /// <param name="ticketMasterViewModel">Ticket Master View Model.</param>

@@ -112,7 +112,11 @@ namespace Coditech.API.Service
             TicketMaster ticketMaster = _ticketMasterRepository.Table.Where(x => x.TicketMasterId == ticketMasterModel.TicketMasterId)?.FirstOrDefault();
             if (IsNull(ticketMaster))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
-            ticketMaster.TicketStatusEnumId = ticketMasterModel.TicketStatusEnumId;
+            
+            if (ticketMasterModel.IsTicketReplied)
+            {
+                ticketMaster.TicketStatusEnumId = ticketMasterModel.TicketStatusEnumId;
+            }
             ticketMaster.TicketPriorityEnumId = ticketMasterModel.TicketPriorityEnumId;
             //Update TicketMaster
             bool isTicketUpdated = _ticketMasterRepository.Update(ticketMaster);

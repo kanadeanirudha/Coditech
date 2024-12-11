@@ -41,6 +41,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(1000)]
         public string Details { get; set; }
         public string TicketStatus { get; set; }
+        public bool IsTicketReplied { get; set; }
         public List<TicketDetailsModel> TicketDetailsList { get; set; }
     }
 }
