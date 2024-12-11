@@ -74,6 +74,9 @@ namespace Coditech.API.Service
                 //Insert Admin Role
                 InsertAdminRole(currentDate, generalDepartmentMasterList.FirstOrDefault(), organisationCentreMaster.CentreCode, employeeId);
 
+                //DBTM Device Registration Details
+                InsertDBTMDeviceRegistration(dBTMNewRegistrationModel, currentDate, employeeId);
+
                 status = 1;
             }
             if (status == 0)
@@ -82,6 +85,21 @@ namespace Coditech.API.Service
                 dBTMNewRegistrationModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
             return dBTMNewRegistrationModel;
+        }
+
+        private void InsertDBTMDeviceRegistration(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long employeeId)
+        {
+            //Insert DBTM Devices
+            DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetails = new DBTMDeviceRegistrationDetails()
+            {
+                DBTMDeviceMasterId = _dbtmDeviceMasterRepository.Table.Where(x => x.DeviceSerialCode == dBTMNewRegistrationModel.DeviceSerialCode).Select(y => y.DBTMDeviceMasterId).FirstOrDefault(),
+                UserType = UserTypeEnum.Employee.ToString(),
+                EntityId = employeeId,
+                PurchaseDate = currentDate,
+                CreatedDate = currentDate,
+                ModifiedDate = currentDate,
+            };
+            new CoditechRepository<DBTMDeviceRegistrationDetails>(_serviceProvider.GetService<Coditech_Entities>()).Insert(dBTMDeviceRegistrationDetails);
         }
 
         protected virtual long InsertEmployee(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, OrganisationCentreMaster organisationCentreMaster, List<short> generalDepartmentMasterList)
@@ -139,7 +157,7 @@ namespace Coditech.API.Service
         protected virtual List<short> InsertOrganisationCentrewiseDepartment(DateTime currentDate, OrganisationCentreMaster organisationCentreMaster)
         {
             List<string> departmentList = new List<string>();
-            departmentList = ("DBTMCentreDirector").Split(",").ToList();
+            departmentList = ("DBTMCentreDirector,DBTMManager,DBTMTrainer").Split(",").ToList();
             List<short> generalDepartmentMasterList = new CoditechRepository<GeneralDepartmentMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => departmentList.Contains(x.DepartmentShortCode))?.Select(x => x.GeneralDepartmentMasterId).ToList();
             if (generalDepartmentMasterList?.Count == 0)
             {
@@ -149,6 +167,10 @@ namespace Coditech.API.Service
                     GeneralDepartmentMaster generalDepartmentMaster = new GeneralDepartmentMaster();
                     if (item == "DBTMCentreDirector")
                         generalDepartmentMaster.DepartmentName = "Director";
+                    else if (item == "DBTMManager")
+                        generalDepartmentMaster.DepartmentName = "Manager";
+                    else if (item == "DBTMTrainer")
+                        generalDepartmentMaster.DepartmentName = "Trainer";
                     else
                         generalDepartmentMaster.DepartmentName = item;
 
@@ -328,7 +350,7 @@ namespace Coditech.API.Service
             adminSanctionPostModel.SanctionPostCode = $"{employeeDesignationMaster.ShortCode}-{generalDepartmentMaster.DepartmentShortCode}-{adminSanctionPostModel.CentreCode}";
             adminSanctionPostModel.SanctionedPostDescription = $"{employeeDesignationMaster.Description}-{generalDepartmentMaster.DepartmentName}-{adminSanctionPostModel.PostType}-{adminSanctionPostModel.DesignationType}";
             AdminSanctionPost adminSanctionPostEntity = adminSanctionPostModel.FromModelToEntity<AdminSanctionPost>();
-            
+
             //Create new adminSanctionPost and return it.
             AdminSanctionPost adminSanctionPostData = new CoditechRepository<AdminSanctionPost>(_serviceProvider.GetService<Coditech_Entities>()).Insert(adminSanctionPostEntity);
             if (adminSanctionPostData?.AdminSanctionPostId > 0)
@@ -343,6 +365,7 @@ namespace Coditech.API.Service
                     AdminRoleCode = adminSanctionPostModel.SanctionPostCode,
                     OthCentreLevel = string.Empty,
                     IsActive = true,
+                    DashboardFormEnumId = GetEnumIdByEnumCode(DashboardFormEnum.DBTMCentreDashboard.ToString()),
                     CreatedDate = currentDate,
                     ModifiedDate = currentDate
                 };
@@ -359,7 +382,6 @@ namespace Coditech.API.Service
 
                 //Create new adminRoleCentreRight
                 adminRoleCentreRight = new CoditechRepository<AdminRoleCentreRights>(_serviceProvider.GetService<Coditech_Entities>()).Insert(adminRoleCentreRight);
-
                 AdminRoleApplicableDetails adminRoleApplicableDetails = new AdminRoleApplicableDetails()
                 {
                     AdminRoleMasterId = adminRoleMaster.AdminRoleMasterId,
@@ -368,10 +390,27 @@ namespace Coditech.API.Service
                     CreatedDate = currentDate,
                     ModifiedDate = currentDate
                 };
-
                 new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>()).Insert(adminRoleApplicableDetails);
 
-                //Todo AdminRoleMenuDetails
+                //insert admin Role Menu Detail
+                List<string> associateMenus = ("Dashboard,GeneralDashboard,Employee,EmployeeList,DBTMDeviceRegistration,DBTMTrainerDetails,DBTMTrainers,DBTMTraineeDetails,DBTMTrainee,DBTMAssignments,DBTMBatch,DBTMTraineeAssignment,DBTMBatchActivity'").Split(",").ToList();
+                List<UserMainMenuMaster> menuList = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => associateMenus.Contains(x.MenuCode)).ToList();
+                List<AdminRoleMenuDetails> adminRoleMenuDetailList = new List<AdminRoleMenuDetails>();
+                foreach (var menu in menuList)
+                {
+                    adminRoleMenuDetailList.Add(new AdminRoleMenuDetails()
+                    {
+                        AdminRoleMasterId = adminRoleMaster.AdminRoleMasterId,
+                        AdminRoleCode = adminRoleMaster.AdminRoleCode,
+                        ModuleCode = menu.ModuleCode,
+                        MenuCode = menu.MenuCode,
+                        EnableDate = currentDate,
+                        IsActive = true,
+                        CreatedDate = currentDate,
+                        ModifiedDate = currentDate
+                    });
+                }
+                new CoditechRepository<AdminRoleMenuDetails>(_serviceProvider.GetService<Coditech_Entities>()).Insert(adminRoleMenuDetailList);
             }
         }
     }
