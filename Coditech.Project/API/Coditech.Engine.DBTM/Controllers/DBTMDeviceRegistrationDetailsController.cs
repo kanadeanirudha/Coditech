@@ -28,11 +28,11 @@ namespace Coditech.Engine.DBTM.Controllers
         [Route("/DBTMDeviceRegistrationDetails/GetDBTMDeviceRegistrationDetailsList")]
         [Produces(typeof(DBTMDeviceRegistrationDetailsListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetDBTMDeviceRegistrationDetailsList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetDBTMDeviceRegistrationDetailsList(long UserMasterId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                DBTMDeviceRegistrationDetailsListModel list = _dBTMDeviceRegistrationDetailsService.GetDBTMDeviceRegistrationDetailsList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                DBTMDeviceRegistrationDetailsListModel list = _dBTMDeviceRegistrationDetailsService.GetDBTMDeviceRegistrationDetailsList(UserMasterId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<DBTMDeviceRegistrationDetailsListResponse>(data) : CreateNoContentResponse();
             }

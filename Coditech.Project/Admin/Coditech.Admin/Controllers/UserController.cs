@@ -57,10 +57,6 @@ namespace Coditech.Admin.Controllers
                         }
                         return RedirectToLocal(returnUrl);
                     }
-                    else
-                    {
-                        ModelState.AddModelError("ErrorMessage", "Invalid Username or Password");
-                    }
                     ModelState.AddModelError("ErrorMessage", loginviewModel.ErrorMessage);
                 }
                 else

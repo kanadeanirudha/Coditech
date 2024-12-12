@@ -41,7 +41,7 @@
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsCurrentTrainer)
                             </td>
                             <td class="text-center">
-                                <a href="../@controllerName/UpdateAssociatedTrainer?generalTraineeAssociatedToTrainerId=@item.GeneralTraineeAssociatedToTrainerId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
+                                <a href="../@controllerName/UpdateAssociatedTrainer?generalTraineeAssociatedToTrainerId=@item.GeneralTraineeAssociatedToTrainerId&dBTMTraineeDetailId=@Model.SelectedParameter1&personId=@Model.SelectedParameter2" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
 
 
                                 <!-- Delete Button Triggering Modal -->

@@ -713,7 +713,7 @@ namespace Coditech.API.Service
                 generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString());
                 if (generalEnumaratorId == 0)
                 {
-                    errorMessage = "EmployeeRegistration is null";
+                    errorMessage = "GymMemberRegistration is null";
                     return false;
                 }
             }

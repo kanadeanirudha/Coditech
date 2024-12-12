@@ -83,6 +83,10 @@ namespace Coditech.Admin
             CreateMap<TaskApprovalSettingListModel, TaskApprovalSettingListViewModel>().ReverseMap();
             CreateMap<TaskApprovalSettingModel, TaskApprovalSettingViewModel>().ReverseMap();
             CreateMap<GeneralMessagesModel, GeneralMessagesViewModel>().ReverseMap();
+            CreateMap<TicketMasterModel, TicketMasterViewModel>().ReverseMap();
+            CreateMap<TicketMasterListModel, TicketMasterListViewModel>().ReverseMap();
+            CreateMap<TicketDetailsModel, TicketMasterViewModel>().ReverseMap();
+            CreateMap<TicketDetailsListModel, TicketDetailsListViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation
@@ -251,6 +255,8 @@ namespace Coditech.Admin
             CreateMap<DBTMNewRegistrationModel, DBTMNewRegistrationViewModel>().ReverseMap();
             CreateMap<DBTMBatchActivityListModel, DBTMBatchActivityListViewModel>().ReverseMap();
             CreateMap<DBTMBatchActivityModel, DBTMBatchActivityViewModel>().ReverseMap();
+            CreateMap<DBTMSubscriptionPlanListModel, DBTMSubscriptionPlanListViewModel>().ReverseMap();
+            CreateMap<DBTMSubscriptionPlanModel, DBTMSubscriptionPlanViewModel>().ReverseMap();
             #endregion
         }
     }

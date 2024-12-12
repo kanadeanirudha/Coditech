@@ -121,7 +121,9 @@
             DBTMBatchActivity,
             TaskApprovalSetting,
             GeneralMessages,
-            DBTMUser
+            DBTMUser,
+            TicketMaster,
+            DBTMSubscriptionPlan
         }
     }
 }
