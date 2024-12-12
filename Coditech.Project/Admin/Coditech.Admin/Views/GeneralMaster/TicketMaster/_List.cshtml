@@ -19,8 +19,37 @@
                     {
                         <tr>
                             <td>@item.TicketNumber</td>
-                            <td>@item.TicketStatus</td>
-                            <td>@item.CreatedDate.ToCoditechDateFormat()</td>
+                            <td>
+                                @if (item.TicketStatus == "Submitted")
+                                {
+                                    <span class="badge badge-soft-primary">@item.TicketStatus</span>
+                                }
+                                else if (item.TicketStatus == "Open")
+                                {
+                                    <span class="badge badge-soft-warning">@item.TicketStatus</span>
+                                }
+                                else if (item.TicketStatus == "In Review")
+                                {
+                                    <span class="badge badge-soft-danger">@item.TicketStatus</span>
+                                }
+                                else if (item.TicketStatus == "Closed")
+                                {
+                                    <span class="badge badge-soft-success">@item.TicketStatus</span>
+                                }
+                                else if (item.TicketStatus == "Reopened")
+                                {
+                                    <span class="badge badge-soft-dark">@item.TicketStatus</span>
+                                }
+                                else if (item.TicketStatus == "Rejected")
+                                {
+                                    <span class="badge badge-soft-danger">@item.TicketStatus</span>
+                                }
+                                else
+                                {
+                                    @item.TicketStatus
+                                }
+                            </td>
+                            <td>@Convert.ToDateTime(@item.CreatedDate).ToCoditechDateWithTimeFormat()</td>
                             <td class="text-center">
                                 <a href="../@controllerName/Edit?ticketMasterId=@item.TicketMasterId" title="View" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fa fa-eye"></i></a>@* <span class="m-2">|</span> *@
                             </td>

@@ -9,7 +9,7 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(long userMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TicketMaster/GetTicketMasterList?userMasterId={userMasterId}{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TicketMaster/GetTicketMasterList?userMasterId={userMasterId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string CreateTicketAsync() =>

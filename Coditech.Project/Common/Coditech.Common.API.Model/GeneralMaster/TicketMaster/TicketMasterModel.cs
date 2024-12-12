@@ -14,6 +14,7 @@
         public string AddCc { get; set; }
         public string Details { get; set; }
         public string TicketStatus { get; set; }
+        public bool IsTicketReplied { get; set; }
         public List<TicketDetailsModel> TicketDetailsList { get; set; }
 
     }

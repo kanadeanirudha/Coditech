@@ -9,8 +9,6 @@ namespace Coditech.Admin.ViewModel
         {
             TicketMasterList = new List<TicketMasterViewModel>();
         }
-        public long UserId { get; set; }
-        public string TicketStatus { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public bool IsTicketReplied { get; set; }
     }
 }
