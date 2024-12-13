@@ -138,7 +138,7 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult Cancel(string SelectedCentreCode, string GeneralTrainerMasterId)
         {
-            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedParameter1 = GeneralTrainerMasterId };
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedParameter1 = SelectedCentreCode, SelectedParameter2 = GeneralTrainerMasterId };
             return RedirectToAction("List", dataTableViewModel);
         }
     }
