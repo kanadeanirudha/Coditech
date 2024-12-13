@@ -259,7 +259,7 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Associated",
-                ColumnCode = "IsAssociated",
+                ColumnCode = "GeneralBatchMasterId",
                 IsSortable = true,
             });
             return datatableColumnList;
