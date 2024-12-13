@@ -412,7 +412,8 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Associated",
-                ColumnCode = "IsAssociated",
+                ColumnCode = "GymWorkoutPlanUserId",
+                IsSortable = true,
             });
             return datatableColumnList;
         }
