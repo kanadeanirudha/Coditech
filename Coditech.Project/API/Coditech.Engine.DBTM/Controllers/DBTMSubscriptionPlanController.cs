@@ -137,5 +137,51 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }        
         }
+
+        [HttpGet]
+        [Route("/DBTMSubscriptionPlan/GetDBTMSubscriptionPlanActivityList")]
+        [Produces(typeof(DBTMSubscriptionPlanActivityListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetDBTMSubscriptionPlanActivityList(int dBTMSubscriptionPlanId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                DBTMSubscriptionPlanActivityListModel list = _dBTMSubscriptionPlanService.GetDBTMSubscriptionPlanActivityList(dBTMSubscriptionPlanId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<DBTMSubscriptionPlanActivityListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMSubscriptionPlan.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMSubscriptionPlanActivityListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMSubscriptionPlan.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMSubscriptionPlanActivityListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/DBTMSubscriptionPlan/AssociateUnAssociatePlanActivity")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(DBTMSubscriptionPlanActivityResponse))]
+        public virtual IActionResult AssociateUnAssociatePlanActivity([FromBody] DBTMSubscriptionPlanActivityModel model)
+        {
+            try
+            {
+                bool isUpdated = _dBTMSubscriptionPlanService.AssociateUnAssociatePlanActivity(model);
+                return isUpdated ? CreateOKResponse(new DBTMSubscriptionPlanActivityResponse { DBTMSubscriptionPlanActivityModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMSubscriptionPlan.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new DBTMSubscriptionPlanActivityResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMSubscriptionPlan.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMSubscriptionPlanActivityResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

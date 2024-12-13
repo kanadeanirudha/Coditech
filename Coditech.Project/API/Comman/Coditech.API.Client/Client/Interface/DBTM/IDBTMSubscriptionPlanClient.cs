@@ -42,5 +42,21 @@ namespace Coditech.API.Client
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteDBTMSubscriptionPlan(ParameterModel body);
 
+        #region 
+        /// <summary>
+        /// Get list of dBTMSubscriptionPlan.
+        /// </summary>
+        /// <param name="dBTMSubscriptionPlanId">dBTMSubscriptionPlanId</param>
+        /// <returns>DBTMSubscriptionPlanActivityListResponse</returns>
+        DBTMSubscriptionPlanActivityListResponse GetDBTMSubscriptionPlanActivityList(int dBTMSubscriptionPlanId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+
+        /// <summary>
+        /// Update Associate UnAssociate DBTM Subscription Plan Activity.
+        /// </summary>
+        /// <param name="DBTMSubscriptionPlanActivityModel">DBTMSubscriptionPlanActivityModel.</param>
+        /// <returns>Returns updated DBTMSubscriptionPlanActivityResponse</returns>
+        DBTMSubscriptionPlanActivityResponse AssociateUnAssociatePlanActivity(DBTMSubscriptionPlanActivityModel body);
+        #endregion
+
     }
 }

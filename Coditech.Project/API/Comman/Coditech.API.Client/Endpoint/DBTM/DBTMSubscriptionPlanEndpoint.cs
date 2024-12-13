@@ -23,5 +23,13 @@ namespace Coditech.API.Endpoint
         public string DeleteDBTMSubscriptionPlanAsync() =>
                   $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMSubscriptionPlan/DeleteDBTMSubscriptionPlan";
 
+        public string GetDBTMSubscriptionPlanActivityListAsync(int dBTMSubscriptionPlanId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMSubscriptionPlan/GetDBTMSubscriptionPlanActivityList?dBTMSubscriptionPlanId={dBTMSubscriptionPlanId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
+        }
+
+        public string AssociateUnAssociatePlanActivityAsync() =>
+               $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMSubscriptionPlan/AssociateUnAssociatePlanActivity";
     }
 }
