@@ -462,6 +462,9 @@ namespace Coditech.Common.Service
             string messageText = emailTemplate;
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PersonCode, generalPersonModel.PersonCode, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.Designation, GetDesignationDetails(generalPersonModel.EmployeeDesignationMasterId).Description, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.DepartmentName, GetDepartmentDetails(Convert.ToInt16( generalPersonModel.SelectedDepartmentId)).DepartmentName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreUrl, centreUrl, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.EmployeeUsername, generalPersonModel.UserName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.TemporaryPassword, generalPersonModel.Password, messageText);
