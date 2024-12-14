@@ -6,7 +6,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Text;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
@@ -68,8 +67,12 @@ namespace Coditech.API.Service
                 //Centre UserName Registration
                 InsertGeneralRunningNumbers(currentDate, organisationCentreMaster, centreCode);
 
+                long personId = 0;
                 //Insert General Person and registor employee
-                long employeeId = InsertEmployee(dBTMNewRegistrationModel, currentDate, organisationCentreMaster, generalDepartmentMasterList);
+                long employeeId = InsertEmployee(dBTMNewRegistrationModel, currentDate, organisationCentreMaster, generalDepartmentMasterList, out personId);
+
+                //Insert Employee Address
+                InsertEmployeeAddress(dBTMNewRegistrationModel, currentDate, personId);
 
                 //Insert Admin Role
                 InsertAdminRole(currentDate, generalDepartmentMasterList.FirstOrDefault(), organisationCentreMaster.CentreCode, employeeId);
@@ -87,7 +90,28 @@ namespace Coditech.API.Service
             return dBTMNewRegistrationModel;
         }
 
-        private void InsertDBTMDeviceRegistration(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long employeeId)
+        protected virtual void InsertEmployeeAddress(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long personId)
+        {
+            //Insert DBTM Devices
+            GeneralPersonAddress generalPersonAddress = new GeneralPersonAddress()
+            {
+                AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString(),
+                PersonId = personId,
+                FirstName = dBTMNewRegistrationModel.FirstName,
+                LastName = dBTMNewRegistrationModel.LastName,
+                AddressLine1 = dBTMNewRegistrationModel.AddressLine1,
+                AddressLine2 = dBTMNewRegistrationModel.AddressLine2,
+                GeneralCountryMasterId = dBTMNewRegistrationModel.GeneralCountryMasterId,
+                GeneralRegionMasterId = dBTMNewRegistrationModel.GeneralRegionMasterId,
+                GeneralCityMasterId = dBTMNewRegistrationModel.GeneralCityMasterId,
+                Postalcode = dBTMNewRegistrationModel.Pincode,
+                CreatedDate = currentDate,
+                ModifiedDate = currentDate,
+            };
+            new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalPersonAddress);
+        }
+
+        protected virtual void InsertDBTMDeviceRegistration(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long employeeId)
         {
             //Insert DBTM Devices
             DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetails = new DBTMDeviceRegistrationDetails()
@@ -102,8 +126,9 @@ namespace Coditech.API.Service
             new CoditechRepository<DBTMDeviceRegistrationDetails>(_serviceProvider.GetService<Coditech_Entities>()).Insert(dBTMDeviceRegistrationDetails);
         }
 
-        protected virtual long InsertEmployee(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, OrganisationCentreMaster organisationCentreMaster, List<short> generalDepartmentMasterList)
+        protected virtual long InsertEmployee(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, OrganisationCentreMaster organisationCentreMaster, List<short> generalDepartmentMasterList, out long personId)
         {
+            personId = 0;
             GeneralPersonModel generalPersonModel = new GeneralPersonModel()
             {
                 PersonTitle = dBTMNewRegistrationModel.PersonTitle,
@@ -123,6 +148,7 @@ namespace Coditech.API.Service
             long employeeId = 0;
             if (personData?.PersonId > 0)
             {
+                personId = personData.PersonId;
                 generalPersonModel.CentreName = GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode);
                 List<GeneralSystemGlobleSettingModel> settingMasterList = GetSystemGlobleSettingList();
                 generalPersonModel.PersonId = personData.PersonId;
