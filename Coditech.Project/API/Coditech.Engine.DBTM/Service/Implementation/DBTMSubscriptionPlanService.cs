@@ -18,11 +18,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMSubscriptionPlan> _dBTMSubscriptionPlanRepository;
+        private readonly ICoditechRepository<DBTMSubscriptionPlanActivity> _dBTMSubscriptionPlanActivityRepository;
         public DBTMSubscriptionPlanService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _dBTMSubscriptionPlanRepository = new CoditechRepository<DBTMSubscriptionPlan>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMSubscriptionPlanActivityRepository = new CoditechRepository<DBTMSubscriptionPlanActivity>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual DBTMSubscriptionPlanListModel GetDBTMSubscriptionPlanList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -113,6 +115,57 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
-      
+        public virtual DBTMSubscriptionPlanActivityListModel GetDBTMSubscriptionPlanActivityList(int dBTMSubscriptionPlanId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        {
+
+            //Bind the Filter, sorts & Paging details.
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+            CoditechViewRepository<DBTMSubscriptionPlanActivityModel> objStoredProc = new CoditechViewRepository<DBTMSubscriptionPlanActivityModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@DBTMSubscriptionPlanId", dBTMSubscriptionPlanId, ParameterDirection.Input, DbType.Int64);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<DBTMSubscriptionPlanActivityModel> dBTMSubscriptionPlanActivityList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetDBTMTestMasterAssociatedList @DBTMSubscriptionPlanId, @WhereClause, @Rows, @PageNo, @Order_BY, @RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            DBTMSubscriptionPlanActivityListModel listModel = new DBTMSubscriptionPlanActivityListModel();
+
+            listModel.DBTMSubscriptionPlanActivityList = dBTMSubscriptionPlanActivityList?.Count > 0 ? dBTMSubscriptionPlanActivityList : new List<DBTMSubscriptionPlanActivityModel>();
+            listModel.BindPageListModel(pageListModel);
+
+            if (dBTMSubscriptionPlanId > 0)
+            {
+                listModel.PlanName = _dBTMSubscriptionPlanRepository.Table.Where(x => x.DBTMSubscriptionPlanId == dBTMSubscriptionPlanId).FirstOrDefault().PlanName;
+            }
+            listModel.DBTMSubscriptionPlanId = dBTMSubscriptionPlanId;
+            return listModel;
+
+        }
+
+        //Update  Associate UnAssociate 
+        public virtual bool AssociateUnAssociatePlanActivity(DBTMSubscriptionPlanActivityModel dBTMSubscriptionPlanActivityModel)
+        {
+
+            bool isAssociateUnAssociateDBTMSubscriptionPlanActivity = false;
+            DBTMSubscriptionPlanActivity dBTMSubscriptionPlanActivity = new DBTMSubscriptionPlanActivity();
+            if (dBTMSubscriptionPlanActivityModel.DBTMSubscriptionPlanActivityId > 0)
+            {
+                dBTMSubscriptionPlanActivity = _dBTMSubscriptionPlanActivityRepository.Table.Where(x => x.DBTMSubscriptionPlanActivityId == dBTMSubscriptionPlanActivityModel.DBTMSubscriptionPlanActivityId)?.FirstOrDefault();
+                isAssociateUnAssociateDBTMSubscriptionPlanActivity = _dBTMSubscriptionPlanActivityRepository.Delete(dBTMSubscriptionPlanActivity);
+            }
+            else
+            {
+                dBTMSubscriptionPlanActivity = dBTMSubscriptionPlanActivityModel.FromModelToEntity<DBTMSubscriptionPlanActivity>();
+                dBTMSubscriptionPlanActivity = _dBTMSubscriptionPlanActivityRepository.Insert(dBTMSubscriptionPlanActivity);
+                isAssociateUnAssociateDBTMSubscriptionPlanActivity = dBTMSubscriptionPlanActivity.DBTMSubscriptionPlanActivityId > 0;
+            }
+
+            if (!isAssociateUnAssociateDBTMSubscriptionPlanActivity)
+            {
+                dBTMSubscriptionPlanActivityModel.HasError = true;
+                dBTMSubscriptionPlanActivityModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isAssociateUnAssociateDBTMSubscriptionPlanActivity;
+        }        
     }
 }

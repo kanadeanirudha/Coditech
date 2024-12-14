@@ -161,12 +161,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "No Of Post",
+                ColumnName = "Number Of Post",
                 ColumnCode = "NoOfPost",
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Active",
+                ColumnName = "IsActive",
                 ColumnCode = "IsActive",
                 IsSortable = true,
             });

@@ -378,7 +378,7 @@ namespace Coditech.Common.Service
             return personData;
         }
 
-        protected virtual long InsertEmployee(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
+        protected virtual long InsertEmployee(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList, bool isActive)
         {
             generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberForEnum.EmployeeRegistration.ToString(), generalPersonModel.SelectedCentreCode);
             EmployeeMaster employeeMaster = new EmployeeMaster()
@@ -388,7 +388,8 @@ namespace Coditech.Common.Service
                 UserType = generalPersonModel.UserType,
                 CentreCode = generalPersonModel.SelectedCentreCode,
                 GeneralDepartmentMasterId = Convert.ToInt16(generalPersonModel.SelectedDepartmentId),
-                EmployeeDesignationMasterId = Convert.ToInt16(generalPersonModel.EmployeeDesignationMasterId)
+                EmployeeDesignationMasterId = Convert.ToInt16(generalPersonModel.EmployeeDesignationMasterId),
+                IsActive = isActive
             };
             employeeMaster = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(employeeMaster);
             //Check Is Employee need to Login
@@ -407,7 +408,7 @@ namespace Coditech.Common.Service
                 new CoditechRepository<EmployeeService>(_serviceProvider.GetService<Coditech_Entities>()).Insert(employeeService);
                 if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
                 {
-                    InsertUserMasterDetails(generalPersonModel, employeeMaster.EmployeeId);
+                    InsertUserMasterDetails(generalPersonModel, employeeMaster.EmployeeId, isActive);
                     try
                     {
                         GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(employeeMaster.CentreCode, EmailTemplateCodeEnum.EmployeeRegistration.ToString());
@@ -427,13 +428,14 @@ namespace Coditech.Common.Service
             return employeeMaster.EmployeeId;
         }
 
-        protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId)
+        protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId, bool isActive)
         {
             string userNameBasedOn = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
             userMaster.IsAcceptedTermsAndConditions = true;
             userMaster.IsPasswordChange = false;
+            userMaster.IsActive = isActive;
             userMaster.Password = MD5Hash(userMaster.Password);
             if (string.IsNullOrEmpty(userNameBasedOn))
             {
@@ -462,6 +464,9 @@ namespace Coditech.Common.Service
             string messageText = emailTemplate;
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PersonCode, generalPersonModel.PersonCode, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.Designation, GetDesignationDetails(generalPersonModel.EmployeeDesignationMasterId).Description, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.DepartmentName, GetDepartmentDetails(Convert.ToInt16( generalPersonModel.SelectedDepartmentId)).DepartmentName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreUrl, centreUrl, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.EmployeeUsername, generalPersonModel.UserName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.TemporaryPassword, generalPersonModel.Password, messageText);

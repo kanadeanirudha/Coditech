@@ -1263,7 +1263,9 @@ namespace Coditech.Admin.Helpers
 
         private static void GetDBTMActivityCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            DBTMActivityCategoryListResponse response = new DBTMActivityCategoryClient().List(null, null, null, 1, int.MaxValue);
+            FilterCollection filters = new FilterCollection();
+            filters.Add(FilterKeys.IsActive, ProcedureFilterOperators.Equals, "1");
+            DBTMActivityCategoryListResponse response = new DBTMActivityCategoryClient().List(null, filters, null, 1, int.MaxValue);
             if (dropdownViewModel.IsRequired)
                 dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
             else

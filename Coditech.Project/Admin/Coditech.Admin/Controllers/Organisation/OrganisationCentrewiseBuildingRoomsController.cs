@@ -103,6 +103,14 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
+
+        public virtual ActionResult Cancel(string SelectedCentreCode, string OrganisationCentrewiseBuildingMasterId)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedParameter1 =OrganisationCentrewiseBuildingMasterId };
+            return RedirectToAction("List", dataTableViewModel);
+        }
+
+
         #region Protected
 
         #endregion

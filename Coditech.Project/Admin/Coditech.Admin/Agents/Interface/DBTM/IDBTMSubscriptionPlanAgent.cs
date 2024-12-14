@@ -39,5 +39,22 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteDBTMSubscriptionPlan(string dBTMSubscriptionPlanIds, out string errorMessage);
 
+        #region 
+        /// <summary>
+        /// Get list of DBTMSubscriptionPlanActivity.
+        /// </summary>
+        /// <param name="dBTMSubscriptionPlanId">DataTable ViewModel.</param>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>DBTMSubscriptionPlanActivityListViewModel</returns>
+        DBTMSubscriptionPlanActivityListViewModel GetDBTMSubscriptionPlanActivityList(int dBTMSubscriptionPlanId, DataTableViewModel dataTableModel);
+
+        /// <summary>
+        /// Update Associate UnAssociate DBTM Subscription Plan Activity.
+        /// </summary>
+        /// <param name="dBTMSubscriptionPlanActivityViewModel">dBTMSubscriptionPlanActivityViewModel.</param>
+        /// <returns>Returns updated dBTMSubscriptionPlanActivityViewModel</returns>
+        DBTMSubscriptionPlanActivityViewModel AssociateUnAssociatePlanActivity(DBTMSubscriptionPlanActivityViewModel dBTMSubscriptionPlanActivityViewModel);
+
+        #endregion
     }
 }

@@ -90,6 +90,36 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<DBTMSubscriptionPlanController>(x => x.List(null));
         }
 
+        #region PlanActivity
+        public virtual ActionResult GetDBTMSubscriptionPlanActivityList(DataTableViewModel dataTableViewModel)
+        {
+            DBTMSubscriptionPlanActivityListViewModel list = _dBTMSubscriptionPlanAgent.GetDBTMSubscriptionPlanActivityList(Convert.ToInt32(dataTableViewModel.SelectedParameter1), dataTableViewModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/DBTM/DBTMSubscriptionPlan/_PlanActivityList.cshtml", list);
+            }
+            list.SelectedParameter1 = dataTableViewModel.SelectedParameter1;
+            return View($"~/Views/DBTM/DBTMSubscriptionPlan/PlanActivityList.cshtml", list);
+
+
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetAssociateUnAssociatePlanActivity(DBTMSubscriptionPlanActivityViewModel dBTMSubscriptionPlanActivityViewModel)
+        {
+            return PartialView("~/Views/DBTM/DBTMSubscriptionPlan/_AssociateUnAssociatePlanActivity.cshtml", dBTMSubscriptionPlanActivityViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult AssociateUnAssociatePlanActivity(DBTMSubscriptionPlanActivityViewModel dBTMSubscriptionPlanActivityViewModel)
+        {
+            SetNotificationMessage(_dBTMSubscriptionPlanAgent.AssociateUnAssociatePlanActivity(dBTMSubscriptionPlanActivityViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+            return RedirectToAction("GetDBTMSubscriptionPlanActivityList", new DataTableViewModel { SelectedParameter1 = dBTMSubscriptionPlanActivityViewModel.DBTMSubscriptionPlanId.ToString() });
+        }
+        #endregion
+
         public virtual ActionResult Cancel()
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel();

@@ -185,11 +185,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                     ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                     : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+                return RedirectToAction("GetWorkoutPlanDetails", new  { GymWorkoutPlanId = gymWorkoutPlanId, WorkoutWeekNumber = workoutWeekNumber });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+            return RedirectToAction("GetWorkoutPlanDetails", new { GymWorkoutPlanId = gymWorkoutPlanId, WorkoutWeekNumber = workoutWeekNumber });
         }
 
         //DeleteWorkoutPlanDetailsDay
@@ -205,19 +205,18 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                     ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                     : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+                return RedirectToAction("GetWorkoutPlanDetails", new { GymWorkoutPlanId = gymWorkoutPlanId, WorkoutWeekNumber = workoutWeekNumber, WorkoutDayNumber = workoutDayNumber });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+            return RedirectToAction("GetWorkoutPlanDetails", new { GymWorkoutPlanId = gymWorkoutPlanId, WorkoutWeekNumber = workoutWeekNumber, WorkoutDayNumber = workoutDayNumber });
         }
 
 
-        public virtual ActionResult DeleteWorkoutPlanDetailsSet(long gymWorkoutPlanDetailId, string selectedCentreCode)
+        public virtual ActionResult DeleteWorkoutPlanDetailsSet(long gymWorkoutPlanDetailId,long gymWorkoutPlanId, string selectedCentreCode)
         {
             string message = string.Empty;
             bool status = false;
-
             if (gymWorkoutPlanDetailId >= 0)
             {
                 status = _gymWorkoutPlanAgent.DeleteWorkoutPlanDetailsSet(gymWorkoutPlanDetailId, out message);
@@ -225,11 +224,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                     ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                     : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+                return RedirectToAction("GetWorkoutPlanDetails", new  { GymWorkoutPlanDetailId = gymWorkoutPlanDetailId, GymWorkoutPlanId = gymWorkoutPlanId });
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+            return RedirectToAction("GetWorkoutPlanDetails", new { GymWorkoutPlanDetailId = gymWorkoutPlanDetailId, GymWorkoutPlanId = gymWorkoutPlanId });
         }
 
         #endregion        

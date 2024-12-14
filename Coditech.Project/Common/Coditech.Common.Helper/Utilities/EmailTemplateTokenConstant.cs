@@ -17,5 +17,8 @@
         public static string PaymentMethod { get; } = "#PaymentMethod#"; 
         public static string PaidAmount { get; } = "#PaidAmount#";
         public static string PlanDuration { get; } = "#PlanDuration#";
+        public static string PersonCode { get; } = "#PersonCode#";
+        public static string Designation { get; } = "#Designation#";
+        public static string DepartmentName { get; } = "#DepartmentName#";
     }
 }

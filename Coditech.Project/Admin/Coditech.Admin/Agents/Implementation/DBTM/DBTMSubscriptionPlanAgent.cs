@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -134,6 +135,65 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+
+        #region Plan Activity
+        public virtual DBTMSubscriptionPlanActivityListViewModel GetDBTMSubscriptionPlanActivityList(int dBTMSubscriptionPlanId, DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = new FilterCollection();
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("TestName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            DBTMSubscriptionPlanActivityListResponse response = _dBTMSubscriptionPlanClient.GetDBTMSubscriptionPlanActivityList(dBTMSubscriptionPlanId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            DBTMSubscriptionPlanActivityListModel dBTMSubscriptionPlanActivityList = new DBTMSubscriptionPlanActivityListModel { DBTMSubscriptionPlanActivityList = response?.DBTMSubscriptionPlanActivityList };
+            DBTMSubscriptionPlanActivityListViewModel listViewModel = new DBTMSubscriptionPlanActivityListViewModel();
+            listViewModel.DBTMSubscriptionPlanActivityList = dBTMSubscriptionPlanActivityList?.DBTMSubscriptionPlanActivityList?.ToViewModel<DBTMSubscriptionPlanActivityViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.DBTMSubscriptionPlanActivityList.Count, BindDBTMPlanActivityColumns());
+            listViewModel.DBTMSubscriptionPlanId = dBTMSubscriptionPlanId;
+            listViewModel.PlanName = response.PlanName;
+            return listViewModel;
+        }
+
+        //Update Associate UnAssociate Plan Activity.
+        public virtual DBTMSubscriptionPlanActivityViewModel AssociateUnAssociatePlanActivity(DBTMSubscriptionPlanActivityViewModel dBTMSubscriptionPlanActivityViewModel)
+        {
+            try
+            {
+                int dBTMSubscriptionPlanId = dBTMSubscriptionPlanActivityViewModel.DBTMSubscriptionPlanId;
+                int dBTMSubscriptionPlanActivityId = dBTMSubscriptionPlanActivityViewModel.DBTMSubscriptionPlanActivityId;
+                DBTMSubscriptionPlanActivityResponse response = _dBTMSubscriptionPlanClient.AssociateUnAssociatePlanActivity(dBTMSubscriptionPlanActivityViewModel.ToModel<DBTMSubscriptionPlanActivityModel>());
+                DBTMSubscriptionPlanActivityModel dBTMSubscriptionPlanActivityModel = response?.DBTMSubscriptionPlanActivityModel;
+                dBTMSubscriptionPlanActivityViewModel = IsNotNull(dBTMSubscriptionPlanActivityModel) ? dBTMSubscriptionPlanActivityModel.ToViewModel<DBTMSubscriptionPlanActivityViewModel>() : new DBTMSubscriptionPlanActivityViewModel();
+                dBTMSubscriptionPlanActivityViewModel.DBTMSubscriptionPlanId = dBTMSubscriptionPlanId;
+                dBTMSubscriptionPlanActivityViewModel.DBTMSubscriptionPlanActivityId = dBTMSubscriptionPlanActivityId;
+                return dBTMSubscriptionPlanActivityViewModel;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMSubscriptionPlan.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (DBTMSubscriptionPlanActivityViewModel)GetViewModelWithErrorMessage(dBTMSubscriptionPlanActivityViewModel, ex.ErrorMessage);
+                    default:
+                        return (DBTMSubscriptionPlanActivityViewModel)GetViewModelWithErrorMessage(dBTMSubscriptionPlanActivityViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMSubscriptionPlan.ToString(), TraceLevel.Error);
+                return (DBTMSubscriptionPlanActivityViewModel)GetViewModelWithErrorMessage(dBTMSubscriptionPlanActivityViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+        #endregion
+
+
         #endregion
 
         #region protected
@@ -166,7 +226,30 @@ namespace Coditech.Admin.Agents
             });
             return datatableColumnList;
         }
-       
+
+        protected virtual List<DatatableColumns> BindDBTMPlanActivityColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Test Name",
+                ColumnCode = "TestName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Test Code",
+                ColumnCode = "TestCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Associated",
+                ColumnCode = "IsAssociated",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
         #endregion
     }
 }
