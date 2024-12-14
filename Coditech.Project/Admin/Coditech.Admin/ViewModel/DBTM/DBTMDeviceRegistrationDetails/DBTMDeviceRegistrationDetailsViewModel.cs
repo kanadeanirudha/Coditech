@@ -16,6 +16,8 @@ namespace Coditech.Admin.ViewModel
         public string UserType { get; set; }
         public long EntityId { get; set; }
         public DateTime PurchaseDate { get; set; }
+        [Display(Name = "Warranty Expiration Date")]
+        public DateTime WarrantyExpirationDate { get; set; }
         public bool IsMasterDevice { get; set; }
             
     }

@@ -169,6 +169,11 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Purchase Date",
                 ColumnCode = "PurchaseDate",
                 IsSortable = true,
+            }); datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Warranty Expiration Date",
+                ColumnCode = "WarrantyExpirationDate",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
 
