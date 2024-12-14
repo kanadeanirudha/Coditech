@@ -66,6 +66,7 @@ namespace Coditech.Admin.ViewModel
         public string MobileNumberToken { get; set; }
         public bool IsMobileNumberVerifed { get; set; }
         [Required]
+        [MaxLength(100)]
         [Display(Name = "Device Serial Code")]
         public string DeviceSerialCode { get; set; }
         [MaxLength(100)]
