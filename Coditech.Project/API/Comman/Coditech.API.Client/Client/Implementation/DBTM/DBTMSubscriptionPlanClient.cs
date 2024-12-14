@@ -261,6 +261,105 @@ namespace Coditech.API.Client
                 if (disposeResponse)
                     response.Dispose();
             }
-        }   
+        }
+
+        #region Plan Activity
+        public virtual DBTMSubscriptionPlanActivityListResponse GetDBTMSubscriptionPlanActivityList(int dBTMSubscriptionPlanId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            return Task.Run(async () => await GetDBTMSubscriptionPlanActivityListAsync(dBTMSubscriptionPlanId, expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<DBTMSubscriptionPlanActivityListResponse> GetDBTMSubscriptionPlanActivityListAsync(int dBTMSubscriptionPlanId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        {
+            string endpoint = dBTMSubscriptionPlanEndpoint.GetDBTMSubscriptionPlanActivityListAsync(dBTMSubscriptionPlanId, expand, filter, sort, pageIndex, pageSize);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<DBTMSubscriptionPlanActivityListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else if (status_ == 204)
+                {
+                    return new DBTMSubscriptionPlanActivityListResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    DBTMSubscriptionPlanActivityListResponse typedBody = JsonConvert.DeserializeObject<DBTMSubscriptionPlanActivityListResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual DBTMSubscriptionPlanActivityResponse AssociateUnAssociatePlanActivity(DBTMSubscriptionPlanActivityModel body)
+        {
+            return Task.Run(async () => await AssociateUnAssociatePlanActivityAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<DBTMSubscriptionPlanActivityResponse> AssociateUnAssociatePlanActivityAsync(DBTMSubscriptionPlanActivityModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = dBTMSubscriptionPlanEndpoint.AssociateUnAssociatePlanActivityAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<DBTMSubscriptionPlanActivityResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<DBTMSubscriptionPlanActivityResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    DBTMSubscriptionPlanActivityResponse typedBody = JsonConvert.DeserializeObject<DBTMSubscriptionPlanActivityResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        #endregion
     }
 }

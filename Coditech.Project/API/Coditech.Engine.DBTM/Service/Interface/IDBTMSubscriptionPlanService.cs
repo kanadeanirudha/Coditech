@@ -12,5 +12,7 @@ namespace Coditech.API.Service
         DBTMSubscriptionPlanModel GetDBTMSubscriptionPlan(int dBTMSubscriptionPlanId);
         bool UpdateDBTMSubscriptionPlan(DBTMSubscriptionPlanModel model);
         bool DeleteDBTMSubscriptionPlan(ParameterModel parameterModel);
+        DBTMSubscriptionPlanActivityListModel GetDBTMSubscriptionPlanActivityList(int dBTMSubscriptionPlanId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        bool AssociateUnAssociatePlanActivity(DBTMSubscriptionPlanActivityModel model);
     }
 }
