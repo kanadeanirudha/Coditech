@@ -129,7 +129,7 @@ namespace Coditech.API.Service
                 generalPersonModel.SelectedCentreCode = organisationCentreMaster.CentreCode;
                 generalPersonModel.SelectedDepartmentId = generalDepartmentMasterList.FirstOrDefault().ToString();
                 generalPersonModel.EmployeeDesignationMasterId = 1;
-                employeeId = InsertEmployee(generalPersonModel, settingMasterList);
+                employeeId = InsertEmployee(generalPersonModel, settingMasterList, true);
             }
             return employeeId;
         }
