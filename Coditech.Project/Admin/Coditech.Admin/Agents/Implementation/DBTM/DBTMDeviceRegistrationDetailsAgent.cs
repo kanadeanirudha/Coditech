@@ -39,7 +39,9 @@ namespace Coditech.Admin.Agents
                 dataTableModel = dataTableModel ?? new DataTableViewModel();
                 if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
                 {
-                    filters.Add("PurchaseDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                    filters.Add("DeviceName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                    filters.Add("DeviceSerialCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+
                 }
                 SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? " " : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
@@ -149,10 +151,30 @@ namespace Coditech.Admin.Agents
             //    ColumnCode = "DBTMDeviceMasterId",
             //    IsSortable = true,
             //});
+          
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Device Serial Code",
+                ColumnCode = "DeviceSerialCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Device Name",
+                ColumnCode = "DeviceName",
+                IsSortable = true,
+            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Purchase Date",
                 ColumnCode = "PurchaseDate",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+
+            {
+                ColumnName = "Is Master Device",
+                ColumnCode = "IsMasterDevice",
                 IsSortable = true,
             });
             return datatableColumnList;
