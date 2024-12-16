@@ -427,9 +427,9 @@ namespace Coditech.API.Service
 
 
                     // Delete the media file from the file system
-                    if (System.IO.File.Exists(filePath))
+                    if (File.Exists(filePath))
                     {
-                        System.IO.File.Delete(filePath);
+                        File.Delete(filePath);
                     }
                     _mediaDetailRepository.Delete(media);
                 }
@@ -494,9 +494,9 @@ namespace Coditech.API.Service
 
 
                 // Delete the media file from the file system
-                if (System.IO.File.Exists(filePath))
+                if (File.Exists(filePath))
                 {
-                    System.IO.File.Delete(filePath);
+                    File.Delete(filePath);
                 }
                 _mediaDetailRepository.Delete(mediaFile);
 
