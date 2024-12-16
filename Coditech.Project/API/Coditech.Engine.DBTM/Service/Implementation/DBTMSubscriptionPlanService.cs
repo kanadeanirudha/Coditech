@@ -76,6 +76,7 @@ namespace Coditech.API.Service
             //Get the DBTMSubscriptionPlan Details based on id.
             DBTMSubscriptionPlan dBTMSubscriptionPlan = _dBTMSubscriptionPlanRepository.Table.Where(x => x.DBTMSubscriptionPlanId == dBTMSubscriptionPlanId)?.FirstOrDefault();
             DBTMSubscriptionPlanModel dBTMSubscriptionPlanModel = dBTMSubscriptionPlan?.FromEntityToModel<DBTMSubscriptionPlanModel>();
+            dBTMSubscriptionPlanModel.SubscriptionPlanType = GetEnumCodeByEnumId(dBTMSubscriptionPlanModel.SubscriptionPlanTypeEnumId);
             return dBTMSubscriptionPlanModel;
         }
 

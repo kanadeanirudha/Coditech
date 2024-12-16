@@ -7,6 +7,8 @@
         public short DurationInDays { get; set; }
         public decimal PlanCost { get; set; }       
         public decimal PlanDiscount { get; set; }
-     
+        public int SubscriptionPlanTypeEnumId { get; set; }
+        public string SubscriptionPlanType { get; set; }
+
     }
 }

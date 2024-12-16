@@ -90,7 +90,9 @@
         DBTMTest,
         DBTMBatchActivity,
         TicketPriority,
-        TicketStatus
+        TicketStatus,
+        DBTMSubscriptionPlanType
+
     }
 
     public enum GeneralSystemGlobleSettingEnum

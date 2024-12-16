@@ -208,6 +208,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Subscription Plan Type",
+                ColumnCode = "SubscriptionPlanTypeEnumId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Duration In Days",
                 ColumnCode = "DurationInDays",
                 IsSortable = true,

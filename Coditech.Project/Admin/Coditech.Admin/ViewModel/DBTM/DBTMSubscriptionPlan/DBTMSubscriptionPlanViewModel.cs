@@ -20,5 +20,10 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Plan Discount")]
         public Nullable<decimal> PlanDiscount { get; set; }
+        [Required]
+        [Display(Name = "Subscription Plan Type")]
+        public int SubscriptionPlanTypeEnumId { get; set; }
+        [Display(Name = "Subscription Plan Type")]
+        public string SubscriptionPlanType { get; set; }
     }
 }
