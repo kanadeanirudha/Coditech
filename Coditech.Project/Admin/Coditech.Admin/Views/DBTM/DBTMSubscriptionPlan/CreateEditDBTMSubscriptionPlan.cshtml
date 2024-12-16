@@ -41,6 +41,24 @@
                             <div class="row">                               
                                 <div class="col-lg-4">
                                     <div class="mb-3">
+                                        @Html.LabelFor(x => x.SubscriptionPlanTypeEnumId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.SubscriptionPlanTypeEnumId.ToString(),
+                                   DropdownName = "SubscriptionPlanTypeEnumId",
+                                   GroupCode = DropdownTypeEnum.DBTMSubscriptionPlanType.ToString(),
+                                   AddSelectItem = true,
+                                   IsDisabled = Model.DBTMSubscriptionPlanId > 0
+                               })
+                                        @Html.ValidationMessageFor(x => x.SubscriptionPlanTypeEnumId, null, new { id = "errorPlanTypeEnumId" })
+                                        @if (Model.DBTMSubscriptionPlanId > 0)
+                                        {
+                                            @Html.HiddenFor(m => m.SubscriptionPlanTypeEnumId)
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
                                         @Html.LabelFor(x => x.PlanName, new { @class = "form-label required" })
                                         @if (Model.DBTMSubscriptionPlanId > 0)
                                         {
