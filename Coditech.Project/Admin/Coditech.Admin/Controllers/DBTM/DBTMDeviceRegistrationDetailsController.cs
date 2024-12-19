@@ -10,7 +10,7 @@ namespace Coditech.Admin.Controllers
     public class DBTMDeviceRegistrationDetailsController : BaseController
     {
         private readonly IDBTMDeviceRegistrationDetailsAgent _dBTMDeviceRegistrationDetailsAgent;
-        private const string createEdit = "~/Views/DBTM/DBTMDeviceRegistrationDetails/CreateEdit.cshtml";
+        private const string createEdit = "~/Views/DBTM/DBTMDeviceRegistrationDetails/AddNewDevice.cshtml";
 
         public DBTMDeviceRegistrationDetailsController(IDBTMDeviceRegistrationDetailsAgent dBTMDeviceRegistrationDetailsAgent)
         {
