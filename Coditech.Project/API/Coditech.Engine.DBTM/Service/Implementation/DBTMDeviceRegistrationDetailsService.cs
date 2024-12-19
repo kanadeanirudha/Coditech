@@ -17,22 +17,24 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMDeviceRegistrationDetails> _dBTMDeviceRegistrationDetailsRepository;
+        private readonly ICoditechRepository<DBTMDeviceMaster> _dBTMDeviceMasterRepository;
         public DBTMDeviceRegistrationDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _dBTMDeviceRegistrationDetailsRepository = new CoditechRepository<DBTMDeviceRegistrationDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMDeviceMasterRepository = new CoditechRepository<DBTMDeviceMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual DBTMDeviceRegistrationDetailsListModel GetDBTMDeviceRegistrationDetailsList(long UserMasterId,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual DBTMDeviceRegistrationDetailsListModel GetDBTMDeviceRegistrationDetailsList(long userMasterId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<DBTMDeviceRegistrationDetailsModel> objStoredProc = new CoditechViewRepository<DBTMDeviceRegistrationDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@UserId", UserMasterId, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@UserId", userMasterId, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<DBTMDeviceRegistrationDetailsModel> dBTMDeviceRegistrationDetailsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetDBTMDeviceRegistrationDetailsList @UserId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
@@ -49,7 +51,24 @@ namespace Coditech.API.Service
             if (IsNull(dBTMDeviceRegistrationDetailsModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetails = dBTMDeviceRegistrationDetailsModel.FromModelToEntity<DBTMDeviceRegistrationDetails>();
+            if (string.IsNullOrEmpty(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode))
+                throw new CoditechException(ErrorCodes.InvalidData, "Device Serial Code is required.");
+
+            DBTMDeviceMaster dBTMDeviceMaster = GetDBTMDeviceMasterDetails(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode);
+            if (IsNotNull(dBTMDeviceMaster) || dBTMDeviceMaster?.DBTMDeviceMasterId <= 0)
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format("Invalid Device Serial Code."));
+
+            if (IsDeviceSerialCodeAlreadyExist(dBTMDeviceMaster.DBTMDeviceMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Device Already Added"));
+
+            DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetails = new DBTMDeviceRegistrationDetails()
+            {
+                DBTMDeviceMasterId = dBTMDeviceMaster.DBTMDeviceMasterId,
+                EntityId = dBTMDeviceRegistrationDetailsModel.EntityId,
+                UserType = UserTypeEnum.Employee.ToString(),
+                PurchaseDate = DateTime.Now,
+                WarrantyExpirationDate = DateTime.Now.AddMonths(dBTMDeviceMaster.WarrantyExpirationPeriodInMonth),
+            };
 
             //Create new DBTMDeviceRegistrationDetails and return it.
             DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetailsData = _dBTMDeviceRegistrationDetailsRepository.Insert(dBTMDeviceRegistrationDetails);
@@ -114,7 +133,14 @@ namespace Coditech.API.Service
         }
 
         #region Protected Method
-        
+        //Check if DeviceSerialCode is already present or not.
+        protected virtual bool IsDeviceSerialCodeAlreadyExist(long dBTMDeviceMasterId)
+        {
+          return  _dBTMDeviceRegistrationDetailsRepository.Table.Any(x => x.DBTMDeviceMasterId == dBTMDeviceMasterId);
+        }
+
+        protected virtual DBTMDeviceMaster GetDBTMDeviceMasterDetails(string deviceSerialCode)
+       => _dBTMDeviceMasterRepository.Table.Where(x => x.DeviceSerialCode == deviceSerialCode && x.IsActive).FirstOrDefault();
         #endregion
     }
 }
