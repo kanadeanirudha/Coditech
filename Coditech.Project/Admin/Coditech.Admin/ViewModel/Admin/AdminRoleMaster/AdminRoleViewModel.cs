@@ -25,7 +25,7 @@ namespace Coditech.Admin.ViewModel
         public string MonitoringLevel { get; set; }
         [Display(Name = "Is Login Allowed From Outside")]
         public bool IsLoginAllowFromOutside { get; set; }
-        [Display(Name = "Is Attendace Allowed From Out side")]
+        [Display(Name = "Is Attendance  Allowed From Outside")]
         public bool IsAttendaceAllowFromOutside { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
