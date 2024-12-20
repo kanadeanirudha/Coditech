@@ -123,7 +123,8 @@
             GeneralMessages,
             DBTMUser,
             TicketMaster,
-            DBTMSubscriptionPlan
+            DBTMSubscriptionPlan,
+            DBTMPrivacySetting
         }
     }
 }

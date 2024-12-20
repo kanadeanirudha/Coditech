@@ -175,6 +175,7 @@ namespace Coditech.API.Data
         public DbSet<DBTMBatchActivity> DBTMBatchActivity { get; set; }
         public DbSet<DBTMSubscriptionPlan> DBTMSubscriptionPlan { get; set; }
         public DbSet<DBTMSubscriptionPlanActivity> DBTMSubscriptionPlanActivity { get; set; }
+        public DbSet<DBTMPrivacySetting> DBTMPrivacySetting { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

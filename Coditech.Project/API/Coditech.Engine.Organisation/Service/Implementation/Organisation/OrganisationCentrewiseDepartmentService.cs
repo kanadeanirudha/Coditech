@@ -1,5 +1,4 @@
 ﻿using Coditech.API.Data;
-using Coditech.API.Organisation.Service.Interface.Organisation;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;

@@ -1,12 +1,9 @@
-﻿
-using Coditech.API.Data;
-using Coditech.API.Service;
+﻿using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -22,6 +19,8 @@ namespace Coditech.API.Common
         /// Cors policy name
         /// </summary>
         public static string corsOrigin = "CorsPolicy";
+        private static IConfigurationSection loggingSettings;
+        private static int bufferSize;
 
         #endregion
 
@@ -31,9 +30,6 @@ namespace Coditech.API.Common
         /// <param name="builder"></param>
         public static void RegisterCommonServices(this WebApplicationBuilder builder)
         {
-            // Registred all media setting.
-            builder.RegisterMedia();
-
             // Registred all entity classes with their connection string.
             builder.RegisterEntity();
 
@@ -211,33 +207,8 @@ namespace Coditech.API.Common
         /// </summary>
         public static void ConfigureAutomapperServices()
         {
-            // Assigned ZnoneTranslator to TranslatorExtension.
+            // Assigned Translator to TranslatorExtension.
             TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<CoditechTranslator>();
-        }
-
-        /// <summary>
-        /// Registring all media setting
-        /// </summary>
-        /// <param name="builder"></param>
-        public static void RegisterMedia(this WebApplicationBuilder builder)
-        {
-            // Coditech entity registration
-            builder.Services.Configure<IISServerOptions>(options =>
-            {
-                options.MaxRequestBodySize = 104857600;
-            });
-
-            builder.Services.Configure<FormOptions>(options =>
-            {
-                options.ValueLengthLimit = 104857600;
-                options.MultipartBodyLengthLimit = 104857600;
-                options.MultipartHeadersLengthLimit = 104857600;
-            });
-
-            builder.WebHost.ConfigureKestrel(serverOptions =>
-            {
-                serverOptions.Limits.MaxRequestBodySize = 104857600;
-            });
         }
         #endregion
 
@@ -250,16 +221,6 @@ namespace Coditech.API.Common
         {
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
-            builder.Services.AddScoped<IDBTMDeviceMasterService, DBTMDeviceMasterService>();
-            builder.Services.AddScoped<IDBTMTraineeDetailsService, DBTMTraineeDetailsService>();
-            builder.Services.AddScoped<IDBTMActivityCategoryService, DBTMActivityCategoryService>();
-            builder.Services.AddScoped<IDBTMTestMasterService, DBTMTestMasterService>();
-            builder.Services.AddScoped<IDBTMDeviceRegistrationDetailsService, DBTMDeviceRegistrationDetailsService>();
-            builder.Services.AddScoped<IDBTMTraineeAssignmentService, DBTMTraineeAssignmentService>();
-            builder.Services.AddScoped<IDBTMNewRegistrationService, DBTMNewRegistrationService>();
-            builder.Services.AddScoped<IDBTMBatchActivityService, DBTMBatchActivityService>();
-            builder.Services.AddScoped<IDBTMSubscriptionPlanService, DBTMSubscriptionPlanService>();
-            builder.Services.AddScoped<IDBTMPrivacySettingService, DBTMPrivacySettingService>();
         }
         #endregion
     }

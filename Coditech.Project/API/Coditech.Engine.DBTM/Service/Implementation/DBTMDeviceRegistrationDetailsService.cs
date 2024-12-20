@@ -54,33 +54,20 @@ namespace Coditech.API.Service
             if (string.IsNullOrEmpty(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode))
                 throw new CoditechException(ErrorCodes.InvalidData, "Device Serial Code is required.");
 
-            if (IsDeviceSerialCodeAlreadyExist(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Device Serial Code"));
+            DBTMDeviceMaster dBTMDeviceMaster = GetDBTMDeviceMasterDetails(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode);
+            if (IsNotNull(dBTMDeviceMaster) || dBTMDeviceMaster?.DBTMDeviceMasterId <= 0)
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format("Invalid Device Serial Code."));
 
-            DBTMDeviceMaster dBTMDeviceMaster = _dBTMDeviceMasterRepository.Table.FirstOrDefault(x => x.DeviceSerialCode == dBTMDeviceRegistrationDetailsModel.DeviceSerialCode);
-            if (dBTMDeviceMaster == null)
-            {
-                dBTMDeviceMaster = new DBTMDeviceMaster
-                {
-                    DeviceSerialCode = dBTMDeviceRegistrationDetailsModel.DeviceSerialCode,
-                    DeviceName = "Test2",
-                    StatusEnumId = 2,
-                    IsMasterDevice = true,
-                    IsActive = true,
-                    RegistrationDate = DateTime.Now,
-                    WarrantyExpirationPeriodInMonth = 8,
-                    CreatedDate = DateTime.Now,
-                };
+            if (IsDeviceSerialCodeAlreadyExist(dBTMDeviceMaster.DBTMDeviceMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Device Already Added"));
 
-                dBTMDeviceMaster = _dBTMDeviceMasterRepository.Insert(dBTMDeviceMaster);
-            }
             DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetails = new DBTMDeviceRegistrationDetails()
             {
                 DBTMDeviceMasterId = dBTMDeviceMaster.DBTMDeviceMasterId,
                 EntityId = dBTMDeviceRegistrationDetailsModel.EntityId,
                 UserType = UserTypeEnum.Employee.ToString(),
-                PurchaseDate = DateTime.Today,
-                WarrantyExpirationDate = DateTime.Today.AddMonths(dBTMDeviceMaster.WarrantyExpirationPeriodInMonth),
+                PurchaseDate = DateTime.Now,
+                WarrantyExpirationDate = DateTime.Now.AddMonths(dBTMDeviceMaster.WarrantyExpirationPeriodInMonth),
             };
 
             //Create new DBTMDeviceRegistrationDetails and return it.
@@ -88,7 +75,6 @@ namespace Coditech.API.Service
             if (dBTMDeviceRegistrationDetailsData?.DBTMDeviceRegistrationDetailId > 0)
             {
                 dBTMDeviceRegistrationDetailsModel.DBTMDeviceRegistrationDetailId = dBTMDeviceRegistrationDetailsData.DBTMDeviceRegistrationDetailId;
-
             }
             else
             {
@@ -148,9 +134,13 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if DeviceSerialCode is already present or not.
-        protected virtual bool IsDeviceSerialCodeAlreadyExist(string deviceSerialCode, long dBTMDeviceMasterId = 0)
+        protected virtual bool IsDeviceSerialCodeAlreadyExist(long dBTMDeviceMasterId)
+        {
+          return  _dBTMDeviceRegistrationDetailsRepository.Table.Any(x => x.DBTMDeviceMasterId == dBTMDeviceMasterId);
+        }
 
-        => _dBTMDeviceMasterRepository.Table.Any(x => x.DeviceSerialCode == deviceSerialCode && (x.DBTMDeviceMasterId != dBTMDeviceMasterId || dBTMDeviceMasterId == 0));
+        protected virtual DBTMDeviceMaster GetDBTMDeviceMasterDetails(string deviceSerialCode)
+       => _dBTMDeviceMasterRepository.Table.Where(x => x.DeviceSerialCode == deviceSerialCode && x.IsActive).FirstOrDefault();
         #endregion
     }
 }
