@@ -55,28 +55,29 @@
 </div>
 @section scripts {
     <script type="text/javascript">
-        $(function () {
-            function restrictYearRange(datepicker, minDate, maxDate) {
-                // Set only year constraints, not specific months
+                $(function () {
+            function restrictDateRange(datepicker, minDate, maxDate) {
                 datepicker.datepicker("option", "minDate", minDate);
                 datepicker.datepicker("option", "maxDate", maxDate);
             }
+
             function updateConstraintsFromFromDate() {
                 const fromDate = $("#FromDate").datepicker("getDate");
                 if (fromDate) {
-                    const minToDate = new Date(fromDate.getFullYear(), 0, 1); // Start of the same year
-                    const maxToDate = new Date(fromDate.getFullYear() + 2, 11, 31); // End of 2 years after
-                    restrictYearRange($("#ToDate"), minToDate, maxToDate);
+                    const minToDate = fromDate; // ToDate starts from FromDate
+                    const maxToDate = new Date(fromDate.getFullYear() + 2, 11, 31); // Up to 2 years after
+                    restrictDateRange($("#ToDate"), minToDate, maxToDate);
                 } else {
                     resetDatepickers();
                 }
             }
+
             function updateConstraintsFromToDate() {
                 const toDate = $("#ToDate").datepicker("getDate");
                 if (toDate) {
-                    const minFromDate = new Date(toDate.getFullYear() - 2, 0, 1); // Start of 2 years before
-                    const maxFromDate = new Date(toDate.getFullYear(), 11, 31); // End of the same year
-                    restrictYearRange($("#FromDate"), minFromDate, maxFromDate);
+                    const minFromDate = new Date(toDate.getFullYear() - 2, 0, 1); // Up to 2 years before
+                    const maxFromDate = toDate; // FromDate ends at ToDate
+                    restrictDateRange($("#FromDate"), minFromDate, maxFromDate);
                 } else {
                     resetDatepickers();
                 }
@@ -91,19 +92,26 @@
                 autoSize: true,
                 showButtonPanel: true,
                 closeText: "Clear",
+                yearRange: "-2:+2", // 2 years before and after today
                 onSelect: function () {
                     updateConstraintsFromFromDate();
                 },
                 beforeShow: function (input, instance) {
-                    if ($("#ToDate").val() === "") {
-                        instance.settings.minDate = null;
-                        instance.settings.maxDate = null;
+                    const toDate = $("#ToDate").datepicker("getDate");
+                    if (toDate) {
+                        const minFromDate = new Date(toDate.getFullYear() - 2, 0, 1); // Up to 2 years before ToDate
+                        instance.settings.minDate = minFromDate;
+                        instance.settings.maxDate = toDate; // End at ToDate
+                    } else {
+                        const today = new Date();
+                        instance.settings.minDate = new Date(today.getFullYear() - 2, 0, 1);
+                        instance.settings.maxDate = new Date(today.getFullYear() + 2, 11, 31);
                     }
                 },
                 onClose: function () {
                     if ($(window.event.srcElement).hasClass("ui-datepicker-close")) {
                         $(this).val("");
-                        updateConstraintsFromToDate();
+                        resetDatepickers();
                     }
                 }
             });
@@ -117,41 +125,55 @@
                 autoSize: true,
                 showButtonPanel: true,
                 closeText: "Clear",
+                yearRange: "-2:+2", // 2 years before and after today
                 onSelect: function () {
                     updateConstraintsFromToDate();
                 },
                 beforeShow: function (input, instance) {
-                    if ($("#FromDate").val() === "") {
-                        instance.settings.minDate = null;
-                        instance.settings.maxDate = null;
+                    const fromDate = $("#FromDate").datepicker("getDate");
+                    if (fromDate) {
+                        const maxToDate = new Date(fromDate.getFullYear() + 2, 11, 31); // Up to 2 years after FromDate
+                        instance.settings.minDate = fromDate; // Start from FromDate
+                        instance.settings.maxDate = maxToDate;
+                    } else {
+                        const today = new Date();
+                        instance.settings.minDate = new Date(today.getFullYear() - 2, 0, 1);
+                        instance.settings.maxDate = new Date(today.getFullYear() + 2, 11, 31);
                     }
                 },
                 onClose: function () {
                     if ($(window.event.srcElement).hasClass("ui-datepicker-close")) {
                         $(this).val("");
-                        updateConstraintsFromFromDate();
+                        resetDatepickers();
                     }
                 }
             });
 
             // Function to reset constraints on both datepickers
             function resetDatepickers() {
-                $("#FromDate").datepicker("option", "minDate", null);
-                $("#FromDate").datepicker("option", "maxDate", null);
-                $("#ToDate").datepicker("option", "minDate", null);
-                $("#ToDate").datepicker("option", "maxDate", null);
+                const today = new Date();
+                const minDateFrom = new Date(today.getFullYear() - 2, 0, 1); // 2 years before today
+                const maxDateTo = new Date(today.getFullYear() + 2, 11, 31); // 2 years after today
+
+                $("#FromDate").datepicker("option", "minDate", minDateFrom);
+                $("#FromDate").datepicker("option", "maxDate", maxDateTo);
+                $("#ToDate").datepicker("option", "minDate", minDateFrom);
+                $("#ToDate").datepicker("option", "maxDate", maxDateTo);
+
+                // Reset year range relative to today
+                $("#FromDate").datepicker("option", "yearRange", "-2:+2");
+                $("#ToDate").datepicker("option", "yearRange", "-2:+2");
             }
 
-            // Ensure both fields are initially empty
-            $("#FromDate").val("");
-            $("#ToDate").val("");
-
-            // Reset constraints only when both fields are cleared
+            // Reset constraints when both fields are cleared
             $("#FromDate, #ToDate").on("change", function () {
                 if (!$("#FromDate").val() && !$("#ToDate").val()) {
                     resetDatepickers();
                 }
             });
+
+            // Set initial constraints relative to today's date
+            resetDatepickers();
         });
     </script>
 }
