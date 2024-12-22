@@ -9,6 +9,7 @@
         public string UserType { get; set; }
         public long EntityId { get; set; }
         public DateTime PurchaseDate { get; set; }
+        public DateTime WarrantyExpirationDate { get; set; }
         public bool IsMasterDevice { get; set; }
     }
 }

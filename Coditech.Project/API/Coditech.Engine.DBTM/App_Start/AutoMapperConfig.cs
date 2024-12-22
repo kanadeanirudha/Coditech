@@ -22,6 +22,7 @@ namespace Coditech.API.Mapper
             CreateMap<AdminSanctionPostModel, AdminSanctionPost>().ReverseMap();
             CreateMap<DBTMSubscriptionPlan, DBTMSubscriptionPlanModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanActivity, DBTMSubscriptionPlanActivityModel>().ReverseMap();
+            CreateMap<DBTMPrivacySetting, DBTMPrivacySettingModel>().ReverseMap();
         }
     }
 }

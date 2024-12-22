@@ -2,7 +2,7 @@
 using Coditech.Common.Helper.Utilities;
 using System.Collections.Specialized;
 
-namespace Coditech.API.Organisation.Service.Interface.Organisation
+namespace Coditech.API.Service
 {
     public interface IOrganisationCentrewiseDepartmentService
     {

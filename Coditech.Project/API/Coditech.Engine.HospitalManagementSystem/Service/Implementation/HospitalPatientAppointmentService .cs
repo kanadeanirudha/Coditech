@@ -60,7 +60,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             HospitalPatientAppointment hospitalPatientAppointment = hospitalPatientAppointmentModel.FromModelToEntity<HospitalPatientAppointment>();
-            hospitalPatientAppointment.ApprovalStatusEnumId = GetEnumIdByEnumCode(HospitalApprovalStatusEnum.HospitalPending.ToString());
+            hospitalPatientAppointment.ApprovalStatusEnumId = GetEnumIdByEnumCode(HospitalApprovalStatusEnum.HospitalPending.ToString(), GeneralEnumaratorGroupCodeEnum.HospitalApprovalStatus.ToString());
 
             //Create new HospitalPatientAppointment and return it.
             HospitalPatientAppointment hospitalPatientAppointmentData = _hospitalPatientAppointmentRepository.Insert(hospitalPatientAppointment);

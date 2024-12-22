@@ -392,6 +392,16 @@ namespace Coditech.Resources
                 return ResourceManager.GetString("ErrorDeleteTrainerDetails", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete DBTMPrivacySetting due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMPrivacySetting
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteDBTMPrivacySetting", resourceCulture);
+            }
+        }
 
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Batch details due to associate record..

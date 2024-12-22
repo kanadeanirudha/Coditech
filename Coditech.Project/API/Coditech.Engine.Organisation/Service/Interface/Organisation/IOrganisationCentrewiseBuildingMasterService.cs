@@ -1,9 +1,8 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
-using Coditech.Model;
 using System.Collections.Specialized;
 
-namespace Coditech.API.Organisation.Service.Interface.Organisation
+namespace Coditech.API.Service
 {
     public interface IOrganisationCentrewiseBuildingMasterService
     {

@@ -9,7 +9,7 @@ namespace Coditech.Admin.ViewModel
         public short GeneralDepartmentMasterId { get; set; }
         [Required]
         [Display(Name = "Department Name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string DepartmentName { get; set; }
         [Required]
         [Display(Name = "Department Short Code")]

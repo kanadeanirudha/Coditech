@@ -710,7 +710,7 @@ namespace Coditech.API.Service
                     errorMessage = "Selected Centre Code is Required.";
                     return false;
                 }
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString());
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString(), GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
                 if (generalEnumaratorId == 0)
                 {
                     errorMessage = "GymMemberRegistration is null";
@@ -725,7 +725,7 @@ namespace Coditech.API.Service
                     return false;
                 }
 
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.EmployeeRegistration.ToString());
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.EmployeeRegistration.ToString(), GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
                 if (generalEnumaratorId == 0)
                 {
                     errorMessage = "Employee Registration is null.";
@@ -740,7 +740,7 @@ namespace Coditech.API.Service
                     return false;
                 }
 
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.PatientUAHNumber.ToString());
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.PatientUAHNumber.ToString(), GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
                 if (generalEnumaratorId == 0)
                 {
                     errorMessage = "PatientRegistration is null";
@@ -754,7 +754,7 @@ namespace Coditech.API.Service
                     errorMessage = "SelectedCentreCode is null";
                     return false;
                 }
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.DBTMTraineeRegistration.ToString());
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.DBTMTraineeRegistration.ToString(), GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
                 if (generalEnumaratorId == 0)
                 {
                     errorMessage = "DBTMTraineeRegistration is null";

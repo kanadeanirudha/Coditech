@@ -61,10 +61,21 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                DBTMDeviceRegistrationDetailsResponse response = _dBTMDeviceRegistrationDetailsClient.CreateRegistrationDetails(dBTMDeviceRegistrationDetailsViewModel.ToModel<DBTMDeviceRegistrationDetailsModel>());
+                long entityId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.EntityId ?? 0;
+                if (entityId > 0)
+                {
+                    dBTMDeviceRegistrationDetailsViewModel.EntityId = entityId;
+
+                    DBTMDeviceRegistrationDetailsResponse response = _dBTMDeviceRegistrationDetailsClient.CreateRegistrationDetails(dBTMDeviceRegistrationDetailsViewModel.ToModel<DBTMDeviceRegistrationDetailsModel>());
                 DBTMDeviceRegistrationDetailsModel dBTMDeviceRegistrationDetailsModel = response?.DBTMDeviceRegistrationDetailsModel;
                 return IsNotNull(dBTMDeviceRegistrationDetailsModel) ? dBTMDeviceRegistrationDetailsModel.ToViewModel<DBTMDeviceRegistrationDetailsViewModel>() : new DBTMDeviceRegistrationDetailsViewModel();
             }
+                else
+                {
+                    return (DBTMDeviceRegistrationDetailsViewModel)GetViewModelWithErrorMessage(dBTMDeviceRegistrationDetailsViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMDeviceRegistrationDetails.ToString(), TraceLevel.Warning);
@@ -151,13 +162,6 @@ namespace Coditech.Admin.Agents
             //    ColumnCode = "DBTMDeviceMasterId",
             //    IsSortable = true,
             //});
-          
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Device Serial Code",
-                ColumnCode = "DeviceSerialCode",
-                IsSortable = true,
-            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Device Name",
@@ -166,12 +170,23 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Device Serial Code",
+                ColumnCode = "DeviceSerialCode",
+                IsSortable = true,
+            });           
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Purchase Date",
                 ColumnCode = "PurchaseDate",
                 IsSortable = true,
+            }); 
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Warranty Expiration Date",
+                ColumnCode = "WarrantyExpirationDate",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
-
             {
                 ColumnName = "Is Master Device",
                 ColumnCode = "IsMasterDevice",

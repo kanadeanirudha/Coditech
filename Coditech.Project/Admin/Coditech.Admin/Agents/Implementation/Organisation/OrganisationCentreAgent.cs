@@ -200,7 +200,7 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CentrewiseGST.ToString(), TraceLevel.Info);
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.CentrewiseSmtp.ToString(), TraceLevel.Info);
                 OrganisationCentrewiseSmtpSettingResponse response = _organisationCentreClient.UpdateCentrewiseSmtpSetup(organisationCentrewiseSmtpSettingViewModel.ToModel<OrganisationCentrewiseSmtpSettingModel>());
                 OrganisationCentrewiseSmtpSettingModel organisationCentrewiseSmtpSettingModel = response?.OrganisationCentrewiseSmtpSettingModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CentrewiseSmtp.ToString(), TraceLevel.Info);

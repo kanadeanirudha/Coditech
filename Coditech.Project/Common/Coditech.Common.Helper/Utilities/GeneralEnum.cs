@@ -90,7 +90,9 @@
         DBTMTest,
         DBTMBatchActivity,
         TicketPriority,
-        TicketStatus
+        TicketStatus,
+        DBTMSubscriptionPlanType
+
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -138,7 +140,7 @@
     {
         PermanentAddress,
         CorrespondanceAddress,
-        BusinessAddress        
+        BusinessAddress
     }
     public enum GeneralRunningNumberForEnum
     {
@@ -223,5 +225,14 @@
     public enum HospitalApprovalStatusEnum
     {
         HospitalPending
+    }
+    public enum GeneralEnumaratorGroupCodeEnum
+    {
+        EmployeeStage,
+        GeneralRunningNumberFor,
+        InventoryProductType,
+        DashboardForm,
+        HospitalApprovalStatus,
+        TicketStatus,
     }
 }
