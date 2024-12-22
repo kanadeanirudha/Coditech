@@ -8,6 +8,7 @@ namespace Coditech.Common.API.Model
         public int GymMemberDetailId { get; set; }
         public long GymWorkoutPlanId { get; set; }
         public bool IsAssociated { get; set; }
+        public bool IsPlanActive { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MobileNumber { get; set; }

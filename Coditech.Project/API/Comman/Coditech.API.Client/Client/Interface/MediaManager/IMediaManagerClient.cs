@@ -10,7 +10,7 @@ namespace Coditech.API.Client
         /// Upload Media
         /// </summary>
         /// <returns>UploadMediaModel</returns>
-        MediaManagerResponse UploadMedia(UploadMediaModel model);
+        MediaManagerResponse UploadMedia(int folderId, string folderName, UploadMediaModel model);
 
         /// <summary>
         /// Get Folder Structure
@@ -19,7 +19,6 @@ namespace Coditech.API.Client
         Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false, int? pageIndex = 0, int? pageSize = 10);
         Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName);
         Task<bool> RenameFolderAsync(int folderId, string renameFolderName);
-        Task<TrueFalseResponse> UploadFileAsync(int folderId, UploadMediaModel body);
         Task<FolderListResponse> GetAllFolders();
         Task<bool> MoveFolderAsync(int folderId, int destinationFolderId);
         Task<bool> DeleteFolderAsync(int folderId);

@@ -4,10 +4,8 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using System.Drawing.Printing;
 
 namespace Coditech.Admin.Agents
 {
@@ -85,12 +83,12 @@ namespace Coditech.Admin.Agents
             return _mediaManagerClient.RenameFolderAsync(folderId, renameFolderName).Result;
         }
 
-        public BooleanModel UploadFile(int folderId, IFormFile file)
+        public bool UploadFile(int folderId, IFormFile file)
         {
             UploadMediaModel uploadMediaModel = new UploadMediaModel();
             uploadMediaModel.MediaFile = file;
-            TrueFalseResponse response = _mediaManagerClient.UploadFileAsync(folderId, uploadMediaModel).Result;
-            return response.booleanModel; 
+            MediaManagerResponse response = _mediaManagerClient.UploadMedia(folderId, string.Empty, uploadMediaModel);
+            return response != null && !response.HasError;
         }
 
         public bool DeleteFile(int mediaId)

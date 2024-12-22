@@ -44,6 +44,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralBatchUser> GeneralBatchUser { get; set; }
         public DbSet<TaskMaster> TaskMaster { get; set; }
         public DbSet<TaskApprovalSetting> TaskApprovalSetting { get; set; }
+        public DbSet<TaskApprovalTransaction> TaskApprovalTransaction { get; set; }
         public DbSet<TicketMaster> TicketMaster { get; set; }
         public DbSet<TicketDetails> TicketDetails { get; set; }
 
@@ -112,6 +113,7 @@ namespace Coditech.API.Data
         public DbSet<MediaSettingMaster> MediaSettingMaster { get; set; }
         public DbSet<MediaTypeExtensionMaster> MediaTypeExtensionMaster { get; set; }
         public DbSet<MediaTypeMaster> MediaTypeMaster { get; set; }
+        public DbSet<MediaGlobalDisplaySetting> MediaGlobalDisplaySetting { get; set; }
         #endregion
 
         #region HMS

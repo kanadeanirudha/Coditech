@@ -4,7 +4,7 @@ namespace Coditech.Common.API.Model
 {
     public class MediaConfigurationModel : BaseModel
     {
-        public int MediaConfigurationId { get; set; }
+        public byte MediaConfigurationId { get; set; }
         public int? MediaServerMasterId { get; set; }
         [Required]
         public string Server { get; set; }

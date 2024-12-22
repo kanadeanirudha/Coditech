@@ -8,8 +8,6 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 
-using Microsoft.IdentityModel.Tokens;
-
 using System.Collections.Specialized;
 using System.Data;
 using System.Diagnostics;

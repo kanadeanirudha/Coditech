@@ -137,7 +137,7 @@ namespace Coditech.API.Service
                 InventoryGeneralItemMasterList = new List<InventoryGeneralItemMasterModel>()
             };
 
-            int productTypeEnumId = GetEnumIdByEnumCode("Service");
+            int productTypeEnumId = GetEnumIdByEnumCode("Service", GeneralEnumaratorGroupCodeEnum.InventoryProductType.ToString());
 
             listModel.InventoryGeneralItemMasterList = (from a in _inventoryGeneralItemMasterRepository.Table
                                                         join b in _inventoryGeneralItemLineRepository.Table
