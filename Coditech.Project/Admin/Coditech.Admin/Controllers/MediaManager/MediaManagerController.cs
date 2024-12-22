@@ -90,11 +90,11 @@ namespace Coditech.Admin.Controllers
                     return Json(new { success = false, message = "Empty file uploaded." });
                 }
 
-                BooleanModel status = _mediaManagerFolderAgent.UploadFile(folderId, file);
+                bool status = _mediaManagerFolderAgent.UploadFile(folderId, file);
 
-                SetNotificationMessage(status.IsSuccess
-                       ? GetSuccessNotificationMessage(status.SuccessMessage)
-                       : GetErrorNotificationMessage(status.ErrorMessage));
+                SetNotificationMessage(status
+                       ? GetSuccessNotificationMessage("File successfully uploaded.")
+                       : GetErrorNotificationMessage("Failed to upload a file."));
 
                 return RedirectToAction("Index", "MediaManager", new { rootFolderId = folderId });
             }

@@ -392,7 +392,7 @@ namespace Coditech.API.Service
                     AdminRoleCode = adminSanctionPostModel.SanctionPostCode,
                     OthCentreLevel = string.Empty,
                     IsActive = true,
-                    DashboardFormEnumId = GetEnumIdByEnumCode(DashboardFormEnum.DBTMCentreDashboard.ToString()),
+                    DashboardFormEnumId = GetEnumIdByEnumCode(DashboardFormEnum.DBTMCentreDashboard.ToString(), GeneralEnumaratorGroupCodeEnum.DashboardForm.ToString()),
                     CreatedDate = currentDate,
                     ModifiedDate = currentDate
                 };

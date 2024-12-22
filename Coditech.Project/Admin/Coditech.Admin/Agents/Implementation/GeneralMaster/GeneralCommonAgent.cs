@@ -62,7 +62,7 @@ namespace Coditech.Admin.Agents
         {
             UploadMediaModel uploadMediaModel = new UploadMediaModel();
             uploadMediaModel.MediaFile = file;
-            return _mediaManagerClient.UploadMedia(uploadMediaModel);
+            return _mediaManagerClient.UploadMedia(0, "PersonImages", uploadMediaModel);
         }
 
         //CoditechApplicationSetting
