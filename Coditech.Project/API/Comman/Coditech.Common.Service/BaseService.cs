@@ -153,18 +153,23 @@ namespace Coditech.Common.Service
             return generalEnumaratorMaster.EnumDisplayText;
         }
 
-        protected virtual int GetEnumIdByEnumCode(string enumCode)
+        protected virtual int GetEnumIdByEnumCode(string enumCode, string groupCode)
         {
-            GeneralEnumaratorMaster generalEnumaratorMaster = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EnumName == enumCode);
-            return generalEnumaratorMaster != null ? generalEnumaratorMaster.GeneralEnumaratorId : 0;
+            int? generalEnumaratorGroupId = new CoditechRepository<GeneralEnumaratorGroup>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EnumGroupCode == groupCode)?.Select(y => y.GeneralEnumaratorGroupId)?.FirstOrDefault();
+            if (generalEnumaratorGroupId > 0)
+            {
+                int? generalEnumaratorId = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EnumName == enumCode && x.GeneralEnumaratorGroupId == generalEnumaratorGroupId)?.Select(y => y.GeneralEnumaratorId)?.FirstOrDefault();
+                return generalEnumaratorId ?? 0;
+            }
+            return 0;
         }
 
         protected virtual string GenerateRegistrationCode(string enumCode, string centreCode)
         {
             string registrationCode = string.Empty;
-            int generalEnumaratorId = GetEnumIdByEnumCode(enumCode);
+            int generalEnumaratorId = GetEnumIdByEnumCode(enumCode, GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
             CoditechRepository<GeneralRunningNumbers> _generalRunningNumbersRepository = new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>());
-            GeneralRunningNumbers generalRunningNumbers = _generalRunningNumbersRepository.Table.FirstOrDefault(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode == centreCode);
+            GeneralRunningNumbers generalRunningNumbers = _generalRunningNumbersRepository.Table.Where(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode == centreCode)?.FirstOrDefault();
             if (generalRunningNumbers != null)
             {
                 DateTime dateTime = DateTime.Now;
@@ -403,7 +408,7 @@ namespace Coditech.Common.Service
                     IsCurrentPosition = true,
                     EmployeeDesignationMasterId = generalPersonModel.EmployeeDesignationMasterId,
                     JoiningDate = DateTime.Now,
-                    EmployeeStageEnumId = GetEnumIdByEnumCode("Joining")
+                    EmployeeStageEnumId = GetEnumIdByEnumCode("Joining", GeneralEnumaratorGroupCodeEnum.EmployeeStage.ToString())
                 };
                 new CoditechRepository<EmployeeService>(_serviceProvider.GetService<Coditech_Entities>()).Insert(employeeService);
                 if (settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsEmployeeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
@@ -466,7 +471,7 @@ namespace Coditech.Common.Service
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.PersonCode, generalPersonModel.PersonCode, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.Designation, GetDesignationDetails(generalPersonModel.EmployeeDesignationMasterId).Description, messageText);
-            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.DepartmentName, GetDepartmentDetails(Convert.ToInt16( generalPersonModel.SelectedDepartmentId)).DepartmentName, messageText);
+            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.DepartmentName, GetDepartmentDetails(Convert.ToInt16(generalPersonModel.SelectedDepartmentId)).DepartmentName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreUrl, centreUrl, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.EmployeeUsername, generalPersonModel.UserName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.TemporaryPassword, generalPersonModel.Password, messageText);

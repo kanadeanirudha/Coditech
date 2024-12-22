@@ -6,17 +6,17 @@ namespace Coditech.API.Data
     {
         [Key]
         public int MediaGlobalDisplaySettingsId { get; set; }
-        public long MediaId { get; set; }
-        public int MaxDisplayItems { get; set; }
-        public int MaxSmallThumbnailWidth { get; set; }
-        public int MaxSmallWidth { get; set; }
-        public int MaxMediumWidth { get; set; }
-        public int MaxThumbnailWidth { get; set; }
-        public int MaxLargeWidth { get; set; }
-        public int MaxCrossSellWidth { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<long> MediaId { get; set; }
+        public Nullable<int> MaxDisplayItems { get; set; }
+        public Nullable<int> MaxSmallThumbnailWidth { get; set; }
+        public Nullable<int> MaxSmallWidth { get; set; }
+        public Nullable<int> MaxMediumWidth { get; set; }
+        public Nullable<int> MaxThumbnailWidth { get; set; }
+        public Nullable<int> MaxLargeWidth { get; set; }
+        public Nullable<int> MaxCrossSellWidth { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }

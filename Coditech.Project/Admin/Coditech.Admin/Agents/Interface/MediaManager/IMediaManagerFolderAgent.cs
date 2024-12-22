@@ -8,7 +8,7 @@ namespace Coditech.Admin.Agents
         MediaManagerFolderListViewModel GetFolderStructure(int rootFolderId = 0, DataTableViewModel dataTableModel = null);
         BooleanModel CreateFolder(int rootFolderId, string folderName);
         bool RenameFolder(int folderId, string renameFolderName);
-        BooleanModel UploadFile(int folderId, IFormFile file);
+        bool UploadFile(int folderId, IFormFile file);
         FolderListViewModel GetAllFolders(int excludeFolderId);
         bool MoveFolder(int folderId, int destinationFolderId);
         bool DeleteFolder(int folderId);
