@@ -542,14 +542,9 @@ namespace Coditech.API.Service
         {
             return new TrueFalseResponse
             {
-                booleanModel = new BooleanModel
-                {
-                    ErrorMessage = errorMessage,
-                    IsSuccess = false,
-                    HasError = true
-                },
                 IsSuccess = false,
-                HasError = true
+                HasError = true,
+                ErrorMessage = errorMessage
             };
         }
 
