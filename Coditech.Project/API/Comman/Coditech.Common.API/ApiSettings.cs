@@ -102,5 +102,13 @@ namespace Coditech.Common.API
                 return Convert.ToString(settings["ApiDomainRequestKey"]);
             }
         }
+        public static string DBTMMenuCode
+        {
+            get
+            {
+                return Convert.ToString(settings["DBTMMenuKey"]);
+
+            }
+        }
     }
 }

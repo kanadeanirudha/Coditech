@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -90,11 +91,11 @@ namespace Coditech.Admin.Controllers
                     return Json(new { success = false, message = "Empty file uploaded." });
                 }
 
-                BooleanModel status = _mediaManagerFolderAgent.UploadFile(folderId, file);
+                UploadMediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, file);
 
-                SetNotificationMessage(status.IsSuccess
-                       ? GetSuccessNotificationMessage(status.SuccessMessage)
-                       : GetErrorNotificationMessage(status.ErrorMessage));
+                SetNotificationMessage(!uploadMediaModel.HasError
+                       ? GetSuccessNotificationMessage("File successfully uploaded.")
+                       : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
 
                 return RedirectToAction("Index", "MediaManager", new { rootFolderId = folderId });
             }

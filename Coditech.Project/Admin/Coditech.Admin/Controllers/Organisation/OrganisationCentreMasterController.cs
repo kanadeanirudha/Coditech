@@ -160,7 +160,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmtpSetup(organisationCentrewiseSmtpSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMTPSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentreMasterId });
+                return RedirectToAction("CentrewiseSmtpSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentreMasterId });
             }
             return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
         }

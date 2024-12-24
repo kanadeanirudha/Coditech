@@ -392,7 +392,7 @@ namespace Coditech.API.Service
                     AdminRoleCode = adminSanctionPostModel.SanctionPostCode,
                     OthCentreLevel = string.Empty,
                     IsActive = true,
-                    DashboardFormEnumId = GetEnumIdByEnumCode(DashboardFormEnum.DBTMCentreDashboard.ToString()),
+                    DashboardFormEnumId = GetEnumIdByEnumCode(DashboardFormEnum.DBTMCentreDashboard.ToString(), GeneralEnumaratorGroupCodeEnum.DashboardForm.ToString()),
                     CreatedDate = currentDate,
                     ModifiedDate = currentDate
                 };
@@ -421,7 +421,7 @@ namespace Coditech.API.Service
                 new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>()).Insert(adminRoleApplicableDetails);
 
                 //insert admin Role Menu Detail
-                List<string> associateMenus = ("Dashboard,GeneralDashboard,Employee,EmployeeList,DBTMDeviceRegistration,DBTMTrainerDetails,DBTMTrainers,DBTMTraineeDetails,DBTMTrainee,DBTMAssignments,DBTMBatch,DBTMTraineeAssignment,DBTMBatchActivity'").Split(",").ToList();
+                List<string> associateMenus = ApiSettings.DBTMMenuCode.Split(",").ToList();
                 List<UserMainMenuMaster> menuList = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => associateMenus.Contains(x.MenuCode)).ToList();
                 List<AdminRoleMenuDetails> adminRoleMenuDetailList = new List<AdminRoleMenuDetails>();
                 foreach (var menu in menuList)

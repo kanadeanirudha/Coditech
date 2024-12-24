@@ -54,7 +54,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
             ticketMasterModel.TicketNumber = $"{DateTime.Now.Year}{DateTime.Now.Month}{DateTime.Now.Day}{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}";
             TicketMaster ticketMasterData = ticketMasterModel.FromModelToEntity<TicketMaster>();
-            ticketMasterData.TicketStatusEnumId = GetEnumIdByEnumCode("Submitted");
+            ticketMasterData.TicketStatusEnumId = GetEnumIdByEnumCode("Submitted", GeneralEnumaratorGroupCodeEnum.TicketStatus.ToString());
             //Create new TicketMaster and return it.
             ticketMasterData = _ticketMasterRepository.Insert(ticketMasterData);
             if (ticketMasterData?.TicketMasterId > 0)
