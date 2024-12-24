@@ -47,14 +47,19 @@ namespace Coditech.API.Service
             {
                 if (folderId == 0 && !string.IsNullOrEmpty(folderName))
                 {
-                    folderId= _mediaFolderMasterRepository.Table.Where(x=>x.FolderName == folderName).FirstOrDefault().MediaFolderParentId;
+                    folderId = _mediaFolderMasterRepository.Table.Where(x => x.FolderName == folderName).FirstOrDefault().MediaFolderParentId;
                 }
-                if (folderId ==0)
+                if (folderId == 0)
                     return new MediaManagerResponse() { HasError = true };
 
                 string uploadPath = FileUploadPath();
                 foreach (var file in formFile)
                 {
+                    TrueFalseResponse isFileValid = IsFileValid(file);
+
+                    if (isFileValid.HasError)
+                        return new MediaManagerResponse() { HasError = true, ErrorMessage = isFileValid.ErrorMessage };
+
                     if (file.Length > 0)
                     {
                         MediaDetail result = SaveMedia(file, folderId, uploadPath);
@@ -72,7 +77,7 @@ namespace Coditech.API.Service
                     }
                 }
             }
-            return new MediaManagerResponse() { HasError = true }; 
+            return new MediaManagerResponse() { HasError = true };
         }
 
         public virtual MediaManagerFolderResponse GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false, int pageIndex = 0, int pageSize = 0)
