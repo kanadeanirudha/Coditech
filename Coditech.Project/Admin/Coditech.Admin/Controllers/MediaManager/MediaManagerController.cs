@@ -96,8 +96,9 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!uploadMediaModel.HasError
                        ? GetSuccessNotificationMessage("File successfully uploaded.")
                        : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
+                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 
-                return RedirectToAction("Index", "MediaManager", new { rootFolderId = folderId });
+                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
             }
             else
             {
