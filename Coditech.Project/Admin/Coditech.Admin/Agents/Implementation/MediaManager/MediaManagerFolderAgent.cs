@@ -80,7 +80,7 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Info);
                 MediaManagerResponse response = _mediaManagerClient.UploadMedia(folderId, string.Empty, uploadMediaModel);
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Info);
-                if (uploadMediaModel.HasError)
+                if (response.HasError)
                 {
                     uploadMediaModel.HasError = response.HasError;
                     uploadMediaModel.ErrorMessage = response.ErrorMessage;
