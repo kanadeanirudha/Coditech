@@ -164,7 +164,7 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual async Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName)
+        public virtual async Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId)
         {
             string endpoint = mediaManagerEndpoint.CreateFolderAsync(rootFolderId, folderName);
 

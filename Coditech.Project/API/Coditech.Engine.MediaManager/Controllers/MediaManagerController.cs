@@ -79,11 +79,11 @@ namespace Coditech.API.Controllers
         [Route("/MediaManager/CreateFolder")]
         [HttpGet]
         [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult CreateFolder(int rootFolderId, string folderName)
+        public virtual IActionResult CreateFolder(int rootFolderId, string folderName, int adminRoleMasterId)
         {
             try
             {
-                TrueFalseResponse response = _mediaManagerService.PostCreateFolder(rootFolderId, folderName);
+                TrueFalseResponse response = _mediaManagerService.PostCreateFolder(rootFolderId, folderName, adminRoleMasterId);
                 if (response != null)
                     return CreateOKResponse<TrueFalseResponse>(response);
                 else
