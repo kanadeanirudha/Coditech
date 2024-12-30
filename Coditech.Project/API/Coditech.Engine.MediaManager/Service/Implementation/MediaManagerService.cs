@@ -106,6 +106,10 @@ namespace Coditech.API.Service
                 {
                     activeFolderId = 0;
                 }
+                else
+                {
+                    rootFolderId = rootFolderId == 0 ? activeFolderId : rootFolderId;
+                }
             }
             else
             {
