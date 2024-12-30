@@ -3,7 +3,7 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
-
+using Coditech.Common.Helper.Utilities;
 using Newtonsoft.Json;
 
 using System.Net;
@@ -62,22 +62,27 @@ namespace Coditech.API.Client
                 }
             }
         }
-        public virtual async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false, int? pageIndex = 0, int? pageSize = 10)
-        {
-            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId, adminRoleId, isAdminUser, pageIndex, pageSize);
 
+        public virtual MediaManagerFolderResponse GetFolderStructure(int rootFolderId, int adminRoleId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            return Task.Run(async () => await GetFolderStructureAsync(rootFolderId, adminRoleId, expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<MediaManagerFolderResponse> GetFolderStructureAsync(int rootFolderId, int adminRoleId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        {
+            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId, adminRoleId,expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
-            bool disposeResponse = true;
+            var disposeResponse = true;
             try
             {
                 ApiStatus status = new ApiStatus();
 
-                response = await GetResourceFromEndpointAsync(endpoint, status, CancellationToken.None).ConfigureAwait(false);
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
                 Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<MediaManagerFolderResponse>(response, headers_, CancellationToken.None).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<MediaManagerFolderResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);

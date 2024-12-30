@@ -9,5 +9,6 @@ namespace Coditech.Admin.ViewModel
         public int ActiveFolderId { get; set; }
         public List<MediaModel> MediaFiles { get; set; }
         public double TotalFileSize {  get; set; }
+        public string SelectedParameter1 { get; set; }
     }
 }

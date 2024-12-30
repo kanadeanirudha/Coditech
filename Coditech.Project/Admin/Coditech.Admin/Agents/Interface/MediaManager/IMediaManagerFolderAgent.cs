@@ -6,7 +6,7 @@ namespace Coditech.Admin.Agents
 {
     public interface IMediaManagerFolderAgent
     {
-        MediaManagerFolderListViewModel GetFolderStructure(int rootFolderId = 0, DataTableViewModel dataTableModel = null);
+        MediaManagerFolderListViewModel GetFolderStructure(DataTableViewModel dataTableModel = null);
         BooleanModel CreateFolder(int rootFolderId, string folderName);
         bool RenameFolder(int folderId, string renameFolderName);
         UploadMediaModel UploadFile(int folderId, IFormFile file);

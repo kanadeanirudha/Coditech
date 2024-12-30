@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.API.Client.Endpoint;
+using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Endpoint
 {
@@ -7,8 +8,12 @@ namespace Coditech.API.Endpoint
     {
         public string UploadMediaAsync(int folderId,string folderName) =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/UploadMedia?folderId={folderId}&folderName={folderName}";
-        public string GetFolderStructureAsync(int rootfolderId, int adminRoleId, bool isAdminUser, int? pageIndex, int? pageSize) =>
-                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/FolderStructure?rootFolderId={rootfolderId}&adminRoleId={adminRoleId}&isAdminUser={isAdminUser}{BuildEndpointQueryString(true, null, null, null, pageIndex, pageSize)}";
+        
+        public string GetFolderStructureAsync(int rootfolderId, int adminRoleId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/GetMediaList?rootFolderId={rootfolderId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
+        }
         public string CreateFolderAsync(int rootFolderId, string folderName) =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/CreateFolder?rootFolderId={rootFolderId}&folderName={folderName}";
         public string RenameFolderAsync(int folderId, string renameFolderName) =>

@@ -7,6 +7,7 @@
         public int MediaFolderMasterId { get; set; }
         public string Path { get; set; }
         public string FileName { get; set; }
+        public string FolderName { get; set; }
         public string Size { get; set; }
         public int ActiveFolderId { get; set; }
         public string Type { get; set; }
