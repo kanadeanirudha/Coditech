@@ -1,5 +1,4 @@
 ﻿@model MediaManagerFolderListViewModel
-
 @{
     ViewBag.Title = "Media Manager Upload";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
@@ -74,7 +73,9 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_MediaFileList.cshtml", Model)
+                        <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_MediaFileList.cshtml", Model)
+                        </div>
                     </div>
                 </div>
             </div>

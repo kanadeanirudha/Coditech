@@ -8,7 +8,8 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 
 using ImageMagick;
-
+using System.Collections.Specialized;
+using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
@@ -55,10 +56,15 @@ namespace Coditech.API.Service
                 string uploadPath = FileUploadPath();
                 foreach (var file in formFile)
                 {
-                    TrueFalseResponse isFileValid = IsFileValid(file);
+                    TrueFalseResponse isFileValid = IsFileValid(file, folderId);
 
                     if (isFileValid.HasError)
                         return new MediaManagerResponse() { HasError = true, ErrorMessage = isFileValid.ErrorMessage };
+
+                    if (_mediaDetailRepository.Table.Any(x => x.FileName == file.FileName && x.MediaFolderMasterId == folderId))
+                    {
+                        return new MediaManagerResponse() { HasError = true, ErrorMessage = $"{file.FileName} already exist." };
+                    }
 
                     if (file.Length > 0)
                     {
@@ -80,9 +86,9 @@ namespace Coditech.API.Service
             return new MediaManagerResponse() { HasError = true };
         }
 
-        public virtual MediaManagerFolderResponse GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false, int pageIndex = 0, int pageSize = 0)
+        public virtual MediaManagerFolderResponse GetMediaList(int rootFolderId, int adminRoleId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            MediaManagerFolderResponse managerFolderResponse = new();
+            MediaManagerFolderResponse managerFolderResponse = new MediaManagerFolderResponse();
             List<MediaFolderMaster> mediaFolderMasterList = _mediaFolderMasterRepository.Table.ToList();
 
             MediaFolderMaster rootMediaFolder = mediaFolderMasterList.FirstOrDefault(x => x.MediaFolderParentId == 0);
@@ -90,7 +96,7 @@ namespace Coditech.API.Service
             int activeFolderId = rootFolderId > 0 ? rootFolderId : rootMediaFolder.MediaFolderMasterId;
 
             List<int> adminRoleMediaFolders = new List<int>();
-            if (!isAdminUser)
+            if (adminRoleId > 0)
             {
                 adminRoleMediaFolders = _adminRoleMediaFolderRepository.Table
                                         .Where(x => x.AdminRoleMasterId == adminRoleId)
@@ -100,6 +106,10 @@ namespace Coditech.API.Service
                 {
                     activeFolderId = 0;
                 }
+            }
+            else
+            {
+                rootFolderId = rootFolderId == 0 ? activeFolderId : rootFolderId;
             }
 
             managerFolderResponse.MediaManagerFolderModel = new MediaManagerFolderModel
@@ -115,44 +125,30 @@ namespace Coditech.API.Service
                 ActiveFolderId = activeFolderId
             };
 
-            List<int> folderIds = GetChildFolderIdsRecursive(mediaFolderMasterList, activeFolderId);
-            folderIds.Add(activeFolderId);
+            //Bind the Filter, sorts & Paging details.
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+            CoditechViewRepository<MediaModel> objStoredProc = new CoditechViewRepository<MediaModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@MediaFolderMasterId", rootFolderId, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@AdminRoleMasterId", adminRoleId, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<MediaModel> mediaList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetMediaList @MediaFolderMasterId,@AdminRoleMasterId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
 
-            var mediaFilesQuery = from media in _mediaDetailRepository.Table
-                                  where folderIds.Contains(media.MediaFolderMasterId)
-                                  orderby media.CreatedDate descending
-                                  select new MediaModel()
-                                  {
-                                      MediaId = media.MediaId,
-                                      FileName = media.FileName,
-                                      Path = media.Path,
-                                      Size = media.Size,
-                                      ActiveFolderId = activeFolderId,
-                                      Type = media.Type,
-                                      CreatedDate = media.CreatedDate ?? DateTime.Now
-                                  };
-
-            managerFolderResponse.MediaManagerFolderModel.TotalCount = mediaFilesQuery.Count();
-
-            managerFolderResponse.MediaManagerFolderModel.MediaFiles = mediaFilesQuery
-                                                              .Skip((pageIndex - 1) * pageSize)
-                                                              .Take(pageSize)
-                                                              .ToList();
-
-            long TotalFileSizeInByte = 0;
-
-            PageListModel pageListModel = new PageListModel(new FilterCollection(), new System.Collections.Specialized.NameValueCollection(), pageIndex, pageSize);
+            managerFolderResponse.MediaManagerFolderModel.MediaFiles = mediaList?.Count > 0 ? mediaList : new List<MediaModel>();
             managerFolderResponse.MediaManagerFolderModel.BindPageListModel(pageListModel);
-
+            double totalFileSizeInByte = 0;
             string url = GetMediaUrl();
-            foreach (MediaModel media in managerFolderResponse.MediaManagerFolderModel.MediaFiles)
+            foreach (MediaModel media in managerFolderResponse?.MediaManagerFolderModel?.MediaFiles)
             {
-                TotalFileSizeInByte += !string.IsNullOrEmpty(media.Size) ? Convert.ToInt64(media.Size) : 0;
-                media.DownloadPath = $"{url}{media.Path}";
+                media.Size = !string.IsNullOrEmpty(media.Size) ? (Convert.ToDouble(media.Size) * 0.001).ToString("0.00") : "0";
+                totalFileSizeInByte += !string.IsNullOrEmpty(media.Size) ? Convert.ToDouble(media.Size) : 0;
                 media.Path = GetMediaPathUrl(media.Type, url, media.Path);
             }
-
-            managerFolderResponse.MediaManagerFolderModel.TotalFileSize = TotalFileSizeInByte > 0 ? ConvertBytesToMegabytes(TotalFileSizeInByte) : 0;
+            managerFolderResponse.MediaManagerFolderModel.TotalFileSize = totalFileSizeInByte > 0 ? ConvertBytesToMegabytes(totalFileSizeInByte) : 0;
+            managerFolderResponse.BindPageListResponseModel(pageListModel);
             return managerFolderResponse;
         }
 
@@ -280,7 +276,8 @@ namespace Coditech.API.Service
 
                     if (mediaFolder.MediaFolderMasterId > 0)
                     {
-                        _adminRoleMediaFolderRepository.Insert(new AdminRoleMediaFolders() { AdminRoleMasterId = adminRoleMasterId, MediaFolderMasterId = mediaFolder.MediaFolderMasterId, IsActive = true });
+                        if (adminRoleMasterId > 0)
+                            _adminRoleMediaFolderRepository.Insert(new AdminRoleMediaFolders() { AdminRoleMasterId = adminRoleMasterId, MediaFolderMasterId = mediaFolder.MediaFolderMasterId, IsActive = true });
                         return new TrueFalseResponse() { booleanModel = new BooleanModel() { SuccessMessage = "Folder successfully created.", IsSuccess = true }, IsSuccess = true };
                     }
                     else
@@ -295,9 +292,9 @@ namespace Coditech.API.Service
         #endregion
 
         #region Protected Method
-        protected virtual double ConvertBytesToMegabytes(long bytes)
+        protected virtual double ConvertBytesToMegabytes(double bytes)
         {
-            double megabytes = (double)bytes / 1048576;
+            double megabytes = bytes / 1048576;
             return Math.Round(megabytes, 2);
         }
 
@@ -380,7 +377,7 @@ namespace Coditech.API.Service
             return subFolderStructures;
         }
 
-        protected virtual TrueFalseResponse IsFileValid(IFormFile formFile)
+        protected virtual TrueFalseResponse IsFileValid(IFormFile formFile, int folderId)
         {
             // Check if the file is null
             if (formFile == null)
@@ -390,9 +387,9 @@ namespace Coditech.API.Service
 
             if (!IsValidFileName(formFile.FileName))
             {
-                return CreateErrorResponse("The file name contain some special charector.");
+                return CreateErrorResponse("The file name contains some special characters.");
             }
-
+           
             string contentType = formFile.ContentType;
 
             if (contentType.StartsWith("image"))
@@ -676,14 +673,15 @@ namespace Coditech.API.Service
             // Save the file to the server
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                formFile.CopyToAsync(stream);
+                formFile.CopyTo(stream);
             }
-
+            
             var size = Convert.ToString(formFile.Length);
             var type = formFile.ContentType;
 
             // Generate URL to access the file
-            var height = string.Empty; var width = string.Empty;
+            var height = string.Empty;
+            var width = string.Empty;
 
             if (formFile.ContentType.StartsWith("image"))
             {

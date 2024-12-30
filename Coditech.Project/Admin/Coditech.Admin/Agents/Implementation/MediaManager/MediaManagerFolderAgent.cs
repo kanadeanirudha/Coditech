@@ -4,6 +4,7 @@ using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using System.Diagnostics;
@@ -20,26 +21,25 @@ namespace Coditech.Admin.Agents
             _mediaManagerClient = GetClient<IMediaManagerClient>(mediaManagerClient);
         }
 
-        public virtual MediaManagerFolderListViewModel GetFolderStructure(int rootFolderId = 0, DataTableViewModel dataTableModel = null)
+        public virtual MediaManagerFolderListViewModel GetFolderStructure(DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = new FilterCollection();
+            FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("FileName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Size", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FileName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
             UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
-            MediaManagerFolderResponse mediaManagerFolderResponse = _mediaManagerClient.GetFolderStructure(rootFolderId, userModel.SelectedAdminRoleMasterId, userModel.IsAdminUser, dataTableModel.PageIndex, dataTableModel.PageSize).Result;
-
-
-            var result = mediaManagerFolderResponse.MediaManagerFolderModel.ToViewModel<MediaManagerFolderListViewModel>();
-
-            result.PageListViewModel.Page = Convert.ToInt32(mediaManagerFolderResponse.MediaManagerFolderModel.PageIndex);
-            result.PageListViewModel.RecordPerPage = Convert.ToInt32(mediaManagerFolderResponse.MediaManagerFolderModel.PageSize);
-            result.PageListViewModel.TotalPages = (int)Math.Ceiling((decimal)((double)mediaManagerFolderResponse.MediaManagerFolderModel.TotalCount / mediaManagerFolderResponse.MediaManagerFolderModel.PageSize));
-            result.PageListViewModel.TotalResults = Convert.ToInt32(mediaManagerFolderResponse.MediaManagerFolderModel.TotalCount);
-            result.PageListViewModel.TotalRecordCount = Convert.ToInt32(mediaManagerFolderResponse.MediaManagerFolderModel.MediaFiles.Count());
-            result.PageListViewModel.SearchBy = dataTableModel.SearchBy ?? string.Empty;
-            result.PageListViewModel.SortByColumn = dataTableModel.SortByColumn ?? string.Empty;
-            result.PageListViewModel.SortBy = dataTableModel.SortBy ?? string.Empty;
-
-            return result;
+            dataTableModel.SelectedParameter1 = string.IsNullOrEmpty(dataTableModel.SelectedParameter1) ? "0" : dataTableModel.SelectedParameter1;
+            MediaManagerFolderResponse response = _mediaManagerClient.GetFolderStructure(Convert.ToInt32(dataTableModel.SelectedParameter1), userModel.SelectedAdminRoleMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            MediaManagerFolderListViewModel listViewModel = response.MediaManagerFolderModel.ToViewModel<MediaManagerFolderListViewModel>();
+            listViewModel.SelectedParameter1 = listViewModel.ActiveFolderId.ToString();
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.MediaFiles.Count, BindColumns());
+            return listViewModel;
         }
 
         public virtual FolderListViewModel GetAllFolders(int excludeFolderId)
@@ -103,5 +103,37 @@ namespace Coditech.Admin.Agents
         {
             return _mediaManagerClient.DeleteFileAsync(mediaId).Result;
         }
+
+        #region protected
+        protected virtual List<DatatableColumns> BindColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Media",
+                ColumnCode = "MediaId",
+                IsSortable = false,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "File Name",
+                ColumnCode = "FileName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Folder",
+                ColumnCode = "FolderName",
+                IsSortable = false,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Size",
+                ColumnCode = "Size",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+        #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Client
 {
@@ -16,7 +17,7 @@ namespace Coditech.API.Client
         /// Get Folder Structure
         /// </summary>
         /// <returns></returns>
-        Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false, int? pageIndex = 0, int? pageSize = 10);
+        MediaManagerFolderResponse GetFolderStructure(int rootFolderId, int adminRoleId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
         Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId);
         Task<bool> RenameFolderAsync(int folderId, string renameFolderName);
         Task<FolderListResponse> GetAllFolders();
