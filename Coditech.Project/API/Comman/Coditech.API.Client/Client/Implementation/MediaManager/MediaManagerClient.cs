@@ -18,12 +18,8 @@ namespace Coditech.API.Client
         {
             mediaManagerEndpoint = new MediaManagerEndpoint();
         }
-        public virtual MediaManagerResponse UploadMedia(int folderId, string folderName, UploadMediaModel body)
-        {
-            return Task.Run(async () => await UploadMediaAsync(folderId, folderName,body, CancellationToken.None)).GetAwaiter().GetResult();
-        }
 
-        public virtual async Task<MediaManagerResponse> UploadMediaAsync(int folderId, string folderName, UploadMediaModel body, CancellationToken cancellationToken)
+        public virtual MediaManagerResponse UploadMedia(int folderId, string folderName, UploadMediaModel body)
         {
             string endpoint = mediaManagerEndpoint.UploadMediaAsync(folderId, folderName);
             HttpResponseMessage response = null;
@@ -40,37 +36,21 @@ namespace Coditech.API.Client
                     }
                 };
                 formData.Add(fileContent, "files", body.MediaFile.FileName);
-                response = await PostResourceToEndpointAsync(endpoint, formData, status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
-
+                response = PostResourceToEndpoint(endpoint, formData, status, new CancellationToken());
                 switch (response.StatusCode)
                 {
                     case HttpStatusCode.OK:
                         {
-                            ObjectResponseResult<MediaManagerResponse> objectResponseResult2 = await ReadObjectResponseAsync<MediaManagerResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                            if (objectResponseResult2.Object == null)
-                            {
-                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
-                            }
-
-                            return objectResponseResult2.Object;
+                            MediaManagerResponse objectResponseResult = JsonConvert.DeserializeObject<MediaManagerResponse>(response.Content.ReadAsStringAsync().Result);
+                            return JsonConvert.DeserializeObject<MediaManagerResponse>(response.Content.ReadAsStringAsync().Result);
                         }
                     case HttpStatusCode.Created:
                         {
-                            ObjectResponseResult<MediaManagerResponse> objectResponseResult = await ReadObjectResponseAsync<MediaManagerResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                            if (objectResponseResult.Object == null)
-                            {
-                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
-                            }
-
-                            return objectResponseResult.Object;
+                            return JsonConvert.DeserializeObject<MediaManagerResponse>(response.Content.ReadAsStringAsync().Result);
                         }
                     default:
                         {
-                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
-                            MediaManagerResponse result = JsonConvert.DeserializeObject<MediaManagerResponse>(value);
-                            UpdateApiStatus(result, status, response);
-                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                            return JsonConvert.DeserializeObject<MediaManagerResponse>(response.Content.ReadAsStringAsync().Result);
                         }
                 }
             }
@@ -164,7 +144,7 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual async Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName)
+        public virtual async Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId)
         {
             string endpoint = mediaManagerEndpoint.CreateFolderAsync(rootFolderId, folderName);
 

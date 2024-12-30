@@ -253,7 +253,7 @@ namespace Coditech.API.Service
             return false;
         }
 
-        public virtual TrueFalseResponse PostCreateFolder(int RootFolderId, string FolderName)
+        public virtual TrueFalseResponse PostCreateFolder(int RootFolderId, string FolderName, int adminRoleMasterId)
         {
             if (RootFolderId > 0)
             {
@@ -277,8 +277,10 @@ namespace Coditech.API.Service
                     createFolder.ModifiedDate = DateTime.Now;
                     createFolder.ModifiedBy = 0;
                     MediaFolderMaster mediaFolder = _mediaFolderMasterRepository.Insert(createFolder);
+
                     if (mediaFolder.MediaFolderMasterId > 0)
                     {
+                        _adminRoleMediaFolderRepository.Insert(new AdminRoleMediaFolders() { AdminRoleMasterId = adminRoleMasterId, MediaFolderMasterId = mediaFolder.MediaFolderMasterId, IsActive = true });
                         return new TrueFalseResponse() { booleanModel = new BooleanModel() { SuccessMessage = "Folder successfully created.", IsSuccess = true }, IsSuccess = true };
                     }
                     else

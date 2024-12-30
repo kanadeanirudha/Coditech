@@ -17,7 +17,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <returns></returns>
         Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false, int? pageIndex = 0, int? pageSize = 10);
-        Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName);
+        Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId);
         Task<bool> RenameFolderAsync(int folderId, string renameFolderName);
         Task<FolderListResponse> GetAllFolders();
         Task<bool> MoveFolderAsync(int folderId, int destinationFolderId);

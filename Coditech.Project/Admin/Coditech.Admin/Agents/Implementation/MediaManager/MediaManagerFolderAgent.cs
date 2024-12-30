@@ -56,7 +56,8 @@ namespace Coditech.Admin.Agents
 
         public virtual BooleanModel CreateFolder(int rootFolderId, string folderName)
         {
-            TrueFalseResponse response = _mediaManagerClient.CreateFolderAsync(rootFolderId, folderName).Result;
+            int adminRoleMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).SelectedAdminRoleMasterId;
+            TrueFalseResponse response = _mediaManagerClient.CreateFolderAsync(rootFolderId, folderName, adminRoleMasterId).Result;
             return response.booleanModel;
         }
 
