@@ -108,7 +108,7 @@ namespace Coditech.API.Service
                 {
                     SubFolders = GetSubFolders(rootMediaFolder.MediaFolderMasterId, mediaFolderMasterList, ref activeFolderId, adminRoleMediaFolders),
                     RootFolderId = rootMediaFolder.MediaFolderMasterId,
-                    RootFolderName = mediaFolderMasterList.FirstOrDefault(x => x.MediaFolderMasterId == activeFolderId)?.FolderName ?? rootMediaFolder.FolderName,
+                    RootFolderName = rootMediaFolder.FolderName,
                     IsActiveFolder = activeFolderId == rootMediaFolder.MediaFolderMasterId,
                     adminRoleMediaFolders = adminRoleMediaFolders
                 },
