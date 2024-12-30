@@ -268,14 +268,13 @@ namespace Coditech.API.Service
 
                 if (mediaFolderMaster != null)
                 {
-                    MediaFolderMaster createFolder = new MediaFolderMaster();
-                    createFolder.FolderName = FolderName;
-                    createFolder.MediaFolderParentId = mediaFolderMaster.MediaFolderMasterId;
-                    createFolder.IsActive = true;
-                    createFolder.CreatedBy = 0;
-                    createFolder.CreatedDate = DateTime.Now;
-                    createFolder.ModifiedDate = DateTime.Now;
-                    createFolder.ModifiedBy = 0;
+                    MediaFolderMaster createFolder = new MediaFolderMaster()
+                    {
+                        FolderName = FolderName,
+                        MediaFolderParentId = mediaFolderMaster.MediaFolderMasterId,
+                        IsActive = true
+                    };
+                    
                     MediaFolderMaster mediaFolder = _mediaFolderMasterRepository.Insert(createFolder);
 
                     if (mediaFolder.MediaFolderMasterId > 0)

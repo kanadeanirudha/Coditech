@@ -14,8 +14,8 @@ namespace Coditech.API.Endpoint
             string endpoint = $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/GetMediaList?rootFolderId={rootfolderId}&adminRoleId={adminRoleId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
-        public string CreateFolderAsync(int rootFolderId, string folderName) =>
-                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/CreateFolder?rootFolderId={rootFolderId}&folderName={folderName}";
+        public string CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId) =>
+                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/CreateFolder?rootFolderId={rootFolderId}&folderName={folderName}&adminRoleMasterId={adminRoleMasterId}";
         public string RenameFolderAsync(int folderId, string renameFolderName) =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/RenameFolder?folderId={folderId}&renameFolderName={renameFolderName}";
         public string GetAllFolders() =>

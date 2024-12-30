@@ -151,7 +151,7 @@ namespace Coditech.API.Client
 
         public virtual async Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId)
         {
-            string endpoint = mediaManagerEndpoint.CreateFolderAsync(rootFolderId, folderName);
+            string endpoint = mediaManagerEndpoint.CreateFolderAsync(rootFolderId, folderName, adminRoleMasterId);
 
             HttpResponseMessage response = null;
             bool disposeResponse = true;
