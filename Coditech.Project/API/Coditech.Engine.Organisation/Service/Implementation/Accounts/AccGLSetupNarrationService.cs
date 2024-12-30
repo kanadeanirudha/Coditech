@@ -33,7 +33,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<AccGLSetupNarrationModel> NarrationList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetNarrationList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<AccGLSetupNarrationModel> NarrationList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccGLSetupNarrationList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             AccGLSetupNarrationListModel listModel = new AccGLSetupNarrationListModel();
 
             listModel.AccGLSetupNarrationList = NarrationList?.Count > 0 ? NarrationList : new List<AccGLSetupNarrationModel>();
