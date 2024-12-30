@@ -122,6 +122,12 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGazetteChaptersAgent, GazetteChaptersAgent>();
             builder.Services.AddScoped<IGazetteChaptersPageDetailAgent, GazetteChaptersPageDetailAgent>();
             #endregion
+
+            #region Accounts         
+            builder.Services.AddScoped<IAccGLSetupNarrationAgent, AccGLSetupNarrationAgent>();
+            builder.Services.AddScoped<IAccGLSetupNarrationClient, AccGLSetupNarrationClient>();
+            #endregion
+
             #endregion Agent
 
             #region Client

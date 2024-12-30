@@ -180,6 +180,10 @@ namespace Coditech.API.Data
         public DbSet<DBTMPrivacySetting> DBTMPrivacySetting { get; set; }
         #endregion
 
+        #region Accounts
+        public DbSet<AccGLSetupNarration> AccGLSetupNarration { get; set; }
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }

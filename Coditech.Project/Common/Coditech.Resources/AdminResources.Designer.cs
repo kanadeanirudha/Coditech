@@ -262,6 +262,18 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete AccGLSetupNarration due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAccGLSetupNarrationMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAccGLSetupNarrationMaster", resourceCulture);
+            }
+        }
+
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete TicketMaster due to associate record..
         /// </summary>
         public static string ErrorDeleteTicketMaster

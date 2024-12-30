@@ -10,6 +10,11 @@ namespace Coditech.Admin
     {
         public AutoMapperConfig()
         {
+            #region Accounts
+            CreateMap<AccGLSetupNarrationModel, AccGLSetupNarrationViewModel>().ReverseMap();
+            CreateMap<AccGLSetupNarrationViewModel, AccGLSetupNarrationListViewModel>().ReverseMap();
+            #endregion
+
             #region Admin 
             CreateMap<AdminSanctionPostModel, AdminSanctionPostViewModel>().ReverseMap();
             CreateMap<AdminRoleModel, AdminRoleViewModel>().ReverseMap();
