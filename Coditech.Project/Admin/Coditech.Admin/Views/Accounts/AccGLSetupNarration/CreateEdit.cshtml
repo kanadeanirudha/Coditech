@@ -1,6 +1,6 @@
 ﻿@model AccGLSetupNarrationViewModel
 @{
-    ViewBag.Title = Model.AccGLSetupNarrationId > 0 ? "Update Narration" : "Add Narration";
+    ViewBag.Title = Model.AccGLSetupNarrationId > 0 ? "Update Account Narration" : "Add Account Narration";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
@@ -15,11 +15,11 @@
                             <div class="col">
                                 @if (Model.AccGLSetupNarrationId > 0)
                                 {
-                                    <h4 class="card-title">Update Narration</h4>
+                                    <h4 class="card-title">Update Account Narration</h4>
                                 }
                                 else
                                 {
-                                    <h4 class="card-title">Add Narration</h4>
+                                    <h4 class="card-title">Add Account Narration</h4>
                                 }
                             </div><!--end col-->
                         </div>  <!--end row-->
