@@ -54,7 +54,19 @@ namespace Coditech.Admin.Utilities
 #endif
             }
         }
-       
+
+        public static string CoditechPaymentApiRootUri
+        {
+            get
+            {
+#if DEBUG
+                return Convert.ToString(settings["CoditechPaymentApiRootUri"]);
+#else
+                return Convert.ToString($"{settings["Scheme"]}payment.{settings["ApiDomainName"]}");
+#endif
+            }
+        }
+
         public static string CoditechGymManagementSystemApiRootUri
         {
             get

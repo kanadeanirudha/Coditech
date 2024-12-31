@@ -122,6 +122,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGazetteChaptersAgent, GazetteChaptersAgent>();
             builder.Services.AddScoped<IGazetteChaptersPageDetailAgent, GazetteChaptersPageDetailAgent>();
             #endregion
+            #region Payment
+            builder.Services.AddScoped<IPaymentGatewaysAgent, PaymentGatewaysAgent>();
+
+            #endregion
             #endregion Agent
 
             #region Client
@@ -226,6 +230,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IDBTMBatchActivityClient, DBTMBatchActivityClient>();
             builder.Services.AddScoped<IDBTMSubscriptionPlanClient, DBTMSubscriptionPlanClient>();
             builder.Services.AddScoped<IDBTMPrivacySettingClient, DBTMPrivacySettingClient>();
+            #endregion
+
+            #region Payment 
+            builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>();
             #endregion 
 
 
