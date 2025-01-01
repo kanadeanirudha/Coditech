@@ -42,6 +42,12 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
+        public MediaModel GetMediaDetails(long mediaId)
+        {
+            MediaManagerResponse response = _mediaManagerClient.GetMediaDetails(mediaId);
+            return response?.MediaModel;
+        }
+
         public virtual FolderListViewModel GetAllFolders(int excludeFolderId)
         {
             FolderListResponse folderListResponse = _mediaManagerClient.GetAllFolders().Result;
@@ -71,15 +77,15 @@ namespace Coditech.Admin.Agents
             return _mediaManagerClient.RenameFolderAsync(folderId, renameFolderName).Result;
         }
 
-        public virtual UploadMediaModel UploadFile(int folderId, IFormFile file)
+        public virtual MediaModel UploadFile(int folderId, long mediaId, IFormFile file)
         {
-            UploadMediaModel uploadMediaModel = new UploadMediaModel();
+            MediaModel uploadMediaModel = new MediaModel();
 
             try
             {
                 uploadMediaModel.MediaFile = file;
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Info);
-                MediaManagerResponse response = _mediaManagerClient.UploadMedia(folderId, string.Empty, uploadMediaModel);
+                MediaManagerResponse response = _mediaManagerClient.UploadMedia(folderId, string.Empty, mediaId, uploadMediaModel);
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Info);
                 if (response.HasError)
                 {
@@ -91,7 +97,7 @@ namespace Coditech.Admin.Agents
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
-                return new UploadMediaModel()
+                return new MediaModel()
                 {
                     ErrorMessage = "Failed to upload a file.",
                     HasError = true,

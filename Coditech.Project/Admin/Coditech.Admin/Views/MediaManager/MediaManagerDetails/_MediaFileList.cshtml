@@ -39,7 +39,7 @@
                            onclick="openDeleteFileModal('@media.MediaId', '@Model.ActiveFolderId')">
                             <i class="dripicons-cross file-download-icon"></i>
                         </a>
-                    } 
+                    }
                     @if (isDownloadAllowed)
                     {
                         <a target="_blank" href="@media.DownloadPath" class="download-icon-link" download>
@@ -47,12 +47,14 @@
                         </a>
                     }
                 </div>
-                <div class="d-flex align-items-center justify-content-center flex-column">
-                    <div class="card-image-info">
-                        <img src="@media.Path" alt="@media.FileName" class="img-thumbnail">
+                <a href="../MediaManager/GetMediaDetails?mediaId=@media.MediaId">
+                    <div class="d-flex align-items-center justify-content-center flex-column">
+                        <div class="card-image-info">
+                            <img src="@media.Path" alt="@media.FileName" class="img-thumbnail">
+                        </div>
+                        <h6 class="text-truncate" title="@media.FileName">@media.FileName</h6>
                     </div>
-                    <h6 class="text-truncate" title="@media.FileName">@media.FileName</h6>
-                </div>
+                </a>
             </div>
         }
     </div>
@@ -68,7 +70,7 @@
                             <td style="text-align: center; width: 0px">
                                 <img src="@media.Path" class="thumb-xs">
                             </td>
-                            <td>@media.FileName</td>
+                            <td><a href="../MediaManager/GetMediaDetails?mediaId=@media.MediaId">@media.FileName</a></td>
                             <td>@media.FolderName</td>
                             <td>@media.Size KB</td>
                             <td class="text-center">
@@ -89,6 +91,11 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 }
+                                @if (isDownloadAllowed || isDeleteAllowed)
+                                {
+                                    <span class="m-2">|</span>
+                                }
+                                <a href="../MediaManager/GetMediaDetails?mediaId=@media.MediaId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-eye"></i></a>
                             </td>
                         </tr>
                     }

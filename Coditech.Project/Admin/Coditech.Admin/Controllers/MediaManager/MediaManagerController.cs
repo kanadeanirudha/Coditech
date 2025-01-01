@@ -15,7 +15,7 @@ namespace Coditech.Admin.Controllers
             _mediaManagerFolderAgent = mediaManagerFolderAgent;
         }
 
-        public IActionResult Index(DataTableViewModel dataTableViewModel)
+        public virtual ActionResult Index(DataTableViewModel dataTableViewModel)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -66,14 +66,14 @@ namespace Coditech.Admin.Controllers
         }
 
         [Route("/MediaManager/MoveFolder")]
-        public ActionResult MoveFolder()
+        public virtual ActionResult MoveFolder()
         {
             return RedirectToAction("Index", "MediaManager");
         }
 
         [Route("/MediaManager/UploadFile")]
         [HttpPost]
-        public virtual ActionResult PostUploadImage(int folderId)
+        public virtual ActionResult UploadFile(int folderId)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -90,7 +90,7 @@ namespace Coditech.Admin.Controllers
                     return Json(new { success = false, message = "Empty file uploaded." });
                 }
 
-                UploadMediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, file);
+                MediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, 0, file);
 
                 SetNotificationMessage(!uploadMediaModel.HasError
                        ? GetSuccessNotificationMessage("File successfully uploaded.")
@@ -104,6 +104,55 @@ namespace Coditech.Admin.Controllers
             }
         }
 
+        [Route("/MediaManager/ReplaceFile")]
+        [HttpPost]
+        public virtual ActionResult ReplaceFile(int folderId, long mediaId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (mediaId == 0) {
+                    return Json(new { success = false, message = "Failed to replace media." });
+                }
+                IFormFileCollection filess = Request.Form.Files;
+                if (filess.Count == 0)
+                {
+                    return Json(new { success = false, message = "No file uploaded." });
+                }
+
+                IFormFile file = filess[0];
+
+                if (file.Length == 0)
+                {
+                    return Json(new { success = false, message = "Empty file uploaded." });
+                }
+
+                MediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, mediaId, file);
+
+                SetNotificationMessage(!uploadMediaModel.HasError
+                       ? GetSuccessNotificationMessage("File successfully replaced.")
+                       : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
+
+                return RedirectToAction<MediaManagerController>(x => x.GetMediaDetails(mediaId));
+            }
+            else
+            {
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
+            }
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetMediaDetails(long mediaId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                MediaModel model = _mediaManagerFolderAgent.GetMediaDetails(mediaId);
+                return ActionView("~/Views/MediaManager/MediaManagerDetails/ViewMediaDetails.cshtml", model);
+            }
+            else
+            {
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
+            }
+        }
         [Route("/MediaManager/CreateFolder")]
         [HttpPost]
         public virtual ActionResult CreateFolder(int rootFolderId, string folderName)
@@ -200,7 +249,7 @@ namespace Coditech.Admin.Controllers
 
         [Route("/MediaManager/GetFolderDropdown")]
         [HttpGet]
-        public JsonResult GetFolderDropdown(int excludeFolderId)
+        public virtual JsonResult GetFolderDropdown(int excludeFolderId)
         {
             FolderListViewModel folders = _mediaManagerFolderAgent.GetAllFolders(excludeFolderId);
 
@@ -209,7 +258,7 @@ namespace Coditech.Admin.Controllers
 
         [Route("/MediaManager/MoveFolder")]
         [HttpPost]
-        public ActionResult MoveFolder(int folderId, int destinationFolderId)
+        public virtual ActionResult MoveFolder(int folderId, int destinationFolderId)
         {
             if (User.Identity.IsAuthenticated)
             {

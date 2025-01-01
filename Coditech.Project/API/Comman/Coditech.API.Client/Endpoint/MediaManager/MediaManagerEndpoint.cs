@@ -6,16 +6,19 @@ namespace Coditech.API.Endpoint
 {
     public class MediaManagerEndpoint : BaseEndpoint
     {
-        public string UploadMediaAsync(int folderId,string folderName) =>
-                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/UploadMedia?folderId={folderId}&folderName={folderName}";
-        
+        public string UploadMediaAsync(int folderId, string folderName, long mediaId) =>
+                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/UploadMedia?folderId={folderId}&folderName={folderName}&mediaId={mediaId}";
+
         public string GetFolderStructureAsync(int rootfolderId, int adminRoleId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/GetMediaList?rootFolderId={rootfolderId}&adminRoleId={adminRoleId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/GetMediaList?rootFolderId={rootfolderId}&adminRoleId={adminRoleId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
-        public string CreateFolderAsync(int rootFolderId, string folderName) =>
-                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/CreateFolder?rootFolderId={rootFolderId}&folderName={folderName}";
+        public string GetMediaDetailsAsync(long mediaId) =>
+            $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/GetMediaDetails?mediaId={mediaId}";
+
+        public string CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId) =>
+                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/CreateFolder?rootFolderId={rootFolderId}&folderName={folderName}&adminRoleMasterId={adminRoleMasterId}";
         public string RenameFolderAsync(int folderId, string renameFolderName) =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/RenameFolder?folderId={folderId}&renameFolderName={renameFolderName}";
         public string GetAllFolders() =>

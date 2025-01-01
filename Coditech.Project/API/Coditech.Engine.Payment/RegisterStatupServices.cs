@@ -1,4 +1,5 @@
 ﻿using Coditech.API.Data;
+using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
@@ -221,6 +222,7 @@ namespace Coditech.API.Common
         {
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
+            builder.Services.AddScoped<IPaymentGatewaysService, PaymentGatewaysService>();
         }
         #endregion
     }

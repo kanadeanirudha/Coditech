@@ -60,9 +60,9 @@ namespace Coditech.Admin.Agents
         //Media Manager 
         public MediaManagerResponse UploadImage(IFormFile file)
         {
-            UploadMediaModel uploadMediaModel = new UploadMediaModel();
+            MediaModel uploadMediaModel = new MediaModel();
             uploadMediaModel.MediaFile = file;
-            return _mediaManagerClient.UploadMedia(0, "PersonImages", uploadMediaModel);
+            return _mediaManagerClient.UploadMedia(0, "PersonImages", 0, uploadMediaModel);
         }
 
         //CoditechApplicationSetting
