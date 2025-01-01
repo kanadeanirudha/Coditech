@@ -2,7 +2,7 @@
 
 namespace Coditech.Common.API.Model
 {
-    public class MediaModel : BaseModel
+    public partial class MediaModel : BaseModel
     {
         public long MediaId { get; set; }
         public byte MediaConfigurationId { get; set; }
