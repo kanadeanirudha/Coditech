@@ -15,7 +15,7 @@ namespace Coditech.Admin.Controllers
             _mediaManagerFolderAgent = mediaManagerFolderAgent;
         }
 
-        public IActionResult Index(DataTableViewModel dataTableViewModel)
+        public virtual ActionResult Index(DataTableViewModel dataTableViewModel)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -66,7 +66,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [Route("/MediaManager/MoveFolder")]
-        public ActionResult MoveFolder()
+        public virtual ActionResult MoveFolder()
         {
             return RedirectToAction("Index", "MediaManager");
         }
@@ -103,6 +103,7 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction<UserController>(x => x.Login(string.Empty));
             }
         }
+
         [HttpGet]
         public virtual ActionResult GetMediaDetails(long mediaId)
         {
@@ -212,7 +213,7 @@ namespace Coditech.Admin.Controllers
 
         [Route("/MediaManager/GetFolderDropdown")]
         [HttpGet]
-        public JsonResult GetFolderDropdown(int excludeFolderId)
+        public virtual JsonResult GetFolderDropdown(int excludeFolderId)
         {
             FolderListViewModel folders = _mediaManagerFolderAgent.GetAllFolders(excludeFolderId);
 
@@ -221,7 +222,7 @@ namespace Coditech.Admin.Controllers
 
         [Route("/MediaManager/MoveFolder")]
         [HttpPost]
-        public ActionResult MoveFolder(int folderId, int destinationFolderId)
+        public virtual ActionResult MoveFolder(int folderId, int destinationFolderId)
         {
             if (User.Identity.IsAuthenticated)
             {
