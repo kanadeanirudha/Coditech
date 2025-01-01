@@ -1,7 +1,10 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
+using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
+using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
@@ -11,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 namespace Coditech.API.Controllers
 {
-    [ApiController]
     public class MediaManagerController : BaseController
     {
         private readonly IMediaManagerService _mediaManagerService;
@@ -32,12 +34,12 @@ namespace Coditech.API.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Produces(typeof(MediaManagerResponse))]
-        public virtual IActionResult UploadMedia(int folderId, string folderName)
+        public virtual IActionResult UploadMedia(int folderId, string folderName, long mediaId)
         {
             try
             {
                 IEnumerable<IFormFile> files = Request.Form.Files;
-                MediaManagerResponse fileUploadListModelResponse = _mediaManagerService.UploadMedia(folderId, folderName, files, Request);
+                MediaManagerResponse fileUploadListModelResponse = _mediaManagerService.UploadMedia(folderId, folderName, mediaId, files, Request);
                 if (fileUploadListModelResponse != null)
                     return CreateOKResponse<MediaManagerResponse>(fileUploadListModelResponse);
                 else
@@ -54,25 +56,49 @@ namespace Coditech.API.Controllers
         /// <summary>
         /// Get Folder Structure
         /// </summary>
-        /// <param name="model">UploadMediaModel.</param>
-        /// <returns>UploadMediaModel</returns>
-        [Route("/MediaManager/FolderStructure")]
         [HttpGet]
+        [Route("/MediaManager/GetMediaList")]
         [Produces(typeof(MediaManagerFolderResponse))]
-        public virtual IActionResult GetFolderStructure([FromQuery] int rootFolderId = 0, [FromQuery] int adminRoleId = 0, [FromQuery] bool isAdminUser = false, [FromQuery] FilterCollection filter = null, [FromQuery] ExpandCollection expand = null, [FromQuery] SortCollection sort = null, [FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 0)
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetMediaList(int rootFolderId, int adminRoleId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                MediaManagerFolderResponse MediaManagerFolderResponse = _mediaManagerService.GetFolderStructure(rootFolderId, adminRoleId, isAdminUser, pageIndex, pageSize);
-                if (MediaManagerFolderResponse != null)
-                    return CreateOKResponse<MediaManagerFolderResponse>(MediaManagerFolderResponse);
-                else
-                    return BadRequest();
+                MediaManagerFolderResponse list = _mediaManagerService.GetMediaList(rootFolderId, adminRoleId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<MediaManagerFolderResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new MediaManagerFolderResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse();
+                return CreateInternalServerErrorResponse(new MediaManagerFolderResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/MediaManager/GetMediaDetails")]
+        [HttpGet]
+        [Produces(typeof(MediaManagerResponse))]
+        public IActionResult GetMediaDetails(long mediaId)
+        {
+            try
+            {
+                MediaModel bioradMedisyMediaModel = _mediaManagerService.GetMediaDetails(mediaId);
+                return HelperUtility.IsNotNull(bioradMedisyMediaModel) ? CreateOKResponse(new MediaManagerResponse { MediaModel = bioradMedisyMediaModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new MediaManagerResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new MediaManagerResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 

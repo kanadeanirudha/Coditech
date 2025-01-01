@@ -24,7 +24,6 @@ namespace Coditech.API.Service
         }
 
         //Get Dashboard Details by selected Admin Role Master id.
-
         public virtual DashboardModel GetDashboardDetails(int selectedAdminRoleMasterId, long userMasterId)
         {
             if (selectedAdminRoleMasterId <= 0)
@@ -41,7 +40,6 @@ namespace Coditech.API.Service
                 dashboardModel.DashboardFormEnumCode = dashboardFormEnumCode;
                 if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-
                     DataSet dataset = GetGymDashboardDetailsByUserId(0);
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
@@ -63,7 +61,6 @@ namespace Coditech.API.Service
                     gymDashboardModel.GymGeneralLeadGenerationSourceList = new List<GymGeneralLeadGenerationSourceModel>();
                     gymDashboardModel.GymGeneralLeadGenerationSourceList = dataTable.ConvertDataTable<GymGeneralLeadGenerationSourceModel>(dataset.Tables["LeadSource"])?.ToList();
 
-
                     dataset.Tables[5].TableName = "GymUpComingEvents";
                     gymDashboardModel.GymUpcomingEventsList = new List<GymUpcomingEventsModel>();
                     gymDashboardModel.GymUpcomingEventsList = dataTable.ConvertDataTable<GymUpcomingEventsModel>(dataset.Tables["GymUpComingEvents"])?.ToList();
@@ -73,7 +70,6 @@ namespace Coditech.API.Service
                     gymDashboardModel.YearlyFinancialOverviewList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["YearlyFinancialOverview"])?.ToList();
 
                     dashboardModel.GymDashboardModel = gymDashboardModel;
-
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -103,24 +99,29 @@ namespace Coditech.API.Service
                     gymDashboardModel.GymUpcomingEventsList = dataTable.ConvertDataTable<GymUpcomingEventsModel>(dataset.Tables["GymUpComingEvents"])?.ToList();
 
                     dashboardModel.GymDashboardModel = gymDashboardModel;
-
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.DBTMCentreDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetGymDashboardDetailsByUserId(0);
-                    var dBTMCentreDashboardModel = new DBTMCentreDashboardModel()
-                    {
-                        NumberOfTrainees = 120,
-                        NumberOfTrainers = 45
-                    };
+                    //DataSet dataset = GetDBTMCenterOwenerDashboardDetailsByUserId(0);
+                    //var dBTMCentreDashboardModel = new DBTMCentreDashboardModel()
+                    //{
+                    //    NumberOfTrainees = 120,
+                    //    NumberOfTrainers = 45,
+                    //    Assignments = 17
+                    //};
+                    //dashboardModel.DBTMCentreDashboardModel = dBTMCentreDashboardModel;
 
+                    DataSet dataset = GetDBTMCenterOwenerDashboardDetailsByUserId(0); 
+                    dataset.Tables[0].TableName = "NumberOfTrainersDetails";
+                    ConvertDataTableToList dataTable = new ConvertDataTableToList();
+                    DBTMCentreDashboardModel dBTMCentreDashboardModel = dataTable.ConvertDataTable<DBTMCentreDashboardModel>(dataset.Tables["NumberOfTrainersDetails"])?.FirstOrDefault();
                     dashboardModel.DBTMCentreDashboardModel = dBTMCentreDashboardModel;
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTrainerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
+                    DataSet dataset = GetDBTMCenterOwenerDashboardDetailsByUserId(userMasterId);
 
-                    DataSet dataset = GetGymDashboardDetailsByUserId(userMasterId);
-                    var dBTMTrainerDashboardModel = new DBTMTrainerDashboardModel()
+                    DBTMTrainerDashboardModel dBTMTrainerDashboardModel = new DBTMTrainerDashboardModel()
                     {
                         NumberOfTrainees = 100,
                         TotalNumberOfActivityPerformedDuringWeek = 30,
@@ -132,23 +133,32 @@ namespace Coditech.API.Service
                         },
                         Top3Trainee = new List<TraineeModel>()
                         {
-                            new TraineeModel { TraineeId = 1, Name = "Nikita" },
-                            new TraineeModel { TraineeId = 2, Name = "Tanuja" },
-                            new TraineeModel { TraineeId = 3, Name = "Samruddhi" }
+                            new TraineeModel { TraineeId = 1, Name = "Nikita" },                       
+                            new TraineeModel { TraineeId = 2, Name = "Samruddhi" }
                         }
                     };
+
+                    //dataset.Tables[0].TableName = "TrainersDetails";
+                    //ConvertDataTableToList dataTable = new ConvertDataTableToList();
+                    //DBTMTrainerDashboardModel dBTMTrainerDashboardModel = dataTable.ConvertDataTable<DBTMTrainerDashboardModel>(dataset.Tables["TrainersDetails"])?.FirstOrDefault();
                     dashboardModel.DBTMTrainerDashboardModel = dBTMTrainerDashboardModel;
                 }
             }
             return dashboardModel;
         }
-
         protected virtual DataSet GetGymDashboardDetailsByUserId(long userId)
         {
             ExecuteSpHelper objStoredProc = new ExecuteSpHelper(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.GetParameter("@UserId", userId, ParameterDirection.Input, SqlDbType.BigInt);
             objStoredProc.GetParameter("@NumberOfDaysRecord", 30, ParameterDirection.Input, SqlDbType.SmallInt);
             return objStoredProc.GetSPResultInDataSet("Coditech_GetGymDashboard");
+        }
+        protected virtual DataSet GetDBTMCenterOwenerDashboardDetailsByUserId(long userId)
+        {
+            ExecuteSpHelper objStoredProc = new ExecuteSpHelper(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.GetParameter("@UserId", userId, ParameterDirection.Input, SqlDbType.BigInt);
+            objStoredProc.GetParameter("@NumberOfDaysRecord", 30, ParameterDirection.Input, SqlDbType.SmallInt);
+            return objStoredProc.GetSPResultInDataSet("Coditech_GetDBTMCenterOwenerDashboard");
         }
     }
 }

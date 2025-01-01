@@ -1,5 +1,4 @@
 ﻿@model MediaManagerFolderListViewModel
-
 @{
     ViewBag.Title = "Media Manager Upload";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
@@ -53,7 +52,7 @@
             <div class="col-lg-9">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <span class="card-title">Media Manager Upload: @Model.MediaRootFolder.RootFolderName</span>
+                        <span class="card-title">Media Manager Upload</span>
                         <div class="d-flex align-items-center">
                             <!-- Toggle Switch -->
                             <div class="form-check form-switch me-3">
@@ -74,7 +73,9 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_MediaFileList.cshtml", Model)
+                        <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            @Html.Partial("~/Views/MediaManager/MediaManagerDetails/_MediaFileList.cshtml", Model)
+                        </div>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 {
     public class MediaManagerResponse : BaseResponse
     {
-        public UploadMediaModel UploadMediaModel { get; set; }
+        public MediaModel MediaModel { get; set; }
     }
 }
 

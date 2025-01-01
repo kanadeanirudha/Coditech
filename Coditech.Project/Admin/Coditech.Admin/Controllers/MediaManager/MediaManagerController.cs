@@ -15,18 +15,17 @@ namespace Coditech.Admin.Controllers
             _mediaManagerFolderAgent = mediaManagerFolderAgent;
         }
 
-        public IActionResult Index(int rootFolderId = 0, DataTableViewModel dataTableViewModel = null)
+        public virtual ActionResult Index(DataTableViewModel dataTableViewModel)
         {
             if (User.Identity.IsAuthenticated)
             {
+                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(dataTableViewModel);
                 if (AjaxHelper.IsAjaxRequest)
                 {
-                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(rootFolderId, dataTableViewModel);
                     return PartialView($"~/Views/MediaManager/MediaManagerDetails/_MediaDetails.cshtml", mediaViewModel);
                 }
                 else
                 {
-                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(0, dataTableViewModel);
                     return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
                 }
             }
@@ -67,14 +66,14 @@ namespace Coditech.Admin.Controllers
         }
 
         [Route("/MediaManager/MoveFolder")]
-        public ActionResult MoveFolder()
+        public virtual ActionResult MoveFolder()
         {
             return RedirectToAction("Index", "MediaManager");
         }
 
         [Route("/MediaManager/UploadFile")]
         [HttpPost]
-        public virtual ActionResult PostUploadImage(int folderId)
+        public virtual ActionResult UploadFile(int folderId)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -91,14 +90,13 @@ namespace Coditech.Admin.Controllers
                     return Json(new { success = false, message = "Empty file uploaded." });
                 }
 
-                UploadMediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, file);
+                MediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, 0, file);
 
                 SetNotificationMessage(!uploadMediaModel.HasError
                        ? GetSuccessNotificationMessage("File successfully uploaded.")
                        : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
 
-                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString() });
             }
             else
             {
@@ -106,6 +104,55 @@ namespace Coditech.Admin.Controllers
             }
         }
 
+        [Route("/MediaManager/ReplaceFile")]
+        [HttpPost]
+        public virtual ActionResult ReplaceFile(int folderId, long mediaId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (mediaId == 0) {
+                    return Json(new { success = false, message = "Failed to replace media." });
+                }
+                IFormFileCollection filess = Request.Form.Files;
+                if (filess.Count == 0)
+                {
+                    return Json(new { success = false, message = "No file uploaded." });
+                }
+
+                IFormFile file = filess[0];
+
+                if (file.Length == 0)
+                {
+                    return Json(new { success = false, message = "Empty file uploaded." });
+                }
+
+                MediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, mediaId, file);
+
+                SetNotificationMessage(!uploadMediaModel.HasError
+                       ? GetSuccessNotificationMessage("File successfully replaced.")
+                       : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
+
+                return RedirectToAction<MediaManagerController>(x => x.GetMediaDetails(mediaId));
+            }
+            else
+            {
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
+            }
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetMediaDetails(long mediaId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                MediaModel model = _mediaManagerFolderAgent.GetMediaDetails(mediaId);
+                return ActionView("~/Views/MediaManager/MediaManagerDetails/ViewMediaDetails.cshtml", model);
+            }
+            else
+            {
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
+            }
+        }
         [Route("/MediaManager/CreateFolder")]
         [HttpPost]
         public virtual ActionResult CreateFolder(int rootFolderId, string folderName)
@@ -118,9 +165,7 @@ namespace Coditech.Admin.Controllers
                         ? GetSuccessNotificationMessage(booleanModel.SuccessMessage)
                         : GetErrorNotificationMessage(booleanModel.ErrorMessage));
 
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(rootFolderId);
-
-                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = rootFolderId.ToString() });
             }
             else
             {
@@ -142,9 +187,7 @@ namespace Coditech.Admin.Controllers
                         ? GetSuccessNotificationMessage("Folders/Files are successfully deleted.")
                         : GetErrorNotificationMessage("Failed to delete."));
 
-                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(0);
-
-                    return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                    return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString() });
                 }
                 catch (Exception ex)
                 {
@@ -171,9 +214,7 @@ namespace Coditech.Admin.Controllers
                         ? GetSuccessNotificationMessage("File is successfully deleted.")
                         : GetErrorNotificationMessage("Failed to delete."));
 
-                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(activeFolderId);
-
-                    return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                    return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = activeFolderId.ToString() });
                 }
                 catch (Exception ex)
                 {
@@ -198,9 +239,7 @@ namespace Coditech.Admin.Controllers
                         ? GetSuccessNotificationMessage("Renamed successfully.")
                         : GetErrorNotificationMessage("Failed to rename."));
 
-                MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
-
-                return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString() });
             }
             else
             {
@@ -210,7 +249,7 @@ namespace Coditech.Admin.Controllers
 
         [Route("/MediaManager/GetFolderDropdown")]
         [HttpGet]
-        public JsonResult GetFolderDropdown(int excludeFolderId)
+        public virtual JsonResult GetFolderDropdown(int excludeFolderId)
         {
             FolderListViewModel folders = _mediaManagerFolderAgent.GetAllFolders(excludeFolderId);
 
@@ -219,7 +258,7 @@ namespace Coditech.Admin.Controllers
 
         [Route("/MediaManager/MoveFolder")]
         [HttpPost]
-        public ActionResult MoveFolder(int folderId, int destinationFolderId)
+        public virtual ActionResult MoveFolder(int folderId, int destinationFolderId)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -231,9 +270,7 @@ namespace Coditech.Admin.Controllers
                         ? GetSuccessNotificationMessage("Moved successfully.")
                         : GetErrorNotificationMessage("Failed to move."));
 
-                    MediaManagerFolderListViewModel mediaViewModel = _mediaManagerFolderAgent.GetFolderStructure(folderId);
-
-                    return View($"~/Views/MediaManager/MediaManagerDetails/MediaUpload.cshtml", mediaViewModel);
+                    return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString() });
                 }
                 catch (Exception ex)
                 {
