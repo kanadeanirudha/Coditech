@@ -73,7 +73,7 @@ namespace Coditech.Admin.Controllers
 
         [Route("/MediaManager/UploadFile")]
         [HttpPost]
-        public virtual ActionResult PostUploadImage(int folderId)
+        public virtual ActionResult UploadFile(int folderId)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -97,6 +97,42 @@ namespace Coditech.Admin.Controllers
                        : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
 
                 return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString() });
+            }
+            else
+            {
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
+            }
+        }
+
+        [Route("/MediaManager/ReplaceFile")]
+        [HttpPost]
+        public virtual ActionResult ReplaceFile(int folderId, long mediaId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (mediaId == 0) {
+                    return Json(new { success = false, message = "Failed to replace media." });
+                }
+                IFormFileCollection filess = Request.Form.Files;
+                if (filess.Count == 0)
+                {
+                    return Json(new { success = false, message = "No file uploaded." });
+                }
+
+                IFormFile file = filess[0];
+
+                if (file.Length == 0)
+                {
+                    return Json(new { success = false, message = "Empty file uploaded." });
+                }
+
+                MediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, mediaId, file);
+
+                SetNotificationMessage(!uploadMediaModel.HasError
+                       ? GetSuccessNotificationMessage("File successfully replaced.")
+                       : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
+
+                return RedirectToAction<MediaManagerController>(x => x.GetMediaDetails(mediaId));
             }
             else
             {
