@@ -1,8 +1,10 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
+using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
@@ -32,12 +34,12 @@ namespace Coditech.API.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Produces(typeof(MediaManagerResponse))]
-        public virtual IActionResult UploadMedia(int folderId, string folderName)
+        public virtual IActionResult UploadMedia(int folderId, string folderName, long mediaId)
         {
             try
             {
                 IEnumerable<IFormFile> files = Request.Form.Files;
-                MediaManagerResponse fileUploadListModelResponse = _mediaManagerService.UploadMedia(folderId, folderName, files, Request);
+                MediaManagerResponse fileUploadListModelResponse = _mediaManagerService.UploadMedia(folderId, folderName, mediaId, files, Request);
                 if (fileUploadListModelResponse != null)
                     return CreateOKResponse<MediaManagerResponse>(fileUploadListModelResponse);
                 else
@@ -75,6 +77,28 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new MediaManagerFolderResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/MediaManager/GetMediaDetails")]
+        [HttpGet]
+        [Produces(typeof(MediaManagerResponse))]
+        public IActionResult GetMediaDetails(long mediaId)
+        {
+            try
+            {
+                MediaModel bioradMedisyMediaModel = _mediaManagerService.GetMediaDetails(mediaId);
+                return HelperUtility.IsNotNull(bioradMedisyMediaModel) ? CreateOKResponse(new MediaManagerResponse { MediaModel = bioradMedisyMediaModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new MediaManagerResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.MediaManager.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new MediaManagerResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 

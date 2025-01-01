@@ -10,6 +10,7 @@ using Coditech.Common.Service;
 using ImageMagick;
 using System.Collections.Specialized;
 using System.Data;
+using Twilio.TwiML.Messaging;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
@@ -42,7 +43,7 @@ namespace Coditech.API.Service
         }
 
         #region Public
-        public virtual MediaManagerResponse UploadMedia(int folderId, string folderName, IEnumerable<IFormFile> formFile, HttpRequest request)
+        public virtual MediaManagerResponse UploadMedia(int folderId, string folderName, long mediaId, IEnumerable<IFormFile> formFile, HttpRequest request)
         {
             if (MultipartRequestHelper.IsMultipartContentType(request.ContentType))
             {
@@ -68,17 +69,21 @@ namespace Coditech.API.Service
 
                     if (file.Length > 0)
                     {
-                        MediaDetail result = SaveMedia(file, folderId, uploadPath);
-                        if (result.MediaId > 0)
+                        MediaModel result = SaveMedia(file, folderId, uploadPath);
+                        if (result != null && result.MediaId > 0)
                         {
                             return new MediaManagerResponse()
                             {
-                                UploadMediaModel = new UploadMediaModel()
+                                MediaModel = new MediaModel()
                                 {
                                     MediaId = result.MediaId,
-                                    MediaPathUrl = $"{GetMediaUrl()}{result.Path}"
+                                    Path = $"{GetMediaUrl()}{result.Path}"
                                 }
                             };
+                        }
+                        else
+                        {
+                            return new MediaManagerResponse() { HasError = result.HasError, ErrorMessage = !string.IsNullOrEmpty(result.ErrorMessage) ? result.ErrorMessage : "Failed to upload media." };
                         }
                     }
                 }
@@ -104,7 +109,7 @@ namespace Coditech.API.Service
                                         .ToList();
                 if (!adminRoleMediaFolders.Contains(activeFolderId))
                 {
-                    activeFolderId = 0;
+                    rootFolderId = activeFolderId = adminRoleMediaFolders?.Count() > 0 ? adminRoleMediaFolders.FirstOrDefault() : 0;
                 }
                 else
                 {
@@ -156,6 +161,21 @@ namespace Coditech.API.Service
             return managerFolderResponse;
         }
 
+        public MediaModel GetMediaDetails(long mediaId)
+        {
+            MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == mediaId)?.FirstOrDefault();
+
+            if (mediaDetail == null)
+            {
+                return new MediaModel();
+            }
+
+            MediaModel mediaModel = mediaDetail.FromEntityToModel<MediaModel>();
+            mediaModel.Path = $"{GetMediaUrl()}{mediaModel.Path}";
+            mediaModel.Size = !string.IsNullOrEmpty(mediaModel.Size) ? (Convert.ToDouble(mediaModel.Size) * 0.001).ToString("0.00") : "0";
+            mediaModel.Type = mediaModel.Type.Replace("application/", "").ToLower();
+            return mediaModel;
+        }
         public virtual FolderListResponse GetAllFolders()
         {
             FolderListResponse folderListResponse = new();
@@ -274,7 +294,7 @@ namespace Coditech.API.Service
                         MediaFolderParentId = mediaFolderMaster.MediaFolderMasterId,
                         IsActive = true
                     };
-                    
+
                     MediaFolderMaster mediaFolder = _mediaFolderMasterRepository.Insert(createFolder);
 
                     if (mediaFolder.MediaFolderMasterId > 0)
@@ -392,7 +412,7 @@ namespace Coditech.API.Service
             {
                 return CreateErrorResponse("The file name contains some special characters.");
             }
-           
+
             string contentType = formFile.ContentType;
 
             if (contentType.StartsWith("image"))
@@ -668,7 +688,7 @@ namespace Coditech.API.Service
             }
         }
 
-        protected virtual MediaDetail SaveMedia(IFormFile formFile, int folderId, string uploadPath)
+        protected virtual MediaModel SaveMedia(IFormFile formFile, int folderId, string uploadPath)
         {
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(formFile.FileName);
             string filePath = Path.Combine(uploadPath, uniqueFileName);
@@ -678,8 +698,14 @@ namespace Coditech.API.Service
             {
                 formFile.CopyTo(stream);
             }
-            
-            var size = Convert.ToString(formFile.Length);
+
+            long size = formFile.Length;
+            FileInfo fi = new FileInfo(filePath);
+            if (fi.Length != size)
+            {
+                return new MediaModel() { HasError = true, ErrorMessage = "Failed to upload media." };
+            }
+
             var type = formFile.ContentType;
 
             // Generate URL to access the file
@@ -701,13 +727,22 @@ namespace Coditech.API.Service
                 MediaFolderMasterId = folderId,
                 Path = uniqueFileName,
                 FileName = formFile.FileName,
-                Size = size,
-                Length = size,
+                Size = Convert.ToString(size),
+                Length = Convert.ToString(size),
                 Height = height,
                 Width = width,
                 Type = type
             });
-            return result;
+
+            if (result.MediaId > 0)
+            {
+                return new MediaModel()
+                {
+                    MediaId = result.MediaId,
+                    Path = $"{GetMediaUrl()}{result.Path}"
+                };
+            }
+            return new MediaModel() { HasError = true };
         }
 
         protected virtual string FileUploadPath()

@@ -90,7 +90,7 @@ namespace Coditech.Admin.Controllers
                     return Json(new { success = false, message = "Empty file uploaded." });
                 }
 
-                UploadMediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, file);
+                MediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, 0, file);
 
                 SetNotificationMessage(!uploadMediaModel.HasError
                        ? GetSuccessNotificationMessage("File successfully uploaded.")
@@ -103,7 +103,19 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction<UserController>(x => x.Login(string.Empty));
             }
         }
-
+        [HttpGet]
+        public virtual ActionResult GetMediaDetails(long mediaId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                MediaModel model = _mediaManagerFolderAgent.GetMediaDetails(mediaId);
+                return ActionView("~/Views/MediaManager/MediaManagerDetails/ViewMediaDetails.cshtml", model);
+            }
+            else
+            {
+                return RedirectToAction<UserController>(x => x.Login(string.Empty));
+            }
+        }
         [Route("/MediaManager/CreateFolder")]
         [HttpPost]
         public virtual ActionResult CreateFolder(int rootFolderId, string folderName)

@@ -11,13 +11,14 @@ namespace Coditech.API.Client
         /// Upload Media
         /// </summary>
         /// <returns>UploadMediaModel</returns>
-        MediaManagerResponse UploadMedia(int folderId, string folderName, UploadMediaModel model);
+        MediaManagerResponse UploadMedia(int folderId, string folderName, long mediaId, MediaModel model);
 
         /// <summary>
         /// Get Folder Structure
         /// </summary>
         /// <returns></returns>
         MediaManagerFolderResponse GetFolderStructure(int rootFolderId, int adminRoleId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        MediaManagerResponse GetMediaDetails(long mediaId);
         Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId);
         Task<bool> RenameFolderAsync(int folderId, string renameFolderName);
         Task<FolderListResponse> GetAllFolders();
