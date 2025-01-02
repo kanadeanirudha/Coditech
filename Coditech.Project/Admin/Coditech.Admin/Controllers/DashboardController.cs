@@ -12,9 +12,13 @@ namespace Coditech.Admin.Controllers
     public class DashboardController : BaseController
     {
         private readonly IDashboardAgent _dashboardAgent;
-        public DashboardController(IDashboardAgent dashboardAgent)
+        private readonly IGymDashboardAgent _gymDashboardAgent;
+        private readonly IDBTMDashboardAgent _dBTMDashboardAgent;
+        public DashboardController(IDashboardAgent dashboardAgent, IGymDashboardAgent gymDashboardAgent, IDBTMDashboardAgent dBTMDashboardAgent)
         {
             _dashboardAgent = dashboardAgent;
+            _gymDashboardAgent = gymDashboardAgent;
+            _dBTMDashboardAgent = dBTMDashboardAgent;
         }
 
         [HttpGet]
@@ -25,22 +29,25 @@ namespace Coditech.Admin.Controllers
             {
                 if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return View("~/Views/Dashboard/Gym/GymOwnerDashboard.cshtml", dashboardViewModel);                  
+                    GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails();
+                    return View("~/Views/Gym/GymDashboard/GymOwnerDashboard.cshtml", gymDashboardViewModel);                  
                 }
                 else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return View("~/Views/Dashboard/Gym/GymOperatorDashboard.cshtml", dashboardViewModel);
+                    GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails();
+                    return View("~/Views/Gym/GymDashboard/GymOperatorDashboard.cshtml", gymDashboardViewModel);
                 }
                 else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.DBTMCentreDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return View("~/Views/Dashboard/DBTM/DBTMCentreDashboard.cshtml", dashboardViewModel);
+                    DBTMDashboardViewModel dBTMDashboardViewModel = _dBTMDashboardAgent.GetDBTMDashboardDetails();
+                    return View("~/Views/DBTM/DBTMDashboard/DBTMCentreDashboard.cshtml", dBTMDashboardViewModel);
                 }
                 else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTrainerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return View("~/Views/Dashboard/DBTM/DBTMTrainerDashboard.cshtml", dashboardViewModel);
+                    DBTMDashboardViewModel dBTMDashboardViewModel = _dBTMDashboardAgent.GetDBTMDashboardDetails();
+                    return View("~/Views/DBTM/DBTMDashboard/DBTMTrainerDashboard.cshtml", dBTMDashboardViewModel);
                 }
             }
-
             return View("~/Views/Dashboard/GeneralDashboard.cshtml");
         }
 

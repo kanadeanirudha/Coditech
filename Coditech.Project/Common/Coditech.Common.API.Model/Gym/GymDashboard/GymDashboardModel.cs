@@ -16,5 +16,6 @@
         public List<GymUpcomingPlanExpirationMembersModel> GymUpcomingPlanExpirationMembersList { get; set; }
         public List<GymUpcomingEventsModel> GymUpcomingEventsList { get; set; }
         public List<GymGeneralLeadGenerationSourceModel> GymGeneralLeadGenerationSourceList { get; set; }
+        public string GymDashboardFormEnumCode { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿@using Coditech.Admin.Utilities;
 @using Coditech.Common.API.Model;
 @using Newtonsoft.Json
-@model DashboardViewModel
+@model GymDashboardViewModel
 @{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "GymDashboard";
     string[] XValuesPie = ["Active Member", "InActive Member"];
-    int[] YValuesPie = [Model.GymDashboardModel.ActiveMemberCount, Model.GymDashboardModel.InActiveMemberCount];
+    int[] YValuesPie = [Model.ActiveMemberCount, Model.InActiveMemberCount];
     string[] backgroundColor = ["rgba(42, 118, 244, 0.18)", "rgba(42, 118, 244, 0.30)"];
     PieChartViewModel activeInActiveMemberPieChart = new PieChartViewModel()
             {
@@ -16,11 +16,11 @@
             };
 
     //Financial Overview
-    int dateCount = Model.GymDashboardModel.TransactionOverviewList.Count();
+    int dateCount = Model.TransactionOverviewList.Count();
     string[] XValuesBarFinancialOverview = new string[dateCount];
     decimal[] YValuesBarFinancialOverview = new decimal[dateCount];
     int count = 0;
-    foreach (var item in Model.GymDashboardModel.TransactionOverviewList)
+    foreach (var item in Model.TransactionOverviewList)
     {
         XValuesBarFinancialOverview[count] = Convert.ToString(item.TransactionDate.ToCoditechDateFormat());
         YValuesBarFinancialOverview[count] = Convert.ToInt32(item.BillAmount);
@@ -37,35 +37,13 @@
                 BackgroundColor = JsonConvert.SerializeObject(backgroundColor),
             };
 
-    //Yearly Financial Overview
-    int monthCount = Model.GymDashboardModel.YearlyFinancialOverviewList.Count();
-    string[] XValuesBarYearlyFinancialOverview = new string[monthCount];
-    decimal[] YValuesBarYearlyFinancialOverview = new decimal[monthCount];
-    int count1 = 0;
-    foreach (var item in Model.GymDashboardModel.YearlyFinancialOverviewList)
-    {
-        XValuesBarYearlyFinancialOverview[count1] = Convert.ToString(item.MonthName);
-        YValuesBarYearlyFinancialOverview[count1] = Convert.ToInt32(item.BillAmount);
-        count1++;
-    }
-
-    BarChartViewModel yearlyTransactionOverviewModel = new BarChartViewModel()
-            {
-                BarChartId = "YearlyTransactionOverviewChart",
-                XValues = JsonConvert.SerializeObject(XValuesBarYearlyFinancialOverview),
-                YValues = JsonConvert.SerializeObject(YValuesBarYearlyFinancialOverview),
-                XAxisLabel = "Month",
-                YAxisLabel = "Amount",
-                BackgroundColor = JsonConvert.SerializeObject(backgroundColor),
-            };
-
     //Lead Generation Source
     //leadGenerationSourceModel
-    int leadCount = Model.GymDashboardModel.GymGeneralLeadGenerationSourceList.Count();
+    int leadCount = Model.GymGeneralLeadGenerationSourceList.Count();
     string[] XValuesBarLeadGenerationSource = new string[leadCount];
     int[] YValuesBarLeadGenerationSource = new int[leadCount];
     int count2 = 0;
-    foreach (var item in Model.GymDashboardModel.GymGeneralLeadGenerationSourceList)
+    foreach (var item in Model.GymGeneralLeadGenerationSourceList)
     {
         XValuesBarLeadGenerationSource[count2] = Convert.ToString(item.LeadGenerationSource);
         YValuesBarLeadGenerationSource[count2] = Convert.ToInt32(item.LeadGenerationSourceCount);
@@ -82,7 +60,7 @@
                 BackgroundColor = JsonConvert.SerializeObject(backgroundColor),
             };
 }
-<div class="page-content dashboard-wrapper">
+<div class="page-content">
     <div class="container-fluid">
         <!-- Page-Title -->
         <div class="row">
@@ -119,7 +97,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col">
                                 <p class="text-dark mb-0 fw-semibold">Active Member</p>
-                                <h3 class="m-0">@Model.GymDashboardModel.ActiveMemberCount</h3>
+                                <h3 class="m-0">@Model.ActiveMemberCount</h3>
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -137,7 +115,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col">
                                 <p class="text-dark mb-0 fw-semibold">InActive Member</p>
-                                <h3 class="m-0">@Model.GymDashboardModel.InActiveMemberCount</h3>
+                                <h3 class="m-0">@Model.InActiveMemberCount</h3>
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -155,7 +133,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col">
                                 <p class="text-dark mb-0 fw-semibold">Total Register Member</p>
-                                <h3 class="m-0">@Model.GymDashboardModel.TotalMemberCount</h3>
+                                <h3 class="m-0">@Model.TotalMemberCount</h3>
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -173,12 +151,12 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col">
                                 <p class="text-dark mb-0 fw-semibold">Total Leads</p>
-                                <h3 class="m-0">@Model.GymDashboardModel.TotalLeads</h3>
+                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.TotalLeads)</h3>
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
-                                <div class="report-main-icon bg-light-alt">                                
-                                    <i class="fas fa-bullhorn"></i>  
+                                <div class="report-main-icon bg-light-alt">
+                                    <i class="fas fa-bullhorn"></i>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +169,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col">
                                 <p class="text-dark mb-0 fw-semibold">Today's Collection</p>
-                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.GymDashboardModel.ToadysTotalCollection)</h3>
+                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.ToadysTotalCollection)</h3>
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -209,7 +187,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col">
                                 <p class="text-dark mb-0 fw-semibold">Last @Model.NumberOfDaysRecord Day's Collection</p>
-                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.GymDashboardModel.DaywiseTotalCollection)</h3>
+                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.DaywiseTotalCollection)</h3>
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -227,7 +205,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col">
                                 <p class="text-dark mb-0 fw-semibold">Digital Payment Collection</p>
-                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.GymDashboardModel.DigitalPaymentCollection)</h3>
+                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.DigitalPaymentCollection)</h3>
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -245,7 +223,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col">
                                 <p class="text-dark mb-0 fw-semibold">Manual Payment Collection</p>
-                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.GymDashboardModel.ManualPaymentCollection)</h3>
+                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.ManualPaymentCollection)</h3>
                                 <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -258,9 +236,9 @@
                 </div><!--end card-->
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row">
             <div class="col-lg-9">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -268,7 +246,7 @@
                             </div>
                         </div>
                     </div><!--end card-header-->
-                    <div class="card-body scroll-wrapper">
+                    <div class="card-body">
                         <div class="text-center" style="position: relative; padding-top:0px !important">
                             @Html.Partial("~/Views/Shared/Charts/_BarChart.cshtml", transactionOverviewModel)
                         </div><!--end card-body-->
@@ -277,7 +255,7 @@
             </div>
 
             <div class="col-lg-3">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -285,7 +263,7 @@
                             </div>
                         </div>
                     </div><!--end card-header-->
-                    <div class="card-body scroll-wrapper">
+                    <div class="card-body">
                         <div class="text-center" style="position: relative; padding-top:0px !important">
                             @Html.Partial("~/Views/Shared/Charts/_PieChart.cshtml", activeInActiveMemberPieChart)
                         </div><!--end card-body-->
@@ -293,9 +271,9 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row">
             <div class="col-lg-9">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -316,7 +294,7 @@
                                     </tr><!--end tr-->
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model?.GymDashboardModel?.GymUpcomingPlanExpirationMembersList)
+                                    @foreach (var item in Model?.GymUpcomingPlanExpirationMembersList)
                                     {
                                         <tr>
                                             <td><a href="/gymmemberdetails/UpdateMemberPersonalDetails?gymMemberDetailId=@item.GymMemberDetailId&personId=@item.PersonId" class="text-primary">@item.FirstName @item.LastName</a></td>
@@ -342,7 +320,7 @@
                 </div><!--end card-->
             </div> <!--end col-->
             <div class="col-lg-3">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -350,11 +328,11 @@
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
-                    <div class="card-body scroll-wrapper">
+                    <div class="card-body">
                         @{
-                            decimal? sum = Model?.GymDashboardModel?.RevenueByPaymentModeList?.Sum(x => x.BillAmount);
+                            decimal? sum = Model?.RevenueByPaymentModeList?.Sum(x => x.BillAmount);
                         }
-                        @foreach (var item in Model?.GymDashboardModel?.RevenueByPaymentModeList)
+                        @foreach (var item in Model?.RevenueByPaymentModeList)
                         {
                             int percentage = @item.BillAmount > 0 ? Convert.ToInt32((@item.BillAmount * 100) / sum) : 0;
                             string image = $"{@item.PaymentType.Replace(" ", "")}.png";
@@ -376,25 +354,9 @@
                 </div><!--end card-->
             </div> <!--end col-->
         </div><!--end row-->
-        <div class="row mb-3">
+        <div class="row">
             <div class="col-lg-6">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h4 class="card-title">Yearly Financial Overview</h4>
-                            </div>
-                        </div>
-                    </div><!--end card-header-->
-                    <div class="card-body">
-                        <div class="" style="position: relative;">
-                            @Html.Partial("~/Views/Shared/Charts/_BarChart.cshtml", yearlyTransactionOverviewModel)
-                        </div>
-                    </div><!--end card-body-->
-                </div><!--end card-->
-            </div>
-            <div class="col-lg-3">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -402,15 +364,15 @@
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
-                    <div class="card-body position-absolute bottom-15">
+                    <div class="card-body" style="position: relative;">
                         <div class="" style="position: relative;">
                             @Html.Partial("~/Views/Shared/Charts/_BarChart.cshtml", leadGenerationSourceModel)
                         </div>
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div> <!--end col-->
-            <div class="col-lg-3">
-                <div class="card h-100">
+            <div class="col-lg-6">
+                <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -418,7 +380,7 @@
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
-                    <div class="card-body scroll-wrapper">
+                    <div class="card-body">
                         <div class="analytic-dash-activity" data-simplebar="init">
                             <div class="simplebar-wrapper" style="margin: 0px;">
                                 <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">
@@ -426,7 +388,7 @@
                                         <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
                                             <div class="simplebar-content" style="padding: 0px;">
                                                 <div class="activity">
-                                                    @foreach (var item in Model?.GymDashboardModel?.GymUpcomingEventsList)
+                                                    @foreach (var item in Model?.GymUpcomingEventsList)
                                                     {
                                                         string image = $"{@item.Type.Replace(" ", "")}.jpg";
                                                         <div class="activity-info">

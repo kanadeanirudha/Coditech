@@ -8,10 +8,7 @@ namespace Coditech.Admin.ViewModel
         public DashboardViewModel()
         {
         }
-        public GymDashboardModel GymDashboardModel { get; set; }
         public string DashboardFormEnumCode { get; set; }
         public Int16 NumberOfDaysRecord { get; set; }
-        public DBTMCentreDashboardModel DBTMCentreDashboardModel { get; set; }
-        public DBTMTrainerDashboardModel DBTMTrainerDashboardModel { get; set; }
     }
 }
