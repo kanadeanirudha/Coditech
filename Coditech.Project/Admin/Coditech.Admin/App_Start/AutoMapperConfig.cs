@@ -265,6 +265,8 @@ namespace Coditech.Admin
             #region Payment
             CreateMap<PaymentGatewaysModel, PaymentGatewaysViewModel>().ReverseMap();
             CreateMap<PaymentGatewaysListModel, PaymentGatewaysListViewModel>().ReverseMap();
+            CreateMap<PaymentGatewayDetailsModel, PaymentGatewayDetailsViewModel>().ReverseMap();
+            CreateMap<PaymentGatewayDetailsListModel, PaymentGatewayDetailsListViewModel>().ReverseMap();
             #endregion
         }
     }

@@ -1,7 +1,7 @@
 ﻿using Coditech.Common.Helper;
 namespace Coditech.Admin.ViewModel
 {
-    public class PaymentGatewaysListViewModel : BaseViewModel
+    public partial class PaymentGatewaysListViewModel : BaseViewModel
     {
         public List<PaymentGatewaysViewModel> PaymentGatewaysList { get; set; }
         public PaymentGatewaysListViewModel()

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace Coditech.Admin.ViewModel
 {
-    public class PaymentGatewaysViewModel : BaseViewModel
+    public partial class PaymentGatewaysViewModel : BaseViewModel
     {
         public byte PaymentGatewayId { get; set; }
         [MaxLength(100)]

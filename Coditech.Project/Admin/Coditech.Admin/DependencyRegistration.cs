@@ -124,6 +124,7 @@ namespace Coditech.Admin
             #endregion
             #region Payment
             builder.Services.AddScoped<IPaymentGatewaysAgent, PaymentGatewaysAgent>();
+            builder.Services.AddScoped<IPaymentGatewayDetailsAgent, PaymentGatewayDetailsAgent>();
 
             #endregion
             #endregion Agent
@@ -233,8 +234,9 @@ namespace Coditech.Admin
             #endregion
 
             #region Payment 
-            builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>();
-            #endregion 
+            builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>(); 
+            builder.Services.AddScoped<IPaymentGatewayDetailsClient, PaymentGatewayDetailsClient>();
+            #endregion
 
 
             #endregion Client

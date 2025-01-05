@@ -103,6 +103,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetMeasurementUnitList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.PaymentGateway.ToString()))
+            {
+                GetPaymentGatewaysList(dropdownViewModel, dropdownList);
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.FinancialYear.ToString()))
             {
                 GetFinancialYearList(dropdownViewModel, dropdownList);
@@ -274,6 +278,22 @@ namespace Coditech.Admin.Helpers
                     Text = item.MeasurementUnitDisplayName,
                     Value = item.GeneralMeasurementUnitMasterId.ToString(),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralMeasurementUnitMasterId)
+                });
+            }
+        }
+        private static void GetPaymentGatewaysList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            PaymentGatewaysListResponse response = new PaymentGatewaysClient().List(null, null, null, 1, int.MaxValue);
+
+            PaymentGatewaysListModel list = new PaymentGatewaysListModel() { PaymentGatewaysList = response.PaymentGatewaysList };
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Payment Gateways-------" });
+            foreach (var item in list?.PaymentGatewaysList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.PaymentName,
+                    Value = item.PaymentGatewayId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.PaymentGatewayId)
                 });
             }
         }

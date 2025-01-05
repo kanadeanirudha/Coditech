@@ -412,6 +412,15 @@ namespace Coditech.Resources
             {
                 return ResourceManager.GetString("ErrorDeleteDBTMPrivacySetting", resourceCulture);
             }
+        } /// <summary>
+          ///   Looks up a localized string similar to Failed to delete PaymentGatewayDetails due to associate record..
+          /// </summary>
+        public static string ErrorDeletePaymentGatewayDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeletePaymentGatewayDetails", resourceCulture);
+            }
         }
 
         /// <summary>
@@ -1078,6 +1087,16 @@ namespace Coditech.Resources
             get
             {
                 return ResourceManager.GetString("LabelCityList", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to LabelPaymentGateway List.
+        /// </summary>
+        public static string LabelPaymentGateway
+        {
+            get
+            {
+                return ResourceManager.GetString("LabelPaymentGateway", resourceCulture);
             }
         }
 

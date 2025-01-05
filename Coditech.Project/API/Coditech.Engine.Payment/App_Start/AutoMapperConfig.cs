@@ -10,6 +10,7 @@ namespace Coditech.API.Mapper
         {
             CreateMap<FilterTuple, FilterDataTuple>().ReverseMap();
             CreateMap<PaymentGateways, PaymentGatewaysModel>().ReverseMap();
+            CreateMap<PaymentGatewayDetails, PaymentGatewayDetailsModel>().ReverseMap();
         }
     }
 }
