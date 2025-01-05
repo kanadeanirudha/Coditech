@@ -19,35 +19,8 @@
                     {
                         <tr>
                             <td>@item.TicketNumber</td>
-                            <td>
-                                @if (item.TicketStatus == "Submitted")
-                                {
-                                    <span class="badge badge-soft-primary">@item.TicketStatus</span>
-                                }
-                                else if (item.TicketStatus == "Open")
-                                {
-                                    <span class="badge badge-soft-warning">@item.TicketStatus</span>
-                                }
-                                else if (item.TicketStatus == "In Review")
-                                {
-                                    <span class="badge badge-soft-danger">@item.TicketStatus</span>
-                                }
-                                else if (item.TicketStatus == "Closed")
-                                {
-                                    <span class="badge badge-soft-success">@item.TicketStatus</span>
-                                }
-                                else if (item.TicketStatus == "Reopened")
-                                {
-                                    <span class="badge badge-soft-dark">@item.TicketStatus</span>
-                                }
-                                else if (item.TicketStatus == "Rejected")
-                                {
-                                    <span class="badge badge-soft-danger">@item.TicketStatus</span>
-                                }
-                                else
-                                {
-                                    @item.TicketStatus
-                                }
+                            <td class="text-center">
+                                @Html.Partial("~/Views/Shared/Datatable/_DatatableStatusData.cshtml", new DataTableStatusViewModel() { Key = item.TicketStatus, Value = item.TicketStatus })
                             </td>
                             <td>@Convert.ToDateTime(@item.CreatedDate).ToCoditechDateWithTimeFormat()</td>
                             <td class="text-center">

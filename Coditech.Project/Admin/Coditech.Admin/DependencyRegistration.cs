@@ -50,6 +50,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGymMemberBodyMeasurementAgent, GymMemberBodyMeasurementAgent>();
             builder.Services.AddScoped<IGymSalesInvoiceAgent, GymSalesInvoiceAgent>();
             builder.Services.AddScoped<IDashboardAgent, DashboardAgent>();
+            builder.Services.AddScoped<IGymDashboardAgent, GymDashboardAgent>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionAgent, InventoryItemTrackingDimensionAgent>();
             builder.Services.AddScoped<IInventoryProductDimensionAgent, InventoryProductDimensionAgent>();
             builder.Services.AddScoped<IGeneralUserMainMenuAgent, GeneralUserMainMenuAgent>();
@@ -97,7 +98,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IDBTMBatchActivityAgent, DBTMBatchActivityAgent>();
             builder.Services.AddScoped<IDBTMSubscriptionPlanAgent, DBTMSubscriptionPlanAgent>();
             builder.Services.AddScoped<IDBTMPrivacySettingAgent, DBTMPrivacySettingAgent>();
-
+            builder.Services.AddScoped<IDBTMDashboardAgent, DBTMDashboardAgent>();
             #endregion
 
             #region MediaManager
@@ -169,6 +170,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryCategoryClient, InventoryCategoryClient>();
             builder.Services.AddScoped<IGymSalesInvoiceClient, GymSalesInvoiceClient>();
             builder.Services.AddScoped<IDashboardClient, DashboardClient>();
+            builder.Services.AddScoped<IGymDashboardClient, GymDashboardClient>();
             builder.Services.AddScoped<IInventoryItemModelGroupClient, InventoryItemModelGroupClient>();
             builder.Services.AddScoped<IInventoryItemStorageDimensionClient, InventoryItemStorageDimensionClient>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionClient, InventoryItemTrackingDimensionClient>();
@@ -231,7 +233,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IDBTMBatchActivityClient, DBTMBatchActivityClient>();
             builder.Services.AddScoped<IDBTMSubscriptionPlanClient, DBTMSubscriptionPlanClient>();
             builder.Services.AddScoped<IDBTMPrivacySettingClient, DBTMPrivacySettingClient>();
-            #endregion
+            builder.Services.AddScoped<IDBTMDashboardClient, DBTMDashboardClient>();
+            #endregion 
 
             #region Payment 
             builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>(); 

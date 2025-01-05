@@ -1,7 +1,7 @@
 ﻿@using Coditech.Admin.Utilities;
 @using Coditech.Common.API.Model;
 @using Newtonsoft.Json
-@model DashboardViewModel
+@model DBTMDashboardViewModel
 @{
     ViewBag.Title = "Dashboard";
 }
@@ -34,7 +34,7 @@
                             <div class="row d-flex justify-content-center">
                                 <div class="col">
                                     <p class="text-dark mb-0 fw-semibold">Number Of Trainers</p>
-                                    <h3 class="m-0">@Model.DBTMCentreDashboardModel.NumberOfTrainers</h3>
+                                    <h3 class="m-0">@Model.NumberOfTrainers</h3>
                                     <p class="mb-0 text-truncate text-muted">&nbsp;</p>
                                 </div>
                                 <div class="col-auto align-self-center">
@@ -53,8 +53,8 @@
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">
                                 <div class="col">
-                                    <p class="text-dark mb-0 fw-semibold">NumberOfTrainees</p>
-                                    <h3 class="m-0">@Model.DBTMCentreDashboardModel.NumberOfTrainees</h3>
+                                    <p class="text-dark mb-0 fw-semibold">Number Of Trainees</p>
+                                    <h3 class="m-0">@Model.NumberOfTrainees</h3>
                                     <p class="mb-0 text-truncate text-muted">&nbsp;</p>
                                 </div>
                                 <div class="col-auto align-self-center">
@@ -74,7 +74,7 @@
                             <div class="row d-flex justify-content-center">
                                 <div class="col">
                                     <p class="text-dark mb-0 fw-semibold">Assignments</p>
-                                    <h3 class="m-0">@Model.DBTMCentreDashboardModel.Assignments</h3>
+                                    <h3 class="m-0">@Model.Assignments</h3>
                                     <p class="mb-0 text-truncate text-muted">&nbsp;</p> <!-- Add this for consistency -->
                                 </div>
                                 <div class="col-auto align-self-center">

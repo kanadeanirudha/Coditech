@@ -42,7 +42,7 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
-        public MediaModel GetMediaDetails(long mediaId)
+        public virtual MediaModel GetMediaDetails(long mediaId)
         {
             MediaManagerResponse response = _mediaManagerClient.GetMediaDetails(mediaId);
             return response?.MediaModel;
