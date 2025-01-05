@@ -91,7 +91,7 @@ namespace Coditech.Admin.Controllers
 
             var response = _generalCommonAgent.UploadImage(file);
 
-            return Json(new { imageUrl = response.UploadMediaModel.MediaPathUrl, photoMediaId = response.UploadMediaModel.MediaId });
+            return Json(new { imageUrl = response.MediaModel.Path, photoMediaId = response.MediaModel.MediaId });
         }
 
         [AllowAnonymous]

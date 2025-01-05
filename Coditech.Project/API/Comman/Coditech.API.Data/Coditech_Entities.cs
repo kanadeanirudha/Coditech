@@ -180,6 +180,10 @@ namespace Coditech.API.Data
         public DbSet<DBTMPrivacySetting> DBTMPrivacySetting { get; set; }
         #endregion
 
+        #region Payment
+        public DbSet<PaymentGateways> PaymentGateways { get; set; }
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }

@@ -211,6 +211,7 @@
         MoveFolder,
         DeleteFolder,
         UploadFile,
+        DownloadFile,
         DeleteFile,
     }
 

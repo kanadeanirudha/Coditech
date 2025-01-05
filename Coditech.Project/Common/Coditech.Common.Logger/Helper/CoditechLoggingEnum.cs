@@ -124,7 +124,8 @@
             DBTMUser,
             TicketMaster,
             DBTMSubscriptionPlan,
-            DBTMPrivacySetting
+            DBTMPrivacySetting,
+            PaymentGateways
         }
     }
 }

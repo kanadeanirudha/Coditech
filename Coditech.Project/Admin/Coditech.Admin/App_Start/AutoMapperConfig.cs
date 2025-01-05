@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
 using Coditech.Model;
@@ -269,6 +268,11 @@ namespace Coditech.Admin
             CreateMap<DBTMSubscriptionPlanActivityModel, DBTMSubscriptionPlanActivityViewModel>().ReverseMap();
             CreateMap<DBTMPrivacySettingModel, DBTMPrivacySettingViewModel>().ReverseMap();
             CreateMap<DBTMPrivacySettingListModel, DBTMPrivacySettingListViewModel>().ReverseMap();
+            #endregion
+
+            #region Payment
+            CreateMap<PaymentGatewaysModel, PaymentGatewaysViewModel>().ReverseMap();
+            CreateMap<PaymentGatewaysListModel, PaymentGatewaysListViewModel>().ReverseMap();
             #endregion
         }
     }

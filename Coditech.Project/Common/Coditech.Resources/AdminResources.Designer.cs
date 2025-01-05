@@ -251,6 +251,17 @@ namespace Coditech.Resources
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete PaymentGateways due to associate record..
+        /// </summary>
+        public static string ErrorDeletePaymentGateways
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeletePaymentGateways", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete DBTMDevice due to associate record..
         /// </summary>
         public static string ErrorDeleteDBTMDeviceMaster
