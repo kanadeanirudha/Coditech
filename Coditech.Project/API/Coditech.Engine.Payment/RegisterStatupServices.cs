@@ -223,6 +223,7 @@ namespace Coditech.API.Common
             // Add Dependency 
             builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IPaymentGatewaysService, PaymentGatewaysService>();
+            builder.Services.AddScoped<IPaymentGatewayDetailsService, PaymentGatewayDetailsService>();
         }
         #endregion
     }

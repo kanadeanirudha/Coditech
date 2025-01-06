@@ -182,6 +182,7 @@ namespace Coditech.API.Data
 
         #region Payment
         public DbSet<PaymentGateways> PaymentGateways { get; set; }
+        public DbSet<PaymentGatewayDetails> PaymentGatewayDetails { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

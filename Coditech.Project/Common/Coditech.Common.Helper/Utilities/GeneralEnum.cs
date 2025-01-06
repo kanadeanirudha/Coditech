@@ -91,7 +91,8 @@
         DBTMBatchActivity,
         TicketPriority,
         TicketStatus,
-        DBTMSubscriptionPlanType
+        DBTMSubscriptionPlanType,
+        PaymentGateway
 
     }
 

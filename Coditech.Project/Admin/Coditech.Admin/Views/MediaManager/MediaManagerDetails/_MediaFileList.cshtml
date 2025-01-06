@@ -35,14 +35,14 @@
                 <div class="align-items-center card-action-block d-flex flex-row-reverse justify-content-between mb-2">
                     @if (isDeleteAllowed)
                     {
-                        <a class="download-icon-link" data-media-id="@media.MediaId"
+                        <a title="Delete" class="download-icon-link" data-media-id="@media.MediaId"
                            onclick="openDeleteFileModal('@media.MediaId', '@Model.ActiveFolderId')">
                             <i class="dripicons-cross file-download-icon"></i>
                         </a>
                     }
                     @if (isDownloadAllowed)
                     {
-                        <a target="_blank" href="@media.DownloadPath" class="download-icon-link" download>
+                        <a target="_blank" href="@media.DownloadPath" title="Download" class="download-icon-link" download>
                             <i class="dripicons-download file-download-icon"></i>
                         </a>
                     }
@@ -95,7 +95,7 @@
                                 {
                                     <span class="m-2">|</span>
                                 }
-                                <a href="../MediaManager/GetMediaDetails?mediaId=@media.MediaId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-eye"></i></a>
+                                <a href="../MediaManager/GetMediaDetails?mediaId=@media.MediaId" title="View" class="btn btn-sm btn-soft-warning btn-circle me-2"> <i class="fas fa-eye" style="color: orange;"></i></a>
                             </td>
                         </tr>
                     }
