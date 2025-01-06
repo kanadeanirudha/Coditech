@@ -187,7 +187,7 @@ namespace Coditech.Admin.Controllers
                         ? GetSuccessNotificationMessage("Folders/Files are successfully deleted.")
                         : GetErrorNotificationMessage("Failed to delete."));
 
-                    return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString() });
+                    return RedirectToAction<MediaManagerController>(x => x.CreateFolder());
                 }
                 catch (Exception ex)
                 {
