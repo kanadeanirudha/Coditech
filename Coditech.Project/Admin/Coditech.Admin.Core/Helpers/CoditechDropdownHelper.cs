@@ -9,7 +9,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Data.Entity.Core.Mapping;
 
 namespace Coditech.Admin.Helpers
 {

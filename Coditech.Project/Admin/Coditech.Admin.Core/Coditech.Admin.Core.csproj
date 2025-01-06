@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="GeneralCountryMasterController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\API\Comman\Coditech.API.Client\Coditech.API.Client.csproj" />
+    <ProjectReference Include="..\..\Common\Coditech.Resources\Coditech.Resources.csproj" />
+    <ProjectReference Include="..\AdminCommon\Coditech.Admin.Utilities\Coditech.Admin.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

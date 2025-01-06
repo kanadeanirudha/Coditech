@@ -7,6 +7,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 

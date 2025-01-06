@@ -24,11 +24,10 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Remark")]
         public string Remark { get; set; }
         public string Duration { get; set; }
-        public string FirstName { get; internal set; }
-        public string LastName { get; internal set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public long EntityId { get; set; }
         public string UserType { get; set; }
-
     }
 }
 

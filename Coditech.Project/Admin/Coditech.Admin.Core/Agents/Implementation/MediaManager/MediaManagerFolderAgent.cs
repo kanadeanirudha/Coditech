@@ -7,6 +7,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 
 namespace Coditech.Admin.Agents

@@ -60,6 +60,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		coditech_stage.yml = coditech_stage.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Admin.Core", "Admin\Coditech.Admin.Core\Coditech.Admin.Core.csproj", "{9F360EBA-27D4-480F-9941-437B1B3327C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -187,6 +189,12 @@ Global
 		{E2E68E51-CFD5-4A89-A26F-20AB9AEAA974}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{E2E68E51-CFD5-4A89-A26F-20AB9AEAA974}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2E68E51-CFD5-4A89-A26F-20AB9AEAA974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F360EBA-27D4-480F-9941-437B1B3327C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F360EBA-27D4-480F-9941-437B1B3327C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F360EBA-27D4-480F-9941-437B1B3327C6}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F360EBA-27D4-480F-9941-437B1B3327C6}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{9F360EBA-27D4-480F-9941-437B1B3327C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F360EBA-27D4-480F-9941-437B1B3327C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,6 +213,7 @@ Global
 		{A936949E-DB9D-4555-B199-A6143DBEA361} = {56B5A9D6-463C-47DE-8366-6A5976E51406}
 		{D7903B41-9CC4-46A1-AB8C-76AE2D840C73} = {63CCBF2E-0084-484D-84FC-AF5A48C5D073}
 		{D88F3C77-8F56-4FCC-B6CD-CA1B0C562361} = {29C2E38D-4779-47C1-8AC5-982E5A1EED8A}
+		{9F360EBA-27D4-480F-9941-437B1B3327C6} = {0C334A1B-F079-42B2-82E3-0B07B4D7F9CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C29948E7-3002-49F1-8F85-8AC9847A8945}
