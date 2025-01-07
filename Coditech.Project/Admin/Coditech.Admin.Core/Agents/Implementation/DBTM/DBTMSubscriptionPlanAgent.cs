@@ -230,6 +230,18 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "PlanDiscount",
                 IsSortable = true,
             });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "IsActive",
+                ColumnCode = "IsActive",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "IsTaxExclusive",
+                ColumnCode = "IsTaxExclusive",
+                IsSortable = true,
+            });
             return datatableColumnList;
         }
 
