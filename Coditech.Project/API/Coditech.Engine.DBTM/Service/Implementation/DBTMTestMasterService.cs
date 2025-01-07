@@ -5,7 +5,6 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
-
 using System.Collections.Specialized;
 using System.Data;
 
@@ -51,6 +50,10 @@ namespace Coditech.API.Service
         {
             if (IsNull(dBTMTestModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            if (IsDBTMTestNameAlreadyExist(dBTMTestModel.TestCode, dBTMTestModel.DBTMTestMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Test Code"));
+
 
             DBTMTestMaster dBTMTestMaster = dBTMTestModel.FromModelToEntity<DBTMTestMaster>();
 
@@ -191,7 +194,9 @@ namespace Coditech.API.Service
             return list;
         }
         #region Protected Method
-
+        // Check if Test Name is already present or not.
+        protected virtual bool IsDBTMTestNameAlreadyExist(string testCode, int dBTMTestMasterId = 0)
+            => _dBTMTestMasterRepository.Table.Any(x => x.TestCode == testCode && (x.DBTMTestMasterId != dBTMTestMasterId || dBTMTestMasterId == 0));
         #endregion
     }
 }
