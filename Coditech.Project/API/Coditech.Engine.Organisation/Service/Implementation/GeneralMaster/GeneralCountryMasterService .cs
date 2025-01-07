@@ -48,8 +48,8 @@ namespace Coditech.API.Service
             if (IsNull(generalCountryModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            if (IsCountryCodeAlreadyExist(generalCountryModel.CountryCode))
-                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Code"));
+            if (IsCountryCodeAlreadyExist(generalCountryModel.CountryName))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Name"));
 
             GeneralCountryMaster generalCountryMaster = generalCountryModel.FromModelToEntity<GeneralCountryMaster>();
 
