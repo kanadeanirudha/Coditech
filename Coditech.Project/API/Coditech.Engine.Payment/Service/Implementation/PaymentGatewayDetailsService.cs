@@ -13,12 +13,14 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<PaymentGatewayDetails> _paymentGatewayDetailsRepository;
+        private readonly ICoditechRepository<PaymentGateways> _paymentGatewaysRepository;
 
         public PaymentGatewayDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _paymentGatewayDetailsRepository = new CoditechRepository<PaymentGatewayDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _paymentGatewaysRepository = new CoditechRepository<PaymentGateways>(_serviceProvider.GetService<Coditech_Entities>());
         }
         public virtual PaymentGatewayDetailsListModel GetPaymentGatewayDetailsList(string selectedCentreCode, byte paymentGatewayId)
         {
@@ -26,20 +28,21 @@ namespace Coditech.API.Service
 
             List<PaymentGatewayDetails> list = _paymentGatewayDetailsRepository.Table.Where(x => x.CentreCode == selectedCentreCode && x.PaymentGatewayId == paymentGatewayId)?.ToList();
             listModel.PaymentGatewayDetailsList = new List<PaymentGatewayDetailsModel>();
-            listModel.PaymentGatewayDetailsList.Add(new PaymentGatewayDetailsModel()
-            {
-                Mode = "Live Mode",
-                IsLiveMode = true,
-                PaymentGatewayDetailId = list?.Count() > 0 ? Convert.ToByte(list.FirstOrDefault(x => x.IsLiveMode)?.PaymentGatewayDetailId) : (byte)0
-            });
+            PaymentGateways paymentGateways = _paymentGatewaysRepository.Table.Where(x => x.IsActive && x.PaymentGatewayId == paymentGatewayId)?.FirstOrDefault();
             listModel.PaymentGatewayDetailsList.Add(new PaymentGatewayDetailsModel()
             {
                 Mode = "Test Mode",
                 IsLiveMode = false,
-                PaymentGatewayDetailId = list?.Count() > 0 ? Convert.ToByte(list.FirstOrDefault(x => !x.IsLiveMode)?.PaymentGatewayDetailId) : (byte)0
+                PaymentGatewayDetailId = list?.Count() > 0 ? Convert.ToByte(list.FirstOrDefault(x => !x.IsLiveMode)?.PaymentGatewayDetailId) : (byte)0,
+                PaymentCode = paymentGateways?.PaymentCode
             });
-
-
+            listModel.PaymentGatewayDetailsList.Add(new PaymentGatewayDetailsModel()
+            {
+                Mode = "Live Mode",
+                IsLiveMode = true,
+                PaymentGatewayDetailId = list?.Count() > 0 ? Convert.ToByte(list.FirstOrDefault(x => x.IsLiveMode)?.PaymentGatewayDetailId) : (byte)0,
+                PaymentCode = paymentGateways?.PaymentCode
+            });
             return listModel;
         }
         //Create PaymentGatewayDetails.
@@ -76,6 +79,7 @@ namespace Coditech.API.Service
             //Get the DBTMPrivacySetting Details based on id.
             PaymentGatewayDetails paymentGatewayDetails = _paymentGatewayDetailsRepository.Table.Where(x => x.PaymentGatewayDetailId == paymentGatewayDetailId)?.FirstOrDefault();
             PaymentGatewayDetailsModel paymentGatewayDetailsModel = paymentGatewayDetails?.FromEntityToModel<PaymentGatewayDetailsModel>();
+            paymentGatewayDetailsModel.PaymentCode = _paymentGatewaysRepository.Table.Where(x => x.IsActive && x.PaymentGatewayId == paymentGatewayDetailsModel.PaymentGatewayId)?.Select(x => x.PaymentCode)?.FirstOrDefault();
             return paymentGatewayDetailsModel;
         }
 
