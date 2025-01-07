@@ -35,6 +35,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Common\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
+		<ProjectReference Include="..\..\Common\Coditech.Common.Helper\Coditech.Common.Helper.csproj" />
+		<ProjectReference Include="..\..\Common\Coditech.Resources\Coditech.Resources.csproj" />
+		<ProjectReference Include="..\AdminCommon\Coditech.Admin.Utilities\Coditech.Admin.Utilities.csproj" />
 		<ProjectReference Include="..\Coditech.Admin.Core\Coditech.Admin.Core.csproj" />
 	</ItemGroup>
 

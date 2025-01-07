@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.Helper;
+using Coditech.Resources;
 using System.ComponentModel.DataAnnotations;
 namespace Coditech.Admin.ViewModel
 {
@@ -7,6 +8,8 @@ namespace Coditech.Admin.ViewModel
         public int PaymentGatewayDetailId { get; set; }
         [Display(Name = "Payment Gateway")]
         public byte PaymentGatewayId { get; set; }
+        public string PaymentCode { get; set; }
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string CentreCode { get; set; }
         [MaxLength(100)]
         [Display(Name = "Gateway User name")]

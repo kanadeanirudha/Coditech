@@ -237,4 +237,8 @@
         HospitalApprovalStatus,
         TicketStatus,
     }
+    public enum PaymentCodeEnum
+    {
+        razorpay
+    }
 }

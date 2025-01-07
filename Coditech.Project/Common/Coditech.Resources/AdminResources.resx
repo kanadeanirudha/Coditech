@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="+-+" xml:space="preserve">
-    <value>Failed to delete admin role due to associate record.</value>
-  </data>
   <data name="ErrorDeleteAdminRoleMaster" xml:space="preserve">
     <value>Failed to delete Admin Role Master due to associate record.</value>
   </data>
@@ -425,5 +422,104 @@
   </data>
   <data name="LabelSmsProviderList" xml:space="preserve">
     <value>SMS Provider List</value>
+  </data>
+  <data name="ErrorDeleteAssociatedTrainer" xml:space="preserve">
+    <value>Failed to delete Associated Trainer due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteBatchActivityDetails" xml:space="preserve">
+    <value>Failed to delete Batch Activity Details due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteBatchDetails" xml:space="preserve">
+    <value>Failed to delete Batch Details due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteCoditechApplicationSetting" xml:space="preserve">
+    <value>Failed to delete Coditech Application Setting due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteDBTMActivityCategory" xml:space="preserve">
+    <value>Failed to delete Activity Category due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteDBTMDeviceMaster" xml:space="preserve">
+    <value>Failed to delete Device Master due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteDBTMDeviceRegistrationDetails" xml:space="preserve">
+    <value>Failed to delete Device Registration Details due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteDBTMPrivacySetting" xml:space="preserve">
+    <value>Failed to delete Privacy Setting due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteDBTMSubscriptionPlan" xml:space="preserve">
+    <value>Failed to delete Subscription Plan due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteDBTMTestMaster" xml:space="preserve">
+    <value>Failed to delete Test Master due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteDBTMTraineeDetails" xml:space="preserve">
+    <value>Failed to delete Trainee Details due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteDeleteDBTMTraineeAssignment" xml:space="preserve">
+    <value>Failed to delete Trainee Assignment due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGazetteChapters" xml:space="preserve">
+    <value>Failed to delete Gazette Chapters due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGazetteChaptersPageDetail" xml:space="preserve">
+    <value>Failed to delete Gazette Chapters PageDetail due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGeneralDistrictMaster" xml:space="preserve">
+    <value>Failed to delete District Master due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGeneralNotificationMaster" xml:space="preserve">
+    <value>Failed to delete General Notification Master due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGeneralWhatsAppProviderMaster" xml:space="preserve">
+    <value>Failed to delete WhatsApp Provider due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGymWorkoutPlan" xml:space="preserve">
+    <value>Failed to delete Workout Plan due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteGymWorkoutPlanDetails" xml:space="preserve">
+    <value>Failed to delete due Workout Plan Details to associate record.</value>
+  </data>
+  <data name="ErrorDeleteHospitalPathologyTest" xml:space="preserve">
+    <value>Failed to delete Hospital Pathology Test due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteHospitalPathologyTestGroup" xml:space="preserve">
+    <value>Failed to delete Hospital Pathology Test Group due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteHospitalPathologyTestPrices" xml:space="preserve">
+    <value>Failed to delete Hospital Pathology Test Prices due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteHospitalPatientAppointment" xml:space="preserve">
+    <value>Failed to delete Hospital Patient Appointment due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteHospitalPatientAppointmentPurpose" xml:space="preserve">
+    <value>Failed to delete Hospital Patient Appointment Purpose due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteHospitalRegistrationFee" xml:space="preserve">
+    <value>Failed to delete Hospital Registration Fee due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteLogMessage" xml:space="preserve">
+    <value>Failed to delete Log Message due to associate record.</value>
+  </data>
+  <data name="ErrorDeletePaymentGatewayDetails" xml:space="preserve">
+    <value>Failed to delete Payment Gateway Details due to associate record.</value>
+  </data>
+  <data name="ErrorDeletePaymentGateways" xml:space="preserve">
+    <value>Failed to delete Payment Gateway due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteTaskMaster" xml:space="preserve">
+    <value>Failed to delete Task Master due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteTicketMaster" xml:space="preserve">
+    <value>Failed to delete Ticket Master due to associate record.</value>
+  </data>
+  <data name="ErrorDeleteTrainerDetails" xml:space="preserve">
+    <value>Failed to delete Trainer Details due to associate record.</value>
+  </data>
+  <data name="LabelPaymentGateway" xml:space="preserve">
+    <value>Payment Gateway</value>
+  </data>
+  <data name="LabelWhatsAppProviderList" xml:space="preserve">
+    <value>WhatsApp Provider List</value>
   </data>
 </root>
