@@ -182,6 +182,7 @@ namespace Coditech.API.Data
 
         #region Accounts
         public DbSet<AccGLSetupNarration> AccGLSetupNarration { get; set; }
+        public DbSet<AccSetupMaster> AccSetupMaster { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

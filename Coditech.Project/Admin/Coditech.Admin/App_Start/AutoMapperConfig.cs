@@ -13,6 +13,9 @@ namespace Coditech.Admin
             #region Accounts
             CreateMap<AccGLSetupNarrationModel, AccGLSetupNarrationViewModel>().ReverseMap();
             CreateMap<AccGLSetupNarrationViewModel, AccGLSetupNarrationListViewModel>().ReverseMap();
+            CreateMap<AccSetupMasterModel, AccSetupMasterViewModel>().ReverseMap();
+            CreateMap<AccSetupMasterViewModel, AccSetupMasterListViewModel>().ReverseMap();
+
             #endregion
 
             #region Admin 

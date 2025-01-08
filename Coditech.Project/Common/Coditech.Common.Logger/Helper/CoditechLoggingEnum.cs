@@ -125,7 +125,8 @@
             TicketMaster,
             DBTMSubscriptionPlan,
             DBTMPrivacySetting,
-            AccGLSetupNarration
+            AccGLSetupNarration,
+            AccSetupMaster
         }
     }
 }

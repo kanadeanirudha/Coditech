@@ -83,6 +83,7 @@ namespace Coditech.API.Mapper
 
             #region Accounts
             CreateMap<AccGLSetupNarration, AccGLSetupNarrationModel>().ReverseMap();
+            CreateMap<AccSetupMaster, AccSetupMasterModel>().ReverseMap();
             #endregion
         }
     }

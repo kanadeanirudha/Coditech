@@ -126,6 +126,8 @@ namespace Coditech.Admin
             #region Accounts         
             builder.Services.AddScoped<IAccGLSetupNarrationAgent, AccGLSetupNarrationAgent>();
             builder.Services.AddScoped<IAccGLSetupNarrationClient, AccGLSetupNarrationClient>();
+            builder.Services.AddScoped<IAccSetupMasterAgent, AccSetupMasterAgent>();
+            builder.Services.AddScoped<IAccSetupMasterClient, AccSetupMasterClient>();
             #endregion
 
             #endregion Agent

@@ -272,6 +272,14 @@ namespace Coditech.Resources
             }
         }
 
+        public static string ErrorDeleteAccSetupMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAccSetupMaster", resourceCulture);
+            }
+        }
+
 
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete TicketMaster due to associate record..

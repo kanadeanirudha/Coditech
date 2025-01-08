@@ -285,6 +285,7 @@ namespace Coditech.API.Common
 
             #region Accounts
             builder.Services.AddScoped<IAccGLSetupNarrationService, AccGLSetupNarrationService>();
+            builder.Services.AddScoped<IAccSetupMasterService, AccSetupMasterService>();
             #endregion
 
         }
