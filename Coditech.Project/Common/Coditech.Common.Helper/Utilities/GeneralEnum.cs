@@ -91,7 +91,8 @@
         DBTMBatchActivity,
         TicketPriority,
         TicketStatus,
-        DBTMSubscriptionPlanType
+        DBTMSubscriptionPlanType,
+        PaymentGateway
 
     }
 
@@ -211,6 +212,7 @@
         MoveFolder,
         DeleteFolder,
         UploadFile,
+        DownloadFile,
         DeleteFile,
     }
 
@@ -234,5 +236,9 @@
         DashboardForm,
         HospitalApprovalStatus,
         TicketStatus,
+    }
+    public enum PaymentCodeEnum
+    {
+        razorpay
     }
 }

@@ -125,6 +125,8 @@
             TicketMaster,
             DBTMSubscriptionPlan,
             DBTMPrivacySetting,
+            PaymentGateways,
+            PaymentGatewayDetails,
             AccGLSetupNarration,
             AccSetupMaster
         }

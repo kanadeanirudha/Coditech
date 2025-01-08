@@ -180,6 +180,11 @@ namespace Coditech.API.Data
         public DbSet<DBTMPrivacySetting> DBTMPrivacySetting { get; set; }
         #endregion
 
+        #region Payment
+        public DbSet<PaymentGateways> PaymentGateways { get; set; }
+        public DbSet<PaymentGatewayDetails> PaymentGatewayDetails { get; set; }
+        #endregion
+
         #region Accounts
         public DbSet<AccGLSetupNarration> AccGLSetupNarration { get; set; }
         public DbSet<AccSetupMaster> AccSetupMaster { get; set; }

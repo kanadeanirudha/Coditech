@@ -3,7 +3,7 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
-
+using Coditech.Common.Helper.Utilities;
 using Newtonsoft.Json;
 
 using System.Net;
@@ -18,14 +18,10 @@ namespace Coditech.API.Client
         {
             mediaManagerEndpoint = new MediaManagerEndpoint();
         }
-        public virtual MediaManagerResponse UploadMedia(int folderId, string folderName, UploadMediaModel body)
-        {
-            return Task.Run(async () => await UploadMediaAsync(folderId, folderName,body, CancellationToken.None)).GetAwaiter().GetResult();
-        }
 
-        public virtual async Task<MediaManagerResponse> UploadMediaAsync(int folderId, string folderName, UploadMediaModel body, CancellationToken cancellationToken)
+        public virtual MediaManagerResponse UploadMedia(int folderId, string folderName, long mediaId, MediaModel body)
         {
-            string endpoint = mediaManagerEndpoint.UploadMediaAsync(folderId, folderName);
+            string endpoint = mediaManagerEndpoint.UploadMediaAsync(folderId, folderName, mediaId);
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try
@@ -40,37 +36,21 @@ namespace Coditech.API.Client
                     }
                 };
                 formData.Add(fileContent, "files", body.MediaFile.FileName);
-                response = await PostResourceToEndpointAsync(endpoint, formData, status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
-
+                response = PostResourceToEndpoint(endpoint, formData, status, new CancellationToken());
                 switch (response.StatusCode)
                 {
                     case HttpStatusCode.OK:
                         {
-                            ObjectResponseResult<MediaManagerResponse> objectResponseResult2 = await ReadObjectResponseAsync<MediaManagerResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                            if (objectResponseResult2.Object == null)
-                            {
-                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
-                            }
-
-                            return objectResponseResult2.Object;
+                            MediaManagerResponse objectResponseResult = JsonConvert.DeserializeObject<MediaManagerResponse>(response.Content.ReadAsStringAsync().Result);
+                            return JsonConvert.DeserializeObject<MediaManagerResponse>(response.Content.ReadAsStringAsync().Result);
                         }
                     case HttpStatusCode.Created:
                         {
-                            ObjectResponseResult<MediaManagerResponse> objectResponseResult = await ReadObjectResponseAsync<MediaManagerResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-                            if (objectResponseResult.Object == null)
-                            {
-                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
-                            }
-
-                            return objectResponseResult.Object;
+                            return JsonConvert.DeserializeObject<MediaManagerResponse>(response.Content.ReadAsStringAsync().Result);
                         }
                     default:
                         {
-                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
-                            MediaManagerResponse result = JsonConvert.DeserializeObject<MediaManagerResponse>(value);
-                            UpdateApiStatus(result, status, response);
-                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                            return JsonConvert.DeserializeObject<MediaManagerResponse>(response.Content.ReadAsStringAsync().Result);
                         }
                 }
             }
@@ -82,22 +62,27 @@ namespace Coditech.API.Client
                 }
             }
         }
-        public virtual async Task<MediaManagerFolderResponse> GetFolderStructure(int rootFolderId = 0, int adminRoleId = 0, bool isAdminUser = false, int? pageIndex = 0, int? pageSize = 10)
-        {
-            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId, adminRoleId, isAdminUser, pageIndex, pageSize);
 
+        public virtual MediaManagerFolderResponse GetFolderStructure(int rootFolderId, int adminRoleId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            return Task.Run(async () => await GetFolderStructureAsync(rootFolderId, adminRoleId, expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<MediaManagerFolderResponse> GetFolderStructureAsync(int rootFolderId, int adminRoleId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        {
+            string endpoint = mediaManagerEndpoint.GetFolderStructureAsync(rootFolderId, adminRoleId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
-            bool disposeResponse = true;
+            var disposeResponse = true;
             try
             {
                 ApiStatus status = new ApiStatus();
 
-                response = await GetResourceFromEndpointAsync(endpoint, status, CancellationToken.None).ConfigureAwait(false);
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
                 Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<MediaManagerFolderResponse>(response, headers_, CancellationToken.None).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<MediaManagerFolderResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -112,6 +97,55 @@ namespace Coditech.API.Client
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     MediaManagerFolderResponse typedBody = JsonConvert.DeserializeObject<MediaManagerFolderResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public MediaManagerResponse GetMediaDetails(long mediaId)
+        {
+            return Task.Run(async () => await GetMediaDetailsAsync(mediaId, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public async Task<MediaManagerResponse> GetMediaDetailsAsync(long mediaId, CancellationToken cancellationToken)
+        {
+            if (mediaId <= 0)
+                throw new ArgumentNullException("mediaId");
+
+            string endpoint = mediaManagerEndpoint.GetMediaDetailsAsync(mediaId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<MediaManagerResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new MediaManagerResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    MediaManagerResponse typedBody = JsonConvert.DeserializeObject<MediaManagerResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -164,9 +198,9 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual async Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName)
+        public virtual async Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId)
         {
-            string endpoint = mediaManagerEndpoint.CreateFolderAsync(rootFolderId, folderName);
+            string endpoint = mediaManagerEndpoint.CreateFolderAsync(rootFolderId, folderName, adminRoleMasterId);
 
             HttpResponseMessage response = null;
             bool disposeResponse = true;

@@ -5,6 +5,8 @@
         public int DBTMSubscriptionPlanId { get; set; }
         public string PlanName { get; set; }
         public short DurationInDays { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsTaxExclusive { get; set; }
         public decimal PlanCost { get; set; }       
         public decimal PlanDiscount { get; set; }
         public int SubscriptionPlanTypeEnumId { get; set; }

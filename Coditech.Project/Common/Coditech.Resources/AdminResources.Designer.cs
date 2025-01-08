@@ -8,11 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Coditech.Resources
-{
+namespace Coditech.Resources {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,244 +22,170 @@ namespace Coditech.Resources
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class AdminResources
-    {
-
+    public class AdminResources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AdminResources()
-        {
+        internal AdminResources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Coditech.Resources.AdminResources", typeof(AdminResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete admin role due to associate record..
-        /// </summary>
-        public static string ___
-        {
-            get
-            {
-                return ResourceManager.GetString("+-+", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Admin Role Master due to associate record..
         /// </summary>
-        public static string ErrorDeleteAdminRoleMaster
-        {
-            get
-            {
+        public static string ErrorDeleteAdminRoleMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteAdminRoleMaster", resourceCulture);
             }
         }
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete SystemGlobleSetting due to associate record..
-        /// </summary>
-        public static string ErrorSystemGlobleSettingMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete ErrorDeleteTaskMaster due to associate record..
-        /// </summary>
-        public static string ErrorDeleteTaskMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteTaskMaster", resourceCulture);
-            }
-        }
-
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete admin saction post due to associate record..
         /// </summary>
-        public static string ErrorDeleteAdminSanctionPost
-        {
-            get
-            {
+        public static string ErrorDeleteAdminSanctionPost {
+            get {
                 return ResourceManager.GetString("ErrorDeleteAdminSanctionPost", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete employee detaild due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Associated Trainer due to associate record..
         /// </summary>
-        public static string ErrorDeleteEmployeeDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteEmployeeDetails", resourceCulture);
-
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete DBTMTraineeDetails detaild due to associate record..
-        /// </summary>
-        public static string ErrorDeleteDBTMTraineeDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteDBTMTraineeDetails", resourceCulture);
-
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete DBTMTestMaster detaild due to associate record..
-        /// </summary>
-        public static string ErrorDeleteDBTMTestMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteDBTMTestMaster", resourceCulture);
-
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete GymWorkoutPlan detaild due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGymWorkoutPlan
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGymWorkoutPlan", resourceCulture);
-
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete GymWorkoutPlan detaild due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGymWorkoutPlanDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGymWorkoutPlanDetails", resourceCulture);
-
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete AssociatedTrainer detaild due to associate record..
-        /// </summary>
-        public static string ErrorDeleteAssociatedTrainer
-        {
-            get
-            {
+        public static string ErrorDeleteAssociatedTrainer {
+            get {
                 return ResourceManager.GetString("ErrorDeleteAssociatedTrainer", resourceCulture);
-
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete .
+        ///   Looks up a localized string similar to Failed to delete Batch Activity Details due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralNotification
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteNotification", resourceCulture);
+        public static string ErrorDeleteBatchActivityDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteBatchActivityDetails", resourceCulture);
             }
         }
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete city due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Batch Details due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralCityMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralCityMaster", resourceCulture);
+        public static string ErrorDeleteBatchDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteBatchDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete gazette chapters due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Coditech Application Setting due to associate record..
         /// </summary>
-        public static string ErrorDeleteGazetteChapters
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGazetteChapters", resourceCulture);
+        public static string ErrorDeleteCoditechApplicationSetting {
+            get {
+                return ResourceManager.GetString("ErrorDeleteCoditechApplicationSetting", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete gazette chapters Page Detail due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Activity Category due to associate record..
         /// </summary>
-        public static string ErrorDeleteGazetteChaptersPageDetail
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGazetteChaptersPageDetail", resourceCulture);
+        public static string ErrorDeleteDBTMActivityCategory {
+            get {
+                return ResourceManager.GetString("ErrorDeleteDBTMActivityCategory", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete country due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Device Master due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralCountryMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete DBTMDevice due to associate record..
-        /// </summary>
-        public static string ErrorDeleteDBTMDeviceMaster
-        {
-            get
-            {
+        public static string ErrorDeleteDBTMDeviceMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteDBTMDeviceMaster", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Device Registration Details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMDeviceRegistrationDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteDBTMDeviceRegistrationDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Privacy Setting due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMPrivacySetting {
+            get {
+                return ResourceManager.GetString("ErrorDeleteDBTMPrivacySetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Subscription Plan due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMSubscriptionPlan {
+            get {
+                return ResourceManager.GetString("ErrorDeleteDBTMSubscriptionPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Test Master due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMTestMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteDBTMTestMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Trainee Details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMTraineeDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteDBTMTraineeDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Trainee Assignment due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDeleteDBTMTraineeAssignment {
+            get {
+                return ResourceManager.GetString("ErrorDeleteDeleteDBTMTraineeAssignment", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete AccGLSetupNarration due to associate record..
         /// </summary>
@@ -284,266 +209,183 @@ namespace Coditech.Resources
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete TicketMaster due to associate record..
         /// </summary>
-        public static string ErrorDeleteTicketMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteTicketMaster", resourceCulture);
+        public static string ErrorDeleteEmployeeDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteEmployeeDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete DBTMSubscriptionPlan due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Gazette Chapters due to associate record..
         /// </summary>
-        public static string ErrorDeleteDBTMSubscriptionPlan
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteDBTMSubscriptionPlan", resourceCulture);
+        public static string ErrorDeleteGazetteChapters {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGazetteChapters", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete DBTMActivityCategory due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Gazette Chapters PageDetail due to associate record..
         /// </summary>
-        public static string ErrorDeleteDBTMActivityCategory
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteDBTMActivityCategory", resourceCulture);
+        public static string ErrorDeleteGazetteChaptersPageDetail {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGazetteChaptersPageDetail", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete DBTMTraineeAssignment due to associate record..
+        ///   Looks up a localized string similar to Failed to delete city due to associate record..
         /// </summary>
-        public static string ErrorDeleteDeleteDBTMTraineeAssignment
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteDeleteDBTMTraineeAssignment", resourceCulture);
+        public static string ErrorDeleteGeneralCityMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralCityMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete DBTMDeviceRegistrationDetails due to associate record..
+        ///   Looks up a localized string similar to Failed to delete country due to associate record..
         /// </summary>
-        public static string ErrorDeleteDBTMDeviceRegistrationDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteDBTMDeviceRegistrationDetails", resourceCulture);
+        public static string ErrorDeleteGeneralCountryMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete department due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralDepartmentMaster
-        {
-            get
-            {
+        public static string ErrorDeleteGeneralDepartmentMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGeneralDepartmentMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete designation due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralDesignationMaster
-        {
-            get
-            {
+        public static string ErrorDeleteGeneralDesignationMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGeneralDesignationMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete email due to associate record..
+        ///   Looks up a localized string similar to Failed to delete District Master due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralEmailTemplate
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralEmailTemplate", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete enum due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralEnumarator
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralEnumarator", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete enum group due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralEnumaratorGroup
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralEnumaratorGroup", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete financial year due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralFinancialYearMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralFinancialYearMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Trainer due to associate record..
-        /// </summary>
-        public static string ErrorDeleteTrainerDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteTrainerDetails", resourceCulture);
-            }
-        }
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete DBTMPrivacySetting due to associate record..
-        /// </summary>
-        public static string ErrorDeleteDBTMPrivacySetting
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteDBTMPrivacySetting", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Batch details due to associate record..
-        /// </summary>
-        public static string ErrorDeleteAssociatedBatch
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteAssociatedBatch", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete GeneralBatch due to associate record..
-        /// </summary>
-        public static string ErrorDeleteBatchDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteBatchDetails", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete BatchActivity due to associate record..
-        /// </summary>
-        public static string ErrorDeleteBatchActivityDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteBatchActivityDetails", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Lead Generation due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralLeadGenerationMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralLeadGenerationMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Measurement Unit due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralMeasurementUnitMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralMeasurementUnitMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete nationality due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralNationalityMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralNationalityMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralOccupationMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralOccupationMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete general person follow up due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralPersonFollowUp
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralPersonFollowUp", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete region due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralRegionMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralRegionMaster", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete district due to associate record..
-        /// </summary>
-        public static string ErrorDeleteGeneralDistrictMaster
-        {
-            get
-            {
+        public static string ErrorDeleteGeneralDistrictMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGeneralDistrictMaster", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete email due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEmailTemplate {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralEmailTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete enum due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEnumarator {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralEnumarator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete enum group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralEnumaratorGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralEnumaratorGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete financial year due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralFinancialYearMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralFinancialYearMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Lead Generation due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralLeadGenerationMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralLeadGenerationMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Measurement Unit due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralMeasurementUnitMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralMeasurementUnitMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete nationality due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralNationalityMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralNationalityMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete General Notification Master due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralNotificationMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralNotificationMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralOccupationMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralOccupationMaster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete general person follow up due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralPersonFollowUp {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralPersonFollowUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete region due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralRegionMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGeneralRegionMaster", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete General Running Numbers due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralRunningNumbers
-        {
-            get
-            {
+        public static string ErrorDeleteGeneralRunningNumbers {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGeneralRunningNumbers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete General SMS Provider.
         /// </summary>
@@ -552,326 +394,295 @@ namespace Coditech.Resources
                 return ResourceManager.GetString("ErrorDeleteGeneralSmsProviderMaster", resourceCulture);
             }
         }
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete General GeneralNotification.
-        /// </summary>
-        public static string ErrorDeleteGeneralNotificationMaster
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteGeneralNotificationMaster", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete tax group due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralTaxGroupMaster
-        {
-            get
-            {
+        public static string ErrorDeleteGeneralTaxGroupMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGeneralTaxGroupMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete tax due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralTaxMaster
-        {
-            get
-            {
+        public static string ErrorDeleteGeneralTaxMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGeneralTaxMaster", resourceCulture);
             }
         }
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete General WhatsApp Provider.
+        ///   Looks up a localized string similar to Failed to delete WhatsApp Provider due to associate record..
         /// </summary>
-        public static string ErrorDeleteGeneralWhatsAppProviderMaster
-        {
-            get
-            {
+        public static string ErrorDeleteGeneralWhatsAppProviderMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGeneralWhatsAppProviderMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Body Measurement Type.
         /// </summary>
-        public static string ErrorDeleteGymBodyMeasurementType
-        {
-            get
-            {
+        public static string ErrorDeleteGymBodyMeasurementType {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGymBodyMeasurementType", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete gym member body measurement due to associate record..
         /// </summary>
-        public static string ErrorDeleteGymMemberBodyMeasurement
-        {
-            get
-            {
+        public static string ErrorDeleteGymMemberBodyMeasurement {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGymMemberBodyMeasurement", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete gym member due to associate record..
         /// </summary>
-        public static string ErrorDeleteGymMemberDetails
-        {
-            get
-            {
+        public static string ErrorDeleteGymMemberDetails {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGymMemberDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete gym membership Plan due to associate record..
         /// </summary>
-        public static string ErrorDeleteGymMembershipPlan
-        {
-            get
-            {
+        public static string ErrorDeleteGymMembershipPlan {
+            get {
                 return ResourceManager.GetString("ErrorDeleteGymMembershipPlan", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Workout Plan due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymWorkoutPlan {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGymWorkoutPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete due Workout Plan Details to associate record..
+        /// </summary>
+        public static string ErrorDeleteGymWorkoutPlanDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteGymWorkoutPlanDetails", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctor Leave Schedule due to associate record..
         /// </summary>
-        public static string ErrorDeleteHospitalDoctorLeaveSchedule
-        {
-            get
-            {
+        public static string ErrorDeleteHospitalDoctorLeaveSchedule {
+            get {
                 return ResourceManager.GetString("ErrorDeleteHospitalDoctorLeaveSchedule", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Hospital Patient Appointment due to associate record..
-        /// </summary>
-        public static string ErrorDeleteHospitalPatientAppointment
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteHospitalPatientAppointment", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Hospital Patient Appointment Purpose due to associate record..
-        /// </summary>
-        public static string ErrorDeleteHospitalPatientAppointmentPurpose
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteHospitalPatientAppointmentPurpose", resourceCulture);
-            }
-        }
-
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctor OPD Schedule due to associate record..
         /// </summary>
-        public static string ErrorDeleteHospitalDoctorOPDSchedule
-        {
-            get
-            {
+        public static string ErrorDeleteHospitalDoctorOPDSchedule {
+            get {
                 return ResourceManager.GetString("ErrorDeleteHospitalDoctorOPDSchedule", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctors details due to associate record..
         /// </summary>
-        public static string ErrorDeleteHospitalDoctorsDetails
-        {
-            get
-            {
+        public static string ErrorDeleteHospitalDoctorsDetails {
+            get {
                 return ResourceManager.GetString("ErrorDeleteHospitalDoctorsDetails", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test due to associate record..
-        /// </summary>
-        public static string ErrorDeleteHospitalPathologyTest
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTest", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test Prices due to associate record..
-        /// </summary>
-        public static string ErrorDeleteHospitalPathologyTestPrices
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTestPrices", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Hospital Registration Fee due to associate record..
-        /// </summary>
-        public static string ErrorDeleteHospitalRegistrationFee
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteHospitalRegistrationFee", resourceCulture);
-            }
-        }
-
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Doctor Visiting Charges details due to associate record..
         /// </summary>
-        public static string ErrorDeleteHospitalDoctorVisitingCharges
-        {
-            get
-            {
+        public static string ErrorDeleteHospitalDoctorVisitingCharges {
+            get {
                 return ResourceManager.GetString("ErrorDeleteHospitalDoctorVisitingCharges", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPathologyTest {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test Group due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPathologyTestGroup {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTestGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test Prices due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPathologyTestPrices {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTestPrices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Patient Appointment due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPatientAppointment {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalPatientAppointment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Patient Appointment Purpose due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalPatientAppointmentPurpose {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalPatientAppointmentPurpose", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Hospital Patient Type due to associate record..
         /// </summary>
-        public static string ErrorDeleteHospitalPatientTypeDetails
-        {
-            get
-            {
+        public static string ErrorDeleteHospitalPatientTypeDetails {
+            get {
                 return ResourceManager.GetString("ErrorDeleteHospitalPatientTypeDetails", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Hospital Registration Fee due to associate record..
+        /// </summary>
+        public static string ErrorDeleteHospitalRegistrationFee {
+            get {
+                return ResourceManager.GetString("ErrorDeleteHospitalRegistrationFee", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory category due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryCategory
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryCategory {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryCategory", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory General Item Master due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryGeneralItemMaster
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryGeneralItemMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryGeneralItemMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory item group due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryItemGroupMaster
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryItemGroupMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryItemGroupMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory Item Model Group due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryItemModelGroup
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryItemModelGroup {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryItemModelGroup", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory Item Storage Dimension due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryItemStorageDimension
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryItemStorageDimension {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryItemStorageDimension", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory item tracking dimension due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryItemTrackingDimension
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryItemTrackingDimension {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryItemTrackingDimension", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory Item Tracking Dimension Group due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryItemTrackingDimensionGroup
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryItemTrackingDimensionGroup {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryItemTrackingDimensionGroup", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory product dimension due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryProductDimension
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryProductDimension {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryProductDimension", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory Product Dimension Group due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryProductDimensionGroup
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryProductDimensionGroup {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryProductDimensionGroup", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory StorageDimension Group due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryStorageDimensionGroup
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryStorageDimensionGroup {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryStorageDimensionGroup", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete inventory uom due to associate record..
         /// </summary>
-        public static string ErrorDeleteInventoryUoMMaster
-        {
-            get
-            {
+        public static string ErrorDeleteInventoryUoMMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteInventoryUoMMaster", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Log Message due to associate record..
+        /// </summary>
+        public static string ErrorDeleteLogMessage {
+            get {
+                return ResourceManager.GetString("ErrorDeleteLogMessage", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete media setting master due to associate record..
         /// </summary>
@@ -884,531 +695,417 @@ namespace Coditech.Resources
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Occupation due to associate record..
         /// </summary>
-        public static string ErrorDeleteOccupationMaster
-        {
-            get
-            {
+        public static string ErrorDeleteOccupationMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteOccupationMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete organisationCentre due to associate record..
         /// </summary>
-        public static string ErrorDeleteOrganisationCentreMaster
-        {
-            get
-            {
+        public static string ErrorDeleteOrganisationCentreMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteOrganisationCentreMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Organisation Centrewise Building due to associate record..
         /// </summary>
-        public static string ErrorDeleteOrganisationCentrewiseBuildingMaster
-        {
-            get
-            {
+        public static string ErrorDeleteOrganisationCentrewiseBuildingMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteOrganisationCentrewiseBuildingMaster", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to delete LogMessage due to associate record..
-        /// </summary>
-        public static string ErrorDeleteLogMessage
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteLogMessage", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete OrganisationCentrewiseBuildingRooms due to associate record..
         /// </summary>
-        public static string ErrorDeleteOrganisationCentrewiseBuildingRooms
-        {
-            get
-            {
+        public static string ErrorDeleteOrganisationCentrewiseBuildingRooms {
+            get {
                 return ResourceManager.GetString("ErrorDeleteOrganisationCentrewiseBuildingRooms", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Patient Registration due to associate record..
         /// </summary>
-        public static string ErrorDeletePatientRegistrationDetails
-        {
-            get
-            {
+        public static string ErrorDeletePatientRegistrationDetails {
+            get {
                 return ResourceManager.GetString("ErrorDeletePatientRegistrationDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Registration Fee due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Payment Gateway Details due to associate record..
         /// </summary>
-        public static string ErrorDeleteRegistrationFeeDetails
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteRegistrationFeeDetails", resourceCulture);
+        public static string ErrorDeletePaymentGatewayDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeletePaymentGatewayDetails", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Payment Gateway due to associate record..
+        /// </summary>
+        public static string ErrorDeletePaymentGateways {
+            get {
+                return ResourceManager.GetString("ErrorDeletePaymentGateways", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Globle Setting due to associate record..
         /// </summary>
-        public static string ErrorDeleteSystemGlobleSettingMaster
-        {
-            get
-            {
+        public static string ErrorDeleteSystemGlobleSettingMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteSystemGlobleSettingMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Coditech Application Setting due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Task Master due to associate record..
         /// </summary>
-        public static string ErrorDeleteCoditechApplicationSetting
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteCoditechApplicationSetting", resourceCulture);
+        public static string ErrorDeleteTaskMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteTaskMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Failed to delete Hospital Pathology Test Group due to associate record..
+        ///   Looks up a localized string similar to Failed to delete Ticket Master due to associate record..
         /// </summary>
-        public static string ErrorDeleteHospitalPathologyTestGroup
-        {
-            get
-            {
-                return ResourceManager.GetString("ErrorDeleteHospitalPathologyTestGroup", resourceCulture);
+        public static string ErrorDeleteTicketMaster {
+            get {
+                return ResourceManager.GetString("ErrorDeleteTicketMaster", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Trainer Details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteTrainerDetails {
+            get {
+                return ResourceManager.GetString("ErrorDeleteTrainerDetails", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete User Main Menu due to associate record..
         /// </summary>
-        public static string ErrorDeleteUserMainMenuMaster
-        {
-            get
-            {
+        public static string ErrorDeleteUserMainMenuMaster {
+            get {
                 return ResourceManager.GetString("ErrorDeleteUserMainMenuMaster", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
         /// </summary>
-        public static string ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword
-        {
-            get
-            {
+        public static string ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword {
+            get {
                 return ResourceManager.GetString("ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
-        public static string LabelAction
-        {
-            get
-            {
+        public static string LabelAction {
+            get {
                 return ResourceManager.GetString("LabelAction", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Admin Role List.
         /// </summary>
-        public static string LabelAdminRoleList
-        {
-            get
-            {
+        public static string LabelAdminRoleList {
+            get {
                 return ResourceManager.GetString("LabelAdminRoleList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Admin Sanction Post List.
         /// </summary>
-        public static string LabelAdminSanctionPostList
-        {
-            get
-            {
+        public static string LabelAdminSanctionPostList {
+            get {
                 return ResourceManager.GetString("LabelAdminSanctionPostList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string LabelCancel
-        {
-            get
-            {
+        public static string LabelCancel {
+            get {
                 return ResourceManager.GetString("LabelCancel", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Centre.
         /// </summary>
-        public static string LabelCentre
-        {
-            get
-            {
+        public static string LabelCentre {
+            get {
                 return ResourceManager.GetString("LabelCentre", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Centre.
-        /// </summary>
-        public static string LabelTrainer
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelTrainer", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to City List.
         /// </summary>
-        public static string LabelCityList
-        {
-            get
-            {
+        public static string LabelCityList {
+            get {
                 return ResourceManager.GetString("LabelCityList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Country List.
         /// </summary>
-        public static string LabelCountryList
-        {
-            get
-            {
+        public static string LabelCountryList {
+            get {
                 return ResourceManager.GetString("LabelCountryList", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to LabelTaskMaster List
-        /// </summary>
-        public static string LabelTaskMasterList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelTaskMasterList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Department List.
         /// </summary>
-        public static string LabelDepartmentList
-        {
-            get
-            {
+        public static string LabelDepartmentList {
+            get {
                 return ResourceManager.GetString("LabelDepartmentList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Departments.
         /// </summary>
-        public static string LabelDepartments
-        {
-            get
-            {
+        public static string LabelDepartments {
+            get {
                 return ResourceManager.GetString("LabelDepartments", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Designation.
         /// </summary>
-        public static string LabelDesignationId
-        {
-            get
-            {
+        public static string LabelDesignationId {
+            get {
                 return ResourceManager.GetString("LabelDesignationId", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Designation List.
         /// </summary>
-        public static string LabelDesignationList
-        {
-            get
-            {
+        public static string LabelDesignationList {
+            get {
                 return ResourceManager.GetString("LabelDesignationList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Email Template List.
         /// </summary>
-        public static string LabelEmailTemplateList
-        {
-            get
-            {
+        public static string LabelEmailTemplateList {
+            get {
                 return ResourceManager.GetString("LabelEmailTemplateList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Employee List.
         /// </summary>
-        public static string LabelEmployeeList
-        {
-            get
-            {
+        public static string LabelEmployeeList {
+            get {
                 return ResourceManager.GetString("LabelEmployeeList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Enum Group.
         /// </summary>
-        public static string LabelEnumGroupList
-        {
-            get
-            {
+        public static string LabelEnumGroupList {
+            get {
                 return ResourceManager.GetString("LabelEnumGroupList", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to FinancialYear List.
+        ///   Looks up a localized string similar to Financial Year List.
         /// </summary>
-        public static string LabelFinancialYearList
-        {
-            get
-            {
+        public static string LabelFinancialYearList {
+            get {
                 return ResourceManager.GetString("LabelFinancialYearList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Globle Setting List.
         /// </summary>
-        public static string LabelGlobleSettingList
-        {
-            get
-            {
+        public static string LabelGlobleSettingList {
+            get {
                 return ResourceManager.GetString("LabelGlobleSettingList", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Coditech Application Setting List.
-        /// </summary>
-        public static string LabelCoditechApplicationSettingList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelCoditechApplicationSettingList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Body Measurement Type List.
         /// </summary>
-        public static string LabelGymBodyMeasurementTypeList
-        {
-            get
-            {
+        public static string LabelGymBodyMeasurementTypeList {
+            get {
                 return ResourceManager.GetString("LabelGymBodyMeasurementTypeList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Hospital Doctor OPD Schedule List.
         /// </summary>
-        public static string LabelHospitalDoctorOPDScheduleList
-        {
-            get
-            {
+        public static string LabelHospitalDoctorOPDScheduleList {
+            get {
                 return ResourceManager.GetString("LabelHospitalDoctorOPDScheduleList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Hospital Doctor Visiting Charges List.
         /// </summary>
-        public static string LabelHospitalDoctorVisitingChargesList
-        {
-            get
-            {
+        public static string LabelHospitalDoctorVisitingChargesList {
+            get {
                 return ResourceManager.GetString("LabelHospitalDoctorVisitingChargesList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory Category List.
         /// </summary>
-        public static string LabelInventoryCategoryList
-        {
-            get
-            {
+        public static string LabelInventoryCategoryList {
+            get {
                 return ResourceManager.GetString("LabelInventoryCategoryList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory General Item Master List.
         /// </summary>
-        public static string LabelInventoryGeneralItemMasterList
-        {
-            get
-            {
+        public static string LabelInventoryGeneralItemMasterList {
+            get {
                 return ResourceManager.GetString("LabelInventoryGeneralItemMasterList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory Item Group List.
         /// </summary>
-        public static string LabelInventoryItemGroupList
-        {
-            get
-            {
+        public static string LabelInventoryItemGroupList {
+            get {
                 return ResourceManager.GetString("LabelInventoryItemGroupList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory Item Storage Dimension List.
         /// </summary>
-        public static string LabelInventoryItemStorageDimensionList
-        {
-            get
-            {
+        public static string LabelInventoryItemStorageDimensionList {
+            get {
                 return ResourceManager.GetString("LabelInventoryItemStorageDimensionList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory Item Tracking Dimension Group List.
         /// </summary>
-        public static string LabelInventoryItemTrackingDimensionGroupList
-        {
-            get
-            {
+        public static string LabelInventoryItemTrackingDimensionGroupList {
+            get {
                 return ResourceManager.GetString("LabelInventoryItemTrackingDimensionGroupList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory Item Tracking Dimension List.
         /// </summary>
-        public static string LabelInventoryItemTrackingDimensionList
-        {
-            get
-            {
+        public static string LabelInventoryItemTrackingDimensionList {
+            get {
                 return ResourceManager.GetString("LabelInventoryItemTrackingDimensionList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory Product Dimension Group List.
         /// </summary>
-        public static string LabelInventoryProductDimensionGroupList
-        {
-            get
-            {
+        public static string LabelInventoryProductDimensionGroupList {
+            get {
                 return ResourceManager.GetString("LabelInventoryProductDimensionGroupList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory Product Dimension List.
         /// </summary>
-        public static string LabelInventoryProductDimensionList
-        {
-            get
-            {
+        public static string LabelInventoryProductDimensionList {
+            get {
                 return ResourceManager.GetString("LabelInventoryProductDimensionList", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Inventory StorageDimension Group List.
+        ///   Looks up a localized string similar to Inventory Storage Dimension Group List.
         /// </summary>
-        public static string LabelInventoryStorageDimensionGroupList
-        {
-            get
-            {
+        public static string LabelInventoryStorageDimensionGroupList {
+            get {
                 return ResourceManager.GetString("LabelInventoryStorageDimensionGroupList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inventory UoM List.
         /// </summary>
-        public static string LabelInventoryUoMMasterList
-        {
-            get
-            {
+        public static string LabelInventoryUoMMasterList {
+            get {
                 return ResourceManager.GetString("LabelInventoryUoMMasterList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Is Active.
         /// </summary>
-        public static string LabelIsActive
-        {
-            get
-            {
+        public static string LabelIsActive {
+            get {
                 return ResourceManager.GetString("LabelIsActive", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Item Model Group List.
         /// </summary>
-        public static string LabelItemModelGroupList
-        {
-            get
-            {
+        public static string LabelItemModelGroupList {
+            get {
                 return ResourceManager.GetString("LabelItemModelGroupList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Lead Generation List.
         /// </summary>
-        public static string LabelLeadGenerationList
-        {
-            get
-            {
+        public static string LabelLeadGenerationList {
+            get {
                 return ResourceManager.GetString("LabelLeadGenerationList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Measurement Unit List.
         /// </summary>
-        public static string LabelMeasurementUnitList
-        {
-            get
-            {
+        public static string LabelMeasurementUnitList {
+            get {
                 return ResourceManager.GetString("LabelMeasurementUnitList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Media Setting Master List.
         /// </summary>
@@ -1421,179 +1118,147 @@ namespace Coditech.Resources
         /// <summary>
         ///   Looks up a localized string similar to Membership Plan.
         /// </summary>
-        public static string LabelMembershipPlanList
-        {
-            get
-            {
+        public static string LabelMembershipPlanList {
+            get {
                 return ResourceManager.GetString("LabelMembershipPlanList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to NationalityList.
         /// </summary>
-        public static string LabelNationalityList
-        {
-            get
-            {
+        public static string LabelNationalityList {
+            get {
                 return ResourceManager.GetString("LabelNationalityList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Number of Post.
         /// </summary>
-        public static string LabelNoOfPost
-        {
-            get
-            {
+        public static string LabelNoOfPost {
+            get {
                 return ResourceManager.GetString("LabelNoOfPost", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Occupation List.
         /// </summary>
-        public static string LabelOccupationList
-        {
-            get
-            {
+        public static string LabelOccupationList {
+            get {
                 return ResourceManager.GetString("LabelOccupationList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Organisation Centrewise Building List.
         /// </summary>
-        public static string LabelOrganisationCentrewiseBuildingList
-        {
-            get
-            {
+        public static string LabelOrganisationCentrewiseBuildingList {
+            get {
                 return ResourceManager.GetString("LabelOrganisationCentrewiseBuildingList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Organisation Centrewise Building Rooms List.
         /// </summary>
-        public static string LabelOrganisationCentrewiseBuildingRoomsList
-        {
-            get
-            {
+        public static string LabelOrganisationCentrewiseBuildingRoomsList {
+            get {
                 return ResourceManager.GetString("LabelOrganisationCentrewiseBuildingRoomsList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Organisation Centrewise Department List.
         /// </summary>
-        public static string LabelOrganisationCentrewiseDepartmentList
-        {
-            get
-            {
+        public static string LabelOrganisationCentrewiseDepartmentList {
+            get {
                 return ResourceManager.GetString("LabelOrganisationCentrewiseDepartmentList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Organisation Centre List.
         /// </summary>
-        public static string LabelOrganisationList
-        {
-            get
-            {
+        public static string LabelOrganisationList {
+            get {
                 return ResourceManager.GetString("LabelOrganisationList", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment Gateway.
+        /// </summary>
+        public static string LabelPaymentGateway {
+            get {
+                return ResourceManager.GetString("LabelPaymentGateway", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Person Follow Up List.
         /// </summary>
-        public static string LabelPersonFollowUpList
-        {
-            get
-            {
+        public static string LabelPersonFollowUpList {
+            get {
                 return ResourceManager.GetString("LabelPersonFollowUpList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Region List.
         /// </summary>
-        public static string LabelRegionList
-        {
-            get
-            {
+        public static string LabelRegionList {
+            get {
                 return ResourceManager.GetString("LabelRegionList", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to District List.
-        /// </summary>
-        public static string LabelDistrictList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelDistrictList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Running Numbers List.
         /// </summary>
-        public static string LabelRunningNumbersList
-        {
-            get
-            {
+        public static string LabelRunningNumbersList {
+            get {
                 return ResourceManager.GetString("LabelRunningNumbersList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sales Invoice List.
         /// </summary>
-        public static string LabelSalesInvoiceList
-        {
-            get
-            {
+        public static string LabelSalesInvoiceList {
+            get {
                 return ResourceManager.GetString("LabelSalesInvoiceList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sanction Post Description.
         /// </summary>
-        public static string LabelSanctionedPostDescription
-        {
-            get
-            {
+        public static string LabelSanctionedPostDescription {
+            get {
                 return ResourceManager.GetString("LabelSanctionedPostDescription", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sanction Post Code.
         /// </summary>
-        public static string LabelSanctionPostCode
-        {
-            get
-            {
+        public static string LabelSanctionPostCode {
+            get {
                 return ResourceManager.GetString("LabelSanctionPostCode", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        public static string LabelSave
-        {
-            get
-            {
+        public static string LabelSave {
+            get {
                 return ResourceManager.GetString("LabelSave", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to SMS Provider List.
         /// </summary>
@@ -1606,36 +1271,27 @@ namespace Coditech.Resources
         /// <summary>
         ///   Looks up a localized string similar to Tax Group List.
         /// </summary>
-        public static string LabelTaxGroupList
-        {
-            get
-            {
+        public static string LabelTaxGroupList {
+            get {
                 return ResourceManager.GetString("LabelTaxGroupList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Tax List.
         /// </summary>
-        public static string LabelTaxList
-        {
-            get
-            {
+        public static string LabelTaxList {
+            get {
                 return ResourceManager.GetString("LabelTaxList", resourceCulture);
             }
         }
-        public static string LabelWhatsAppProviderList
-        {
-            get
-            {
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WhatsApp Provider List.
+        /// </summary>
+        public static string LabelWhatsAppProviderList {
+            get {
                 return ResourceManager.GetString("LabelWhatsAppProviderList", resourceCulture);
-            }
-        }
-        public static string LabelNotificationList
-        {
-            get
-            {
-                return ResourceManager.GetString("LabelNotificationList", resourceCulture);
             }
         }
     }

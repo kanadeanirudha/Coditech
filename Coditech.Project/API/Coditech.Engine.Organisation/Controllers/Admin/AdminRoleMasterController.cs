@@ -169,7 +169,7 @@ namespace Coditech.API.Controllers
             try
             {
                 AdminRoleApplicableDetailsListModel list = _adminRoleMasterService.RoleAllocatedToUserList(adminRoleMasterId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
-                return IsNotNull(list) ? CreateOKResponse(new AdminRoleApplicableDetailsListResponse() { AdminRoleApplicableDetailsList = list, PageIndex = list.PageIndex, PageSize = list.PageSize, TotalPages = list.TotalPages, TotalResults = list.TotalResults }) : NotFound();
+                return IsNotNull(list) ? CreateOKResponse(new AdminRoleApplicableDetailsListResponse() { AdminRoleApplicableDetailsList = list, PageIndex = list.PageIndex, PageSize = list.PageSize, TotalResults = list.TotalResults }) : NotFound();
             }
             catch (CoditechException ex)
             {

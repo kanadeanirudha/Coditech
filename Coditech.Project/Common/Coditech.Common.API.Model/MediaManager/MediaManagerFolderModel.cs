@@ -6,8 +6,6 @@
         public int ActiveFolderId { get; set; }
         public List<MediaModel> MediaFiles { get; set; }
         public double TotalFileSize { get; set; }
-        public int TotalCount { get; set; }
-
     }
 
     public class MediaFolderStructureModel

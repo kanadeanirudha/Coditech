@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.Helper.Utilities;
 
 using System.Security.Cryptography;
@@ -42,6 +43,15 @@ namespace Coditech.Common.Helper
             }
         }
 
+        public static void BindPageListResponseModel(this BaseListResponse baseListResponseModel, PageListModel pageListModel)
+        {
+            if (IsNotNull(pageListModel))
+            {
+                baseListResponseModel.TotalResults = pageListModel.TotalRowCount;
+                baseListResponseModel.PageIndex = pageListModel.PagingStart;
+                baseListResponseModel.PageSize = pageListModel.PagingLength;
+            }
+        }
         public static bool IsAdminUser(string userType)
         {
             return userType.Equals(UserTypeEnum.Admin.ToString(), StringComparison.InvariantCultureIgnoreCase);

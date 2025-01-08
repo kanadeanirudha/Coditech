@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 
 using Newtonsoft.Json;
-
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Net;
@@ -196,7 +195,7 @@ namespace Coditech.API.Client
         /// <param name="status"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> PostResourceToEndpointAsync(string endpoint, MultipartFormDataContent formData, ApiStatus status, CancellationToken cancellationToken)
+        public HttpResponseMessage PostResourceToEndpoint(string endpoint, MultipartFormDataContent formData, ApiStatus status, CancellationToken cancellationToken)
         {
             string baseEndPoint = endpoint;
 
@@ -210,7 +209,7 @@ namespace Coditech.API.Client
             // Set headers for API request.
             req = SetHeaders(req, endpoint);
 
-            return await GetResultFromResponseAsync(req, status, cancellationToken, baseEndPoint, "POST", formData.ToString());
+            return GetResultFromResponse(req, status, cancellationToken, baseEndPoint, "POST", formData.ToString());
         }
 
 
@@ -343,7 +342,7 @@ namespace Coditech.API.Client
 
         }
 
-        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -422,6 +421,53 @@ namespace Coditech.API.Client
                         break;
                     case ErrorCodes.UnAuthorized:
                         result = await HandleAsyncUnAuthorizedRequest(status, cancellationToken, endpoint, methodType, data);
+                        break;
+                    default:
+                        UpdateApiStatus(response, status, result);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogRequestResponseDetails(request, ex, status.StatusCode);
+            }
+            return response;
+
+        }
+
+        private HttpResponseMessage GetResultFromResponse(HttpRequestMessage request, ApiStatus status, CancellationToken cancellationToken, string endpoint = "", string methodType = "", string data = "")
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            try
+            {
+                request.RequestUri = new Uri(endpoint);
+                using (HttpClient client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromMilliseconds(10000000);
+                    client.DefaultRequestHeaders.ConnectionClose = false;
+                    response =  client.Send(request);
+                    UpdateApiStatus(response, status);
+                    return response;
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                LogRequestResponseDetails(request, ex, status.StatusCode);
+
+                // This deserialization is used to get the error information
+                var result = DeserializeResponseStream(response);
+                switch (result.ErrorCode)
+                {
+                    case ErrorCodes.WebAPIKeyNotFound:
+                        ThrowApiKeyNotFoundException();
+                        break;
+                    case ErrorCodes.InvalidDomainConfiguration:
+                    case ErrorCodes.InvalidSqlConfiguration:
+                    case ErrorCodes.InvalidCoditechLicense:
+                        ThrowMisconfigurationException(result.ErrorCode, result.ErrorMessage);
+                        break;
+                    case ErrorCodes.UnAuthorized:
+                        result =  HandleAsyncUnAuthorizedRequest(status, cancellationToken, endpoint, methodType, data);
                         break;
                     default:
                         UpdateApiStatus(response, status, result);
