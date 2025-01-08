@@ -61,8 +61,9 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_generalCountryAgent.UpdateCountry(generalCountryViewModel).HasError
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                generalCountryViewModel = _generalCountryAgent.UpdateCountry(generalCountryViewModel);
+                SetNotificationMessage(generalCountryViewModel.HasError
+                ? GetErrorNotificationMessage(generalCountryViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { generalCountryId = generalCountryViewModel.GeneralCountryMasterId });
             }
