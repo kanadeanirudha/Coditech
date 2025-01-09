@@ -4,6 +4,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 
 using System.Collections.Specialized;
@@ -12,18 +13,24 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class DBTMDeviceRegistrationDetailsService : IDBTMDeviceRegistrationDetailsService
+    public class DBTMDeviceRegistrationDetailsService : BaseService,IDBTMDeviceRegistrationDetailsService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMDeviceRegistrationDetails> _dBTMDeviceRegistrationDetailsRepository;
         private readonly ICoditechRepository<DBTMDeviceMaster> _dBTMDeviceMasterRepository;
-        public DBTMDeviceRegistrationDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<DBTMSubscriptionPlan> _dBTMSubscriptionPlanRepository; 
+        private readonly ICoditechRepository<DBTMSubscriptionPlanAssociatedToUser> _dBTMSubscriptionPlanAssociatedToUserRepository;
+
+
+        public DBTMDeviceRegistrationDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider):base(serviceProvider) 
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _dBTMDeviceRegistrationDetailsRepository = new CoditechRepository<DBTMDeviceRegistrationDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _dBTMDeviceMasterRepository = new CoditechRepository<DBTMDeviceMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMSubscriptionPlanRepository = new CoditechRepository<DBTMSubscriptionPlan>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMSubscriptionPlanAssociatedToUserRepository = new CoditechRepository<DBTMSubscriptionPlanAssociatedToUser>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual DBTMDeviceRegistrationDetailsListModel GetDBTMDeviceRegistrationDetailsList(long userMasterId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -61,6 +68,13 @@ namespace Coditech.API.Service
             if (IsDeviceSerialCodeAlreadyExist(dBTMDeviceMaster.DBTMDeviceMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Device Already Added"));
 
+            int subscriptionPlanTypeEnumId = GetEnumIdByEnumCode("DBTMDeviceRegistrationPlan", DropdownTypeEnum.DBTMSubscriptionPlanType.ToString());
+
+            DBTMSubscriptionPlan dBTMSubscriptionPlan = _dBTMSubscriptionPlanRepository.Table.Where(x => x.SubscriptionPlanTypeEnumId == subscriptionPlanTypeEnumId && x.IsActive)?.FirstOrDefault();
+
+            if (IsNull(dBTMSubscriptionPlan))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+
             DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetails = new DBTMDeviceRegistrationDetails()
             {
                 DBTMDeviceMasterId = dBTMDeviceMaster.DBTMDeviceMasterId,
@@ -75,6 +89,22 @@ namespace Coditech.API.Service
             if (dBTMDeviceRegistrationDetailsData?.DBTMDeviceRegistrationDetailId > 0)
             {
                 dBTMDeviceRegistrationDetailsModel.DBTMDeviceRegistrationDetailId = dBTMDeviceRegistrationDetailsData.DBTMDeviceRegistrationDetailId;
+
+                DBTMSubscriptionPlanAssociatedToUser dBTMSubscriptionPlanAssociatedToUser = new DBTMSubscriptionPlanAssociatedToUser()
+                {
+                    DBTMSubscriptionPlanId = dBTMSubscriptionPlan.DBTMSubscriptionPlanId,
+                    UserType = UserTypeEnum.Employee.ToString(),
+                    EntityId = dBTMDeviceRegistrationDetailsModel.EntityId,
+                    DBTMDeviceMasterId= dBTMDeviceRegistrationDetails.DBTMDeviceMasterId,
+                    DurationInDays= dBTMSubscriptionPlan.DurationInDays,
+                    PlanCost= dBTMSubscriptionPlan.PlanCost,
+                    PlanDiscount= dBTMSubscriptionPlan.PlanDiscount,
+                    IsExpired= false,
+                    PlanDurationExpirationDate= DateTime.Now.AddMonths(dBTMDeviceMaster.WarrantyExpirationPeriodInMonth),
+                    SalesInvoiceMasterId=0,
+                };
+                
+                dBTMSubscriptionPlanAssociatedToUser = _dBTMSubscriptionPlanAssociatedToUserRepository.Insert(dBTMSubscriptionPlanAssociatedToUser);
             }
             else
             {
