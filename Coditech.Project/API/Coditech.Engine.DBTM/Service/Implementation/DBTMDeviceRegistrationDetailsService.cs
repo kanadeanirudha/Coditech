@@ -13,17 +13,17 @@ using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class DBTMDeviceRegistrationDetailsService : BaseService,IDBTMDeviceRegistrationDetailsService
+    public class DBTMDeviceRegistrationDetailsService : BaseService, IDBTMDeviceRegistrationDetailsService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMDeviceRegistrationDetails> _dBTMDeviceRegistrationDetailsRepository;
         private readonly ICoditechRepository<DBTMDeviceMaster> _dBTMDeviceMasterRepository;
-        private readonly ICoditechRepository<DBTMSubscriptionPlan> _dBTMSubscriptionPlanRepository; 
+        private readonly ICoditechRepository<DBTMSubscriptionPlan> _dBTMSubscriptionPlanRepository;
         private readonly ICoditechRepository<DBTMSubscriptionPlanAssociatedToUser> _dBTMSubscriptionPlanAssociatedToUserRepository;
 
 
-        public DBTMDeviceRegistrationDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider):base(serviceProvider) 
+        public DBTMDeviceRegistrationDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -62,7 +62,8 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.InvalidData, "Device Serial Code is required.");
 
             DBTMDeviceMaster dBTMDeviceMaster = GetDBTMDeviceMasterDetails(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode);
-            if (IsNotNull(dBTMDeviceMaster) || dBTMDeviceMaster?.DBTMDeviceMasterId <= 0)
+
+            if (dBTMDeviceMaster == null || dBTMDeviceMaster.DBTMDeviceMasterId <= 0)
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format("Invalid Device Serial Code."));
 
             if (IsDeviceSerialCodeAlreadyExist(dBTMDeviceMaster.DBTMDeviceMasterId))
@@ -95,15 +96,15 @@ namespace Coditech.API.Service
                     DBTMSubscriptionPlanId = dBTMSubscriptionPlan.DBTMSubscriptionPlanId,
                     UserType = UserTypeEnum.Employee.ToString(),
                     EntityId = dBTMDeviceRegistrationDetailsModel.EntityId,
-                    DBTMDeviceMasterId= dBTMDeviceRegistrationDetails.DBTMDeviceMasterId,
-                    DurationInDays= dBTMSubscriptionPlan.DurationInDays,
-                    PlanCost= dBTMSubscriptionPlan.PlanCost,
-                    PlanDiscount= dBTMSubscriptionPlan.PlanDiscount,
-                    IsExpired= false,
-                    PlanDurationExpirationDate= DateTime.Now.AddMonths(dBTMDeviceMaster.WarrantyExpirationPeriodInMonth),
-                    SalesInvoiceMasterId=0,
+                    DBTMDeviceMasterId = dBTMDeviceRegistrationDetails.DBTMDeviceMasterId,
+                    DurationInDays = dBTMSubscriptionPlan.DurationInDays,
+                    PlanCost = dBTMSubscriptionPlan.PlanCost,
+                    PlanDiscount = dBTMSubscriptionPlan.PlanDiscount,
+                    IsExpired = false,
+                    PlanDurationExpirationDate = DateTime.Now.AddMonths(dBTMDeviceMaster.WarrantyExpirationPeriodInMonth),
+                    SalesInvoiceMasterId = 0,
                 };
-                
+
                 dBTMSubscriptionPlanAssociatedToUser = _dBTMSubscriptionPlanAssociatedToUserRepository.Insert(dBTMSubscriptionPlanAssociatedToUser);
             }
             else
@@ -166,7 +167,7 @@ namespace Coditech.API.Service
         //Check if DeviceSerialCode is already present or not.
         protected virtual bool IsDeviceSerialCodeAlreadyExist(long dBTMDeviceMasterId)
         {
-          return  _dBTMDeviceRegistrationDetailsRepository.Table.Any(x => x.DBTMDeviceMasterId == dBTMDeviceMasterId);
+            return _dBTMDeviceRegistrationDetailsRepository.Table.Any(x => x.DBTMDeviceMasterId == dBTMDeviceMasterId);
         }
 
         protected virtual DBTMDeviceMaster GetDBTMDeviceMasterDetails(string deviceSerialCode)
