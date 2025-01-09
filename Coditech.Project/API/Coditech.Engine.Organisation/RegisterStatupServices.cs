@@ -282,6 +282,12 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
             builder.Services.AddScoped<IEmployeeServiceService, EmployeeServiceService>();
             #endregion
+
+            #region Accounts
+            builder.Services.AddScoped<IAccGLSetupNarrationService, AccGLSetupNarrationService>();
+            builder.Services.AddScoped<IAccSetupMasterService, AccSetupMasterService>();
+            #endregion
+
         }
         #endregion
     }

@@ -80,6 +80,11 @@ namespace Coditech.API.Mapper
             CreateMap<EmployeeMaster, EmployeeMasterModel>().ReverseMap();
             CreateMap<EmployeeService, EmployeeServiceModel>().ReverseMap();
             #endregion
+
+            #region Accounts
+            CreateMap<AccGLSetupNarration, AccGLSetupNarrationModel>().ReverseMap();
+            CreateMap<AccSetupMaster, AccSetupMasterModel>().ReverseMap();
+            #endregion
         }
     }
 }

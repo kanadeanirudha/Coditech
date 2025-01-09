@@ -130,6 +130,12 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IPaymentGatewayDetailsAgent, PaymentGatewayDetailsAgent>();
 
             #endregion
+
+            #region Accounts         
+            builder.Services.AddScoped<IAccGLSetupNarrationAgent, AccGLSetupNarrationAgent>();
+            builder.Services.AddScoped<IAccSetupMasterAgent, AccSetupMasterAgent>();
+            #endregion
+
             #endregion Agent
 
             #region Client
@@ -243,6 +249,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IPaymentGatewayDetailsClient, PaymentGatewayDetailsClient>();
             #endregion
 
+            #region Accounts
+            builder.Services.AddScoped<IAccGLSetupNarrationClient, AccGLSetupNarrationClient>();
+            builder.Services.AddScoped<IAccSetupMasterClient, AccSetupMasterClient>();
+            #endregion
 
             #endregion Client
         }

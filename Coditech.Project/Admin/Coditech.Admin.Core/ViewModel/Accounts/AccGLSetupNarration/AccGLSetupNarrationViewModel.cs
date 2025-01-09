@@ -1,0 +1,22 @@
+﻿using Coditech.Common.Helper;
+using System.ComponentModel.DataAnnotations;
+namespace Coditech.Admin.ViewModel
+{
+    public class AccGLSetupNarrationViewModel : BaseViewModel
+    {
+        public int AccGLSetupNarrationId { get; set; }
+        [Required]
+        [MaxLength(500)]
+        [Display(Name = "Narration Description")]
+        public string NarrationDescription { get; set; }
+        [MaxLength(1)]
+        [Required]
+        [Display(Name = "Narration Type")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "These fields must accept alphabetic characters")]
+        public string NarrationType { get; set; }       
+        
+        [Display(Name = "Is Active")]
+        public bool IsActive { get; set; }
+
+    }
+}
