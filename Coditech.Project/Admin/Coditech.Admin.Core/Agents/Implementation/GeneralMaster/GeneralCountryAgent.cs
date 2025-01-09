@@ -97,6 +97,17 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Info);
                 return IsNotNull(generalCountryModel) ? generalCountryModel.ToViewModel<GeneralCountryViewModel>() : (GeneralCountryViewModel)GetViewModelWithErrorMessage(new GeneralCountryViewModel(), GeneralResources.UpdateErrorMessage);
             }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (GeneralCountryViewModel)GetViewModelWithErrorMessage(generalCountryViewModel, ex.ErrorMessage);
+                    default:
+                        return (GeneralCountryViewModel)GetViewModelWithErrorMessage(generalCountryViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
             catch (Exception ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
