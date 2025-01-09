@@ -34,7 +34,31 @@ namespace Coditech.Common.Logger
 
         public void LogMessage(Exception ex, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, string errorMessageType = null)
         {
-            LogMessage(ex.Message, componentName, traceLevel, ex, errorMessageType, null);
+            if (traceLevel == TraceLevel.Error)
+            {
+                var st = new StackTrace(ex, true); // create the stack trace
+                var query = st.GetFrames()         // get the frames
+                              .Select(frame => new
+                              {                   // get the info
+                                  FileName = frame.GetFileName(),
+                                  LineNumber = frame.GetFileLineNumber(),
+                                  ColumnNumber = frame.GetFileColumnNumber(),
+                                  Method = frame.GetMethod(),
+                                  Class = frame.GetMethod().DeclaringType,
+                              })?.FirstOrDefault();
+                if (query != null)
+                {
+                    LogMessage(ex.Message, componentName, traceLevel, ex, errorMessageType, query.Method.Name, query.FileName, query.LineNumber);
+                }
+                else
+                {
+                    LogMessage(ex.Message, componentName, traceLevel, ex, errorMessageType, null);
+                }
+            }
+            else
+            {
+                LogMessage(ex.Message, componentName, traceLevel, ex, errorMessageType, null);
+            }
         }
 
         public void LogMessage(string message, string componentName = "", TraceLevel traceLevel = TraceLevel.Info, object obj = null, string errorMessageType = null, [CallerMemberName] string methodName = "", [CallerFilePath] string fileName = "", [CallerLineNumber] int lineNumber = 0)
