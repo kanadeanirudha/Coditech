@@ -6,6 +6,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
+using System.Diagnostics;
 using System.Text;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
@@ -36,56 +37,63 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Name"));
 
             if (!IsDeviceSerialCodeValid(dBTMNewRegistrationModel.DeviceSerialCode))
-                throw new CoditechException(ErrorCodes.InvalidData, string.Format("In Valid Divice Serial Code."));
+                throw new CoditechException(ErrorCodes.InvalidData, string.Format("In Valid Device Serial Code."));
 
-            int status = 0;
+            DBTMDeviceMaster dBTMDeviceMaster = new DBTMDeviceMasterService(_coditechLogging, _serviceProvider).GetDBTMDeviceMasterDetailsByCode(dBTMNewRegistrationModel.DeviceSerialCode);
+
+            if (dBTMDeviceMaster == null || dBTMDeviceMaster.DBTMDeviceMasterId <= 0)
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format("Invalid Device Serial Code."));
+
             if (dBTMNewRegistrationModel.IsCentreRegistration)
             {
-                DateTime currentDate = DateTime.Now;
-                //Save Centre 
-                OrganisationCentreMaster organisationCentreMaster = InsertOrganisationCentreMaster(dBTMNewRegistrationModel, currentDate);
+                try
+                {
+                    DateTime currentDate = DateTime.Now;
+                    //Save Centre 
+                    OrganisationCentreMaster organisationCentreMaster = InsertOrganisationCentreMaster(dBTMNewRegistrationModel, currentDate);
 
-                string centreCode = "HO";
-                //Centre SMTP Setting
-                InsertOrganisationCentrewiseSmtpSetting(currentDate, organisationCentreMaster, centreCode);
+                    string centreCode = "HO";
+                    //Centre SMTP Setting
+                    InsertOrganisationCentrewiseSmtpSetting(currentDate, organisationCentreMaster, centreCode);
 
-                //Centre SMS Setting
-                InsertOrganisationCentrewiseSmsSetting(currentDate, organisationCentreMaster, centreCode);
+                    //Centre SMS Setting
+                    InsertOrganisationCentrewiseSmsSetting(currentDate, organisationCentreMaster, centreCode);
 
-                //Centre WhatsApp Setting
-                InsertOrganisationCentrewiseWhatsAppSetting(currentDate, organisationCentreMaster, centreCode);
+                    //Centre WhatsApp Setting
+                    InsertOrganisationCentrewiseWhatsAppSetting(currentDate, organisationCentreMaster, centreCode);
 
-                //Centre Email Template
-                InsertOrganisationCentrewiseEmailTemplate(currentDate, organisationCentreMaster, centreCode);
+                    //Centre Email Template
+                    InsertOrganisationCentrewiseEmailTemplate(currentDate, organisationCentreMaster, centreCode);
 
-                //Centre UserName Registration
-                InsertOrganisationCentrewiseUserNameRegistration(currentDate, organisationCentreMaster, centreCode);
+                    //Centre UserName Registration
+                    InsertOrganisationCentrewiseUserNameRegistration(currentDate, organisationCentreMaster, centreCode);
 
-                //Centre Department
-                List<short> generalDepartmentMasterList = InsertOrganisationCentrewiseDepartment(currentDate, organisationCentreMaster);
+                    //Centre Department
+                    List<short> generalDepartmentMasterList = InsertOrganisationCentrewiseDepartment(currentDate, organisationCentreMaster);
 
-                //Centre UserName Registration
-                InsertGeneralRunningNumbers(currentDate, organisationCentreMaster, centreCode);
+                    //Centre UserName Registration
+                    InsertGeneralRunningNumbers(currentDate, organisationCentreMaster, centreCode);
 
-                long personId = 0;
-                //Insert General Person and registor employee
-                long employeeId = InsertEmployee(dBTMNewRegistrationModel, currentDate, organisationCentreMaster, generalDepartmentMasterList, out personId);
+                    long personId = 0;
+                    //Insert General Person and registor employee
+                    long employeeId = InsertEmployee(dBTMNewRegistrationModel, currentDate, organisationCentreMaster, generalDepartmentMasterList, out personId);
 
-                //Insert Employee Address
-                InsertEmployeeAddress(dBTMNewRegistrationModel, currentDate, personId);
+                    //Insert Employee Address
+                    InsertEmployeeAddress(dBTMNewRegistrationModel, currentDate, personId);
 
-                //Insert Admin Role
-                InsertAdminRole(currentDate, generalDepartmentMasterList.FirstOrDefault(), organisationCentreMaster.CentreCode, employeeId);
+                    //Insert Admin Role
+                    InsertAdminRole(currentDate, generalDepartmentMasterList.FirstOrDefault(), organisationCentreMaster.CentreCode, employeeId);
 
-                //DBTM Device Registration Details
-                InsertDBTMDeviceRegistration(dBTMNewRegistrationModel, currentDate, employeeId);
-
-                status = 1;
-            }
-            if (status == 0)
-            {
-                dBTMNewRegistrationModel.HasError = true;
-                dBTMNewRegistrationModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                    //DBTM Device Registration Details
+                    InsertDBTMDeviceRegistration(dBTMNewRegistrationModel, currentDate, employeeId, dBTMDeviceMaster.DBTMDeviceMasterId);
+                }
+                catch (Exception ex)
+                {
+                    dBTMNewRegistrationModel.HasError = true;
+                    dBTMNewRegistrationModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                    _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMNewRegistration.ToString(), TraceLevel.Error);
+                    //Call Delete data method
+                }
             }
             return dBTMNewRegistrationModel;
         }
@@ -111,19 +119,19 @@ namespace Coditech.API.Service
             new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalPersonAddress);
         }
 
-        protected virtual void InsertDBTMDeviceRegistration(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long employeeId)
+        protected virtual void InsertDBTMDeviceRegistration(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long employeeId, long dBTMDeviceMasterId)
         {
             //Insert DBTM Devices
-            DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetails = new DBTMDeviceRegistrationDetails()
+            DBTMDeviceRegistrationDetailsModel dBTMDeviceRegistrationDetailsModel = new DBTMDeviceRegistrationDetailsModel()
             {
-                DBTMDeviceMasterId = _dbtmDeviceMasterRepository.Table.Where(x => x.DeviceSerialCode == dBTMNewRegistrationModel.DeviceSerialCode).Select(y => y.DBTMDeviceMasterId).FirstOrDefault(),
+                DBTMDeviceMasterId = dBTMDeviceMasterId,
                 UserType = UserTypeEnum.Employee.ToString(),
                 EntityId = employeeId,
                 PurchaseDate = currentDate,
                 CreatedDate = currentDate,
                 ModifiedDate = currentDate,
             };
-            new CoditechRepository<DBTMDeviceRegistrationDetails>(_serviceProvider.GetService<Coditech_Entities>()).Insert(dBTMDeviceRegistrationDetails);
+            new DBTMDeviceRegistrationDetailsService(_coditechLogging, _serviceProvider).CreateRegistrationDetails(dBTMDeviceRegistrationDetailsModel);
         }
 
         protected virtual long InsertEmployee(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, OrganisationCentreMaster organisationCentreMaster, List<short> generalDepartmentMasterList, out long personId)

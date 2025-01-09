@@ -61,8 +61,8 @@ namespace Coditech.API.Service
             if (string.IsNullOrEmpty(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode))
                 throw new CoditechException(ErrorCodes.InvalidData, "Device Serial Code is required.");
 
-            DBTMDeviceMaster dBTMDeviceMaster = GetDBTMDeviceMasterDetails(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode);
-
+            DBTMDeviceMaster dBTMDeviceMaster = new DBTMDeviceMasterService(_coditechLogging, _serviceProvider).GetDBTMDeviceMasterDetailsByCode(dBTMDeviceRegistrationDetailsModel.DeviceSerialCode);
+           
             if (dBTMDeviceMaster == null || dBTMDeviceMaster.DBTMDeviceMasterId <= 0)
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format("Invalid Device Serial Code."));
 
@@ -170,8 +170,6 @@ namespace Coditech.API.Service
             return _dBTMDeviceRegistrationDetailsRepository.Table.Any(x => x.DBTMDeviceMasterId == dBTMDeviceMasterId);
         }
 
-        protected virtual DBTMDeviceMaster GetDBTMDeviceMasterDetails(string deviceSerialCode)
-       => _dBTMDeviceMasterRepository.Table.Where(x => x.DeviceSerialCode == deviceSerialCode && x.IsActive).FirstOrDefault();
         #endregion
     }
 }
