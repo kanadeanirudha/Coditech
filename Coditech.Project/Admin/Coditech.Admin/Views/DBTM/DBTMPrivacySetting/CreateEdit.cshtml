@@ -4,7 +4,7 @@
     ViewBag.Title = Model.DBTMPrivacySettingId > 0 ? "Update DBTMPrivacySetting" : "Add DBTMPrivacySetting";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = ""/* , IsDisabled = Model.DBTMPrivacySettingId > 0 */ };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "", IsDisabled = Model.DBTMPrivacySettingId > 0 };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -29,6 +29,10 @@
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
+                            if (Model.DBTMPrivacySettingId > 0)
+                            {
+                                @Html.HiddenFor(m => m.CentreCode)
+                            }
                             @Html.HiddenFor(m => m.DBTMPrivacySettingId)
                             <div class="col-lg-8">
                                 <div class="mb-3">
