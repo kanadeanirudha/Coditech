@@ -63,17 +63,6 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
         }
 
-        public virtual ActionResult GetHospitalDoctorsList(string selectedCentreCode, string selectedDepartmentId)
-        {
-            DropdownViewModel departmentDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.HospitalDoctorsList.ToString(),
-                DropdownName = "HospitalDoctorId",
-                Parameter = $"{selectedCentreCode}~{selectedDepartmentId}",
-            };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
-        }
-
         [Route("/GeneralCommon/UploadMedia")]
         public virtual ActionResult PostUploadImage()
         {

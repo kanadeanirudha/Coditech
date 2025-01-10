@@ -4,7 +4,7 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()", IsDisabled = Model.HospitalDoctorId > 0 };
-    DropdownViewModel departmentDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(), DropdownName = "SelectedDepartmentId", DropdownSelectedValue = Convert.ToString(Model.SelectedDepartmentId), Parameter = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetHospitalDoctorsListByCentreCodeAndDepartmentId()", IsDisabled = Model.HospitalDoctorId > 0 };
+    DropdownViewModel departmentDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.CentrewiseDepartment.ToString(), DropdownName = "SelectedDepartmentId", DropdownSelectedValue = Convert.ToString(Model.SelectedDepartmentId), Parameter = Model.SelectedCentreCode, ChangeEvent = "HospitalDoctorLeaveSchedule.GetHospitalDoctorsListByCentreCodeAndDepartmentId()", IsDisabled = Model.HospitalDoctorId > 0 };
 
     string displayFromTimeDiv = Model.IsFullDay ? "display:none" : "display:block";
 }
