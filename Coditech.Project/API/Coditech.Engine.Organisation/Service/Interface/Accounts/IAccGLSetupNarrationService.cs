@@ -5,10 +5,10 @@ namespace Coditech.API.Service
 {
     public interface IAccGLSetupNarrationService
     {
-        AccGLSetupNarrationListModel GetNarrationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        AccGLSetupNarrationListModel GetNarrationList(string selectedCentreCode);
         AccGLSetupNarrationModel CreateNarration(AccGLSetupNarrationModel model);
         AccGLSetupNarrationModel GetNarration(int generalCountryMasterId);
         bool UpdateNarration(AccGLSetupNarrationModel model);
-        bool DeleteNarration(ParameterModel parameterModel);
+        //bool DeleteNarration(ParameterModel parameterModel);
     }
 }

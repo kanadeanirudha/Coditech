@@ -1,4 +1,5 @@
-﻿using Coditech.API.Endpoint;
+﻿using Coditech.API.Data;
+using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -13,17 +14,17 @@ namespace Coditech.API.Client
         AccGLSetupNarrationEndpoint accGLSetupNarrationEndpoint = null;
         public AccGLSetupNarrationClient()
         {
-          accGLSetupNarrationEndpoint = new AccGLSetupNarrationEndpoint();
+            accGLSetupNarrationEndpoint = new AccGLSetupNarrationEndpoint();
         }
 
-        public virtual AccGLSetupNarrationListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual AccGLSetupNarrationListResponse List(string selectedCentreCode)
         {
-            return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(selectedCentreCode, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<AccGLSetupNarrationListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<AccGLSetupNarrationListResponse> ListAsync(string selectedCentreCode, CancellationToken cancellationToken)
         {
-            string endpoint = accGLSetupNarrationEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
+            string endpoint = accGLSetupNarrationEndpoint.ListAsync(selectedCentreCode);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -221,45 +222,5 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual TrueFalseResponse DeleteNarration(ParameterModel body)
-        {
-            return Task.Run(async () => await DeleteNarrationAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
-        }
-
-        public virtual async Task<TrueFalseResponse> DeleteNarrationAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
-        {
-            string endpoint = accGLSetupNarrationEndpoint.DeleteNarrationAsync();
-            HttpResponseMessage response = null;
-            var disposeResponse = true;
-            try
-            {
-                ApiStatus status = new ApiStatus();
-                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
-
-                var headers_ = BindHeaders(response);
-                var status_ = (int)response.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse = await ReadObjectResponseAsync<TrueFalseResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse.Object == null)
-                    {
-                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
-                    }
-                    return objectResponse.Object;
-                }
-                else
-                {
-                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
-                    UpdateApiStatus(typedBody, status, response);
-                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-                }
-            }
-            finally
-            {
-                if (disposeResponse)
-                    response.Dispose();
-            }
-        }
     }
 }

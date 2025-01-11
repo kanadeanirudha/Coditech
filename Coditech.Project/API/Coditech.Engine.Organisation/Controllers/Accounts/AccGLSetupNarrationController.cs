@@ -26,11 +26,11 @@ namespace Coditech.API.Controllers
         [Route("/AccGLSetupNarration/GetNarrationList")]
         [Produces(typeof(AccGLSetupNarrationListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetNarrationList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetNarrationList(string selectedCentreCode)
         {
             try
             {
-                AccGLSetupNarrationListModel list = _accGLSetupNarrationService.GetNarrationList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                 AccGLSetupNarrationListModel list = _accGLSetupNarrationService.GetNarrationList(selectedCentreCode);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<AccGLSetupNarrationListResponse>(data) : CreateNoContentResponse();
             }
@@ -109,28 +109,6 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLSetupNarration.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new AccGLSetupNarrationResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
-        [Route("/AccGLSetupNarration/DeleteNarration")]
-        [HttpPost, ValidateModel]
-        [Produces(typeof(TrueFalseResponse))]
-        public virtual IActionResult DeleteNarration([FromBody] ParameterModel accGLSetupNarrationId)
-        {
-            try
-            {
-                bool deleted = _accGLSetupNarrationService.DeleteNarration(accGLSetupNarrationId);
-                return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLSetupNarration.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLSetupNarration.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

@@ -31,13 +31,6 @@ namespace Coditech.Admin.Agents
         /// <param name="accGLSetupNarrationViewModel">accGLSetupNarrationViewModel.</param>
         /// <returns>Returns updated AccGLSetupNarrationViewModel</returns>
         AccGLSetupNarrationViewModel UpdateNarration(AccGLSetupNarrationViewModel accGLSetupNarrationViewModel);
-
-        /// <summary>
-        /// Delete Narration.
-        /// </summary>
-        /// <param name="accGLSetupNarrationId">accGLSetupNarrationId.</param>
-        /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeleteNarration(string accGLSetupNarrationId, out string errorMessage);
-        AccGLSetupNarrationListResponse GetNarrationList();
+        //AccGLSetupNarrationListResponse GetNarrationList();
     }
 }
