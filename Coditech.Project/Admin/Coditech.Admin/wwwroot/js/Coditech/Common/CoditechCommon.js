@@ -65,34 +65,6 @@
         }
     },
 
-    GetHospitalDoctorsListByCentreCodeAndDepartmentId: function () {
-        var selectedCentreCode = $("#SelectedCentreCode").val();
-        var selectedDepartmentId = $("#SelectedDepartmentId").val();
-
-        if (selectedCentreCode != "" && selectedDepartmentId != "") {
-            CoditechCommon.ShowLodder();
-            $.ajax({
-                cache: false,
-                type: "GET",
-                dataType: "html",
-                url: "/GeneralCommon/GetHospitalDoctorsList",
-                data: { "selectedCentreCode": selectedCentreCode, "selectedDepartmentId": selectedDepartmentId },
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    $("#HospitalDoctorId").html("").html(data);
-                    CoditechCommon.HideLodder();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    if (xhr.status == "401" || xhr.status == "403") {
-                        location.reload();
-                    }
-                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Hospital Doctors List", "error")
-                    CoditechCommon.HideLodder();
-                }
-            });
-        }
-    },
-
     GetRegionListByCountryId: function () {
         var selectedItem = $("#GeneralCountryMasterId").val();
         if (selectedItem != "") {
