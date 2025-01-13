@@ -11,6 +11,10 @@
         public decimal PlanDiscount { get; set; }
         public int SubscriptionPlanTypeEnumId { get; set; }
         public string SubscriptionPlanType { get; set; }
+        public long DBTMDeviceMasterId { get; set; }
+        public DateTime PlanDurationExpirationDate { get; set; }
+        public bool IsExpired { get; set; }
+        public string DeviceSerialCode { get; set; }
 
     }
 }

@@ -126,9 +126,10 @@
             DBTMSubscriptionPlan,
             DBTMPrivacySetting,
             PaymentGateways,
-            PaymentGatewayDetails,
             AccGLSetupNarration,
-            AccSetupMaster
+            AccSetupMaster,
+            PaymentGatewayDetails,
+            DBTMMySubscriptionPlan
         }
     }
 }

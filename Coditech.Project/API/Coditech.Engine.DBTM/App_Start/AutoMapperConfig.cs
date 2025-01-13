@@ -21,6 +21,7 @@ namespace Coditech.API.Mapper
             CreateMap<DBTMBatchActivity, DBTMBatchActivityModel>().ReverseMap();
             CreateMap<AdminSanctionPostModel, AdminSanctionPost>().ReverseMap();
             CreateMap<DBTMSubscriptionPlan, DBTMSubscriptionPlanModel>().ReverseMap();
+            CreateMap<DBTMSubscriptionPlanAssociatedToUser, DBTMSubscriptionPlanModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanActivity, DBTMSubscriptionPlanActivityModel>().ReverseMap();
             CreateMap<DBTMPrivacySetting, DBTMPrivacySettingModel>().ReverseMap();
         }
