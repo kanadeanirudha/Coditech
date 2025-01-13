@@ -1,4 +1,6 @@
-﻿using Coditech.Common.Helper;
+﻿using System.ComponentModel.DataAnnotations;
+using Coditech.Common.Helper;
+using Coditech.Resources;
 namespace Coditech.Admin.ViewModel
 {
     public class AccGLSetupNarrationListViewModel : BaseViewModel
@@ -8,5 +10,7 @@ namespace Coditech.Admin.ViewModel
         {
             AccGLSetupNarrationList = new List<AccGLSetupNarrationViewModel>();
         }
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
+        public string SelectedCentreCode { get; set; } = null;
     }
 }

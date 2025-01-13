@@ -129,6 +129,7 @@
             AccGLSetupNarration,
             AccSetupMaster,
             PaymentGatewayDetails,
+            OrganisationCentrewiseJoiningCode,
             DBTMMySubscriptionPlan,
             DBTMDeviceData
         }

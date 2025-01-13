@@ -1,19 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Coditech.API.Data
 {
-    public partial class AccGLSetupNarration
+    public class OrganisationCentrewiseJoiningCode
     {
         [Key]
-        public int AccGLSetupNarrationId { get; set; }
-        public string NarrationType { get; set; }
-        public string NarrationDescription { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long OrganisationCentrewiseJoiningCodeId { get; set; }
         public string CentreCode { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsSystemGenerated{ get; set; }
+        public string JoiningCode { get; set; }
+        public int Quantity { get; set; }
+        public bool IsExpired { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     }
 }
-

@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.Helper;
+using Coditech.Resources;
 using System.ComponentModel.DataAnnotations;
 namespace Coditech.Admin.ViewModel
 {
@@ -9,14 +10,17 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(500)]
         [Display(Name = "Narration Description")]
         public string NarrationDescription { get; set; }
-        [MaxLength(1)]
+        [MaxLength(50)]
         [Required]
         [Display(Name = "Narration Type")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "These fields must accept alphabetic characters")]
-        public string NarrationType { get; set; }       
-        
+        public string NarrationType { get; set; }
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
+        public string CentreCode { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+        [Display(Name = "Is SystemGenerated")]
+        public bool IsSystemGenerated { get; set; }
 
     }
 }

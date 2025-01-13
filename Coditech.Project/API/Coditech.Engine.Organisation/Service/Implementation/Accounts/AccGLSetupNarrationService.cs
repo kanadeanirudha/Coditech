@@ -23,28 +23,35 @@ namespace Coditech.API.Service
             _accGLSetupNarrationRepository = new CoditechRepository<AccGLSetupNarration>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual AccGLSetupNarrationListModel GetNarrationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual AccGLSetupNarrationListModel GetNarrationList(string selectedCentreCode)
         {
-            //Bind the Filter, sorts & Paging details.
-            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<AccGLSetupNarrationModel> objStoredProc = new CoditechViewRepository<AccGLSetupNarrationModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<AccGLSetupNarrationModel> NarrationList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccGLSetupNarrationList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             AccGLSetupNarrationListModel listModel = new AccGLSetupNarrationListModel();
 
-            listModel.AccGLSetupNarrationList = NarrationList?.Count > 0 ? NarrationList : new List<AccGLSetupNarrationModel>();
-            listModel.BindPageListModel(pageListModel);
+            List<AccGLSetupNarration> list = _accGLSetupNarrationRepository.Table.Where(x => x.CentreCode == selectedCentreCode)?.ToList();
+            listModel.AccGLSetupNarrationList = new List<AccGLSetupNarrationModel>();
+            listModel.AccGLSetupNarrationList.Add(new AccGLSetupNarrationModel()
+            {
+                NarrationType = "Test Mode",
+                IsSystemGenerated = false,
+                AccGLSetupNarrationId = list?.Count() > 0 ? Convert.ToByte(list.FirstOrDefault(x => !x.IsSystemGenerated)?.AccGLSetupNarrationId) : (byte)0
+            });
+            listModel.AccGLSetupNarrationList.Add(new AccGLSetupNarrationModel()
+            {
+                NarrationType = "Live Mode",
+                IsSystemGenerated = true,
+                AccGLSetupNarrationId = list?.Count() > 0 ? Convert.ToByte(list.FirstOrDefault(x => x.IsSystemGenerated)?.AccGLSetupNarrationId) : (byte)0
+            });
             return listModel;
         }
         //Create Narration.
         public virtual AccGLSetupNarrationModel CreateNarration(AccGLSetupNarrationModel accGLSetupNarrationModel)
         {
-            if (IsNull(accGLSetupNarrationModel))
+            accGLSetupNarrationModel.CentreCode = accGLSetupNarrationModel.CentreCode;
+            accGLSetupNarrationModel.IsSystemGenerated = accGLSetupNarrationModel.IsSystemGenerated;
+
+                if (IsNull(accGLSetupNarrationModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+           
 
             //if (IsNarrationIDAlreadyExist(AccGLSetupNarration.NarrationType))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Narration Type"));
@@ -76,7 +83,6 @@ namespace Coditech.API.Service
             AccGLSetupNarrationModel accGLSetupNarrationModel = accGLSetupNarration?.FromEntityToModel<AccGLSetupNarrationModel>();
             return accGLSetupNarrationModel;
         }
-
         //Update NArration.
         public virtual bool UpdateNarration(AccGLSetupNarrationModel accGLSetupNarrationModel)
         {
@@ -102,19 +108,7 @@ namespace Coditech.API.Service
         }
 
         //Delete Narration.
-        public virtual bool DeleteNarration(ParameterModel parameterModel)
-        {
-            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "NarrationID"));
-
-            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("AccGLSetupNarrationId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
-            int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteCountry @AccGLSetupNarrationId,  @Status OUT", 1, out status);
-
-            return status == 1 ? true : false;
-        }
+        
 
         #region Protected Method
         //Check if Narration ID is already present or not.

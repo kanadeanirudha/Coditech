@@ -110,5 +110,13 @@ namespace Coditech.Common.API
 
             }
         }
+        public static byte JoiningCodeLength
+        {
+            get
+            {
+                return Convert.ToByte(settings["JoiningCodeLength"]);
+
+            }
+        }
     }
 }
