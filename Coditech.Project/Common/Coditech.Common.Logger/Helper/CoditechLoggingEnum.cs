@@ -129,7 +129,8 @@
             AccGLSetupNarration,
             AccSetupMaster,
             PaymentGatewayDetails,
-            DBTMMySubscriptionPlan
+            DBTMMySubscriptionPlan,
+            DBTMDeviceData
         }
     }
 }

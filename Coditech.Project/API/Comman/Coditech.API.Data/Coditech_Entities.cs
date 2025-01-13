@@ -179,6 +179,8 @@ namespace Coditech.API.Data
         public DbSet<DBTMSubscriptionPlanAssociatedToUser> DBTMSubscriptionPlanAssociatedToUser { get; set; }
         public DbSet<DBTMSubscriptionPlanActivity> DBTMSubscriptionPlanActivity { get; set; }
         public DbSet<DBTMPrivacySetting> DBTMPrivacySetting { get; set; }
+        public DbSet<DBTMDeviceData> DBTMDeviceData { get; set; }
+        public DbSet<DBTMDeviceDataDetails> DBTMDeviceDataDetails { get; set; }
         #endregion
 
         #region Payment

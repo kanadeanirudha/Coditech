@@ -262,6 +262,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IDBTMPrivacySettingService, DBTMPrivacySettingService>();
             builder.Services.AddScoped<IDBTMDashboardService, DBTMDashboardService>();
             builder.Services.AddScoped<IDBTMMySubscriptionPlanService, DBTMMySubscriptionPlanService>();
+            builder.Services.AddScoped<IDBTMDeviceDataService, DBTMDeviceDataService>();
         }
         #endregion
     }

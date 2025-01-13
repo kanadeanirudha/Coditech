@@ -24,6 +24,8 @@ namespace Coditech.API.Mapper
             CreateMap<DBTMSubscriptionPlanAssociatedToUser, DBTMSubscriptionPlanModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanActivity, DBTMSubscriptionPlanActivityModel>().ReverseMap();
             CreateMap<DBTMPrivacySetting, DBTMPrivacySettingModel>().ReverseMap();
+            CreateMap<DBTMDeviceData, DBTMDeviceDataModel>().ReverseMap();
+            CreateMap<DBTMDeviceDataDetails, DBTMDeviceDataModel>().ReverseMap();
         }
     }
 }
