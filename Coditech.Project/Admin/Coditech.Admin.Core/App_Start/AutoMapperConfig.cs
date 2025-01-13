@@ -9,6 +9,14 @@ namespace Coditech.Admin
     {
         public AutoMapperConfig()
         {
+            #region Accounts
+            CreateMap<AccGLSetupNarrationModel, AccGLSetupNarrationViewModel>().ReverseMap();
+            CreateMap<AccGLSetupNarrationViewModel, AccGLSetupNarrationListViewModel>().ReverseMap();
+            CreateMap<AccSetupMasterModel, AccSetupMasterViewModel>().ReverseMap();
+            CreateMap<AccSetupMasterViewModel, AccSetupMasterListViewModel>().ReverseMap();
+
+            #endregion
+
             #region Admin 
             CreateMap<AdminSanctionPostModel, AdminSanctionPostViewModel>().ReverseMap();
             CreateMap<AdminRoleModel, AdminRoleViewModel>().ReverseMap();
@@ -105,6 +113,7 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseUserNameRegistrationModel, OrganisationCentrewiseUserNameRegistrationViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseSmsSettingModel, OrganisationCentrewiseSmsSettingViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseWhatsAppSettingModel, OrganisationCentrewiseWhatsAppSettingViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseJoiningCodeModel, OrganisationCentrewiseJoiningCodeViewModel>().ReverseMap();
             #endregion
 
             #region Employee            
@@ -264,6 +273,7 @@ namespace Coditech.Admin
             CreateMap<DBTMBatchActivityModel, DBTMBatchActivityViewModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanListModel, DBTMSubscriptionPlanListViewModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanModel, DBTMSubscriptionPlanViewModel>().ReverseMap();
+            CreateMap<DBTMMySubscriptionPlanListModel, DBTMMySubscriptionPlanListViewModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanActivityListModel, DBTMSubscriptionPlanActivityListViewModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanActivityModel, DBTMSubscriptionPlanActivityViewModel>().ReverseMap();
             CreateMap<DBTMPrivacySettingModel, DBTMPrivacySettingViewModel>().ReverseMap();

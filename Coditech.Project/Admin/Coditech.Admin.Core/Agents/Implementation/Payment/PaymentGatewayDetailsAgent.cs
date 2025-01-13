@@ -36,7 +36,7 @@ namespace Coditech.Admin.Agents
             PaymentGatewayDetailsListModel paymentGatewayDetailsList = new PaymentGatewayDetailsListModel { PaymentGatewayDetailsList = response?.PaymentGatewayDetailsList };
             PaymentGatewayDetailsListViewModel listViewModel = new PaymentGatewayDetailsListViewModel();
             listViewModel.PaymentGatewayDetailsList = response?.PaymentGatewayDetailsList?.ToViewModel<PaymentGatewayDetailsViewModel>().ToList();
-
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.PaymentGatewayDetailsList.Count, BindColumns());
             return listViewModel;
         }
 
@@ -125,6 +125,17 @@ namespace Coditech.Admin.Agents
         }
         #endregion
         #endregion
-
+        #region protected
+        protected virtual List<DatatableColumns> BindColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Payment Mode",
+                ColumnCode = "PaymentMode",
+            });
+            return datatableColumnList;
+        }
+        #endregion
     }
 }

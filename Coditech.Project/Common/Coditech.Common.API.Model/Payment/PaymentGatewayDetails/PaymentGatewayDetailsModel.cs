@@ -4,6 +4,7 @@
     {
         public int PaymentGatewayDetailId { get; set; }
         public byte PaymentGatewayId { get; set; }
+        public string PaymentCode { get; set; }
         public string CentreCode { get; set; }
         public string GatewayUsername { get; set; }
         public string TransactionKey { get; set; }

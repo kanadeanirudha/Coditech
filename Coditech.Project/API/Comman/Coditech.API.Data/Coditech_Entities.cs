@@ -63,6 +63,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrewiseWhatsAppSetting> OrganisationCentrewiseWhatsAppSetting { get; set; }
         public DbSet<OrganisationCentrewiseEmailTemplate> OrganisationCentrewiseEmailTemplate { get; set; }
         public DbSet<OrganisationCentrewiseUserNameRegistration> OrganisationCentrewiseUserNameRegistration { get; set; }
+        public DbSet<OrganisationCentrewiseJoiningCode> OrganisationCentrewiseJoiningCode { get; set; }
         #endregion
 
         #region Admin
@@ -176,13 +177,21 @@ namespace Coditech.API.Data
         public DbSet<DBTMTraineeAssignment> DBTMTraineeAssignment { get; set; }
         public DbSet<DBTMBatchActivity> DBTMBatchActivity { get; set; }
         public DbSet<DBTMSubscriptionPlan> DBTMSubscriptionPlan { get; set; }
+        public DbSet<DBTMSubscriptionPlanAssociatedToUser> DBTMSubscriptionPlanAssociatedToUser { get; set; }
         public DbSet<DBTMSubscriptionPlanActivity> DBTMSubscriptionPlanActivity { get; set; }
         public DbSet<DBTMPrivacySetting> DBTMPrivacySetting { get; set; }
+        public DbSet<DBTMDeviceData> DBTMDeviceData { get; set; }
+        public DbSet<DBTMDeviceDataDetails> DBTMDeviceDataDetails { get; set; }
         #endregion
 
         #region Payment
         public DbSet<PaymentGateways> PaymentGateways { get; set; }
         public DbSet<PaymentGatewayDetails> PaymentGatewayDetails { get; set; }
+        #endregion
+
+        #region Accounts
+        public DbSet<AccGLSetupNarration> AccGLSetupNarration { get; set; }
+        public DbSet<AccSetupMaster> AccSetupMaster { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

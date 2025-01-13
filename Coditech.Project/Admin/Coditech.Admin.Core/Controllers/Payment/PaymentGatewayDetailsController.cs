@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,43 +32,92 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/Payment/PaymentGatewayDetails/List.cshtml", list);
         }
         [HttpGet]
-        public virtual ActionResult Create(string centreCode, byte paymentGatewayId , bool isLiveMode)
+        public virtual ActionResult Create(string centreCode, byte paymentGatewayId, bool isLiveMode, string paymentCode)
         {
             PaymentGatewayDetailsViewModel paymentGatewayDetailsViewModel = new PaymentGatewayDetailsViewModel()
             {
                 CentreCode = centreCode,
                 PaymentGatewayId = paymentGatewayId,
-                IsLiveMode = isLiveMode
+                IsLiveMode = isLiveMode,
+                PaymentCode = paymentCode
             };
-            return View(createEdit, paymentGatewayDetailsViewModel);
+            if (paymentCode == PaymentCodeEnum.razorpay.ToString())
+            {
+                return View("~/Views/Payment/PaymentGatewayDetails/CreateEditRazorpay.cshtml", paymentGatewayDetailsViewModel);
+            }
+            else
+            {
+                return View(createEdit, paymentGatewayDetailsViewModel);
+            }
         }
 
         [HttpPost]
         public virtual ActionResult Create(PaymentGatewayDetailsViewModel paymentGatewayDetailsViewModel)
         {
+            if (paymentGatewayDetailsViewModel.PaymentCode == PaymentCodeEnum.razorpay.ToString())
+            {
+                if (string.IsNullOrEmpty(paymentGatewayDetailsViewModel.GatewayUsername))
+                {
+                    SetNotificationMessage(GetErrorNotificationMessage("Please Entre Key Id."));
+                    return View("~/Views/Payment/PaymentGatewayDetails/CreateEditRazorpay.cshtml", paymentGatewayDetailsViewModel);
+                }
+                if (string.IsNullOrEmpty(paymentGatewayDetailsViewModel.GatewayUsername))
+                {
+                    SetNotificationMessage(GetErrorNotificationMessage("Please Entre Secret Key."));
+                    return View("~/Views/Payment/PaymentGatewayDetails/CreateEditRazorpay.cshtml", paymentGatewayDetailsViewModel);
+                }
+            }
             if (ModelState.IsValid)
             {
                 paymentGatewayDetailsViewModel = _paymentGatewayDetailsAgent.CreatePaymentGatewayDetails(paymentGatewayDetailsViewModel);
                 if (!paymentGatewayDetailsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = paymentGatewayDetailsViewModel.CentreCode, SelectedParameter1 = Convert.ToString(paymentGatewayDetailsViewModel.PaymentGatewayId)});
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = paymentGatewayDetailsViewModel.CentreCode, SelectedParameter1 = Convert.ToString(paymentGatewayDetailsViewModel.PaymentGatewayId) });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(paymentGatewayDetailsViewModel.ErrorMessage));
-            return View(createEdit, paymentGatewayDetailsViewModel);
+
+            if (paymentGatewayDetailsViewModel.PaymentCode == PaymentCodeEnum.razorpay.ToString())
+            {
+                return View("~/Views/Payment/PaymentGatewayDetails/CreateEditRazorpay.cshtml", paymentGatewayDetailsViewModel);
+            }
+            else
+            {
+                return View(createEdit, paymentGatewayDetailsViewModel);
+            }
         }
         [HttpGet]
         public virtual ActionResult Edit(int paymentGatewayDetailId)
         {
             PaymentGatewayDetailsViewModel paymentGatewayDetailsViewModel = _paymentGatewayDetailsAgent.GetPaymentGatewayDetails(paymentGatewayDetailId);
-            return ActionView(createEdit, paymentGatewayDetailsViewModel);
+            if (paymentGatewayDetailsViewModel.PaymentCode == PaymentCodeEnum.razorpay.ToString())
+            {
+                return View("~/Views/Payment/PaymentGatewayDetails/CreateEditRazorpay.cshtml", paymentGatewayDetailsViewModel);
+            }
+            else
+            {
+                return View(createEdit, paymentGatewayDetailsViewModel);
+            }
         }
 
 
         [HttpPost]
         public virtual ActionResult Edit(PaymentGatewayDetailsViewModel paymentGatewayDetailsViewModel)
         {
+            if (paymentGatewayDetailsViewModel.PaymentCode == PaymentCodeEnum.razorpay.ToString())
+            {
+                if (string.IsNullOrEmpty(paymentGatewayDetailsViewModel.GatewayUsername))
+                {
+                    SetNotificationMessage(GetErrorNotificationMessage("Please Entre Key Id."));
+                    return View("~/Views/Payment/PaymentGatewayDetails/CreateEditRazorpay.cshtml", paymentGatewayDetailsViewModel);
+                }
+                if (string.IsNullOrEmpty(paymentGatewayDetailsViewModel.GatewayUsername))
+                {
+                    SetNotificationMessage(GetErrorNotificationMessage("Please Entre Secret Key."));
+                    return View("~/Views/Payment/PaymentGatewayDetails/CreateEditRazorpay.cshtml", paymentGatewayDetailsViewModel);
+                }
+            }
             if (ModelState.IsValid)
             {
                 SetNotificationMessage(_paymentGatewayDetailsAgent.UpdatePaymentGatewayDetails(paymentGatewayDetailsViewModel).HasError
@@ -75,7 +125,14 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { paymentGatewayDetailId = paymentGatewayDetailsViewModel.PaymentGatewayDetailId });
             }
-            return View(createEdit, paymentGatewayDetailsViewModel);
+            if (paymentGatewayDetailsViewModel.PaymentCode == PaymentCodeEnum.razorpay.ToString())
+            {
+                return View("~/Views/Payment/PaymentGatewayDetails/CreateEditRazorpay.cshtml", paymentGatewayDetailsViewModel);
+            }
+            else
+            {
+                return View(createEdit, paymentGatewayDetailsViewModel);
+            }
         }
         public virtual ActionResult Delete(string paymentGatewayDetailIds)
         {
@@ -92,7 +149,7 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction("List", CreateActionDataTable());
         }
-        public virtual ActionResult Cancel(string SelectedCentreCode,string SelectedParameter1)
+        public virtual ActionResult Cancel(string SelectedCentreCode, string SelectedParameter1)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedParameter1 = SelectedParameter1 };
             return RedirectToAction("List", dataTableViewModel);

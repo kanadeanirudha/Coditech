@@ -106,7 +106,15 @@ namespace Coditech.Common.API
         {
             get
             {
-                return Convert.ToString(settings["DBTMMenuKey"]);
+                return Convert.ToString(settings["DBTMMenuCode"]);
+
+            }
+        }
+        public static byte JoiningCodeLength
+        {
+            get
+            {
+                return Convert.ToByte(settings["JoiningCodeLength"]);
 
             }
         }

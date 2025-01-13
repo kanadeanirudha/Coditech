@@ -1,6 +1,4 @@
-﻿using Coditech.Common.API.Model;
-using Coditech.Common.Helper;
-using Coditech.Resources;
+﻿using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -29,5 +27,9 @@ namespace Coditech.Admin.ViewModel
         public bool IsActive { get; set; }
         [Display(Name = "Is Tax Exclusive")]
         public bool IsTaxExclusive { get; set; }
+        public long DBTMDeviceMasterId { get; set; }
+        public DateTime PlanDurationExpirationDate { get; set; }
+        public bool IsExpired { get; set; }
+        public string DeviceSerialCode { get; set; }
     }
 }

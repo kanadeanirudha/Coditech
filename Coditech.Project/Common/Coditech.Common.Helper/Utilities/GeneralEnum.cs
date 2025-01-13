@@ -237,4 +237,31 @@
         HospitalApprovalStatus,
         TicketStatus,
     }
+    public enum PaymentCodeEnum
+    {
+        razorpay
+    }
+    public enum NarrationTypeEnum
+    {
+        Sales,
+        Invoice,
+        Service,
+        Dividends,
+        Salary,
+        RoundOff,
+        Exchange,
+        Depreciation,
+        Payable,
+        Receivable,
+        CostofGoodsSold,
+        StockAdjustment,
+        Tax,
+        WriteOff,
+        AccumulatedDepreciation,
+        DeferredRevenue,
+        OpeningBalanceEquity,
+        ExchangeGainLoss,
+        OfficeMaintenanceExpenses,
+        PrintandStationery,
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -108,6 +109,16 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", dataTableViewModel);
         }
 
+        public virtual ActionResult GetHospitalDoctorsList(string selectedCentreCode, string selectedDepartmentId)
+        {
+            DropdownViewModel departmentDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.HospitalDoctorsList.ToString(),
+                DropdownName = "HospitalDoctorId",
+                Parameter = $"{selectedCentreCode}~{selectedDepartmentId}",
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", departmentDropdown);
+        }
         #region Protected
 
         #endregion
