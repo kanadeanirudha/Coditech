@@ -24,16 +24,19 @@
                             <td>@item.TaskCode</td>
                             <td>@item.TaskDescription</td>
                             <td class="text-center data-action">
-                                <a href="../@controllerName/UpdateTaskApprovalSetting?taskMasterId=@item.TaskMasterId&centreCode=@Model.SelectedCentreCode" title="UpdateTaskApprovalSetting" class="btn btn-sm btn-soft-success btn-circle">
-                                    @if (item.IsAssociated)
-                                    {
+                                @if (item.IsAssociated)
+                                {
+                                    <a href="../@controllerName/UpdateTaskApprovalSetting?taskMasterId=@item.TaskMasterId&centreCode=@Model.SelectedCentreCode" title="UpdateTaskApprovalSetting" class="btn btn-sm btn-soft-success btn-circle">
                                         <i class="fas fa-edit"></i>
-                                    }
-                                    else
-                                    {
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="../@controllerName/UpdateTaskApprovalSetting?taskMasterId=@item.TaskMasterId&centreCode=@Model.SelectedCentreCode" title="AddTaskApprovalSetting" class="btn btn-sm btn-soft-success btn-circle">
                                         <i class="fas fa-plus"></i>
-                                    }
-                                </a>
+                                    </a>
+                                }
+
                             </td>
                         </tr>
                     }

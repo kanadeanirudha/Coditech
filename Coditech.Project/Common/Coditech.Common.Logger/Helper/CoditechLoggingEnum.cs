@@ -128,7 +128,8 @@
             PaymentGateways,
             PaymentGatewayDetails,
             AccGLSetupNarration,
-            AccSetupMaster
+            AccSetupMaster,
+            OrganisationCentrewiseJoiningCode
         }
     }
 }
