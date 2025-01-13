@@ -304,13 +304,13 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Work To Date",
-                ColumnCode = "WorkToDate",
+                ColumnName = "Work From Date",
+                ColumnCode = "WorkFromDate",
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Work From Date",
-                ColumnCode = "WorkFromDate",
+                ColumnName = "Work To Date",
+                ColumnCode = "WorkToDate",
             });
             datatableColumnList.Add(new DatatableColumns()
             {

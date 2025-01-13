@@ -257,6 +257,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IOrganisationCentrewiseDepartmentService, OrganisationCentrewiseDepartmentService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
+            builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeService, OrganisationCentrewiseJoiningCodeService>();
 
             builder.Services.AddScoped<ILogMessageService, LogMessageService>();
 
@@ -282,6 +283,12 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
             builder.Services.AddScoped<IEmployeeServiceService, EmployeeServiceService>();
             #endregion
+
+            #region Accounts
+            builder.Services.AddScoped<IAccGLSetupNarrationService, AccGLSetupNarrationService>();
+            builder.Services.AddScoped<IAccSetupMasterService, AccSetupMasterService>();
+            #endregion
+
         }
         #endregion
     }

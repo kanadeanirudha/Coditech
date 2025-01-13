@@ -76,6 +76,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGymWorkoutPlanAgent, GymWorkoutPlanAgent>();
             builder.Services.AddScoped<ITaskMasterAgent, TaskMasterAgent>();
             builder.Services.AddScoped<ITicketMasterAgent, TicketMasterAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeAgent, OrganisationCentrewiseJoiningCodeAgent>();
 
 
             #region HMS
@@ -130,6 +131,12 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IPaymentGatewayDetailsAgent, PaymentGatewayDetailsAgent>();
 
             #endregion
+
+            #region Accounts         
+            builder.Services.AddScoped<IAccGLSetupNarrationAgent, AccGLSetupNarrationAgent>();
+            builder.Services.AddScoped<IAccSetupMasterAgent, AccSetupMasterAgent>();
+            #endregion
+
             #endregion Agent
 
             #region Client
@@ -197,6 +204,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITaskMasterClient, TaskMasterClient>();
             builder.Services.AddScoped<IGeneralCommonClient, GeneralCommonClient>();
             builder.Services.AddScoped<ITicketMasterClient, TicketMasterClient>();
+            builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeClient, OrganisationCentrewiseJoiningCodeClient>();
 
 
             #region HMS
@@ -243,6 +251,10 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IPaymentGatewayDetailsClient, PaymentGatewayDetailsClient>();
             #endregion
 
+            #region Accounts
+            builder.Services.AddScoped<IAccGLSetupNarrationClient, AccGLSetupNarrationClient>();
+            builder.Services.AddScoped<IAccSetupMasterClient, AccSetupMasterClient>();
+            #endregion
 
             #endregion Client
         }
