@@ -63,6 +63,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrewiseWhatsAppSetting> OrganisationCentrewiseWhatsAppSetting { get; set; }
         public DbSet<OrganisationCentrewiseEmailTemplate> OrganisationCentrewiseEmailTemplate { get; set; }
         public DbSet<OrganisationCentrewiseUserNameRegistration> OrganisationCentrewiseUserNameRegistration { get; set; }
+        public DbSet<OrganisationCentrewiseJoiningCode> OrganisationCentrewiseJoiningCode { get; set; }
         #endregion
 
         #region Admin
