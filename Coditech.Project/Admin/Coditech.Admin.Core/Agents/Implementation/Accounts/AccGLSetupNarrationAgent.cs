@@ -29,7 +29,6 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-
         public virtual AccGLSetupNarrationListViewModel GetNarrationList(DataTableViewModel dataTableModel)
         {
             AccGLSetupNarrationListResponse response = _accGLSetupNarrationClient.List(dataTableModel.SelectedCentreCode);
@@ -99,42 +98,24 @@ namespace Coditech.Admin.Agents
         protected virtual List<DatatableColumns> BindColumns()
         {
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Narration ID",
-            //    ColumnCode = "AccGLSetupNarrationId",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{    
-            //    ColumnName = "Narration ID",
-            //    ColumnCode = "AccGLSetupNarrationId",
-            //    IsSortable = true,
-            //});
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Narration Type",
                 ColumnCode = "NarrationType",
-                IsSortable = true,
+                IsSortable = false,
             });
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Narration Description",
-            //    ColumnCode = "NarrationDescription",
-            //    IsSortable = false,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "IsActive",
-            //    ColumnCode = "IsActive",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "IsSystemGenerated",
-            //    ColumnCode = "IsSystemGenerated",
-            //    IsSortable = true,
-            //});
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Narration Description",
+                ColumnCode = "NarrationDescription",
+                IsSortable = false,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "IsActive",
+                ColumnCode = "IsActive",
+                IsSortable = false,
+            });
             return datatableColumnList;
         }
        #endregion

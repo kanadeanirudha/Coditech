@@ -8,20 +8,20 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemTrackingDimension/GetInventoryItemTrackingDimensionList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemTrackingDimension/GetInventoryItemTrackingDimensionList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string CreateInventoryItemTrackingDimensionAsync() =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemTrackingDimension/CreateInventoryItemTrackingDimension";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemTrackingDimension/CreateInventoryItemTrackingDimension";
 
         public string GetInventoryItemTrackingDimensionAsync(short inventoryItemTrackingDimensionId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemTrackingDimension/GetInventoryItemTrackingDimension?inventoryItemTrackingDimensionId={inventoryItemTrackingDimensionId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemTrackingDimension/GetInventoryItemTrackingDimension?inventoryItemTrackingDimensionId={inventoryItemTrackingDimensionId}";
 
         public string UpdateInventoryItemTrackingDimensionAsync() =>
-               $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemTrackingDimension/UpdateInventoryItemTrackingDimension";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemTrackingDimension/UpdateInventoryItemTrackingDimension";
 
         public string DeleteInventoryItemTrackingDimensionAsync() =>
-                  $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemTrackingDimension/DeleteInventoryItemTrackingDimension";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemTrackingDimension/DeleteInventoryItemTrackingDimension";
     }
 }

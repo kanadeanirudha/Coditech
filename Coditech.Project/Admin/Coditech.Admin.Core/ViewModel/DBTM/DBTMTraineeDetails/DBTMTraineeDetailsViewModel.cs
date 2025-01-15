@@ -32,6 +32,15 @@ namespace Coditech.Admin.ViewModel
         public string LastName { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+        [Required]
+        [RegularExpression(@"^\d{1,3}(\.\d{1,3})?$", ErrorMessage = "Weight must be less than 999")]
+        [Display(Name = "Weight(kg)")]
+        public decimal Weight { get; set; }
+        [Required]
+        [RegularExpression(@"^\d{1,3}?$", ErrorMessage = "Height must be less than 999.")]
+        [Display(Name = "Height(in)")]
+        public decimal Height { get; set; }
+
 
     }
 }
