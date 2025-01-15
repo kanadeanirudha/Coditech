@@ -8,20 +8,20 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryProductDimension/GetInventoryProductDimensionList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryProductDimension/GetInventoryProductDimensionList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string CreateInventoryProductDimensionAsync() =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryProductDimension/CreateInventoryProductDimension";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryProductDimension/CreateInventoryProductDimension";
 
         public string GetInventoryProductDimensionAsync(short inventoryProductDimensionId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryProductDimension/GetInventoryProductDimension?inventoryProductDimensionId={inventoryProductDimensionId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryProductDimension/GetInventoryProductDimension?inventoryProductDimensionId={inventoryProductDimensionId}";
 
         public string UpdateInventoryProductDimensionAsync() =>
-               $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryProductDimension/UpdateInventoryProductDimension";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryProductDimension/UpdateInventoryProductDimension";
 
         public string DeleteInventoryProductDimensionAsync() =>
-                  $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryProductDimension/DeleteInventoryProductDimension";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryProductDimension/DeleteInventoryProductDimension";
     }
 }

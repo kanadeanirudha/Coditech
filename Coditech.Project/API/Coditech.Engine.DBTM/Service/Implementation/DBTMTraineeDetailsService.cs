@@ -94,6 +94,8 @@ namespace Coditech.API.Service
             dBTMTraineeDetails.SourceEnumId = dBTMTraineeDetailsModel.SourceEnumId;
             dBTMTraineeDetails.OtherInformation = dBTMTraineeDetailsModel.OtherInformation;
             dBTMTraineeDetails.IsActive = dBTMTraineeDetailsModel.IsActive;
+            dBTMTraineeDetails.Weight = dBTMTraineeDetailsModel.Weight;
+            dBTMTraineeDetails.Height = dBTMTraineeDetailsModel.Height;
 
             isUpdated = _dBTMTraineeDetailsRepository.Update(dBTMTraineeDetails);
             if (isUpdated)

@@ -37,15 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Common.Service", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Organisation", "API\Coditech.Engine.Organisation\Coditech.Engine.Organisation.csproj", "{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Inventory", "API\Coditech.Engine.Inventory\Coditech.Engine.Inventory.csproj", "{7D750ACF-B873-4184-958C-B70D30C948D4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.GymManagementSystem", "API\Coditech.Engine.GymManagementSystem\Coditech.Engine.GymManagementSystem.csproj", "{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.MediaManager", "API\Coditech.Engine.MediaManager\Coditech.Engine.MediaManager.csproj", "{40A85D54-D60A-4DC3-8D0F-A41C04E4B229}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.HospitalManagementSystem", "API\Coditech.Engine.HospitalManagementSystem\Coditech.Engine.HospitalManagementSystem.csproj", "{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.SalesAndPurchase", "API\Coditech.Engine.SalesAndPurchase\Coditech.Engine.SalesAndPurchase.csproj", "{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Gazette", "API\Coditech.Engine.Gazette\Coditech.Engine.Gazette.csproj", "{2B72888A-A016-4509-ABA3-057AA7811565}"
 EndProject
@@ -60,7 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		coditech_stage.yml = coditech_stage.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Admin.Core", "Admin\Coditech.Admin.Core\Coditech.Admin.Core.csproj", "{9F360EBA-27D4-480F-9941-437B1B3327C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Admin.Core", "Admin\Coditech.Admin.Core\Coditech.Admin.Core.csproj", "{9F360EBA-27D4-480F-9941-437B1B3327C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,12 +137,6 @@ Global
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D750ACF-B873-4184-958C-B70D30C948D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D750ACF-B873-4184-958C-B70D30C948D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D750ACF-B873-4184-958C-B70D30C948D4}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D750ACF-B873-4184-958C-B70D30C948D4}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{7D750ACF-B873-4184-958C-B70D30C948D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D750ACF-B873-4184-958C-B70D30C948D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
@@ -165,12 +155,6 @@ Global
 		{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95B3DE4E-20B8-4A0A-9381-3C13DFAAEF71}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B72888A-A016-4509-ABA3-057AA7811565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B72888A-A016-4509-ABA3-057AA7811565}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B72888A-A016-4509-ABA3-057AA7811565}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
