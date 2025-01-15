@@ -8,25 +8,25 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/GetInventoryGeneralItemMasterList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryGeneralItemMaster/GetInventoryGeneralItemMasterList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string CreateInventoryGeneralItemMasterAsync() =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/CreateInventoryGeneralItemMaster";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryGeneralItemMaster/CreateInventoryGeneralItemMaster";
 
         public string GetInventoryGeneralItemMasterAsync(int inventoryGeneralItemMasterId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/GetInventoryGeneralItemMaster?inventoryGeneralItemMasterId={inventoryGeneralItemMasterId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryGeneralItemMaster/GetInventoryGeneralItemMaster?inventoryGeneralItemMasterId={inventoryGeneralItemMasterId}";
        
         public string UpdateInventoryGeneralItemMasterAsync() =>
-               $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/UpdateInventoryGeneralItemMaster";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryGeneralItemMaster/UpdateInventoryGeneralItemMaster";
 
         public string DeleteInventoryGeneralItemMasterAsync() =>
-                  $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/DeleteInventoryGeneralItemMaster";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryGeneralItemMaster/DeleteInventoryGeneralItemMaster";
 
         public string GetGeneralServicesList(string searchText)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryGeneralItemMaster/GetGeneralServicesList?searchText={searchText}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryGeneralItemMaster/GetGeneralServicesList?searchText={searchText}";
             return endpoint;
         }
     }
