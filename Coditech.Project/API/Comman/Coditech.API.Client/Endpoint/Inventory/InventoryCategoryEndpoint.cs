@@ -8,20 +8,20 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategory/GetInventoryCategoryList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategory/GetInventoryCategoryList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string CreateInventoryCategoryAsync() =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategory/CreateInventoryCategory";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategory/CreateInventoryCategory";
 
         public string GetInventoryCategoryAsync(short inventoryCategoryId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategory/GetInventoryCategory?inventoryCategoryId={inventoryCategoryId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategory/GetInventoryCategory?inventoryCategoryId={inventoryCategoryId}";
        
         public string UpdateInventoryCategoryAsync() =>
-               $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategory/UpdateInventoryCategory";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategory/UpdateInventoryCategory";
 
         public string DeleteInventoryCategoryAsync() =>
-                  $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryCategory/DeleteInventoryCategory";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategory/DeleteInventoryCategory";
     }
 }

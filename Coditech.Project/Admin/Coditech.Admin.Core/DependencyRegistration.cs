@@ -100,6 +100,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IDBTMTraineeDetailsAgent, DBTMTraineeDetailsAgent>();
             builder.Services.AddScoped<IDBTMBatchActivityAgent, DBTMBatchActivityAgent>();
             builder.Services.AddScoped<IDBTMSubscriptionPlanAgent, DBTMSubscriptionPlanAgent>();
+            builder.Services.AddScoped<IDBTMMySubscriptionPlanAgent, DBTMMySubscriptionPlanAgent>();
             builder.Services.AddScoped<IDBTMPrivacySettingAgent, DBTMPrivacySettingAgent>();
             builder.Services.AddScoped<IDBTMDashboardAgent, DBTMDashboardAgent>();
             #endregion
@@ -135,6 +136,8 @@ namespace Coditech.Admin
             #region Accounts         
             builder.Services.AddScoped<IAccGLSetupNarrationAgent, AccGLSetupNarrationAgent>();
             builder.Services.AddScoped<IAccSetupMasterAgent, AccSetupMasterAgent>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetAgent, AccSetupBalanceSheetAgent>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetTypeAgent, AccSetupBalanceSheetTypeAgent>();
             #endregion
 
             #endregion Agent
@@ -242,6 +245,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IDBTMNewRegistrationClient, DBTMNewRegistrationClient>();
             builder.Services.AddScoped<IDBTMBatchActivityClient, DBTMBatchActivityClient>();
             builder.Services.AddScoped<IDBTMSubscriptionPlanClient, DBTMSubscriptionPlanClient>();
+            builder.Services.AddScoped<IDBTMMySubscriptionPlanClient, DBTMMySubscriptionPlanClient>();
             builder.Services.AddScoped<IDBTMPrivacySettingClient, DBTMPrivacySettingClient>();
             builder.Services.AddScoped<IDBTMDashboardClient, DBTMDashboardClient>();
             #endregion 
@@ -254,6 +258,8 @@ namespace Coditech.Admin
             #region Accounts
             builder.Services.AddScoped<IAccGLSetupNarrationClient, AccGLSetupNarrationClient>();
             builder.Services.AddScoped<IAccSetupMasterClient, AccSetupMasterClient>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetClient, AccSetupBalanceSheetClient>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetTypeClient, AccSetupBalanceSheetTypeClient>();
             #endregion
 
             #endregion Client

@@ -126,10 +126,14 @@
             DBTMSubscriptionPlan,
             DBTMPrivacySetting,
             PaymentGateways,
-            PaymentGatewayDetails,
             AccGLSetupNarration,
             AccSetupMaster,
-            OrganisationCentrewiseJoiningCode
+            OrganisationCentrewiseJoiningCode,
+            AccSetupBalanceSheet,
+            AccSetupBalanceSheetType,
+            PaymentGatewayDetails,
+            DBTMMySubscriptionPlan,
+            DBTMDeviceData
         }
     }
 }

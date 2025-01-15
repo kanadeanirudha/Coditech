@@ -180,6 +180,8 @@ namespace Coditech.API.Data
         public DbSet<DBTMSubscriptionPlanAssociatedToUser> DBTMSubscriptionPlanAssociatedToUser { get; set; }
         public DbSet<DBTMSubscriptionPlanActivity> DBTMSubscriptionPlanActivity { get; set; }
         public DbSet<DBTMPrivacySetting> DBTMPrivacySetting { get; set; }
+        public DbSet<DBTMDeviceData> DBTMDeviceData { get; set; }
+        public DbSet<DBTMDeviceDataDetails> DBTMDeviceDataDetails { get; set; }
         #endregion
 
         #region Payment
@@ -190,6 +192,8 @@ namespace Coditech.API.Data
         #region Accounts
         public DbSet<AccGLSetupNarration> AccGLSetupNarration { get; set; }
         public DbSet<AccSetupMaster> AccSetupMaster { get; set; }
+        public DbSet<AccSetupBalanceSheet> AccSetupBalanceSheet { get; set; }
+        public DbSet<AccSetupBalanceSheetType> AccSetupBalanceSheetType { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

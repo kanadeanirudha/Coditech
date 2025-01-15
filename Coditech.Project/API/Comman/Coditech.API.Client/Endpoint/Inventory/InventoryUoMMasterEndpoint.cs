@@ -8,20 +8,20 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryUoMMaster/GetInventoryUoMMasterList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryUoMMaster/GetInventoryUoMMasterList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string CreateInventoryUoMMasterAsync() =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryUoMMaster/CreateInventoryUoMMaster";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryUoMMaster/CreateInventoryUoMMaster";
 
         public string GetInventoryUoMMasterAsync(short inventoryUoMMasterId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryUoMMaster/GetInventoryUoMMaster?inventoryUoMMasterId={inventoryUoMMasterId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryUoMMaster/GetInventoryUoMMaster?inventoryUoMMasterId={inventoryUoMMasterId}";
 
         public string UpdateInventoryUoMMasterAsync() =>
-               $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryUoMMaster/UpdateInventoryUoMMaster";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryUoMMaster/UpdateInventoryUoMMaster";
 
         public string DeleteInventoryUoMMasterAsync() =>
-                  $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryUoMMaster/DeleteInventoryUoMMaster";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryUoMMaster/DeleteInventoryUoMMaster";
     }
 }

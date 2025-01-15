@@ -8,20 +8,20 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemModelGroup/GetInventoryItemModelGroupList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemModelGroup/GetInventoryItemModelGroupList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string CreateInventoryItemModelGroupAsync() =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemModelGroup/CreateInventoryItemModelGroup";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemModelGroup/CreateInventoryItemModelGroup";
 
         public string GetInventoryItemModelGroupAsync(short inventoryItemModelGroupId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemModelGroup/GetInventoryItemModelGroup?inventoryItemModelGroupId={inventoryItemModelGroupId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemModelGroup/GetInventoryItemModelGroup?inventoryItemModelGroupId={inventoryItemModelGroupId}";
        
         public string UpdateInventoryItemModelGroupAsync() =>
-               $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemModelGroup/UpdateInventoryItemModelGroup";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemModelGroup/UpdateInventoryItemModelGroup";
 
         public string DeleteInventoryItemModelGroupAsync() =>
-                  $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryItemModelGroup/DeleteInventoryItemModelGroup";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryItemModelGroup/DeleteInventoryItemModelGroup";
     }
 }

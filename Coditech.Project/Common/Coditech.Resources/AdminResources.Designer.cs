@@ -204,7 +204,14 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteAccSetupMaster", resourceCulture);
             }
         }
-
+        public static string ErrorDeleteAccSetupBalanceSheetMaster
+        {
+            get
+            {
+                return ResourceManager.GetString(" ErrorDeleteAccSetupBalanceSheetMaster", resourceCulture);
+            }
+        }
+       
 
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete TicketMaster due to associate record..
@@ -1193,6 +1200,11 @@ namespace Coditech.Resources {
         public static string LabelPaymentGateway {
             get {
                 return ResourceManager.GetString("LabelPaymentGateway", resourceCulture);
+            }
+        }
+        public static string LabelAccSetupBalanceSheet {
+            get {
+                return ResourceManager.GetString("LabelAccSetupBalanceSheet", resourceCulture);
             }
         }
         

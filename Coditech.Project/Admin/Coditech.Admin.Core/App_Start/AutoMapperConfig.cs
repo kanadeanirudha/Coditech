@@ -14,6 +14,10 @@ namespace Coditech.Admin
             CreateMap<AccGLSetupNarrationViewModel, AccGLSetupNarrationListViewModel>().ReverseMap();
             CreateMap<AccSetupMasterModel, AccSetupMasterViewModel>().ReverseMap();
             CreateMap<AccSetupMasterViewModel, AccSetupMasterListViewModel>().ReverseMap();
+            CreateMap<AccSetupBalanceSheetModel, AccSetupBalanceSheetViewModel>().ReverseMap();
+            CreateMap<AccSetupBalanceSheetViewModel, AccSetupBalanceSheetListViewModel>().ReverseMap();
+            CreateMap<AccSetupBalanceSheetTypeModel, AccSetupBalanceSheetTypeViewModel>().ReverseMap();
+            CreateMap<AccSetupBalanceSheetTypeViewModel, AccSetupBalanceSheetTypeListViewModel>().ReverseMap();
 
             #endregion
 
@@ -273,6 +277,7 @@ namespace Coditech.Admin
             CreateMap<DBTMBatchActivityModel, DBTMBatchActivityViewModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanListModel, DBTMSubscriptionPlanListViewModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanModel, DBTMSubscriptionPlanViewModel>().ReverseMap();
+            CreateMap<DBTMMySubscriptionPlanListModel, DBTMMySubscriptionPlanListViewModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanActivityListModel, DBTMSubscriptionPlanActivityListViewModel>().ReverseMap();
             CreateMap<DBTMSubscriptionPlanActivityModel, DBTMSubscriptionPlanActivityViewModel>().ReverseMap();
             CreateMap<DBTMPrivacySettingModel, DBTMPrivacySettingViewModel>().ReverseMap();
