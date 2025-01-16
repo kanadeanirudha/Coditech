@@ -91,5 +91,7 @@ namespace Coditech.Admin.Agents
         /// <param name="generalTraineeAssociatedToTrainerIds">generalTraineeAssociatedToTrainerIds.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteAssociatedTrainer(string generalTraineeAssociatedToTrainerIds, out string errorMessage);
+
+        DBTMActivitiesListViewModel GetTraineeActivitiesList(DataTableViewModel dataTableModel);
     }
 }

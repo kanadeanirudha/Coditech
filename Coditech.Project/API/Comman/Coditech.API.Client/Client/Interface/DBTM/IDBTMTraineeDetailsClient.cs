@@ -33,5 +33,7 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteDBTMTraineeDetails(ParameterModel body);
+
+        DBTMActivitiesListResponse GetTraineeActivitiesList(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
     }
 }

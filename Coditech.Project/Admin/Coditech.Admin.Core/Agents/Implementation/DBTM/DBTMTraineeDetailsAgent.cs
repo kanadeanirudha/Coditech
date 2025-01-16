@@ -332,6 +332,28 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+        #endregion
+        #region
+
+        public virtual DBTMActivitiesListViewModel GetTraineeActivitiesList(DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("TestName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            DBTMActivitiesListResponse response = _dBTMTraineeDetailsClient.GetTraineeActivitiesList(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            DBTMActivitiesListModel dBTMActivitiesList = new DBTMActivitiesListModel { ActivitiesList = response?.ActivitiesList };
+            DBTMActivitiesListViewModel listViewModel = new DBTMActivitiesListViewModel();
+            listViewModel.ActivitiesList = dBTMActivitiesList?.ActivitiesList?.ToViewModel<DBTMActivitiesViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.ActivitiesList.Count, BindTraineeActivitiesColumns());
+            return listViewModel;
+        }
 
         #endregion
 
@@ -372,6 +394,12 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Email Id",
                 ColumnCode = "EmailId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Number of activity performed",
+                ColumnCode = "NumberOfActivityPerformed",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -419,6 +447,30 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Current Trainer",
                 ColumnCode = "IsCurrentTrainer",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindTraineeActivitiesColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+           
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Test Name",
+                ColumnCode = "TestName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Date",
+                ColumnCode = "Date",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Serial Code",
+                ColumnCode = "DeviceSerialCode",
                 IsSortable = true,
             });
             return datatableColumnList;

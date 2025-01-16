@@ -6,11 +6,10 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
-using static Coditech.Common.Helper.HelperUtility;
 using Coditech.Common.Logger;
 using Coditech.Resources;
-using Newtonsoft.Json;
 using System.Diagnostics;
+using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
 {

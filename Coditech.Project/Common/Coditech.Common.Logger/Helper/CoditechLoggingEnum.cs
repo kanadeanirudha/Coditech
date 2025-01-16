@@ -131,7 +131,8 @@
             PaymentGatewayDetails,
             OrganisationCentrewiseJoiningCode,
             DBTMMySubscriptionPlan,
-            DBTMDeviceData
+            DBTMDeviceData,
+            DBTMActivities
         }
     }
 }

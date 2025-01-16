@@ -20,5 +20,11 @@ namespace Coditech.API.Endpoint
 
         public string DeleteDBTMTraineeDetailsAsync() =>
                   $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMTraineeDetails/DeleteDBTMTraineeDetails";
+
+        public string GetTraineeActivitiesListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechDBTMApiRootUri}/DBTMTraineeDetails/GetTraineeActivitiesList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
+        }
     }
 }

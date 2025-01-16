@@ -11,5 +11,6 @@ namespace Coditech.API.Service
         DBTMTraineeDetailsModel GetDBTMTraineeOtherDetails(long dBTMTraineeDetailId);
         bool UpdateDBTMTraineeOtherDetails(DBTMTraineeDetailsModel model);
         bool DeleteDBTMTraineeDetails(ParameterModel parameterModel);
+        DBTMActivitiesListModel GetTraineeActivitiesList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
     }
 }

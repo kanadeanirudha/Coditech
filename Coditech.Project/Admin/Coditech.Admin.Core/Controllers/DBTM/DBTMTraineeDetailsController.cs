@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -252,5 +251,19 @@ namespace Coditech.Admin.Controllers
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
+
+        #region 
+        public virtual ActionResult ActivitiesList(DataTableViewModel dataTableModel)
+        {
+            DBTMActivitiesListViewModel list = _dBTMTraineeDetailsAgent.GetTraineeActivitiesList(dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/DBTM/DBTMActivities/_List.cshtml", list);
+            }
+            return View($"~/Views/DBTM/DBTMActivities/List.cshtml", list);
+        }
+
+        #endregion
+
     }
 }

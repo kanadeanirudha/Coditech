@@ -20,5 +20,6 @@
         public string ImagePath { get; set; }
         public decimal Weight { get; set; }
         public decimal Height { get; set; }
+        public int NumberOfActivityPerformed { get; set; }
     }
 }

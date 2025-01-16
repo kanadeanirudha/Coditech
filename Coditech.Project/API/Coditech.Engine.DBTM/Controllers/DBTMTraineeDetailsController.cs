@@ -113,5 +113,29 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("/DBTMTraineeDetails/GetTraineeActivitiesList")]
+        [Produces(typeof(DBTMActivitiesListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetTraineeActivitiesList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                DBTMActivitiesListModel list = _dBTMTraineeDetailsService.GetTraineeActivitiesList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<DBTMActivitiesListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivities.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMActivitiesListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivities.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMActivitiesListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }
