@@ -152,6 +152,7 @@ namespace Coditech.API.Service
             DBTMDeviceRegistrationDetailsModel dBTMDeviceRegistrationDetailsModel = new DBTMDeviceRegistrationDetailsModel()
             {
                 DBTMDeviceMasterId = dBTMDeviceMasterId,
+                DeviceSerialCode = dBTMNewRegistrationModel.DeviceSerialCode,
                 UserType = UserTypeEnum.Employee.ToString(),
                 EntityId = employeeId,
                 PurchaseDate = currentDate,

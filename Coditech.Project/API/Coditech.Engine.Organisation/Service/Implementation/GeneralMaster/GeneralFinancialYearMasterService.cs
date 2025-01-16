@@ -30,12 +30,13 @@ namespace Coditech.API.Service
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralFinancialYearModel> objStoredProc = new CoditechViewRepository<GeneralFinancialYearModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@CentreCode", "", ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralFinancialYearModel> FinancialYearList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetFinancialYearList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralFinancialYearModel> FinancialYearList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetFinancialYearList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             GeneralFinancialYearListModel listModel = new GeneralFinancialYearListModel();
 
             listModel.GeneralFinancialYearList = FinancialYearList?.Count > 0 ? FinancialYearList : new List<GeneralFinancialYearModel>();
@@ -93,7 +94,7 @@ namespace Coditech.API.Service
             if (generalFinancialYearModel.GeneralFinancialYearId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "FinancialYearID"));
 
-            
+
             GeneralFinancialYear generalFinancialYearMaster = generalFinancialYearModel.FromModelToEntity<GeneralFinancialYear>();
 
             //Update FinancialYear
