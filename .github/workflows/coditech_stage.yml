@@ -20,11 +20,6 @@ on:
          required: true
          default: false
          type: boolean
-       inventory_api_deploy:
-         description: 'Deploy Inventory API'
-         required: true
-         default: false
-         type: boolean
        mediamanager_api_deploy:
          description: 'Deploy MediaManager API'
          required: true
@@ -131,33 +126,6 @@ jobs:
 
           # Start the associated app pool
           Start-WebAppPool -Name "pahpc-api-gymmanagementsystem"
-
-  inventory_api_deploy:
-    runs-on: [self-hosted, Windows, x64, coditech_Stage]
-    needs: coditech_build
-    if: github.event.inputs.inventory_api_deploy == 'true'
-
-    steps:
-
-      - name: Stop Inventory IIS Site and App Pool
-        run: |
-           # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-inventory" 
-           # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-inventory"
-
-           # Wait for a few seconds (optional, if needed)
-           Start-Sleep -Seconds 5
-
-      - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.Inventory\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Inventory\ -Recurse -Force 
-
-      - name: Start Inventory IIS Site and App Pool
-        run: |
-           # Start the IIS site
-           Start-WebSite -Name "pahpc-api-inventory"
-           # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-inventory"
 
   mediamanager_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
