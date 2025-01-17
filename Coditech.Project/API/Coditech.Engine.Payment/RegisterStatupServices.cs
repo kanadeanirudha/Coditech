@@ -212,19 +212,5 @@ namespace Coditech.API.Common
             TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<CoditechTranslator>();
         }
         #endregion
-
-        #region register Dependency
-        /// <summary>
-        /// Register DI with default microsoft container.
-        /// </summary>
-        /// <param name="builder"></param>
-        public static void RegisterDI(this WebApplicationBuilder builder)
-        {
-            // Add Dependency 
-            builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
-            builder.Services.AddScoped<IPaymentGatewaysService, PaymentGatewaysService>();
-            builder.Services.AddScoped<IPaymentGatewayDetailsService, PaymentGatewayDetailsService>();
-        }
-        #endregion
     }
 }
