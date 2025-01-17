@@ -1,13 +1,10 @@
 ﻿using Coditech.API.Data;
-using Coditech.API.Service;
+using Coditech.API.Service.DependencyRegistration;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
-using Coditech.Common.Logger;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-
 namespace Coditech.API.Common
 {
     /// <summary>

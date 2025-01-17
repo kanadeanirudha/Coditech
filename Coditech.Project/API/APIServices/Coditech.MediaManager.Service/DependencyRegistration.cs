@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Coditech.API.Service
+namespace Coditech.API.Service.DependencyRegistration
 {
     public static class DependencyRegistration
     {
