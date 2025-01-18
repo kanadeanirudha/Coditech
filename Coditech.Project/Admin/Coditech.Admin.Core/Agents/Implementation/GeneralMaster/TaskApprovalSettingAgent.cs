@@ -11,6 +11,7 @@ using Coditech.Common.Logger;
 using Coditech.Resources;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using Coditech.API.Data;
 
 namespace Coditech.Admin.Agents
 {
@@ -95,6 +96,74 @@ namespace Coditech.Admin.Agents
                 return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
+
+        //Get taskApprovalSetting by taskApprovalSettingId.
+        public virtual TaskApprovalSettingViewModel GetUpdateTaskApprovalSetting(short taskMasterId, string centreCode, int taskApprovalSettingId)
+        {
+            TaskApprovalSettingResponse response = _taskApprovalSettingClient.GetUpdateTaskApprovalSetting(taskMasterId, centreCode, taskApprovalSettingId);
+            return response?.TaskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>();
+        }
+
+        //Update TaskApprovalSetting.
+        public virtual TaskApprovalSettingViewModel UpdateTaskApprovalSetting(TaskApprovalSettingViewModel taskApprovalSettingViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.TaskMaster.ToString(), TraceLevel.Info);
+                TaskApprovalSettingResponse response = _taskApprovalSettingClient.UpdateTaskApprovalSetting(taskApprovalSettingViewModel.ToModel<TaskApprovalSettingModel>());
+                TaskApprovalSettingModel taskApprovalSettingModel = response?.TaskApprovalSettingModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Info);
+                return IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(new TaskApprovalSettingViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, ex.ErrorMessage);
+                    default:
+                        return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                return (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(taskApprovalSettingViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+        //Delete TaskApprovalSetting.
+        public virtual bool DeleteTaskApprovalSetting(string taskApprovalSettingId, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _taskApprovalSettingClient.DeleteTaskApprovalSetting(new ParameterModel { Ids = taskApprovalSettingId });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteTaskApprovalSetting;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
         #endregion
 
         #region protected

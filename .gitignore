@@ -91,3 +91,9 @@
 /Coditech.Project/API/Coditech.Engine.Payment/Coditech.Engine.Payment.csproj.user
 /Coditech.Project/Admin/Coditech.Admin.Core/bin
 /Coditech.Project/Admin/Coditech.Admin.Core/obj
+/Coditech.Project/API/APIServices/Coditech.MediaManager.Service/bin
+/Coditech.Project/API/APIServices/Coditech.MediaManager.Service/obj
+/Coditech.Project/API/APIServices/Coditech.Organisation.Service/bin
+/Coditech.Project/API/APIServices/Coditech.Organisation.Service/obj
+/Coditech.Project/API/APIServices/Coditech.Payment.Service/bin
+/Coditech.Project/API/APIServices/Coditech.Payment.Service/obj

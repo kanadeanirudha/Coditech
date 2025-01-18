@@ -779,7 +779,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteTaskMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Task Approval Setting due to associate record..
+        /// </summary>
+        public static string ErrorDeleteTaskApprovalSetting
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteTaskApprovalSetting", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Ticket Master due to associate record..
         /// </summary>

@@ -94,5 +94,71 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/TaskApprovalSetting/GetUpdateTaskApprovalSetting")]
+        [HttpGet]
+        [Produces(typeof(TaskApprovalSettingResponse))]
+        public virtual IActionResult GetUpdateTaskApprovalSetting(short taskMasterId, string centreCode, int taskApprovalSettingId)
+        {
+            try
+            {
+                TaskApprovalSettingModel taskApprovalSettingModel = _taskApprovalSettingService.GetUpdateTaskApprovalSetting(taskMasterId, centreCode, taskApprovalSettingId);
+                return IsNotNull(taskApprovalSettingModel) ? CreateOKResponse(new TaskApprovalSettingResponse { TaskApprovalSettingModel = taskApprovalSettingModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/TaskApprovalSetting/UpdateTaskApprovalSetting")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(TaskApprovalSettingResponse))]
+        public virtual IActionResult UpdateTaskApprovalSetting([FromBody] TaskApprovalSettingModel model)
+        {
+            try
+            {
+                bool isUpdated = _taskApprovalSettingService.UpdateTaskApprovalSetting(model);
+                return isUpdated ? CreateOKResponse(new TaskApprovalSettingResponse { TaskApprovalSettingModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TaskApprovalSettingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/TaskApprovalSetting/DeleteTaskApprovalSetting")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult DeleteTaskApprovalSetting([FromBody] ParameterModel taskApprovalSettingIds)
+        {
+            try
+            {
+                bool deleted = _taskApprovalSettingService.DeleteTaskApprovalSetting(taskApprovalSettingIds);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }
