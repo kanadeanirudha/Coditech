@@ -262,6 +262,13 @@ namespace Coditech.Admin
             CreateMap<DBTMPrivacySettingModel, DBTMPrivacySettingViewModel>().ReverseMap();
             CreateMap<DBTMPrivacySettingListModel, DBTMPrivacySettingListViewModel>().ReverseMap();
             #endregion
+
+            #region Accounts
+  
+            CreateMap<AccSetupTransactionTypeModel, AccSetupTransactionTypeViewModel>().ReverseMap();
+            CreateMap<AccSetupTransactionTypeListModel, AccSetupTransactionTypeListViewModel>().ReverseMap();
+
+            #endregion
         }
     }
 }

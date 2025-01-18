@@ -1,7 +1,6 @@
 ﻿using Coditech.API.Data.DataModel.Gym;
 using Coditech.API.Data.DataModel.Inventory;
 using Microsoft.EntityFrameworkCore;
-
 namespace Coditech.API.Data
 {
     public partial class Coditech_Entities : CoditechDbContext
@@ -73,6 +72,8 @@ namespace Coditech.API.Data
         public DbSet<AdminSanctionPost> AdminSanctionPost { get; set; }
         public DbSet<AdminRoleMediaFolderAction> AdminRoleMediaFolderAction { get; set; }
         public DbSet<AdminRoleMediaFolders> AdminRoleMediaFolders { get; set; }
+
+
         #endregion
 
         #region User
@@ -179,6 +180,13 @@ namespace Coditech.API.Data
         public DbSet<DBTMSubscriptionPlanActivity> DBTMSubscriptionPlanActivity { get; set; }
         public DbSet<DBTMPrivacySetting> DBTMPrivacySetting { get; set; }
         #endregion
+
+        #region Accounts
+        public DbSet<AccSetupTransactionType> AccSetupTransactionType { get; set; }
+        #endregion
+
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

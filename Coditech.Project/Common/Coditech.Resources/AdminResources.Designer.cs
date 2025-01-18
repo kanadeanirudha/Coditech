@@ -250,6 +250,18 @@ namespace Coditech.Resources
             }
         }
 
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete AccSetupTransactionType due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAccSetupTransactionType
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAccSetupTransactionType", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete DBTMDevice due to associate record..
         /// </summary>
@@ -382,6 +394,16 @@ namespace Coditech.Resources
             }
         }
 
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete financial year due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAccSetupFinancialYearMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAccSetupFinancialYearMaster", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Trainer due to associate record..
         /// </summary>
