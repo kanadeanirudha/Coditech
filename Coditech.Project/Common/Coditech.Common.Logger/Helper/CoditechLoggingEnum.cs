@@ -124,8 +124,7 @@
             DBTMUser,
             TicketMaster,
             DBTMSubscriptionPlan,
-            DBTMPrivacySetting,
-            AccSetupTransactionType
+            DBTMPrivacySetting
         }
     }
 }

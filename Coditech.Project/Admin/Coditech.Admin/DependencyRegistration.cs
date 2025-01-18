@@ -3,6 +3,7 @@ using Coditech.Admin.Helpers;
 using Coditech.API.Client;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+
 namespace Coditech.Admin
 {
     public static class DependencyRegistration
@@ -12,10 +13,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<CoditechTranslator>();
 
             #region Agent
-            #region Accounts
-            builder.Services.AddScoped<IAccSetupTransactionTypeAgent, AccSetupTransactionTypeAgent>();
-            #endregion
-
             #region Admin
             builder.Services.AddScoped<IAdminSanctionPostAgent, AdminSanctionPostAgent>();
             builder.Services.AddScoped<IAdminRoleMasterAgent, AdminRoleMasterAgent>();
@@ -128,9 +125,6 @@ namespace Coditech.Admin
             #endregion Agent
 
             #region Client
-            #region Accounts
-            builder.Services.AddScoped<IAccSetupTransactionTypeClient, AccSetupTransactionTypeClient>();
-            #endregion 
             #region Admin
             builder.Services.AddScoped<IAdminSanctionPostClient, AdminSanctionPostClient>();
             builder.Services.AddScoped<IAdminRoleMasterClient, AdminRoleMasterClient>();
@@ -194,9 +188,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITaskMasterClient, TaskMasterClient>();
             builder.Services.AddScoped<IGeneralCommonClient, GeneralCommonClient>();
             builder.Services.AddScoped<ITicketMasterClient, TicketMasterClient>();
-            
-            
-
 
 
             #region HMS

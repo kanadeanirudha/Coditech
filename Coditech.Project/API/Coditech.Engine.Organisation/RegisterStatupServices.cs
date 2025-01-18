@@ -5,8 +5,10 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+
 namespace Coditech.API.Common
 {
     /// <summary>
@@ -248,8 +250,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGeneralNotificationMasterService, GeneralNotificationService>();
             builder.Services.AddScoped<IGeneralTrainerMasterService, GeneralTrainerMasterService>();
             builder.Services.AddScoped<IGeneralBatchMasterService, GeneralBatchMasterService>();
-            
-
+           
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
             builder.Services.AddScoped<IOrganisationCentreMasterService, OrganisationCentreMasterService>();
@@ -281,12 +282,6 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
             builder.Services.AddScoped<IEmployeeServiceService, EmployeeServiceService>();
             #endregion
-
-            #region Accounts
-
-            builder.Services.AddScoped<IAccSetupTransactionTypeService, AccSetupTransactionTypeService>();
-
-            #endregion 
         }
         #endregion
     }
