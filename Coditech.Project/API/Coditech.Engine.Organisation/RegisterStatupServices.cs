@@ -257,6 +257,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IOrganisationCentrewiseDepartmentService, OrganisationCentrewiseDepartmentService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
+            builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeService, OrganisationCentrewiseJoiningCodeService>();
 
             builder.Services.AddScoped<ILogMessageService, LogMessageService>();
 
@@ -282,6 +283,28 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
             builder.Services.AddScoped<IEmployeeServiceService, EmployeeServiceService>();
             #endregion
+
+            #region Inventory
+            builder.Services.AddScoped<IInventoryGeneralItemMasterService, InventoryGeneralItemMasterService>();
+            builder.Services.AddScoped<IInventoryCategoryService, InventoryCategoryService>();
+            builder.Services.AddScoped<IInventoryItemModelGroupService, InventoryItemModelGroupService>();
+            builder.Services.AddScoped<IInventoryProductDimensionGroupService, InventoryProductDimensionGroupService>();
+            builder.Services.AddScoped<IInventoryItemStorageDimensionService, InventoryItemStorageDimensionService>();
+            builder.Services.AddScoped<IInventoryItemTrackingDimensionService, InventoryItemTrackingDimensionService>();
+            builder.Services.AddScoped<IInventoryProductDimensionService, InventoryProductDimensionService>();
+            builder.Services.AddScoped<IInventoryItemGroupService, InventoryItemGroupService>();
+            builder.Services.AddScoped<IInventoryUoMMasterService, InventoryUoMMasterService>();
+            builder.Services.AddScoped<IInventoryStorageDimensionGroupService, InventoryStorageDimensionGroupService>();
+            builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupService, InventoryItemTrackingDimensionGroupService>();
+            #endregion
+
+            #region Accounts
+            builder.Services.AddScoped<IAccGLSetupNarrationService, AccGLSetupNarrationService>();
+            builder.Services.AddScoped<IAccSetupMasterService, AccSetupMasterService>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetService, AccSetupBalanceSheetService>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetTypeService, AccSetupBalanceSheetTypeService>();
+            #endregion
+
         }
         #endregion
     }

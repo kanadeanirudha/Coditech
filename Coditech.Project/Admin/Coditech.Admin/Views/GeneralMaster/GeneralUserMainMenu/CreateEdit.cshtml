@@ -1,6 +1,6 @@
 ﻿@model UserMainMenuViewModel
 @{
-    ViewBag.Title = Model.UserMainMenuMasterId > 0 ? "Update UserMainMenu" : "Add UserMainMenu";
+    ViewBag.Title = Model.UserMainMenuMasterId > 0 ? "Update User Mai nMenu" : "Add User Main Menu";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel moduleDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.ModuleList.ToString(), DropdownName = "ModuleCode", DropdownSelectedValue = Model.ModuleCode, ChangeEvent = "UserMainMenu.GetParentMemuCodeByModuleCode()" };

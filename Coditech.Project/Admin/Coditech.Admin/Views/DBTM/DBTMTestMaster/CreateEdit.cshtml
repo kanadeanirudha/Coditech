@@ -57,7 +57,8 @@
                                {
                                    DropdownType = DropdownTypeEnum.DBTMActivityCategory.ToString(),
                                    DropdownName = "DBTMActivityCategoryId",
-                                   DropdownSelectedValue = Model.DBTMActivityCategoryId.ToString()
+                                   DropdownSelectedValue = Model.DBTMActivityCategoryId.ToString(),
+                                   IsRequired = false
                                })
                                         @Html.ValidationMessageFor(x => x.DBTMActivityCategoryId, null)
                                     </div>

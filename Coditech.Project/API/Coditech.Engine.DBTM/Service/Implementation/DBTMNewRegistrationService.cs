@@ -6,6 +6,8 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
+using System.Data;
+using System.Diagnostics;
 using System.Text;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
@@ -35,59 +37,92 @@ namespace Coditech.API.Service
             if (IsCentreNameAlreadyExist(dBTMNewRegistrationModel.CentreName))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Name"));
 
-            if (!IsDeviceSerialCodeValid(dBTMNewRegistrationModel.DeviceSerialCode))
-                throw new CoditechException(ErrorCodes.InvalidData, string.Format("In Valid Divice Serial Code."));
+            DBTMDeviceMaster dBTMDeviceMaster = new DBTMDeviceMasterService(_coditechLogging, _serviceProvider).GetDBTMDeviceMasterDetailsByCode(dBTMNewRegistrationModel.DeviceSerialCode);
 
-            int status = 0;
+            if (dBTMDeviceMaster == null || dBTMDeviceMaster.DBTMDeviceMasterId <= 0)
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format("Invalid Device Serial Code."));
+
+            if (new DBTMDeviceRegistrationDetailsService(_coditechLogging, _serviceProvider).IsDeviceSerialCodeAlreadyExist(dBTMDeviceMaster.DBTMDeviceMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Device Already Added"));
+
+            string centreCode = "HO";
+            List<GeneralRunningNumbers> generalRunningNumbersList = GetGeneralRunningNumbersList(centreCode);
+
+            if (IsNull(generalRunningNumbersList) || generalRunningNumbersList.Count == 0)
+                throw new CoditechException(ErrorCodes.InvalidData, string.Format("EmployeeRegistration and DBTMTraineeRegistration not set for HO."));
+
             if (dBTMNewRegistrationModel.IsCentreRegistration)
             {
-                DateTime currentDate = DateTime.Now;
-                //Save Centre 
-                OrganisationCentreMaster organisationCentreMaster = InsertOrganisationCentreMaster(dBTMNewRegistrationModel, currentDate);
-
-                string centreCode = "HO";
-                //Centre SMTP Setting
-                InsertOrganisationCentrewiseSmtpSetting(currentDate, organisationCentreMaster, centreCode);
-
-                //Centre SMS Setting
-                InsertOrganisationCentrewiseSmsSetting(currentDate, organisationCentreMaster, centreCode);
-
-                //Centre WhatsApp Setting
-                InsertOrganisationCentrewiseWhatsAppSetting(currentDate, organisationCentreMaster, centreCode);
-
-                //Centre Email Template
-                InsertOrganisationCentrewiseEmailTemplate(currentDate, organisationCentreMaster, centreCode);
-
-                //Centre UserName Registration
-                InsertOrganisationCentrewiseUserNameRegistration(currentDate, organisationCentreMaster, centreCode);
-
-                //Centre Department
-                List<short> generalDepartmentMasterList = InsertOrganisationCentrewiseDepartment(currentDate, organisationCentreMaster);
-
-                //Centre UserName Registration
-                InsertGeneralRunningNumbers(currentDate, organisationCentreMaster, centreCode);
-
+                OrganisationCentreMaster organisationCentreMaster = null;
                 long personId = 0;
-                //Insert General Person and registor employee
-                long employeeId = InsertEmployee(dBTMNewRegistrationModel, currentDate, organisationCentreMaster, generalDepartmentMasterList, out personId);
+                long employeeId = 0;
+                string userType = UserTypeEnum.Employee.ToString();
+                string sanctionPostCode = string.Empty;
+                try
+                {
+                    DateTime currentDate = DateTime.Now;
+                    //Save Centre 
+                    organisationCentreMaster = InsertOrganisationCentreMaster(dBTMNewRegistrationModel, currentDate);
 
-                //Insert Employee Address
-                InsertEmployeeAddress(dBTMNewRegistrationModel, currentDate, personId);
+                    //Centre SMTP Setting
+                    InsertOrganisationCentrewiseSmtpSetting(currentDate, organisationCentreMaster, centreCode);
 
-                //Insert Admin Role
-                InsertAdminRole(currentDate, generalDepartmentMasterList.FirstOrDefault(), organisationCentreMaster.CentreCode, employeeId);
+                    //Centre SMS Setting
+                    InsertOrganisationCentrewiseSmsSetting(currentDate, organisationCentreMaster, centreCode);
 
-                //DBTM Device Registration Details
-                InsertDBTMDeviceRegistration(dBTMNewRegistrationModel, currentDate, employeeId);
+                    //Centre WhatsApp Setting
+                    InsertOrganisationCentrewiseWhatsAppSetting(currentDate, organisationCentreMaster, centreCode);
 
-                status = 1;
-            }
-            if (status == 0)
-            {
-                dBTMNewRegistrationModel.HasError = true;
-                dBTMNewRegistrationModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                    //Centre Email Template
+                    InsertOrganisationCentrewiseEmailTemplate(currentDate, organisationCentreMaster, centreCode);
+
+                    //Centre UserName Registration
+                    InsertOrganisationCentrewiseUserNameRegistration(currentDate, organisationCentreMaster, centreCode);
+
+                    //Centre Department
+                    List<short> generalDepartmentMasterList = InsertOrganisationCentrewiseDepartment(currentDate, organisationCentreMaster);
+
+                    //Centre UserName Registration
+                    InsertGeneralRunningNumbers(generalRunningNumbersList, currentDate, organisationCentreMaster, centreCode);
+
+                    //Insert General Person and registor employee
+                    employeeId = InsertEmployee(dBTMNewRegistrationModel, currentDate, organisationCentreMaster, generalDepartmentMasterList, out personId);
+
+                    //Insert Employee Address
+                    InsertEmployeeAddress(dBTMNewRegistrationModel, currentDate, personId);
+
+                    //Insert Admin Role
+                    InsertAdminRole(currentDate, generalDepartmentMasterList.FirstOrDefault(), organisationCentreMaster.CentreCode, employeeId, out sanctionPostCode);
+
+                    //DBTM Device Registration Details
+                    InsertDBTMDeviceRegistration(dBTMNewRegistrationModel, currentDate, employeeId, dBTMDeviceMaster.DBTMDeviceMasterId);
+                }
+                catch (Exception ex)
+                {
+                    dBTMNewRegistrationModel.HasError = true;
+                    dBTMNewRegistrationModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                    _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMNewRegistration.ToString(), TraceLevel.Error);
+                    //Call Delete data method
+                    CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
+                    objStoredProc.SetParameter("NewCentreCode", organisationCentreMaster.CentreCode, ParameterDirection.Input, DbType.String);
+                    objStoredProc.SetParameter("EntityId", employeeId, ParameterDirection.Input, DbType.String);
+                    objStoredProc.SetParameter("UserType", userType, ParameterDirection.Input, DbType.String);
+                    objStoredProc.SetParameter("SanctionPostCode", sanctionPostCode, ParameterDirection.Input, DbType.String);
+                    objStoredProc.SetParameter("PersonId", personId, ParameterDirection.Input, DbType.String);
+                    objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
+                    int status = 0;
+                    objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteDBTMNewRegistration @NewCentreCode,@EntityId,@UserType,@SanctionPostCode,@PersonId,@Status OUT", 5, out status);
+                }
             }
             return dBTMNewRegistrationModel;
+        }
+
+        protected List<GeneralRunningNumbers> GetGeneralRunningNumbersList(string centreCode)
+        {
+            List<string> runningNumnereList = ("EmployeeRegistration,DBTMTraineeRegistration").Split(",").ToList();
+            List<int> generalEnumaratorIdList = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => runningNumnereList.Contains(x.EnumName))?.Select(x => x.GeneralEnumaratorId)?.ToList();
+            List<GeneralRunningNumbers> generalRunningNumbersList = new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && generalEnumaratorIdList.Contains(x.KeyFieldEnumId))?.ToList();
+            return generalRunningNumbersList;
         }
 
         protected virtual void InsertEmployeeAddress(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long personId)
@@ -111,19 +146,20 @@ namespace Coditech.API.Service
             new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalPersonAddress);
         }
 
-        protected virtual void InsertDBTMDeviceRegistration(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long employeeId)
+        protected virtual void InsertDBTMDeviceRegistration(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, long employeeId, long dBTMDeviceMasterId)
         {
             //Insert DBTM Devices
-            DBTMDeviceRegistrationDetails dBTMDeviceRegistrationDetails = new DBTMDeviceRegistrationDetails()
+            DBTMDeviceRegistrationDetailsModel dBTMDeviceRegistrationDetailsModel = new DBTMDeviceRegistrationDetailsModel()
             {
-                DBTMDeviceMasterId = _dbtmDeviceMasterRepository.Table.Where(x => x.DeviceSerialCode == dBTMNewRegistrationModel.DeviceSerialCode).Select(y => y.DBTMDeviceMasterId).FirstOrDefault(),
+                DBTMDeviceMasterId = dBTMDeviceMasterId,
+                DeviceSerialCode = dBTMNewRegistrationModel.DeviceSerialCode,
                 UserType = UserTypeEnum.Employee.ToString(),
                 EntityId = employeeId,
                 PurchaseDate = currentDate,
                 CreatedDate = currentDate,
                 ModifiedDate = currentDate,
             };
-            new CoditechRepository<DBTMDeviceRegistrationDetails>(_serviceProvider.GetService<Coditech_Entities>()).Insert(dBTMDeviceRegistrationDetails);
+            new DBTMDeviceRegistrationDetailsService(_coditechLogging, _serviceProvider).CreateRegistrationDetails(dBTMDeviceRegistrationDetailsModel);
         }
 
         protected virtual long InsertEmployee(DBTMNewRegistrationModel dBTMNewRegistrationModel, DateTime currentDate, OrganisationCentreMaster organisationCentreMaster, List<short> generalDepartmentMasterList, out long personId)
@@ -160,24 +196,17 @@ namespace Coditech.API.Service
             return employeeId;
         }
 
-        protected virtual void InsertGeneralRunningNumbers(DateTime currentDate, OrganisationCentreMaster organisationCentreMaster, string centreCode)
+        protected virtual void InsertGeneralRunningNumbers(List<GeneralRunningNumbers> generalRunningNumbersList, DateTime currentDate, OrganisationCentreMaster organisationCentreMaster, string centreCode)
         {
-            List<string> runningNumnereList = new List<string>();
-            runningNumnereList = ("EmployeeRegistration,DBTMTraineeRegistration").Split(",").ToList();
-            List<int> generalEnumaratorIdList = new CoditechRepository<GeneralEnumaratorMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => runningNumnereList.Contains(x.EnumName))?.Select(x => x.GeneralEnumaratorId)?.ToList();
-            List<GeneralRunningNumbers> generalRunningNumbersList = new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == centreCode && generalEnumaratorIdList.Contains(x.KeyFieldEnumId))?.ToList();
-            if (IsNotNull(generalRunningNumbersList) && generalRunningNumbersList.Count > 0)
+            foreach (var item in generalRunningNumbersList)
             {
-                foreach (var item in generalRunningNumbersList)
-                {
-                    item.GeneralRunningNumberId = 0;
-                    item.CentreCode = organisationCentreMaster.CentreCode;
-                    item.CurrentSequnce = 0;
-                    item.CreatedDate = currentDate;
-                    item.ModifiedDate = currentDate;
-                }
-                new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalRunningNumbersList);
+                item.GeneralRunningNumberId = 0;
+                item.CentreCode = organisationCentreMaster.CentreCode;
+                item.CurrentSequnce = 0;
+                item.CreatedDate = currentDate;
+                item.ModifiedDate = currentDate;
             }
+            new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalRunningNumbersList);
         }
 
         protected virtual List<short> InsertOrganisationCentrewiseDepartment(DateTime currentDate, OrganisationCentreMaster organisationCentreMaster)
@@ -351,14 +380,10 @@ namespace Coditech.API.Service
             return _organisationCentreMasterRepository.Table.Any(x => x.CentreName == centreName);
         }
 
-        protected virtual bool IsDeviceSerialCodeValid(string deviceSerialCode)
-        {
-            return _dbtmDeviceMasterRepository.Table.Any(x => x.DeviceSerialCode == deviceSerialCode);
-        }
-
         //Create adminSanctionPost.
-        protected virtual void InsertAdminRole(DateTime currentDate, short departmentId, string centreCode, long employeeId)
+        protected virtual void InsertAdminRole(DateTime currentDate, short departmentId, string centreCode, long employeeId, out string sanctionPostCode)
         {
+            sanctionPostCode = string.Empty;
             AdminSanctionPostModel adminSanctionPostModel = new AdminSanctionPostModel()
             {
                 DesignationId = 1,
@@ -374,7 +399,7 @@ namespace Coditech.API.Service
             EmployeeDesignationMaster employeeDesignationMaster = GetDesignationDetails(adminSanctionPostModel.DesignationId);
             GeneralDepartmentMaster generalDepartmentMaster = GetDepartmentDetails(adminSanctionPostModel.DepartmentId);
 
-            adminSanctionPostModel.SanctionPostCode = $"{employeeDesignationMaster.ShortCode}-{generalDepartmentMaster.DepartmentShortCode}-{adminSanctionPostModel.CentreCode}";
+            sanctionPostCode = adminSanctionPostModel.SanctionPostCode = $"{employeeDesignationMaster.ShortCode}-{generalDepartmentMaster.DepartmentShortCode}-{adminSanctionPostModel.CentreCode}";
             adminSanctionPostModel.SanctionedPostDescription = $"{employeeDesignationMaster.Description}-{generalDepartmentMaster.DepartmentName}-{adminSanctionPostModel.PostType}-{adminSanctionPostModel.DesignationType}";
             AdminSanctionPost adminSanctionPostEntity = adminSanctionPostModel.FromModelToEntity<AdminSanctionPost>();
 
@@ -421,7 +446,7 @@ namespace Coditech.API.Service
                 new CoditechRepository<AdminRoleApplicableDetails>(_serviceProvider.GetService<Coditech_Entities>()).Insert(adminRoleApplicableDetails);
 
                 //insert admin Role Menu Detail
-                List<string> associateMenus = ("Dashboard,GeneralDashboard,Employee,EmployeeList,DBTMDeviceRegistration,DBTMTrainerDetails,DBTMTrainers,DBTMTraineeDetails,DBTMTrainee,DBTMAssignments,DBTMBatch,DBTMTraineeAssignment,DBTMBatchActivity'").Split(",").ToList();
+                List<string> associateMenus = ApiSettings.DBTMMenuCode.Split(",").ToList();
                 List<UserMainMenuMaster> menuList = new CoditechRepository<UserMainMenuMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => associateMenus.Contains(x.MenuCode)).ToList();
                 List<AdminRoleMenuDetails> adminRoleMenuDetailList = new List<AdminRoleMenuDetails>();
                 foreach (var menu in menuList)

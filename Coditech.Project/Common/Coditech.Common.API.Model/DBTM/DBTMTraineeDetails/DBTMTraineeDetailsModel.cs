@@ -18,5 +18,7 @@
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public string ImagePath { get; set; }
+        public decimal Weight { get; set; }
+        public decimal Height { get; set; }
     }
 }

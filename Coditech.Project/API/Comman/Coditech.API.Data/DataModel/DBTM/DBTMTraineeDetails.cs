@@ -6,9 +6,9 @@ namespace Coditech.API.Data
     {
         [Key]
         public long DBTMTraineeDetailId { get; set; }
+        public string CentreCode { get; set; }
         public long PersonId { get; set; }
         public string PersonCode { get; set; }
-        public string CentreCode { get; set; }
         public string UserType { get; set; }
         public string PastInjuries { get; set; }
         public string MedicalHistory { get; set; }
@@ -16,6 +16,8 @@ namespace Coditech.API.Data
         public int? GroupEnumId { get; set; }
         public int? SourceEnumId { get; set; }
         public bool IsActive { get; set; }
+        public decimal Weight { get; set; }
+        public decimal Height { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

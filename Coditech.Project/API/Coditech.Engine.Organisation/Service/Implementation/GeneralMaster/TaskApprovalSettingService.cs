@@ -1,11 +1,13 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Specialized;
 using System.Data;
 
@@ -19,6 +21,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<TaskApprovalSetting> _taskApprovalSettingRepository;
         private readonly ICoditechRepository<TaskMaster> _taskMasterRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
+        private readonly ICoditechRepository<UserMaster> _userMasterRepository;
 
         public TaskApprovalSettingService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -26,11 +29,12 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _taskApprovalSettingRepository = new CoditechRepository<TaskApprovalSetting>(_serviceProvider.GetService<Coditech_Entities>());
             _taskMasterRepository = new CoditechRepository<TaskMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual TaskApprovalSettingListModel GetTaskApprovalSettingList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<TaskApprovalSettingModel> objStoredProc = new CoditechViewRepository<TaskApprovalSettingModel>(_serviceProvider.GetService<Coditech_Entities>());
@@ -60,12 +64,43 @@ namespace Coditech.API.Service
             {
                 taskApprovalSettingModel.TaskCode = taskMaster.TaskCode;
                 taskApprovalSettingModel.TaskDescription = taskMaster.TaskDescription;
+
             }
             if (!string.IsNullOrEmpty(centreCode))
             {
                 taskApprovalSettingModel.CentreName = GetOrganisationCentreDetails(centreCode).CentreName;
                 taskApprovalSettingModel.CentreCode = centreCode;
             }
+
+            
+                var taskApprovalSettings = _taskApprovalSettingRepository.Table
+                                        .Where(x => x.TaskMasterId == taskMasterId && x.CentreCode == centreCode)
+                                        .OrderBy(x => x.ApprovalSequenceNumber)
+                                        .ToList();
+
+                TaskApprovalSetting taskApproval = taskApprovalSettings.FirstOrDefault();
+                if (taskApproval != null)
+                {
+                    taskApprovalSettingModel.TaskApprovalSettingId = taskApproval.TaskApprovalSettingId;
+                    taskApprovalSettingModel.ApprovalSequenceNumber = taskApproval.ApprovalSequenceNumber;
+                    taskApprovalSettingModel.IsFinalApproval = taskApproval.IsFinalApproval;
+                }
+
+                taskApprovalSettingModel.EmployeeList = new List<EmployeeMasterModel>();
+                taskApprovalSettingModel.EmployeeList = (from t in taskApprovalSettings
+                                                         join u in _userMasterRepository.Table
+                                                         .Where(u => u.UserType == UserTypeEnum.Employee.ToString())
+                                                         on t.EmployeeId equals u.EntityId
+                                                         select new EmployeeMasterModel
+                                                         {
+                                                             EmployeeId = t.EmployeeId,
+                                                             FirstName = u.FirstName,
+                                                             LastName = u.LastName,
+                                                             IsFinalApproval = t.IsFinalApproval
+                                                         }).OrderBy(e => taskApprovalSettings
+                                                     .FirstOrDefault(x => x.EmployeeId == e.EmployeeId)?.ApprovalSequenceNumber).ToList();
+            
+
             return taskApprovalSettingModel;
         }
 
@@ -100,13 +135,114 @@ namespace Coditech.API.Service
 
         }
 
+        //Get UpdateTaskApprovalSetting by taskApprovalSetting id.
+        public virtual TaskApprovalSettingModel GetUpdateTaskApprovalSetting(short taskMasterId, string centreCode, int taskApprovalSettingId)
+        {
+            if (taskMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaskMasterId"));
+
+            TaskApprovalSettingModel taskApprovalSettingModel = new TaskApprovalSettingModel();
+            TaskMaster taskMaster = _taskMasterRepository.Table.Where(x => x.TaskMasterId == taskMasterId)?.FirstOrDefault();
+            if (IsNotNull(taskMaster))
+            {
+                taskApprovalSettingModel.TaskCode = taskMaster.TaskCode;
+                taskApprovalSettingModel.TaskDescription = taskMaster.TaskDescription;
+
+            }
+            if (!string.IsNullOrEmpty(centreCode))
+            {
+                taskApprovalSettingModel.CentreName = GetOrganisationCentreDetails(centreCode).CentreName;
+                taskApprovalSettingModel.CentreCode = centreCode;
+            }
+
+           
+            
+                var taskApprovalSettings = _taskApprovalSettingRepository.Table
+                                        .Where(x => x.TaskMasterId == taskMasterId && x.CentreCode == centreCode)
+                                        .OrderBy(x => x.ApprovalSequenceNumber)
+                                        .ToList();
+
+                TaskApprovalSetting taskApproval = taskApprovalSettings.FirstOrDefault();
+                if (taskApproval != null)
+                {
+                    taskApprovalSettingModel.TaskApprovalSettingId = taskApproval.TaskApprovalSettingId;
+                    taskApprovalSettingModel.ApprovalSequenceNumber = taskApproval.ApprovalSequenceNumber;
+                    taskApprovalSettingModel.IsFinalApproval = taskApproval.IsFinalApproval;
+                }
+
+                taskApprovalSettingModel.EmployeeList = new List<EmployeeMasterModel>();
+                taskApprovalSettingModel.EmployeeList = (from t in taskApprovalSettings
+                                                         join u in _userMasterRepository.Table
+                                                         .Where(u => u.UserType == UserTypeEnum.Employee.ToString())
+                                                         on t.EmployeeId equals u.EntityId
+                                                         select new EmployeeMasterModel
+                                                         {
+                                                             EmployeeId = t.EmployeeId,
+                                                             FirstName = u.FirstName,
+                                                             LastName = u.LastName,
+                                                             IsFinalApproval = t.IsFinalApproval
+                                                         }).OrderBy(e => taskApprovalSettings
+                                                     .FirstOrDefault(x => x.EmployeeId == e.EmployeeId)?.ApprovalSequenceNumber).ToList();
+            
+
+            return taskApprovalSettingModel;
+        }
+
+        //Update TaskApprovalSetting.
+        public virtual bool UpdateTaskApprovalSetting(TaskApprovalSettingModel taskApprovalSettingModel)
+        {
+            if (IsNull(taskApprovalSettingModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (taskApprovalSettingModel.TaskApprovalSettingId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaskApprovalSettingID"));
+
+            //if (IsTaskApprovalSettingAlreadyExist(taskApprovalSettingModel.CentreCode, taskApprovalSettingModel.TaskMasterId))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
+
+            TaskApprovalSetting taskApprovalSetting = taskApprovalSettingModel.FromModelToEntity<TaskApprovalSetting>();
+
+            //Update TaskApprovalSetting
+            bool isTaskApprovalSettingUpdated = _taskApprovalSettingRepository.Update(taskApprovalSetting);
+            if (!isTaskApprovalSettingUpdated)
+            {
+                taskApprovalSettingModel.HasError = true;
+                taskApprovalSettingModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isTaskApprovalSettingUpdated;
+        }
+
+        //Delete TaskApprovalSetting.
+        public virtual bool DeleteTaskApprovalSetting(ParameterModel parameterModel)
+        {
+            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaskApprovalSettingId"));
+
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("TaskApprovalSettingId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
+            int status = 0;
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteTaskApprovalSetting @TaskApprovalSettingId,  @Status OUT", 1, out status);
+
+            return status == 1 ? true : false;
+        }
+
         #region Protected Method
         protected virtual bool IsTaskApprovalSettingAlreadyExist(TaskApprovalSettingModel taskApprovalSettingModel)
-         => _taskApprovalSettingRepository.Table.Any(x => x.TaskMasterId == taskApprovalSettingModel.TaskMasterId && x.CentreCode == taskApprovalSettingModel .CentreCode);
+         => _taskApprovalSettingRepository.Table.Any(x => x.TaskMasterId == taskApprovalSettingModel.TaskMasterId && x.CentreCode == taskApprovalSettingModel.CentreCode);
         #endregion
     }
 
 }
+
+
+
+
+
+
+
+
+
 
 
 

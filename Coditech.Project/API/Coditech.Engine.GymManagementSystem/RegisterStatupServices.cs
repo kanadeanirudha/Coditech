@@ -260,7 +260,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IGymSalesInvoiceService, GymSalesInvoiceService>();
             builder.Services.AddScoped<IGymUserService, GymUserService>();
             builder.Services.AddScoped<IGymWorkoutPlanService, GymWorkoutPlanService>();
-
+            builder.Services.AddScoped<IGymDashboardService, GymDashboardService>();
         }
         #endregion
     }

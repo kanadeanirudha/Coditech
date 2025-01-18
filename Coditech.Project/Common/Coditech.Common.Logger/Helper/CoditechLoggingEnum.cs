@@ -124,7 +124,16 @@
             DBTMUser,
             TicketMaster,
             DBTMSubscriptionPlan,
-            DBTMPrivacySetting
+            DBTMPrivacySetting,
+            PaymentGateways,
+            AccGLSetupNarration,
+            AccSetupMaster,
+            OrganisationCentrewiseJoiningCode,
+            AccSetupBalanceSheet,
+            AccSetupBalanceSheetType,
+            PaymentGatewayDetails,
+            DBTMMySubscriptionPlan,
+            DBTMDeviceData
         }
     }
 }

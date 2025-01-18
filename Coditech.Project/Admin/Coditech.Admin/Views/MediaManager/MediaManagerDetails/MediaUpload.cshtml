@@ -31,9 +31,16 @@
                 $.ajax({
                     url: '@Url.Action("Index", "MediaManager")',
                     type: 'GET',
-                    data: { rootFolderId: folderId },
+                    data: { SelectedParameter1: folderId },
                     beforeSend: function () {
                         CoditechCommon.ShowLodder();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        if (xhr.status == "401" || xhr.status == "403") {
+                            location.reload();
+                        }
+                        CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
+                        CoditechCommon.HideLodder();
                     }
                 }).done(function (data) {
                     $("#DataTablesDivId").html(data);
@@ -167,6 +174,9 @@
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, status, error) {
+                    if (xhr.status == "401" || xhr.status == "403") {
+                        location.reload();
+                    }
                     console.error("Error fetching folder dropdown: " + error);
                 }
             });

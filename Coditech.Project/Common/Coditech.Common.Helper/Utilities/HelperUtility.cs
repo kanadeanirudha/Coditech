@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.Helper.Utilities;
 
 using System.Security.Cryptography;
@@ -42,6 +43,15 @@ namespace Coditech.Common.Helper
             }
         }
 
+        public static void BindPageListResponseModel(this BaseListResponse baseListResponseModel, PageListModel pageListModel)
+        {
+            if (IsNotNull(pageListModel))
+            {
+                baseListResponseModel.TotalResults = pageListModel.TotalRowCount;
+                baseListResponseModel.PageIndex = pageListModel.PagingStart;
+                baseListResponseModel.PageSize = pageListModel.PagingLength;
+            }
+        }
         public static bool IsAdminUser(string userType)
         {
             return userType.Equals(UserTypeEnum.Admin.ToString(), StringComparison.InvariantCultureIgnoreCase);
@@ -104,6 +114,34 @@ namespace Coditech.Common.Helper
 			chars[0] = char.ToUpper(chars[0]);
 			return new string(chars);
 		}
-	}
+        public static string GenerateAlphaNumericCode(short size, bool lowerCase = false)
+        {
+            var builder = new StringBuilder(size);
+            char letterOffset = lowerCase ? 'a' : 'A';
+            const int lettersOffset = 26; // A...Z or a..z: length = 26
+            const int digitsOffset = 10; // 0...9: length = 10
+            Random _random = new Random();
+
+            for (var i = 0; i < size; i++)
+            {
+                // Randomly decide whether to add a letter or a digit
+                if (_random.Next(2) == 0)
+                {
+                    // Add a letter
+                    var letter = (char)_random.Next(letterOffset, letterOffset + lettersOffset);
+                    builder.Append(letter);
+                }
+                else
+                {
+                    // Add a digit
+                    var digit = (char)_random.Next('0', '0' + digitsOffset);
+                    builder.Append(digit);
+                }
+            }
+
+            return lowerCase ? builder.ToString().ToLower() : builder.ToString();
+        }
+
+    }
 }
 
