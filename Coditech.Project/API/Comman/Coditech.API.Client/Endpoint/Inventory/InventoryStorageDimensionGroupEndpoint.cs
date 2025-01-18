@@ -8,20 +8,20 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryStorageDimensionGroup/GetInventoryStorageDimensionGroupList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryStorageDimensionGroup/GetInventoryStorageDimensionGroupList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
         public string CreateInventoryStorageDimensionGroupAsync() =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryStorageDimensionGroup/CreateInventoryStorageDimensionGroup";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryStorageDimensionGroup/CreateInventoryStorageDimensionGroup";
 
         public string GetInventoryStorageDimensionGroupAsync(int inventoryStorageDimensionGroupId) =>
-            $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryStorageDimensionGroup/GetInventoryStorageDimensionGroup?inventoryStorageDimensionGroupId={inventoryStorageDimensionGroupId}";
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryStorageDimensionGroup/GetInventoryStorageDimensionGroup?inventoryStorageDimensionGroupId={inventoryStorageDimensionGroupId}";
        
         public string UpdateInventoryStorageDimensionGroupAsync() =>
-               $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryStorageDimensionGroup/UpdateInventoryStorageDimensionGroup";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryStorageDimensionGroup/UpdateInventoryStorageDimensionGroup";
 
         public string DeleteInventoryStorageDimensionGroupAsync() =>
-                  $"{CoditechAdminSettings.CoditechInventoryApiRootUri}/InventoryStorageDimensionGroup/DeleteInventoryStorageDimensionGroup";
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryStorageDimensionGroup/DeleteInventoryStorageDimensionGroup";
     }
 }

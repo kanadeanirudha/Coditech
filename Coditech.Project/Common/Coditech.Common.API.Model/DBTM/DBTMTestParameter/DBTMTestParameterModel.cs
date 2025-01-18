@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
     public class DBTMTestParameterModel : BaseModel
     {

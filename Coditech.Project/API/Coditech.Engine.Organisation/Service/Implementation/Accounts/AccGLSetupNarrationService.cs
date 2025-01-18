@@ -26,32 +26,37 @@ namespace Coditech.API.Service
         public virtual AccGLSetupNarrationListModel GetNarrationList(string selectedCentreCode)
         {
             AccGLSetupNarrationListModel listModel = new AccGLSetupNarrationListModel();
-
             List<AccGLSetupNarration> list = _accGLSetupNarrationRepository.Table.Where(x => x.CentreCode == selectedCentreCode)?.ToList();
             listModel.AccGLSetupNarrationList = new List<AccGLSetupNarrationModel>();
-            listModel.AccGLSetupNarrationList.Add(new AccGLSetupNarrationModel()
+            var narrationTypeList = Enum.GetValues(typeof(NarrationTypeEnum)).Cast<NarrationTypeEnum>().ToList();
+
+            foreach (var narrationType in narrationTypeList)
             {
-                NarrationType = "Test Mode",
-                IsSystemGenerated = false,
-                AccGLSetupNarrationId = list?.Count() > 0 ? Convert.ToByte(list.FirstOrDefault(x => !x.IsSystemGenerated)?.AccGLSetupNarrationId) : (byte)0
-            });
-            listModel.AccGLSetupNarrationList.Add(new AccGLSetupNarrationModel()
-            {
-                NarrationType = "Live Mode",
-                IsSystemGenerated = true,
-                AccGLSetupNarrationId = list?.Count() > 0 ? Convert.ToByte(list.FirstOrDefault(x => x.IsSystemGenerated)?.AccGLSetupNarrationId) : (byte)0
-            });
+                var narrationsTypeList = list?.FirstOrDefault(x => x.NarrationType == narrationType.ToString());
+                listModel.AccGLSetupNarrationList.Add(new AccGLSetupNarrationModel()
+                {
+                    NarrationType = narrationType.ToString(),
+                    CentreCode = selectedCentreCode,
+                    AccGLSetupNarrationId = narrationsTypeList != null ? narrationsTypeList.AccGLSetupNarrationId : 0,
+                    IsActive = narrationsTypeList != null ? narrationsTypeList.IsActive : false,
+                    NarrationDescription = narrationsTypeList != null ? narrationsTypeList.NarrationDescription : string.Empty,
+                });
+            }
+            listModel.AccGLSetupNarrationList = listModel.AccGLSetupNarrationList.OrderBy(x => x.NarrationType).ToList();
             return listModel;
+
         }
         //Create Narration.
         public virtual AccGLSetupNarrationModel CreateNarration(AccGLSetupNarrationModel accGLSetupNarrationModel)
         {
             accGLSetupNarrationModel.CentreCode = accGLSetupNarrationModel.CentreCode;
-            accGLSetupNarrationModel.IsSystemGenerated = accGLSetupNarrationModel.IsSystemGenerated;
+            accGLSetupNarrationModel.NarrationType = accGLSetupNarrationModel.NarrationType;
+            
 
-                if (IsNull(accGLSetupNarrationModel))
+
+            if (IsNull(accGLSetupNarrationModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-           
+
 
             //if (IsNarrationIDAlreadyExist(AccGLSetupNarration.NarrationType))
             //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Narration Type"));
@@ -59,10 +64,12 @@ namespace Coditech.API.Service
             AccGLSetupNarration accGLSetupNarration = accGLSetupNarrationModel.FromModelToEntity<AccGLSetupNarration>();
 
             //Create new Narration and return it.
+            
             AccGLSetupNarration narrationData = _accGLSetupNarrationRepository.Insert(accGLSetupNarration);
             if (narrationData?.AccGLSetupNarrationId > 0)
             {
                 accGLSetupNarrationModel.AccGLSetupNarrationId = narrationData.AccGLSetupNarrationId;
+                accGLSetupNarrationModel.IsSystemGenerated =  false;
             }
             else
             {
@@ -108,7 +115,7 @@ namespace Coditech.API.Service
         }
 
         //Delete Narration.
-        
+
 
         #region Protected Method
         //Check if Narration ID is already present or not.

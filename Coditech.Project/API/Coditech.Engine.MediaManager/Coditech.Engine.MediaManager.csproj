@@ -6,16 +6,13 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<InvariantGlobalization>false</InvariantGlobalization>
 	</PropertyGroup>
+	
+	<ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="Magick.NET-Q8-x64" Version="13.5.0" />
-    <PackageReference Include="Magick.NET.Core" Version="13.5.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
-  </ItemGroup>
-
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	</ItemGroup>
+	
 	<ItemGroup>
 		<Content Include="data\**" CopyToPublishDirectory="PreserveNewest" />
 		<Content Update="appsettings.Development.json">
@@ -25,16 +22,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
-		<ProjectReference Include="..\..\Common\Coditech.Resources\Coditech.Resources.csproj" />
-		<ProjectReference Include="..\Comman\Coditech.API.Data\Coditech.API.Data.csproj" />
-		<ProjectReference Include="..\Comman\Coditech.Common.API\Coditech.Common.API.csproj" />
-		<ProjectReference Include="..\Comman\Coditech.Common.Service\Coditech.Common.Service.csproj" />
+	  <Folder Include="Data\ApplicationImages\" />
+	  <Folder Include="Data\Media\ApplicationIcon\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Data\ApplicationImages\" />
-	  <Folder Include="Data\Media\ApplicationIcon\" />
+	  <ProjectReference Include="..\APIServices\Coditech.MediaManager.Service\Coditech.MediaManager.Service.csproj" />
 	</ItemGroup>
 
 </Project>
