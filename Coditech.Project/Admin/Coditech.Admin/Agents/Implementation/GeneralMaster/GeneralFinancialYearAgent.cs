@@ -31,10 +31,11 @@ namespace Coditech.Admin.Agents
         #region Public Methods
         public virtual GeneralFinancialYearListViewModel GetFinancialYearList(DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = new FilterCollection();
+            FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
-            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
+                filters = new FilterCollection();
                 filters.Add("FromDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("Todate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }

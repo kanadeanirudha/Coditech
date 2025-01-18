@@ -13,9 +13,6 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "To Date")]
         public DateTime ToDate { get; set; } = DateTime.Now;
-
-        public string CentreCode { get; set; }
-        public string SelectedCentreCode { get; set; }
-
-    }
+       
+      }
 }
