@@ -165,7 +165,7 @@ namespace Coditech.API.Service
 
         #region Protected Method
         //Check if DeviceSerialCode is already present or not.
-        protected virtual bool IsDeviceSerialCodeAlreadyExist(long dBTMDeviceMasterId)
+        public virtual bool IsDeviceSerialCodeAlreadyExist(long dBTMDeviceMasterId)
         {
             return _dBTMDeviceRegistrationDetailsRepository.Table.Any(x => x.DBTMDeviceMasterId == dBTMDeviceMasterId);
         }
