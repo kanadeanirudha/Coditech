@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.ServiceModel.Channels;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Admin.Controllers
 {
@@ -81,7 +82,8 @@ namespace Coditech.Admin.Controllers
 
             var response = _generalCommonAgent.UploadImage(file);
 
-            return Json(new { imageUrl = response.MediaModel.Path, photoMediaId = response.MediaModel.MediaId });
+
+            return Json(new { imageUrl = response?.MediaModel?.Path, photoMediaId = response?.MediaModel?.MediaId, status = !response.HasError, message = response.ErrorMessage });
         }
 
         [AllowAnonymous]
@@ -109,7 +111,7 @@ namespace Coditech.Admin.Controllers
             {
                 return Json(new { success = false, message = "Invalid data send." });
             }
-            
+
             GeneralMessagesViewModel generalMessagesViewModel = new()
             {
                 IsSendOnEmail = sendOTPOn.ToLower() == "email",

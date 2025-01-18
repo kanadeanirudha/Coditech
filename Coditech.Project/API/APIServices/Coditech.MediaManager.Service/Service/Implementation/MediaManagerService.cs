@@ -88,7 +88,7 @@ namespace Coditech.API.Service
                                 MediaModel = new MediaModel()
                                 {
                                     MediaId = result.MediaId,
-                                    Path = $"{GetMediaUrl()}{result.Path}"
+                                    Path = $"{result.Path}"
                                 }
                             };
                         }
