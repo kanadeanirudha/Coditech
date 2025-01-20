@@ -253,9 +253,9 @@ namespace Coditech.Admin.Controllers
         }
 
         #region 
-        public virtual ActionResult ActivitiesList(DataTableViewModel dataTableModel)
+        public virtual ActionResult TraineeActivitiesList(DataTableViewModel dataTableModel)
         {
-            DBTMActivitiesListViewModel list = _dBTMTraineeDetailsAgent.GetTraineeActivitiesList(dataTableModel);
+            DBTMActivitiesListViewModel list = _dBTMTraineeDetailsAgent.GetTraineeActivitiesList(Convert.ToString(dataTableModel.SelectedParameter1),dataTableModel);
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/DBTM/DBTMActivities/_List.cshtml", list);
@@ -263,7 +263,22 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/DBTM/DBTMActivities/List.cshtml", list);
         }
 
-        #endregion
+        public virtual ActionResult TraineeActivitiesDetailsList(DataTableViewModel dataTableModel)
+        {
+            DBTMActivitiesDetailsListViewModel list = _dBTMTraineeDetailsAgent.GetTraineeActivitiesDetailsList(Convert.ToInt64(dataTableModel.SelectedParameter1),dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/DBTM/DBTMActivities/TraineeActivitiesDetails_List.cshtml", list);
+            }
+            return View($"~/Views/DBTM/DBTMActivities/TraineeActivitiesDetailsList.cshtml", list);
+        }
+        [HttpGet]
+        public virtual ActionResult TraineeActivitiesDetails(long dBTMDeviceDataId)
+        {
+            DBTMActivitiesViewModel dBTMActivitiesViewModel = _dBTMTraineeDetailsAgent.GetTraineeActivities(dBTMDeviceDataId);
+            return ActionView("TraineeActivitiesList", dBTMActivitiesViewModel);
+        }
 
+        #endregion
     }
 }

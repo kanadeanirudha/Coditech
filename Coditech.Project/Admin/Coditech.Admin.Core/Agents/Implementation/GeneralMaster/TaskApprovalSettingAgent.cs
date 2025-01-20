@@ -75,7 +75,7 @@ namespace Coditech.Admin.Agents
             {
                 TaskApprovalSettingResponse response = _taskApprovalSettingClient.AddUpdateTaskApprovalSetting(taskApprovalSettingViewModel.ToModel<TaskApprovalSettingModel>());
                 TaskApprovalSettingModel taskApprovalSettingModel = response?.TaskApprovalSettingModel;
-                return IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : new TaskApprovalSettingViewModel();
+                return HelperUtility.IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : new TaskApprovalSettingViewModel();
             }
             catch (CoditechException ex)
             {
@@ -111,7 +111,7 @@ namespace Coditech.Admin.Agents
                 TaskApprovalSettingResponse response = _taskApprovalSettingClient.UpdateTaskApprovalSetting(taskApprovalSettingViewModel.ToModel<TaskApprovalSettingModel>());
                 TaskApprovalSettingModel taskApprovalSettingModel = response?.TaskApprovalSettingModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Info);
-                return IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(new TaskApprovalSettingViewModel(), GeneralResources.UpdateErrorMessage);
+                return HelperUtility.IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(new TaskApprovalSettingViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (CoditechException ex)
             {

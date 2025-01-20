@@ -28,6 +28,6 @@ namespace Coditech.Admin.ViewModel
         [Editable(false)]
         [Display(Name = "Doctor Code")]
         public string PersonCode { get; set; }
-        public long NumberOFTraineeAssociated { get; set; }
+        public int NumberOfTraineeAssociated { get; set; }
     }
 }

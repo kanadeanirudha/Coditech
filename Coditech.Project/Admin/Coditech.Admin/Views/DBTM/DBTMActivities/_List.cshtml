@@ -11,6 +11,7 @@
     @Html.Partial("~/Views/Shared/Datatable/_DatatableSearchData.cshtml", Model.PageListViewModel.SearchBy)
 </div>
 
+
 <div class="row">
     <div class="col-sm-12 table-responsive">
         <table id="datatable" class="action-set table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" style="border-collapse: collapse; border-spacing: 0px; width: 100%;" role="grid" aria-describedby="datatable_info">
@@ -24,6 +25,9 @@
                             <td>@item.TestName</td>
                             <td>@item.Date.ToCoditechDateFormat()</td>
                             <td>@item.DeviceSerialCode</td>
+                            <td class="text-center">
+                                <a href="../@controllerName/TraineeActivitiesDetails?dBTMDeviceDataId=@item.DBTMDeviceDataId" title="View" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fa fa-eye"></i></a>@* <span class="m-2">|</span> *@
+                            </td>
                         </tr>
                     }
                 }
@@ -31,4 +35,4 @@
         </table>
     </div>
 </div>
-@Html.Partial("~/Views/Shared/Datatable/_DatatablePagination.cshtml", Model.PageListViewModel)
+

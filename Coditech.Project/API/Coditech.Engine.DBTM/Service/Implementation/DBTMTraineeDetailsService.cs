@@ -17,12 +17,14 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMTraineeDetails> _dBTMTraineeDetailsRepository;
+        private readonly ICoditechRepository<DBTMDeviceDataDetails> _dBTMDeviceDataDetailsRepository;
 
         public DBTMTraineeDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _dBTMTraineeDetailsRepository = new CoditechRepository<DBTMTraineeDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMDeviceDataDetailsRepository = new CoditechRepository<DBTMDeviceDataDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual DBTMTraineeDetailsListModel GetDBTMTraineeDetailsList(string SelectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -126,22 +128,72 @@ namespace Coditech.API.Service
         }
 
         //TraineeActivitiesList
-        public virtual DBTMActivitiesListModel GetTraineeActivitiesList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual DBTMActivitiesListModel GetTraineeActivitiesList(string personCode,int numberOfDaysRecord,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters,expands, pagingStart, pagingLength);
             CoditechViewRepository<DBTMActivitiesModel> objStoredProc = new CoditechViewRepository<DBTMActivitiesModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@PersonCode", personCode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@NumberOfDaysRecord",numberOfDaysRecord, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<DBTMActivitiesModel> dBTMActivitiesList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTraineeActivitiesList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
+            List<DBTMActivitiesModel> dBTMActivitiesList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTraineeActivitiesList @PersonCode,@NumberOfDaysRecord,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT",6, out pageListModel.TotalRowCount)?.ToList();
             DBTMActivitiesListModel listModel = new DBTMActivitiesListModel();
 
             listModel.ActivitiesList = dBTMActivitiesList?.Count > 0 ? dBTMActivitiesList : new List<DBTMActivitiesModel>();
             listModel.BindPageListModel(pageListModel);
+            //if (personCode > 0)
+            //{
+            //    GeneralPersonModel generalPersonModel = GetGeneralPersonCodeDetails(personCode);
+            //    if (IsNotNull(listModel))
+            //    {
+            //        listModel.FirstName = generalPersonModel.FirstName;
+            //        listModel.LastName = generalPersonModel.LastName;
+            //    }
+            //}
+            listModel.PersonCode = personCode;
             return listModel;
+        }
+
+        public virtual DBTMActivitiesDetailsListModel GetTraineeActivitiesDetailsList(long dBTMDeviceDataId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        {
+            //Bind the Filter, sorts & Paging details.
+            PageListModel pageListModel = new PageListModel(filters, expands, pagingStart, pagingLength);
+            CoditechViewRepository<DBTMActivitiesDetailsModel> objStoredProc = new CoditechViewRepository<DBTMActivitiesDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@DBTMDeviceDataId", dBTMDeviceDataId, ParameterDirection.Input, DbType.Int64);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<DBTMActivitiesDetailsModel> dBTMActivitiesDetailsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTraineeActivitiesDetailsList @DBTMDeviceDataId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT",5, out pageListModel.TotalRowCount)?.ToList();
+            DBTMActivitiesDetailsListModel listModel = new DBTMActivitiesDetailsListModel();
+
+            listModel.ActivitiesDetailsList = dBTMActivitiesDetailsList?.Count > 0 ? dBTMActivitiesDetailsList : new List<DBTMActivitiesDetailsModel>();
+            listModel.BindPageListModel(pageListModel);
+            //if (personId > 0)
+            //{
+            //    GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+            //    if (IsNotNull(listModel))
+            //    {
+            //        listModel.FirstName = generalPersonModel.FirstName;
+            //        listModel.LastName = generalPersonModel.LastName;
+            //    }
+            //}
+            //listModel.PersonId = personId;
+            return listModel;
+        }
+
+        public virtual DBTMActivitiesModel GetTraineeActivities(long dBTMDeviceDataId)
+        {
+
+            //Get the TraineeActivities Details based on id.
+            DBTMDeviceDataDetails dBTMDeviceDataDetails = _dBTMDeviceDataDetailsRepository.Table.FirstOrDefault(x => x.DBTMDeviceDataId == dBTMDeviceDataId);
+            DBTMActivitiesModel dBTMActivitiesModel = dBTMDeviceDataDetails?.FromEntityToModel<DBTMActivitiesModel>();
+            return dBTMActivitiesModel;
         }
 
         public DBTMTraineeDetails GetDBTMTraineeDetailsByCode(string personCode)

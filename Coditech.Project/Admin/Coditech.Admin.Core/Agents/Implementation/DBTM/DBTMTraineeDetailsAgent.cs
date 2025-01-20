@@ -333,9 +333,10 @@ namespace Coditech.Admin.Agents
             }
         }
         #endregion
-        #region
 
-        public virtual DBTMActivitiesListViewModel GetTraineeActivitiesList(DataTableViewModel dataTableModel)
+        #region DBTMTraineeActivities
+
+        public virtual DBTMActivitiesListViewModel GetTraineeActivitiesList(string personCode,DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
@@ -346,13 +347,39 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            DBTMActivitiesListResponse response = _dBTMTraineeDetailsClient.GetTraineeActivitiesList(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            DBTMActivitiesListResponse response = _dBTMTraineeDetailsClient.GetTraineeActivitiesList(personCode,7, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             DBTMActivitiesListModel dBTMActivitiesList = new DBTMActivitiesListModel { ActivitiesList = response?.ActivitiesList };
             DBTMActivitiesListViewModel listViewModel = new DBTMActivitiesListViewModel();
             listViewModel.ActivitiesList = dBTMActivitiesList?.ActivitiesList?.ToViewModel<DBTMActivitiesViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.ActivitiesList.Count, BindTraineeActivitiesColumns());
             return listViewModel;
+        }
+
+        public virtual DBTMActivitiesDetailsListViewModel GetTraineeActivitiesDetailsList(long dBTMDeviceDataId,DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters.Add("Height", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+
+            DBTMActivitiesDetailsListResponse response = _dBTMTraineeDetailsClient.GetTraineeActivitiesDetailsList(dBTMDeviceDataId,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            DBTMActivitiesDetailsListModel dBTMActivitiesDetailsList = new DBTMActivitiesDetailsListModel { ActivitiesDetailsList = response?.ActivitiesDetailsList };
+            DBTMActivitiesDetailsListViewModel listViewModel = new DBTMActivitiesDetailsListViewModel();
+            listViewModel.ActivitiesDetailsList = dBTMActivitiesDetailsList?.ActivitiesDetailsList?.ToViewModel<DBTMActivitiesDetailsViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.ActivitiesDetailsList.Count, BindTraineeActivitiesDetailsColumns());
+            return listViewModel;
+        }
+
+        public virtual DBTMActivitiesViewModel GetTraineeActivities(long dBTMDeviceDataId)
+        {
+            DBTMActivitiesResponse response = _dBTMTraineeDetailsClient.GetTraineeActivities(dBTMDeviceDataId);
+            return response?.DBTMActivitiesModel.ToViewModel<DBTMActivitiesViewModel>();
         }
 
         #endregion
@@ -471,6 +498,30 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Serial Code",
                 ColumnCode = "DeviceSerialCode",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindTraineeActivitiesDetailsColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Weight",
+                ColumnCode = "Height",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Weight",
+                ColumnCode = "Weight",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Time",
+                ColumnCode = "Time",
                 IsSortable = true,
             });
             return datatableColumnList;

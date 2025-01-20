@@ -134,7 +134,8 @@
             PaymentGatewayDetails,
             DBTMMySubscriptionPlan,
             DBTMDeviceData,
-            DBTMActivities
+            DBTMActivities,
+            DBTMActivitiesDetails
         }
     }
 }

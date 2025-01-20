@@ -11,5 +11,6 @@ namespace Coditech.Common.API.Model
         [MaxLength(100)]
         [Required]
         public string DeviceSerialCode { get; set; }
+        public long DBTMDeviceDataId { get; set; }
     }
 }
