@@ -1,4 +1,5 @@
 ﻿using Coditech.API.Data;
+using Coditech.API.Service.DependencyRegistration;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
@@ -208,17 +209,6 @@ namespace Coditech.API.Common
         {
             // Assigned Translator to TranslatorExtension.
             TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<CoditechTranslator>();
-        }
-        #endregion
-
-        #region register Dependency
-        /// <summary>
-        /// Register DI with default microsoft container.
-        /// </summary>
-        /// <param name="builder"></param>
-        public static void RegisterDI(this WebApplicationBuilder builder)
-        {
-            
         }
         #endregion
     }
