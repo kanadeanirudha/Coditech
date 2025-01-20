@@ -16,5 +16,13 @@ namespace Coditech.API.Endpoint
 
         public string AddUpdateTaskApprovalSettingAsync() =>
            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskApprovalSetting/AddUpdateTaskApprovalSetting";
+
+        public string GetUpdateTaskApprovalSettingAsync(short taskMasterId, string centreCode, int taskApprovalSettingId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskApprovalSetting/GetUpdateTaskApprovalSetting?taskMasterId={taskMasterId}&centreCode={centreCode}&taskApprovalSettingId={taskApprovalSettingId}";
+        public string UpdateTaskApprovalSettingAsync() =>
+                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskApprovalSetting/UpdateTaskApprovalSetting";
+
+        public string DeleteTaskApprovalSettingAsync() =>
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskApprovalSetting/DeleteTaskApprovalSetting";
     }
 }

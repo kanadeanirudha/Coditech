@@ -20,6 +20,7 @@ namespace Coditech.API.Client
         /// <param name="taskMasterId">taskMasterId</param>
         /// <param name="centreCode">centreCode</param>
         /// <returns>Returns TaskApprovalSettingResponse.</returns>
+        
         TaskApprovalSettingResponse GetTaskApprovalSetting(short taskMasterId, string centreCode);
         /// <summary>
         /// Create TaskApprovalSettingModel.
@@ -27,5 +28,29 @@ namespace Coditech.API.Client
         /// <param name="TaskApprovalSettingModel">TaskApprovalSettingModel.</param>
         /// <returns>Returns TaskApprovalSettingResponse.</returns>
         TaskApprovalSettingResponse AddUpdateTaskApprovalSetting(TaskApprovalSettingModel body);
+
+        /// <summary>
+        /// Get TaskApprovalSetting by taskApprovalSettingId.
+        /// </summary>
+        /// <param name="taskMasterId">taskMasterId</param>
+        /// <param name="centreCode">centreCode</param>
+        /// <param name="taskApprovalSettingId">taskApprovalSettingId</param>
+        /// <returns>Returns TaskApprovalSettingResponse.</returns>
+        TaskApprovalSettingResponse GetUpdateTaskApprovalSetting(short taskMasterId, string centreCode, int taskApprovalSettingId);
+
+        /// <summary>
+        /// Update TaskApprovalSetting.
+        /// </summary>
+        /// <param name="TaskApprovalSettingModel">TaskApprovalSettingModel.</param>
+        /// <returns>Returns updated TaskApprovalSettingResponse</returns>
+        TaskApprovalSettingResponse UpdateTaskApprovalSetting(TaskApprovalSettingModel model);
+
+        /// <summary>
+        /// Delete TaskApprovalSetting.
+        /// </summary>
+        /// <param name="ParameterModel">ParameterModel.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        TrueFalseResponse DeleteTaskApprovalSetting(ParameterModel body);
+        
     }
 }

@@ -246,6 +246,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetDBTMBatchActivityList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupBalanceSheetType.ToString()))
+            {
+                GetAccSetupBalanceSheetTypeList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -285,7 +289,7 @@ namespace Coditech.Admin.Helpers
             PaymentGatewaysListResponse response = new PaymentGatewaysClient().List(null, null, null, 1, int.MaxValue);
 
             PaymentGatewaysListModel list = new PaymentGatewaysListModel() { PaymentGatewaysList = response.PaymentGatewaysList };
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Payment Gateways-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Payment Gateways-------" });
             foreach (var item in list?.PaymentGatewaysList)
             {
                 dropdownList.Add(new SelectListItem()
@@ -1392,7 +1396,22 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
+        private static void GetAccSetupBalanceSheetTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            AccSetupBalanceSheetTypeListResponse response = new AccSetupBalanceSheetTypeClient().List(null, null, null, 1, int.MaxValue);
 
+            AccSetupBalanceSheetTypeListModel list = new AccSetupBalanceSheetTypeListModel() { AccSetupBalanceSheetTypeList = response.AccSetupBalanceSheetTypeList };
+            dropdownList.Add(new SelectListItem() { Text = "-------BalanceSheet Type-------" });
+            foreach (var item in list?.AccSetupBalanceSheetTypeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.AccBalsheetTypeCode,
+                    Value = item.AccSetupBalanceSheetTypeId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupBalanceSheetTypeId)
+                });
+            }
+        }
         private static void GetDBTMBatchActivityList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------Select Activity-------" });

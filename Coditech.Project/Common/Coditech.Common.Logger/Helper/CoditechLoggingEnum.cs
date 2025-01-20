@@ -128,8 +128,10 @@
             PaymentGateways,
             AccGLSetupNarration,
             AccSetupMaster,
-            PaymentGatewayDetails,
             OrganisationCentrewiseJoiningCode,
+            AccSetupBalanceSheet,
+            AccSetupBalanceSheetType,
+            PaymentGatewayDetails,
             DBTMMySubscriptionPlan,
             DBTMDeviceData,
             DBTMActivities

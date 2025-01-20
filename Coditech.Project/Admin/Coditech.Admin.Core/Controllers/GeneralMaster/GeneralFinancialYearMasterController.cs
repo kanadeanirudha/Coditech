@@ -2,7 +2,6 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
@@ -20,6 +19,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralFinancialYearListViewModel list = _generalFinancialYearAgent.GetFinancialYearList(dataTableModel);
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/GeneralMaster/GeneralFinancialYearMaster/_List.cshtml", list);

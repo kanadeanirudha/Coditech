@@ -23,6 +23,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Number Of Approver")]
         public byte CountNumber { get; set; }
         public string EmployeeIds { get; set; }
+        [Display(Name = "Priority")]
         public byte ApprovalSequenceNumber { get; set; }
         public bool IsFinalApproval { get; set; }
         public List<EmployeeMasterModel> EmployeeList { get; set; }

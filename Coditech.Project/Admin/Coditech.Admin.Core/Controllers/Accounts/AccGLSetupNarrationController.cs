@@ -33,11 +33,12 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Create(string centreCode)
+        public virtual ActionResult Create(string centreCode , string narrationType)
         {
             AccGLSetupNarrationViewModel accGLSetupNarrationViewModel = new AccGLSetupNarrationViewModel()
             {
-                CentreCode = centreCode
+                CentreCode = centreCode,
+                NarrationType =narrationType
             };
                 return View(createEdit, accGLSetupNarrationViewModel);
       
@@ -52,7 +53,7 @@ namespace Coditech.Admin.Controllers
                 if (!accGLSetupNarrationViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = accGLSetupNarrationViewModel.CentreCode });
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = accGLSetupNarrationViewModel.CentreCode  });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(accGLSetupNarrationViewModel.ErrorMessage));
@@ -77,7 +78,11 @@ namespace Coditech.Admin.Controllers
             }
             return View(createEdit, accGLSetupNarrationViewModel);
         }
-        
+        public virtual ActionResult Cancel(string SelectedCentreCode, int accGLSetupNarrationId)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode , SelectedParameter1 = accGLSetupNarrationId.ToString() };
+            return RedirectToAction("List", dataTableViewModel);
+        }
         #region Protected
 
         #endregion

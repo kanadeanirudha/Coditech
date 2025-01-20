@@ -1,5 +1,6 @@
 ﻿using Coditech.Common.Helper;
 using Coditech.Resources;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 namespace Coditech.Admin.ViewModel
 {
@@ -19,7 +20,6 @@ namespace Coditech.Admin.ViewModel
         public string CentreCode { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
-        [Display(Name = "Is SystemGenerated")]
         public bool IsSystemGenerated { get; set; }
 
     }

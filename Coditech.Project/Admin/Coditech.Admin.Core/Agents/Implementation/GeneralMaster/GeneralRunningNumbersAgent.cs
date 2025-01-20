@@ -41,7 +41,7 @@ namespace Coditech.Admin.Agents
             }
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreCode" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             GeneralRunningNumbersListResponse response = _generalRunningNumbersClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralRunningNumbersListModel organisationCentrewiseDepartmentList = new GeneralRunningNumbersListModel { GeneralRunningNumbersList = response?.GeneralRunningNumbersList };

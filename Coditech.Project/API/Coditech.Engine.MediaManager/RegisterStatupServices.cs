@@ -1,10 +1,9 @@
-﻿
-using Coditech.API.Data;
+﻿using Coditech.API.Data;
 using Coditech.API.Service;
+using Coditech.API.Service.DependencyRegistration;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
-using Coditech.Common.Logger;
 
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
@@ -241,18 +240,5 @@ namespace Coditech.API.Common
         }
         #endregion
 
-        #region register Dependency
-        /// <summary>
-        /// Register DI with default microsoft container.
-        /// </summary>
-        /// <param name="builder"></param>
-        public static void RegisterDI(this WebApplicationBuilder builder)
-        {
-            // Add Dependency 
-            builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
-            builder.Services.AddScoped<IMediaManagerService, MediaManagerService>();
-            builder.Services.AddScoped<IMediaSettingMasterService, MediaSettingMasterService>();
-        }
-        #endregion
     }
 }
