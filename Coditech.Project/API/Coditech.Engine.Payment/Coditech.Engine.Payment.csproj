@@ -15,18 +15,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Common\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
-		<ProjectReference Include="..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
-		<ProjectReference Include="..\..\Common\Coditech.Resources\Coditech.Resources.csproj" />
-		<ProjectReference Include="..\Comman\Coditech.API.Data\Coditech.API.Data.csproj" />
-		<ProjectReference Include="..\Comman\Coditech.Common.API\Coditech.Common.API.csproj" />
-		<ProjectReference Include="..\Comman\Coditech.Common.Service\Coditech.Common.Service.csproj" />
+	  <ProjectReference Include="..\APIServices\Coditech.Payment.Service\Coditech.Payment.Service.csproj" />
 	</ItemGroup>
 
 </Project>

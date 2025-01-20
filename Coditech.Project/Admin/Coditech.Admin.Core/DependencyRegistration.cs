@@ -136,6 +136,8 @@ namespace Coditech.Admin
             #region Accounts         
             builder.Services.AddScoped<IAccGLSetupNarrationAgent, AccGLSetupNarrationAgent>();
             builder.Services.AddScoped<IAccSetupMasterAgent, AccSetupMasterAgent>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetAgent, AccSetupBalanceSheetAgent>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetTypeAgent, AccSetupBalanceSheetTypeAgent>();
             #endregion
 
             #endregion Agent
@@ -256,6 +258,8 @@ namespace Coditech.Admin
             #region Accounts
             builder.Services.AddScoped<IAccGLSetupNarrationClient, AccGLSetupNarrationClient>();
             builder.Services.AddScoped<IAccSetupMasterClient, AccSetupMasterClient>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetClient, AccSetupBalanceSheetClient>();
+            builder.Services.AddScoped<IAccSetupBalanceSheetTypeClient, AccSetupBalanceSheetTypeClient>();
             #endregion
 
             #endregion Client

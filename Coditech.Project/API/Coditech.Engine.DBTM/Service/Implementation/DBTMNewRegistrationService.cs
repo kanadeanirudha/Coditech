@@ -37,13 +37,13 @@ namespace Coditech.API.Service
             if (IsCentreNameAlreadyExist(dBTMNewRegistrationModel.CentreName))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Name"));
 
-            if (!IsDeviceSerialCodeValid(dBTMNewRegistrationModel.DeviceSerialCode))
-                throw new CoditechException(ErrorCodes.InvalidData, string.Format("In Valid Device Serial Code."));
-
             DBTMDeviceMaster dBTMDeviceMaster = new DBTMDeviceMasterService(_coditechLogging, _serviceProvider).GetDBTMDeviceMasterDetailsByCode(dBTMNewRegistrationModel.DeviceSerialCode);
 
             if (dBTMDeviceMaster == null || dBTMDeviceMaster.DBTMDeviceMasterId <= 0)
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format("Invalid Device Serial Code."));
+
+            if (new DBTMDeviceRegistrationDetailsService(_coditechLogging, _serviceProvider).IsDeviceSerialCodeAlreadyExist(dBTMDeviceMaster.DBTMDeviceMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Device Already Added"));
 
             string centreCode = "HO";
             List<GeneralRunningNumbers> generalRunningNumbersList = GetGeneralRunningNumbersList(centreCode);
@@ -378,11 +378,6 @@ namespace Coditech.API.Service
                 throw new ArgumentException("Centre name cannot be null or empty");
             }
             return _organisationCentreMasterRepository.Table.Any(x => x.CentreName == centreName);
-        }
-
-        protected virtual bool IsDeviceSerialCodeValid(string deviceSerialCode)
-        {
-            return _dbtmDeviceMasterRepository.Table.Any(x => x.DeviceSerialCode == deviceSerialCode);
         }
 
         //Create adminSanctionPost.

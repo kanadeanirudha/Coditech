@@ -9,5 +9,6 @@ namespace Coditech.Admin.ViewModel
         {
             GeneralFinancialYearList = new List<GeneralFinancialYearViewModel>();
         }
+        public string SelectedCentreCode { get; set; }
     }
 }

@@ -92,7 +92,8 @@
         TicketPriority,
         TicketStatus,
         DBTMSubscriptionPlanType,
-        PaymentGateway
+        PaymentGateway,
+        AccSetupBalanceSheetType
 
     }
 

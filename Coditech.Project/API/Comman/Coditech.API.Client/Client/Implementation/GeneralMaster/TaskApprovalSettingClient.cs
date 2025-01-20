@@ -168,5 +168,147 @@ namespace Coditech.API.Client
                 }
             }
         }
+
+        //GetUpdateTaskApprovalSetting
+        public virtual TaskApprovalSettingResponse GetUpdateTaskApprovalSetting(short taskMasterId, string centreCode, int taskApprovalSettingId)
+        {
+            return Task.Run(async () => await GetUpdateTaskApprovalSettingAsync(taskMasterId, centreCode, taskApprovalSettingId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<TaskApprovalSettingResponse> GetUpdateTaskApprovalSettingAsync(short taskMasterId, string centreCode, int taskApprovalSettingId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (taskMasterId <= 0)
+                throw new System.ArgumentNullException("TaskMasterId");
+
+            string endpoint = taskApprovalSettingEndpoint.GetUpdateTaskApprovalSettingAsync(taskMasterId, centreCode, taskApprovalSettingId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<TaskApprovalSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new TaskApprovalSettingResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    TaskApprovalSettingResponse typedBody = JsonConvert.DeserializeObject<TaskApprovalSettingResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual TaskApprovalSettingResponse UpdateTaskApprovalSetting(TaskApprovalSettingModel body)
+        {
+            return Task.Run(async () => await UpdateTaskApprovalSettingAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<TaskApprovalSettingResponse> UpdateTaskApprovalSettingAsync(TaskApprovalSettingModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = taskApprovalSettingEndpoint.UpdateTaskApprovalSettingAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<TaskApprovalSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<TaskApprovalSettingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    TaskApprovalSettingResponse typedBody = JsonConvert.DeserializeObject<TaskApprovalSettingResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        public virtual TrueFalseResponse DeleteTaskApprovalSetting(ParameterModel body)
+        {
+            return Task.Run(async () => await DeleteTaskApprovalSettingAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<TrueFalseResponse> DeleteTaskApprovalSettingAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = taskApprovalSettingEndpoint.DeleteTaskApprovalSettingAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<TrueFalseResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
     }
 }
