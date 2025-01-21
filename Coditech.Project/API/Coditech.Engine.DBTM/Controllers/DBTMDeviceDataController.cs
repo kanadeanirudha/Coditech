@@ -22,14 +22,14 @@ namespace Coditech.Engine.DBTM.Controllers
             _coditechLogging = coditechLogging;
         }
 
-        [Route("/DBTMDeviceData/AddDBTMDeviceData")]
+        [Route("/DBTMDeviceData/InsertDeviceData")]
         [HttpPost, ValidateModel]
         [Produces(typeof(DBTMDeviceDataResponse))]
-        public virtual IActionResult AddDBTMDeviceData([FromBody] DBTMDeviceDataModel model)
+        public virtual IActionResult InsertDeviceData([FromBody] DBTMDeviceDataModel model)
         {
             try
             {
-                DBTMDeviceDataModel dBTMDeviceData = _dBTMDeviceDataService.AddDBTMDeviceData(model);
+                DBTMDeviceDataModel dBTMDeviceData = _dBTMDeviceDataService.InsertDeviceData(model);
                 return IsNotNull(dBTMDeviceData) ? CreateCreatedResponse(new DBTMDeviceDataResponse { DBTMDeviceDataModel = dBTMDeviceData }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)

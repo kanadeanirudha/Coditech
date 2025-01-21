@@ -7,8 +7,6 @@ namespace Coditech.API.Data
         [Key]
         public long DBTMDeviceDataDetailId { get; set; }
         public long DBTMDeviceDataId { get; set; }
-        public decimal Weight { get; set; }
-        public decimal Height { get; set; }
         public long Time { get; set; }
         public decimal Distance { get; set; }
         public decimal Force { get; set; }

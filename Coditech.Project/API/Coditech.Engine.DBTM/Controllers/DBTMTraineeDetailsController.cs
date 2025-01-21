@@ -113,5 +113,53 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("/DBTMTraineeDetails/GetTraineeActivitiesList")]
+        [Produces(typeof(DBTMActivitiesListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetTraineeActivitiesList(string personCode, int numberOfDaysRecord,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                DBTMActivitiesListModel list = _dBTMTraineeDetailsService.GetTraineeActivitiesList(personCode,numberOfDaysRecord,filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<DBTMActivitiesListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivities.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMActivitiesListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivities.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMActivitiesListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("/DBTMTraineeDetails/GetTraineeActivitiesDetailsList")]
+        [Produces(typeof(DBTMActivitiesDetailsListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetTraineeActivitiesDetailsList(long dBTMDeviceDataId,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                DBTMActivitiesDetailsListModel list = _dBTMTraineeDetailsService.GetTraineeActivitiesDetailsList(dBTMDeviceDataId,filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<DBTMActivitiesDetailsListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivitiesDetails.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMActivitiesListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivitiesDetails.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new DBTMActivitiesDetailsListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }
