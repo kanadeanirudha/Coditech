@@ -5,7 +5,6 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Coditech.Admin.Controllers
 {
     public class MediaManagerController : BaseController
@@ -111,7 +110,8 @@ namespace Coditech.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                if (mediaId == 0) {
+                if (mediaId == 0)
+                {
                     return Json(new { success = false, message = "Failed to replace media." });
                 }
                 IFormFileCollection filess = Request.Form.Files;
@@ -133,7 +133,7 @@ namespace Coditech.Admin.Controllers
                        ? GetSuccessNotificationMessage("File successfully replaced.")
                        : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
 
-                return RedirectToAction<MediaManagerController>(x => x.GetMediaDetails(mediaId));
+                return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString(), SelectedParameter2 = mediaId.ToString() });
             }
             else
             {
