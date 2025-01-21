@@ -238,21 +238,19 @@ namespace Coditech.API.Service
 
                 generalDepartmentMasterList = new CoditechRepository<GeneralDepartmentMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => departmentList.Contains(x.DepartmentShortCode))?.Select(x => x.GeneralDepartmentMasterId).ToList();
             }
-            else
+
+            List<OrganisationCentrewiseDepartment> organizationDeptList = new List<OrganisationCentrewiseDepartment>();
+            foreach (var item in generalDepartmentMasterList)
             {
-                List<OrganisationCentrewiseDepartment> organizationDeptList = new List<OrganisationCentrewiseDepartment>();
-                foreach (var item in generalDepartmentMasterList)
-                {
-                    OrganisationCentrewiseDepartment organisationCentrewiseDepartment = new OrganisationCentrewiseDepartment();
-                    organisationCentrewiseDepartment.CentreCode = organisationCentreMaster.CentreCode;
-                    organisationCentrewiseDepartment.GeneralDepartmentMasterId = item;
-                    organisationCentrewiseDepartment.ActiveFlag = true;
-                    organisationCentrewiseDepartment.CreatedDate = currentDate;
-                    organisationCentrewiseDepartment.ModifiedDate = currentDate;
-                    organizationDeptList.Add(organisationCentrewiseDepartment);
-                }
-                new CoditechRepository<OrganisationCentrewiseDepartment>(_serviceProvider.GetService<Coditech_Entities>()).Insert(organizationDeptList);
+                OrganisationCentrewiseDepartment organisationCentrewiseDepartment = new OrganisationCentrewiseDepartment();
+                organisationCentrewiseDepartment.CentreCode = organisationCentreMaster.CentreCode;
+                organisationCentrewiseDepartment.GeneralDepartmentMasterId = item;
+                organisationCentrewiseDepartment.ActiveFlag = true;
+                organisationCentrewiseDepartment.CreatedDate = currentDate;
+                organisationCentrewiseDepartment.ModifiedDate = currentDate;
+                organizationDeptList.Add(organisationCentrewiseDepartment);
             }
+            new CoditechRepository<OrganisationCentrewiseDepartment>(_serviceProvider.GetService<Coditech_Entities>()).Insert(organizationDeptList);
 
             return generalDepartmentMasterList;
         }

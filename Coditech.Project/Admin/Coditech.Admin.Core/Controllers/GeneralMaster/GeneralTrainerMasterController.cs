@@ -97,7 +97,7 @@ namespace Coditech.Admin.Controllers
         {
             DropdownViewModel departmentDropdown = new DropdownViewModel()
             {
-                DropdownType = DropdownTypeEnum.UnAssociatedEmployeeList.ToString(),
+                DropdownType = DropdownTypeEnum.UnAssociatedTrainerEmployeeList.ToString(),
                 DropdownName = "EmployeeId",
                 Parameter = $"{selectedCentreCode}~{selectedDepartmentId}",
             };

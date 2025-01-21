@@ -52,21 +52,11 @@ namespace Coditech.API.Service
 
             listModel.DBTMTraineeAssignmentList = dBTMTraineeAssignmentList?.Count > 0 ? dBTMTraineeAssignmentList : new List<DBTMTraineeAssignmentModel>();
             listModel.BindPageListModel(pageListModel);
-
-            if (generalTrainerMasterId > 0)
-            {
-                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(generalTrainerMasterId);
-                if (IsNotNull(listModel))
-                {
-                    listModel.FirstName = generalPersonModel.FirstName;
-                    listModel.LastName = generalPersonModel.LastName;
-                }
-            }
             listModel.GeneralTrainerMasterId = generalTrainerMasterId;
             return listModel;
         }
 
-        //Create DBTMTraineeAssignment.
+        //Create DBTMTraineeAssignment
         public virtual DBTMTraineeAssignmentModel CreateDBTMTraineeAssignment(DBTMTraineeAssignmentModel dBTMTraineeAssignmentModel)
         {
             if (IsNull(dBTMTraineeAssignmentModel))

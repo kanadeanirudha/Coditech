@@ -90,6 +90,7 @@ namespace Coditech.Common.Service
             return generalPerson.FromEntityToModel<GeneralPersonModel>();
         }
 
+
         protected virtual GeneralPersonModel GetGeneralPersonDetailsByEntityType(long entityId, string entityType)
         {
             long personId = 0;
