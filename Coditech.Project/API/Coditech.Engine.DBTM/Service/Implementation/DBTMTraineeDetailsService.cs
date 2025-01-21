@@ -170,13 +170,13 @@ namespace Coditech.API.Service
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, expands, pagingStart, pagingLength);
             CoditechViewRepository<DBTMActivitiesDetailsModel> objStoredProc = new CoditechViewRepository<DBTMActivitiesDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@DBTMDeviceDataDetailId", dBTMDeviceDataId, ParameterDirection.Input, DbType.Int64);
+            objStoredProc.SetParameter("@DBTMDeviceDataId", dBTMDeviceDataId, ParameterDirection.Input, DbType.Int64);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<DBTMActivitiesDetailsModel> dBTMActivitiesDetailsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetDBTMDeviceDataDetailsList @DBTMDeviceDataDetailId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            List<DBTMActivitiesDetailsModel> dBTMActivitiesDetailsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetDBTMDeviceDataDetailsList @DBTMDeviceDataId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             DBTMActivitiesDetailsListModel listModel = new DBTMActivitiesDetailsListModel();
 
             listModel.ActivitiesDetailsList = dBTMActivitiesDetailsList?.Count > 0 ? dBTMActivitiesDetailsList : new List<DBTMActivitiesDetailsModel>();
