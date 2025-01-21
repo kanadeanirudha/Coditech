@@ -23,7 +23,7 @@ namespace Coditech.API.Service
         }
 
         //Add DBTMDeviceData.
-        public virtual DBTMDeviceDataModel AddDBTMDeviceData(DBTMDeviceDataModel dBTMDeviceDataModel)
+        public virtual DBTMDeviceDataModel InsertDeviceData(DBTMDeviceDataModel dBTMDeviceDataModel)
         {
             if (IsNull(dBTMDeviceDataModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);

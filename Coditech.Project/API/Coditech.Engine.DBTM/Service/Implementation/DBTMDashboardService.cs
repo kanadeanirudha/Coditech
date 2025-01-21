@@ -40,7 +40,7 @@ namespace Coditech.API.Service
                 dBTMDashboardModel.DBTMDashboardFormEnumCode = dashboardFormEnumCode;
                 if (dashboardFormEnumCode.Equals(DashboardFormEnum.DBTMCentreDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetDBTMCenterOwenerDashboardDetailsByUserId(0);
+                    DataSet dataset = GetDBTMCenterOwenerDashboardDetailsByUserId(userMasterId);
                     dataset.Tables[0].TableName = "NumberOfTrainersDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     dBTMDashboardModel = dataTable.ConvertDataTable<DBTMDashboardModel>(dataset.Tables["NumberOfTrainersDetails"])?.FirstOrDefault();

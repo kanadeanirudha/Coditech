@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.ServiceModel.Channels;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Admin.Controllers
 {
@@ -101,6 +100,18 @@ namespace Coditech.Admin.Controllers
                 }
             }
             return PartialView("~/Views/Shared/PageTemplates/_TermsAndCondition.cshtml", termsAndConditionList);
+        }
+
+        [HttpGet]
+        public ActionResult ApplicationVersionDetails()
+        {
+            CoditechApplicationSettingViewModel coditechApplicationSettingViewModel = new CoditechApplicationSettingViewModel();
+            CoditechApplicationSettingListViewModel coditechApplicationSettingListViewModel = _generalCommonAgent.GetCoditechApplicationSettingList("ApplicationVersionDetails");
+            if (IsNotNull(coditechApplicationSettingListViewModel) && coditechApplicationSettingListViewModel.CoditechApplicationSettingList?.Count > 0)
+            {
+                coditechApplicationSettingViewModel = coditechApplicationSettingListViewModel.CoditechApplicationSettingList.FirstOrDefault();
+            }
+            return View("~/Views/Shared/PageTemplates/ApplicationVersionDetails.cshtml", coditechApplicationSettingViewModel);
         }
 
         [AllowAnonymous]
