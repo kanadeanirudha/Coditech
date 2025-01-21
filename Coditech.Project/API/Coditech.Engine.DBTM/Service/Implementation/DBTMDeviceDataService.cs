@@ -2,7 +2,6 @@
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Logger;
-using Coditech.Common.Service;
 using Coditech.Resources;
 
 using static Coditech.Common.Helper.HelperUtility;
@@ -16,7 +15,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<DBTMDeviceDataDetails> _dBTMDeviceDataDetailsRepository;
         private readonly ICoditechRepository<DBTMTraineeDetails> _dBTMTraineeDetailsRepository;
 
-        public DBTMDeviceDataService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) 
+        public DBTMDeviceDataService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
@@ -31,8 +30,9 @@ namespace Coditech.API.Service
             if (IsNull(dBTMDeviceDataModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            DBTMTraineeDetails dBTMTraineeDetails = new DBTMTraineeDetailsService(_coditechLogging, _serviceProvider)
-                .GetDBTMTraineeDetailsByCode(dBTMDeviceDataModel.PersonCode);
+            DBTMTraineeDetails dBTMTraineeDetails = GetDBTMTraineeDetailsByCode(dBTMDeviceDataModel.PersonCode);
+            if(IsNull(dBTMTraineeDetails))
+                throw new CoditechException(ErrorCodes.InvalidData, "Invalid Person Code");
 
             DBTMDeviceData dBTMDeviceData = new DBTMDeviceData()
             {
@@ -49,19 +49,21 @@ namespace Coditech.API.Service
             if (DBTMDeviceDataDetails?.DBTMDeviceDataId > 0)
             {
                 dBTMDeviceDataModel.DBTMDeviceDataId = DBTMDeviceDataDetails.DBTMDeviceDataId;
-
-                // Add the DBTMDeviceDataDetails 
-                DBTMDeviceDataDetails dBTMDeviceDataDetails = new DBTMDeviceDataDetails()
+                List<DBTMDeviceDataDetails> dBTMDeviceDataDetailsList = new List<DBTMDeviceDataDetails>();
+                foreach (var item in dBTMDeviceDataModel?.DataList)
                 {
-                    DBTMDeviceDataId = DBTMDeviceDataDetails.DBTMDeviceDataId,
-                    Time = dBTMDeviceDataModel.Time,
-                    Distance = dBTMDeviceDataModel.Distance,
-                    Force = dBTMDeviceDataModel.Force,
-                    Acceleration = dBTMDeviceDataModel.Acceleration,
-                    Angle = dBTMDeviceDataModel.Angle
-                };
-
-                _dBTMDeviceDataDetailsRepository.Insert(dBTMDeviceDataDetails);
+                    DBTMDeviceDataDetails dBTMDeviceDataDetails = new DBTMDeviceDataDetails()
+                    {
+                        DBTMDeviceDataId = DBTMDeviceDataDetails.DBTMDeviceDataId,
+                        Time = item.Time,
+                        Distance = item.Distance,
+                        Force = item.Force,
+                        Acceleration = item.Acceleration,
+                        Angle = item.Angle
+                    };
+                    dBTMDeviceDataDetailsList.Add(dBTMDeviceDataDetails);
+                }
+                _dBTMDeviceDataDetailsRepository.Insert(dBTMDeviceDataDetailsList);
             }
             else
             {
@@ -70,5 +72,9 @@ namespace Coditech.API.Service
             }
             return dBTMDeviceDataModel;
         }
+
+
+        public DBTMTraineeDetails GetDBTMTraineeDetailsByCode(string personCode)
+    => _dBTMTraineeDetailsRepository.Table.Where(x => x.PersonCode == personCode).FirstOrDefault();
     }
 }

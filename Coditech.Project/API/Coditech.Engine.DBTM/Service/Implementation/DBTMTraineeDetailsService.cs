@@ -202,8 +202,5 @@ namespace Coditech.API.Service
 
             return listModel;
         }
-        
-        public DBTMTraineeDetails GetDBTMTraineeDetailsByCode(string personCode)
-    => _dBTMTraineeDetailsRepository.Table.Where(x => x.PersonCode == personCode).FirstOrDefault();
     }
 }
