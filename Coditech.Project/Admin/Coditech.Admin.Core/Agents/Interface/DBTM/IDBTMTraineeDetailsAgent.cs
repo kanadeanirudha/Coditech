@@ -94,6 +94,5 @@ namespace Coditech.Admin.Agents
 
         DBTMActivitiesListViewModel GetTraineeActivitiesList(string personCode,DataTableViewModel dataTableModel);
         DBTMActivitiesDetailsListViewModel GetTraineeActivitiesDetailsList(long dBTMDeviceDataId,DataTableViewModel dataTableModel);
-        DBTMActivitiesViewModel GetTraineeActivities(long dBTMDeviceDataId);
     }
 }

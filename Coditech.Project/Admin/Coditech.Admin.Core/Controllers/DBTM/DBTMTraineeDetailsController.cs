@@ -252,7 +252,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", dataTableViewModel);
         }
 
-        #region 
+        #region Trainee Activities List
         public virtual ActionResult TraineeActivitiesList(DataTableViewModel dataTableModel)
         {
             DBTMActivitiesListViewModel list = _dBTMTraineeDetailsAgent.GetTraineeActivitiesList(Convert.ToString(dataTableModel.SelectedParameter1),dataTableModel);
@@ -263,6 +263,7 @@ namespace Coditech.Admin.Controllers
             return View($"~/Views/DBTM/DBTMActivities/List.cshtml", list);
         }
 
+         //Trainee Activities List
         public virtual ActionResult TraineeActivitiesDetailsList(DataTableViewModel dataTableModel)
         {
             DBTMActivitiesDetailsListViewModel list = _dBTMTraineeDetailsAgent.GetTraineeActivitiesDetailsList(Convert.ToInt64(dataTableModel.SelectedParameter1),dataTableModel);
@@ -272,13 +273,6 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/DBTM/DBTMActivities/TraineeActivitiesDetailsList.cshtml", list);
         }
-        [HttpGet]
-        public virtual ActionResult TraineeActivitiesDetails(long dBTMDeviceDataId)
-        {
-            DBTMActivitiesViewModel dBTMActivitiesViewModel = _dBTMTraineeDetailsAgent.GetTraineeActivities(dBTMDeviceDataId);
-            return ActionView("TraineeActivitiesList", dBTMActivitiesViewModel);
-        }
-
         #endregion
     }
 }

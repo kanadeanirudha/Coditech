@@ -362,24 +362,21 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters.Add("Height", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Time", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Distance", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Angle", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Force", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Acceleration", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            DBTMActivitiesDetailsListResponse response = _dBTMTraineeDetailsClient.GetTraineeActivitiesDetailsList(dBTMDeviceDataId,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            DBTMActivitiesDetailsListResponse response = _dBTMTraineeDetailsClient.GetTraineeActivitiesDetailsList(dBTMDeviceDataId,null, filters, sortlist, dataTableModel.PageIndex,int.MaxValue);
             DBTMActivitiesDetailsListModel dBTMActivitiesDetailsList = new DBTMActivitiesDetailsListModel { ActivitiesDetailsList = response?.ActivitiesDetailsList };
             DBTMActivitiesDetailsListViewModel listViewModel = new DBTMActivitiesDetailsListViewModel();
             listViewModel.ActivitiesDetailsList = dBTMActivitiesDetailsList?.ActivitiesDetailsList?.ToViewModel<DBTMActivitiesDetailsViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.ActivitiesDetailsList.Count, BindTraineeActivitiesDetailsColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.ActivitiesDetailsList.Count, BindTraineeActivitiesDetailsColumns(listViewModel.Columns),false);
             return listViewModel;
-        }
-
-        public virtual DBTMActivitiesViewModel GetTraineeActivities(long dBTMDeviceDataId)
-        {
-            DBTMActivitiesResponse response = _dBTMTraineeDetailsClient.GetTraineeActivities(dBTMDeviceDataId);
-            return response?.DBTMActivitiesModel.ToViewModel<DBTMActivitiesViewModel>();
         }
 
         #endregion
@@ -503,27 +500,18 @@ namespace Coditech.Admin.Agents
             return datatableColumnList;
         }
 
-        protected virtual List<DatatableColumns> BindTraineeActivitiesDetailsColumns()
+        protected virtual List<DatatableColumns> BindTraineeActivitiesDetailsColumns(List<string> Columns)
         {
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
-
-            datatableColumnList.Add(new DatatableColumns()
+            foreach (var item in Columns)
             {
-                ColumnName = "Weight",
-                ColumnCode = "Height",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Weight",
-                ColumnCode = "Weight",
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Time",
-                ColumnCode = "Time",
-                IsSortable = true,
-            });
+                datatableColumnList.Add(new DatatableColumns()
+                {
+                    ColumnName = item,
+                    ColumnCode = item,
+                    IsSortable = true,
+                });
+            }
             return datatableColumnList;
         }
         #endregion

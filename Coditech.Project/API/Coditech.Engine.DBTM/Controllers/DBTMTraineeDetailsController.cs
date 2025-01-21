@@ -161,27 +161,5 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new DBTMActivitiesDetailsListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
-
-        [Route("/DBTMTraineeDetails/GetTraineeActivities")]
-        [HttpGet]
-        [Produces(typeof(DBTMActivitiesResponse))]
-        public virtual IActionResult GetTraineeActivities(long dBTMDeviceDataId)
-        {
-            try
-            {
-                DBTMActivitiesModel dBTMActivitiesModel = _dBTMTraineeDetailsService.GetTraineeActivities(dBTMDeviceDataId);
-                return IsNotNull(dBTMActivitiesModel) ? CreateOKResponse(new DBTMActivitiesResponse { DBTMActivitiesModel = dBTMActivitiesModel }) : CreateNoContentResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivities.ToString(), TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new DBTMActivitiesResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivities.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new DBTMActivitiesResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
     }
 }
