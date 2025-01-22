@@ -5,7 +5,6 @@
     constructor: function () {
     },
     BindDropdownEvents: function () {
-        $(document).on("click", ".btn-soft-primary", this.AddApprover);
         $(document).on("change", ".employee-dropdown", function () {
             TaskApprovalSetting.ValidateDropdownValues();
         });
@@ -14,7 +13,6 @@
     GetEmployeeListByCentreCode: function (centreCode, countNumber) {
         CoditechCommon.ShowLodder();
         countNumber = $("#CountNumber").val();
-        /*countNumber = countNumber || 1;*/
 
         $.ajax({
             cache: false,
