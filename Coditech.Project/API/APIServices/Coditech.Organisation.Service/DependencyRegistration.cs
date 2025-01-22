@@ -90,6 +90,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IAccSetupMasterService, AccSetupMasterService>();
             builder.Services.AddScoped<IAccSetupBalanceSheetService, AccSetupBalanceSheetService>();
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeService, AccSetupBalanceSheetTypeService>();
+            builder.Services.AddScoped<IAccSetupTransactionTypeService, AccSetupTransactionTypeService>();
             #endregion
 
         }

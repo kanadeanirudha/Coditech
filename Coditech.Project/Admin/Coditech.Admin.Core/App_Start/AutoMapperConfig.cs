@@ -18,6 +18,8 @@ namespace Coditech.Admin
             CreateMap<AccSetupBalanceSheetViewModel, AccSetupBalanceSheetListViewModel>().ReverseMap();
             CreateMap<AccSetupBalanceSheetTypeModel, AccSetupBalanceSheetTypeViewModel>().ReverseMap();
             CreateMap<AccSetupBalanceSheetTypeViewModel, AccSetupBalanceSheetTypeListViewModel>().ReverseMap();
+            CreateMap<AccSetupTransactionTypeModel, AccSetupTransactionTypeViewModel>().ReverseMap();
+            CreateMap<AccSetupTransactionTypeViewModel, AccSetupTransactionTypeListViewModel>().ReverseMap();
 
             #endregion
 

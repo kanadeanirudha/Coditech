@@ -133,7 +133,8 @@
             AccSetupBalanceSheetType,
             PaymentGatewayDetails,
             DBTMMySubscriptionPlan,
-            DBTMDeviceData
+            DBTMDeviceData,
+            AccSetupTransactionType
         }
     }
 }

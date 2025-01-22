@@ -194,6 +194,7 @@ namespace Coditech.API.Data
         public DbSet<AccSetupMaster> AccSetupMaster { get; set; }
         public DbSet<AccSetupBalanceSheet> AccSetupBalanceSheet { get; set; }
         public DbSet<AccSetupBalanceSheetType> AccSetupBalanceSheetType { get; set; }
+        public DbSet<AccSetupTransactionType> AccSetupTransactionType { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -221,7 +221,17 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteEmployeeDetails", resourceCulture);
             }
         }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete AccSetup Transaction Type due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAccSetupTransactionType
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAccSetupTransactionType", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Gazette Chapters due to associate record..
         /// </summary>
