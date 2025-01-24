@@ -4,7 +4,7 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()" };
-    DropdownViewModel accSetupBalanceSheetDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccSetupBalanceSheetType.ToString(), DropdownName = "SelectedParameter1", DropdownSelectedValue = Model.SelectedParameter1.ToString(), Parameter = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.LoadListByCentreCodeAndDepartmentId('" + @controllerName + "','" + @actionName + "')" };
+    DropdownViewModel accSetupBalanceSheetDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccSetupBalanceSheetType.ToString(), DropdownName = "SelectedParameter1", DropdownSelectedValue = Model.SelectedParameter1.ToString(), Parameter = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.LoadListByBalanceSheet('" + @controllerName + "','" + @actionName + "')" };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -14,6 +14,7 @@
                 <div class="card">
                     <div class="card-header">
                         <span class="card-title">Account Balance Sheet List</span>
+                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/Create" role="button"><i class="fas fa-plus me-2"></i>Add Balance Sheet</a>
                     </div>
                     <div class="card-header">
                         <div class="row">
