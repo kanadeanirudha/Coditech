@@ -29,12 +29,14 @@ namespace Coditech.API.Service
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<AccSetupBalanceSheetModel> objStoredProc = new CoditechViewRepository<AccSetupBalanceSheetModel>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@AccSetupBalanceSheetTypeId", accSetupBalanceSheetTypeId, ParameterDirection.Input, DbType.Byte);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<AccSetupBalanceSheetModel> balanceSheetList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccSetupBalanceSheetList  @CentreCode @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            List<AccSetupBalanceSheetModel> balanceSheetList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccSetupBalanceSheetList @CentreCode,@AccSetupBalanceSheetTypeId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             AccSetupBalanceSheetListModel listModel = new AccSetupBalanceSheetListModel();
 
             listModel.AccSetupBalanceSheetList = balanceSheetList?.Count > 0 ? balanceSheetList : new List<AccSetupBalanceSheetModel>();

@@ -2,6 +2,7 @@
 using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ namespace Coditech.Admin.Controllers
             AccSetupBalanceSheetListViewModel list = new AccSetupBalanceSheetListViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter1))
             {
-                list = _accSetupBalanceSheetAgent.GetBalanceSheetList(dataTableModel, Convert.ToByte(dataTableModel.SelectedParameter1));
+                list = _accSetupBalanceSheetAgent.GetBalanceSheetList(dataTableModel , Convert.ToByte(dataTableModel.SelectedParameter1));
             }
             list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
             list.SelectedParameter1 = dataTableModel.SelectedParameter1;
@@ -88,6 +89,11 @@ namespace Coditech.Admin.Controllers
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<AccSetupBalanceSheetController>(x => x.List(null));
+        }
+        public virtual ActionResult Cancel(string SelectedCentreCode , string SelectedParameter1)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedParameter1= SelectedParameter1 };
+            return RedirectToAction("List", dataTableViewModel);
         }
         #region Protected
 
