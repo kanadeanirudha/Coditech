@@ -284,6 +284,8 @@ namespace Coditech.Admin
             CreateMap<DBTMPrivacySettingListModel, DBTMPrivacySettingListViewModel>().ReverseMap();
             CreateMap<DBTMActivitiesModel, DBTMActivitiesViewModel>().ReverseMap();
             CreateMap<DBTMActivitiesListModel, DBTMActivitiesListViewModel>().ReverseMap();
+            CreateMap<DBTMActivitiesDetailsModel, DBTMActivitiesDetailsViewModel>().ReverseMap();
+            CreateMap<DBTMActivitiesDetailsListModel, DBTMActivitiesDetailsListViewModel>().ReverseMap();
             #endregion
 
             #region Payment

@@ -118,7 +118,7 @@ namespace Coditech.Engine.DBTM.Controllers
         [Route("/DBTMTraineeDetails/GetTraineeActivitiesList")]
         [Produces(typeof(DBTMActivitiesListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetTraineeActivitiesList(string personCode, int numberOfDaysRecord,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetTraineeActivitiesList(string personCode,int numberOfDaysRecord,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace Coditech.Engine.DBTM.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMActivitiesDetails.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new DBTMActivitiesListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+                return CreateInternalServerErrorResponse(new DBTMActivitiesDetailsListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
