@@ -111,3 +111,17 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let heightInput = document.querySelector("[name='Height']");
+
+        if (heightInput) {
+            let heightValue = parseFloat(heightInput.value);
+
+            // Check if the height is a whole number
+            if (!isNaN(heightValue) && heightValue % 1 === 0) {
+                heightInput.value = heightValue.toFixed(0); // Convert to integer format
+            }
+        }
+    });
+</script>
