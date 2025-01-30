@@ -9,8 +9,11 @@ namespace Coditech.Admin.ViewModel
         {
             ActivitiesList = new List<DBTMActivitiesViewModel>();
         }
+        public string PersonCode { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string SelectedParameter1 { get; set; }
+        public string CentreCode { get; set; }
 
     }
 }

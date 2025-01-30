@@ -206,12 +206,12 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual DBTMActivitiesListResponse GetTraineeActivitiesList(string personCode, int numberOfDaysRecord,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual DBTMActivitiesListResponse GetTraineeActivitiesList(string personCode,int numberOfDaysRecord,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await GetTraineeActivitiesListAsync(personCode,numberOfDaysRecord,expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<DBTMActivitiesListResponse> GetTraineeActivitiesListAsync(string personCode, int numberOfDaysRecord,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<DBTMActivitiesListResponse> GetTraineeActivitiesListAsync(string personCode,int numberOfDaysRecord,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
             string endpoint = dBTMTraineeDetailsEndpoint.GetTraineeActivitiesListAsync(personCode,numberOfDaysRecord,expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;

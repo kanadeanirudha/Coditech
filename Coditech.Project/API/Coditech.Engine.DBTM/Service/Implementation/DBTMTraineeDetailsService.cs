@@ -18,8 +18,9 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMTraineeDetails> _dBTMTraineeDetailsRepository;
         private readonly ICoditechRepository<DBTMDeviceData> _dBTMDeviceDataRepository;
-        private readonly ICoditechRepository<DBTMDeviceDataDetails> _dBTMDeviceDataDetailsRepository;
         private readonly ICoditechRepository<DBTMTestMaster> _dBTMTestMasterRepository;
+        private readonly ICoditechRepository<DBTMParametersAssociatedToTest> _dBTMParametersAssociatedToTestRepository;
+        private readonly ICoditechRepository<DBTMTestParameter> _dBTMTestParameterRepository;
 
         public DBTMTraineeDetailsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -27,8 +28,9 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _dBTMTraineeDetailsRepository = new CoditechRepository<DBTMTraineeDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _dBTMDeviceDataRepository = new CoditechRepository<DBTMDeviceData>(_serviceProvider.GetService<Coditech_Entities>());
-            _dBTMDeviceDataDetailsRepository = new CoditechRepository<DBTMDeviceDataDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _dBTMTestMasterRepository = new CoditechRepository<DBTMTestMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMParametersAssociatedToTestRepository = new CoditechRepository<DBTMParametersAssociatedToTest>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMTestParameterRepository = new CoditechRepository<DBTMTestParameter>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual DBTMTraineeDetailsListModel GetDBTMTraineeDetailsList(string SelectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -132,25 +134,25 @@ namespace Coditech.API.Service
         }
 
         //TraineeActivitiesList
-        public virtual DBTMActivitiesListModel GetTraineeActivitiesList(string personCode,int numberOfDaysRecord,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual DBTMActivitiesListModel GetTraineeActivitiesList(string personCode, int numberOfDaysRecord, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
-            PageListModel pageListModel = new PageListModel(filters,expands, pagingStart, pagingLength);
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<DBTMActivitiesModel> objStoredProc = new CoditechViewRepository<DBTMActivitiesModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@PersonCode", personCode, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@NumberOfDaysRecord",numberOfDaysRecord, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@NumberOfDaysRecord", numberOfDaysRecord, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<DBTMActivitiesModel> dBTMActivitiesList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTraineeActivitiesList @PersonCode,@NumberOfDaysRecord,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT",6, out pageListModel.TotalRowCount)?.ToList();
+            List<DBTMActivitiesModel> dBTMActivitiesList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTraineeActivitiesList @PersonCode,@NumberOfDaysRecord,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             DBTMActivitiesListModel listModel = new DBTMActivitiesListModel();
 
             listModel.ActivitiesList = dBTMActivitiesList?.Count > 0 ? dBTMActivitiesList : new List<DBTMActivitiesModel>();
             listModel.BindPageListModel(pageListModel);
 
-            long? dBTMTraineeDetailId = _dBTMTraineeDetailsRepository.Table.Where(x => x.PersonCode == personCode)?.Select(y=>y.DBTMTraineeDetailId)?.FirstOrDefault();
+            long? dBTMTraineeDetailId = _dBTMTraineeDetailsRepository.Table.Where(x => x.PersonCode == personCode)?.Select(y => y.DBTMTraineeDetailId)?.FirstOrDefault();
             if (dBTMTraineeDetailId > 0)
             {
                 GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType((int)dBTMTraineeDetailId, UserTypeEnum.DBTMTrainee.ToString());
@@ -168,7 +170,7 @@ namespace Coditech.API.Service
         public virtual DBTMActivitiesDetailsListModel GetTraineeActivitiesDetailsList(long dBTMDeviceDataId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
-            PageListModel pageListModel = new PageListModel(filters, expands, pagingStart, pagingLength);
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<DBTMActivitiesDetailsModel> objStoredProc = new CoditechViewRepository<DBTMActivitiesDetailsModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@DBTMDeviceDataId", dBTMDeviceDataId, ParameterDirection.Input, DbType.Int64);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
@@ -182,7 +184,7 @@ namespace Coditech.API.Service
             listModel.ActivitiesDetailsList = dBTMActivitiesDetailsList?.Count > 0 ? dBTMActivitiesDetailsList : new List<DBTMActivitiesDetailsModel>();
             listModel.BindPageListModel(pageListModel);
 
-            DBTMDeviceData dBTMDeviceData = _dBTMDeviceDataRepository.Table.Where(x=>x.DBTMDeviceDataId == dBTMDeviceDataId).FirstOrDefault();
+            DBTMDeviceData dBTMDeviceData = _dBTMDeviceDataRepository.Table.Where(x => x.DBTMDeviceDataId == dBTMDeviceDataId).FirstOrDefault();
             long? dBTMTraineeDetailId = _dBTMTraineeDetailsRepository.Table.Where(x => x.PersonCode == dBTMDeviceData.PersonCode)?.Select(y => y.DBTMTraineeDetailId)?.FirstOrDefault();
 
             if (dBTMTraineeDetailId > 0)
@@ -195,11 +197,14 @@ namespace Coditech.API.Service
                 }
 
                 DBTMTestMaster dBTMTestMaster = _dBTMTestMasterRepository.Table.Where(x => x.TestCode == dBTMDeviceData.TestCode).FirstOrDefault();
-                listModel.Columns = new List<string>();
-                listModel.Columns.Add("Time");
-                listModel.Columns.Add("Distance");
-            }
 
+                listModel.Columns = (from a in _dBTMTestMasterRepository.Table
+                                     join b in _dBTMParametersAssociatedToTestRepository.Table
+                                     on a.DBTMTestMasterId equals b.DBTMTestMasterId
+                                     join c in _dBTMTestParameterRepository.Table
+                                     on b.DBTMTestParameterId equals c.DBTMTestParameterId
+                                     select c.ParameterName).Distinct().ToList();
+            }
             return listModel;
         }
     }
