@@ -9,7 +9,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>AccSetupBalanceSheetListViewModel</returns>
-        AccSetupBalanceSheetListViewModel GetBalanceSheetList(DataTableViewModel dataTableModel, byte accSetupBalanceSheetTypeId);
+      AccSetupBalanceSheetListViewModel GetBalanceSheetList(DataTableViewModel dataTableModel , byte accSetupBalanceSheetTypeId);
 
         /// <summary>
         /// Create Designation.

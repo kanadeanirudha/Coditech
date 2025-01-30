@@ -94,7 +94,9 @@
         DBTMSubscriptionPlanType,
         PaymentGateway,
         AccSetupBalanceSheetType,
-        UnAssociatedTrainerEmployeeList
+        UnAssociatedTrainerEmployeeList,
+        AccSetupBalanceSheet,
+        AccSetupGLDropdown
 
     }
 

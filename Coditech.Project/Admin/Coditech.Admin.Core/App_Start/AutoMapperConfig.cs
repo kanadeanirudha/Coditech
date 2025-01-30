@@ -2,7 +2,6 @@
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
 using Coditech.Model;
-
 namespace Coditech.Admin
 {
     public class AutoMapperConfig : Profile
@@ -18,6 +17,9 @@ namespace Coditech.Admin
             CreateMap<AccSetupBalanceSheetViewModel, AccSetupBalanceSheetListViewModel>().ReverseMap();
             CreateMap<AccSetupBalanceSheetTypeModel, AccSetupBalanceSheetTypeViewModel>().ReverseMap();
             CreateMap<AccSetupBalanceSheetTypeViewModel, AccSetupBalanceSheetTypeListViewModel>().ReverseMap();
+            CreateMap<AccSetupTransactionTypeModel, AccSetupTransactionTypeViewModel>().ReverseMap();
+            CreateMap<AccSetupTransactionTypeViewModel, AccSetupTransactionTypeListViewModel>().ReverseMap();
+            CreateMap<AccSetupGLBankViewModel, AccSetupGLBankListViewModel>().ReverseMap();
 
             #endregion
 

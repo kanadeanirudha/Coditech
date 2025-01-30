@@ -21,6 +21,7 @@ namespace Coditech.Admin.ViewModel
         public bool IsActive { get; set; }
         [Display(Name = "Is System Generated")]
         public bool IsSystemGenerated { get; set; }
+        public string AccBalsheetTypeDesc { get; set; }
 
     }
 }

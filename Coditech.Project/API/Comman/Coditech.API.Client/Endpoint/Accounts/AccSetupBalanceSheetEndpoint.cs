@@ -9,7 +9,8 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(string selectedCentreCode, byte accSetupBalanceSheetTypeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccSetupBalanceSheet/GetBalanceSheetList?selectedCentreCode={selectedCentreCode}&accSetupBalanceSheetTypeId={accSetupBalanceSheetTypeId}{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}"; return endpoint;
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccSetupBalanceSheet/GetBalanceSheetList?selectedCentreCode={selectedCentreCode}&accSetupBalanceSheetTypeId={accSetupBalanceSheetTypeId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
+            return endpoint;
         }
 
         public string CreateBalanceSheetAsync() =>
