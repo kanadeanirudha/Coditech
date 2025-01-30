@@ -156,12 +156,6 @@ namespace Coditech.Admin.Agents
         protected virtual List<DatatableColumns> BindColumns()
         {
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "DBTM Device",
-            //    ColumnCode = "DBTMDeviceMasterId",
-            //    IsSortable = true,
-            //});
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Device Name",

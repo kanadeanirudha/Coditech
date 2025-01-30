@@ -37,11 +37,7 @@ namespace Coditech.Admin.Agents
                 if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
                 {
                     filters.Add("PlanName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                    filters.Add("DeviceSerialCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                     filters.Add("DurationInDays", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                    filters.Add("PlanCost", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                    filters.Add("PlanDiscount", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                    filters.Add("PlanDiscount", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 }
                 SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
@@ -55,7 +51,6 @@ namespace Coditech.Admin.Agents
             }
             return new DBTMMySubscriptionPlanListViewModel();
         }
-
         #endregion
 
         #region protected

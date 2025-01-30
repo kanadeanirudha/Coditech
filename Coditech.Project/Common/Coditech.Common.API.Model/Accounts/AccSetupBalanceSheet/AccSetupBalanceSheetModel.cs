@@ -3,11 +3,7 @@
 namespace Coditech.Common.API.Model
 {
     public partial class AccSetupBalanceSheetModel : BaseModel
-    {
-        public AccSetupBalanceSheetModel()
-        {
-
-        }
+    {       
         public int AccSetupBalanceSheetId { get; set; }
         public byte AccSetupBalanceSheetTypeId { get; set; }
         public string AccBalancesheetCode { get; set; }
@@ -15,6 +11,8 @@ namespace Coditech.Common.API.Model
         public string CentreCode { get; set; }
         public bool IsActive { get; set; }
         public bool IsSystemGenerated { get; set; }
+        public string AccBalsheetTypeDesc { get; set; }
+
     }
 }
 

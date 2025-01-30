@@ -19,12 +19,12 @@
                     {
                         <tr>
                             <td>@item.AccBalancesheetHeadDesc</td>
-                            <td>@item.AccBalancesheetCode</td>
+                            <td>@item.AccBalsheetTypeDesc</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
                             </td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?accSetupBalanceSheetId=@item.AccSetupBalanceSheetId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>@* <span class="m-2">|</span> *@
+                                <a href="../@controllerName/Edit?balanceSheetId=@item.AccSetupBalanceSheetId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>@* <span class="m-2">|</span> *@
                                 @* <a href="../@controllerName/Delete?FinancialYearIds=@item.AccSetupMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
                             </td>
                         </tr>

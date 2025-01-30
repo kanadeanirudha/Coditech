@@ -254,6 +254,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetUnAssociatedTrainerEmployeeList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UnAssociatedTrainerEmployeeList.ToString()))
+            {
+                GetAccSetupBalanceSheet(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -1455,6 +1459,27 @@ namespace Coditech.Admin.Helpers
                         Text = $"{item.TestName}",
                         Value = item.DBTMTestMasterId.ToString(),
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTestMasterId)
+                    });
+                }
+            }
+        }
+        private static void GetAccSetupBalanceSheet(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem() { Text = "-------BalanceSheet Type-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
+                byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]);
+                AccSetupBalanceSheetListResponse response = new AccSetupGLBankClient().GetAccSetupBalanceSheet(selectedCentreCode, accSetupBalanceSheetTypeId);
+                AccSetupBalanceSheetListModel list = new AccSetupBalanceSheetListModel() { AccSetupBalanceSheetList = response.AccSetupBalanceSheetList };
+                foreach (var item in list?.AccSetupBalanceSheetList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.AccBalancesheetHeadDesc,
+                        Value = item.AccSetupBalanceSheetId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupBalanceSheetId)
                     });
                 }
             }
