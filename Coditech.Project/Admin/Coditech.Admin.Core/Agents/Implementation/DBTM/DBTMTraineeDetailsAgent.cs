@@ -422,7 +422,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Number of activity performed",
+                ColumnName = "Number of Activity Performed",
                 ColumnCode = "NumberOfActivityPerformed",
                 IsSortable = true,
             });
