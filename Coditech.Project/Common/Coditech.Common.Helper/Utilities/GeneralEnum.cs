@@ -93,7 +93,10 @@
         TicketStatus,
         DBTMSubscriptionPlanType,
         PaymentGateway,
-        AccSetupBalanceSheetType
+        AccSetupBalanceSheetType,
+        UnAssociatedTrainerEmployeeList,
+        AccSetupBalanceSheet,
+        AccSetupGLDropdown
 
     }
 

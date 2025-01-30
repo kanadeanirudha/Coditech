@@ -19,5 +19,6 @@ namespace Coditech.Common.API.Model
         public bool IsAssociated { get; set; }
         public string TrainerSpecialization { get; set; }
         public string PersonCode { get; set; }
+        public int NumberOfTraineeAssociated { get; set; }
     }
 }

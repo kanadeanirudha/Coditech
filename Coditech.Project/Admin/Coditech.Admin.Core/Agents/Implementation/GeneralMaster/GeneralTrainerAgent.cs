@@ -187,6 +187,11 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "TrainerSpecializationEnumId",
                 IsSortable = true,
             });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Number Of Trainee Associated",
+                ColumnCode = "NumberOfTraineeAssociated",
+            });
             return datatableColumnList;
         }
     }

@@ -13,7 +13,7 @@ namespace Coditech.Admin.ViewModel
             AccSetupBalanceSheetList = new List<AccSetupBalanceSheetViewModel>();
         }
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
-        public string SelectedCentreCode { get; set; } = null;
-        public string SelectedParameter1 { get; set; } = null;
+        public string SelectedCentreCode { get; set; }
+        public string SelectedParameter1 { get; set; } 
     }
 }

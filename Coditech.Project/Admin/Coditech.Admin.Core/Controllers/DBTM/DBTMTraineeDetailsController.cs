@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -252,5 +251,32 @@ namespace Coditech.Admin.Controllers
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
+
+        #region Trainee Activities List
+        public virtual ActionResult TraineeActivitiesList(DataTableViewModel dataTableModel)
+        {
+            DBTMActivitiesListViewModel list = _dBTMTraineeDetailsAgent.GetTraineeActivitiesList(Convert.ToString(dataTableModel.SelectedParameter1),7,dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/DBTM/DBTMActivities/_List.cshtml", list);
+            }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+
+            return View($"~/Views/DBTM/DBTMActivities/List.cshtml", list);
+        }
+
+        //Trainee Activities Details List
+        public virtual ActionResult TraineeActivitiesDetailsList(DataTableViewModel dataTableModel)
+        {
+            DBTMActivitiesDetailsListViewModel list = _dBTMTraineeDetailsAgent.GetTraineeActivitiesDetailsList(Convert.ToInt64(dataTableModel.SelectedParameter1),dataTableModel);
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/DBTM/DBTMActivities/DBTMActivitiesDetails_List.cshtml",list);
+            }
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+
+            return View($"~/Views/DBTM/DBTMActivities/DBTMActivitiesDetailsList.cshtml",list);
+        }
+        #endregion
     }
 }

@@ -13,48 +13,57 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<DBTMDeviceData> _dBTMDeviceDataRepository;
         private readonly ICoditechRepository<DBTMDeviceDataDetails> _dBTMDeviceDataDetailsRepository;
+        private readonly ICoditechRepository<DBTMTraineeDetails> _dBTMTraineeDetailsRepository;
 
-        public DBTMDeviceDataService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) 
+        public DBTMDeviceDataService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _dBTMDeviceDataRepository = new CoditechRepository<DBTMDeviceData>(_serviceProvider.GetService<Coditech_Entities>());
             _dBTMDeviceDataDetailsRepository = new CoditechRepository<DBTMDeviceDataDetails>(_serviceProvider.GetService<Coditech_Entities>());
+            _dBTMTraineeDetailsRepository = new CoditechRepository<DBTMTraineeDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         //Add DBTMDeviceData.
-        public virtual DBTMDeviceDataModel AddDBTMDeviceData(DBTMDeviceDataModel dBTMDeviceDataModel)
+        public virtual DBTMDeviceDataModel InsertDeviceData(DBTMDeviceDataModel dBTMDeviceDataModel)
         {
             if (IsNull(dBTMDeviceDataModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            DBTMTraineeDetails dBTMTraineeDetails = GetDBTMTraineeDetailsByCode(dBTMDeviceDataModel.PersonCode);
+            if(IsNull(dBTMTraineeDetails))
+                throw new CoditechException(ErrorCodes.InvalidData, "Invalid Person Code");
 
             DBTMDeviceData dBTMDeviceData = new DBTMDeviceData()
             {
                 DeviceSerialCode = dBTMDeviceDataModel.DeviceSerialCode,
                 PersonCode = dBTMDeviceDataModel.PersonCode,
-               TestCode= dBTMDeviceDataModel.TestCode,
-                Comments= dBTMDeviceDataModel.Comments
+                TestCode = dBTMDeviceDataModel.TestCode,
+                Comments = dBTMDeviceDataModel.Comments,
+                Height = dBTMTraineeDetails.Height,
+                Weight = dBTMTraineeDetails.Weight,
             };
 
-            //Add new DBTMDeviceData and return it.
             DBTMDeviceData DBTMDeviceDataDetails = _dBTMDeviceDataRepository.Insert(dBTMDeviceData);
+
             if (DBTMDeviceDataDetails?.DBTMDeviceDataId > 0)
             {
                 dBTMDeviceDataModel.DBTMDeviceDataId = DBTMDeviceDataDetails.DBTMDeviceDataId;
-
-                DBTMDeviceDataDetails dBTMDeviceDataDetails = new DBTMDeviceDataDetails()
+                List<DBTMDeviceDataDetails> dBTMDeviceDataDetailsList = new List<DBTMDeviceDataDetails>();
+                foreach (var item in dBTMDeviceDataModel?.DataList)
                 {
-                    DBTMDeviceDataId = dBTMDeviceData.DBTMDeviceDataId,
-                    Weight= dBTMDeviceDataModel.Weight,
-                    Height= dBTMDeviceDataModel.Height,
-                    Time= dBTMDeviceDataModel.Time,
-                    Distance= dBTMDeviceDataModel.Distance,
-                    Force= dBTMDeviceDataModel.Force,
-                    Acceleration= dBTMDeviceDataModel.Acceleration,
-                    Angle= dBTMDeviceDataModel.Angle
-                };
-
-                dBTMDeviceDataDetails = _dBTMDeviceDataDetailsRepository.Insert(dBTMDeviceDataDetails);
+                    DBTMDeviceDataDetails dBTMDeviceDataDetails = new DBTMDeviceDataDetails()
+                    {
+                        DBTMDeviceDataId = DBTMDeviceDataDetails.DBTMDeviceDataId,
+                        Time = item.Time,
+                        Distance = item.Distance,
+                        Force = item.Force,
+                        Acceleration = item.Acceleration,
+                        Angle = item.Angle
+                    };
+                    dBTMDeviceDataDetailsList.Add(dBTMDeviceDataDetails);
+                }
+                _dBTMDeviceDataDetailsRepository.Insert(dBTMDeviceDataDetailsList);
             }
             else
             {
@@ -63,5 +72,9 @@ namespace Coditech.API.Service
             }
             return dBTMDeviceDataModel;
         }
+
+
+        public DBTMTraineeDetails GetDBTMTraineeDetailsByCode(string personCode)
+    => _dBTMTraineeDetailsRepository.Table.Where(x => x.PersonCode == personCode).FirstOrDefault();
     }
 }

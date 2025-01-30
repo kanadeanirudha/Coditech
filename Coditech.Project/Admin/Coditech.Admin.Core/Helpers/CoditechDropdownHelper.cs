@@ -250,6 +250,14 @@ namespace Coditech.Admin.Helpers
             {
                 GetAccSetupBalanceSheetTypeList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UnAssociatedTrainerEmployeeList.ToString()))
+            {
+                GetUnAssociatedTrainerEmployeeList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UnAssociatedTrainerEmployeeList.ToString()))
+            {
+                GetAccSetupBalanceSheet(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -565,6 +573,27 @@ namespace Coditech.Admin.Helpers
             }
         }
 
+        private static void GetUnAssociatedTrainerEmployeeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Employee-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
+                short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
+                GeneralTrainerListResponse response = new GeneralTrainerClient().List(selectedCentreCode, selectedDepartmentId, false, null, null, null, 1, int.MaxValue);
+                GeneralTrainerListModel list = new GeneralTrainerListModel() { GeneralTrainerList = response.GeneralTrainerList };
+                foreach (var item in list?.GeneralTrainerList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = $"{item.FirstName} {item.LastName}",
+                        Value = item.EmployeeId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.EmployeeId)
+                    });
+                }
+            }
+        }
         private static void GetCentrewiseBuildingRoomList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------Select Room-------" });
@@ -750,7 +779,7 @@ namespace Coditech.Admin.Helpers
         private static void GetCountryCallingCode(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             GeneralCountryListResponse response = new GeneralCountryClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select-------" });
+            dropdownList.Add(new SelectListItem() { Value = "", Text = "--Select--" });
 
             GeneralCountryListModel list = new GeneralCountryListModel { GeneralCountryList = response.GeneralCountryList };
             foreach (var item in list.GeneralCountryList)
@@ -1430,6 +1459,27 @@ namespace Coditech.Admin.Helpers
                         Text = $"{item.TestName}",
                         Value = item.DBTMTestMasterId.ToString(),
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTestMasterId)
+                    });
+                }
+            }
+        }
+        private static void GetAccSetupBalanceSheet(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem() { Text = "-------BalanceSheet Type-------" });
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
+                byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]);
+                AccSetupBalanceSheetListResponse response = new AccSetupGLBankClient().GetAccSetupBalanceSheet(selectedCentreCode, accSetupBalanceSheetTypeId);
+                AccSetupBalanceSheetListModel list = new AccSetupBalanceSheetListModel() { AccSetupBalanceSheetList = response.AccSetupBalanceSheetList };
+                foreach (var item in list?.AccSetupBalanceSheetList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.AccBalancesheetHeadDesc,
+                        Value = item.AccSetupBalanceSheetId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupBalanceSheetId)
                     });
                 }
             }

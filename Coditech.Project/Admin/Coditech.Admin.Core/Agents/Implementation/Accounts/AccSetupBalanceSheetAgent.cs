@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -29,20 +30,20 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual AccSetupBalanceSheetListViewModel GetBalanceSheetList(DataTableViewModel dataTableModel, byte accSetupBalanceSheetId)
+        public virtual AccSetupBalanceSheetListViewModel GetBalanceSheetList(DataTableViewModel dataTableModel , byte accSetupBalanceSheetTypeId)
         {
-            FilterCollection filters = null;
+            FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
+                
                 //filters.Add("Description", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 //filters.Add("ShortCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            AccSetupBalanceSheetListResponse response = _accSetupBalanceSheetClient.List(dataTableModel.SelectedCentreCode, accSetupBalanceSheetId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            AccSetupBalanceSheetListResponse response = _accSetupBalanceSheetClient.List(dataTableModel.SelectedCentreCode, accSetupBalanceSheetTypeId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             AccSetupBalanceSheetListModel balanceSheetList = new AccSetupBalanceSheetListModel { AccSetupBalanceSheetList = response?.AccSetupBalanceSheetList };
             AccSetupBalanceSheetListViewModel listViewModel = new AccSetupBalanceSheetListViewModel();
             listViewModel.AccSetupBalanceSheetList = balanceSheetList?.AccSetupBalanceSheetList?.ToViewModel<AccSetupBalanceSheetViewModel>().ToList();
@@ -143,6 +144,11 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Balance Sheet",
                 ColumnCode = "AccBalancesheetHeadDesc",
+                IsSortable = true,
+            }); datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Balance Type",
+                ColumnCode = "AccBalsheetTypeDesc",
                 IsSortable = true,
             });
             //datatableColumnList.Add(new DatatableColumns()

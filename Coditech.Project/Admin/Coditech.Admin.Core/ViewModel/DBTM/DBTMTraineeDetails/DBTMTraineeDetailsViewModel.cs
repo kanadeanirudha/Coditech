@@ -32,6 +32,7 @@ namespace Coditech.Admin.ViewModel
         public string LastName { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+        public int NumberOfActivityPerformed { get; set; }
         [Required]
         [RegularExpression(@"^\d{1,3}(\.\d{1,3})?$", ErrorMessage = "Weight must be less than 999")]
         [Display(Name = "Weight(kg)")]

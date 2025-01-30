@@ -134,7 +134,10 @@
             PaymentGatewayDetails,
             DBTMMySubscriptionPlan,
             DBTMDeviceData,
-            AccSetupTransactionType
+            AccSetupTransactionType,
+            AccSetupGLBank,
+            DBTMActivities,
+            DBTMActivitiesDetails
         }
     }
 }
