@@ -6,10 +6,8 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
-using static Coditech.Common.Helper.HelperUtility;
 using Coditech.Common.Logger;
 using Coditech.Resources;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using Coditech.API.Data;
 
@@ -77,7 +75,7 @@ namespace Coditech.Admin.Agents
             {
                 TaskApprovalSettingResponse response = _taskApprovalSettingClient.AddUpdateTaskApprovalSetting(taskApprovalSettingViewModel.ToModel<TaskApprovalSettingModel>());
                 TaskApprovalSettingModel taskApprovalSettingModel = response?.TaskApprovalSettingModel;
-                return IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : new TaskApprovalSettingViewModel();
+                return HelperUtility.IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : new TaskApprovalSettingViewModel();
             }
             catch (CoditechException ex)
             {
@@ -113,7 +111,7 @@ namespace Coditech.Admin.Agents
                 TaskApprovalSettingResponse response = _taskApprovalSettingClient.UpdateTaskApprovalSetting(taskApprovalSettingViewModel.ToModel<TaskApprovalSettingModel>());
                 TaskApprovalSettingModel taskApprovalSettingModel = response?.TaskApprovalSettingModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.TaskApprovalSetting.ToString(), TraceLevel.Info);
-                return IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(new TaskApprovalSettingViewModel(), GeneralResources.UpdateErrorMessage);
+                return HelperUtility.IsNotNull(taskApprovalSettingModel) ? taskApprovalSettingModel.ToViewModel<TaskApprovalSettingViewModel>() : (TaskApprovalSettingViewModel)GetViewModelWithErrorMessage(new TaskApprovalSettingViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (CoditechException ex)
             {
