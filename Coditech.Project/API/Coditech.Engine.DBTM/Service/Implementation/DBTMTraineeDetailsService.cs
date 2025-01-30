@@ -195,13 +195,18 @@ namespace Coditech.API.Service
                     listModel.FirstName = generalPersonModel.FirstName;
                     listModel.LastName = generalPersonModel.LastName;
                 }
-
-                int?DBTMTestMasterId  = _dBTMTestMasterRepository.Table.Where(x => x.TestCode == dBTMDeviceData.TestCode)?.Select(y=>y.DBTMTestMasterId)?.FirstOrDefault();
-
-                listModel.Columns = (from a in _dBTMParametersAssociatedToTestRepository.Table
-                                     join b in _dBTMTestParameterRepository.Table
-                                     on a.DBTMTestParameterId equals b.DBTMTestParameterId
-                                     select b.ParameterName).Distinct().ToList();
+                DBTMTestMaster dBTMTestMaster = _dBTMTestMasterRepository.Table.Where(x => x.TestCode == dBTMDeviceData.TestCode).FirstOrDefault();
+                
+                if (dBTMTestMaster != null)
+                {
+                    listModel.Columns = (from a in _dBTMParametersAssociatedToTestRepository.Table
+                                         join b in _dBTMTestParameterRepository.Table
+                                         on a.DBTMTestParameterId equals b.DBTMTestParameterId
+                                         where a.DBTMTestMasterId == dBTMTestMaster.DBTMTestMasterId
+                                         select b.ParameterName)
+                                         .Distinct()
+                                         .ToList();
+                }
             }
             return listModel;
         }
