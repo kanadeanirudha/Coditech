@@ -5,7 +5,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace Coditech.Admin
 {
     public static class DependencyRegistration
@@ -138,6 +137,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupMasterAgent, AccSetupMasterAgent>();
             builder.Services.AddScoped<IAccSetupBalanceSheetAgent, AccSetupBalanceSheetAgent>();
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeAgent, AccSetupBalanceSheetTypeAgent>();
+            builder.Services.AddScoped<IAccSetupGLBankAgent, AccSetupGLBankAgent>();
             #endregion
 
             #endregion Agent
@@ -260,6 +260,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupMasterClient, AccSetupMasterClient>();
             builder.Services.AddScoped<IAccSetupBalanceSheetClient, AccSetupBalanceSheetClient>();
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeClient, AccSetupBalanceSheetTypeClient>();
+            builder.Services.AddScoped<IAccSetupGLBankClient, AccSetupGLBankClient>();
             #endregion
 
             #endregion Client
