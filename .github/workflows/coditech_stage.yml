@@ -13,37 +13,37 @@ on:
        admin_deploy:
          description: 'Deploy Admin'
          required: true
-         default: false
+         default: true
          type: boolean
        gymmanagementsystem_api_deploy:
          description: 'Deploy GymManagementSystem API'
          required: true
-         default: false
+         default: true
          type: boolean
        mediamanager_api_deploy:
          description: 'Deploy MediaManager API'
          required: true
-         default: false
+         default: true
          type: boolean
        organisation_api_deploy:
          description: 'Deploy Organisation API'
          required: true
-         default: false
+         default: true
          type: boolean
        hospitalmanagementsystem_api_deploy:
          description: 'Deploy HospitalManagementSystem API'
          required: true
-         default: false
+         default: true
          type: boolean
        dbtm_api_deploy:
          description: 'Deploy DBTM API'
          required: true
-         default: false
+         default: true
          type: boolean
        payment_api_deploy:
          description: 'Deploy Payment API'
          required: true
-         default: false
+         default: true
          type: boolean
 
 jobs:
