@@ -102,14 +102,6 @@ namespace Coditech.Common.API
                 return Convert.ToString(settings["ApiDomainRequestKey"]);
             }
         }
-        public static string DBTMDirectorMenuCode
-        {
-            get
-            {
-                return Convert.ToString(settings["DBTMDirectorMenuCode"]);
-
-            }
-        }
         public static byte JoiningCodeLength
         {
             get

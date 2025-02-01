@@ -79,19 +79,9 @@
         HospitalPathologyTestName,
         PathologyTestNameByPathologyPriceCategory,
         TrainerSpecialization,
-        DBTMDeviceStatus,
-        DBTMTraineeRegistration,
         UnAssociatedTrainerList,
-        DBTMActivityCategory,
-        DBTMDeviceRegistrationDetails,
-        CentrewiseDBTMTrainer,
-        TraineeDetailsListByDBTMTrainer,
-        DBTMTestStatus,
-        DBTMTest,
-        DBTMBatchActivity,
         TicketPriority,
         TicketStatus,
-        DBTMSubscriptionPlanType,
         PaymentGateway,
         AccSetupBalanceSheetType,
         UnAssociatedTrainerEmployeeList,
@@ -114,7 +104,6 @@
         InventoryRoundOff,
         DateFormat,
         DateFormatForCalendar,
-        IsDBTMTraineeLogin
     }
 
     public enum UserTypeEnum
@@ -124,7 +113,7 @@
         Customer,
         GymMember,
         Patient,
-        DBTMTrainee
+        Trainee
     }
 
     public enum ActiveProjectNameEnum
@@ -152,15 +141,12 @@
         GymMemberRegistration,
         EmployeeRegistration,
         InvoiceNumber,
-        PatientUAHNumber,
-        DBTMTraineeRegistration
+        PatientUAHNumber
     }
     public enum DashboardFormEnum
     {
         GymOwnerDashboard,
-        GymOperatorDashboard,
-        DBTMCentreDashboard,
-        DBTMTrainerDashboard
+        GymOperatorDashboard
     }
     public enum ErrorMessageTypeEnum
     {
@@ -184,7 +170,6 @@
         CustomerRegistration,
         GymMemberRegistration,
         ResetPasswordLink,
-        DBTMTraineeRegistration,
         AssociateGymMembershipPlan,
         SendOTP,
     }

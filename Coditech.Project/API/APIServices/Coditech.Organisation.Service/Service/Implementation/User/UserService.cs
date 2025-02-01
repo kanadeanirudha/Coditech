@@ -32,7 +32,6 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<HospitalPatientRegistration> _hospitalPatientRegistrationRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
-        private readonly ICoditechRepository<DBTMTraineeDetails> _dBTMTraineeDetailsRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -50,7 +49,6 @@ namespace Coditech.API.Service
             _hospitalPatientRegistrationRepository = new CoditechRepository<HospitalPatientRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
-            _dBTMTraineeDetailsRepository = new CoditechRepository<DBTMTraineeDetails>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -286,25 +284,9 @@ namespace Coditech.API.Service
             {
                 generalPersonModel.HasError = true;
                 generalPersonModel.ErrorMessage = string.IsNullOrEmpty(errorMessage) ? GeneralResources.ErrorFailedToCreate : errorMessage;
-                if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                }
-                else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
-                }
-                else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.HospitalPatientRegistration.ToString(), TraceLevel.Error);
-                }
-                else if (generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.DBTMTraineeDetails.ToString(), TraceLevel.Error);
-                }
+                _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.UserRegistration.ToString(), TraceLevel.Error);
                 return generalPersonModel;
             }
-
             if (IsNull(generalPersonModel.DateOfBirth) && generalPersonModel.Age > 0)
             {
                 generalPersonModel.DateOfBirth = new DateTime(CalculateBirthYear(generalPersonModel.Age), 1, 1);
@@ -320,22 +302,8 @@ namespace Coditech.API.Service
                     generalPersonModel.Password = password;
                 }
                 generalPersonModel.CentreName = GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode);
-                if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    InsertGymMember(generalPersonModel, settingMasterList);
-                }
-                else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    InsertEmployee(generalPersonModel, settingMasterList, false);
-                }
-                else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    InsertPatient(generalPersonModel, settingMasterList);
-                }
-                else if (generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    InsertDBTMTraineeDetails(generalPersonModel, settingMasterList);
-                }
+
+                InsertPersonDetails(generalPersonModel, settingMasterList);
             }
             else
             {
@@ -702,22 +670,53 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
             int generalEnumaratorId = 0;
-
-            if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            if (ValidateUserwiseGeneralPerson(generalPersonModel, ref errorMessage, ref generalEnumaratorId))
             {
-                if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
+                string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
+                if (string.IsNullOrEmpty(userNameBasedOn))
                 {
-                    errorMessage = "Selected Centre Code is Required.";
+                    errorMessage = "Organisation Centrewise UserName Registration not set";
                     return false;
                 }
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString(), GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
-                if (generalEnumaratorId == 0)
+                else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString() && string.IsNullOrEmpty(generalPersonModel.MobileNumber))
                 {
-                    errorMessage = "GymMemberRegistration is null";
+                    errorMessage = "Mobile Number is required";
+                    return false;
+                }
+                else if (userNameBasedOn == UserNameRegistrationTypeEnum.EmailId.ToString() && string.IsNullOrEmpty(generalPersonModel.EmailId))
+                {
+                    errorMessage = "EmailId is required";
+                    return false;
+                }
+                else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString())
+                {
+                    if (_userMasterRepository.Table.Any(x => x.UserName == generalPersonModel.MobileNumber && x.UserType.ToLower() == generalPersonModel.UserType.ToLower()))
+                    {
+                        errorMessage = "Mobile Number is already exist.";
+                        return false;
+                    }
+                }
+                else if (userNameBasedOn == UserNameRegistrationTypeEnum.EmailId.ToString())
+                {
+                    if (_userMasterRepository.Table.Any(x => x.UserName == generalPersonModel.EmailId && x.UserType.ToLower() == generalPersonModel.UserType.ToLower()))
+                    {
+                        errorMessage = "EmailId is already exist.";
+                        return false;
+                    }
+                }
+
+                if (!new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>()).Table.Any(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode == generalPersonModel.SelectedCentreCode))
+                {
+                    errorMessage = "General Running Numbers is not set for Person Code.";
                     return false;
                 }
             }
-            else if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            return true;
+        }
+
+        protected virtual bool ValidateUserwiseGeneralPerson(GeneralPersonModel generalPersonModel, ref string errorMessage, ref int generalEnumaratorId)
+        {
+            if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode) || string.IsNullOrEmpty(generalPersonModel.SelectedDepartmentId))
                 {
@@ -729,6 +728,20 @@ namespace Coditech.API.Service
                 if (generalEnumaratorId == 0)
                 {
                     errorMessage = "Employee Registration is null.";
+                    return false;
+                }
+            }
+            else if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
+                {
+                    errorMessage = "Selected Centre Code is Required.";
+                    return false;
+                }
+                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString(), GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
+                if (generalEnumaratorId == 0)
+                {
+                    errorMessage = "GymMemberRegistration is null";
                     return false;
                 }
             }
@@ -747,58 +760,7 @@ namespace Coditech.API.Service
                     return false;
                 }
             }
-            if (generalPersonModel.UserType.Equals(UserTypeEnum.DBTMTrainee.ToString(), StringComparison.InvariantCultureIgnoreCase))
-            {
-                if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
-                {
-                    errorMessage = "SelectedCentreCode is null";
-                    return false;
-                }
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.DBTMTraineeRegistration.ToString(), GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
-                if (generalEnumaratorId == 0)
-                {
-                    errorMessage = "DBTMTraineeRegistration is null";
-                    return false;
-                }
-            }
-            string userNameBasedOn = _organisationCentrewiseUserNameRegistrationRepository.Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
-            if (string.IsNullOrEmpty(userNameBasedOn))
-            {
-                errorMessage = "Organisation Centrewise UserName Registration not set";
-                return false;
-            }
-            else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString() && string.IsNullOrEmpty(generalPersonModel.MobileNumber))
-            {
-                errorMessage = "Mobile Number is required";
-                return false;
-            }
-            else if (userNameBasedOn == UserNameRegistrationTypeEnum.EmailId.ToString() && string.IsNullOrEmpty(generalPersonModel.EmailId))
-            {
-                errorMessage = "EmailId is required";
-                return false;
-            }
-            else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString())
-            {
-                if (_userMasterRepository.Table.Any(x => x.UserName == generalPersonModel.MobileNumber && x.UserType.ToLower() == generalPersonModel.UserType.ToLower()))
-                {
-                    errorMessage = "Mobile Number is already exist.";
-                    return false;
-                }
-            }
-            else if (userNameBasedOn == UserNameRegistrationTypeEnum.EmailId.ToString())
-            {
-                if (_userMasterRepository.Table.Any(x => x.UserName == generalPersonModel.EmailId && x.UserType.ToLower() == generalPersonModel.UserType.ToLower()))
-                {
-                    errorMessage = "EmailId is already exist.";
-                    return false;
-                }
-            }
 
-            if (!new CoditechRepository<GeneralRunningNumbers>(_serviceProvider.GetService<Coditech_Entities>()).Table.Any(x => x.KeyFieldEnumId == generalEnumaratorId && x.IsActive && !x.IsRowLock && x.CentreCode == generalPersonModel.SelectedCentreCode))
-            {
-                errorMessage = "General Running Numbers is not set for Person Code.";
-                return false;
-            }
             return true;
         }
 
@@ -821,7 +783,6 @@ namespace Coditech.API.Service
                 InsertUserMasterDetails(generalPersonModel, hospitalPatientRegistration.HospitalPatientRegistrationId, false);
             }
         }
-
 
         protected virtual void InsertGymMember(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
         {
@@ -856,48 +817,7 @@ namespace Coditech.API.Service
             }
         }
 
-        protected virtual void InsertDBTMTraineeDetails(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
-        {
-            generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberForEnum.DBTMTraineeRegistration.ToString(), generalPersonModel.SelectedCentreCode);
-            DBTMTraineeDetails dBTMTraineeDetails = new DBTMTraineeDetails()
-            {
-                CentreCode = generalPersonModel.SelectedCentreCode,
-                PersonId = generalPersonModel.PersonId,
-                PersonCode = generalPersonModel.PersonCode,
-                UserType = generalPersonModel.UserType
-            };
-            dBTMTraineeDetails = _dBTMTraineeDetailsRepository.Insert(dBTMTraineeDetails);
-
-            //Check Is DBTM Trainee need to Login
-            if (dBTMTraineeDetails?.DBTMTraineeDetailId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsDBTMTraineeLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
-            {
-                InsertUserMasterDetails(generalPersonModel, dBTMTraineeDetails.DBTMTraineeDetailId, false);
-                try
-                {
-                    GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel.SelectedCentreCode, EmailTemplateCodeEnum.DBTMTraineeRegistration.ToString());
-                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
-                    {
-                        string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, !string.IsNullOrEmpty(generalPersonModel.CentreName) ? generalPersonModel.CentreName : GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
-                        string messageText = ReplaceDBTMTraineeEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
-                        _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.DBTMTraineeDetails.ToString(), TraceLevel.Error);
-                }
-            }
-        }
-
         protected virtual string ReplaceGymMemberEmailTemplate(GeneralPersonModel generalPersonModel, string emailTemplate)
-        {
-            string messageText = emailTemplate;
-            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
-            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
-            return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
-        }
-
-        protected virtual string ReplaceDBTMTraineeEmailTemplate(GeneralPersonModel generalPersonModel, string emailTemplate)
         {
             string messageText = emailTemplate;
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
@@ -942,6 +862,22 @@ namespace Coditech.API.Service
 
             return birthYear;
         }
+        protected virtual void InsertPersonDetails(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
+        {
+            if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                InsertEmployee(generalPersonModel, settingMasterList, false);
+            }
+            else if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                InsertGymMember(generalPersonModel, settingMasterList);
+            }
+            else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                InsertPatient(generalPersonModel, settingMasterList);
+            }
+        }
+
         #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coditech.API.Data.DataModel.Gym
+namespace Coditech.API.Data
 {
     public partial class GeneralPersonAttendanceDetails
     {

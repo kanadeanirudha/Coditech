@@ -13,7 +13,7 @@ namespace Coditech.Admin.Agents
     /// <summary>
     /// Create PaymentGatewayDetails.
     /// </summary>
-    /// <param name="dBTMPrivacySettingViewModel"> PaymentGatewayDetails  View Model.</param>
+    /// <param name="PrivacySettingViewModel"> PaymentGatewayDetails  View Model.</param>
     /// <returns>Returns created model.</returns>
     PaymentGatewayDetailsViewModel CreatePaymentGatewayDetails(PaymentGatewayDetailsViewModel paymentGatewayDetailsViewModel);
 
@@ -37,6 +37,5 @@ namespace Coditech.Admin.Agents
         /// <param name="paymentGatewayDetailsId">paymentGatewayDetailsId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeletePaymentGatewayDetails(string paymentGatewayDetailsIdId, out string errorMessage);
-        //DBTMPrivacySettingListResponse GetDBTMPrivacySettingList();
     }
 }

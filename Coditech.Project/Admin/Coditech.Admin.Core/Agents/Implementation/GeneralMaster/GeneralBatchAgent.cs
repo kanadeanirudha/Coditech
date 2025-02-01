@@ -152,7 +152,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralBatchUserListResponse response = _generalBatchClient.GetGeneralBatchUserList(generalBatchMasterId,UserTypeEnum.DBTMTrainee.ToString(), null, filters, sortlist, dataTableModel.PageIndex, int.MaxValue);
+            GeneralBatchUserListResponse response = _generalBatchClient.GetGeneralBatchUserList(generalBatchMasterId,UserTypeEnum.Trainee.ToString(), null, filters, sortlist, dataTableModel.PageIndex, int.MaxValue);
             GeneralBatchUserListModel generalBatchUserList = new GeneralBatchUserListModel { GeneralBatchUserList = response?.GeneralBatchUserList };
             GeneralBatchUserListViewModel listViewModel = new GeneralBatchUserListViewModel();
             listViewModel.GeneralBatchUserList = generalBatchUserList?.GeneralBatchUserList?.ToViewModel<GeneralBatchUserViewModel>().ToList();
@@ -171,7 +171,7 @@ namespace Coditech.Admin.Agents
             {
                 int generalBatchMasterId = generalBatchUserViewModel.GeneralBatchMasterId;
                 long generalBatchUserId = generalBatchUserViewModel.GeneralBatchUserId;
-                generalBatchUserViewModel.UserType = UserTypeEnum.DBTMTrainee.ToString();
+                generalBatchUserViewModel.UserType = UserTypeEnum.Trainee.ToString();
                 GeneralBatchUserResponse response = _generalBatchClient.AssociateUnAssociateBatchwiseUser(generalBatchUserViewModel.ToModel<GeneralBatchUserModel>());
                 GeneralBatchUserModel generalBatchUserModel = response?.GeneralBatchUserModel;
                 generalBatchUserViewModel = IsNotNull(generalBatchUserModel) ? generalBatchUserModel.ToViewModel<GeneralBatchUserViewModel>() : new GeneralBatchUserViewModel();
