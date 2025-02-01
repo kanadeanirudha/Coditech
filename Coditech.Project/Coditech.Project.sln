@@ -45,8 +45,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.HospitalMan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Gazette", "API\Coditech.Engine.Gazette\Coditech.Engine.Gazette.csproj", "{2B72888A-A016-4509-ABA3-057AA7811565}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.DBTM", "API\Coditech.Engine.DBTM\Coditech.Engine.DBTM.csproj", "{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{29C2E38D-4779-47C1-8AC5-982E5A1EED8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Payment", "API\Coditech.Engine.Payment\Coditech.Engine.Payment.csproj", "{E2E68E51-CFD5-4A89-A26F-20AB9AEAA974}"
@@ -60,11 +58,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Admin.Core", "Admi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIServices", "APIServices", "{DEE7F0C8-7DB8-42DA-A314-4694FE78A6FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.MediaManager.Service", "API\APIServices\Coditech.MediaManager.Service\Coditech.MediaManager.Service.csproj", "{5E1B426B-E8E3-456F-AA2C-8CB3B1099E1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.MediaManager.Service", "API\APIServices\Coditech.MediaManager.Service\Coditech.MediaManager.Service.csproj", "{5E1B426B-E8E3-456F-AA2C-8CB3B1099E1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Organisation.Service", "API\APIServices\Coditech.Organisation.Service\Coditech.Organisation.Service.csproj", "{12408D18-D673-44F7-A94C-67BE687433BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Organisation.Service", "API\APIServices\Coditech.Organisation.Service\Coditech.Organisation.Service.csproj", "{12408D18-D673-44F7-A94C-67BE687433BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Payment.Service", "API\APIServices\Coditech.Payment.Service\Coditech.Payment.Service.csproj", "{82850BCE-D792-4E9C-BFD3-85E6201DC0B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Payment.Service", "API\APIServices\Coditech.Payment.Service\Coditech.Payment.Service.csproj", "{82850BCE-D792-4E9C-BFD3-85E6201DC0B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,12 +167,6 @@ Global
 		{2B72888A-A016-4509-ABA3-057AA7811565}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{2B72888A-A016-4509-ABA3-057AA7811565}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B72888A-A016-4509-ABA3-057AA7811565}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCB00B67-AEA9-4E25-B3DB-D33776B24B69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E2E68E51-CFD5-4A89-A26F-20AB9AEAA974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2E68E51-CFD5-4A89-A26F-20AB9AEAA974}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2E68E51-CFD5-4A89-A26F-20AB9AEAA974}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU

@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 using static Coditech.Common.Helper.HelperUtility;
 
-namespace Coditech.Engine.DBTM.Controllers
+namespace Coditech.Engine.Controllers
 {
     public class TicketMasterController : BaseController
     {

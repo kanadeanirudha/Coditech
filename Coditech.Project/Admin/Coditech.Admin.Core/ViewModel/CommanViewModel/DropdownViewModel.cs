@@ -2,7 +2,7 @@
 
 namespace Coditech.Admin.ViewModel
 {
-    public class DropdownViewModel
+    public partial class DropdownViewModel
     {
         public DropdownViewModel()
         {
@@ -21,5 +21,6 @@ namespace Coditech.Admin.ViewModel
         public bool AddSelectItem { get; set; } = true;
         public string ClassName { get; set; } = string.Empty;
         public bool IsStringProperty { get; set; }
+        public bool IsCustomDropdown { get; set; }
     }
 }

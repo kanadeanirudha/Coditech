@@ -65,11 +65,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralDistrictAgent, GeneralDistrictAgent>();
             builder.Services.AddScoped<IGeneralNotificationAgent, GeneralNotificationAgent>();
             builder.Services.AddScoped<IGeneralTrainerAgent, GeneralTrainerAgent>();
-            builder.Services.AddScoped<IDBTMActivityCategoryAgent, DBTMActivityCategoryAgent>();
-            builder.Services.AddScoped<IDBTMTestAgent, DBTMTestAgent>();
-            builder.Services.AddScoped<IDBTMDeviceRegistrationDetailsAgent, DBTMDeviceRegistrationDetailsAgent>();
-            builder.Services.AddScoped<IDBTMTraineeAssignmentAgent, DBTMTraineeAssignmentAgent>();
-            builder.Services.AddScoped<IDBTMNewRegistrationAgent, DBTMNewRegistrationAgent>();
             builder.Services.AddScoped<IGeneralBatchAgent, GeneralBatchAgent>();
             builder.Services.AddScoped<ITaskApprovalSettingAgent, TaskApprovalSettingAgent>();
             builder.Services.AddScoped<IGymWorkoutPlanAgent, GymWorkoutPlanAgent>();
@@ -94,16 +89,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IHospitalRegistrationFeeAgent, HospitalRegistrationFeeAgent>();
             #endregion
 
-            #region DBTM         
-            builder.Services.AddScoped<IDBTMDeviceAgent, DBTMDeviceAgent>();
-            builder.Services.AddScoped<IDBTMTraineeDetailsAgent, DBTMTraineeDetailsAgent>();
-            builder.Services.AddScoped<IDBTMBatchActivityAgent, DBTMBatchActivityAgent>();
-            builder.Services.AddScoped<IDBTMSubscriptionPlanAgent, DBTMSubscriptionPlanAgent>();
-            builder.Services.AddScoped<IDBTMMySubscriptionPlanAgent, DBTMMySubscriptionPlanAgent>();
-            builder.Services.AddScoped<IDBTMPrivacySettingAgent, DBTMPrivacySettingAgent>();
-            builder.Services.AddScoped<IDBTMDashboardAgent, DBTMDashboardAgent>();
-            #endregion
-
             #region MediaManager
             builder.Services.AddScoped<IMediaSettingMasterAgent, MediaSettingMasterAgent>();
             #endregion
@@ -126,6 +111,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGazetteChaptersAgent, GazetteChaptersAgent>();
             builder.Services.AddScoped<IGazetteChaptersPageDetailAgent, GazetteChaptersPageDetailAgent>();
             #endregion
+
             #region Payment
             builder.Services.AddScoped<IPaymentGatewaysAgent, PaymentGatewaysAgent>();
             builder.Services.AddScoped<IPaymentGatewayDetailsAgent, PaymentGatewayDetailsAgent>();
@@ -235,21 +221,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGazetteChaptersClient, GazetteChaptersClient>();
             builder.Services.AddScoped<IGazetteChaptersPageDetailClient, GazetteChaptersPageDetailClient>();
             #endregion Gazette
-
-            #region DBTM         
-            builder.Services.AddScoped<IDBTMDeviceClient, DBTMDeviceClient>();
-            builder.Services.AddScoped<IDBTMTraineeDetailsClient, DBTMTraineeDetailsClient>();
-            builder.Services.AddScoped<IDBTMActivityCategoryClient, DBTMActivityCategoryClient>();
-            builder.Services.AddScoped<IDBTMTestClient, DBTMTestClient>();
-            builder.Services.AddScoped<IDBTMDeviceRegistrationDetailsClient, DBTMDeviceRegistrationDetailsClient>();
-            builder.Services.AddScoped<IDBTMTraineeAssignmentClient, DBTMTraineeAssignmentClient>();
-            builder.Services.AddScoped<IDBTMNewRegistrationClient, DBTMNewRegistrationClient>();
-            builder.Services.AddScoped<IDBTMBatchActivityClient, DBTMBatchActivityClient>();
-            builder.Services.AddScoped<IDBTMSubscriptionPlanClient, DBTMSubscriptionPlanClient>();
-            builder.Services.AddScoped<IDBTMMySubscriptionPlanClient, DBTMMySubscriptionPlanClient>();
-            builder.Services.AddScoped<IDBTMPrivacySettingClient, DBTMPrivacySettingClient>();
-            builder.Services.AddScoped<IDBTMDashboardClient, DBTMDashboardClient>();
-            #endregion 
 
             #region Payment 
             builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>(); 

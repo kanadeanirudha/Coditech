@@ -117,15 +117,11 @@ namespace Coditech.Common.Service
                     generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
                 }
             }
-            else if (entityType == UserTypeEnum.DBTMTrainee.ToString())
-            {
-                DBTMTraineeDetails dbtmTraineeDetails = new CoditechRepository<DBTMTraineeDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.DBTMTraineeDetailId == entityId);
-                if (IsNotNull(dbtmTraineeDetails))
-                {
-                    personId = dbtmTraineeDetails.PersonId;
-                    centreCode = dbtmTraineeDetails.CentreCode;
-                }
-            }
+            return BindGeneralPersonInformation(personId, centreCode, personCode, generalDepartmentMasterId);
+        }
+
+        protected virtual GeneralPersonModel BindGeneralPersonInformation(long personId, string centreCode, string personCode, short generalDepartmentMasterId)
+        {
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
             if (IsNotNull(generalPersonModel))
             {
@@ -133,6 +129,7 @@ namespace Coditech.Common.Service
                 generalPersonModel.SelectedDepartmentId = Convert.ToString(generalDepartmentMasterId);
                 generalPersonModel.PersonCode = personCode;
             }
+
             return generalPersonModel;
         }
 

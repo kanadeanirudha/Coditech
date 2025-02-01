@@ -7,15 +7,15 @@ namespace Coditech.API.Client
     public interface IPaymentGatewayDetailsClient : IBaseClient
     {
         /// <summary>
-        /// Get list of DBTMPrivacySetting.
+        /// Get list of PaymentGatewayDetails.
         /// </summary>
-        /// <returns>DBTMPrivacySettingListResponse</returns>
+        /// <returns>PaymentGatewayDetailsListResponse</returns>
         PaymentGatewayDetailsListResponse List(string selectedCentreCode, byte paymentGatewayId);
         /// <summary>
-        /// Create DBTMPrivacySetting.
+        /// Create PaymentGatewayDetails.
         /// </summary>
-        /// <param name="DBTMPrivacySettingModel">DBTMPrivacySettingModel.</param>
-        /// <returns>Returns DBTMPrivacySettingResponse.</returns>
+        /// <param name="PaymentGatewayDetailsModel">PaymentGatewayDetailsModel.</param>
+        /// <returns>Returns PaymentGatewayDetailsResponse.</returns>
         PaymentGatewayDetailsResponse CreatePaymentGatewayDetails(PaymentGatewayDetailsModel body);
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Coditech.API.Client
         /// Update PaymentGatewayDetails.
         /// </summary>
         /// <param name="PaymentGatewayDetailsModel">PaymentGatewayDetailsModel.</param>
-        /// <returns>Returns updated DBTMPrivacySettingResponse</returns>
+        /// <returns>Returns updated PaymentGatewayDetailsResponse</returns>
         PaymentGatewayDetailsResponse UpdatePaymentGatewayDetails(PaymentGatewayDetailsModel model);
 
         /// <summary>

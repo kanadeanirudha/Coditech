@@ -235,10 +235,6 @@ namespace Coditech.Admin
             CreateMap<GymDashboardModel, GymDashboardViewModel>().ReverseMap();
             #endregion
 
-            #region DBTMDashboard
-            CreateMap<DBTMDashboardModel, DBTMDashboardViewModel>().ReverseMap();
-            #endregion
-
             #region Media Manager
             CreateMap<MediaSettingMasterModel, MediaSettingMasterViewModel>().ReverseMap();
             CreateMap<MediaSettingMasterListModel, MediaSettingMasterListViewModel>().ReverseMap();
@@ -256,38 +252,6 @@ namespace Coditech.Admin
             #region LogMessage 
             CreateMap<LogMessageModel, LogMessageViewModel>().ReverseMap();
             CreateMap<LogMessageListModel, LogMessageListViewModel>().ReverseMap();
-            #endregion
-
-            #region DBTM
-            CreateMap<DBTMDeviceModel, DBTMDeviceViewModel>().ReverseMap();
-            CreateMap<DBTMDeviceListModel, DBTMDeviceListViewModel>().ReverseMap();
-            CreateMap<DBTMTraineeDetailsModel, DBTMTraineeDetailsViewModel>().ReverseMap();
-            CreateMap<DBTMTraineeDetailsListModel, DBTMTraineeDetailsListViewModel>().ReverseMap();
-            CreateMap<DBTMTraineeDetailsCreateEditViewModel, GeneralPersonModel>().ReverseMap();
-            CreateMap<DBTMActivityCategoryModel, DBTMActivityCategoryViewModel>().ReverseMap();
-            CreateMap<DBTMActivityCategoryListModel, DBTMActivityCategoryListViewModel>().ReverseMap();
-            CreateMap<DBTMTestModel, DBTMTestViewModel>().ReverseMap();
-            CreateMap<DBTMTestListModel, DBTMTestListViewModel>().ReverseMap();
-            CreateMap<DBTMDeviceRegistrationDetailsModel, DBTMDeviceRegistrationDetailsViewModel>().ReverseMap();
-            CreateMap<DBTMDeviceRegistrationDetailsListModel, DBTMDeviceRegistrationDetailsListViewModel>().ReverseMap();
-            CreateMap<DBTMTestParameterModel, DBTMTestParameterViewModel>().ReverseMap();
-            CreateMap<DBTMTestParameterListModel, DBTMTestParameterListViewModel>().ReverseMap();
-            CreateMap<DBTMTraineeAssignmentModel, DBTMTraineeAssignmentViewModel>().ReverseMap();
-            CreateMap<DBTMTraineeAssignmentListModel, DBTMTraineeAssignmentListViewModel>().ReverseMap();
-            CreateMap<DBTMNewRegistrationModel, DBTMNewRegistrationViewModel>().ReverseMap();
-            CreateMap<DBTMBatchActivityListModel, DBTMBatchActivityListViewModel>().ReverseMap();
-            CreateMap<DBTMBatchActivityModel, DBTMBatchActivityViewModel>().ReverseMap();
-            CreateMap<DBTMSubscriptionPlanListModel, DBTMSubscriptionPlanListViewModel>().ReverseMap();
-            CreateMap<DBTMSubscriptionPlanModel, DBTMSubscriptionPlanViewModel>().ReverseMap();
-            CreateMap<DBTMMySubscriptionPlanListModel, DBTMMySubscriptionPlanListViewModel>().ReverseMap();
-            CreateMap<DBTMSubscriptionPlanActivityListModel, DBTMSubscriptionPlanActivityListViewModel>().ReverseMap();
-            CreateMap<DBTMSubscriptionPlanActivityModel, DBTMSubscriptionPlanActivityViewModel>().ReverseMap();
-            CreateMap<DBTMPrivacySettingModel, DBTMPrivacySettingViewModel>().ReverseMap();
-            CreateMap<DBTMPrivacySettingListModel, DBTMPrivacySettingListViewModel>().ReverseMap();
-            CreateMap<DBTMActivitiesModel, DBTMActivitiesViewModel>().ReverseMap();
-            CreateMap<DBTMActivitiesListModel, DBTMActivitiesListViewModel>().ReverseMap();
-            CreateMap<DBTMActivitiesDetailsModel, DBTMActivitiesDetailsViewModel>().ReverseMap();
-            CreateMap<DBTMActivitiesDetailsListModel, DBTMActivitiesDetailsListViewModel>().ReverseMap();
             #endregion
 
             #region Payment

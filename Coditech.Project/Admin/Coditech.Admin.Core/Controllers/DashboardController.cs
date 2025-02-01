@@ -13,12 +13,10 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IDashboardAgent _dashboardAgent;
         private readonly IGymDashboardAgent _gymDashboardAgent;
-        private readonly IDBTMDashboardAgent _dBTMDashboardAgent;
-        public DashboardController(IDashboardAgent dashboardAgent, IGymDashboardAgent gymDashboardAgent, IDBTMDashboardAgent dBTMDashboardAgent)
+        public DashboardController(IDashboardAgent dashboardAgent, IGymDashboardAgent gymDashboardAgent)
         {
             _dashboardAgent = dashboardAgent;
             _gymDashboardAgent = gymDashboardAgent;
-            _dBTMDashboardAgent = dBTMDashboardAgent;
         }
 
         [HttpGet]
@@ -36,16 +34,6 @@ namespace Coditech.Admin.Controllers
                 {
                     GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails();
                     return View("~/Views/Gym/GymDashboard/GymOperatorDashboard.cshtml", gymDashboardViewModel);
-                }
-                else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.DBTMCentreDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    DBTMDashboardViewModel dBTMDashboardViewModel = _dBTMDashboardAgent.GetDBTMDashboardDetails();
-                    return View("~/Views/DBTM/DBTMDashboard/DBTMCentreDashboard.cshtml", dBTMDashboardViewModel);
-                }
-                else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.DBTMTrainerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    DBTMDashboardViewModel dBTMDashboardViewModel = _dBTMDashboardAgent.GetDBTMDashboardDetails();
-                    return View("~/Views/DBTM/DBTMDashboard/DBTMTrainerDashboard.cshtml", dBTMDashboardViewModel);
                 }
             }
             return View("~/Views/Dashboard/GeneralDashboard.cshtml");

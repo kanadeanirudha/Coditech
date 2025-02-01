@@ -77,7 +77,6 @@ namespace Coditech.API.Service
             if (paymentGatewayDetailId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PaymentGatewayDetailId"));
 
-            //Get the DBTMPrivacySetting Details based on id.
             PaymentGatewayDetails paymentGatewayDetails = _paymentGatewayDetailsRepository.Table.Where(x => x.PaymentGatewayDetailId == paymentGatewayDetailId)?.FirstOrDefault();
             PaymentGatewayDetailsModel paymentGatewayDetailsModel = paymentGatewayDetails?.FromEntityToModel<PaymentGatewayDetailsModel>();
             paymentGatewayDetailsModel.PaymentCode = _paymentGatewaysRepository.Table.Where(x => x.IsActive && x.PaymentGatewayId == paymentGatewayDetailsModel.PaymentGatewayId)?.Select(x => x.PaymentCode)?.FirstOrDefault();
@@ -95,7 +94,6 @@ namespace Coditech.API.Service
 
             PaymentGatewayDetails paymentGatewayDetails = paymentGatewayDetailsModel.FromModelToEntity<PaymentGatewayDetails>();
 
-            //Update DBTMPrivacySetting
             bool isPaymentGatewayDetailsUpdated = _paymentGatewayDetailsRepository.Update(paymentGatewayDetails);
             if (!isPaymentGatewayDetailsUpdated)
             {

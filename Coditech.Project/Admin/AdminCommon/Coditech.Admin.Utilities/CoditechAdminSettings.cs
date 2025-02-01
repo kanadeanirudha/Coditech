@@ -42,16 +42,26 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["CookieExpiresValue"]);
             }
         }
-       
+
         public static string CoditechOrganisationApiRootUri
         {
             get
             {
-#if DEBUG
-                return Convert.ToString(settings["CoditechOrganisationApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}organisation.{settings["ApiDomainName"]}");
-#endif
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechOrganisationApiRootUri"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-organisation.{settings["ApiDomainName"]}");
+            }
+        }
+
+        public static string CoditechMediaManagerApiRootUri
+        {
+            get
+            {
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechMediaManagerApiRootUri"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-mediamanager.{settings["ApiDomainName"]}");
             }
         }
 
@@ -59,11 +69,10 @@ namespace Coditech.Admin.Utilities
         {
             get
             {
-#if DEBUG
-                return Convert.ToString(settings["CoditechPaymentApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}payment.{settings["ApiDomainName"]}");
-#endif
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechPaymentApiRootUri"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-payment.{settings["ApiDomainName"]}");
             }
         }
 
@@ -71,34 +80,21 @@ namespace Coditech.Admin.Utilities
         {
             get
             {
-#if DEBUG
-                return Convert.ToString(settings["CoditechGymManagementSystemApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}gymmanagementsystem.{settings["ApiDomainName"]}");
-#endif
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechGymManagementSystemApiRootUri"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-gymmanagementsystem.{settings["ApiDomainName"]}");
             }
         }
-        
+
         public static string CoditechGazetteApiRootUri
         {
             get
             {
-#if DEBUG
-                return Convert.ToString(settings["CoditechGazetteApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}gazette.{settings["ApiDomainName"]}");
-#endif
-            }
-        }
-        public static string CoditechMediaManagerApiRootUri
-        {
-            get
-            {
-#if DEBUG
-                return Convert.ToString(settings["CoditechMediaManagerApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}mediamanager.{settings["ApiDomainName"]}");
-#endif
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechGazetteApiRootUri"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-gazette.{settings["ApiDomainName"]}");
             }
         }
 
@@ -106,40 +102,28 @@ namespace Coditech.Admin.Utilities
         {
             get
             {
-#if DEBUG
-                return Convert.ToString(settings["CoditechHospitalManagementSystemApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}hospitalmanagementsystem.{settings["ApiDomainName"]}");
-#endif
-            }
-        }
-        public static string NotificationMessagesIsFadeOut
-        {
-            get
-            {
-                return Convert.ToString(settings["NotificationMessagesIsFadeOut"]);
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechHospitalManagementSystemApiRootUri"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-hospitalmanagementsystem.{settings["ApiDomainName"]}");
             }
         }
         public static string ApplicationLogoPath
         {
             get
             {
-#if DEBUG
-                return Convert.ToString(settings["CoditechMediaManagerApiRootUri"] + settings["ApplicationLogoPath"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}mediamanager.{settings["ApiDomainName"]}{settings["ApplicationLogoPath"]}");
-#endif
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechMediaManagerApiRootUri"] + settings["ApplicationLogoPath"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-mediamanager.{settings["ApiDomainName"]}{settings["ApplicationLogoPath"]}");
             }
         }
-        public static string CoditechDBTMApiRootUri
+
+        public static string NotificationMessagesIsFadeOut
         {
             get
             {
-#if DEBUG
-                return Convert.ToString(settings["CoditechDBTMApiRootUri"]);
-#else
-                return Convert.ToString($"{settings["Scheme"]}DBTM.{settings["ApiDomainName"]}");
-#endif
+                return Convert.ToString(settings["NotificationMessagesIsFadeOut"]);
             }
         }
         public static string ApplicationLogoBackground

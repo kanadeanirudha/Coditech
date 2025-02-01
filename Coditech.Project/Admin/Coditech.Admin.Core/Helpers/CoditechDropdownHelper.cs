@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Helpers
 {
-    public static class CoditechDropdownHelper
+    public static partial class CoditechDropdownHelper
     {
         public static List<UserAccessibleCentreModel> AccessibleCentreList()
         {
@@ -221,30 +221,6 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UnAssociatedTrainerList.ToString()))
             {
                 GetUnAssociatedTrainerList(dropdownViewModel, dropdownList);
-            }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMActivityCategory.ToString()))
-            {
-                GetDBTMActivityCategoryList(dropdownViewModel, dropdownList);
-            }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMDeviceRegistrationDetails.ToString()))
-            {
-                GetDBTMDeviceRegistrationDetailsList(dropdownViewModel, dropdownList);
-            }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseDBTMTrainer.ToString()))
-            {
-                GetCentrewiseDBTMTrainerList(dropdownViewModel, dropdownList);
-            }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.TraineeDetailsListByDBTMTrainer.ToString()))
-            {
-                GetTraineeDetailByCentreCodeAndGeneralTrainerList(dropdownViewModel, dropdownList);
-            }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMTest.ToString()))
-            {
-                GetDBTMTestList(dropdownViewModel, dropdownList);
-            }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DBTMBatchActivity.ToString()))
-            {
-                GetDBTMBatchActivityList(dropdownViewModel, dropdownList);
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupBalanceSheetType.ToString()))
             {
@@ -1313,118 +1289,6 @@ namespace Coditech.Admin.Helpers
             }
         }
 
-        private static void GetDBTMActivityCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            FilterCollection filters = new FilterCollection();
-            filters.Add(FilterKeys.IsActive, ProcedureFilterOperators.Equals, "1");
-            DBTMActivityCategoryListResponse response = new DBTMActivityCategoryClient().List(null, filters, null, 1, int.MaxValue);
-            if (dropdownViewModel.IsRequired)
-                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
-            else
-                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
-
-            DBTMActivityCategoryListModel list = new DBTMActivityCategoryListModel { DBTMActivityCategoryList = response.DBTMActivityCategoryList };
-            foreach (var item in list.DBTMActivityCategoryList)
-            {
-                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.DBTMActivityCategoryId == Convert.ToInt16(dropdownViewModel.Parameter))
-                {
-                    continue;
-                }
-                dropdownList.Add(new SelectListItem()
-                {
-                    Text = string.Concat(item.ActivityCategoryName, " (", item.ActivityCategoryCode, ")"),
-                    Value = Convert.ToString(item.DBTMActivityCategoryId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMActivityCategoryId)
-                });
-            }
-        }
-
-        private static void GetDBTMDeviceRegistrationDetailsList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            DBTMDeviceListResponse response = new DBTMDeviceClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Registration Details-------" });
-
-            DBTMDeviceListModel list = new DBTMDeviceListModel { DBTMDeviceList = response.DBTMDeviceList };
-            foreach (var item in list.DBTMDeviceList)
-            {
-                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.DBTMDeviceMasterId == Convert.ToInt16(dropdownViewModel.Parameter))
-                {
-                    continue;
-                }
-                dropdownList.Add(new SelectListItem()
-                {
-                    Text = string.Concat(item.DeviceName, " (", item.DeviceSerialCode, ")"),
-                    Value = Convert.ToString(item.DBTMDeviceMasterId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMDeviceMasterId)
-                });
-            }
-        }
-
-        private static void GetCentrewiseDBTMTrainerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-
-            GeneralTrainerListModel list = new GeneralTrainerListModel();
-            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            {
-                string centreCode = SpiltCentreCode(dropdownViewModel.Parameter);
-                GeneralTrainerListResponse response = new DBTMTraineeAssignmentClient().GetTrainerByCentreCode(centreCode);
-                list = new GeneralTrainerListModel { GeneralTrainerList = response?.GeneralTrainerList };
-            }
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Trainer-------", Value = "" });
-            foreach (var item in list?.GeneralTrainerList)
-            {
-                dropdownList.Add(new SelectListItem()
-                {
-                    Text = $"{item.FirstName} {item.LastName}",
-                    Value = item.GeneralTrainerMasterId.ToString(),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralTrainerMasterId)
-                });
-            }
-        }
-
-        private static void GetTraineeDetailByCentreCodeAndGeneralTrainerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-
-            DBTMTraineeDetailsListModel list = new DBTMTraineeDetailsListModel();
-            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            {
-                string centreCode = dropdownViewModel.Parameter.Split("~")[0];
-                long generalTrainerId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
-                DBTMTraineeDetailsListResponse response = new DBTMTraineeAssignmentClient().GetTraineeDetailByCentreCodeAndgeneralTrainerId(centreCode, generalTrainerId);
-                list = new DBTMTraineeDetailsListModel { DBTMTraineeDetailsList = response?.DBTMTraineeDetailsList };
-            }
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Trainee Details-------", Value = "" });
-            foreach (var item in list?.DBTMTraineeDetailsList)
-            {
-                dropdownList.Add(new SelectListItem()
-                {
-                    Text = $"{item.FirstName} {item.LastName}",
-                    Value = item.DBTMTraineeDetailId.ToString(),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTraineeDetailId)
-                });
-            }
-        }
-
-        private static void GetDBTMTestList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            DBTMTestListResponse response = new DBTMTestClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Test-------" });
-
-            DBTMTestListModel list = new DBTMTestListModel { DBTMTestList = response.DBTMTestList };
-            foreach (var item in list.DBTMTestList)
-            {
-                if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.DBTMTestMasterId == Convert.ToInt16(dropdownViewModel.Parameter))
-                {
-                    continue;
-                }
-                dropdownList.Add(new SelectListItem()
-                {
-                    Text = string.Concat(item.TestName, " (", item.TestCode, ")"),
-                    Value = Convert.ToString(item.DBTMTestMasterId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTestMasterId)
-                });
-            }
-        }
         private static void GetAccSetupBalanceSheetTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             AccSetupBalanceSheetTypeListResponse response = new AccSetupBalanceSheetTypeClient().List(null, null, null, 1, int.MaxValue);
@@ -1441,28 +1305,7 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-        private static void GetDBTMBatchActivityList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Activity-------" });
-
-            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            {
-                int generalBatchMasterId = Convert.ToInt32(dropdownViewModel.Parameter.Split("~")[0]);
-                bool isAssociated = Convert.ToBoolean(dropdownViewModel.Parameter.Split("~")[1]);
-
-                DBTMBatchActivityListResponse response = new DBTMBatchActivityClient().GetDBTMBatchActivityList(generalBatchMasterId, isAssociated, null, null, null, 1, int.MaxValue);
-                DBTMBatchActivityListModel list = new DBTMBatchActivityListModel() { DBTMBatchActivityList = response.DBTMBatchActivityList };
-                foreach (var item in list?.DBTMBatchActivityList)
-                {
-                    dropdownList.Add(new SelectListItem()
-                    {
-                        Text = $"{item.TestName}",
-                        Value = item.DBTMTestMasterId.ToString(),
-                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.DBTMTestMasterId)
-                    });
-                }
-            }
-        }
+       
         private static void GetAccSetupBalanceSheet(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------BalanceSheet Type-------" });

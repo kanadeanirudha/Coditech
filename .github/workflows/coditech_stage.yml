@@ -15,11 +15,11 @@ on:
          required: true
          default: true
          type: boolean
-       gymmanagementsystem_api_deploy:
-         description: 'Deploy GymManagementSystem API'
-         required: true
-         default: true
-         type: boolean
+       # gymmanagementsystem_api_deploy:
+       #   description: 'Deploy GymManagementSystem API'
+       #   required: true
+       #   default: true
+       #   type: boolean
        mediamanager_api_deploy:
          description: 'Deploy MediaManager API'
          required: true
@@ -30,16 +30,11 @@ on:
          required: true
          default: true
          type: boolean
-       hospitalmanagementsystem_api_deploy:
-         description: 'Deploy HospitalManagementSystem API'
-         required: true
-         default: true
-         type: boolean
-       dbtm_api_deploy:
-         description: 'Deploy DBTM API'
-         required: true
-         default: true
-         type: boolean
+       # hospitalmanagementsystem_api_deploy:
+       #   description: 'Deploy HospitalManagementSystem API'
+       #   required: true
+       #   default: true
+       #   type: boolean
        payment_api_deploy:
          description: 'Deploy Payment API'
          required: true
@@ -74,10 +69,10 @@ jobs:
       - name: Stop ADMIN IIS Site and App Pool
         run: |
           # Stop the IIS site
-          Stop-WebSite -Name "pahpc-admin" 
+          Stop-WebSite -Name "coditech-stage-admin" 
 
           # Stop the associated app pool
-          Stop-WebAppPool -Name "pahpc-admin"
+          Stop-WebAppPool -Name "coditech-stage-admin"
 
           # Wait for a few seconds (optional, if needed)
           Start-Sleep -Seconds 5
@@ -94,38 +89,38 @@ jobs:
       - name: Start ADMIN IIS Site and App Pool
         run: |
           # Start the IIS site
-          Start-WebSite -Name "pahpc-admin"
+          Start-WebSite -Name "coditech-stage-admin"
 
           # Start the associated app pool
-          Start-WebAppPool -Name "pahpc-admin"
+          Start-WebAppPool -Name "coditech-stage-admin"
 
-  gymmanagementsystem_api_deploy:
-    runs-on: [self-hosted, Windows, x64, coditech_Stage]
-    needs: coditech_build
-    if: github.event.inputs.gymmanagementsystem_api_deploy == 'true'
+  # gymmanagementsystem_api_deploy:
+  #   runs-on: [self-hosted, Windows, x64, coditech_Stage]
+  #   needs: coditech_build
+  #   if: github.event.inputs.gymmanagementsystem_api_deploy == 'true'
 
-    steps:
-      - name: Stop GymManagementSystem IIS Site and App Pool
-        run: |
-          # Stop the IIS site
-          Stop-WebSite -Name "pahpc-api-gymmanagementsystem" 
+  #   steps:
+  #     - name: Stop GymManagementSystem IIS Site and App Pool
+  #       run: |
+  #         # Stop the IIS site
+  #         Stop-WebSite -Name "pahpc-api-gymmanagementsystem" 
 
-          # Stop the associated app pool
-          Stop-WebAppPool -Name "pahpc-api-gymmanagementsystem"
+  #         # Stop the associated app pool
+  #         Stop-WebAppPool -Name "pahpc-api-gymmanagementsystem"
 
-          # Wait for a few seconds (optional, if needed)
-          Start-Sleep -Seconds 5
+  #         # Wait for a few seconds (optional, if needed)
+  #         Start-Sleep -Seconds 5
 
-      - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.GymManagementSystem\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\GMS\ -Recurse -Force 
+  #     - name: Copy Build file
+  #       run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.GymManagementSystem\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\GMS\ -Recurse -Force 
 
-      - name: Start GymManagementSystem IIS Site and App Pool
-        run: |
-          # Start the IIS site
-          Start-WebSite -Name "pahpc-api-gymmanagementsystem"
+  #     - name: Start GymManagementSystem IIS Site and App Pool
+  #       run: |
+  #         # Start the IIS site
+  #         Start-WebSite -Name "pahpc-api-gymmanagementsystem"
 
-          # Start the associated app pool
-          Start-WebAppPool -Name "pahpc-api-gymmanagementsystem"
+  #         # Start the associated app pool
+  #         Start-WebAppPool -Name "pahpc-api-gymmanagementsystem"
 
   mediamanager_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
@@ -137,9 +132,9 @@ jobs:
       - name: Stop MediaManager IIS Site and App Pool
         run: |
            # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-mediamanager" 
+           Stop-WebSite -Name "coditech-stage-api-mediamanager" 
            # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-mediamanager"
+           Stop-WebAppPool -Name "coditech-stage-api-mediamanager"
 
            # Wait for a few seconds (optional, if needed)
            Start-Sleep -Seconds 5
@@ -150,9 +145,9 @@ jobs:
       - name: Start MediaManager IIS Site and App Pool
         run: |
            # Start the IIS site
-           Start-WebSite -Name "pahpc-api-mediamanager"
+           Start-WebSite -Name "coditech-stage-api-mediamanager"
            # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-mediamanager"
+           Start-WebAppPool -Name "coditech-stage-api-mediamanager"
 
   organisation_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
@@ -163,9 +158,9 @@ jobs:
       - name: Stop Organisation IIS Site and App Pool
         run: |
            # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-organisation" 
+           Stop-WebSite -Name "coditech-stage-api-organisation" 
            # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-organisation"
+           Stop-WebAppPool -Name "coditech-stage-api-organisation"
 
            # Wait for a few seconds (optional, if needed)
            Start-Sleep -Seconds 5
@@ -176,61 +171,35 @@ jobs:
       - name: Start Organisation IIS Site and App Pool
         run: |
            # Start the IIS site
-           Start-WebSite -Name "pahpc-api-organisation"
+           Start-WebSite -Name "coditech-stage-api-organisation"
            # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-organisation"
+           Start-WebAppPool -Name "coditech-stage-api-organisation"
            
-  hospitalmanagementsystem_api_deploy:
-    runs-on: [self-hosted, Windows, x64, coditech_Stage]
-    needs: coditech_build
-    if: github.event.inputs.hospitalmanagementsystem_api_deploy == 'true'
+  # hospitalmanagementsystem_api_deploy:
+  #   runs-on: [self-hosted, Windows, x64, coditech_Stage]
+  #   needs: coditech_build
+  #   if: github.event.inputs.hospitalmanagementsystem_api_deploy == 'true'
 
-    steps:
-      - name: Stop hospitalmanagementsystem IIS Site and App Pool
-        run: |
-           # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-hospitalmanagementsystem" 
-           # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-hospitalmanagementsystem"
+  #   steps:
+  #     - name: Stop hospitalmanagementsystem IIS Site and App Pool
+  #       run: |
+  #          # Stop the IIS site
+  #          Stop-WebSite -Name "pahpc-api-hospitalmanagementsystem" 
+  #          # Stop the associated app pool
+  #          Stop-WebAppPool -Name "pahpc-api-hospitalmanagementsystem"
 
-           # Wait for a few seconds (optional, if needed)
-           Start-Sleep -Seconds 5
+  #          # Wait for a few seconds (optional, if needed)
+  #          Start-Sleep -Seconds 5
 
-      - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.HospitalManagementSystem\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\HMS\ -Recurse -Force 
+  #     - name: Copy Build file
+  #       run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.HospitalManagementSystem\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\HMS\ -Recurse -Force 
 
-      - name: Start hospitalmanagementsystem IIS Site and App Pool
-        run: |
-           # Start the IIS site
-           Start-WebSite -Name "pahpc-api-hospitalmanagementsystem"
-           # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-hospitalmanagementsystem"
-
-  dbtm_api_deploy:
-    runs-on: [self-hosted, Windows, x64, coditech_Stage]
-    needs: coditech_build
-    if: github.event.inputs.dbtm_api_deploy == 'true'
-
-    steps:
-      - name: Stop dbtm IIS Site and App Pool
-        run: |
-           # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-dbtm" 
-           # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-dbtm"
-
-           # Wait for a few seconds (optional, if needed)
-           Start-Sleep -Seconds 5
-
-      - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.DBTM\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\DBTM\ -Recurse -Force 
-
-      - name: Start dbtm IIS Site and App Pool
-        run: |
-           # Start the IIS site
-           Start-WebSite -Name "pahpc-api-dbtm"
-           # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-dbtm"
+  #     - name: Start hospitalmanagementsystem IIS Site and App Pool
+  #       run: |
+  #          # Start the IIS site
+  #          Start-WebSite -Name "pahpc-api-hospitalmanagementsystem"
+  #          # Start the associated app pool
+  #          Start-WebAppPool -Name "pahpc-api-hospitalmanagementsystem"
 
   payment_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
@@ -241,9 +210,9 @@ jobs:
       - name: Stop payment IIS Site and App Pool
         run: |
            # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-payment" 
+           Stop-WebSite -Name "coditech-stage-api-payment" 
            # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-payment"
+           Stop-WebAppPool -Name "coditech-stage-api-payment"
 
            # Wait for a few seconds (optional, if needed)
            Start-Sleep -Seconds 5
@@ -254,6 +223,6 @@ jobs:
       - name: Start payment IIS Site and App Pool
         run: |
            # Start the IIS site
-           Start-WebSite -Name "pahpc-api-payment"
+           Start-WebSite -Name "coditech-stage-api-payment"
            # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-payment"
+           Start-WebAppPool -Name "coditech-stage-api-payment"
