@@ -69,10 +69,10 @@ jobs:
       - name: Stop ADMIN IIS Site and App Pool
         run: |
           # Stop the IIS site
-          Stop-WebSite -Name "pahpc-admin" 
+          Stop-WebSite -Name "coditech-stage-admin" 
 
           # Stop the associated app pool
-          Stop-WebAppPool -Name "pahpc-admin"
+          Stop-WebAppPool -Name "coditech-stage-admin"
 
           # Wait for a few seconds (optional, if needed)
           Start-Sleep -Seconds 5
@@ -89,10 +89,10 @@ jobs:
       - name: Start ADMIN IIS Site and App Pool
         run: |
           # Start the IIS site
-          Start-WebSite -Name "pahpc-admin"
+          Start-WebSite -Name "coditech-stage-admin"
 
           # Start the associated app pool
-          Start-WebAppPool -Name "pahpc-admin"
+          Start-WebAppPool -Name "coditech-stage-admin"
 
   gymmanagementsystem_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
@@ -103,10 +103,10 @@ jobs:
       - name: Stop GymManagementSystem IIS Site and App Pool
         run: |
           # Stop the IIS site
-          Stop-WebSite -Name "pahpc-api-gymmanagementsystem" 
+          Stop-WebSite -Name "coditech-stage-api-gymmanagementsystem" 
 
           # Stop the associated app pool
-          Stop-WebAppPool -Name "pahpc-api-gymmanagementsystem"
+          Stop-WebAppPool -Name "coditech-stage-api-gymmanagementsystem"
 
           # Wait for a few seconds (optional, if needed)
           Start-Sleep -Seconds 5
@@ -117,10 +117,10 @@ jobs:
       - name: Start GymManagementSystem IIS Site and App Pool
         run: |
           # Start the IIS site
-          Start-WebSite -Name "pahpc-api-gymmanagementsystem"
+          Start-WebSite -Name "coditech-stage-api-gymmanagementsystem"
 
           # Start the associated app pool
-          Start-WebAppPool -Name "pahpc-api-gymmanagementsystem"
+          Start-WebAppPool -Name "coditech-stage-api-gymmanagementsystem"
 
   mediamanager_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
@@ -132,9 +132,9 @@ jobs:
       - name: Stop MediaManager IIS Site and App Pool
         run: |
            # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-mediamanager" 
+           Stop-WebSite -Name "coditech-stage-api-mediamanager" 
            # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-mediamanager"
+           Stop-WebAppPool -Name "coditech-stage-api-mediamanager"
 
            # Wait for a few seconds (optional, if needed)
            Start-Sleep -Seconds 5
@@ -145,9 +145,9 @@ jobs:
       - name: Start MediaManager IIS Site and App Pool
         run: |
            # Start the IIS site
-           Start-WebSite -Name "pahpc-api-mediamanager"
+           Start-WebSite -Name "coditech-stage-api-mediamanager"
            # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-mediamanager"
+           Start-WebAppPool -Name "coditech-stage-api-mediamanager"
 
   organisation_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
@@ -158,9 +158,9 @@ jobs:
       - name: Stop Organisation IIS Site and App Pool
         run: |
            # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-organisation" 
+           Stop-WebSite -Name "coditech-stage-api-organisation" 
            # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-organisation"
+           Stop-WebAppPool -Name "coditech-stage-api-organisation"
 
            # Wait for a few seconds (optional, if needed)
            Start-Sleep -Seconds 5
@@ -171,9 +171,9 @@ jobs:
       - name: Start Organisation IIS Site and App Pool
         run: |
            # Start the IIS site
-           Start-WebSite -Name "pahpc-api-organisation"
+           Start-WebSite -Name "coditech-stage-api-organisation"
            # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-organisation"
+           Start-WebAppPool -Name "coditech-stage-api-organisation"
            
   hospitalmanagementsystem_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
@@ -184,9 +184,9 @@ jobs:
       - name: Stop hospitalmanagementsystem IIS Site and App Pool
         run: |
            # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-hospitalmanagementsystem" 
+           Stop-WebSite -Name "coditech-stage-api-hospitalmanagementsystem" 
            # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-hospitalmanagementsystem"
+           Stop-WebAppPool -Name "coditech-stage-api-hospitalmanagementsystem"
 
            # Wait for a few seconds (optional, if needed)
            Start-Sleep -Seconds 5
@@ -197,9 +197,9 @@ jobs:
       - name: Start hospitalmanagementsystem IIS Site and App Pool
         run: |
            # Start the IIS site
-           Start-WebSite -Name "pahpc-api-hospitalmanagementsystem"
+           Start-WebSite -Name "coditech-stage-api-hospitalmanagementsystem"
            # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-hospitalmanagementsystem"
+           Start-WebAppPool -Name "coditech-stage-api-hospitalmanagementsystem"
 
   payment_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
@@ -210,9 +210,9 @@ jobs:
       - name: Stop payment IIS Site and App Pool
         run: |
            # Stop the IIS site
-           Stop-WebSite -Name "pahpc-api-payment" 
+           Stop-WebSite -Name "coditech-stage-api-payment" 
            # Stop the associated app pool
-           Stop-WebAppPool -Name "pahpc-api-payment"
+           Stop-WebAppPool -Name "coditech-stage-api-payment"
 
            # Wait for a few seconds (optional, if needed)
            Start-Sleep -Seconds 5
@@ -223,6 +223,6 @@ jobs:
       - name: Start payment IIS Site and App Pool
         run: |
            # Start the IIS site
-           Start-WebSite -Name "pahpc-api-payment"
+           Start-WebSite -Name "coditech-stage-api-payment"
            # Start the associated app pool
-           Start-WebAppPool -Name "pahpc-api-payment"
+           Start-WebAppPool -Name "coditech-stage-api-payment"
