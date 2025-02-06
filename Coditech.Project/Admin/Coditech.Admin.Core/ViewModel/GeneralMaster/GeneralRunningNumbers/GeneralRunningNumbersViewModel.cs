@@ -26,7 +26,7 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(200)]
         [Required]
-        [Display(Name = "Display Format")]
+        [Display(Name = "Running Number Format")]
         public string DisplayFormat { get; set; }
 
         [Required]
