@@ -3,6 +3,7 @@
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -104,7 +105,7 @@ namespace Coditech.Admin.Controllers
             return View(viewName, model);
         }
 
-        protected DataTableViewModel CreateActionDataTable(string centreCode = null, short selectedDepartmentId = 0, DataTableViewModel dataTableModel = null)
+        protected virtual DataTableViewModel CreateActionDataTable(string centreCode = null, short selectedDepartmentId = 0, DataTableViewModel dataTableModel = null)
         {
             if (dataTableModel == null)
             {
@@ -126,7 +127,7 @@ namespace Coditech.Admin.Controllers
             return dataTableModel;
         }
 
-        protected DataTableViewModel UpdateActionDataTable(string centreCode = null, short selectedDepartmentId = 0, DataTableViewModel dataTableModel = null)
+        protected virtual DataTableViewModel UpdateActionDataTable(string centreCode = null, short selectedDepartmentId = 0, DataTableViewModel dataTableModel = null)
         {
             if (dataTableModel == null)
             {
@@ -148,7 +149,7 @@ namespace Coditech.Admin.Controllers
             return dataTableModel;
         }
 
-        public Stream GetReport(IWebHostEnvironment _environment, string reportFolder, string rdlcReportName, DataTable dataTable, string dataSet, Dictionary<string, string> reportParameters)
+        public virtual Stream GetReport(IWebHostEnvironment _environment, string reportFolder, string rdlcReportName, DataTable dataTable, string dataSet, Dictionary<string, string> reportParameters)
         {
             string mimeType = "";
             int pageIndex = 1;
@@ -163,6 +164,18 @@ namespace Coditech.Admin.Controllers
 
             Stream stream = new MemoryStream(file);
             return stream;
+        }
+
+        protected virtual void GetListOnlyIfSingleCentre(DataTableViewModel dataTableModel)
+        {
+            if (string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
+            {
+                List<UserAccessibleCentreModel> accessibleCentreList = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.AccessibleCentreList;
+                if (accessibleCentreList != null && accessibleCentreList.Count == 1)
+                {
+                    dataTableModel.SelectedCentreCode = accessibleCentreList[0].CentreCode;
+                }
+            }
         }
     }
 }
