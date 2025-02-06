@@ -236,7 +236,7 @@ namespace Coditech.API.Common
         /// </summary>
         public static void ConfigureAutomapperServices()
         {
-            // Assigned ZnoneTranslator to TranslatorExtension.
+            // Assigned CoditechTranslator to TranslatorExtension.
             TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<CoditechTranslator>();
         }
         #endregion
@@ -249,7 +249,7 @@ namespace Coditech.API.Common
         public static void RegisterDI(this WebApplicationBuilder builder)
         {
             // Add Dependency 
-            builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
+            builder.Services.AddSingleton<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IHospitalDoctorsService, HospitalDoctorsService>();
             builder.Services.AddScoped<IHospitalDoctorVisitingChargesService, HospitalDoctorVisitingChargesService>();
             builder.Services.AddScoped<IHospitalDoctorAllocatedOPDRoomService, HospitalDoctorAllocatedOPDRoomService>();

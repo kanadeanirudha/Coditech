@@ -20,7 +20,7 @@ namespace Coditech.Admin
             #endregion
 
             builder.Services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
-            builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
+            builder.Services.AddSingleton<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IUserAgent, UserAgent>();
             builder.Services.AddScoped<IGeneralDepartmentAgent, GeneralDepartmentAgent>();
             builder.Services.AddScoped<IGeneralCountryAgent, GeneralCountryAgent>();
