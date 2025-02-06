@@ -7,6 +7,7 @@ namespace Coditech.Common.API.Model
     {
         [Required]
         public long EmployeeServiceId { get; set; }
+        public long CurrentEmployeeServiceId { get; set; }
 
         [Required]
         public long EmployeeId { get; set; }
