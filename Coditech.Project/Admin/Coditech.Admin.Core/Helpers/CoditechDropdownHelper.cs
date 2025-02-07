@@ -676,10 +676,10 @@ namespace Coditech.Admin.Helpers
 
         private static void GetCentrewiseDepartmentList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            //if (AccessibleCentreList()?.Count == 1 && string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            //{
-            //    dropdownViewModel.Parameter = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).SelectedCentreCode;
-            //}
+            if (string.IsNullOrEmpty(dropdownViewModel.Parameter) && AccessibleCentreList()?.Count == 1)
+            {
+                dropdownViewModel.Parameter = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).SelectedCentreCode;
+            }
             GeneralDepartmentListModel list = new GeneralDepartmentListModel();
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
@@ -702,8 +702,10 @@ namespace Coditech.Admin.Helpers
         private static void GetAccessibleCentreList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             List<UserAccessibleCentreModel> accessibleCentreList = AccessibleCentreList();
-            //if (accessibleCentreList?.Count != 1)
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------", Value = "" });
+            if (accessibleCentreList?.Count == 1)
+                dropdownViewModel.DropdownSelectedValue = accessibleCentreList.FirstOrDefault().CentreCode;
+            else
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------", Value = "" });
 
             foreach (var item in accessibleCentreList)
             {
@@ -1305,7 +1307,7 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-       
+
         private static void GetAccSetupBalanceSheet(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Text = "-------BalanceSheet Type-------" });

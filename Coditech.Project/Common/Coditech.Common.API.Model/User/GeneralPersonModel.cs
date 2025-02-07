@@ -37,5 +37,6 @@
         public string SelectedDepartmentId { get; set; }
         public short EmployeeDesignationMasterId { get; set; }
         public byte HospitalPatientTypeId { get; set; }
+        public bool IsPasswordChange { get; set; } = false;
     }
 }
