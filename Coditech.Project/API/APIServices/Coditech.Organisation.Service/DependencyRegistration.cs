@@ -10,7 +10,7 @@ namespace Coditech.API.Service.DependencyRegistration
         public static void RegisterDI(this WebApplicationBuilder builder)
         {
             // Add Dependency 
-            builder.Services.AddScoped<ICoditechLogging, CoditechLogging>();
+            builder.Services.AddSingleton<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IGeneralDepartmentMasterService, GeneralDepartmentMasterService>();
             builder.Services.AddScoped<IGeneralCountryMasterService, GeneralCountryMasterService>();
             builder.Services.AddScoped<IGeneralEmailTemplateService, GeneralEmailTemplateService>();

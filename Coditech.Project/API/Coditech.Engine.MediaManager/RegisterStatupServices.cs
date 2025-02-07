@@ -235,7 +235,7 @@ namespace Coditech.API.Common
         /// </summary>
         public static void ConfigureAutomapperServices()
         {
-            // Assigned ZnoneTranslator to TranslatorExtension.
+            // Assigned CoditechTranslator to TranslatorExtension.
             TranslatorExtension.TranslatorInstance = CoditechDependencyResolver._staticServiceProvider?.GetService<CoditechTranslator>();
         }
         #endregion
