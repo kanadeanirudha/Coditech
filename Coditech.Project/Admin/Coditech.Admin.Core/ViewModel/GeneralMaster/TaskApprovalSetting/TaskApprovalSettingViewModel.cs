@@ -28,5 +28,6 @@ namespace Coditech.Admin.ViewModel
         public bool IsFinalApproval { get; set; }
         public List<EmployeeMasterModel> EmployeeList { get; set; }
         public bool IsAssociated { get; set; }
+  
     }
 }

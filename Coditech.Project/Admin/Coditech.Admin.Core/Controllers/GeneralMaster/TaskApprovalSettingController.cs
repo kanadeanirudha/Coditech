@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult GetEmployeeListByCentreCode(string centreCode, byte countNumber)
         {
+
             TaskApprovalSettingViewModel taskApprovalSettingViewModel = new TaskApprovalSettingViewModel() { CountNumber = countNumber };
             taskApprovalSettingViewModel.EmployeeList = _taskApprovalSettingAgent.GetEmployeeListByCentreCode(centreCode);
 
@@ -58,10 +60,10 @@ namespace Coditech.Admin.Controllers
             }
 
             ViewData["EmployeeList"] = employeeList;
-
-            return PartialView($"~/Views/GeneralMaster/TaskApprovalSetting/_CreateTaskApprovalSettingEmployeeList.cshtml", taskApprovalSettingViewModel);
+             return PartialView($"~/Views/GeneralMaster/TaskApprovalSetting/_CreateTaskApprovalSettingEmployeeList.cshtml", taskApprovalSettingViewModel);
+            
         }
-       
+
         [HttpPost]
         public virtual ActionResult AddUpdateTaskApprovalSetting(TaskApprovalSettingViewModel taskApprovalSettingViewModel)
         {
@@ -91,6 +93,30 @@ namespace Coditech.Admin.Controllers
         {
             TaskApprovalSettingViewModel taskApprovalSettingViewModel = _taskApprovalSettingAgent.GetUpdateTaskApprovalSetting(taskMasterId, centreCode, taskApprovalSettingId);
             return ActionView(EditTaskApprovalSetting, taskApprovalSettingViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetEmployeeListByCentreCodee(string centreCode, byte countNumber)
+        {
+            TaskApprovalSettingViewModel taskApprovalSettingViewModel = new TaskApprovalSettingViewModel()
+            {
+                CentreCode = centreCode,
+                CountNumber = countNumber,
+            };
+            taskApprovalSettingViewModel.EmployeeList = _taskApprovalSettingAgent.GetEmployeeListByCentreCode(centreCode);
+
+            List<SelectListItem> employeeList = new List<SelectListItem>();
+
+            employeeList.Add(new SelectListItem { Text = "--------Select--------", Value = "" });
+
+            foreach (EmployeeMasterModel item in taskApprovalSettingViewModel?.EmployeeList)
+            {
+                employeeList.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}({item.PersonCode}-{item.DepartmentName})", Value = item.EmployeeId.ToString() });
+            }
+
+            ViewData["EmployeeList"] = employeeList;
+            return PartialView($"~/Views/GeneralMaster/TaskApprovalSetting/_DisplayTaskApprovalSettingEmployeeList.cshtml", taskApprovalSettingViewModel);
+
         }
 
         [HttpPost]

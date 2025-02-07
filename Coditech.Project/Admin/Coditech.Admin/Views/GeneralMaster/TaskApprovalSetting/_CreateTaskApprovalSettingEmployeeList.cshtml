@@ -6,7 +6,6 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
 }
-
 <!-- Page Content -->
 <div class="table-responsive">
     <table class="table table-bordered table-sm" id="makeEditable">
@@ -33,50 +32,3 @@
     </table>
 </div>
 <script src="~/js/coditech/General/TaskApprovalSetting.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* @if (Model.TaskApprovalSettingId > 0)
-            {
-                @foreach (var i in Enumerable.Range(1, Model.CountNumber))
-                {
-                    <tr>
-                        <td>
-                            @Html.DropDownList("EmployeeId_" + i, ViewData["EmployeeList"] as List<SelectListItem>, new { @class = "form-select employee-dropdown", data_index = i })
-                            @Html.ValidationMessageFor(x => x.EmployeeIds)
-                        </td>
-                        <td>
-                            @i
-                        </td>
-                    </tr>
-                }
-            } *@
