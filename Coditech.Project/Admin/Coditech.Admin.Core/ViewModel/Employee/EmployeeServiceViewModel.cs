@@ -1,5 +1,4 @@
 ﻿using Coditech.Common.Helper;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coditech.Admin.ViewModel
@@ -12,6 +11,8 @@ namespace Coditech.Admin.ViewModel
 
         [Required]
         public long EmployeeServiceId { get; set; }
+        public long CurrentEmployeeServiceId { get; set; }
+
 
         [Required]
         [Display(Name = "Employee Id")]

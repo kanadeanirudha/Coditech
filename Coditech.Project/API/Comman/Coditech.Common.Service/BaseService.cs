@@ -437,7 +437,6 @@ namespace Coditech.Common.Service
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
             userMaster.IsAcceptedTermsAndConditions = true;
-            userMaster.IsPasswordChange = false;
             userMaster.IsActive = isActive;
             userMaster.Password = MD5Hash(userMaster.Password);
             if (string.IsNullOrEmpty(userNameBasedOn))
