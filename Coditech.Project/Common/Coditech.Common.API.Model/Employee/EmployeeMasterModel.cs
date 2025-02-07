@@ -36,5 +36,6 @@ namespace Coditech.Common.API.Model
         public string SanctionPostName { get; set; }
         public string DepartmentName { get; set; }
         public bool IsFinalApproval { get; set; }
+        public byte ApprovalSequenceNumber { get; set; }
     }
 }
