@@ -199,5 +199,12 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["ApplicationCode"]);
             }
         }
+        public static string DashboardUrl
+        {
+            get
+            {
+                return Convert.ToString(settings["DashboardUrl"]);
+            }
+        }
     }
 }
