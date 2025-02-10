@@ -30,5 +30,8 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Doctor Code")]
         public string PersonCode { get; set; }
         public int NumberOfTraineeAssociated { get; set; }
+        [Display(Name = "Unique Code")]
+        public string UniqueCode { get; set; }
+
     }
 }

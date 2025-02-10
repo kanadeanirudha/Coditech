@@ -178,7 +178,7 @@ namespace Coditech.API.Service
                 if (!(userMasterData.UserType == UserTypeEnum.Employee.ToString() || userMasterData.UserType == UserTypeEnum.Admin.ToString()))
                     throw new CoditechException(ErrorCodes.ContactAdministrator, "Access Denied. Please contact a Site Administrator.");
             }
-            string resetPassToken = HelperUtility.GenerateOTP();
+            string resetPassToken = HelperUtility.GenerateNumericCode();
             userMasterData.ResetPasswordToken = resetPassToken;
             userMasterData.ResetPasswordTokenExpiredDate = DateTime.Now.AddMinutes(Convert.ToDouble(ApiSettings.ResetPasswordExpriedTimeInMinute));
             _userMasterRepository.Update(userMasterData);
