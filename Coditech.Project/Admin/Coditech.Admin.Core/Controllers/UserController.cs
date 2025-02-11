@@ -201,7 +201,7 @@ namespace Coditech.Admin.Controllers
             if (!string.IsNullOrEmpty(returnUrl))
                 return Redirect(HttpUtility.UrlDecode(returnUrl));
 
-            return RedirectToAction<DashboardController>(x => x.Index(CoditechAdminSettings.DefaultDashboardDataDays));
+            return Redirect($"{CoditechAdminSettings.DashboardUrl}?numberOfDaysRecord={CoditechAdminSettings.DefaultDashboardDataDays}");
         }
 
         protected virtual void SaveLoginRememberMeCookie(string userId)

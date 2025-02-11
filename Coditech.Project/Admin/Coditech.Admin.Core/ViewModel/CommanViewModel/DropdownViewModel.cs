@@ -22,5 +22,7 @@ namespace Coditech.Admin.ViewModel
         public string ClassName { get; set; } = string.Empty;
         public bool IsStringProperty { get; set; }
         public bool IsCustomDropdown { get; set; }
+        public string SelectedText { get; set; }
+        public string SelectedValue { get; set; }
     }
 }
