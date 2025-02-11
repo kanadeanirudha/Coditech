@@ -230,7 +230,7 @@ namespace Coditech.Admin.Helpers
             {
                 GetUnAssociatedTrainerEmployeeList(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UnAssociatedTrainerEmployeeList.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupBalanceSheet.ToString()))
             {
                 GetAccSetupBalanceSheet(dropdownViewModel, dropdownList);
             }
