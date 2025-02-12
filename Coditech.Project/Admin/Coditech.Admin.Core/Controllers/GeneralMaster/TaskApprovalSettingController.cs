@@ -1,12 +1,10 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 
 namespace Coditech.Admin.Controllers
 {
@@ -24,6 +22,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             TaskApprovalSettingListViewModel list = new TaskApprovalSettingListViewModel();
+            GetListOnlyIfSingleCentre(dataTableModel);
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
             {
                 list = _taskApprovalSettingAgent.GetTaskApprovalSettingList(dataTableModel);
