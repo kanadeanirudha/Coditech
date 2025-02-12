@@ -33,6 +33,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             GymWorkoutPlanListViewModel list = new GymWorkoutPlanListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _gymWorkoutPlanAgent.GetGymWorkoutPlanList(dataTableViewModel);

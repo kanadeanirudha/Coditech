@@ -21,6 +21,7 @@ namespace Coditech.Admin.Controllers
         {
 
             OrganisationCentrewiseBuildingListViewModel list = new OrganisationCentrewiseBuildingListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _organisationCentrewiseBuildingAgent.GetOrganisationCentrewiseBuildingList(dataTableViewModel);

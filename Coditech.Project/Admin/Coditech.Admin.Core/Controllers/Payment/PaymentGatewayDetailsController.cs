@@ -18,6 +18,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             PaymentGatewayDetailsListViewModel list = new PaymentGatewayDetailsListViewModel();
+            GetListOnlyIfSingleCentre(dataTableModel);
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter1))
             {
                 list = _paymentGatewayDetailsAgent.GetPaymentGatewayDetailsList(dataTableModel, Convert.ToByte(dataTableModel.SelectedParameter1));
