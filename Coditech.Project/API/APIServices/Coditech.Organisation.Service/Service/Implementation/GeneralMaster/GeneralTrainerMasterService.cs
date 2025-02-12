@@ -57,6 +57,8 @@ namespace Coditech.API.Service
             if (IsEmployeeAlreadyExist(generalTrainerModel.EmployeeId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EmployeeId"));
 
+                generalTrainerModel.UniqueCode = GenerateNumericCode(6); // Generate unique code
+            
             GeneralTrainerMaster generalTrainerMaster = generalTrainerModel.FromModelToEntity<GeneralTrainerMaster>();
 
             //Create new Trainer Master and return it.

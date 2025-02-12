@@ -40,7 +40,7 @@ namespace Coditech.API.Service
                 gymDashboardModel.GymDashboardFormEnumCode = dashboardFormEnumCode;
                 if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetGymDashboardDetailsByUserId(0);
+                    DataSet dataset = GetGymDashboardDetails(userMasterId, DashboardFormEnum.GymOwnerDashboard.ToString());
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
@@ -68,11 +68,11 @@ namespace Coditech.API.Service
                     dataset.Tables[6].TableName = "YearlyFinancialOverview";
                     gymDashboardModel.YearlyFinancialOverviewList = new List<GymTransactionOverviewModel>();
                     gymDashboardModel.YearlyFinancialOverviewList = dataTable.ConvertDataTable<GymTransactionOverviewModel>(dataset.Tables["YearlyFinancialOverview"])?.ToList();
-  
+
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetGymDashboardDetailsByUserId(userMasterId);
+                    DataSet dataset = GetGymDashboardDetails(userMasterId, DashboardFormEnum.GymOperatorDashboard.ToString());
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
@@ -96,15 +96,16 @@ namespace Coditech.API.Service
                     dataset.Tables[5].TableName = "GymUpComingEvents";
                     gymDashboardModel.GymUpcomingEventsList = new List<GymUpcomingEventsModel>();
                     gymDashboardModel.GymUpcomingEventsList = dataTable.ConvertDataTable<GymUpcomingEventsModel>(dataset.Tables["GymUpComingEvents"])?.ToList();
-                }              
+                }
             }
             return gymDashboardModel;
         }
-        protected virtual DataSet GetGymDashboardDetailsByUserId(long userId)
+        protected virtual DataSet GetGymDashboardDetails(long userId, string dashboardForm)
         {
             ExecuteSpHelper objStoredProc = new ExecuteSpHelper(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.GetParameter("@UserId", userId, ParameterDirection.Input, SqlDbType.BigInt);
             objStoredProc.GetParameter("@NumberOfDaysRecord", 30, ParameterDirection.Input, SqlDbType.SmallInt);
+            objStoredProc.GetParameter("@DashboardFor", dashboardForm, ParameterDirection.Input, SqlDbType.VarChar);
             return objStoredProc.GetSPResultInDataSet("Coditech_GetGymDashboard");
         }
     }

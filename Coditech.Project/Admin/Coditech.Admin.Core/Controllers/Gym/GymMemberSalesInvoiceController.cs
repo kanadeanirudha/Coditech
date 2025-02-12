@@ -20,6 +20,7 @@ namespace Coditech.Admin.Controllers
         public ActionResult SaleInvoiceList(DataTableViewModel dataTableModel)
         {
             GymMemberSalesInvoiceListViewModel list = new GymMemberSalesInvoiceListViewModel();
+            GetListOnlyIfSingleCentre(dataTableModel);
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
             {
                 list = _gymSaleInvoiceAgent.GymMemberServiceSalesInvoiceList(dataTableModel);

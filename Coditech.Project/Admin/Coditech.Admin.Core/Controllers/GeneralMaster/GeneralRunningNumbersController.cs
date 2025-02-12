@@ -18,6 +18,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             GeneralRunningNumbersListViewModel list = new GeneralRunningNumbersListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _generalRunningNumbersAgent.GetRunningNumbersList(dataTableViewModel);

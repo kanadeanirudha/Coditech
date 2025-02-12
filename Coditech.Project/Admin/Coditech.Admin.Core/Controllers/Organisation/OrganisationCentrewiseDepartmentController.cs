@@ -19,10 +19,12 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             OrganisationCentrewiseDepartmentListViewModel list = new OrganisationCentrewiseDepartmentListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _organisationCentrewiseDepartmentAgent.GetOrganisationCentrewiseDepartmentList(dataTableViewModel);
             }
+            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/Organisation/OrganisationCentrewiseDepartment/_List.cshtml", list);

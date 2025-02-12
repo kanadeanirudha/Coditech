@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -21,7 +20,8 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             OrganisationCentrewiseBuildingRoomsListViewModel list = new OrganisationCentrewiseBuildingRoomsListViewModel();
-            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableViewModel.SelectedParameter1))
+            GetListOnlyIfSingleCentre(dataTableViewModel);
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode)&& !string.IsNullOrEmpty(dataTableViewModel.SelectedParameter1))
             {
                 list = _organisationCentrewiseBuildingRoomsAgent.GetOrganisationCentrewiseBuildingRoomsList(dataTableViewModel);
             }

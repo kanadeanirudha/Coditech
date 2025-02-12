@@ -96,7 +96,7 @@ namespace Coditech.Common.Helper
 
         public static string DecodeBase64(string value) => Encoding.UTF8.GetString(Convert.FromBase64String(value));
 
-        public static string GenerateOTP(byte length = 6)
+        public static string GenerateNumericCode(byte length = 6)
         {
             Random generator = new Random();
             String r = generator.Next(0, 1000000).ToString($"D{length}");

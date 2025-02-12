@@ -17,6 +17,7 @@ namespace Coditech.Common.API.Model
         public string LastName { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+        public string UniqueCode { get; set; }
         public bool IsAssociated { get; set; }
         public string TrainerSpecialization { get; set; }
         public string PersonCode { get; set; }

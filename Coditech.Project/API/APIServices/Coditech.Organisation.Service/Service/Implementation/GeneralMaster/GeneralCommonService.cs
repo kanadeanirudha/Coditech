@@ -67,7 +67,7 @@ namespace Coditech.API.Service
         public virtual GeneralMessagesModel SendOTP(GeneralMessagesModel generalMessagesModel)
         {
 
-            string token = HelperUtility.GenerateOTP();
+            string token = HelperUtility.GenerateNumericCode();
 
             try
             {
