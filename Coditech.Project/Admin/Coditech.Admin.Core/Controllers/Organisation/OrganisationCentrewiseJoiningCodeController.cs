@@ -16,6 +16,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             OrganisationCentrewiseJoiningCodeListViewModel list = new OrganisationCentrewiseJoiningCodeListViewModel();
+            GetListOnlyIfSingleCentre(dataTableModel);
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
             {
                 list = _oganisationCentrewiseJoiningCodeAgent.GetOrganisationCentrewiseJoiningCodeList(dataTableModel);
