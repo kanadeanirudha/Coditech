@@ -43,6 +43,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("PersonCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("UniqueCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("NumberOfTraineeAssociated", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -192,6 +193,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Number Of Trainee Associated",
                 ColumnCode = "NumberOfTraineeAssociated",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
