@@ -46,6 +46,7 @@ namespace Coditech.API.Data
         public DbSet<TaskApprovalTransaction> TaskApprovalTransaction { get; set; }
         public DbSet<TicketMaster> TicketMaster { get; set; }
         public DbSet<TicketDetails> TicketDetails { get; set; }
+        public DbSet<GeneralCurrencyMaster> GeneralCurrencyMaster { get; set; }
 
         #endregion
 
@@ -63,6 +64,7 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrewiseEmailTemplate> OrganisationCentrewiseEmailTemplate { get; set; }
         public DbSet<OrganisationCentrewiseUserNameRegistration> OrganisationCentrewiseUserNameRegistration { get; set; }
         public DbSet<OrganisationCentrewiseJoiningCode> OrganisationCentrewiseJoiningCode { get; set; }
+        public DbSet<OrganisationCentrewiseAccountSetup> OrganisationCentrewiseAccountSetup { get; set; }
         #endregion
 
         #region Admin

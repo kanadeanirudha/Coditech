@@ -71,6 +71,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITaskMasterAgent, TaskMasterAgent>();
             builder.Services.AddScoped<ITicketMasterAgent, TicketMasterAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeAgent, OrganisationCentrewiseJoiningCodeAgent>();
+            builder.Services.AddScoped<IGeneralCurrencyMasterAgent, GeneralCurrencyMasterAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupAgent, OrganisationCentrewiseAccountSetupAgent>();
 
 
             #region HMS
@@ -125,6 +127,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeAgent, AccSetupBalanceSheetTypeAgent>();
             builder.Services.AddScoped<IAccSetupTransactionTypeAgent, AccSetupTransactionTypeAgent>();
             builder.Services.AddScoped<IAccSetupGLBankAgent, AccSetupGLBankAgent>();
+            
             #endregion
 
             #endregion Agent
@@ -195,6 +198,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralCommonClient, GeneralCommonClient>();
             builder.Services.AddScoped<ITicketMasterClient, TicketMasterClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeClient, OrganisationCentrewiseJoiningCodeClient>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupClient, OrganisationCentrewiseAccountSetupClient>();
+            builder.Services.AddScoped<IGeneralCurrencyMasterClient, GeneralCurrencyMasterClient>();
 
 
             #region HMS
@@ -234,6 +239,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeClient, AccSetupBalanceSheetTypeClient>();
             builder.Services.AddScoped<IAccSetupTransactionTypeClient, AccSetupTransactionTypeClient>();
             builder.Services.AddScoped<IAccSetupGLBankClient, AccSetupGLBankClient>();
+            
             #endregion
 
             #endregion Client

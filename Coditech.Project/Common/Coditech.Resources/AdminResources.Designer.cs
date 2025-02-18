@@ -267,6 +267,17 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteGeneralCountryMaster", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete country due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralCurrencyMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralCurrencyMaster", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete AccSetupGLBank due to associate record..
         /// </summary>

@@ -124,6 +124,8 @@
             AccSetupGLBank,
             TraineeDetails,
             UserRegistration,
+            GeneralCurrencyMaster,
+            OrganisationCentrewiseAccountSetup
         }
     }
 }

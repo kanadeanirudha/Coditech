@@ -67,6 +67,8 @@ namespace Coditech.API.Mapper
             CreateMap<TicketMaster, TicketMasterModel>().ReverseMap();
             CreateMap<TicketDetails, TicketDetailsModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCode, OrganisationCentrewiseJoiningCodeModel>().ReverseMap();
+            CreateMap<GeneralCurrencyMaster, GeneralCurrencyMasterModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseAccountSetup, OrganisationCentrewiseAccountSetupModel>().ReverseMap();
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();

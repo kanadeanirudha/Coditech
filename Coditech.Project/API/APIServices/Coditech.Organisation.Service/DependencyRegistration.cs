@@ -37,6 +37,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IGeneralNotificationMasterService, GeneralNotificationService>();
             builder.Services.AddScoped<IGeneralTrainerMasterService, GeneralTrainerMasterService>();
             builder.Services.AddScoped<IGeneralBatchMasterService, GeneralBatchMasterService>();
+            builder.Services.AddScoped<IGeneralCurrencyMasterService, GeneralCurrencyMasterService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
@@ -45,6 +46,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeService, OrganisationCentrewiseJoiningCodeService>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupService, OrganisationCentrewiseAccountSetupService>();
 
             builder.Services.AddScoped<ILogMessageService, LogMessageService>();
 

@@ -20,6 +20,8 @@ namespace Coditech.Admin
             CreateMap<AccSetupTransactionTypeModel, AccSetupTransactionTypeViewModel>().ReverseMap();
             CreateMap<AccSetupTransactionTypeViewModel, AccSetupTransactionTypeListViewModel>().ReverseMap();
             CreateMap<AccSetupGLBankViewModel, AccSetupGLBankListViewModel>().ReverseMap();
+            
+
 
             #endregion
 
@@ -100,6 +102,8 @@ namespace Coditech.Admin
             CreateMap<TicketMasterListModel, TicketMasterListViewModel>().ReverseMap();
             CreateMap<TicketDetailsModel, TicketMasterViewModel>().ReverseMap();
             CreateMap<TicketDetailsListModel, TicketDetailsListViewModel>().ReverseMap();
+            CreateMap<GeneralCurrencyMasterModel, GeneralCurrencyMasterViewModel>().ReverseMap();
+            CreateMap<GeneralCurrencyMasterListModel, GeneralCurrencyMasterListViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation
@@ -120,6 +124,7 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseSmsSettingModel, OrganisationCentrewiseSmsSettingViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseWhatsAppSettingModel, OrganisationCentrewiseWhatsAppSettingViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCodeModel, OrganisationCentrewiseJoiningCodeViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseAccountSetupModel, OrganisationCentrewiseAccountSetupViewModel>().ReverseMap();
             #endregion
 
             #region Employee            
