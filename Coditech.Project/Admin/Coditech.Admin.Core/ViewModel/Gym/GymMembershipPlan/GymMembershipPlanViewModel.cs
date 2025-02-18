@@ -34,15 +34,13 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Plan Type")]
         public string PlanType { get; set; }
-        [Required]
         [Display(Name = "Plan Duration In Month")]
         public byte? PlanDurationInMonth { get; set; }
-        [Required]
         [Display(Name = "Plan Duration In Days")]
         public byte? PlanDurationInDays { get; set; }
 
         [Display(Name = "Plan Duration In Session")]
-        public Int16 PlanDurationInSession { get; set; }
+        public Int16? PlanDurationInSession { get; set; }
 
         [Display(Name = "Is Renewable")]
         public Boolean IsRenewable { get; set; }
