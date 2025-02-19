@@ -125,7 +125,8 @@
             TraineeDetails,
             UserRegistration,
             GeneralCurrencyMaster,
-            OrganisationCentrewiseAccountSetup
+            OrganisationCentrewiseAccountSetup,
+            AccountSetupGL,
         }
     }
 }

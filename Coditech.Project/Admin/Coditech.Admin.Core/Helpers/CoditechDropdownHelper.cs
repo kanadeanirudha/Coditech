@@ -7,9 +7,7 @@ using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace Coditech.Admin.Helpers
 {
     public static partial class CoditechDropdownHelper
@@ -1296,28 +1294,41 @@ namespace Coditech.Admin.Helpers
             AccSetupBalanceSheetTypeListResponse response = new AccSetupBalanceSheetTypeClient().List(null, null, null, 1, int.MaxValue);
 
             AccSetupBalanceSheetTypeListModel list = new AccSetupBalanceSheetTypeListModel() { AccSetupBalanceSheetTypeList = response.AccSetupBalanceSheetTypeList };
-            dropdownList.Add(new SelectListItem() { Text = "-------BalanceSheet Type-------" });
+            //dropdownList.Add(new SelectListItem() { Text = "-------BalanceSheet Type-------" });
             foreach (var item in list?.AccSetupBalanceSheetTypeList)
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = item.AccBalsheetTypeCode,
+                    Text = item.AccBalsheetTypeDesc,
                     Value = item.AccSetupBalanceSheetTypeId.ToString(),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupBalanceSheetTypeId)
                 });
+            }
+
+            // Check if there are at least 2 items to swap
+            if (dropdownList.Count > 1)
+            {
+                // Swap 0th and 1st position
+                var temp = dropdownList[0];
+                dropdownList[0] = dropdownList[1];
+                dropdownList[1] = temp;
             }
         }
 
         private static void GetAccSetupBalanceSheet(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            dropdownList.Add(new SelectListItem() { Text = "-------BalanceSheet Type-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
 
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
                 byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]);
-                AccSetupBalanceSheetListResponse response = new AccSetupGLBankClient().GetAccSetupBalanceSheet(selectedCentreCode, accSetupBalanceSheetTypeId);
+                AccSetupBalanceSheetListResponse response = new AccSetupBalanceSheetClient().List(selectedCentreCode, accSetupBalanceSheetTypeId, null, null, null, 1, int.MaxValue);
                 AccSetupBalanceSheetListModel list = new AccSetupBalanceSheetListModel() { AccSetupBalanceSheetList = response.AccSetupBalanceSheetList };
+
                 foreach (var item in list?.AccSetupBalanceSheetList)
                 {
                     dropdownList.Add(new SelectListItem()
