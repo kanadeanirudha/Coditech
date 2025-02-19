@@ -197,6 +197,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITicketMasterClient, TicketMasterClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeClient, OrganisationCentrewiseJoiningCodeClient>();
             builder.Services.AddScoped<IGeneralCurrencyMasterClient, GeneralCurrencyMasterClient>();
+            builder.Services.AddScoped<ITaskSchedulerClient, TaskSchedulerClient>();
 
 
             #region HMS

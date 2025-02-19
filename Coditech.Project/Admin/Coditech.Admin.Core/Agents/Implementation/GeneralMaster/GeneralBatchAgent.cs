@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -18,13 +19,15 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IGeneralBatchClient _generalBatchClient;
+        private readonly ITaskSchedulerClient _taskSchedulerClient;
         #endregion
 
         #region Public Constructor
-        public GeneralBatchAgent(ICoditechLogging coditechLogging, IGeneralBatchClient generalBatchClient)
+        public GeneralBatchAgent(ICoditechLogging coditechLogging, IGeneralBatchClient generalBatchClient, ITaskSchedulerClient taskSchedulerClient)
         {
             _coditechLogging = coditechLogging;
-            _generalBatchClient = GetClient< IGeneralBatchClient > (generalBatchClient);
+            _generalBatchClient = GetClient<IGeneralBatchClient>(generalBatchClient);
+            _taskSchedulerClient = GetClient<ITaskSchedulerClient>(taskSchedulerClient);
         }
         #endregion
 
@@ -152,13 +155,13 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralBatchUserListResponse response = _generalBatchClient.GetGeneralBatchUserList(generalBatchMasterId,UserTypeEnum.Trainee.ToString(), null, filters, sortlist, dataTableModel.PageIndex, int.MaxValue);
+            GeneralBatchUserListResponse response = _generalBatchClient.GetGeneralBatchUserList(generalBatchMasterId, UserTypeEnum.Trainee.ToString(), null, filters, sortlist, dataTableModel.PageIndex, int.MaxValue);
             GeneralBatchUserListModel generalBatchUserList = new GeneralBatchUserListModel { GeneralBatchUserList = response?.GeneralBatchUserList };
             GeneralBatchUserListViewModel listViewModel = new GeneralBatchUserListViewModel();
             listViewModel.GeneralBatchUserList = generalBatchUserList?.GeneralBatchUserList?.ToViewModel<GeneralBatchUserViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralBatchUserList.Count, BindAssociatedBatchColumns());
-           
+
             listViewModel.GeneralBatchMasterId = generalBatchMasterId;
             listViewModel.BatchName = response.BatchName;
             return listViewModel;
@@ -197,6 +200,64 @@ namespace Coditech.Admin.Agents
             }
         }
 
+        #endregion
+
+        #region TaskScheduler
+        //Create TaskScheduler.
+        public virtual TaskSchedulerViewModel CreateBatchTaskScheduler(TaskSchedulerViewModel taskSchedulerViewModel)
+        {
+            try
+            {
+                taskSchedulerViewModel.SchedulerCallFor = SchedulerCallForEnum.Batch.ToString();
+                taskSchedulerViewModel.SchedulerType = SchedulerTypeEnum.Scheduled.ToString();
+                taskSchedulerViewModel.RecurEvery = 1;
+               
+                TaskSchedulerResponse response = _taskSchedulerClient.CreateBatchTaskScheduler(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
+                TaskSchedulerModel taskSchedulerModel = response?.TaskSchedulerModel;
+                return IsNotNull(taskSchedulerModel) ? taskSchedulerModel.ToViewModel<TaskSchedulerViewModel>() : new TaskSchedulerViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (TaskSchedulerViewModel)GetViewModelWithErrorMessage(taskSchedulerViewModel, ex.ErrorMessage);
+                    default:
+                        return (TaskSchedulerViewModel)GetViewModelWithErrorMessage(taskSchedulerViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
+                return (TaskSchedulerViewModel)GetViewModelWithErrorMessage(taskSchedulerViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get TaskScheduler by TaskSchedulerMasterId.
+        public virtual TaskSchedulerViewModel GetBatchTaskSchedulerDetails(int configuratorId)
+        {
+            TaskSchedulerResponse response = _taskSchedulerClient.GetBatchTaskSchedulerDetails(configuratorId,SchedulerCallForEnum.Batch.ToString());
+            return response?.TaskSchedulerModel.ToViewModel<TaskSchedulerViewModel>();
+        }
+
+        //Update  TaskScheduler.
+        public virtual TaskSchedulerViewModel UpdateBatchTaskSchedulerDetails(TaskSchedulerViewModel taskSchedulerViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Info);
+                TaskSchedulerResponse response = _taskSchedulerClient.UpdateBatchTaskSchedulerDetails(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
+                TaskSchedulerModel taskSchedulerModel = response?.TaskSchedulerModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Info);
+                return IsNotNull(taskSchedulerModel) ? taskSchedulerModel.ToViewModel<TaskSchedulerViewModel>() : (TaskSchedulerViewModel)GetViewModelWithErrorMessage(new TaskSchedulerViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
+                return (TaskSchedulerViewModel)GetViewModelWithErrorMessage(taskSchedulerViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
 
         #region protected

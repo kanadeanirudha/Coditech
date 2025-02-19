@@ -86,8 +86,11 @@
         AccSetupBalanceSheetType,
         UnAssociatedTrainerEmployeeList,
         AccSetupBalanceSheet,
-        AccSetupGLDropdown
-
+        AccSetupGLDropdown,
+        SchedulerFrequency,
+        SchedulerType,
+        SchedulerCallFor,
+        SchedulerWeeks
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -263,5 +266,21 @@
     {
         IndianStandard,
         Existing,
+    }
+    public enum SchedulerFrequencyEnum
+    {
+        OneTime,
+        Daily,
+        Weekly,
+        //Monthlyum
+    }
+    public enum SchedulerTypeEnum
+    {
+        Scheduled,
+        Runtime
+    }
+    public enum SchedulerCallForEnum
+    {
+       Batch
     }
 }

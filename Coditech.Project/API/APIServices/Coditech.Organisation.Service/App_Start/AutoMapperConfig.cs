@@ -66,6 +66,7 @@ namespace Coditech.API.Mapper
             CreateMap<TaskApprovalSetting, TaskApprovalSettingModel>().ReverseMap();
             CreateMap<TicketMaster, TicketMasterModel>().ReverseMap();
             CreateMap<TicketDetails, TicketDetailsModel>().ReverseMap();
+            CreateMap<TaskSchedulerMaster, TaskSchedulerModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCode, OrganisationCentrewiseJoiningCodeModel>().ReverseMap();
             CreateMap<GeneralCurrencyMaster, GeneralCurrencyMasterModel>().ReverseMap();
 
