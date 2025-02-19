@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +19,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             AccSetupMasterListViewModel list = new AccSetupMasterListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _accSetupMasterAgent.GetAccSetupMasterList(dataTableViewModel);
