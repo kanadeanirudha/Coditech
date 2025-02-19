@@ -64,7 +64,6 @@ namespace Coditech.API.Data
         public DbSet<OrganisationCentrewiseEmailTemplate> OrganisationCentrewiseEmailTemplate { get; set; }
         public DbSet<OrganisationCentrewiseUserNameRegistration> OrganisationCentrewiseUserNameRegistration { get; set; }
         public DbSet<OrganisationCentrewiseJoiningCode> OrganisationCentrewiseJoiningCode { get; set; }
-        public DbSet<OrganisationCentrewiseAccountSetup> OrganisationCentrewiseAccountSetup { get; set; }
         #endregion
 
         #region Admin

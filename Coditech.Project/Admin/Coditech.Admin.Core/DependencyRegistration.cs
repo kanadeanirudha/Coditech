@@ -72,8 +72,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITicketMasterAgent, TicketMasterAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeAgent, OrganisationCentrewiseJoiningCodeAgent>();
             builder.Services.AddScoped<IGeneralCurrencyMasterAgent, GeneralCurrencyMasterAgent>();
-            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupAgent, OrganisationCentrewiseAccountSetupAgent>();
-
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
@@ -198,7 +196,6 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralCommonClient, GeneralCommonClient>();
             builder.Services.AddScoped<ITicketMasterClient, TicketMasterClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeClient, OrganisationCentrewiseJoiningCodeClient>();
-            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupClient, OrganisationCentrewiseAccountSetupClient>();
             builder.Services.AddScoped<IGeneralCurrencyMasterClient, GeneralCurrencyMasterClient>();
 
 

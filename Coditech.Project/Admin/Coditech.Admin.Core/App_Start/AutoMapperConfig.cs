@@ -124,7 +124,6 @@ namespace Coditech.Admin
             CreateMap<OrganisationCentrewiseSmsSettingModel, OrganisationCentrewiseSmsSettingViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseWhatsAppSettingModel, OrganisationCentrewiseWhatsAppSettingViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCodeModel, OrganisationCentrewiseJoiningCodeViewModel>().ReverseMap();
-            CreateMap<OrganisationCentrewiseAccountSetupModel, OrganisationCentrewiseAccountSetupViewModel>().ReverseMap();
             #endregion
 
             #region Employee            

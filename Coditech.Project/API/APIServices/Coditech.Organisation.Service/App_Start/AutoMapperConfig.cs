@@ -68,7 +68,6 @@ namespace Coditech.API.Mapper
             CreateMap<TicketDetails, TicketDetailsModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCode, OrganisationCentrewiseJoiningCodeModel>().ReverseMap();
             CreateMap<GeneralCurrencyMaster, GeneralCurrencyMasterModel>().ReverseMap();
-            CreateMap<OrganisationCentrewiseAccountSetup, OrganisationCentrewiseAccountSetupModel>().ReverseMap();
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();
@@ -102,6 +101,7 @@ namespace Coditech.API.Mapper
             CreateMap<InventoryItemTrackingDimensionGroupMapperModel, InventoryItemTrackingDimensionGroupMapper>().ReverseMap();
 
             #endregion
+
             #region Accounts
             CreateMap<AccGLSetupNarration, AccGLSetupNarrationModel>().ReverseMap();
             CreateMap<AccSetupMaster, AccSetupMasterModel>().ReverseMap();
