@@ -138,7 +138,7 @@
 
                                 <div class="col-lg-4" id="PlanDurationInMonthDivId" style="display: @(Model.GymMembershipPlanId == 0 || string.Equals(Model.PlanDurationType,"duration",StringComparison.InvariantCultureIgnoreCase)? "block" : "none")">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.PlanDurationInMonth, new { @class = "form-label required" })
+                                        @Html.LabelFor(x => x.PlanDurationInMonth, new { @class = "form-label required"})
                                         @if (Model.IsEditable || Model.GymMembershipPlanId == 0)
                                         {
                                             @Html.TextBoxFor(x => x.PlanDurationInMonth, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })

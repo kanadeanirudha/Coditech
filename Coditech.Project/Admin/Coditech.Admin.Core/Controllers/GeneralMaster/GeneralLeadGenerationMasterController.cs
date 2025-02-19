@@ -19,6 +19,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             GeneralLeadGenerationListViewModel list = new GeneralLeadGenerationListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _generalLeadGenerationAgent.GetLeadGenerationList(dataTableViewModel);

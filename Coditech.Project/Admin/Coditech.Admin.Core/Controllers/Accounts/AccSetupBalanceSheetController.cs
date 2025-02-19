@@ -20,6 +20,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             AccSetupBalanceSheetListViewModel list = new AccSetupBalanceSheetListViewModel();
+            GetListOnlyIfSingleCentre(dataTableModel);
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter1))
             {
                 list = _accSetupBalanceSheetAgent.GetBalanceSheetList(dataTableModel , Convert.ToByte(dataTableModel.SelectedParameter1));

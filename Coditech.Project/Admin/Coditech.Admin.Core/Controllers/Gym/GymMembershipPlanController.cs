@@ -21,6 +21,7 @@ namespace Coditech.Admin.Controllers
         public ActionResult List(DataTableViewModel dataTableModel)
         {
             GymMembershipPlanListViewModel list = new GymMembershipPlanListViewModel();
+            GetListOnlyIfSingleCentre(dataTableModel);
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
             {
                 list = _gymMembershipPlanAgent.GetGymMembershipPlanList(dataTableModel);

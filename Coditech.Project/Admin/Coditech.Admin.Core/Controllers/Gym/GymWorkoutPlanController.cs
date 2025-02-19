@@ -1,15 +1,9 @@
 ﻿using Coditech.Admin.Agents;
-using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
-using Coditech.Common.API.Model;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
 
 namespace Coditech.Admin.Controllers
 {
@@ -33,6 +27,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             GymWorkoutPlanListViewModel list = new GymWorkoutPlanListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _gymWorkoutPlanAgent.GetGymWorkoutPlanList(dataTableViewModel);

@@ -41,6 +41,7 @@ namespace Coditech.Admin.Controllers
         public ActionResult ActiveMemberList(DataTableViewModel dataTableViewModel)
         {
             GymMemberDetailsListViewModel list = new GymMemberDetailsListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableViewModel, "Active");
@@ -57,6 +58,7 @@ namespace Coditech.Admin.Controllers
         public ActionResult InActiveMemberList(DataTableViewModel dataTableViewModel)
         {
             GymMemberDetailsListViewModel list = new GymMemberDetailsListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _gymMemberDetailsAgent.GetGymMemberDetailsList(dataTableViewModel, "InActive");

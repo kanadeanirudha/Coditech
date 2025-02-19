@@ -312,7 +312,7 @@ namespace Coditech.API.Service
                     {
                         if (adminRoleMasterId > 0)
                             _adminRoleMediaFolderRepository.Insert(new AdminRoleMediaFolders() { AdminRoleMasterId = adminRoleMasterId, MediaFolderMasterId = mediaFolder.MediaFolderMasterId, IsActive = true });
-                        return new TrueFalseResponse() { booleanModel = new BooleanModel() { SuccessMessage = "Folder successfully created.", IsSuccess = true }, IsSuccess = true };
+                        return new TrueFalseResponse() { booleanModel = new BooleanModel() { SuccessMessage = "Folder successfully created.", IsSuccess = true, Custom1 = mediaFolder.MediaFolderMasterId.ToString()}};
                     }
                     else
                     {
