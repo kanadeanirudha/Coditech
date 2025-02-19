@@ -104,6 +104,8 @@ namespace Coditech.Admin
             CreateMap<TicketDetailsListModel, TicketDetailsListViewModel>().ReverseMap();
             CreateMap<GeneralCurrencyMasterModel, GeneralCurrencyMasterViewModel>().ReverseMap();
             CreateMap<GeneralCurrencyMasterListModel, GeneralCurrencyMasterListViewModel>().ReverseMap();
+            CreateMap<TaskSchedulerModel, TaskSchedulerViewModel>().ReverseMap();
+            CreateMap<TaskSchedulerListModel, TaskSchedulerListViewModel>().ReverseMap();
             #endregion            
 
             #region Organisation

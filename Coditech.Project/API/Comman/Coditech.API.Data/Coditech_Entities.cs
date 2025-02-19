@@ -47,6 +47,7 @@ namespace Coditech.API.Data
         public DbSet<TicketMaster> TicketMaster { get; set; }
         public DbSet<TicketDetails> TicketDetails { get; set; }
         public DbSet<GeneralCurrencyMaster> GeneralCurrencyMaster { get; set; }
+        public DbSet<TaskSchedulerMaster> TaskSchedulerMaster { get; set; }
 
         #endregion
 
