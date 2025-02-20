@@ -46,6 +46,8 @@ namespace Coditech.API.Data
         public DbSet<TaskApprovalTransaction> TaskApprovalTransaction { get; set; }
         public DbSet<TicketMaster> TicketMaster { get; set; }
         public DbSet<TicketDetails> TicketDetails { get; set; }
+        public DbSet<GeneralCurrencyMaster> GeneralCurrencyMaster { get; set; }
+        public DbSet<TaskSchedulerMaster> TaskSchedulerMaster { get; set; }
 
         #endregion
 
@@ -177,6 +179,9 @@ namespace Coditech.API.Data
         public DbSet<AccSetupBalanceSheetType> AccSetupBalanceSheetType { get; set; }
         public DbSet<AccSetupTransactionType> AccSetupTransactionType { get; set; }
         public DbSet<AccSetupGLBank> AccSetupGLBank { get; set; }
+        public DbSet<AccSetupGL> AccSetupGL { get; set; }
+        public DbSet<AccSetupGLBalanceSheet> AccSetupGLBalanceSheet { get; set; }
+        public DbSet<AccSetupChartOfAccountTemplate> AccSetupChartOfAccountTemplate { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

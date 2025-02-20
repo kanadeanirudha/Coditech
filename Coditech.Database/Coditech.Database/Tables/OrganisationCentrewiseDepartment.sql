@@ -1,12 +1,12 @@
 ﻿CREATE TABLE [dbo].[OrganisationCentrewiseDepartment](
-	[OrganisationCentrewiseDepartmentId] [smallint] IDENTITY(1,1) NOT NULL,
-	[DepartmentId] [smallint] NOT NULL,
+	[OrganisationCentrewiseDepartmentId] [int] IDENTITY(1,1) NOT NULL,
+	[GeneralDepartmentMasterId] [smallint] NOT NULL,
 	[CentreCode] [nvarchar](15) NOT NULL,
 	[ActiveFlag] [bit] NOT NULL,
 	[DepartmentSeqNo] [int] NULL,
-	[CreatedBy] [int] NULL,
+	[CreatedBy] [bigint] NULL,
 	[CreatedDate] [datetime] NULL,
-	[ModifiedBy] [int] NULL,
+	[ModifiedBy] [bigint] NULL,
 	[ModifiedDate] [datetime] NULL,
  CONSTRAINT [PKOrganisationCentrewiseDepartmentId] PRIMARY KEY CLUSTERED 
 (
@@ -15,11 +15,9 @@
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[OrganisationCentrewiseDepartment]  WITH CHECK ADD  CONSTRAINT [FKOrganisationCentrewiseDepartmentDepartmentId] FOREIGN KEY([DepartmentId])
+ALTER TABLE [dbo].[OrganisationCentrewiseDepartment]  WITH CHECK ADD  CONSTRAINT [FKOrganisationCentrewiseDepartmentDepartmentId] FOREIGN KEY([GeneralDepartmentMasterId])
 REFERENCES [dbo].[GeneralDepartmentMaster] ([GeneralDepartmentMasterId])
 GO
 
 ALTER TABLE [dbo].[OrganisationCentrewiseDepartment] CHECK CONSTRAINT [FKOrganisationCentrewiseDepartmentDepartmentId]
 GO
-
-

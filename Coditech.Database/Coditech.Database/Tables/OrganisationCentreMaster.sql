@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[OrganisationCentreMaster](
-	[OrganisationCentreMasterId] [smallint] IDENTITY(1,1) NOT NULL,
+	[OrganisationCentreMasterId] [int] IDENTITY(1,1) NOT NULL,
 	[CentreCode] [nvarchar](15) NOT NULL,
 	[CentreName] [nvarchar](100) NOT NULL,
 	[HoCoRoScFlag] [varchar](5) NULL,
@@ -29,9 +29,9 @@
 	[PFNumber] [nvarchar](35) NULL,
 	[ESICNumber] [nvarchar](35) NULL,
 	[WaterMark] [nvarchar](35) NULL,
-	[CreatedBy] [int] NULL,
+	[CreatedBy] [bigint] NULL,
 	[CreatedDate] [datetime] NULL,
-	[ModifiedBy] [int] NULL,
+	[ModifiedBy] [bigint] NULL,
 	[ModifiedDate] [datetime] NULL,
  CONSTRAINT [PKOrganisationCentreMasterId] PRIMARY KEY CLUSTERED 
 (
@@ -57,5 +57,3 @@ GO
 
 ALTER TABLE [dbo].[OrganisationCentreMaster] CHECK CONSTRAINT [FKOrganisationCentreMasterOrganisationId]
 GO
-
-

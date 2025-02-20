@@ -131,7 +131,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Folder",
                 ColumnCode = "FolderName",
-                IsSortable = false,
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {

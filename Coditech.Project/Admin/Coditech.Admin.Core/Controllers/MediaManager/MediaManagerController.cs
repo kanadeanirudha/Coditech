@@ -87,14 +87,16 @@ namespace Coditech.Admin.Controllers
 
                 if (file.Length == 0)
                 {
-                    return Json(new { success = false, message = "Empty file uploaded." });
+                    SetNotificationMessage(GetErrorNotificationMessage("File is empty. 0 KB file not uploaded."));
                 }
+                else
+                {
+                    MediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, 0, file);
 
-                MediaModel uploadMediaModel = _mediaManagerFolderAgent.UploadFile(folderId, 0, file);
-
-                SetNotificationMessage(!uploadMediaModel.HasError
-                       ? GetSuccessNotificationMessage("File successfully uploaded.")
-                       : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
+                    SetNotificationMessage(!uploadMediaModel.HasError
+                           ? GetSuccessNotificationMessage("File successfully uploaded.")
+                           : GetErrorNotificationMessage(uploadMediaModel.ErrorMessage));
+                }
 
                 return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString() });
             }
@@ -165,8 +167,8 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(booleanModel.IsSuccess
                         ? GetSuccessNotificationMessage(booleanModel.SuccessMessage)
                         : GetErrorNotificationMessage(booleanModel.ErrorMessage));
-
-                return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = rootFolderId.ToString() });
+                rootFolderId = booleanModel.IsSuccess ? Convert.ToInt32( booleanModel.Custom1) : rootFolderId;
+                return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = Convert.ToInt32(booleanModel.Custom1).ToString()});
             }
             else
             {
@@ -266,12 +268,11 @@ namespace Coditech.Admin.Controllers
                 try
                 {
                     bool status = _mediaManagerFolderAgent.MoveFolder(folderId, destinationFolderId);
-
                     SetNotificationMessage(status
                         ? GetSuccessNotificationMessage("Moved successfully.")
                         : GetErrorNotificationMessage("Failed to move."));
 
-                    return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString() });
+                    return RedirectToAction("Index", new DataTableViewModel { SelectedParameter1 = folderId.ToString(),SelectedParameter2 = destinationFolderId.ToString()});
                 }
                 catch (Exception ex)
                 {

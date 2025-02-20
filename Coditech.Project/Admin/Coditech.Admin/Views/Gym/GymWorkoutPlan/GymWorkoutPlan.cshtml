@@ -39,9 +39,12 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.GymWorkoutPlanId)
+
                             if (Model.GymWorkoutPlanId > 0)
                             {
                                 @Html.HiddenFor(m => m.CentreCode)
+                                @Html.HiddenFor(m => m.NumberOfWeeks)
+                                @Html.HiddenFor(m => m.NumberOfDaysPerWeek)
 
                             }
                             <div class="row">

@@ -34,27 +34,25 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "Plan Type")]
         public string PlanType { get; set; }
-
         [Display(Name = "Plan Duration In Month")]
         public byte? PlanDurationInMonth { get; set; }
-
         [Display(Name = "Plan Duration In Days")]
         public byte? PlanDurationInDays { get; set; }
 
         [Display(Name = "Plan Duration In Session")]
-        public Int16 PlanDurationInSession { get; set; }
+        public Int16? PlanDurationInSession { get; set; }
 
         [Display(Name = "Is Renewable")]
         public Boolean IsRenewable { get; set; }
 
         [Display(Name = "Is Timebase Biometric Access")]
         public Boolean IsTimebaseBiometricAccess { get; set; }
-
+        [Required]
         [Display(Name = "From Time")]
-        public TimeSpan FromTime { get; set; }
-
+        public TimeSpan? FromTime { get; set; }
+        [Required]
         [Display(Name = "To Time")]
-        public TimeSpan ToTime { get; set; }
+        public TimeSpan? ToTime { get; set; }
 
         [Display(Name = "Is Active")]
         public Boolean IsActive { get; set; }

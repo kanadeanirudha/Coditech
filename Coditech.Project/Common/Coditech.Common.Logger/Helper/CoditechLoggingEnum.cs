@@ -124,6 +124,10 @@
             AccSetupGLBank,
             TraineeDetails,
             UserRegistration,
+            GeneralCurrencyMaster,
+            OrganisationCentrewiseAccountSetup,
+            AccountSetupGL,
+            TaskScheduler
         }
     }
 }

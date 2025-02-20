@@ -1,20 +1,20 @@
 ﻿CREATE TABLE [dbo].[OrganisationCentrePrintingFormat](
-	[OrganisationCentrePrintingFormatId] [smallint] IDENTITY(1,1) NOT NULL,
-	[CentreCode] [nvarchar](15) NOT NULL,
+	[OrganisationCentrePrintingFormatId] [int] IDENTITY(1,1) NOT NULL,
+	[OrganisationCentreMasterId] [int] NOT NULL,
 	[PrintingLine1] [nvarchar](100) NULL,
 	[PrintingLine2] [nvarchar](100) NULL,
 	[PrintingLine3] [nvarchar](100) NULL,
 	[PrintingLine4] [nvarchar](100) NULL,
+	[PrintingLinebelowLogo] [nvarchar](100) NULL,
 	[Logo] [varbinary](max) NULL,
 	[LogoType] [varchar](50) NULL,
 	[LogoFilename] [varchar](50) NULL,
 	[LogoFileWidth] [varchar](50) NULL,
 	[LogoFileHeight] [varchar](50) NULL,
 	[LogoFileSize] [varchar](50) NULL,
-	[PrintingLinebelowLogo] [nvarchar](100) NULL,
-	[CreatedBy] [int] NULL,
+	[CreatedBy] [bigint] NULL,
 	[CreatedDate] [datetime] NULL,
-	[ModifiedBy] [int] NULL,
+	[ModifiedBy] [bigint] NULL,
 	[ModifiedDate] [datetime] NULL,
  CONSTRAINT [PKOrganisationStudyCentrePrintingFormatId] PRIMARY KEY CLUSTERED 
 (
@@ -23,4 +23,9 @@
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+ALTER TABLE [dbo].[OrganisationCentrePrintingFormat]  WITH CHECK ADD  CONSTRAINT [FKOrganisationCentrePrintingFormatOrganisationCentreMasterId] FOREIGN KEY([OrganisationCentreMasterId])
+REFERENCES [dbo].[OrganisationCentreMaster] ([OrganisationCentreMasterId])
+GO
 
+ALTER TABLE [dbo].[OrganisationCentrePrintingFormat] CHECK CONSTRAINT [FKOrganisationCentrePrintingFormatOrganisationCentreMasterId]
+GO
