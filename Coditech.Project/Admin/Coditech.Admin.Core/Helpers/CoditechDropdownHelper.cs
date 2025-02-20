@@ -1370,55 +1370,6 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-
-        //private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        //{
-        //    dropdownList.Add(new SelectListItem() { Value = "NA", Text = GeneralResources.SelectLabel });
-        //    dropdownList.Add(new SelectListItem()
-        //    {
-        //        Text = "Sunday",
-        //        Value = "Sunday",
-        //        Selected = "Sunday" == dropdownViewModel.DropdownSelectedValue
-        //    });
-        //    dropdownList.Add(new SelectListItem()
-        //    {
-        //        Text = "Monday",
-        //        Value = "Monday",
-        //        Selected = "Monday" == dropdownViewModel.DropdownSelectedValue
-        //    });
-        //    dropdownList.Add(new SelectListItem()
-        //    {
-        //        Text = "Tuesday",
-        //        Value = "Tuesday",
-        //        Selected = "Tuesday" == dropdownViewModel.DropdownSelectedValue
-        //    });
-        //    dropdownList.Add(new SelectListItem()
-        //    {
-        //        Text = "Wednesday",
-        //        Value = "Wednesday",
-        //        Selected = "Wednesday" == dropdownViewModel.DropdownSelectedValue
-        //    });
-        //    dropdownList.Add(new SelectListItem()
-        //    {
-        //        Text = "Thursday",
-        //        Value = "Thursday",
-        //        Selected = "Thursday" == dropdownViewModel.DropdownSelectedValue
-        //    });
-        //    dropdownList.Add(new SelectListItem()
-        //    {
-        //        Text = "Friday",
-        //        Value = "Friday",
-        //        Selected = "Friday" == dropdownViewModel.DropdownSelectedValue
-        //    });
-        //    dropdownList.Add(new SelectListItem()
-        //    {
-        //        Text = "Saturday",
-        //        Value = "Saturday",
-        //        Selected = "Saturday" == dropdownViewModel.DropdownSelectedValue
-        //    });
-           
-        //}
-
     }
 }
 
