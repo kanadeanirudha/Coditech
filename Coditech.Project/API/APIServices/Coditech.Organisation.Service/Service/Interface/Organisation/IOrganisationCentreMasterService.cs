@@ -7,7 +7,7 @@ namespace Coditech.API.Service
 {
     public interface IOrganisationCentreMasterService
     {
-        OrganisationCentreListModel GetOrganisationCentreList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        OrganisationCentreListModel GetOrganisationCentreList(int adminRoleMasterId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         OrganisationCentreModel CreateOrganisationCentre(OrganisationCentreModel model);
         OrganisationCentreModel GetOrganisationCentre(int organisationCentreMasterId);
         bool UpdateOrganisationCentre(OrganisationCentreModel model);

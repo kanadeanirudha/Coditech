@@ -187,15 +187,16 @@ namespace Coditech.API.Service
             mediaModel.Type = mediaModel.Type.Replace("application/", "").ToLower();
             return mediaModel;
         }
-        public virtual FolderListResponse GetAllFolders()
+        public virtual FolderListResponse GetMoveFolders(int moveFolderId)
         {
+
             FolderListResponse folderListResponse = new();
-            folderListResponse.FolderList.Folders = [.. (from folder in _mediaFolderMasterRepository.Table
-                                                             select new Folder()
-                                                             {
-                                                                 FolderId = folder.MediaFolderMasterId,
-                                                                 FolderName = folder.FolderName
-                                                             })];
+            CoditechViewRepository<Folder> objStoredProc = new CoditechViewRepository<Folder>(_serviceProvider.GetService<Coditech_Entities>());
+
+            objStoredProc.SetParameter("@MediaFolderMasterId", moveFolderId, ParameterDirection.Input, DbType.String);
+
+            folderListResponse.FolderList.Folders = objStoredProc.ExecuteStoredProcedureList("Coditech_GetMoveFoldersList @MediaFolderMasterId")?.ToList();
+          
             return folderListResponse;
         }
 

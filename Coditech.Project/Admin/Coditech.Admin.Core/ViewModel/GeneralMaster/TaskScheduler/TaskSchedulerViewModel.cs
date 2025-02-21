@@ -24,8 +24,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Frequency")]
         public string SchedulerFrequency { get; set; }
         public int RepeatTaskEvery { get; set; }
-        public string RepeatTaskForDuration { get; set; }
-        [Display(Name = "Week Days")]
+        public string RepeatTaskForDuration { get; set; }     
         public string WeekDays { get; set; }
         public string Months { get; set; }
         public string Days { get; set; }
@@ -36,6 +35,7 @@ namespace Coditech.Admin.ViewModel
         public bool IsMonthlyDays { get; set; }
         [Display(Name = "Is Active")]
         public bool IsEnabled { get; set; }
+        [Display(Name = "Week Days")]
         public List<string> SelectedWeekDays { get; set; } = new List<string>();
         public List<SelectListItem> SchedulerWeekDaysList { get; set; }
     }

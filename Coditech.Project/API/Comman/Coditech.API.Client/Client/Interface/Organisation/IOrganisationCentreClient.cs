@@ -12,7 +12,7 @@ namespace Coditech.API.Client
         /// Get list of OrganisationCentre.
         /// </summary>
         /// <returns>OrganisationCentreListResponse</returns>
-        OrganisationCentreListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        OrganisationCentreListResponse List(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Create OrganisationCentre.

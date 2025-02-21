@@ -30,11 +30,11 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetOrganisationCentreList")]
         [Produces(typeof(OrganisationCentreListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetOrganisationCentreList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetOrganisationCentreList(int adminRoleMasterId,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                OrganisationCentreListModel list = _organisationCentreMasterService.GetOrganisationCentreList(filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                OrganisationCentreListModel list = _organisationCentreMasterService.GetOrganisationCentreList(adminRoleMasterId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<OrganisationCentreListResponse>(data) : CreateNoContentResponse();
             }
