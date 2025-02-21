@@ -18,13 +18,13 @@ namespace Coditech.API.Client
             organisationCentreEndpoint = new OrganisationCentreEndpoint();
         }
         #region OrganisationCentre
-        public virtual OrganisationCentreListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual OrganisationCentreListResponse List(int adminRoleMasterId,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(adminRoleMasterId,expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<OrganisationCentreListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentreListResponse> ListAsync(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = organisationCentreEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
+            string endpoint = organisationCentreEndpoint.ListAsync(adminRoleMasterId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

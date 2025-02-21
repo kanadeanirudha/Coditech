@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -34,6 +35,7 @@ namespace Coditech.Admin.Agents
         #region Public Methods
         public virtual OrganisationCentreListViewModel GetOrganisationCentreList(DataTableViewModel dataTableModel)
         {
+            int adminRoleMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedAdminRoleMasterId ?? 0;
             FilterCollection filters = null;
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
@@ -45,7 +47,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            OrganisationCentreListResponse response = _organisationCentreClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            OrganisationCentreListResponse response = _organisationCentreClient.List(adminRoleMasterId,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentreListModel organisationCentreList = new OrganisationCentreListModel { OrganisationCentreList = response?.OrganisationCentreList };
             OrganisationCentreListViewModel listViewModel = new OrganisationCentreListViewModel();
             listViewModel.OrganisationCentreList = organisationCentreList?.OrganisationCentreList?.ToViewModel<OrganisationCentreViewModel>().ToList();
