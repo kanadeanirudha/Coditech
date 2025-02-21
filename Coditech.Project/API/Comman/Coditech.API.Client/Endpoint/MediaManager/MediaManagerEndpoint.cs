@@ -21,8 +21,8 @@ namespace Coditech.API.Endpoint
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/CreateFolder?rootFolderId={rootFolderId}&folderName={folderName}&adminRoleMasterId={adminRoleMasterId}";
         public string RenameFolderAsync(int folderId, string renameFolderName) =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/RenameFolder?folderId={folderId}&renameFolderName={renameFolderName}";
-        public string GetAllFolders() =>
-                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/GetAllFolders";
+        public string GetMoveFolders(int moveFolderId) =>
+                   $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/GetMoveFolders?moveFolderId={moveFolderId}";
         public string MoveFolderAsync(int folderId, int destinationFolderId) =>
                    $"{CoditechAdminSettings.CoditechMediaManagerApiRootUri}/MediaManager/MoveFolder?folderId={folderId}&destinationFolderId={destinationFolderId}";
         public string DeleteFolderAsync(int folderId) =>
