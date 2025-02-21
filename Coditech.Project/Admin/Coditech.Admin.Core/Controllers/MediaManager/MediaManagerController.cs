@@ -250,11 +250,11 @@ namespace Coditech.Admin.Controllers
             }
         }
 
-        [Route("/MediaManager/GetFolderDropdown")]
+        [Route("/MediaManager/GetMoveFolderDropdown")]
         [HttpGet]
-        public virtual JsonResult GetFolderDropdown(int excludeFolderId)
+        public virtual JsonResult GetMoveFolderDropdown(int moveFolderId)
         {
-            FolderListViewModel folders = _mediaManagerFolderAgent.GetAllFolders(excludeFolderId);
+            FolderListViewModel folders = _mediaManagerFolderAgent.GetMoveFolders(moveFolderId);
 
             return Json(folders.Folders);
         }

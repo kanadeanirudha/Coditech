@@ -14,7 +14,7 @@ namespace Coditech.API.Service
         bool PostRenameFolder(int FolderId, string RenameFolderName);
         TrueFalseResponse PostCreateFolder(int RootFolderId, string FolderName, int adminRoleMasterId);
         MediaModel GetMediaDetails(long mediaId);
-        FolderListResponse GetAllFolders();
+        FolderListResponse GetMoveFolders(int GetMoveFolders);
         bool MoveFolder(int folderId, int destinationFolderId);
         bool DeleteFolder(int folderId);
         bool DeleteFile(int mediaId);

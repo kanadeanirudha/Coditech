@@ -162,9 +162,9 @@
             CoditechCommon.ShowLodder();
             // Fetch folder structure for the dropdown, excluding the current folder
             $.ajax({
-                url: '@Url.Action("GetFolderDropdown", "MediaManager")',
+                url: '@Url.Action("GetMoveFolderDropdown", "MediaManager")',
                 type: 'GET',
-                data: { excludeFolderId: folderId },
+                data: { moveFolderId: folderId },
                 success: function (data) {
                     var dropdown = $('#moveFolderDropdown');
                     dropdown.empty();

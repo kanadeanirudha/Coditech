@@ -21,7 +21,7 @@ namespace Coditech.API.Client
         MediaManagerResponse GetMediaDetails(long mediaId);
         Task<TrueFalseResponse> CreateFolderAsync(int rootFolderId, string folderName, int adminRoleMasterId);
         Task<bool> RenameFolderAsync(int folderId, string renameFolderName);
-        Task<FolderListResponse> GetAllFolders();
+        Task<FolderListResponse> GetMoveFolders(int moveFolderId);
         Task<bool> MoveFolderAsync(int folderId, int destinationFolderId);
         Task<bool> DeleteFolderAsync(int folderId);
         Task<bool> DeleteFileAsync(int mediaId);
