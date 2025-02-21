@@ -126,6 +126,7 @@
             UserRegistration,
             GeneralCurrencyMaster,
             OrganisationCentrewiseAccountSetup,
+            AccountSetupGL,
             TaskScheduler
         }
     }

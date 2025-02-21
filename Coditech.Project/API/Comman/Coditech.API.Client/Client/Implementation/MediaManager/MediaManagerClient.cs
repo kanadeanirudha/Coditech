@@ -157,9 +157,9 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual async Task<FolderListResponse> GetAllFolders()
+        public virtual async Task<FolderListResponse> GetMoveFolders(int moveFolderId)
         {
-            string endpoint = mediaManagerEndpoint.GetAllFolders();
+            string endpoint = mediaManagerEndpoint.GetMoveFolders(moveFolderId);
 
             HttpResponseMessage response = null;
             bool disposeResponse = true;
