@@ -19,6 +19,7 @@ namespace Coditech.Common.API.Model
         public string Custom5 { get; set; }
         public bool HasError { get; set; } = false;
         public string ErrorMessage { get; set; }
+        public string ActionMode { get; set; }
         public int? ErrorCode { get; set; }
     }
 }

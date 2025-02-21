@@ -256,6 +256,17 @@
         OfficeMaintenanceExpenses,
         PrintandStationery,
     }
+    public enum ActionModeEnum
+    {
+        Create,
+        Update,
+        Delete,
+    }
+    public enum AccSetupChartOfAccountTemplateEnum
+    {
+        IndianStandard,
+        Existing,
+    }
     public enum SchedulerFrequencyEnum
     {
         OneTime,
