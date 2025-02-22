@@ -145,14 +145,14 @@ namespace Coditech.API.Controllers
 
 
 
-        [Route("/MediaManager/GetAllFolders")]
+        [Route("/MediaManager/GetMoveFolders")]
         [HttpGet]
         [Produces(typeof(FolderListResponse))]
-        public virtual IActionResult GetAllFolders()
+        public virtual IActionResult GetMoveFolders(int moveFolderId)
         {
             try
             {
-                FolderListResponse response = _mediaManagerService.GetAllFolders();
+                FolderListResponse response = _mediaManagerService.GetMoveFolders(moveFolderId);
                 if (response != null)
                     return CreateOKResponse<FolderListResponse>(response);
                 else

@@ -18,14 +18,16 @@ namespace Coditech.API.ServiceAccounts
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<AccSetupGL> _accSetupGLRepository;
         private readonly ICoditechRepository<AccSetupGLBalanceSheet> _accSetupGLBalanceSheetRepository;
-        private readonly ICoditechRepository<AccSetupChartOfAccountTemplate> _accSetupChartOfAccountTemplate;
+        private readonly ICoditechRepository<AccSetupChartOfAccountTemplate> _accSetupChartOfAccountTemplateRepository;
+        private readonly ICoditechRepository<AccSetupCategory> _accSetupCategoryRepository;
         public AccSetupGLService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _accSetupGLRepository = new CoditechRepository<AccSetupGL>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupGLBalanceSheetRepository = new CoditechRepository<AccSetupGLBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
-            _accSetupChartOfAccountTemplate = new CoditechRepository<AccSetupChartOfAccountTemplate>(_serviceProvider.GetService<Coditech_Entities>());
+            _accSetupChartOfAccountTemplateRepository = new CoditechRepository<AccSetupChartOfAccountTemplate>(_serviceProvider.GetService<Coditech_Entities>());
+            _accSetupCategoryRepository = new CoditechRepository<AccSetupCategory>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         // Get BalanceSheetAndCentreCode
@@ -37,7 +39,7 @@ namespace Coditech.API.ServiceAccounts
             if (string.IsNullOrEmpty(selectedcentreCode))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, "CentreCode cannot be empty.");
 
-            byte accSetupChartOfAccountTemplateId = _accSetupChartOfAccountTemplate.Table.Where(x => x.TemplateName == AccSetupChartOfAccountTemplateEnum.IndianStandard.ToString()).Select(x => x.AccSetupChartOfAccountTemplateId).FirstOrDefault();
+            byte accSetupChartOfAccountTemplateId = _accSetupChartOfAccountTemplateRepository.Table.Where(x => x.TemplateName == AccSetupChartOfAccountTemplateEnum.IndianStandard.ToString()).Select(x => x.AccSetupChartOfAccountTemplateId).FirstOrDefault();
 
             if (accSetupChartOfAccountTemplateId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, "AccSetupChartOfAccountTemplateId cannot be empty.");
@@ -64,6 +66,28 @@ namespace Coditech.API.ServiceAccounts
                 accSetupGLModel.AccSetupGLList = BuildAccountTree(accSetupGLRecords, null);
             }
 
+            // Fetch active categories.
+            List<AccSetupCategory> accSetupCategoryList = _accSetupCategoryRepository.Table.Where(x => x.IsActive).ToList();
+
+            // Convert to AccSetupCategoryModel list.
+            List<AccSetupCategoryModel> accSetupCategoryModelList = new List<AccSetupCategoryModel>();
+
+            foreach (var category in accSetupCategoryList)
+            {
+                AccSetupCategoryModel categoryModel = new AccSetupCategoryModel
+                {
+                    AccSetupCategoryId = category.AccSetupCategoryId,
+                    CategoryName = category.CategoryName,
+                    CategoryCode = category.CategoryCode,
+                    IsActive = category.IsActive
+                };
+
+                accSetupCategoryModelList.Add(categoryModel);
+            }
+
+            // Set the categories list to the model.
+            accSetupGLModel.AccSetupCategoryList = accSetupCategoryModelList;
+
             return accSetupGLModel;
         }
 
@@ -76,6 +100,7 @@ namespace Coditech.API.ServiceAccounts
                                         AccSetupGLId = a.AccSetupGLId,
                                         GLName = a.GLName,
                                         CategoryCode = a.CategoryCode,
+                                        GLCode = a.GLCode,
                                         ParentAccSetupGLId = a.ParentAccSetupGLId,
                                         SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId) // Recursive call
                                     }).ToList();

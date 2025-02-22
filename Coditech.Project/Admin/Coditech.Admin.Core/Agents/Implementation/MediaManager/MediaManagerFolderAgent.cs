@@ -49,10 +49,9 @@ namespace Coditech.Admin.Agents
             return response?.MediaModel;
         }
 
-        public virtual FolderListViewModel GetAllFolders(int excludeFolderId)
+        public virtual FolderListViewModel GetMoveFolders(int moveFolderId)
         {
-            FolderListResponse folderListResponse = _mediaManagerClient.GetAllFolders().Result;
-            folderListResponse.FolderList.Folders.RemoveAll(x => x.FolderId == excludeFolderId);
+            FolderListResponse folderListResponse = _mediaManagerClient.GetMoveFolders(moveFolderId).Result;
             return folderListResponse.FolderList.ToViewModel<FolderListViewModel>();
         }
 
