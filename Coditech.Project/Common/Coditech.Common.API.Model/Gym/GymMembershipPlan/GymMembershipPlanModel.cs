@@ -15,13 +15,17 @@ namespace Coditech.Common.API.Model
         public string PlanType { get; set; }
         public int PlanDurationTypeEnumId { get; set; }
         public string PlanDurationType { get; set; }
-        public byte PlanDurationInMonth { get; set; }       
+        [Required]
+        public byte PlanDurationInMonth { get; set; }
+        [Required]
         public short PlanDurationInDays { get; set; }
         public short? PlanDurationInSession { get; set; }
         public bool IsRenewable { get; set; }
         public bool IsTimebaseBiometricAccess { get; set; }
         public bool IsTaxExclusive { get; set; }
+        [Required]
         public TimeSpan? FromTime { get; set; }
+        [Required]
         public TimeSpan? ToTime { get; set; }
         public bool IsActive { get; set; }
         public bool IsEditable { get; set; }
