@@ -168,6 +168,7 @@
                 success: function (data) {
                     var dropdown = $('#moveFolderDropdown');
                     dropdown.empty();
+                    dropdown.append($('<option></option>').attr('value', '').text("Select Destination Folder"));
                     data.forEach(function (folder) {
                         dropdown.append($('<option></option>').attr('value', folder.FolderId).text(folder.FolderName));
                     });
