@@ -36,6 +36,7 @@ namespace Coditech.Admin.Agents
                 GymDashboardResponse response = _dashboardClient.GetGymDashboardDetails(selectedAdminRoleMasterId, userMasterId);
                 dashboardViewModel = response?.GymDashboardModel?.ToViewModel<GymDashboardViewModel>();            
             }
+            dashboardViewModel.NumberOfDaysRecord = 30;
             return dashboardViewModel;
         }
 
