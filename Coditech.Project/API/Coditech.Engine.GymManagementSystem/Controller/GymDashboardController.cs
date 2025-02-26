@@ -29,11 +29,11 @@ namespace Coditech.API.Controllers
         [Route("/GymDashboardController/GetGymDashboardDetails")]
         [HttpGet]
         [Produces(typeof(GymDashboardResponse))]
-        public virtual IActionResult GetGymDashboardDetails(int selectedAdminRoleMasterId,long userMasterId)
+        public virtual IActionResult GetGymDashboardDetails(short numberOfDaysRecord, int selectedAdminRoleMasterId,long userMasterId)
         {
             try
             {
-                GymDashboardModel dashboardModel = _dashboardService.GetGymDashboardDetails(selectedAdminRoleMasterId, userMasterId);
+                GymDashboardModel dashboardModel = _dashboardService.GetGymDashboardDetails(numberOfDaysRecord, selectedAdminRoleMasterId, userMasterId);
                 return IsNotNull(dashboardModel) ? CreateOKResponse(new GymDashboardResponse { GymDashboardModel = dashboardModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
