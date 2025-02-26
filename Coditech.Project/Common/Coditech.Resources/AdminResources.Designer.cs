@@ -1244,12 +1244,19 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelPaymentGateway", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Accounts.
+        /// </summary>
         public static string LabelAccSetupBalanceSheet {
             get {
                 return ResourceManager.GetString("LabelAccSetupBalanceSheet", resourceCulture);
             }
         }
-        
+        public static string LabelAccSetupTransactionType {
+            get {
+                return ResourceManager.GetString("LabelAccSetupTransactionType", resourceCulture);
+            }
+        }     
         /// <summary>
         ///   Looks up a localized string similar to Person Follow Up List.
         /// </summary>

@@ -126,6 +126,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupTransactionTypeAgent, AccSetupTransactionTypeAgent>();
             builder.Services.AddScoped<IAccSetupGLBankAgent, AccSetupGLBankAgent>();
             builder.Services.AddScoped<IAccSetupGLAgent, AccSetupGLAgent>();
+            builder.Services.AddScoped<IAccGLTransactionAgent, AccGLTransactionAgent>();
             #endregion
 
             #endregion Agent
@@ -238,6 +239,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupTransactionTypeClient, AccSetupTransactionTypeClient>();
             builder.Services.AddScoped<IAccSetupGLBankClient, AccSetupGLBankClient>();
             builder.Services.AddScoped<IAccSetupGLClient, AccSetupGLClient>();
+            builder.Services.AddScoped<IAccGLTransactionClient, AccGLTransactionClient>();
             #endregion
 
             #endregion Client

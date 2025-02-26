@@ -235,10 +235,14 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SchedulerFrequency.ToString()))
             {
                 GetBatchSchedulerList(dropdownViewModel, dropdownList);
-            }          
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SchedulerWeeks.ToString()))
             {
                 GetBatchSchedulerWeeksList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupTransactionType.ToString()))
+            {
+                GetAccSetupTransactionType(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -1333,7 +1337,7 @@ namespace Coditech.Admin.Helpers
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
-                byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]);
+                byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]); 
                 AccSetupBalanceSheetListResponse response = new AccSetupBalanceSheetClient().List(selectedCentreCode, accSetupBalanceSheetTypeId, null, null, null, 1, int.MaxValue);
                 AccSetupBalanceSheetListModel list = new AccSetupBalanceSheetListModel() { AccSetupBalanceSheetList = response.AccSetupBalanceSheetList };
 
@@ -1354,12 +1358,12 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = frequency.ToString(),  
+                    Text = frequency.ToString(),
                     Value = frequency.ToString(),
                     Selected = frequency.ToString() == dropdownViewModel.DropdownSelectedValue
                 });
             }
-        }       
+        }
 
         private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
@@ -1378,6 +1382,24 @@ namespace Coditech.Admin.Helpers
                     Text = day,
                     Value = day,
                     Selected = selectedValues.Contains(day)
+                });
+            }
+        }
+
+        private static void GetAccSetupTransactionType(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            AccSetupTransactionTypeListResponse response = new AccSetupTransactionTypeClient().List(null, null, null, 1, int.MaxValue);
+
+            AccSetupTransactionTypeListModel list = new AccSetupTransactionTypeListModel() { AccSetupTransactionTypeList = response.AccSetupTransactionTypeList };
+
+            dropdownList.Add(new SelectListItem() { Text = "-------Transaction Type-------" });
+            foreach (var item in list?.AccSetupTransactionTypeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.TransactionTypeCode,
+                    Value = item.AccSetupTransactionTypeId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupTransactionTypeId)
                 });
             }
         }

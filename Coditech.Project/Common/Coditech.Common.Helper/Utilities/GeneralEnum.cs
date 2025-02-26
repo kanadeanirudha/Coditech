@@ -90,7 +90,8 @@
         SchedulerFrequency,
         SchedulerType,
         SchedulerCallFor,
-        SchedulerWeeks
+        SchedulerWeeks,
+        AccSetupTransactionType
     }
 
     public enum GeneralSystemGlobleSettingEnum

@@ -23,6 +23,8 @@ namespace Coditech.Admin
             CreateMap<AccSetupGLBankViewModel, AccSetupGLBankListViewModel>().ReverseMap();
             CreateMap<AccSetupGLModel, AccSetupGLViewModel>().ReverseMap();
             CreateMap<AccSetupGLViewModel, AccSetupGLListViewModel>().ReverseMap();
+            CreateMap<AccGLTransactionModel, AccGLTransactionViewModel>().ReverseMap();
+            CreateMap<AccGLTransactionViewModel, AccGLTransactionListViewModel>().ReverseMap();
             #endregion
 
             #region Admin 
@@ -107,7 +109,7 @@ namespace Coditech.Admin
             CreateMap<TaskSchedulerModel, TaskSchedulerViewModel>().ReverseMap();
             CreateMap<TaskSchedulerListModel, TaskSchedulerListViewModel>().ReverseMap();
             #endregion            
-
+               
             #region Organisation
             CreateMap<OrganisationModel, OrganisationMasterViewModel>().ReverseMap();
             CreateMap<OrganisationCentreModel, OrganisationCentreViewModel>().ReverseMap();
