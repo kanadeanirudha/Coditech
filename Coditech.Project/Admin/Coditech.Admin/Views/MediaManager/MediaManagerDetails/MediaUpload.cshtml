@@ -127,7 +127,7 @@
             };
 
             document.getElementById('moveFolder').onclick = function () {
-                openMoveFolderModal(folderId);
+                openMoveFolderModal(folderId, folderName);
                 menu.style.display = 'none';
             };
 
@@ -155,9 +155,10 @@
             $('#mediaId').val(mediaId);
         }
 
-        function openMoveFolderModal(folderId) {
+        function openMoveFolderModal(folderId, RootFolderName) {
             $('#moveFolderModal').modal('show');
             $('#moveFolderId').val(folderId);
+            $('#moveFolderRootFolderNameId').html("").html(RootFolderName);
 
             CoditechCommon.ShowLodder();
             // Fetch folder structure for the dropdown, excluding the current folder
