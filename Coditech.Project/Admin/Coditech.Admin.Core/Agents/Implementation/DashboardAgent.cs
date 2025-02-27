@@ -26,7 +26,7 @@ namespace Coditech.Admin.Agents
         #region Public Methods
 
         //Get Dashboard by general selected Admin Role Master id.
-        public virtual DashboardViewModel GetDashboardDetails(short numberOfDaysRecord)
+        public virtual DashboardViewModel GetDashboardDetails()
         {
             int selectedAdminRoleMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedAdminRoleMasterId ?? 0;
             long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
@@ -35,7 +35,6 @@ namespace Coditech.Admin.Agents
             {
                 DashboardResponse response = _dashboardClient.GetDashboardDetails(selectedAdminRoleMasterId, userMasterId);
                 dashboardViewModel = response?.DashboardModel?.ToViewModel<DashboardViewModel>();
-                dashboardViewModel.NumberOfDaysRecord = numberOfDaysRecord == 0 ? CoditechAdminSettings.DefaultDashboardDataDays : numberOfDaysRecord;
             }
             return dashboardViewModel;
         }
