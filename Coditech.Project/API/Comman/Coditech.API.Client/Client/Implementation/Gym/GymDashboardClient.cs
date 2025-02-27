@@ -14,17 +14,17 @@ namespace Coditech.API.Client
             dashboardEndpoint = new GymDashboardEndpoint();
         }
 
-        public virtual GymDashboardResponse GetGymDashboardDetails(int selectedAdminRoleMasterId, long userMasterId)
+        public virtual GymDashboardResponse GetGymDashboardDetails(short numberOfDaysRecord, int selectedAdminRoleMasterId, long userMasterId)
         {
-            return Task.Run(async () => await GetGymDashboardDetailsAsync(selectedAdminRoleMasterId, userMasterId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetGymDashboardDetailsAsync(numberOfDaysRecord, selectedAdminRoleMasterId, userMasterId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GymDashboardResponse> GetGymDashboardDetailsAsync(int selectedAdminRoleMasterId, long userMasterId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GymDashboardResponse> GetGymDashboardDetailsAsync(short numberOfDaysRecord, int selectedAdminRoleMasterId, long userMasterId, System.Threading.CancellationToken cancellationToken)
         {
             if (selectedAdminRoleMasterId <= 0)
                 throw new System.ArgumentNullException("selectedAdminRoleMasterId");
 
-            string endpoint = dashboardEndpoint.GetGymDashboardDetailsAsync(selectedAdminRoleMasterId, userMasterId);
+            string endpoint = dashboardEndpoint.GetGymDashboardDetailsAsync(numberOfDaysRecord, selectedAdminRoleMasterId, userMasterId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

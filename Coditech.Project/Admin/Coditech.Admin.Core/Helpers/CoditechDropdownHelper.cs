@@ -619,6 +619,7 @@ namespace Coditech.Admin.Helpers
                     {
                         Text = $"{item.MembershipPlanName}-{item.PlanType}-{planDuration}",
                         Value = $"{item.GymMembershipPlanId.ToString()}~{item.PlanDurationType}~{item.MaxCost}~{(item.MaxCost - item.MinCost)}",
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GymMembershipPlanId)
                     });
                 }
             }

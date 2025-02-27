@@ -27,12 +27,12 @@ namespace Coditech.Admin.Controllers
             {
                 if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails();
+                    GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails(numberOfDaysRecord);
                     return View("~/Views/Gym/GymDashboard/GymOwnerDashboard.cshtml", gymDashboardViewModel);                  
                 }
                 else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails();
+                    GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails(numberOfDaysRecord);
                     return View("~/Views/Gym/GymDashboard/GymOperatorDashboard.cshtml", gymDashboardViewModel);
                 }
             }

@@ -24,7 +24,7 @@ namespace Coditech.API.Service
         }
 
         //Get Gym Dashboard Details by selected Admin Role Master id.
-        public virtual GymDashboardModel GetGymDashboardDetails(int selectedAdminRoleMasterId, long userMasterId)
+        public virtual GymDashboardModel GetGymDashboardDetails(short numberOfDaysRecord, int selectedAdminRoleMasterId, long userMasterId)
         {
             if (selectedAdminRoleMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "SelectedAdminRoleMasterId"));
@@ -40,7 +40,7 @@ namespace Coditech.API.Service
                 gymDashboardModel.GymDashboardFormEnumCode = dashboardFormEnumCode;
                 if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetGymDashboardDetails(userMasterId, DashboardFormEnum.GymOwnerDashboard.ToString());
+                    DataSet dataset = GetGymDashboardDetails(numberOfDaysRecord, userMasterId, DashboardFormEnum.GymOwnerDashboard.ToString());
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
@@ -72,7 +72,7 @@ namespace Coditech.API.Service
                 }
                 else if (dashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataSet dataset = GetGymDashboardDetails(userMasterId, DashboardFormEnum.GymOperatorDashboard.ToString());
+                    DataSet dataset = GetGymDashboardDetails(numberOfDaysRecord, userMasterId, DashboardFormEnum.GymOperatorDashboard.ToString());
                     dataset.Tables[0].TableName = "ActiveInActiveDetails";
                     ConvertDataTableToList dataTable = new ConvertDataTableToList();
                     gymDashboardModel = dataTable.ConvertDataTable<GymDashboardModel>(dataset.Tables["ActiveInActiveDetails"])?.FirstOrDefault();
@@ -100,11 +100,11 @@ namespace Coditech.API.Service
             }
             return gymDashboardModel;
         }
-        protected virtual DataSet GetGymDashboardDetails(long userId, string dashboardForm)
+        protected virtual DataSet GetGymDashboardDetails(short numberOfDaysRecord,long userId, string dashboardForm)
         {
             ExecuteSpHelper objStoredProc = new ExecuteSpHelper(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.GetParameter("@UserId", userId, ParameterDirection.Input, SqlDbType.BigInt);
-            objStoredProc.GetParameter("@NumberOfDaysRecord", 30, ParameterDirection.Input, SqlDbType.SmallInt);
+            objStoredProc.GetParameter("@NumberOfDaysRecord", numberOfDaysRecord, ParameterDirection.Input, SqlDbType.SmallInt);
             objStoredProc.GetParameter("@DashboardFor", dashboardForm, ParameterDirection.Input, SqlDbType.VarChar);
             return objStoredProc.GetSPResultInDataSet("Coditech_GetGymDashboard");
         }

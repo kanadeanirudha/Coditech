@@ -5,7 +5,7 @@
     string actionName = Model.TaskSchedulerMasterId > 0 ? "UpdateBatchTaskSchedulerDetails" : "CreateBatchTaskScheduler";
     string css = Model.TaskSchedulerMasterId > 0 ? "col-lg-10" : "col-lg-12";
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
-    keyValuePairs.Add("TaskSchedulerMasterId", Model.TaskSchedulerMasterId.ToString());
+    keyValuePairs.Add("GeneralBatchMasterId", Model.ConfiguratorId.ToString());
 
     DropdownViewModel frequencyDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.SchedulerFrequency.ToString(), DropdownName = "SchedulerFrequency", DropdownSelectedValue = Model.SchedulerFrequency};
 }
