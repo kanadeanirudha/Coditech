@@ -91,7 +91,8 @@
         SchedulerType,
         SchedulerCallFor,
         SchedulerWeeks,
-        AccSetupTransactionType
+        AccSetupTransactionType,
+        BindAccountBalanceSheetIdByCentreCode
     }
 
     public enum GeneralSystemGlobleSettingEnum

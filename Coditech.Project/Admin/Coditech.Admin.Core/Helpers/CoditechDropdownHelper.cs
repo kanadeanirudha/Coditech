@@ -16,6 +16,10 @@ namespace Coditech.Admin.Helpers
         {
             return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.AccessibleCentreList;
         }
+        public static List<UserBalanceSheetModel> BindAccountBalanceSheetIdByCentreCodeList()
+        {
+            return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.BalanceSheetList;
+        }
 
         public static DropdownViewModel GeneralDropdownList(DropdownViewModel dropdownViewModel)
         {
@@ -243,6 +247,10 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupTransactionType.ToString()))
             {
                 GetAccSetupTransactionType(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.BindAccountBalanceSheetIdByCentreCode.ToString()))
+            {
+                GetBindAccountBalanceSheetIdByCentreCodeList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -1404,69 +1412,20 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
+        private static void GetBindAccountBalanceSheetIdByCentreCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            List<UserBalanceSheetModel> BalanceSheetList = BindAccountBalanceSheetIdByCentreCodeList();
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Balancesheet-------", Value = "" });
+
+            foreach (var item in BalanceSheetList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.AccBalancesheetHeadDesc,
+                    Value = item.AccSetupBalanceSheetId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupBalanceSheetId)
+                });
+            }
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//private static void GetBatchSchedulerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-//{
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Onetime",
-//        Value = "Onetime",
-//        Selected = "Onetime" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Daily",
-//        Value = "Daily",
-//        Selected = "Daily" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Weekly",
-//        Value = "Weekly",
-//        Selected = "Weekly" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Monthly",
-//        Value = "Monthly",
-//        Selected = "Monthly" == dropdownViewModel.DropdownSelectedValue
-//    });
-
-//}
