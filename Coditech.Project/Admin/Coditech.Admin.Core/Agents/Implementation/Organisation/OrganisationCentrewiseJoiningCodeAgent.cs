@@ -46,7 +46,7 @@ namespace Coditech.Admin.Agents
             OrganisationCentrewiseJoiningCodeListViewModel listViewModel = new OrganisationCentrewiseJoiningCodeListViewModel();
             listViewModel.OrganisationCentrewiseJoiningCodeList = organisationCentrewiseJoiningCodeList?.OrganisationCentrewiseJoiningCodeList?.ToViewModel<OrganisationCentrewiseJoiningCodeViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.OrganisationCentrewiseJoiningCodeList.Count, BindColumns(), false);
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.OrganisationCentrewiseJoiningCodeList.Count, BindColumns());
             return listViewModel;
         }
         //Create Organisation Centrewise Joining Code

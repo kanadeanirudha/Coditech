@@ -9,6 +9,6 @@ namespace Coditech.API.Client
         /// <param name="selectedAdminRoleMasterId">selectedAdminRoleMasterId</param>
         /// <param name="userMasterId">userMasterId</param>
         /// <returns>Returns GymDashboardResponse.</returns>
-        GymDashboardResponse GetGymDashboardDetails(int selectedAdminRoleMasterId, long userMasterId);
+        GymDashboardResponse GetGymDashboardDetails(short numberOfDaysRecord, int selectedAdminRoleMasterId, long userMasterId);
     }
 }

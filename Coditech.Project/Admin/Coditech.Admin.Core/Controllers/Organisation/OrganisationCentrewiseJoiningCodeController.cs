@@ -49,5 +49,12 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseJoiningCodeViewModel.ErrorMessage));
             return View(createEdit, organisationCentrewiseJoiningCodeViewModel);
         }
+
+        [HttpGet]
+        public virtual ActionResult GetOrganisationCentrewiseJoiningCodeSend()
+        {
+            OrganisationCentrewiseJoiningCodeViewModel organisationCentrewiseJoiningCodeViewModel = new OrganisationCentrewiseJoiningCodeViewModel();
+            return PartialView("~/Views/Organisation/OrganisationCentrewiseJoiningCode/_SendDetailsPopUp.cshtml", organisationCentrewiseJoiningCodeViewModel);
+        }
     }
 }
