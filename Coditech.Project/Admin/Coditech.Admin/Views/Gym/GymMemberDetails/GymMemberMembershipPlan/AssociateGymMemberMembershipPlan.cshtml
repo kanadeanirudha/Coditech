@@ -26,6 +26,7 @@
                             @Html.HiddenFor(x => x.GymMembershipPlanId)
                             @Html.HiddenFor(x => x.GymMemberDetailId)
                             @Html.HiddenFor(x => x.PersonId)
+                            @Html.HiddenFor(x => x.CentreCode)
                             <div class="row">
                                 <div class="col-lg-8">
                                     <div class="mb-3">
@@ -36,7 +37,8 @@
                                    DropdownType = DropdownTypeEnum.GymMembershipPlan.ToString(),
                                    IsRequired = false,
                                    Parameter = Model.CentreCode,
-                                   ChangeEvent = "GymMemberMembershipPlan.ChangeMembershipPlan()"
+                                   ChangeEvent = "GymMemberMembershipPlan.ChangeMembershipPlan()",
+                                   DropdownSelectedValue = Model.GymMembershipPlanId.ToString()
                                })
                                         @Html.ValidationMessageFor(x => x.GymMembershipPlanId, null, new { id = "errorGymMembershipPlanId" })
                                     </div>

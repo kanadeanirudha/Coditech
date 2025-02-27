@@ -66,7 +66,9 @@ namespace Coditech.API.Mapper
             CreateMap<TaskApprovalSetting, TaskApprovalSettingModel>().ReverseMap();
             CreateMap<TicketMaster, TicketMasterModel>().ReverseMap();
             CreateMap<TicketDetails, TicketDetailsModel>().ReverseMap();
+            CreateMap<TaskSchedulerMaster, TaskSchedulerModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCode, OrganisationCentrewiseJoiningCodeModel>().ReverseMap();
+            CreateMap<GeneralCurrencyMaster, GeneralCurrencyMasterModel>().ReverseMap();
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();
@@ -100,6 +102,7 @@ namespace Coditech.API.Mapper
             CreateMap<InventoryItemTrackingDimensionGroupMapperModel, InventoryItemTrackingDimensionGroupMapper>().ReverseMap();
 
             #endregion
+
             #region Accounts
             CreateMap<AccGLSetupNarration, AccGLSetupNarrationModel>().ReverseMap();
             CreateMap<AccSetupMaster, AccSetupMasterModel>().ReverseMap();
@@ -107,6 +110,7 @@ namespace Coditech.API.Mapper
             CreateMap<AccSetupBalanceSheetType, AccSetupBalanceSheetTypeModel>().ReverseMap();
             CreateMap<AccSetupTransactionType, AccSetupTransactionTypeModel>().ReverseMap();
             CreateMap<AccSetupGLBank, AccSetupGLBankModel>().ReverseMap();
+            CreateMap<AccSetupGL, AccSetupGLModel>().ReverseMap();
             #endregion
         }
     }

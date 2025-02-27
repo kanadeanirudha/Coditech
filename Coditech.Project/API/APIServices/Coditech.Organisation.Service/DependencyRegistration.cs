@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Logger;
+﻿using Coditech.API.ServiceAccounts;
+using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,8 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IGeneralNotificationMasterService, GeneralNotificationService>();
             builder.Services.AddScoped<IGeneralTrainerMasterService, GeneralTrainerMasterService>();
             builder.Services.AddScoped<IGeneralBatchMasterService, GeneralBatchMasterService>();
+            builder.Services.AddScoped<IGeneralCurrencyMasterService, GeneralCurrencyMasterService>();
+            builder.Services.AddScoped<ITaskSchedulerService, TaskSchedulerService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
@@ -92,6 +95,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeService, AccSetupBalanceSheetTypeService>();
             builder.Services.AddScoped<IAccSetupTransactionTypeService, AccSetupTransactionTypeService>();
             builder.Services.AddScoped<IAccSetupGLBankService, AccSetupGLBankService>();
+            builder.Services.AddScoped<IAccSetupGLService, AccSetupGLService>();
             #endregion
 
         }

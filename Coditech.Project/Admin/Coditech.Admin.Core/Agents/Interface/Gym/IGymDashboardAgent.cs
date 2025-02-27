@@ -8,6 +8,6 @@ namespace Coditech.Admin.Agents
         /// Get GetGymDashboardDetails.
         /// </summary>
         /// <returns>Returns GymDashboardViewModel.</returns>
-        GymDashboardViewModel GetGymDashboardDetails();
+        GymDashboardViewModel GetGymDashboardDetails(short numberOfDaysRecord);
     }
 }
