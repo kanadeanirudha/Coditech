@@ -99,7 +99,7 @@ namespace Coditech.API.Service
                         userModel.AccessibleCentreList.Add(allCentreList.First(x => x.CentreCode == centreCode));
                     }
                     //Bind Balance Sheet
-                    userModel.BalanceSheetList = BindAccountBalanceSheetIdByCentreCode(userModel);
+                    BindAccountBalanceSheetIdByCentreCode(userModel);
                 }
             }
             else
@@ -632,33 +632,28 @@ namespace Coditech.API.Service
             }
         }
 
-        protected virtual List<UserBalanceSheetModel> BindAccountBalanceSheetIdByCentreCode(UserModel userModel)
+        protected virtual void BindAccountBalanceSheetIdByCentreCode(UserModel userModel)
         {
-            List<UserBalanceSheetModel> userBalanceSheetModels = new List<UserBalanceSheetModel>();
-
             List<string> centreCodeList = userModel.AccessibleCentreList.Select(x => x.CentreCode).ToList();
-
-            List<AccSetupBalanceSheet> balanceSheets = _accSetupBalanceSheetRepository.Table
-                .Where(x => centreCodeList.Contains(x.CentreCode) && x.IsActive).ToList();
-
-            userBalanceSheetModels = balanceSheets.Select(x => new UserBalanceSheetModel
+            List<AccSetupBalanceSheet> balanceSheets = _accSetupBalanceSheetRepository.Table.Where(x => centreCodeList.Contains(x.CentreCode) && x.IsActive).ToList();
+            userModel.BalanceSheetList = balanceSheets?.Select(x => new UserBalanceSheetModel
             {
                 AccSetupBalanceSheetId = x.AccSetupBalanceSheetId,
-                AccBalancesheetHeadDesc = x.AccBalancesheetHeadDesc
-            }).ToList();
+                AccBalancesheetHeadDesc = x.AccBalancesheetHeadDesc,
+                CentreCode =x.CentreCode,
+                AccBalancesheetCode =x.AccBalancesheetCode,
+
+            })?.ToList();
 
             if (userModel.BalanceSheetList?.Count > 0)
             {
                 var firstBalanceSheet = userModel.BalanceSheetList.FirstOrDefault();
-
                 if (firstBalanceSheet != null)
                 {
                     userModel.SelectedBalanceId = firstBalanceSheet.AccSetupBalanceSheetId;
                     userModel.SelectedBalanceSheet = firstBalanceSheet.AccBalancesheetHeadDesc;
                 }
             }
-
-            return userBalanceSheetModels;
         }
 
         protected virtual void UpdateUserMasterDetails(UserMaster model)
