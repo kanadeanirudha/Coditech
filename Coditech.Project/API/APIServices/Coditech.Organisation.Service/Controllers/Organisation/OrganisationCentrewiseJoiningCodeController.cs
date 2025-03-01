@@ -66,5 +66,31 @@ namespace Coditech.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("/OrganisationCentrewiseJoiningCode/OrganisationCentrewiseJoiningCodeSend")]
+        [Produces(typeof(OrganisationCentrewiseJoiningCodeResponse))]
+        public virtual IActionResult OrganisationCentrewiseJoiningCodeSend(string joiningCode, string emailId, string mobileNumber)
+        {
+            try
+            {
+                OrganisationCentrewiseJoiningCodeModel resetPasswordSendLink = _organisationCentrewiseJoiningCodeService.OrganisationCentrewiseJoiningCodeSend(joiningCode, emailId, mobileNumber);
+                return IsNotNull(resetPasswordSendLink) ? CreateCreatedResponse(new OrganisationCentrewiseJoiningCodeResponse { OrganisationCentrewiseJoiningCodeModel = resetPasswordSendLink }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechUnauthorizedException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseJoiningCode.ToString(), TraceLevel.Warning);
+                return CreateUnauthorizedResponse(new OrganisationCentrewiseJoiningCodeResponse { HasError = true, ErrorCode = ex.ErrorCode });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseJoiningCode.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseJoiningCodeResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseJoiningCode.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseJoiningCodeResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

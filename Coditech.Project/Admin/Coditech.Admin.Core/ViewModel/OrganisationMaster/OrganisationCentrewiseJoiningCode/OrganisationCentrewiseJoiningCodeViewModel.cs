@@ -20,5 +20,6 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(70)]
         [Display(Name = "Email Address")]
         public string EmailId { get; set; }
+        
     }
 }

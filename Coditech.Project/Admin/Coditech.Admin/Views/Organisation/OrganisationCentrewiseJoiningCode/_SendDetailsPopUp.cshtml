@@ -4,35 +4,40 @@
     Layout = null;
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("JoiningCode", Model.JoiningCode);
 }
 
 <div class="modal-header">
-    <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Joining Code Details</h6>
+    <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Joining Code: @Model.JoiningCode </h6>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 @using (Html.BeginForm("GetOrganisationCentrewiseJoiningCodeSend", controllerName, FormMethod.Post, new { id = "frmSendDetails" }))
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(m => m.JoiningCode)
     <div class="modal-body">
         <div class="row">
-            <!-- Email ID Section -->
-            <div class="col-lg-6">
+            <div class="col-lg-9">
                 <div class="mb-3">
-                    @Html.LabelFor(x => x.EmailId, new { @class = "form-label required" })
+                    @Html.LabelFor(x => x.EmailId, new { @class = "form-label " })
                     @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control", onkeypress = "return CoditechCommon.AvoidSpacing()" })
                     @Html.ValidationMessageFor(x => x.EmailId)
                 </div>
             </div>
-            <div class="col-lg-6 d-flex align-items-end">
-                <button type="button" class="btn btn-warning w-100" onclick="CoditechCommon.SendOTP('email')">Send</button>
+            <div class="col-lg-3 d-flex align-items-end" id="EmailIdSendOTPDivId">
+                <button type="button" class="btn btn-success w-100" onclick="OrganisationCentrewiseJoiningCode.SendJoiningCode('email')">Send</button>
             </div>
-
-            <!-- Calling Code & Mobile Number -->
-            <div class="col-lg-2">
+            <!-- OR Separator -->
+            <div class="col-12 d-flex justify-content-center">
+                <div class="separator">
+                    <span>    OR    </span>
+                </div>
+            </div>
+            <div class="col-lg-3">
                 <div class="mb-3">
-                    @Html.LabelFor(x => x.CallingCode, new { @class = "form-label required" })
+                    @Html.LabelFor(x => x.CallingCode, new { @class = "form-label" })
                     @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
            {
                DropdownType = DropdownTypeEnum.CallingCode.ToString(),
@@ -43,22 +48,21 @@
                     @Html.ValidationMessageFor(x => x.CallingCode)
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="mb-3">
-                    @Html.LabelFor(x => x.MobileNumber, new { @class = "form-label required" })
+                    @Html.LabelFor(x => x.MobileNumber, new { @class = "form-label" })
                     @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control", onkeypress = "return CoditechCommon.ValidNumeric()" })
                     @Html.ValidationMessageFor(x => x.MobileNumber)
                 </div>
             </div>
-            <div class="col-lg-6 d-flex align-items-end">
-                <button type="button" class="btn btn-warning w-100" onclick="CoditechCommon.SendOTP('mobile')">Send</button>
+            <div class="col-lg-3 d-flex align-items-end" id="MobileNumberSendOTPDivId">
+                <button type="button" class="btn btn-success w-100" onclick="OrganisationCentrewiseJoiningCode.SendJoiningCode('mobile')">Send</button>
             </div>
 
         </div>
     </div>
 
     <div class="modal-footer d-flex justify-content-end">
-        @* <button type="submit" class="btn btn-success" onclick="GymWorkoutPlan.SaveData()">@AdminResources.LabelSave</button> *@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
     </div>
 }
@@ -67,7 +71,3 @@
     <!-- end page content -->
     <script src="~/js/coditech/Organisation/OrganisationCentrewiseJoiningCode.js"></script>
 }
-
-
-
-

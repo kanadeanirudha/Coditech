@@ -75,6 +75,44 @@ namespace Coditech.Admin.Agents
                 return (OrganisationCentrewiseJoiningCodeViewModel)GetViewModelWithErrorMessage(organisationCentrewiseJoiningCodeViewModel, GeneralResources.ErrorFailedToCreate);
             }
         }
+
+        // This method is used to Send Joining Code the user
+        public virtual OrganisationCentrewiseJoiningCodeViewModel OrganisationCentrewiseJoiningCodeSend(string joiningCode, string emailId, string mobileNumber)
+        {
+            OrganisationCentrewiseJoiningCodeViewModel organisationCentrewiseJoiningCodeViewModel = new OrganisationCentrewiseJoiningCodeViewModel();
+            try
+            {
+                OrganisationCentrewiseJoiningCodeResponse organisationCentrewiseJoiningCodeResponse = _organisationCentrewiseJoiningCodeClient.OrganisationCentrewiseJoiningCodeSend(joiningCode, emailId, mobileNumber);
+                //if (resetPasswordSendLinkResponse != null && !resetPasswordSendLinkResponse.HasError)
+                //{
+                //    return resetPasswordSendLinkViewModel;
+                //}
+                //else
+                //{
+                //    return (OrganisationCentrewiseJoiningCodeViewModel)GetViewModelWithErrorMessage(resetPasswordSendLinkViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+                //}
+                OrganisationCentrewiseJoiningCodeModel organisationCentrewiseJoiningCodeModel = organisationCentrewiseJoiningCodeResponse?.OrganisationCentrewiseJoiningCodeModel;
+                return IsNotNull(organisationCentrewiseJoiningCodeModel) ? organisationCentrewiseJoiningCodeModel.ToViewModel<OrganisationCentrewiseJoiningCodeViewModel>() : new OrganisationCentrewiseJoiningCodeViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.NotFound:
+                        return (OrganisationCentrewiseJoiningCodeViewModel)GetViewModelWithErrorMessage(organisationCentrewiseJoiningCodeViewModel, "Please make sure that the EmailId you entered is correct.");
+                    case ErrorCodes.ContactAdministrator:
+                        return (OrganisationCentrewiseJoiningCodeViewModel)GetViewModelWithErrorMessage(organisationCentrewiseJoiningCodeViewModel, $"Access Denied. {GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
+                    default:
+                        return (OrganisationCentrewiseJoiningCodeViewModel)GetViewModelWithErrorMessage(organisationCentrewiseJoiningCodeViewModel, $"{GeneralResources.ErrorMessage_PleaseContactYourAdministrator}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentrewiseJoiningCode.ToString(), TraceLevel.Error);
+                return (OrganisationCentrewiseJoiningCodeViewModel)GetViewModelWithErrorMessage(organisationCentrewiseJoiningCodeViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+            }
+        }
+
         #endregion
 
         #region protected
