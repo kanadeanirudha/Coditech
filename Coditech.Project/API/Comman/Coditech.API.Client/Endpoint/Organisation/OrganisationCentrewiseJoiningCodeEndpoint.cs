@@ -13,5 +13,8 @@ namespace Coditech.API.Endpoint
 
         public string CreateOrganisationCentrewiseJoiningCodeAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseJoiningCode/CreateOrganisationCentrewiseJoiningCode";
+
+        public string OrganisationCentrewiseJoiningCodeSendAsync(string joiningCode, string emailId, string mobileNumber) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentrewiseJoiningCode/OrganisationCentrewiseJoiningCodeSend?joiningCode={joiningCode}&emailId={emailId}&mobileNumber={mobileNumber}";
     }
 }

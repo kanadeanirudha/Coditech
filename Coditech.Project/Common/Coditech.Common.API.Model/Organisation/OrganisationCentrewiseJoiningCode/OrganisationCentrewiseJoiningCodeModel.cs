@@ -1,4 +1,6 @@
-﻿namespace Coditech.Common.API.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.Common.API.Model
 {
     public partial class OrganisationCentrewiseJoiningCodeModel : BaseModel
     {
@@ -6,5 +8,11 @@
         public string JoiningCode { get; set; }
         public int Quantity { get; set; }
         public bool IsExpired { get; set; }
+        public string CallingCode { get; set; }
+      
+        public string MobileNumber { get; set; }
+
+        public string EmailId { get; set; }
+        
     }
 }

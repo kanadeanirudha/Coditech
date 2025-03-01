@@ -16,5 +16,12 @@ namespace Coditech.Admin.Agents
         /// <param name="OrganisationCentrewiseJoiningCodeViewModel">Organisation Centrewise Joining Code View Model.</param>
         /// <returns>Returns created model.</returns>
         OrganisationCentrewiseJoiningCodeViewModel CreateOrganisationCentrewiseJoiningCode(OrganisationCentrewiseJoiningCodeViewModel organisationCentrewiseJoiningCodeViewModel);
+
+        /// <summary>
+        /// Organisation Centrewise Joining Code Send.
+        /// </summary>
+        /// <param name="joiningCode">joiningCode</param>
+        /// <returns>Returns the Organisation Centrewise Joining Code Send view model.</returns>
+        OrganisationCentrewiseJoiningCodeViewModel OrganisationCentrewiseJoiningCodeSend(string joiningCode, string emailId, string mobileNumber);
     }
 }

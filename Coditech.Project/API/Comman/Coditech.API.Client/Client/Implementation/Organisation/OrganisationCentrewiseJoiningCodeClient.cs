@@ -113,5 +113,61 @@ namespace Coditech.API.Client
                 }
             }
         }
+
+        public virtual OrganisationCentrewiseJoiningCodeResponse OrganisationCentrewiseJoiningCodeSend(string joiningCode, string emailId, string mobileNumber)
+        {
+            return OrganisationCentrewiseJoiningCodeSendAsync(joiningCode, emailId, mobileNumber,CancellationToken.None).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseJoiningCodeResponse> OrganisationCentrewiseJoiningCodeSendAsync(string joiningCode, string emailId, string mobileNumber, CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentrewiseJoiningCodeEndpoint.OrganisationCentrewiseJoiningCodeSendAsync(joiningCode, emailId, mobileNumber);
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<OrganisationCentrewiseJoiningCodeResponse> objectResponseResult2 = await ReadObjectResponseAsync<OrganisationCentrewiseJoiningCodeResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<OrganisationCentrewiseJoiningCodeResponse> objectResponseResult = await ReadObjectResponseAsync<OrganisationCentrewiseJoiningCodeResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            OrganisationCentrewiseJoiningCodeResponse result = JsonConvert.DeserializeObject<OrganisationCentrewiseJoiningCodeResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
+        }
     }
 }
