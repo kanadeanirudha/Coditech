@@ -90,7 +90,8 @@
         SchedulerFrequency,
         SchedulerType,
         SchedulerCallFor,
-        SchedulerWeeks
+        SchedulerWeeks,
+        LimitedDataAccess
     }
 
     public enum GeneralSystemGlobleSettingEnum

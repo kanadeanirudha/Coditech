@@ -15,6 +15,7 @@ namespace Coditech.API.Data
         public bool IsAttendaceAllowFromOutside { get; set; }
         public bool IsActive { get; set; }
         public int DashboardFormEnumId { get; set; }
+        public int LimitedDataAccessEnumId { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

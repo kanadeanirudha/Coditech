@@ -15,5 +15,6 @@
         public string SelectedCentreCode { get; set; }
         public string SelectedDepartmentId { get; set; }
 		public int DashboardFormEnumId { get; set; }
+		public int LimitedDataAccessEnumId { get; set; }
 	}
 }
