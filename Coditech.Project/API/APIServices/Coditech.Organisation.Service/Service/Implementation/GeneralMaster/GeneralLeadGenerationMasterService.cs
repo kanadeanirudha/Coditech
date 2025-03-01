@@ -17,11 +17,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralLeadGenerationMaster> _generalLeadGenerationMasterRepository;
+        private readonly ICoditechRepository<UserMaster> _userMasterRepository;
         public GeneralLeadGenerationMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalLeadGenerationMasterRepository = new CoditechRepository<GeneralLeadGenerationMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralLeadGenerationListModel GetLeadGenerationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -53,13 +55,18 @@ namespace Coditech.API.Service
 
             if (IsLeadGenerationAlreadyExist(generalLeadGenerationModel))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "First Name"));
-
+            
+            string errorMessage = string.Empty;
+            if (!ValidateUserwiseLeadGeneration(generalLeadGenerationModel, out errorMessage))
+            {
+                throw new CoditechException(ErrorCodes.AlreadyExist, errorMessage);
+            }
             GeneralLeadGenerationMaster generalLeadGenerationMaster = generalLeadGenerationModel.FromModelToEntity<GeneralLeadGenerationMaster>();
-			generalLeadGenerationMaster.FirstName = generalLeadGenerationMaster.FirstName.ToFirstLetterCapital();
-			generalLeadGenerationMaster.LastName = generalLeadGenerationMaster.LastName.ToFirstLetterCapital(); 
-			generalLeadGenerationMaster.MiddleName = generalLeadGenerationMaster.MiddleName.ToFirstLetterCapital(); 
+            generalLeadGenerationMaster.FirstName = generalLeadGenerationMaster.FirstName.ToFirstLetterCapital();
+            generalLeadGenerationMaster.LastName = generalLeadGenerationMaster.LastName.ToFirstLetterCapital();
+            generalLeadGenerationMaster.MiddleName = generalLeadGenerationMaster.MiddleName.ToFirstLetterCapital();
             //Create new LeadGeneration and return it.
-			GeneralLeadGenerationMaster LeadGenerationData = _generalLeadGenerationMasterRepository.Insert(generalLeadGenerationMaster);
+            GeneralLeadGenerationMaster LeadGenerationData = _generalLeadGenerationMasterRepository.Insert(generalLeadGenerationMaster);
             if (LeadGenerationData?.GeneralLeadGenerationMasterId > 0)
             {
                 generalLeadGenerationModel.GeneralLeadGenerationMasterId = LeadGenerationData.GeneralLeadGenerationMasterId;
@@ -70,6 +77,44 @@ namespace Coditech.API.Service
                 generalLeadGenerationModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
             return generalLeadGenerationModel;
+        }
+
+        protected virtual bool ValidateUserwiseLeadGeneration(GeneralLeadGenerationModel generalLeadGenerationModel, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            string userNameBasedOn = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == generalLeadGenerationModel.CentreCode && x.UserType.ToLower() == generalLeadGenerationModel.UserTypeCode.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
+            if (string.IsNullOrEmpty(userNameBasedOn))
+            {
+                errorMessage = "Organisation Centrewise UserName Registration not set";
+                return false;
+            }
+            else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString() && string.IsNullOrEmpty(generalLeadGenerationModel.MobileNumber))
+            {
+                errorMessage = "Mobile Number is required";
+                return false;
+            }
+            else if (userNameBasedOn == UserNameRegistrationTypeEnum.EmailId.ToString() && string.IsNullOrEmpty(generalLeadGenerationModel.EmailId))
+            {
+                errorMessage = "EmailId is required";
+                return false;
+            }
+            else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString())
+            {
+                if (_userMasterRepository.Table.Any(x => x.UserName == generalLeadGenerationModel.MobileNumber && x.UserType.ToLower() == generalLeadGenerationModel.UserTypeCode.ToLower()))
+                {
+                    errorMessage = "Mobile Number is already exist.";
+                    return false;
+                }
+            }
+            else if (userNameBasedOn == UserNameRegistrationTypeEnum.EmailId.ToString())
+            {
+                if (_userMasterRepository.Table.Any(x => x.UserName == generalLeadGenerationModel.EmailId && x.UserType.ToLower() == generalLeadGenerationModel.UserTypeCode.ToLower()))
+                {
+                    errorMessage = "EmailId is already exist.";
+                    return false;
+                }
+            }
+            return true;
         }
 
         //Get LeadGeneration by LeadGeneration id.
