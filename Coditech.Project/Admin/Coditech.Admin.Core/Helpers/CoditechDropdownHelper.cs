@@ -248,7 +248,7 @@ namespace Coditech.Admin.Helpers
             {
                 GetAccSetupTransactionType(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.BindAccountBalanceSheetIdByCentreCode.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseAccountBalanceSheet.ToString()))
             {
                 GetBindAccountBalanceSheetIdByCentreCodeList(dropdownViewModel, dropdownList);
             }
