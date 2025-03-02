@@ -235,10 +235,14 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SchedulerFrequency.ToString()))
             {
                 GetBatchSchedulerList(dropdownViewModel, dropdownList);
-            }          
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SchedulerWeeks.ToString()))
             {
                 GetBatchSchedulerWeeksList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DashboardDaysDropDown.ToString()))
+            {
+                DashboardDaysDropDownList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -1355,12 +1359,12 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = frequency.ToString(),  
+                    Text = frequency.ToString(),
                     Value = frequency.ToString(),
                     Selected = frequency.ToString() == dropdownViewModel.DropdownSelectedValue
                 });
             }
-        }       
+        }
 
         private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
@@ -1380,6 +1384,30 @@ namespace Coditech.Admin.Helpers
                     Value = day,
                     Selected = selectedValues.Contains(day)
                 });
+            }
+        }
+
+        private static void DashboardDaysDropDownList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            foreach (string item in CoditechAdminSettings.DashboardDays.Split(','))
+            {
+                if (Convert.ToInt16(item) > 2)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Value = item,
+                        Text = $"Last {item} Day's",
+                        Selected = item == dropdownViewModel.DropdownSelectedValue
+                    });
+                }
+                else if (Convert.ToInt16(item) == 2)
+                {
+                    dropdownList.Add(new SelectListItem() { Value = item, Text = $"Yesterday", Selected = item == dropdownViewModel.DropdownSelectedValue });
+                }
+                else if (Convert.ToInt16(item) == 1)
+                {
+                    dropdownList.Add(new SelectListItem() { Value = item, Text = $"Today", Selected = item == dropdownViewModel.DropdownSelectedValue });
+                }
             }
         }
     }
@@ -1417,34 +1445,3 @@ namespace Coditech.Admin.Helpers
 
 
 
-
-
-
-//private static void GetBatchSchedulerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-//{
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Onetime",
-//        Value = "Onetime",
-//        Selected = "Onetime" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Daily",
-//        Value = "Daily",
-//        Selected = "Daily" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Weekly",
-//        Value = "Weekly",
-//        Selected = "Weekly" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Monthly",
-//        Value = "Monthly",
-//        Selected = "Monthly" == dropdownViewModel.DropdownSelectedValue
-//    });
-
-//}

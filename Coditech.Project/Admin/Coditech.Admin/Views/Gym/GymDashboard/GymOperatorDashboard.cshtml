@@ -75,7 +75,8 @@
                             <li class="breadcrumb-item active">Analytics</li>
                             </ol> *@
                         </div>
-                        <div class="col-auto align-self-center">
+                        <div class="col-auto align-self-center" class="col text-end>
+                            @Html.Partial("~/Views/Shared/Dashboard/_DashboardDaysDropDown.cshtml", Model.NumberOfDaysRecord)
                             <a href="#" class="btn btn-sm btn-outline-primary" id="Dash_Date">
                                 <span class="day-name" id="Day_Name">Today:</span>&nbsp;
                                 <span class="" id="Select_date">@System.DateTime.Now.ToCoditechDateFormat()</span>
