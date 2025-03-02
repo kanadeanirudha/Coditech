@@ -32,6 +32,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<HospitalPatientRegistration> _hospitalPatientRegistrationRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
+        private readonly ICoditechRepository<AccSetupBalanceSheet> _accSetupBalanceSheetRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -49,6 +50,7 @@ namespace Coditech.API.Service
             _hospitalPatientRegistrationRepository = new CoditechRepository<HospitalPatientRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
+            _accSetupBalanceSheetRepository = new CoditechRepository<AccSetupBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -89,10 +91,6 @@ namespace Coditech.API.Service
                     //Bind Menu And Modules For Admin User
                     BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
                     BindRoleMediaFolderAction(userModel, userRoleMediaFolderActionList);
-
-                    //Bind Balance Sheet
-                    userModel.BalanceSheetList = BindAccountBalanceSheetByRoleId(userModel);
-
                     //Bind accessible Centre
                     List<string> centreCodeList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId && x.IsActive)?.Select(y => y.CentreCode)?.ToList();
                     List<UserAccessibleCentreModel> allCentreList = OrganisationCentreList();
@@ -100,6 +98,8 @@ namespace Coditech.API.Service
                     {
                         userModel.AccessibleCentreList.Add(allCentreList.First(x => x.CentreCode == centreCode));
                     }
+                    //Bind Balance Sheet
+                    BindAccountBalanceSheetIdByCentreCode(userModel);
                 }
             }
             else
@@ -632,20 +632,28 @@ namespace Coditech.API.Service
             }
         }
 
-        protected virtual List<UserBalanceSheetModel> BindAccountBalanceSheetByRoleId(UserModel userModel)
+        protected virtual void BindAccountBalanceSheetIdByCentreCode(UserModel userModel)
         {
-            return new List<UserBalanceSheetModel>();
-            int errorCode = 0;
-            CoditechViewRepository<UserBalanceSheetModel> objStoredProc = new CoditechViewRepository<UserBalanceSheetModel>();
-            objStoredProc.SetParameter("@iAdminRoleId", userModel.SelectedAdminRoleMasterId, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@iErrorCode", userModel.ErrorCode, ParameterDirection.Output, DbType.Int32);
-            List<UserBalanceSheetModel> accountBalanceSheetList = objStoredProc.ExecuteStoredProcedureList("USP_GetBalancesheetList @iAdminRoleId,@iErrorCode OUT", 1, out errorCode)?.ToList();
-            if (errorCode == 0 && accountBalanceSheetList?.Count > 0)
+            List<string> centreCodeList = userModel.AccessibleCentreList.Select(x => x.CentreCode).ToList();
+            List<AccSetupBalanceSheet> balanceSheets = _accSetupBalanceSheetRepository.Table.Where(x => centreCodeList.Contains(x.CentreCode) && x.IsActive).ToList();
+            userModel.BalanceSheetList = balanceSheets?.Select(x => new UserBalanceSheetModel
             {
-                userModel.SelectedBalanceId = accountBalanceSheetList.FirstOrDefault().BalsheetID;
-                userModel.SelectedBalanceSheet = accountBalanceSheetList.FirstOrDefault().ActBalsheetHeadDesc;
+                AccSetupBalanceSheetId = x.AccSetupBalanceSheetId,
+                AccBalancesheetHeadDesc = x.AccBalancesheetHeadDesc,
+                CentreCode =x.CentreCode,
+                AccBalancesheetCode =x.AccBalancesheetCode,
+
+            })?.ToList();
+
+            if (userModel.BalanceSheetList?.Count > 0)
+            {
+                var firstBalanceSheet = userModel.BalanceSheetList.FirstOrDefault();
+                if (firstBalanceSheet != null)
+                {
+                    userModel.SelectedBalanceId = firstBalanceSheet.AccSetupBalanceSheetId;
+                    userModel.SelectedBalanceSheet = firstBalanceSheet.AccBalancesheetHeadDesc;
+                }
             }
-            return accountBalanceSheetList;
         }
 
         protected virtual void UpdateUserMasterDetails(UserMaster model)

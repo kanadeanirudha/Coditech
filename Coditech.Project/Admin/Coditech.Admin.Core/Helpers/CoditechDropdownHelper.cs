@@ -16,6 +16,10 @@ namespace Coditech.Admin.Helpers
         {
             return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.AccessibleCentreList;
         }
+        public static List<UserBalanceSheetModel> BindAccountBalanceSheetIdByCentreCodeList()
+        {
+            return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.BalanceSheetList;
+        }
 
         public static DropdownViewModel GeneralDropdownList(DropdownViewModel dropdownViewModel)
         {
@@ -235,10 +239,18 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SchedulerFrequency.ToString()))
             {
                 GetBatchSchedulerList(dropdownViewModel, dropdownList);
-            }          
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SchedulerWeeks.ToString()))
             {
                 GetBatchSchedulerWeeksList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupTransactionType.ToString()))
+            {
+                GetAccSetupTransactionType(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseAccountBalanceSheet.ToString()))
+            {
+                GetBindAccountBalanceSheetIdByCentreCodeList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -1334,7 +1346,7 @@ namespace Coditech.Admin.Helpers
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
-                byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]);
+                byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]); 
                 AccSetupBalanceSheetListResponse response = new AccSetupBalanceSheetClient().List(selectedCentreCode, accSetupBalanceSheetTypeId, null, null, null, 1, int.MaxValue);
                 AccSetupBalanceSheetListModel list = new AccSetupBalanceSheetListModel() { AccSetupBalanceSheetList = response.AccSetupBalanceSheetList };
 
@@ -1355,12 +1367,12 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = frequency.ToString(),  
+                    Text = frequency.ToString(),
                     Value = frequency.ToString(),
                     Selected = frequency.ToString() == dropdownViewModel.DropdownSelectedValue
                 });
             }
-        }       
+        }
 
         private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
@@ -1382,69 +1394,38 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
+
+        private static void GetAccSetupTransactionType(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            AccSetupTransactionTypeListResponse response = new AccSetupTransactionTypeClient().List(null, null, null, 1, int.MaxValue);
+
+            AccSetupTransactionTypeListModel list = new AccSetupTransactionTypeListModel() { AccSetupTransactionTypeList = response.AccSetupTransactionTypeList };
+
+            dropdownList.Add(new SelectListItem() { Text = "-------Transaction Type-------" });
+            foreach (var item in list?.AccSetupTransactionTypeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.TransactionTypeCode,
+                    Value = item.AccSetupTransactionTypeId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupTransactionTypeId)
+                });
+            }
+        }
+        private static void GetBindAccountBalanceSheetIdByCentreCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            List<UserBalanceSheetModel> BalanceSheetList = BindAccountBalanceSheetIdByCentreCodeList();
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Balancesheet-------", Value = "" });
+
+            foreach (var item in BalanceSheetList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.AccBalancesheetHeadDesc,
+                    Value = item.AccSetupBalanceSheetId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupBalanceSheetId)
+                });
+            }
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//private static void GetBatchSchedulerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-//{
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Onetime",
-//        Value = "Onetime",
-//        Selected = "Onetime" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Daily",
-//        Value = "Daily",
-//        Selected = "Daily" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Weekly",
-//        Value = "Weekly",
-//        Selected = "Weekly" == dropdownViewModel.DropdownSelectedValue
-//    });
-//    dropdownList.Add(new SelectListItem()
-//    {
-//        Text = "Monthly",
-//        Value = "Monthly",
-//        Selected = "Monthly" == dropdownViewModel.DropdownSelectedValue
-//    });
-
-//}
