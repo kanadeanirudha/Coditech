@@ -111,6 +111,7 @@ namespace Coditech.API.Mapper
             CreateMap<AccSetupTransactionType, AccSetupTransactionTypeModel>().ReverseMap();
             CreateMap<AccSetupGLBank, AccSetupGLBankModel>().ReverseMap();
             CreateMap<AccSetupGL, AccSetupGLModel>().ReverseMap();
+            CreateMap<AccGLTransaction, AccGLTransactionModel>().ReverseMap();
             #endregion
         }
     }

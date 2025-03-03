@@ -91,6 +91,9 @@
         SchedulerType,
         SchedulerCallFor,
         SchedulerWeeks,
+        AccSetupTransactionType,
+        CentrewiseAccountBalanceSheet,
+        LimitedDataAccess,
         DashboardDaysDropDown
     }
 

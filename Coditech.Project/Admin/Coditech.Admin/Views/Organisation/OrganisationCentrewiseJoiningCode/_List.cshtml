@@ -27,7 +27,7 @@
                                 @*  <a href="../@controllerName/SendDetails" title="Send" class="btn btn-sm btn-soft-success btn-circle"><i data-feather="send" style="width: 20px; height: 20px;"></i></a> *@
                                 @if (item.IsExpired==false)
                                 {
-                                    <a data-bs-toggle="modal" data-bs-target="#@sendDetailsModel.ModelPopUpId" href="javascritp:void(0)" onclick="OrganisationCentrewiseJoiningCode.GetOrganisationCentrewiseJoiningCodeSend('@sendDetailsModel.ModalContentId')" title="Send" class="btn btn-sm btn-soft-success btn-circle"><i data-feather="send" style="width: 20px; height: 20px;"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#@sendDetailsModel.ModelPopUpId" href="javascritp:void(0)" onclick="OrganisationCentrewiseJoiningCode.GetOrganisationCentrewiseJoiningCodeSend('@sendDetailsModel.ModalContentId','@item.JoiningCode')" title="Send" class="btn btn-sm btn-soft-success btn-circle"><i data-feather="send" style="width: 20px; height: 20px;"></i></a>
                                 }
                             </td>
                         </tr>

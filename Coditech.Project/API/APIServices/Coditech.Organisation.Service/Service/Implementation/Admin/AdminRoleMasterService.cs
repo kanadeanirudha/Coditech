@@ -102,6 +102,7 @@ namespace Coditech.API.Service
             adminRoleMasterData.IsAttendaceAllowFromOutside = adminRoleMasterModel.IsAttendaceAllowFromOutside;
             adminRoleMasterData.IsActive = adminRoleMasterModel.IsActive;
             adminRoleMasterData.DashboardFormEnumId = adminRoleMasterModel.DashboardFormEnumId;
+            adminRoleMasterData.LimitedDataAccessEnumId = adminRoleMasterModel.LimitedDataAccessEnumId;
             adminRoleMasterData.ModifiedBy = adminRoleMasterModel.ModifiedBy;
 
             //Update adminRoleMaster

@@ -18,5 +18,12 @@ namespace Coditech.API.Client
         /// <param name="OrganisationCentrewiseJoiningCodeModel">OrganisationCentrewiseJoiningCodeModel.</param>
         /// <returns>Returns PaymentGatewaysResponse.</returns>
         OrganisationCentrewiseJoiningCodeResponse CreateOrganisationCentrewiseJoiningCode(OrganisationCentrewiseJoiningCodeModel body);
+
+        /// <summary>
+        /// Organisation Centrewise Joining Code Send.
+        /// </summary>
+        /// <param name="joiningCode">OrganisationCentrewiseJoiningCodeModel.</param>
+        /// <returns>Returns OrganisationCentrewiseJoiningCodeResponse.</returns>
+        OrganisationCentrewiseJoiningCodeResponse OrganisationCentrewiseJoiningCodeSend(string joiningCode, string emailId, string mobileNumber);
     }
 }

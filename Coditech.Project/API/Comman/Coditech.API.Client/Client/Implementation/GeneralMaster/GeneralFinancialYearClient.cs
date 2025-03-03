@@ -16,7 +16,7 @@ namespace Coditech.API.Client
         {
             generalFinancialYearEndpoint = new GeneralFinancialYearEndpoint();
         }
-        public virtual GeneralFinancialYearListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual GeneralFinancialYearListResponse List(IEnumerable<string> expand,     IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }

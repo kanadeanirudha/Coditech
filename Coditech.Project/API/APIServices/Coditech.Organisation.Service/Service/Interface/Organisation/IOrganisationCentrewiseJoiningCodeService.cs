@@ -7,6 +7,6 @@ namespace Coditech.API.Service
     {
         OrganisationCentrewiseJoiningCodeListModel GetOrganisationCentrewiseJoiningCodeList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         OrganisationCentrewiseJoiningCodeModel CreateOrganisationCentrewiseJoiningCode(OrganisationCentrewiseJoiningCodeModel model);
-
+        OrganisationCentrewiseJoiningCodeModel OrganisationCentrewiseJoiningCodeSend(string joiningCode, string emailId, string mobileNumber);
     }
 }
