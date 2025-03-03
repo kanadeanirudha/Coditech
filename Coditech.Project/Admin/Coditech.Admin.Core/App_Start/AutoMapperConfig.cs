@@ -23,6 +23,7 @@ namespace Coditech.Admin
             CreateMap<AccSetupGLBankViewModel, AccSetupGLBankListViewModel>().ReverseMap();
             CreateMap<AccSetupGLModel, AccSetupGLViewModel>().ReverseMap();
             CreateMap<AccSetupGLViewModel, AccSetupGLListViewModel>().ReverseMap();
+            CreateMap<AccSetupChartOfAccountTemplateViewModel, AccSetupChartOfAccountTemplateListViewModel>().ReverseMap();
             CreateMap<AccGLTransactionModel, AccGLTransactionViewModel>().ReverseMap();
             CreateMap<AccGLTransactionViewModel, AccGLTransactionListViewModel>().ReverseMap();
             #endregion

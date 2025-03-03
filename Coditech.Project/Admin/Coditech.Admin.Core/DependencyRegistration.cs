@@ -72,7 +72,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITicketMasterAgent, TicketMasterAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeAgent, OrganisationCentrewiseJoiningCodeAgent>();
             builder.Services.AddScoped<IGeneralCurrencyMasterAgent, GeneralCurrencyMasterAgent>();
-
+            
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
             builder.Services.AddScoped<IHospitalDoctorVisitingChargesAgent, HospitalDoctorVisitingChargesAgent>();
@@ -126,6 +126,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupTransactionTypeAgent, AccSetupTransactionTypeAgent>();
             builder.Services.AddScoped<IAccSetupGLBankAgent, AccSetupGLBankAgent>();
             builder.Services.AddScoped<IAccSetupGLAgent, AccSetupGLAgent>();
+            builder.Services.AddScoped<IAccSetupChartOfAccountTemplateAgent, AccSetupChartOfAccountTemplateAgent>();
             builder.Services.AddScoped<IAccGLTransactionAgent, AccGLTransactionAgent>();
             #endregion
 
@@ -199,7 +200,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeClient, OrganisationCentrewiseJoiningCodeClient>();
             builder.Services.AddScoped<IGeneralCurrencyMasterClient, GeneralCurrencyMasterClient>();
             builder.Services.AddScoped<ITaskSchedulerClient, TaskSchedulerClient>();
-
+            
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();
@@ -239,6 +240,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupTransactionTypeClient, AccSetupTransactionTypeClient>();
             builder.Services.AddScoped<IAccSetupGLBankClient, AccSetupGLBankClient>();
             builder.Services.AddScoped<IAccSetupGLClient, AccSetupGLClient>();
+            builder.Services.AddScoped<IAccSetupChartOfAccountTemplateClient, AccSetupChartOfAccountTemplateClient>();
             builder.Services.AddScoped<IAccGLTransactionClient, AccGLTransactionClient>();
             #endregion
 

@@ -48,7 +48,6 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeService, OrganisationCentrewiseJoiningCodeService>();
-
             builder.Services.AddScoped<ILogMessageService, LogMessageService>();
 
             builder.Services.AddScoped<IUserService, UserService>();
@@ -96,6 +95,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IAccSetupTransactionTypeService, AccSetupTransactionTypeService>();
             builder.Services.AddScoped<IAccSetupGLBankService, AccSetupGLBankService>();
             builder.Services.AddScoped<IAccSetupGLService, AccSetupGLService>();
+            builder.Services.AddScoped<IAccSetupChartOfAccountTemplateService, AccSetupChartOfAccountTemplateService>();
             builder.Services.AddScoped<IAccGLTransactionService, AccGLTransactionService>();
             #endregion
 
