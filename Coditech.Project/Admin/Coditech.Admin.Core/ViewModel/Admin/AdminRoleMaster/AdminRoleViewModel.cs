@@ -37,5 +37,7 @@ namespace Coditech.Admin.ViewModel
         public List<string> SelectedRoleWiseCentres { get; set; }
 		[Display(Name = "Dashboard")]
 		public int DashboardFormEnumId { get; set; }
+        [Display(Name = "Data Access")]
+        public int LimitedDataAccessEnumId { get; set; }
 	}
 }

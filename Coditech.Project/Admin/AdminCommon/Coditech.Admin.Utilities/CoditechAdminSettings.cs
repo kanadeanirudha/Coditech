@@ -184,7 +184,13 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToInt16(settings["DefaultDashboardDataDays"]);
             }
         }
-
+        public static string DashboardDays
+        {
+            get
+            {
+                return Convert.ToString(settings["DashboardDays"]);
+            }
+        }
         public static bool MaintenanceMode
         {
             get

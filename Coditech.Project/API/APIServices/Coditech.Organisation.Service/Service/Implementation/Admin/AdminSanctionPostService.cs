@@ -39,7 +39,7 @@ namespace Coditech.API.Service
             string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
 
             filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedDepartmentId || x.FilterName == FilterKeys.SelectedCentreCode);
-          
+
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<AdminSanctionPostModel> objStoredProc = new CoditechViewRepository<AdminSanctionPostModel>(_serviceProvider.GetService<Coditech_Entities>());
@@ -87,6 +87,7 @@ namespace Coditech.API.Service
                     SanctionPostName = adminSanctionPostModel.SanctionedPostDescription,
                     MonitoringLevel = APIConstant.Self,
                     AdminRoleCode = adminSanctionPostModel.SanctionPostCode,
+                    LimitedDataAccessEnumId = GetEnumIdByEnumCode("Self", DropdownTypeEnum.LimitedDataAccess.ToString()),
                     OthCentreLevel = string.Empty,
                     IsActive = true,
                     CreatedBy = adminSanctionPostModel.CreatedBy

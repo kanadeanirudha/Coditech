@@ -90,7 +90,11 @@
         SchedulerFrequency,
         SchedulerType,
         SchedulerCallFor,
-        SchedulerWeeks
+        SchedulerWeeks,
+        AccSetupTransactionType,
+        CentrewiseAccountBalanceSheet,
+        LimitedDataAccess,
+        DashboardDaysDropDown
     }
 
     public enum GeneralSystemGlobleSettingEnum
