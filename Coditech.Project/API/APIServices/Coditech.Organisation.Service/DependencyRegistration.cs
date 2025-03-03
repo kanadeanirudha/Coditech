@@ -1,4 +1,5 @@
-﻿using Coditech.API.ServiceAccounts;
+﻿using Coditech.API.Data;
+using Coditech.API.ServiceAccounts;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Microsoft.AspNetCore.Builder;
@@ -96,6 +97,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IAccSetupTransactionTypeService, AccSetupTransactionTypeService>();
             builder.Services.AddScoped<IAccSetupGLBankService, AccSetupGLBankService>();
             builder.Services.AddScoped<IAccSetupGLService, AccSetupGLService>();
+            builder.Services.AddScoped<IAccSetupGLTypeService, AccSetupGLTypeService>();
             builder.Services.AddScoped<IAccGLTransactionService, AccGLTransactionService>();
             #endregion
 

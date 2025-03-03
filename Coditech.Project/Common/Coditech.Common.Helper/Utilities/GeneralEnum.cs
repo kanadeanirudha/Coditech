@@ -91,6 +91,7 @@
         SchedulerType,
         SchedulerCallFor,
         SchedulerWeeks,
+        AccSetupGLType,
         AccSetupTransactionType,
         CentrewiseAccountBalanceSheet,
         LimitedDataAccess,

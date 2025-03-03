@@ -65,7 +65,7 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(accSetupGLModel.ErrorMessage));
             return PartialView("~/Views/Accounts/AccSetupGL/_CreateAccountSetupGL.cshtml", accSetupGLModel);
         }
-       
+
         [HttpPost]
         public virtual ActionResult UpdateAccountSetupGL(AccSetupGLModel accSetupGLModel)
         {
@@ -79,6 +79,30 @@ namespace Coditech.Admin.Controllers
             }
             return RedirectToAction("GetAccSetupGL", new { selectedcentreCode = accSetupGLModel.SelectedCentreCode, accSetupBalanceSheetTypeId = accSetupGLModel.AccSetupBalanceSheetTypeId, accSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId });
 
+        }
+        [HttpPost]
+        public virtual ActionResult AddChild(AccSetupGLModel accSetupGLModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, message = "Invalid data. Please check the inputs." });
+            }
+            accSetupGLModel = _accSetupGLAgent.AddChild(accSetupGLModel);
+
+            if (accSetupGLModel != null && !accSetupGLModel.HasError)
+            {
+                string newHtml = $@"
+                    <div id='gl-{accSetupGLModel.AccSetupGLId}' 
+                         style='padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:4px; 
+                                background-color:#f9f9f9; display:flex; align-items:center;'>
+                        <span style='font-weight:bold; color:#333;'> {accSetupGLModel.GLName}</span>
+                    </div>";
+                return Json(new { success = true, html = newHtml, message = "Record added successfully!" });
+            }
+            else
+            {
+                return Json(new { success = false, status = !accSetupGLModel.HasError, message = accSetupGLModel.ErrorMessage });
+            }
         }
     }
 }

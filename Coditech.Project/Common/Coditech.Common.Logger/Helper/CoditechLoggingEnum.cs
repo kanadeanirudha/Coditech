@@ -127,6 +127,7 @@
             GeneralCurrencyMaster,
             OrganisationCentrewiseAccountSetup,
             AccountSetupGL,
+            AccSetupGLType,
             TaskScheduler,
             AccGLTransaction
         }

@@ -98,6 +98,37 @@ namespace Coditech.Admin.Agents
                 return accSetupGLModel;
             }
         }
+        //Update AccountSetupGL.
+        public virtual AccSetupGLModel AddChild(AccSetupGLModel accSetupGLModel)
+        {
+            try
+            {
+                AccSetupGLResponse response = _accSetupGLClient.AddChild(accSetupGLModel);
+
+                if (response?.HasError == true)
+                {
+                    accSetupGLModel.HasError = true;
+                    accSetupGLModel.ErrorMessage = response.ErrorMessage;
+                    return accSetupGLModel;
+                }
+
+                return response?.AccSetupGLModel ?? new AccSetupGLModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Warning);
+                accSetupGLModel.HasError = true;
+                accSetupGLModel.ErrorMessage = ex.ErrorMessage;
+                return accSetupGLModel;
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Error);
+                accSetupGLModel.HasError = true;
+                accSetupGLModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                return accSetupGLModel;
+            }
+        }
         #endregion
     }
 }

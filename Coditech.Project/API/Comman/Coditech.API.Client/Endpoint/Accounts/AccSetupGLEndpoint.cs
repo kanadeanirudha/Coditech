@@ -12,6 +12,8 @@ namespace Coditech.API.Endpoint
           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccSetupGL/GetAccountSetupGL?accSetupGLId={accSetupGLId}";
 
         public string UpdateAccountSetupGLAsync() =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccSetupGL/UpdateAccountSetupGL";
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccSetupGL/UpdateAccountSetupGL"; 
+        public string AddChildAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccSetupGL/AddChild";
     }
 }

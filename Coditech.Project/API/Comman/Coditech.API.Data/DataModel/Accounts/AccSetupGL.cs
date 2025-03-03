@@ -8,11 +8,11 @@ namespace Coditech.API.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AccSetupGLId { get; set; }
         public byte AccSetupCategoryId { get; set; }
-        public int AltSetupGLId { get; set; }
-        public int ParentAccSetupGLId { get; set; }
-        public byte AccSetupGLTypeId { get; set; }
+        public int? AltSetupGLId { get; set; }
+        public int? ParentAccSetupGLId { get; set; }
+        public short? AccSetupGLTypeId { get; set; }
         public int AccSetupBalanceSheetId { get; set; }
-        public byte AccSetupChartOfAccountTemplateId { get; set; }
+        public byte? AccSetupChartOfAccountTemplateId { get; set; }
         public string GLName { get; set; }
         public string GLCode { get; set; }
         public bool IsGroup { get; set; }
