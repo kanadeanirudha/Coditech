@@ -82,11 +82,16 @@ namespace Coditech.API.Service
             if (string.IsNullOrEmpty(joiningCode))
                 throw new CoditechException(ErrorCodes.NullModel, "Joining Code cannot be null or empty.");
 
-            OrganisationCentrewiseJoiningCode organisationCentrewiseJoiningCode = _organisationCentrewiseJoiningCodeRepository.Table.FirstOrDefault(x => x.JoiningCode == joiningCode);
+           
+            string centreCode = _organisationCentrewiseJoiningCodeRepository.Table.Where(x => x.JoiningCode == joiningCode)?.Select(x => x.CentreCode)?.FirstOrDefault();
+
+            if (string.IsNullOrEmpty(centreCode))
+                throw new CoditechException(ErrorCodes.InvalidData, "Invalid Joining Code.");
+
             OrganisationCentrewiseJoiningCodeModel responseModel = new OrganisationCentrewiseJoiningCodeModel()
             {
                 JoiningCode = joiningCode,
-                CentreCode = organisationCentrewiseJoiningCode.CentreCode,
+                CentreCode = centreCode,
                 EmailId = emailId,
                 MobileNumber = mobileNumber
             };
@@ -99,7 +104,7 @@ namespace Coditech.API.Service
                 {
                     try
                     {
-                        _coditechEmail.SendEmail(organisationCentrewiseJoiningCode.CentreCode, emailId, "", "Joining Code", messageBody, true);
+                        _coditechEmail.SendEmail(centreCode, emailId, "", "Joining Code", messageBody, true);
                     }
                     catch (Exception ex)
                     {
@@ -111,19 +116,20 @@ namespace Coditech.API.Service
                 {
                     try
                     {
-                        _coditechSMS.SendSMS("", messageBody, mobileNumber);
+                        _coditechSMS.SendSMS(centreCode, messageBody, mobileNumber);
                     }
                     catch (Exception ex)
                     {
                         _coditechLogging.LogMessage($"SMS sending failed: {ex.Message}", CoditechLoggingEnum.Components.SMSService.ToString(), TraceLevel.Error);
                     }
                 }
+
                 // Send WhatsApp
                 if (!string.IsNullOrEmpty(mobileNumber))
                 {
                     try
                     {
-                        _coditechWhatsApp.SendWhatsAppMessage("", messageBody, mobileNumber);
+                        _coditechWhatsApp.SendWhatsAppMessage(centreCode, messageBody, mobileNumber);
                     }
                     catch (Exception ex)
                     {
