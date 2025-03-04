@@ -1350,7 +1350,7 @@ namespace Coditech.Admin.Helpers
             if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
                 string selectedCentreCode = dropdownViewModel.Parameter.Split("~")[0];
-                byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]); 
+                byte accSetupBalanceSheetTypeId = Convert.ToByte(dropdownViewModel.Parameter.Split("~")[1]);
                 AccSetupBalanceSheetListResponse response = new AccSetupBalanceSheetClient().List(selectedCentreCode, accSetupBalanceSheetTypeId, null, null, null, 1, int.MaxValue);
                 AccSetupBalanceSheetListModel list = new AccSetupBalanceSheetListModel() { AccSetupBalanceSheetList = response.AccSetupBalanceSheetList };
 
@@ -1419,7 +1419,7 @@ namespace Coditech.Admin.Helpers
         private static void GetBindAccountBalanceSheetIdByCentreCodeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             List<UserBalanceSheetModel> BalanceSheetList = BindAccountBalanceSheetIdByCentreCodeList();
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Balancesheet-------", Value = "" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Balancesheet-------", Value = "" });
 
             foreach (var item in BalanceSheetList)
             {
@@ -1436,7 +1436,7 @@ namespace Coditech.Admin.Helpers
         {
             foreach (string item in CoditechAdminSettings.DashboardDays.Split(','))
             {
-                if (Convert.ToInt16(item) > 2)
+                if (Convert.ToInt16(item) > 1)
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -1445,11 +1445,11 @@ namespace Coditech.Admin.Helpers
                         Selected = item == dropdownViewModel.DropdownSelectedValue
                     });
                 }
-                else if (Convert.ToInt16(item) == 2)
+                else if (Convert.ToInt16(item) == 1)
                 {
                     dropdownList.Add(new SelectListItem() { Value = item, Text = $"Yesterday", Selected = item == dropdownViewModel.DropdownSelectedValue });
                 }
-                else if (Convert.ToInt16(item) == 1)
+                else if (Convert.ToInt16(item) == 0)
                 {
                     dropdownList.Add(new SelectListItem() { Value = item, Text = $"Today", Selected = item == dropdownViewModel.DropdownSelectedValue });
                 }
