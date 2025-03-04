@@ -307,7 +307,7 @@
                                     <img src="../assets/images/@image" height="40" class="me-3 align-self-center rounded" alt="...">
                                     <div class="media-body align-self-center">
                                         <h6 class="mt-0 mb-1">@item.PaymentType</h6>
-                                        <p class="text-muted mb-1"><span class="text-success">@AdminGeneralHelper.FormatPriceWithCurrency(@item.BillAmount)</span> From Last @Model.NumberOfDaysRecord Day's</p>
+                                        <p class="text-muted mb-1"><span class="text-success">@AdminGeneralHelper.FormatPriceWithCurrency(@item.BillAmount)</span> From Last @Model.NumberOfDaysRecord Day</p>
                                         <small class="float-end text-muted ms-3 font-11">@percentage %</small>
                                         <div class="progress mt-2" style="height:4px;">
                                             <div class="progress-bar bg-warning-50" role="progressbar" style="width: @percentage%; border-radius:5px;" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100"></div>
@@ -467,7 +467,7 @@
                                                 }
                                                 else
                                                 {
-                                                    @(item.PlanDurationExpiredInDays + " Day's Left")
+                                                    @(item.PlanDurationExpiredInDays + " Days Left")
                                                 }
                                             </td>
                                         </tr>
