@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.Agents;
+using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
@@ -22,13 +23,18 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual IActionResult Index(short numberOfDaysRecord)
         {
+            return GetDashboard(CoditechAdminSettings.DefaultDashboardDataDays);
+        }
+
+        public virtual IActionResult GetDashboard(short numberOfDaysRecord)
+        {
             DashboardViewModel dashboardViewModel = _dashboardAgent.GetDashboardDetails();
             if (IsNotNull(dashboardViewModel) && !string.IsNullOrEmpty(dashboardViewModel.DashboardFormEnumCode))
             {
                 if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
                     GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails(numberOfDaysRecord);
-                    return View("~/Views/Gym/GymDashboard/GymOwnerDashboard.cshtml", gymDashboardViewModel);                  
+                    return View("~/Views/Gym/GymDashboard/GymOwnerDashboard.cshtml", gymDashboardViewModel);
                 }
                 else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
