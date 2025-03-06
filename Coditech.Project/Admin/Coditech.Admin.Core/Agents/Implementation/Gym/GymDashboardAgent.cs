@@ -31,7 +31,6 @@ namespace Coditech.Admin.Agents
             int selectedAdminRoleMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedAdminRoleMasterId ?? 0;
             long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
             GymDashboardViewModel dashboardViewModel = new GymDashboardViewModel();
-            numberOfDaysRecord = numberOfDaysRecord == 0 ? CoditechAdminSettings.DefaultDashboardDataDays : numberOfDaysRecord;
             if (selectedAdminRoleMasterId > 0 && userMasterId > 0)
             {
                 GymDashboardResponse response = _dashboardClient.GetGymDashboardDetails(numberOfDaysRecord, selectedAdminRoleMasterId, userMasterId);
