@@ -3,7 +3,7 @@
 @using Newtonsoft.Json
 @model GymDashboardViewModel
 @{
-    ViewBag.Title = "GymDashboard";
+    ViewBag.Title = "Dashboard";
     string[] XValuesPie = ["Active Member", "InActive Member"];
     int[] YValuesPie = [Model.ActiveMemberCount, Model.InActiveMemberCount];
     string[] backgroundColor = ["rgba(42, 118, 244, 0.18)", "rgba(42, 118, 244, 0.30)"];
@@ -38,7 +38,6 @@
             };
 
     //Lead Generation Source
-    //leadGenerationSourceModel
     int leadCount = Model.GymGeneralLeadGenerationSourceList.Count();
     string[] XValuesBarLeadGenerationSource = new string[leadCount];
     int[] YValuesBarLeadGenerationSource = new int[leadCount];
@@ -65,18 +64,20 @@
         <!-- Page-Title -->
         <div class="row">
             <div class="col-sm-12">
-                <div class="page-title-box">
+                <div class="page-title-box pt-0 pb-0">
                     <div class="row">
-                        <div class="col">
-                            @*  <h4 class="page-title">Analytics</h4>
-                            <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Dastone</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Analytics</li>
-                            </ol> *@
-                        </div>
-                        <div class="col-auto align-self-center" class="col text-end>
+                        @* <div class="col"> *@
+                        @*  <h4 class="page-title">Analytics</h4>
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dastone</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Analytics</li>
+                        </ol> *@
+                        @*  </div> *@
+                        <div class="col text-end " id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
                             @Html.Partial("~/Views/Shared/Dashboard/_DashboardDaysDropDown.cshtml", Model.NumberOfDaysRecord)
+                        </div>
+                        <div class="col-auto align-self-center" class="col text-end">
                             <a href="#" class="btn btn-sm btn-outline-primary" id="Dash_Date">
                                 <span class="day-name" id="Day_Name">Today:</span>&nbsp;
                                 <span class="" id="Select_date">@System.DateTime.Now.ToCoditechDateFormat()</span>
@@ -190,24 +191,34 @@
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card report-card">
-                    <div class="card-body">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col">
-                                <p class="text-dark mb-0 fw-semibold">Last @Model.NumberOfDaysRecord Days Collection</p>
-                                <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.DaywiseTotalCollection)</h3>
-                                <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
-                            </div>
-                            <div class="col-auto align-self-center">
-                                <div class="report-main-icon bg-light-alt">
-                                    <i class="fas fa-chart-line"></i>
+            @if (@Model.NumberOfDaysRecord > 0)
+            {
+                <div class="col-md-6 col-lg-3">
+                    <div class="card report-card">
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col">
+                                    @if (@Model.NumberOfDaysRecord > 1)
+                                    {
+                                        <p class="text-dark mb-0 fw-semibold">Last @Model.NumberOfDaysRecord Days Collection</p>
+                                    }
+                                    else if (@Model.NumberOfDaysRecord == 1)
+                                    {
+                                        <p class="text-dark mb-0 fw-semibold">Yesterday's Collection</p>
+                                    }
+                                    <h3 class="m-0">@AdminGeneralHelper.FormatPriceWithCurrency(@Model.DaywiseTotalCollection)</h3>
+                                    <p class="mb-0 text-truncate text-muted">&nbsp;@* <span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today *@</p>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    <div class="report-main-icon bg-light-alt">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div><!--end card-body-->
-                </div><!--end card-->
-            </div>
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                </div>
+            }
             <div class="col-md-6 col-lg-3">
                 <div class="card report-card">
                     <div class="card-body">
@@ -267,7 +278,18 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Revenue By Payment Mode</h4>
+                                @if (@Model.NumberOfDaysRecord > 1)
+                                {
+                                    <h4 class="card-title">Revenue By Payment Mode(Last @Model.NumberOfDaysRecord Days)</h4>
+                                }
+                                else if (@Model.NumberOfDaysRecord == 1)
+                                {
+                                    <h4 class="card-title">Revenue By Payment Mode(Yesterday)</h4>
+                                }
+                                else if (@Model.NumberOfDaysRecord == 0)
+                                {
+                                    <h4 class="card-title">Revenue By Payment Mode(Today)</h4>
+                                }
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
@@ -284,7 +306,7 @@
                                     <img src="../assets/images/@image" height="40" class="me-3 align-self-center rounded" alt="...">
                                     <div class="media-body align-self-center">
                                         <h6 class="mt-0 mb-1">@item.PaymentType</h6>
-                                        <p class="text-muted mb-1"><span class="text-success">@AdminGeneralHelper.FormatPriceWithCurrency(@item.BillAmount)</span> From Last @Model.NumberOfDaysRecord Day's</p>
+                                        <p class="text-muted mb-1"><span class="text-success">@AdminGeneralHelper.FormatPriceWithCurrency(@item.BillAmount)</span></p>
                                         <small class="float-end text-muted ms-3 font-11">@percentage %</small>
                                         <div class="progress mt-2" style="height:4px;">
                                             <div class="progress-bar bg-warning-50" role="progressbar" style="width: @percentage%; border-radius:5px;" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100"></div>
@@ -361,7 +383,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Last @Model.NumberOfDaysRecord Day's Financial Overview</h4>
+                                <h4 class="card-title">Last 30 Days Financial Overview</h4>
                             </div>
                         </div>
                     </div><!--end card-header-->
@@ -371,13 +393,13 @@
                         </div><!--end card-body-->
                     </div><!--end card-body-->
                 </div><!--end card-->
-            </div>   
+            </div>
             <div class="col-lg-6">
                 <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Lead Source</h4>
+                                <h4 class="card-title">Last 30 Days Lead Source</h4>
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
@@ -390,13 +412,23 @@
             </div> <!--end col-->
         </div>
         <div class="row mb-3">
-        
             <div class="col-lg-12">
                 <div class="card h-100">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-title">Upcoming Plan Expiration Members(In @Model.NumberOfDaysRecord Day's)</h4>
+                                @if (@Model.NumberOfDaysRecord > 1)
+                                {
+                                    <h4 class="card-title">Upcoming Plan Expiration Members(In @Model.NumberOfDaysRecord Days)</h4>
+                                }
+                                else if (@Model.NumberOfDaysRecord == 1)
+                                {
+                                    <h4 class="card-title">Upcoming Plan Expiration Members(Yesterday)</h4>
+                                }
+                                else if (@Model.NumberOfDaysRecord == 0)
+                                {
+                                    <h4 class="card-title">Upcoming Plan Expiration Members(Today)</h4>
+                                }
                             </div><!--end col-->
                         </div>  <!--end row-->
                     </div><!--end card-header-->
@@ -427,7 +459,7 @@
                                                 }
                                                 else
                                                 {
-                                                    @(item.PlanDurationExpiredInDays + " Day's Left")
+                                                    @(item.PlanDurationExpiredInDays + " Days Left")
                                                 }
                                             </td>
                                         </tr>
@@ -438,7 +470,7 @@
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div> <!--end col-->
-        </div>
+        </div><!--end row-->
+
     </div><!-- container -->
 </div>
-
