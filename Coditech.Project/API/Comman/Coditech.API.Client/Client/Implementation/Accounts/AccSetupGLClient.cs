@@ -1,5 +1,6 @@
 ﻿using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Newtonsoft.Json;
@@ -265,6 +266,47 @@ namespace Coditech.API.Client
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
 
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        public virtual TrueFalseResponse DeleteAccountSetupGL(ParameterModel body)
+        {
+            return Task.Run(async () => await DeleteAccountSetupGLAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<TrueFalseResponse> DeleteAccountSetupGLAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = accSetupGLEndpoint.DeleteAccountSetupGLAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<TrueFalseResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
             }
             finally
             {

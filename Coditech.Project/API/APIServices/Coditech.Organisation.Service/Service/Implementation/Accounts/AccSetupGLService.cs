@@ -103,6 +103,7 @@ namespace Coditech.API.ServiceAccounts
                                         GLCode = a.GLCode,
                                         ParentAccSetupGLId = a.ParentAccSetupGLId,
                                         IsGroup = a.IsGroup,
+                                        IsSystemGenerated= a.IsSystemGenerated,
                                         SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId) // Recursive call
                                     }).ToList();
 
@@ -228,6 +229,37 @@ namespace Coditech.API.ServiceAccounts
 
             return true;
         }
+        //Delete AccountSetupGL.
+        public virtual bool DeleteAccountSetupGL(ParameterModel parameterModel)
+        {
+            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
+
+            // Convert parameterModel.Ids to a valid integer
+            if (!long.TryParse(parameterModel.Ids, out long accSetupGLId))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
+
+            // Fetch the record and check if IsSystemGenerated is true in a single query
+            var isSystemGenerated = _accSetupGLRepository.Table.Where(x => x.AccSetupGLId == accSetupGLId).Select(x => x.IsSystemGenerated).FirstOrDefault();
+
+            // If the record is system-generated, prevent deletion
+            if (isSystemGenerated == true)
+                throw new CoditechException(ErrorCodes.AlreadyExist, "Failed to delete: The record is system-generated and cannot be deleted.");
+
+            // Proceed with deletion
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc =
+                new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
+
+            objStoredProc.SetParameter("AccSetupGLId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
+
+            int status = 0;
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAccountSetupGL @AccSetupGLId, @Status OUT", 1, out status);
+
+            return status == 1;
+        }
+
+
         #region Protected Method
         // Check if GLName or GLCode already exists for a different AccSetupGLId
         protected virtual bool IsGLNameOrGLCodeAlreadyExist(string glName, string glCode, int accSetupGLId = 0)

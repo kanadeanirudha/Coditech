@@ -1,5 +1,6 @@
 ﻿using Coditech.API.Client;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Logger;
@@ -129,6 +130,39 @@ namespace Coditech.Admin.Agents
                 return accSetupGLModel;
             }
         }
+
+        //Delete DeleteAccountSetupGL.
+        public virtual bool DeleteAccountSetupGL(string accSetupGLId, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _accSetupGLClient.DeleteAccountSetupGL(new ParameterModel { Ids = accSetupGLId });
+
+                if (trueFalseResponse.HasError)
+                {
+                    errorMessage = trueFalseResponse.ErrorMessage;  // ✅ Pass the correct error message
+                    return false;
+                }
+
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Warning);
+                errorMessage = ex.Message;  // ✅ Pass correct message back
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
         #endregion
     }
 }

@@ -4,7 +4,7 @@ namespace Coditech.Common.API.Model
     public partial class AccSetupGLModel : BaseModel
     {
         public int AccSetupGLId { get; set; }
-        [Display(Name = "Name")]
+        [Display(Name = "Ledger Name")]
         public string GLName { get; set; }
         public int? ParentAccSetupGLId { get; set; }
         public string CategoryCode { get; set; }
@@ -23,6 +23,7 @@ namespace Coditech.Common.API.Model
         public short AccSetupCategoryId { get; set; }
         public string CategoryName { get; set; }
         public bool IsActive { get; set; }
+        public bool IsSystemGenerated { get; set; }
         public List<AccSetupCategoryModel> AccSetupCategoryList { get; set; }
         public List<AccSetupGLModel> AccSetupGLList { get; set; }
         public List<AccSetupGLModel> SubAccounts { get; set; } = new List<AccSetupGLModel>();

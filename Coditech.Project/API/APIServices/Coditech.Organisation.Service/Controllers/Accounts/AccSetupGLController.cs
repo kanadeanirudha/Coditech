@@ -1,6 +1,7 @@
 ﻿using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Logger;
@@ -103,6 +104,28 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new AccSetupGLResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        
+        [Route("/AccSetupGL/DeleteAccountSetupGL")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult DeleteAccountSetupGL([FromBody] ParameterModel accSetupGLIds)
+        {
+            try
+            {
+                bool deleted = _accSetupGLService.DeleteAccountSetupGL(accSetupGLIds);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }
