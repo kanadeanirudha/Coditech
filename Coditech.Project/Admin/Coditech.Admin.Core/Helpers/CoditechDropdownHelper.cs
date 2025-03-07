@@ -1460,7 +1460,7 @@ namespace Coditech.Admin.Helpers
                     dropdownList.Add(new SelectListItem()
                     {
                         Value = item,
-                        Text = $"Last {item} Day's",
+                        Text = $"Last {item} Days",
                         Selected = item == dropdownViewModel.DropdownSelectedValue
                     });
                 }
