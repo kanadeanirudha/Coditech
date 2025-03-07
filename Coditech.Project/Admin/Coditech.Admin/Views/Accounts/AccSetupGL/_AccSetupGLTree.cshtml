@@ -67,7 +67,7 @@
         string amount = "<span>0.00$</span>";
         string chevron = isFolder ? $"<span id='gl-chevron-{gl.AccSetupGLId}' style='cursor:pointer; margin-right:5px;'>▶</span>" : "";
 
-        string deleteButton = !gl.IsSystemGenerated ? $@"  
+        string deleteButton = !gl.IsSystemGenerated ? $@"
         <button type='button' class='btn btn-sm btn-soft-danger btn-circle del-child-btn'
                 data-glid='{gl.AccSetupGLId}' data-systemgenerated='false'>
             <i class='fas fa-trash-alt'></i>
@@ -78,14 +78,14 @@
                 data-glid='{gl.AccSetupGLId}'>
             <i class='fas fa-trash-alt'></i>
         </button>" : "";
-        
+
         string inlineActions = isFolder ? $@"
     <span id='gl-buttons-{gl.AccSetupGLId}' style='margin-left:5px;display:none;'>
         <button type='button' class='btn btn-sm btn-soft-success btn-circle add-child-btn'
                 data-parentid='{gl.AccSetupGLId}' data-categoryid='{categoryId}'>
             <i class='fas ti-plus'></i>
         </button>
-        {deleteButton}
+    {deleteButton}
     </span>" : "";
 
         string html = $@"
@@ -97,7 +97,7 @@
           <span>{icon}</span>
           <span>{gl.GLName} ({gl.GLCode})</span>
           <span>{chevron} {inlineActions}</span>
-            {deleteBtn}
+        {deleteBtn}
         </div>
         <div>{amount}</div>
     </div>
@@ -108,7 +108,7 @@
             foreach (var sub in gl.SubAccounts)
             {
                 html += RenderAccSetupGLTree(sub, categoryId);
-               
+
             }
         }
         html += "</div></div>";
@@ -117,93 +117,87 @@
 }
 <script src="~/js/coditech/Accounts/AccSetupGL.js"></script>
 <script>
-    (function checkJQuery() {
+    (function checkJQueryAndScript() {
         if (typeof jQuery === "undefined") {
-            console.error("jQuery is not loaded. Retrying...");
-            setTimeout(checkJQuery, 50); // Retry in 50ms
+            setTimeout(checkJQueryAndScript, 50); // Retry in 50ms
             return;
         }
+
+        if (typeof AccSetupGL === "undefined") {
+            setTimeout(checkJQueryAndScript, 50); // Retry in 50ms
+            return;
+        }
+
         $(document).ready(function () {
-            console.log("jQuery loaded successfully!");
-            AccSetupGL.Initialize();
+            if (typeof AccSetupGL.Initialize === "function") {
+                AccSetupGL.Initialize();
+            }
+
             var actionMode = '@Model.ActionMode';
             if (actionMode === "Create") {
                 $(".add-child-btn, .del-child-btn").hide();
             }
-        // ✅ Hide delete buttons if system-generated
+
+            // ✅ Hide delete buttons if system-generated
             $(".del-child-btn").each(function () {
-                var isSystemGenerated = $(this).data("systemgenerated"); // Read data attribute
+                var isSystemGenerated = $(this).data("systemgenerated");
                 if (isSystemGenerated === true || isSystemGenerated === "true") {
-                    $(this).hide(); // Hide delete button
+                    $(this).hide();
                 }
             });
-        // ✅ Initialize AccSetupGL globally
-            window.AccSetupGL = {
-                Initialize: function () {
-                    
-                },
 
-                OpenAddChildModal: function (parentId, categoryId) {
-                    console.log("Opening AddChildModal:", parentId, categoryId);
+            // ✅ Ensure AccSetupGL is globally defined
+            window.AccSetupGL = window.AccSetupGL || {};
 
-                    $('input[name="ParentAccSetupGLId"]').val(parentId);
-                    $('input[name="AccSetupCategoryId"]').val(categoryId);
-                    $('#childGLName, #childGLCode').val("");
-                    $('#addChildModal').modal('show');
+            window.AccSetupGL.OpenAddChildModal = function (parentId, categoryId) {
+                console.log("Opening AddChildModal:", parentId, categoryId);
 
-                    var balanceSheetId = $("#AccSetupBalancesheetId").val();
-                    var balanceSheetTypeId = $("#AccSetupBalanceSheetTypeId").val();
-                    var chartTemplateId = $("#AccSetupChartOfAccountTemplateId").val();
-                    var selectedCentreCode = $("#SelectedCentreCode").val();
+                $('input[name="ParentAccSetupGLId"]').val(parentId);
+                $('input[name="AccSetupCategoryId"]').val(categoryId);
+                $('#childGLName, #childGLCode').val("");
+                $('#addChildModal').modal('show');
 
-                    $('input[name="AccSetupBalancesheetId"]').val(balanceSheetId);
-                    $('input[name="AccSetupBalanceSheetTypeId"]').val(balanceSheetTypeId);
-                    $('input[name="AccSetupChartOfAccountTemplateId"]').val(chartTemplateId);
-                    $('input[name="SelectedCentreCode"]').val(selectedCentreCode);
+                var balanceSheetId = $("#AccSetupBalancesheetId").val();
+                var balanceSheetTypeId = $("#AccSetupBalanceSheetTypeId").val();
+                var chartTemplateId = $("#AccSetupChartOfAccountTemplateId").val();
+                var selectedCentreCode = $("#SelectedCentreCode").val();
 
-                },
+                $('input[name="AccSetupBalancesheetId"]').val(balanceSheetId);
+                $('input[name="AccSetupBalanceSheetTypeId"]').val(balanceSheetTypeId);
+                $('input[name="AccSetupChartOfAccountTemplateId"]').val(chartTemplateId);
+                $('input[name="SelectedCentreCode"]').val(selectedCentreCode);
+            };
 
-                    AddChild: function () {
-            var formData = $("#addChildForm").serialize();
-            $.ajax({
-                type: "POST",
-                url: "/AccSetupGL/AddChild",
-                data: formData,
-                success: function (response) {
-                    var notificationStyle = response.success ? "bg-success" : "bg-danger";
+            window.AccSetupGL.AddChild = function () {
+                var formData = $("#addChildForm").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/AccSetupGL/AddChild",
+                    data: formData,
+                    success: function (response) {
+                        var notificationStyle = response.success ? "bg-success" : "bg-danger";
 
-                    if (response.success) {
-                        $('#addChildModal').modal('hide');
+                        if (response.success) {
+                            $('#addChildModal').modal('hide');
 
-                        $("#notificationDivId")
-                            .removeClass("bg-success bg-danger bg-info bg-warning")
-                            .addClass(notificationStyle)
-                            .show()
-                            .delay(3000) // Keep visible for 3 seconds
-                            .fadeOut(1000); // Then fade out smoothly
+                            $("#notificationDivId")
+                                .removeClass("bg-success bg-danger bg-info bg-warning")
+                                .addClass(notificationStyle)
+                                .show()
+                                .delay(3000)
+                                .fadeOut(1000);
 
-                        CoditechNotification.DisplayNotificationMessage("Record added successfully!", "success");
+                            CoditechNotification.DisplayNotificationMessage("Record added successfully!", "success");
 
-                        let url = window.location.origin + window.location.pathname +
-                            '?selectedCentreCode=' + (response.selectedCentreCode || '') +
-                            '&accSetupBalanceSheetTypeId=' + (response.accSetupBalanceSheetTypeId || '') +
-                            '&accSetupBalancesheetId=' + (response.accSetupBalancesheetId || '');
+                            let url = window.location.origin + window.location.pathname +
+                                '?selectedCentreCode=' + (response.selectedCentreCode || '') +
+                                '&accSetupBalanceSheetTypeId=' + (response.accSetupBalanceSheetTypeId || '') +
+                                '&accSetupBalancesheetId=' + (response.accSetupBalancesheetId || '');
 
-                        setTimeout(function () {
-                            window.location.href = url;
-                        }, 1000); // ✅ Delay reload for smooth transition
-                    } else {
-                        $("#notificationDivId")
-                            .removeClass("bg-success bg-danger bg-info bg-warning")
-                            .addClass("bg-danger")
-                            .show()
-                            .delay(3000)
-                            .fadeOut(1000);
-
-                        CoditechNotification.DisplayNotificationMessage(response.message || "GL Name or GL Code already exists.", "error");
-                    }
-                },
-                        error: function () {
+                            setTimeout(function () {
+                                window.location.href = url;
+                            }, 1000);
+                        } else {
                             $("#notificationDivId")
                                 .removeClass("bg-success bg-danger bg-info bg-warning")
                                 .addClass("bg-danger")
@@ -211,29 +205,33 @@
                                 .delay(3000)
                                 .fadeOut(1000);
 
-                            CoditechNotification.DisplayNotificationMessage("An error occurred while adding the record. Please try again.", "error");
+                            CoditechNotification.DisplayNotificationMessage(response.message || "GL Name or GL Code already exists.", "error");
                         }
-                    });
-                },
-                ShowError: function (message) {
-                    $("#addChildErrorText").text(message);
-                    $("#addChildErrorMessage").removeClass("d-none").addClass("fade show");
-                },
+                    },
+                    error: function () {
+                        $("#notificationDivId")
+                            .removeClass("bg-success bg-danger bg-info bg-warning")
+                            .addClass("bg-danger")
+                            .show()
+                            .delay(3000)
+                            .fadeOut(1000);
 
-                ClearError: function () {
-                    $("#addChildErrorMessage").addClass("d-none").removeClass("fade show");
-                    $("#addChildErrorText").text("");
-                }
+                        CoditechNotification.DisplayNotificationMessage("An error occurred while adding the record. Please try again.", "error");
+                    }
+                });
             };
-            // ✅ Attach Click Events (AFTER Defining AccSetupGL)
+
+            // ✅ Attach Click Events AFTER defining AccSetupGL
             $(document).off("click", ".add-child-btn").on("click", ".add-child-btn", function () {
                 var parentId = $(this).data('parentid');
                 var categoryId = $(this).data('categoryid');
                 AccSetupGL.OpenAddChildModal(parentId, categoryId);
             });
+
             $(document).off("click", "#submitAddChild").on("click", "#submitAddChild", function () {
                 AccSetupGL.AddChild();
             });
+
             $(document).off("click", ".del-child-btn").on("click", ".del-child-btn", function () {
                 var glId = $(this).data("glid");
                 var subAccounts = $("#gl-subaccounts-" + glId);
@@ -266,60 +264,57 @@
                 $("body").append(modalHtml);
                 $("#confirmDeleteModal").modal("show");
             });
-         $(document).off("click", "#confirmDelete").on("click", "#confirmDelete", function () {
-        var glId = $(this).data("glid");
 
-        $.ajax({
-            type: "POST",
-            url: "/AccSetupGL/Delete",
-            data: { accSetupGLIds: glId },
-            success: function (response) {
-                var notificationStyle = response.success ? "bg-success" : "bg-danger";
+            $(document).off("click", "#confirmDelete").on("click", "#confirmDelete", function () {
+                var glId = $(this).data("glid");
 
-                if (response.success) {
-                    $("#gl-" + glId).remove();
-                }
+                $.ajax({
+                    type: "POST",
+                    url: "/AccSetupGL/Delete",
+                    data: { accSetupGLIds: glId },
+                    success: function (response) {
+                        var notificationStyle = response.success ? "bg-success" : "bg-danger";
 
-                // Hide and remove modal after a small delay to prevent flickering
-                $("#confirmDeleteModal").modal("hide");
-                setTimeout(function () {
-                    $("#confirmDeleteModal").remove();
-                }, 500);
+                        if (response.success) {
+                            $("#gl-" + glId).remove();
+                        }
 
-                // Show notification message
-                $("#notificationDivId")
-                    .removeClass("bg-success bg-danger bg-info bg-warning")
-                    .addClass(notificationStyle)
-                    .show()
-                    .delay(3000)
-                    .fadeOut(1000);
+                        $("#confirmDeleteModal").modal("hide");
+                        setTimeout(function () {
+                            $("#confirmDeleteModal").remove();
+                        }, 500);
 
-                CoditechNotification.DisplayNotificationMessage(response.message, response.success ? "success" : "error");
-            },
-            error: function () {
-                // Ensure modal is hidden even on error
-                $("#confirmDeleteModal").modal("hide");
-                setTimeout(function () {
-                    $("#confirmDeleteModal").remove();
-                }, 500);
+                        $("#notificationDivId")
+                            .removeClass("bg-success bg-danger bg-info bg-warning")
+                            .addClass(notificationStyle)
+                            .show()
+                            .delay(3000)
+                            .fadeOut(1000);
 
-                $("#notificationDivId")
-                    .removeClass("bg-success bg-danger bg-info bg-warning")
-                    .addClass("bg-danger")
-                    .show()
-                    .delay(3000)
-                    .fadeOut(1000);
+                        CoditechNotification.DisplayNotificationMessage(response.message, response.success ? "success" : "error");
+                    },
+                    error: function () {
+                        $("#confirmDeleteModal").modal("hide");
+                        setTimeout(function () {
+                            $("#confirmDeleteModal").remove();
+                        }, 500);
 
-                CoditechNotification.DisplayNotificationMessage("An error occurred while deleting.", "error");
-            }
+                        $("#notificationDivId")
+                            .removeClass("bg-success bg-danger bg-info bg-warning")
+                            .addClass("bg-danger")
+                            .show()
+                            .delay(3000)
+                            .fadeOut(1000);
+
+                        CoditechNotification.DisplayNotificationMessage("An error occurred while deleting.", "error");
+                    }
+                });
+            });
+
         });
-    });
+    })();
 
-    });
-
- })();
-
-    // ✅ Global Toggle Function
+            // ✅ Global Toggle Function
     window.toggleSubAccounts = function (type, id) {
         var sub = document.getElementById(type === "cat" ? "cat-gl-" + id : "gl-subaccounts-" + id);
         var chev = document.getElementById(type === "cat" ? "cat-chevron-" + id : "gl-chevron-" + id);
@@ -339,3 +334,4 @@
         }
     };
 </script>
+

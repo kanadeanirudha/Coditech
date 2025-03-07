@@ -235,16 +235,16 @@ namespace Coditech.API.ServiceAccounts
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
 
-            // Convert parameterModel.Ids to a valid integer
-            if (!long.TryParse(parameterModel.Ids, out long accSetupGLId))
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
+            //// Convert parameterModel.Ids to a valid integer
+            //if (!long.TryParse(parameterModel.Ids, out long accSetupGLId))
+            //    throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
 
-            // Fetch the record and check if IsSystemGenerated is true in a single query
-            var isSystemGenerated = _accSetupGLRepository.Table.Where(x => x.AccSetupGLId == accSetupGLId).Select(x => x.IsSystemGenerated).FirstOrDefault();
+            //// Fetch the record and check if IsSystemGenerated is true in a single query
+            //var isSystemGenerated = _accSetupGLRepository.Table.Where(x => x.AccSetupGLId == accSetupGLId).Select(x => x.IsSystemGenerated).FirstOrDefault();
 
-            // If the record is system-generated, prevent deletion
-            if (isSystemGenerated == true)
-                throw new CoditechException(ErrorCodes.AlreadyExist, "Failed to delete: The record is system-generated and cannot be deleted.");
+            //// If the record is system-generated, prevent deletion
+            //if (isSystemGenerated == true)
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, "Failed to delete: The record is system-generated and cannot be deleted.");
 
             // Proceed with deletion
             CoditechViewRepository<View_ReturnBoolean> objStoredProc =
