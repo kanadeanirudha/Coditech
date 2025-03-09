@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-
 using Coditech.API.Data;
 using Coditech.API.Data.DataModel.Inventory;
 using Coditech.Common.API.Model;
@@ -69,7 +68,7 @@ namespace Coditech.API.Mapper
             CreateMap<TaskSchedulerMaster, TaskSchedulerModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCode, OrganisationCentrewiseJoiningCodeModel>().ReverseMap();
             CreateMap<GeneralCurrencyMaster, GeneralCurrencyMasterModel>().ReverseMap();
-
+            
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();
             CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
@@ -111,6 +110,7 @@ namespace Coditech.API.Mapper
             CreateMap<AccSetupTransactionType, AccSetupTransactionTypeModel>().ReverseMap();
             CreateMap<AccSetupGLBank, AccSetupGLBankModel>().ReverseMap();
             CreateMap<AccSetupGL, AccSetupGLModel>().ReverseMap();
+            CreateMap<AccSetupChartOfAccountTemplate, AccSetupChartOfAccountTemplateModel>().ReverseMap();
             CreateMap<AccSetupGLType, AccSetupGLTypeModel>().ReverseMap();
             CreateMap<AccGLTransaction, AccGLTransactionModel>().ReverseMap();
             #endregion
