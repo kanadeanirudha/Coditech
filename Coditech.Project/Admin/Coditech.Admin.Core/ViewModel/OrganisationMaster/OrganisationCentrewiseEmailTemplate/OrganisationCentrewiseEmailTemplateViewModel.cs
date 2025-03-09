@@ -33,6 +33,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+        [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
         public bool IsSmsTemplate { get; set; }
         public bool IsWhatsAppTemplate { get; set; }
