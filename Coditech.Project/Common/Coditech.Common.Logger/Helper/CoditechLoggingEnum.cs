@@ -129,7 +129,8 @@
             AccountSetupGL,
             AccSetupGLType,
             TaskScheduler,
-            AccGLTransaction
+            AccGLTransaction, 
+            AccSetupChartOfAccountTemplate
         }
     }
 }
