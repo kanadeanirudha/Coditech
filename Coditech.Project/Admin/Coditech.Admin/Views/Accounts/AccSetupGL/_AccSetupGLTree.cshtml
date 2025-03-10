@@ -34,37 +34,37 @@
     string RenderAccSetupCategoryTree(AccSetupCategoryModel cat)
     {
         string folderIcon = "📂";
-        string amount = "<span>0.00$</span>";
+        string amount = "<span>$0.00</span>";
         string chevron = $"<span id='cat-chevron-{cat.AccSetupCategoryId}' style='cursor:pointer; margin-right:5px;'>▶</span>";
         string inlineActions = $@"
-<span id='cat-buttons-{cat.AccSetupCategoryId}' style='margin-left:5px; display:none;'>
-  <button type='button' class='btn btn-sm btn-soft-success btn-circle add-child-btn'
-          data-categoryid='{cat.AccSetupCategoryId}' data-parentid='0'>
-    <i class='fas ti-plus'></i>
-  </button>
-</span>";
+        <span id='cat-buttons-{cat.AccSetupCategoryId}' style='margin-left:5px; display:none;'>
+          <button type='button' class='btn btn-sm btn-soft-success btn-circle add-child-btn'
+                  data-categoryid='{cat.AccSetupCategoryId}' data-parentid='0'>
+            <i class='fas ti-plus'></i>
+          </button>
+        </span>";
 
         return $@"
-<div id='cat-{cat.AccSetupCategoryId}' style='padding-left:10px; margin-bottom:10px;'>
-  <div style='display:flex; justify-content:space-between; align-items:center; padding:12px;
-              border:1px solid #dee2e6; border-radius:4px; background-color:#fff;
-              cursor:pointer;'
-       onclick='toggleSubAccounts(""cat"", {cat.AccSetupCategoryId})'>
-    <div style='display:flex; align-items:center;'>
-      <span>{folderIcon}</span>
-      <span>{cat.CategoryName} ({cat.CategoryCode})</span>
-      <span>{chevron} {inlineActions}</span>
-    </div>
-    <div>{amount}</div>
-  </div>
-</div>";
+        <div id='cat-{cat.AccSetupCategoryId}' style='padding-left:10px; margin-bottom:10px;'>
+          <div style='display:flex; justify-content:space-between; align-items:center; padding:12px;
+                      border:1px solid #dee2e6; border-radius:4px; background-color:#fff;
+                      cursor:pointer;'
+               onclick='toggleSubAccounts(""cat"", {cat.AccSetupCategoryId})'>
+            <div style='display:flex; align-items:center;'>
+              <span>{folderIcon}</span>
+              <span>{cat.CategoryName} ({cat.CategoryCode})</span>
+              <span>{chevron} {inlineActions}</span>
+            </div>
+            <div>{amount}</div>
+          </div>
+        </div>";
     }
 
     string RenderAccSetupGLTree(AccSetupGLModel gl, int categoryId)
     {
         bool isFolder = gl.IsGroup || (gl.SubAccounts?.Any() == true);
         string icon = isFolder ? "📂" : "📄";
-        string amount = "<span>0.00$</span>";
+        string amount = "<span>$0.00</span>";
         string chevron = isFolder ? $"<span id='gl-chevron-{gl.AccSetupGLId}' style='cursor:pointer; margin-right:5px;'>▶</span>" : "";
 
         string deleteButton = !gl.IsSystemGenerated ? $@"
@@ -80,28 +80,28 @@
         </button>" : "";
 
         string inlineActions = isFolder ? $@"
-    <span id='gl-buttons-{gl.AccSetupGLId}' style='margin-left:5px;display:none;'>
-        <button type='button' class='btn btn-sm btn-soft-success btn-circle add-child-btn'
-                data-parentid='{gl.AccSetupGLId}' data-categoryid='{categoryId}'>
-            <i class='fas ti-plus'></i>
-        </button>
+        <span id='gl-buttons-{gl.AccSetupGLId}' style='margin-left:5px;display:none;'>
+            <button type='button' class='btn btn-sm btn-soft-success btn-circle add-child-btn'
+                    data-parentid='{gl.AccSetupGLId}' data-categoryid='{categoryId}'>
+                <i class='fas ti-plus'></i>
+            </button>
     {deleteButton}
-    </span>" : "";
+        </span>" : "";
 
         string html = $@"
-    <div id='gl-{gl.AccSetupGLId}' style='padding-left:20px; margin-bottom:8px;'>
-      <div style='display:flex; justify-content:space-between; align-items:center; padding:8px;
-                  border:1px solid #dee2e6; border-radius:4px; background-color:#fff;'
-           onclick='toggleSubAccounts(""gl"", {gl.AccSetupGLId})'>
-        <div style='display:flex; align-items:center;'>
-          <span>{icon}</span>
-          <span>{gl.GLName} ({gl.GLCode})</span>
-          <span>{chevron} {inlineActions}</span>
+        <div id='gl-{gl.AccSetupGLId}' style='padding-left:20px; margin-bottom:8px;'>
+          <div style='display:flex; justify-content:space-between; align-items:center; padding:8px;
+                      border:1px solid #dee2e6; border-radius:4px; background-color:#fff;'
+               onclick='toggleSubAccounts(""gl"", {gl.AccSetupGLId})'>
+            <div style='display:flex; align-items:center;'>
+              <span>{icon}</span>
+              <span>{gl.GLName} ({gl.GLCode})</span>
+              <span>{chevron} {inlineActions}</span>
         {deleteBtn}
+            </div>
+            <div>{amount}</div>
         </div>
-        <div>{amount}</div>
-    </div>
-    <div id='gl-subaccounts-{gl.AccSetupGLId}' style='padding-left:30px; border-left:1px solid #dee2e6; margin-top:8px; display:none;'>";
+        <div id='gl-subaccounts-{gl.AccSetupGLId}' style='padding-left:30px; border-left:1px solid #dee2e6; margin-top:8px; display:none;'>";
 
         if (isFolder)
         {
@@ -150,8 +150,6 @@
             window.AccSetupGL = window.AccSetupGL || {};
 
             window.AccSetupGL.OpenAddChildModal = function (parentId, categoryId) {
-                console.log("Opening AddChildModal:", parentId, categoryId);
-
                 $('input[name="ParentAccSetupGLId"]').val(parentId);
                 $('input[name="AccSetupCategoryId"]').val(categoryId);
                 $('#childGLName, #childGLCode').val("");
@@ -167,59 +165,83 @@
                 $('input[name="AccSetupChartOfAccountTemplateId"]').val(chartTemplateId);
                 $('input[name="SelectedCentreCode"]').val(selectedCentreCode);
             };
+    $(document).ready(function () {
+        // ✅ Validate dropdown on change
+        $("#AccSetupGLTypeId").on("change", function () {
+            let value = $(this).val();
+            if (!value || value === "0") {
+                $("[data-valmsg-for='AccSetupGLTypeId']").text("Please select a GL Type.");
+            } else {
+                $("[data-valmsg-for='AccSetupGLTypeId']").text("");
+            }
+        });
+    });
 
-            window.AccSetupGL.AddChild = function () {
-                var formData = $("#addChildForm").serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/AccSetupGL/AddChild",
-                    data: formData,
-                    success: function (response) {
-                        var notificationStyle = response.success ? "bg-success" : "bg-danger";
+    window.AccSetupGL.AddChild = function () {
+        $(".text-danger").text(""); // ✅ Clear previous validation messages
 
-                        if (response.success) {
-                            $('#addChildModal').modal('hide');
+        let isValid = true;
 
-                            $("#notificationDivId")
-                                .removeClass("bg-success bg-danger bg-info bg-warning")
-                                .addClass(notificationStyle)
-                                .show()
-                                .delay(3000)
-                                .fadeOut(1000);
+        // ✅ Validate AccSetupGLTypeId
+        let accSetupGLTypeId = $("#AccSetupGLTypeId").val();
+        if (!accSetupGLTypeId || accSetupGLTypeId === "0" || accSetupGLTypeId==="-------AccSetup GL Type-------" ) {
+            $("[data-valmsg-for='AccSetupGLTypeId']").text("Please select a GL Type.");
+            isValid = false;
+        }
 
-                            CoditechNotification.DisplayNotificationMessage("Record added successfully!", "success");
+        // ✅ Validate GLName
+        let glName = $("#GLName").val().trim();
+        if (!glName) {
+            $("[data-valmsg-for='GLName']").text("Ledger name is required.");
+            isValid = false;
+        }
 
-                            let url = window.location.origin + window.location.pathname +
-                                '?selectedCentreCode=' + (response.selectedCentreCode || '') +
-                                '&accSetupBalanceSheetTypeId=' + (response.accSetupBalanceSheetTypeId || '') +
-                                '&accSetupBalancesheetId=' + (response.accSetupBalancesheetId || '');
+        // ✅ Validate GLCode
+        let glCode = $("#GLCode").val().trim();
+        if (!glCode) {
+            $("[data-valmsg-for='GLCode']").text("Code is required.");
+            isValid = false;
+        }
 
-                            setTimeout(function () {
-                                window.location.href = url;
-                            }, 1000);
-                        } else {
-                            $("#notificationDivId")
-                                .removeClass("bg-success bg-danger bg-info bg-warning")
-                                .addClass("bg-danger")
-                                .show()
-                                .delay(3000)
-                                .fadeOut(1000);
+        // 🚫 Stop submission if not valid
+        if (!isValid) return;
 
-                            CoditechNotification.DisplayNotificationMessage(response.message || "GL Name or GL Code already exists.", "error");
-                        }
-                    },
-                    error: function () {
-                        $("#notificationDivId")
-                            .removeClass("bg-success bg-danger bg-info bg-warning")
-                            .addClass("bg-danger")
-                            .show()
-                            .delay(3000)
-                            .fadeOut(1000);
+        var formData = $("#addChildForm").serialize();
 
-                        CoditechNotification.DisplayNotificationMessage("An error occurred while adding the record. Please try again.", "error");
+        $.ajax({
+            type: "POST",
+            url: "/AccSetupGL/AddChild",
+            data: formData,
+            success: function (response) {
+                $(".text-danger").text("");
+
+                if (response.success) {
+                    $('#addChildModal').modal('hide');
+                    CoditechNotification.DisplayNotificationMessage(response.message, "success");
+
+                    let url = window.location.origin + window.location.pathname +
+                        '?selectedCentreCode=' + (response.selectedCentreCode || '') +
+                        '&accSetupBalanceSheetTypeId=' + (response.accSetupBalanceSheetTypeId || '') +
+                        '&accSetupBalancesheetId=' + (response.accSetupBalancesheetId || '');
+
+                    setTimeout(function () {
+                        window.location.href = url;
+                    }, 1000);
+                } else {
+                    if (response.errors && response.errors.length > 0) {
+                        response.errors.forEach(function (error) {
+                            $("[data-valmsg-for='" + error.Field + "']").text(error.Message);
+                        });
+                    } else {
+                        CoditechNotification.DisplayNotificationMessage(response.message, "error");
                     }
-                });
-            };
+                }
+            },
+            error: function () {
+                CoditechNotification.DisplayNotificationMessage("An error occurred while adding the record. Please try again.", "error");
+            }
+        });
+    };
 
             // ✅ Attach Click Events AFTER defining AccSetupGL
             $(document).off("click", ".add-child-btn").on("click", ".add-child-btn", function () {
