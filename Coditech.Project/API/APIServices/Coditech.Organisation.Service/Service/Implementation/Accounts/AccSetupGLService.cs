@@ -102,6 +102,8 @@ namespace Coditech.API.ServiceAccounts
                                         CategoryCode = a.CategoryCode,
                                         GLCode = a.GLCode,
                                         ParentAccSetupGLId = a.ParentAccSetupGLId,
+                                        IsGroup = a.IsGroup,
+                                        IsSystemGenerated= a.IsSystemGenerated,
                                         SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId) // Recursive call
                                     }).ToList();
 
@@ -164,5 +166,108 @@ namespace Coditech.API.ServiceAccounts
 
             return isAccSetupGLUpdated;
         }
+        public virtual bool AddChild(AccSetupGLModel accSetupGLModel)
+        {
+            // Validate required fields.
+            if (string.IsNullOrWhiteSpace(accSetupGLModel.GLName))
+                throw new CoditechException(ErrorCodes.InvalidData, "GLName must be provided.");
+
+            if (IsGLNameOrGLCodeAlreadyExist(accSetupGLModel.GLName, accSetupGLModel.GLCode, accSetupGLModel.AccSetupGLId))
+            {
+                throw new CoditechException(ErrorCodes.AlreadyExist,
+                    string.Format(GeneralResources.ErrorCodeExists, "GL Name or GL Code"));
+            }
+
+            if (accSetupGLModel.ParentAccSetupGLId == null || accSetupGLModel.ParentAccSetupGLId < 1)
+            {
+                accSetupGLModel.ParentAccSetupGLId = accSetupGLModel.ParentAccSetupGLId = (int?)null;
+            }
+
+            // Create a new child model instance.
+            AccSetupGLModel childModel = new AccSetupGLModel
+            {
+                GLName = accSetupGLModel.GLName,
+                ParentAccSetupGLId = accSetupGLModel.ParentAccSetupGLId,
+                IsActive = true,
+                AccSetupBalancesheetId = accSetupGLModel.AccSetupBalancesheetId,
+                AccSetupChartOfAccountTemplateId = (byte?)null,  // set to null if not valid.
+                AccSetupGLTypeId = accSetupGLModel.AccSetupGLTypeId,
+                AccSetupBalanceSheetTypeId = accSetupGLModel.AccSetupBalanceSheetTypeId,
+                AccSetupCategoryId = accSetupGLModel.AccSetupCategoryId,
+                GLCode = accSetupGLModel.GLCode,
+                AltSetupGLId = accSetupGLModel.AccSetupBalancesheetId,
+                IsGroup = accSetupGLModel.IsGroup,
+                SelectedCentreCode = accSetupGLModel.SelectedCentreCode
+            };
+
+            // Map the view model to an entity.
+            AccSetupGL childEntity = childModel.FromModelToEntity<AccSetupGL>();
+
+            // Insert the new child record.
+            AccSetupGL insertedEntity = _accSetupGLRepository.Insert(childEntity);
+            if (insertedEntity == null || insertedEntity.AccSetupGLId < 1)
+            {
+                accSetupGLModel.HasError = true;
+                accSetupGLModel.ErrorMessage = "Error occurred while creating the record.";
+                return false;
+            }
+
+            // Update the input model with the new child's ID.
+            accSetupGLModel.AccSetupGLId = insertedEntity.AccSetupGLId;
+
+            // Optionally, insert a record into the BalanceSheet repository.
+            List<AccSetupGLBalanceSheet> balanceSheets = new List<AccSetupGLBalanceSheet>
+            {
+                 new AccSetupGLBalanceSheet
+                 {
+                    AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
+                    AccSetupGLId = insertedEntity.AccSetupGLId,
+                    IsActive = true,
+                 }
+            };
+            _accSetupGLBalanceSheetRepository.Insert(balanceSheets);
+
+            return true;
+        }
+        //Delete AccountSetupGL.
+        public virtual bool DeleteAccountSetupGL(ParameterModel parameterModel)
+        {
+            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
+
+            //// Convert parameterModel.Ids to a valid integer
+            //if (!long.TryParse(parameterModel.Ids, out long accSetupGLId))
+            //    throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
+
+            //// Fetch the record and check if IsSystemGenerated is true in a single query
+            //var isSystemGenerated = _accSetupGLRepository.Table.Where(x => x.AccSetupGLId == accSetupGLId).Select(x => x.IsSystemGenerated).FirstOrDefault();
+
+            //// If the record is system-generated, prevent deletion
+            //if (isSystemGenerated == true)
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, "Failed to delete: The record is system-generated and cannot be deleted.");
+
+            // Proceed with deletion
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc =
+                new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
+
+            objStoredProc.SetParameter("AccSetupGLId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
+
+            int status = 0;
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAccountSetupGL @AccSetupGLId, @Status OUT", 1, out status);
+
+            return status == 1;
+        }
+
+
+        #region Protected Method
+        // Check if GLName or GLCode already exists for a different AccSetupGLId
+        protected virtual bool IsGLNameOrGLCodeAlreadyExist(string glName, string glCode, int accSetupGLId = 0)
+        {
+            return _accSetupGLRepository.Table.Any(x =>
+                (x.GLName == glName || x.GLCode == glCode) &&
+                (x.AccSetupGLId != accSetupGLId || accSetupGLId == 0));
+        }
+        #endregion
     }
 }

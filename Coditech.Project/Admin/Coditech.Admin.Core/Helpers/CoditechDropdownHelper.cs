@@ -20,7 +20,6 @@ namespace Coditech.Admin.Helpers
         {
             return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.BalanceSheetList;
         }
-
         public static DropdownViewModel GeneralDropdownList(DropdownViewModel dropdownViewModel)
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
@@ -243,6 +242,10 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.SchedulerWeeks.ToString()))
             {
                 GetBatchSchedulerWeeksList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupGLType.ToString()))
+            {
+                GetAccSetupGLTypeList(dropdownViewModel, dropdownList);
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupTransactionType.ToString()))
             {
@@ -1395,6 +1398,22 @@ namespace Coditech.Admin.Helpers
                     Text = day,
                     Value = day,
                     Selected = selectedValues.Contains(day)
+                });
+            }
+        }
+        private static void GetAccSetupGLTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            AccSetupGLTypeListResponse response = new AccSetupGLTypeClient().List(null, null, null, 1, int.MaxValue);
+
+            AccSetupGLTypeListModel list = new AccSetupGLTypeListModel() { AccSetupGLTypeList = response.AccSetupGLTypeList };
+            dropdownList.Add(new SelectListItem() { Text = "-------AccSetup GL Type-------" });
+            foreach (var item in list?.AccSetupGLTypeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.Name,
+                    Value = item.AccSetupGLTypeId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupGLTypeId)
                 });
             }
         }

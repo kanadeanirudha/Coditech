@@ -197,6 +197,16 @@ namespace Coditech.Resources {
             }
         }
 
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete DeleteAccountSetupGL due to associate record..
+        /// </summary>
+        public static string ErrorDeleteAccountSetupGL
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteAccountSetupGL", resourceCulture);
+            }
+        }
         public static string ErrorDeleteAccSetupMaster
         {
             get

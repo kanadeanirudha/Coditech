@@ -24,7 +24,7 @@ namespace Coditech.API.Controllers
 
       
         [HttpGet]
-        [Route("/AccGLTransaction/GetGLTransaction")]
+        [Route("/AccGLTransaction/GetGLTransactionList")]
         [Produces(typeof(AccGLTransactionListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
         public virtual IActionResult GetGLTransactionList( string selectedCentreCode ,int accGLTransactionId, short generalFinancialYearId, short accSetupTransactionTypeId,byte accSetupBalanceSheetTypeId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)

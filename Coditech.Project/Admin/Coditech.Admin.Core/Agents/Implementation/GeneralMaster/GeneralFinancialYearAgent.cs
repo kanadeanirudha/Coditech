@@ -162,6 +162,18 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "ToDate",
                 IsSortable = true,
             });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Year End",
+                ColumnCode = "IsYearEnd",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Current Financial Year",
+                ColumnCode = "IsCurrentFinancialYear",
+                IsSortable = true,
+            });
             return datatableColumnList;
         }
         #endregion

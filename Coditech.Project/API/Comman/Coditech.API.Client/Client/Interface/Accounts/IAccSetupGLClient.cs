@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 namespace Coditech.API.Client
 {
@@ -32,5 +33,19 @@ namespace Coditech.API.Client
         /// <param name="AccSetupGLModel">AccSetupGLModel.</param>
         /// <returns>Returns updated AccSetupGLResponse</returns>
         AccSetupGLResponse UpdateAccountSetupGL(AccSetupGLModel body);
+
+        /// <summary>
+        /// AddChild AccountSetupGL.
+        /// </summary>
+        /// <param name="AccSetupGLModel">AccSetupGLModel.</param>
+        /// <returns>Returns updated AccSetupGLResponse</returns>
+        AccSetupGLResponse AddChild(AccSetupGLModel body);
+
+        /// <summary>
+        /// Delete AccSetupMaster.
+        /// </summary>
+        /// <param name="ParameterModel">ParameterModel.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        TrueFalseResponse DeleteAccountSetupGL(ParameterModel body);
     }
 }

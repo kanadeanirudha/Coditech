@@ -18,18 +18,20 @@ namespace Coditech.Admin.Agents
         AccSetupGLModel CreateAccountSetupGL(AccSetupGLModel accSetupGLModel);
 
         /// <summary>
-        /// Get AccountSetupGL by accSetupGLId.
-        /// </summary>
-        /// <param name="accSetupGLId">accSetupGLId</param>
-        /// <returns>Returns AccSetupGLModel.</returns>
-        //AccSetupGLModel GetAccountSetupGL(int accSetupGLId);
-
-        /// <summary>
         /// Update UpdateAccountSetupGL.
         /// </summary>
         /// <param name="accSetupMasterViewModel">accSetupMasterViewModel.</param>
         /// <returns>Returns updated AccSetupMasterViewModel</returns>
         AccSetupGLModel UpdateAccountSetupGL(AccSetupGLModel accSetupGLModel);
+
+        /// <summary>
+        /// AddChild AccountSetupGL.
+        /// </summary>
+        /// <param name="accSetupMasterViewModel">accSetupMasterViewModel.</param>
+        /// <returns>Returns updated AccSetupMasterViewModel</returns>
+        AccSetupGLModel AddChild(AccSetupGLModel accSetupGLModel);
+
+        bool DeleteAccountSetupGL(string accSetupGLId, out string errorMessage);
 
     }
 }

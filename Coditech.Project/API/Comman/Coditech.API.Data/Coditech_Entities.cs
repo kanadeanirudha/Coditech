@@ -184,6 +184,7 @@ namespace Coditech.API.Data
         public DbSet<AccSetupChartOfAccountTemplate> AccSetupChartOfAccountTemplate { get; set; }
         public DbSet<AccSetupCategory> AccSetupCategory { get; set; }
         public DbSet<AccGLTransaction> AccGLTransaction { get; set; }
+        public DbSet<AccSetupGLType> AccSetupGLType { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
