@@ -10,8 +10,8 @@ namespace Coditech.API.Data
         public string SchedulerName { get; set; }
         public string SchedulerType { get; set; }
         public string SchedulerCallFor { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime ExpireDate { get; set; }
+        public Nullable<DateTime> StartDate { get; set; }
+        public Nullable<DateTime> ExpireDate { get; set; }
         public string SchedulerFrequency { get; set; }
         public int RepeatTaskEvery { get; set; }
         public string RepeatTaskForDuration { get; set; }

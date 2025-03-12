@@ -6,15 +6,24 @@ using Coditech.Common.Helper.Utilities;
 namespace Coditech.API.Endpoint
 {
     public class TaskSchedulerEndpoint : BaseEndpoint
-    {        
-        public string CreateBatchTaskSchedulerAsync() =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/CreateBatchTaskScheduler";
+    {
+        public string ListAsync(IEnumerable<string> expand)
+        {
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/GetTaskSchedulerList{BuildEndpointQueryString(expand)}";
+            return endpoint;
+        }
 
-        public string GetBatchTaskSchedulerDetailsAsync(int configuratorId, string schedulerCallFor) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/GetBatchTaskSchedulerDetails?configuratorId={configuratorId}&schedulerCallFor={schedulerCallFor}";
+        public string CreateTaskSchedulerAsync() =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/CreateTaskScheduler";
 
-        public string UpdateBatchTaskSchedulerDetailsAsync() =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/UpdateBatchTaskSchedulerDetails";
+        public string GetTaskSchedulerDetailsAsync(int configuratorId, string schedulerCallFor) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/GetTaskSchedulerDetails?configuratorId={configuratorId}&schedulerCallFor={schedulerCallFor}";
 
+        public string UpdateTaskSchedulerDetailsAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/UpdateTaskSchedulerDetails";
+
+        public string DeleteTaskSchedulerAsync() =>
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/DeleteTaskScheduler";
+        
     }
 }

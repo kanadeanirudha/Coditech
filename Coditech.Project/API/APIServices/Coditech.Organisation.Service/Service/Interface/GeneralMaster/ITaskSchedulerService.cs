@@ -7,10 +7,10 @@ namespace Coditech.API.Service
 {
     public interface ITaskSchedulerService
     {
-        TaskSchedulerModel CreateBatchTaskScheduler(TaskSchedulerModel model);
-        TaskSchedulerModel GetBatchTaskSchedulerDetails(int configuratorId, string schedulerCallFor);
-        bool UpdateBatchTaskSchedulerDetails(TaskSchedulerModel model);
-
-       // bool DeleteBatchTaskScheduler(ParameterModel parameterModel);       
+        TaskSchedulerListModel GetTaskSchedulerList();
+        TaskSchedulerModel CreateTaskScheduler(TaskSchedulerModel model);
+        TaskSchedulerModel GetTaskSchedulerDetails(int configuratorId, string schedulerCallFor);
+        bool UpdateTaskSchedulerDetails(TaskSchedulerModel model);
+        bool DeleteTaskScheduler(ParameterModel parameterModel);       
     }
 }

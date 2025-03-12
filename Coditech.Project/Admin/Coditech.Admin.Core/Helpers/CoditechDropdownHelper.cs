@@ -258,7 +258,7 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DashboardDaysDropDown.ToString()))
             {
                 DashboardDaysDropDownList(dropdownViewModel, dropdownList);
-            }
+            }          
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -1380,7 +1380,7 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-
+      
         private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Value = "NA", Text = GeneralResources.SelectLabel });

@@ -10,11 +10,17 @@ namespace Coditech.API.Client
     {
 
         /// <summary>
+        /// Get list of General Task Scheduler.
+        /// </summary>
+        /// <returns>GeneralTaskSchedulerListResponse</returns>
+        TaskSchedulerListResponse List(IEnumerable<string> expand);
+
+        /// <summary>
         /// Create TaskScheduler.
         /// </summary>
         /// <param name="TaskSchedulerModel">TaskSchedulerModel.</param>
         /// <returns>Returns TaskSchedulerResponse.</returns>
-        TaskSchedulerResponse CreateBatchTaskScheduler(TaskSchedulerModel body);
+        TaskSchedulerResponse CreateTaskScheduler(TaskSchedulerModel body);
 
         /// <summary>
         /// Get TaskSchedulerResponse by taskSchedulerMasterId.
@@ -22,14 +28,20 @@ namespace Coditech.API.Client
         /// <param name="configuratorId">configuratorId</param>
         /// <param name="schedulerCallFor">schedulerCallFor</param>
         /// <returns>Returns TaskSchedulerResponse.</returns>
-        TaskSchedulerResponse GetBatchTaskSchedulerDetails(int configuratorId, string schedulerCallFor);
+        TaskSchedulerResponse GetTaskSchedulerDetails(int configuratorId, string schedulerCallFor);
 
         /// <summary>
         /// Update TaskScheduler.
         /// </summary>
         /// <param name="TaskSchedulerModel">TaskSchedulerModel.</param>
         /// <returns>Returns updated TaskSchedulerResponse</returns>
-        TaskSchedulerResponse UpdateBatchTaskSchedulerDetails(TaskSchedulerModel body);
-     
+        TaskSchedulerResponse UpdateTaskSchedulerDetails(TaskSchedulerModel body);
+
+        /// <summary>
+        /// Delete TaskScheduler.
+        /// </summary>
+        /// <param name="ParameterModel">ParameterModel.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        TrueFalseResponse DeleteTaskScheduler(ParameterModel parameterModel);
     }
 }

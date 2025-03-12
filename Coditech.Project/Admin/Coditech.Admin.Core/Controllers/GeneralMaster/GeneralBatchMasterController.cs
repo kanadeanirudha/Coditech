@@ -13,7 +13,7 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IGeneralBatchAgent _generalBatchAgent;
         private const string createEditBatch = "~/Views/GeneralMaster/GeneralBatchMaster/CreateEditGeneralBatch.cshtml";
-        private const string createEditTaskScheduler = "~/Views/GeneralMaster/TaskScheduler/CreateEditTaskScheduler.cshtml";
+        private const string createEditTaskScheduler = "~/Views/GeneralMaster/GeneralBatchMaster/CreateEditTaskScheduler.cshtml";
 
         public GeneralBatchMasterController(IGeneralBatchAgent generalBatchAgent)
         {
@@ -129,6 +129,7 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", dataTableViewModel);
         }
 
+        #region TaskScheduler
         [HttpPost]
         public virtual ActionResult CreateBatchTaskScheduler(TaskSchedulerViewModel taskSchedulerViewModel)
         {
@@ -150,7 +151,7 @@ namespace Coditech.Admin.Controllers
         {
             TaskSchedulerViewModel taskSchedulerViewModel = _generalBatchAgent.GetBatchTaskSchedulerDetails(configuratorId);
 
-            taskSchedulerViewModel.SelectedWeekDays = !string.IsNullOrEmpty(taskSchedulerViewModel.WeekDays)? taskSchedulerViewModel.WeekDays.Split(',').ToList(): new List<string>();//
+            taskSchedulerViewModel.SelectedWeekDays = !string.IsNullOrEmpty(taskSchedulerViewModel.WeekDays)? taskSchedulerViewModel.WeekDays.Split(',').ToList(): new List<string>();
 
             taskSchedulerViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
             {
@@ -177,6 +178,7 @@ namespace Coditech.Admin.Controllers
             }
             return View(createEditTaskScheduler, taskSchedulerViewModel);
         }
+        #endregion
 
     }
 }

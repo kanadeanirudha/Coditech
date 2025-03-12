@@ -16,11 +16,13 @@ namespace Coditech.Admin.ViewModel
         public string SchedulerName { get; set; }
         [Display(Name = "Scheduler Type")]
         public string SchedulerType { get; set; }
+        [Display(Name = "Scheduler Call For")]
         public string SchedulerCallFor { get; set; }
+        public string SchedulerCallForDisplayText { get; set; }
         [Display(Name = "Start Date")]
-        public DateTime StartDate { get; set; }
-        [Display(Name = "Expire Date")]
-        public DateTime ExpireDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        [Display(Name = "End Date")]
+        public DateTime? ExpireDate { get; set; }
         [Display(Name = "Frequency")]
         public string SchedulerFrequency { get; set; }
         public int RepeatTaskEvery { get; set; }
@@ -38,5 +40,11 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Week Days")]
         public List<string> SelectedWeekDays { get; set; } = new List<string>();
         public List<SelectListItem> SchedulerWeekDaysList { get; set; }
+        [Required]
+        [Display(Name = "Start Time")]
+        public TimeSpan StartTime { get; set; }
+        [Required]
+        [Display(Name = "End Time")]
+        public TimeSpan ExpireTime { get; set; }
     }
 }

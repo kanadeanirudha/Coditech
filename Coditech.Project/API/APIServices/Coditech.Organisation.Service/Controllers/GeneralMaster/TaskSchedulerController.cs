@@ -1,6 +1,7 @@
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Logger;
@@ -24,16 +25,39 @@ namespace Coditech.API.Controllers
             _coditechLogging = coditechLogging;
         }
 
-
-        [Route("/TaskScheduler/CreateBatchTaskScheduler")]
-        [HttpPost, ValidateModel]
-        [Produces(typeof(TaskSchedulerResponse))]
-        public virtual IActionResult CreateBatchTaskScheduler([FromBody] TaskSchedulerModel model)
+        [HttpGet]
+        [Route("/TaskScheduler/GetTaskSchedulerList")]
+        [Produces(typeof(TaskSchedulerListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetTaskSchedulerList()
         {
             try
             {
-                TaskSchedulerModel batch = _taskSchedulerService.CreateBatchTaskScheduler(model);
-                return IsNotNull(batch) ? CreateCreatedResponse(new TaskSchedulerResponse { TaskSchedulerModel = batch }) : CreateInternalServerErrorResponse();
+                TaskSchedulerListModel list = _taskSchedulerService.GetTaskSchedulerList();
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<TaskSchedulerListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TaskSchedulerListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TaskSchedulerListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/TaskScheduler/CreateTaskScheduler")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TaskSchedulerResponse))]
+        public virtual IActionResult CreateTaskScheduler([FromBody] TaskSchedulerModel model)
+        {
+            try
+            {
+                TaskSchedulerModel taskSchedulerModel = _taskSchedulerService.CreateTaskScheduler(model);
+                return IsNotNull(taskSchedulerModel) ? CreateCreatedResponse(new TaskSchedulerResponse { TaskSchedulerModel = taskSchedulerModel }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
             {
@@ -47,14 +71,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/TaskScheduler/GetBatchTaskSchedulerDetails")]
+        [Route("/TaskScheduler/GetTaskSchedulerDetails")]
         [HttpGet]
         [Produces(typeof(TaskSchedulerResponse))]
-        public virtual IActionResult GetBatchTaskSchedulerDetails(int configuratorId, string schedulerCallFor)
+        public virtual IActionResult GetTaskSchedulerDetails(int configuratorId, string schedulerCallFor)
         {
             try
             {
-                TaskSchedulerModel taskSchedulerModel = _taskSchedulerService.GetBatchTaskSchedulerDetails(configuratorId, schedulerCallFor);
+                TaskSchedulerModel taskSchedulerModel = _taskSchedulerService.GetTaskSchedulerDetails(configuratorId, schedulerCallFor);
                 return IsNotNull(taskSchedulerModel) ? CreateOKResponse(new TaskSchedulerResponse { TaskSchedulerModel = taskSchedulerModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -69,14 +93,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/TaskScheduler/UpdateBatchTaskSchedulerDetails")]
+        [Route("/TaskScheduler/UpdateTaskSchedulerDetails")]
         [HttpPut, ValidateModel]
         [Produces(typeof(TaskSchedulerResponse))]
-        public virtual IActionResult UpdateBatchTaskSchedulerDetails([FromBody] TaskSchedulerModel model)
+        public virtual IActionResult UpdateTaskSchedulerDetails([FromBody] TaskSchedulerModel model)
         {
             try
             {
-                bool isUpdated = _taskSchedulerService.UpdateBatchTaskSchedulerDetails(model);
+                bool isUpdated = _taskSchedulerService.UpdateTaskSchedulerDetails(model);
                 return isUpdated ? CreateOKResponse(new TaskSchedulerResponse { TaskSchedulerModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)
@@ -91,26 +115,26 @@ namespace Coditech.API.Controllers
             }
         }
 
-        //[Route("/TaskScheduler/DeleteBatchTaskScheduler")]
-        //[HttpPost, ValidateModel]
-        //[Produces(typeof(TrueFalseResponse))]
-        //public virtual IActionResult DeleteBatchTaskScheduler([FromBody] ParameterModel generalBatchMasterIds)
-        //{
-        //    try
-        //    {
-        //        bool deleted = _taskSchedulerService.DeleteBatchTaskScheduler(generalBatchMasterIds);
-        //        return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
-        //    }
-        //    catch (CoditechException ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Warning);
-        //        return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
-        //        return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
-        //    }
-        //}
+        [Route("/TaskScheduler/DeleteTaskScheduler")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult DeleteTaskScheduler([FromBody] ParameterModel taskSchedulerMasterIds)
+        {
+            try
+            {
+                bool deleted = _taskSchedulerService.DeleteTaskScheduler(taskSchedulerMasterIds);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

@@ -72,7 +72,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<ITicketMasterAgent, TicketMasterAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeAgent, OrganisationCentrewiseJoiningCodeAgent>();
             builder.Services.AddScoped<IGeneralCurrencyMasterAgent, GeneralCurrencyMasterAgent>();
-            
+            builder.Services.AddScoped<IGeneralTaskSchedulerMasterAgent, GeneralTaskSchedulerMasterAgent>();
+
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
             builder.Services.AddScoped<IHospitalDoctorVisitingChargesAgent, HospitalDoctorVisitingChargesAgent>();

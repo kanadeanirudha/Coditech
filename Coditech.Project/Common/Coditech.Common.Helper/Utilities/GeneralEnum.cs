@@ -286,6 +286,7 @@
     }
     public enum SchedulerCallForEnum
     {
-       Batch
+        DeleteLogMessage,
+        Batch
     }
 }
