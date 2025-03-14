@@ -6,7 +6,7 @@ namespace Coditech.API.Endpoint
 {
     public class GeneralPersonAttendanceDetailsEndpoint : BaseEndpoint
     {
-        #region Gym Member Attendance
+        #region  GeneralPerson Attendance
         public string GeneralPersonAttendanceDetailsListAsync(long entityId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPersonAttendanceDetails/GetPersonAttendanceList?entityId={entityId}&userType={userType}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";

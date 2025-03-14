@@ -84,27 +84,13 @@ namespace Coditech.API.Data
         public DbSet<UserMainMenuMaster> UserMainMenuMaster { get; set; }
         public DbSet<GeneralPerson> GeneralPerson { get; set; }
         public DbSet<GeneralPersonAddress> GeneralPersonAddress { get; set; }
+        public DbSet<GeneralPersonAttendanceDetails> GeneralPersonAttendanceDetails { get; set; }
         public DbSet<LogMessage> LogMessage { get; set; }
         #endregion
 
         #region Employee
         public DbSet<EmployeeMaster> EmployeeMaster { get; set; }
         public DbSet<EmployeeService> EmployeeService { get; set; }
-        #endregion
-
-        #region Gym
-        public DbSet<GymMemberDetails> GymMemberDetails { get; set; }
-        public DbSet<GymMemberFollowUp> GymMemberFollowUp { get; set; }
-        public DbSet<GymBodyMeasurementType> GymBodyMeasurementType { get; set; }
-        public DbSet<GymMembershipPlan> GymMembershipPlan { get; set; }
-        public DbSet<GymMemberBodyMeasurement> GymMemberBodyMeasurement { get; set; }
-        public DbSet<GeneralPersonAttendanceDetails> GeneralPersonAttendanceDetails { get; set; }
-        public DbSet<GymMemberMembershipPlan> GymMemberMembershipPlan { get; set; }
-        public DbSet<GymMembershipPlanPackage> GymMembershipPlanPackage { get; set; }
-        public DbSet<GymWorkoutPlan> GymWorkoutPlan { get; set; }
-        public DbSet<GymWorkoutPlanDetails> GymWorkoutPlanDetails { get; set; }
-        public DbSet<GymWorkoutPlanSet> GymWorkoutPlanSet { get; set; }
-        public DbSet<GymWorkoutPlanUser> GymWorkoutPlanUser { get; set; }
         #endregion
 
         #region MediaManager

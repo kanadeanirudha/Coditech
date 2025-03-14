@@ -123,10 +123,6 @@ namespace Coditech.Admin.Helpers
             {
                 GetCentrewiseBuildingRoomList(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.GymMembershipPlan.ToString()))
-            {
-                GetGymMembershipPlanList(dropdownViewModel, dropdownList);
-            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryGeneralServiecs.ToString()))
             {
                 GetGeneralServicesList(dropdownViewModel, dropdownList);
@@ -258,7 +254,7 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DashboardDaysDropDown.ToString()))
             {
                 DashboardDaysDropDownList(dropdownViewModel, dropdownList);
-            }          
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -612,29 +608,6 @@ namespace Coditech.Admin.Helpers
                         Text = item.RoomName,
                         Value = item.OrganisationCentrewiseBuildingRoomId.ToString(),
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationCentrewiseBuildingRoomId)
-                    });
-                }
-            }
-        }
-
-        private static void GetGymMembershipPlanList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Membership Plan-------", Value = "" });
-
-            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            {
-                FilterCollection filters = new FilterCollection();
-                filters.Add(FilterKeys.IsActive, ProcedureFilterOperators.Equals, "1");
-                GymMembershipPlanListResponse response = new GymMembershipPlanClient().List(dropdownViewModel.Parameter, null, filters, null, 1, int.MaxValue);
-                GymMembershipPlanListModel list = new GymMembershipPlanListModel() { GymMembershipPlanList = response.GymMembershipPlanList };
-                foreach (var item in list?.GymMembershipPlanList)
-                {
-                    string planDuration = item.PlanDurationType.ToLower() == "duration" ? $"{item.PlanDurationInMonth} Month {item.PlanDurationInDays} Days" : $"{item.PlanDurationInSession} Session";
-                    dropdownList.Add(new SelectListItem()
-                    {
-                        Text = $"{item.MembershipPlanName}-{item.PlanType}-{planDuration}",
-                        Value = $"{item.GymMembershipPlanId.ToString()}~{item.PlanDurationType}~{item.MaxCost}~{(item.MaxCost - item.MinCost)}",
-                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GymMembershipPlanId)
                     });
                 }
             }
@@ -1380,7 +1353,7 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-      
+
         private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Value = "NA", Text = GeneralResources.SelectLabel });

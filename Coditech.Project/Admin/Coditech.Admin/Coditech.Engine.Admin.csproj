@@ -8,15 +8,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Reports\Gym\GymLeads.rdlc" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Reports\Gym\GymLeads.rdlc" />
-	  <Content Include="Reports\Gym\GymSalesInvoice.rdlc" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -47,6 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Reports\" />
 		<Folder Include="wwwroot\assets\images\jstree\" />
 		<Folder Include="wwwroot\css\login\" />
 		<Folder Include="wwwroot\js\login\" />

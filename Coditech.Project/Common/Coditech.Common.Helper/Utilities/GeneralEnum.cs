@@ -24,15 +24,12 @@
         BloodGroups,
         Title,
         Occupation,
-        GymGroup,
-        GymSource,
+        LeadSource,
         MeasurementUnit,
         UnAssociatedEmployeeList,
-        GymPlanType,
-        GymPlanDurationType,
         FinancialYear,
         GeneralRunningNumberFor,
-        GymFollowupTypes,
+        GeneralFollowupTypes,
         LeadStatus,
         LeadCategory,
         UserType,
@@ -41,7 +38,6 @@
         CentrewiseBuildingRooms,
         Floors,
         AttendanceState,
-        GymMembershipPlan,
         PaymentType,
         InventoryGeneralServiecs,
         DashboardForm,
@@ -102,7 +98,6 @@
     {
         GSTEInvoiceCancellationPeriodInMinute,
         CoditechModules,
-        IsGymMemberLogin,
         IsEmployeeLogin,
         IsPatientLogin,
         ActiveProjectName,
@@ -119,7 +114,6 @@
         Admin,
         Employee,
         Customer,
-        GymMember,
         Patient,
         Trainee
     }
@@ -146,16 +140,11 @@
     }
     public enum GeneralRunningNumberForEnum
     {
-        GymMemberRegistration,
         EmployeeRegistration,
         InvoiceNumber,
         PatientUAHNumber
     }
-    public enum DashboardFormEnum
-    {
-        GymOwnerDashboard,
-        GymOperatorDashboard
-    }
+
     public enum ErrorMessageTypeEnum
     {
         Application
@@ -176,9 +165,7 @@
     {
         EmployeeRegistration,
         CustomerRegistration,
-        GymMemberRegistration,
         ResetPasswordLink,
-        AssociateGymMembershipPlan,
         SendOTP,
     }
     public enum UserNameRegistrationTypeEnum
@@ -213,7 +200,7 @@
         DeleteFile,
     }
 
-    public enum GymFollowupTypesEnum
+    public enum GeneralFollowupTypesEnum
     {
         Call,
         TextSMS,

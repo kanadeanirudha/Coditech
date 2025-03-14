@@ -28,7 +28,6 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
         private readonly ICoditechRepository<GeneralPerson> _generalPersonRepository;
         private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
-        private readonly ICoditechRepository<GymMemberDetails> _gymMemberDetailsRepository;
         private readonly ICoditechRepository<HospitalPatientRegistration> _hospitalPatientRegistrationRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
@@ -46,7 +45,6 @@ namespace Coditech.API.Service
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalPersonRepository = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>());
             _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
-            _gymMemberDetailsRepository = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _hospitalPatientRegistrationRepository = new CoditechRepository<HospitalPatientRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
@@ -362,7 +360,7 @@ namespace Coditech.API.Service
 
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
-            //Update Gym Member
+            //Update General Person
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
             if (isPersonUpdated)
             {
@@ -739,20 +737,6 @@ namespace Coditech.API.Service
                     return false;
                 }
             }
-            else if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
-            {
-                if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
-                {
-                    errorMessage = "Selected Centre Code is Required.";
-                    return false;
-                }
-                generalEnumaratorId = GetEnumIdByEnumCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString(), GeneralEnumaratorGroupCodeEnum.GeneralRunningNumberFor.ToString());
-                if (generalEnumaratorId == 0)
-                {
-                    errorMessage = "GymMemberRegistration is null";
-                    return false;
-                }
-            }
             else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 if (string.IsNullOrEmpty(generalPersonModel.SelectedCentreCode))
@@ -790,47 +774,6 @@ namespace Coditech.API.Service
             {
                 InsertUserMasterDetails(generalPersonModel, hospitalPatientRegistration.HospitalPatientRegistrationId, false);
             }
-        }
-
-        protected virtual void InsertGymMember(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
-        {
-            generalPersonModel.PersonCode = GenerateRegistrationCode(GeneralRunningNumberForEnum.GymMemberRegistration.ToString(), generalPersonModel.SelectedCentreCode);
-            GymMemberDetails gymMemberDetails = new GymMemberDetails()
-            {
-                CentreCode = generalPersonModel.SelectedCentreCode,
-                PersonId = generalPersonModel.PersonId,
-                PersonCode = generalPersonModel.PersonCode,
-                UserType = generalPersonModel.UserType
-            };
-            gymMemberDetails = _gymMemberDetailsRepository.Insert(gymMemberDetails);
-
-            //Check Is Gym Member need to Login
-            if (gymMemberDetails?.GymMemberDetailId > 0 && settingMasterList?.FirstOrDefault(x => x.FeatureName.Equals(GeneralSystemGlobleSettingEnum.IsGymMemberLogin.ToString(), StringComparison.InvariantCultureIgnoreCase)).FeatureValue == "1")
-            {
-                InsertUserMasterDetails(generalPersonModel, gymMemberDetails.GymMemberDetailId, false);
-                try
-                {
-                    GeneralEmailTemplateModel emailTemplateModel = GetEmailTemplateByCode(generalPersonModel.SelectedCentreCode, EmailTemplateCodeEnum.GymMemberRegistration.ToString());
-                    if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
-                    {
-                        string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, !string.IsNullOrEmpty(generalPersonModel.CentreName) ? generalPersonModel.CentreName : GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode), emailTemplateModel.Subject);
-                        string messageText = ReplaceGymMemberEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
-                        _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.Gym.ToString(), TraceLevel.Error);
-                }
-            }
-        }
-
-        protected virtual string ReplaceGymMemberEmailTemplate(GeneralPersonModel generalPersonModel, string emailTemplate)
-        {
-            string messageText = emailTemplate;
-            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.FirstName, generalPersonModel.FirstName, messageText);
-            messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.LastName, generalPersonModel.LastName, messageText);
-            return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
         }
 
         protected virtual string ReplaceResetPassworkLink(GeneralPersonModel generalPersonModel, string emailTemplate, string url, string resetPassToken)
@@ -875,10 +818,6 @@ namespace Coditech.API.Service
             if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 InsertEmployee(generalPersonModel, settingMasterList, false);
-            }
-            else if (generalPersonModel.UserType.Equals(UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
-            {
-                InsertGymMember(generalPersonModel, settingMasterList);
             }
             else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {

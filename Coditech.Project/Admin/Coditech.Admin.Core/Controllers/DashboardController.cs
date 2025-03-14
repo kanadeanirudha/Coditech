@@ -13,11 +13,9 @@ namespace Coditech.Admin.Controllers
     public class DashboardController : BaseController
     {
         private readonly IDashboardAgent _dashboardAgent;
-        private readonly IGymDashboardAgent _gymDashboardAgent;
-        public DashboardController(IDashboardAgent dashboardAgent, IGymDashboardAgent gymDashboardAgent)
+        public DashboardController(IDashboardAgent dashboardAgent)
         {
             _dashboardAgent = dashboardAgent;
-            _gymDashboardAgent = gymDashboardAgent;
         }
 
         [HttpGet]
@@ -29,19 +27,6 @@ namespace Coditech.Admin.Controllers
         public virtual IActionResult GetDashboard(short numberOfDaysRecord)
         {
             DashboardViewModel dashboardViewModel = _dashboardAgent.GetDashboardDetails();
-            if (IsNotNull(dashboardViewModel) && !string.IsNullOrEmpty(dashboardViewModel.DashboardFormEnumCode))
-            {
-                if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOwnerDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails(numberOfDaysRecord);
-                    return View("~/Views/Gym/GymDashboard/GymOwnerDashboard.cshtml", gymDashboardViewModel);
-                }
-                else if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormEnum.GymOperatorDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    GymDashboardViewModel gymDashboardViewModel = _gymDashboardAgent.GetGymDashboardDetails(numberOfDaysRecord);
-                    return View("~/Views/Gym/GymDashboard/GymOperatorDashboard.cshtml", gymDashboardViewModel);
-                }
-            }
             return View("~/Views/Dashboard/GeneralDashboard.cshtml");
         }
 

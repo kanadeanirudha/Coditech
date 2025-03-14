@@ -64,8 +64,6 @@ namespace Coditech.Admin
             CreateMap<GeneralPersonModel, GeneralPersonViewModel>().ReverseMap();
             CreateMap<GeneralSystemGlobleSettingModel, GeneralSystemGlobleSettingViewModel>().ReverseMap();
             CreateMap<GeneralSystemGlobleSettingListModel, GeneralSystemGlobleSettingListViewModel>().ReverseMap();
-            CreateMap<GymMemberDetailsModel, GymMemberDetailsViewModel>().ReverseMap();
-            CreateMap<GymMemberDetailsListModel, GymMemberDetailsListViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorGroupListModel, GeneralEnumaratorGroupViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorGroupModel, GeneralEnumaratorGroupViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorModel, GeneralEnumaratorViewModel>().ReverseMap();
@@ -140,32 +138,9 @@ namespace Coditech.Admin
             CreateMap<EmployeeMasterModel, EmployeeMasterViewModel>().ReverseMap();
             CreateMap<EmployeeServiceListModel, EmployeeServiceListViewModel>().ReverseMap();
             CreateMap<EmployeeServiceModel, EmployeeServiceViewModel>().ReverseMap();
-            #endregion
-
-            #region Gym
-            CreateMap<GymCreateEditMemberViewModel, GeneralPersonModel>().ReverseMap();
-            CreateMap<GymMemberFollowUpListViewModel, GymMemberFollowUpListModel>().ReverseMap();
-            CreateMap<GymMemberFollowUpViewModel, GymMemberFollowUpModel>().ReverseMap();
-            CreateMap<GymBodyMeasurementTypeModel, GymBodyMeasurementTypeViewModel>().ReverseMap();
-            CreateMap<GymBodyMeasurementTypeListModel, GymBodyMeasurementTypeListViewModel>().ReverseMap();
-            CreateMap<GymMembershipPlanModel, GymMembershipPlanViewModel>().ReverseMap();
-            CreateMap<GymMembershipPlanListModel, GymMembershipPlanListViewModel>().ReverseMap();
             CreateMap<EmployeeCreateEditViewModel, EmployeeMasterModel>().ReverseMap();
-            CreateMap<GymMemberBodyMeasurementModel, GymMemberBodyMeasurementViewModel>().ReverseMap();
-            CreateMap<GymMemberBodyMeasurementListModel, GymMemberBodyMeasurementListViewModel>().ReverseMap();
             CreateMap<GeneralPersonAttendanceDetailsListViewModel, GeneralPersonAttendanceDetailsListModel>().ReverseMap();
             CreateMap<GeneralPersonAttendanceDetailsViewModel, GeneralPersonAttendanceDetailsModel>().ReverseMap();
-            CreateMap<GymMemberMembershipPlanModel, GymMemberMembershipPlanViewModel>().ReverseMap();
-            CreateMap<GymMemberMembershipPlanListModel, GymMemberMembershipPlanListViewModel>().ReverseMap();
-            CreateMap<GymMemberSalesInvoiceModel, GymMemberSalesInvoiceViewModel>().ReverseMap();
-            CreateMap<GymMemberSalesInvoiceListModel, GymMemberSalesInvoiceListViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanModel, GymWorkoutPlanViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanListModel, GymWorkoutPlanListViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanDetailsModel, GymWorkoutPlanDetailsViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanSetModel, GymWorkoutPlanSetViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanUserModel, GymWorkoutPlanUserViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanUserListModel, GymWorkoutPlanUserListViewModel>().ReverseMap();
-
             #endregion
 
             #region Person
@@ -242,10 +217,6 @@ namespace Coditech.Admin
             CreateMap<DashboardModel, DashboardViewModel>().ReverseMap();
             #endregion
             
-            #region GymDashboard
-            CreateMap<GymDashboardModel, GymDashboardViewModel>().ReverseMap();
-            #endregion
-
             #region Media Manager
             CreateMap<MediaSettingMasterModel, MediaSettingMasterViewModel>().ReverseMap();
             CreateMap<MediaSettingMasterListModel, MediaSettingMasterListViewModel>().ReverseMap();

@@ -97,16 +97,7 @@ namespace Coditech.Common.Service
             string centreCode = string.Empty;
             string personCode = string.Empty;
             short generalDepartmentMasterId = 0;
-            if (entityType == UserTypeEnum.GymMember.ToString())
-            {
-                GymMemberDetails gymMemberDetails = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId)?.FirstOrDefault();
-                if (IsNotNull(gymMemberDetails))
-                {
-                    personId = gymMemberDetails.PersonId;
-                    centreCode = gymMemberDetails.CentreCode;
-                }
-            }
-            else if (entityType == UserTypeEnum.Employee.ToString())
+            if (entityType == UserTypeEnum.Employee.ToString())
             {
                 EmployeeMaster employeeMaster = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EmployeeId == entityId);
                 if (IsNotNull(employeeMaster))

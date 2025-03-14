@@ -20,7 +20,7 @@ namespace Coditech.API.Client
         }
 
 
-        #region Gym Member Attendance
+        #region General Person Attendance
         public virtual GeneralPersonAttendanceDetailsListResponse GeneralPersonAttendanceDetailsList(long entityId, string userType, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await GeneralPersonAttendanceDetailsListAsync(entityId, userType, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();

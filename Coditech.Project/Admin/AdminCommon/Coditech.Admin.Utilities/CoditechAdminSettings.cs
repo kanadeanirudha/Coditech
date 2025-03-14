@@ -76,17 +76,6 @@ namespace Coditech.Admin.Utilities
             }
         }
 
-        public static string CoditechGymManagementSystemApiRootUri
-        {
-            get
-            {
-                if (settings["EnvironmentName"] == "dev")
-                    return Convert.ToString(settings["CoditechGymManagementSystemApiRootUri"]);
-                else
-                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-gymmanagementsystem.{settings["ApiDomainName"]}");
-            }
-        }
-
         public static string CoditechGazetteApiRootUri
         {
             get
