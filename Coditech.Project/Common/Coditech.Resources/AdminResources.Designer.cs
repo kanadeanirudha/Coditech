@@ -104,7 +104,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteBatchDetails", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete Task Scheduler Details due to associate record..
+        /// </summary>
+        public static string ErrorDeleteTaskSchedulerDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteTaskSchedulerDetails", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Coditech Application Setting due to associate record..
         /// </summary>

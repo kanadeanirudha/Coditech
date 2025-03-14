@@ -1,4 +1,6 @@
-﻿namespace Coditech.Common.API.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Coditech.Common.API.Model
 {
     public class TaskSchedulerModel : BaseModel
     {
@@ -7,8 +9,9 @@
         public string SchedulerName { get; set; }
         public string SchedulerType { get; set; }
         public string SchedulerCallFor { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime ExpireDate { get; set; }
+        public string SchedulerCallForDisplayText { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? ExpireDate { get; set; }
         public string SchedulerFrequency { get; set; }
         public int RepeatTaskEvery { get; set; }
         public string RepeatTaskForDuration { get; set; }
@@ -21,6 +24,8 @@
         public int RecurEvery { get; set; }
         public bool IsMonthlyDays { get; set; }
         public List<string> SelectedWeekDays { get; set; } = new List<string>();
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan ExpireTime { get; set; }
     }
 }
 

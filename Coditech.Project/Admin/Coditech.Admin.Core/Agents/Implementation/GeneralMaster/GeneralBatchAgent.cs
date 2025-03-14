@@ -212,7 +212,7 @@ namespace Coditech.Admin.Agents
                 taskSchedulerViewModel.SchedulerType = SchedulerTypeEnum.Scheduled.ToString();
                 taskSchedulerViewModel.RecurEvery = 1;
                
-                TaskSchedulerResponse response = _taskSchedulerClient.CreateBatchTaskScheduler(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
+                TaskSchedulerResponse response = _taskSchedulerClient.CreateTaskScheduler(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
                 TaskSchedulerModel taskSchedulerModel = response?.TaskSchedulerModel;
                 return IsNotNull(taskSchedulerModel) ? taskSchedulerModel.ToViewModel<TaskSchedulerViewModel>() : new TaskSchedulerViewModel();
             }
@@ -237,7 +237,7 @@ namespace Coditech.Admin.Agents
         //Get TaskScheduler by TaskSchedulerMasterId.
         public virtual TaskSchedulerViewModel GetBatchTaskSchedulerDetails(int configuratorId)
         {
-            TaskSchedulerResponse response = _taskSchedulerClient.GetBatchTaskSchedulerDetails(configuratorId,SchedulerCallForEnum.Batch.ToString());
+            TaskSchedulerResponse response = _taskSchedulerClient.GetTaskSchedulerDetails(configuratorId,SchedulerCallForEnum.Batch.ToString());
             return response?.TaskSchedulerModel.ToViewModel<TaskSchedulerViewModel>();
         }
 
@@ -247,7 +247,7 @@ namespace Coditech.Admin.Agents
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Info);
-                TaskSchedulerResponse response = _taskSchedulerClient.UpdateBatchTaskSchedulerDetails(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
+                TaskSchedulerResponse response = _taskSchedulerClient.UpdateTaskSchedulerDetails(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
                 TaskSchedulerModel taskSchedulerModel = response?.TaskSchedulerModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Info);
                 return IsNotNull(taskSchedulerModel) ? taskSchedulerModel.ToViewModel<TaskSchedulerViewModel>() : (TaskSchedulerViewModel)GetViewModelWithErrorMessage(new TaskSchedulerViewModel(), GeneralResources.UpdateErrorMessage);
