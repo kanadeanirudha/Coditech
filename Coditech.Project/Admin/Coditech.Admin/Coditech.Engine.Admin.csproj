@@ -8,14 +8,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Reports\**" />
-	  <Content Remove="Reports\**" />
-	  <EmbeddedResource Remove="Reports\**" />
-	  <EntityDeploy Remove="Reports\**" />
-	  <None Remove="Reports\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
