@@ -15,11 +15,6 @@ on:
          required: true
          default: true
          type: boolean
-       gymmanagementsystem_api_deploy:
-         description: 'Deploy GymManagementSystem API'
-         required: true
-         default: true
-         type: boolean
        mediamanager_api_deploy:
          description: 'Deploy MediaManager API'
          required: true
@@ -93,34 +88,6 @@ jobs:
 
           # Start the associated app pool
           Start-WebAppPool -Name "coditech-stage-admin"
-
-  gymmanagementsystem_api_deploy:
-    runs-on: [self-hosted, Windows, x64, coditech_Stage]
-    needs: coditech_build
-    if: github.event.inputs.gymmanagementsystem_api_deploy == 'true'
-
-    steps:
-      - name: Stop GymManagementSystem IIS Site and App Pool
-        run: |
-          # Stop the IIS site
-          Stop-WebSite -Name "coditech-stage-api-gymmanagementsystem" 
-
-          # Stop the associated app pool
-          Stop-WebAppPool -Name "coditech-stage-api-gymmanagementsystem"
-
-          # Wait for a few seconds (optional, if needed)
-          Start-Sleep -Seconds 5
-
-      - name: Copy Build file
-        run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.GymManagementSystem\bin\Release\net8.0\*  -Destination C:\HostingSites\CoditechStage\GMS\ -Recurse -Force 
-
-      - name: Start GymManagementSystem IIS Site and App Pool
-        run: |
-          # Start the IIS site
-          Start-WebSite -Name "coditech-stage-api-gymmanagementsystem"
-
-          # Start the associated app pool
-          Start-WebAppPool -Name "coditech-stage-api-gymmanagementsystem"
 
   mediamanager_api_deploy:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
