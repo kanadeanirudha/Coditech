@@ -127,7 +127,8 @@
             AccSetupGLType,
             TaskScheduler,
             AccGLTransaction, 
-            AccSetupChartOfAccountTemplate
+            AccSetupChartOfAccountTemplate,
+            UserType
         }
     }
 }

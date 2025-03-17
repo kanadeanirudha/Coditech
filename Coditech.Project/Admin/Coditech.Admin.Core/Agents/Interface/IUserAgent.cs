@@ -49,6 +49,13 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="userName">userName</param>
         /// <returns>Returns the reset password send link view model.</returns>
-        ResetPasswordSendLinkViewModel ResetPasswordSendLink(string userName);       
+        ResetPasswordSendLinkViewModel ResetPasswordSendLink(string userName);
+
+        /// <summary>
+        /// Get UserType.
+        /// </summary>
+        /// <returns>Returns UserTypeListViewModel.</returns>
+        UserTypeListModel GetUserTypeList();
+      //  IEnumerable<object> GetUserTypeList();
     }
 }
