@@ -115,8 +115,7 @@
         Employee,
         Customer,
         Patient,
-        Trainee,
-        GymMember,
+        Trainee
     }
 
     public enum MediaTypeEnum

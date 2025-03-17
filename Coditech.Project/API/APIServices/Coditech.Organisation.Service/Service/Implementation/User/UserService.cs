@@ -32,6 +32,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
         private readonly ICoditechRepository<AccSetupBalanceSheet> _accSetupBalanceSheetRepository;
+        private readonly ICoditechRepository<UserType> _userTypeRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -49,6 +50,7 @@ namespace Coditech.API.Service
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupBalanceSheetRepository = new CoditechRepository<AccSetupBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
+            _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -495,7 +497,28 @@ namespace Coditech.API.Service
             }
             return generalPersonAddressModel;
         }
-        #endregion General Person Addresses
+
+        //GetUserTypeList
+        public virtual List<UserTypeModel> GetUserTypeList()
+        {
+            List<UserTypeModel> typeList = new List<UserTypeModel>();
+            var userTypeList = _userTypeRepository.Table.Where(x => x.IsActive).ToList();
+            foreach (UserType item in userTypeList)
+            {
+                //typeList.Add(item.FromEntityToModel<UserTypeModel>());
+                typeList.Add(new UserTypeModel()
+                {
+                    UserTypeId = item.UserTypeId,
+                    UserTypeCode = item.UserTypeCode,
+                    UserDescription = item.UserDescription,
+                    IsCommon = item.IsCommon,
+                    IsLoginRequired = item.IsLoginRequired,
+                    IsActive = item.IsActive
+                });
+            }
+            return typeList;
+        }
+        #endregion
 
         #endregion
 

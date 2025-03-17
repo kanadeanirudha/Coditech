@@ -34,5 +34,12 @@ namespace Coditech.Admin.Agents
         /// <param name="taskSchedulerMasterIds">generalBatchMasterId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteTaskScheduler(string taskSchedulerMasterIds, out string message);
+
+        /// <summary>
+        /// Get taskScheduler by TaskSchedulerMasterId.
+        /// </summary>
+        /// <param name="startTime">schedulerCallFor</param>
+        /// <returns>Returns TaskSchedulerViewModel.</returns>
+        TaskSchedulerViewModel GetExecuteTaskScheduler(DateTime startTime);
     }
 }

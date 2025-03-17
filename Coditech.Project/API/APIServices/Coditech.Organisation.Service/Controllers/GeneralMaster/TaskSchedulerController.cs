@@ -136,5 +136,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/TaskScheduler/ExecuteTaskScheduler")]
+        [HttpGet]
+        [Produces(typeof(TaskSchedulerResponse))]
+        public virtual IActionResult ExecuteTaskScheduler(DateTime startTime)
+        {
+            try
+            {
+                TaskSchedulerModel taskSchedulerModel = _taskSchedulerService.ExecuteTaskScheduler(startTime);
+                return IsNotNull(taskSchedulerModel) ? CreateOKResponse(new TaskSchedulerResponse { TaskSchedulerModel = taskSchedulerModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TaskSchedulerResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TaskSchedulerResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }
