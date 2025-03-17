@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -88,7 +89,19 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = centreCode });
         }
-         public virtual ActionResult Cancel(string SelectedCentreCode)
+
+        public virtual ActionResult GetFinancialYearListByCentreCode(string selectedCentreCode)
+        {
+            DropdownViewModel financialYearDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.FinancialYear.ToString(),
+                DropdownName = "GeneralFinancialYearId",
+                Parameter = $"{selectedCentreCode}",
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", financialYearDropdown);
+        }
+
+        public virtual ActionResult Cancel(string SelectedCentreCode)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
