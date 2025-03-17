@@ -1,6 +1,8 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
+using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
@@ -12,6 +14,7 @@ namespace Coditech.Admin.Controllers
     public class OrganisationCentreMasterController : BaseController
     {
         private readonly IOrganisationCentreAgent _organisationCentreAgent;
+        private readonly IUserAgent _userTypeAgent;
         private const string createEdit = "~/Views/Organisation/OrganisationCentre/CreateEdit.cshtml";
         private const string OrganisationCentrePrintingFormat = "~/Views/Organisation/OrganisationCentre/OrganisationCentrePrintingFormat.cshtml";
         private const string OrganisationCentrewiseGSTCredential = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseGSTCredential.cshtml";
@@ -22,9 +25,10 @@ namespace Coditech.Admin.Controllers
         private const string OrganisationCentrewiseSMSTemplate = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseSMSTemplate.cshtml";
         private const string OrganisationCentrewiseUserNameRegistration = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseUserNameRegistration.cshtml";
         private const string OrganisationCentrewiseWhatsAppSetting = "~/Views/Organisation/OrganisationCentre/OrganisationCentrewiseWhatsAppSetting.cshtml";
-        public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent)
+        public OrganisationCentreMasterController(IOrganisationCentreAgent organisationCentreAgent, IUserAgent userTypeAgent)
         {
             _organisationCentreAgent = organisationCentreAgent;
+            _userTypeAgent = userTypeAgent;
         }
 
         #region OrganisationCentre 
@@ -327,7 +331,7 @@ namespace Coditech.Admin.Controllers
         {
             List<SelectListItem> UserTypeList = new List<SelectListItem>();
             UserTypeList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
-            var userTypeList = Enum.GetValues(typeof(UserTypeEnum)).Cast<UserTypeEnum>().ToList();
+            var userTypeList = _userTypeAgent.GetUserTypeList().TypeList;
             foreach (var item in userTypeList)
             {
                 if (organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId == 0 &&
@@ -336,7 +340,7 @@ namespace Coditech.Admin.Controllers
                 {
                     continue;
                 }
-                UserTypeList.Add(new SelectListItem { Text = item.ToString(), Value = item.ToString(), Selected = item.ToString() == organisationCentrewiseUserNameRegistrationViewModel.UserType });
+                UserTypeList.Add(new SelectListItem { Text = item.UserDescription, Value = item.UserTypeCode, Selected = item.UserTypeCode == organisationCentrewiseUserNameRegistrationViewModel.UserType });
             }
             ViewData["UserType"] = UserTypeList;
 

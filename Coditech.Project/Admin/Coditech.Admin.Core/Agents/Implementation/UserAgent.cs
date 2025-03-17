@@ -204,8 +204,14 @@ namespace Coditech.Admin.Agents
                 return (ResetPasswordViewModel)GetViewModelWithErrorMessage(model, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
             }
         }
+        public virtual UserTypeListModel GetUserTypeList()
+        {
+            UserTypeListResponse response = _userClient.GetUserTypeList();
+            UserTypeListModel userTypeListModel = new UserTypeListModel() { TypeList = response?.UserTypeList };
+            return userTypeListModel;
+            
+        }
         #endregion
-
         #endregion
     }
 }

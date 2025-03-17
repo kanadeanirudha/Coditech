@@ -140,6 +140,27 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        //Get ExecuteTaskScheduler by ExecuteTaskScheduler id.
+        public virtual TaskSchedulerModel ExecuteTaskScheduler(DateTime startTime)
+        {
+
+            // Get the ExecuteTaskScheduler Details based on id.
+            CoditechViewRepository<TaskSchedulerModel> objStoredProc =  new CoditechViewRepository<TaskSchedulerModel>(_serviceProvider.GetService<Coditech_Entities>());
+
+            objStoredProc.SetParameter("StartDate", startTime, ParameterDirection.Input, DbType.DateTime);
+            List<TaskSchedulerModel> taskSchedulerList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTaskScheduler @StartDate").ToList();
+            DateTime currentTime = DateTime.Now;
+            var deleteLogSchedulers = taskSchedulerList.Where(x => x.SchedulerCallFor == SchedulerCallForEnum.DeleteLogMessage.ToString()).ToList();
+
+            foreach (TaskSchedulerModel taskScheduler in deleteLogSchedulers)
+            {
+                TaskSchedulerModel taskSchedulerModel = taskScheduler.FromEntityToModel<TaskSchedulerModel>();
+                DeleteExecuteTaskScheduler(taskSchedulerModel);
+            }
+
+            return new TaskSchedulerModel(); 
+        }
+
         #region Protected Method
         protected virtual void BindSchedulerOtherDetails(TaskSchedulerModel taskSchedulerModel)
         {
@@ -156,6 +177,23 @@ namespace Coditech.API.Service
                 taskSchedulerModel.ExpireDate = taskSchedulerModel.ExpireDate + taskSchedulerModel.ExpireTime;
             }
         }
+
+        protected virtual void DeleteExecuteTaskScheduler(TaskSchedulerModel taskSchedulerModel)
+        {
+
+            if (taskSchedulerModel.SchedulerCallFor == SchedulerCallForEnum.DeleteLogMessage.ToString())
+            {
+                CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
+
+                objStoredProc.SetParameter("TaskSchedulerMasterId", taskSchedulerModel.TaskSchedulerMasterId, ParameterDirection.Input, DbType.Int32);
+                objStoredProc.SetParameter("RetentionPeriod", 30, ParameterDirection.Input, DbType.Int32);
+                objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
+
+                int status = 0;
+                objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteLogMessages @TaskSchedulerMasterId, @RetentionPeriod, @Status OUT", 1, out status);
+            }
+        }
+
         #endregion
     }
 }

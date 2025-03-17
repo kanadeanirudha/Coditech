@@ -82,7 +82,6 @@ namespace Coditech.API.Client
         /// <param name="userName">UserModel.</param>
         /// <returns>Returns ResetPasswordResponse.</returns>
         ResetPasswordSendLinkResponse ResetPasswordSendLink(string userName);
-        
-        
+        UserTypeListResponse GetUserTypeList();
     }
 }
