@@ -27,5 +27,7 @@ namespace Coditech.Common.API.Model
         public List<AccSetupCategoryModel> AccSetupCategoryList { get; set; }
         public List<AccSetupGLModel> AccSetupGLList { get; set; }
         public List<AccSetupGLModel> SubAccounts { get; set; } = new List<AccSetupGLModel>();
+        public List<AccSetupGLBankModel> AccSetupGLBankList { get; set; }
+        public string BankModelData { get; set; }
     }
 }

@@ -92,13 +92,7 @@ namespace Coditech.Admin.Controllers
 
             if (accSetupGLModel != null && !accSetupGLModel.HasError)
             {
-                string newHtml = $@"
-            <div id='gl-{accSetupGLModel.AccSetupGLId}' 
-                 style='padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:4px; 
-                        background-color:#f9f9f9; display:flex; align-items:center;'>
-                <span style='font-weight:bold; color:#333;'> {accSetupGLModel.GLName}</span>
-            </div>";
-
+                string newHtml = $@"<div id='gl-{accSetupGLModel.AccSetupGLId}'style='padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:4px;background-color:#f9f9f9; display:flex; align-items:center;'> <span style='font-weight:bold; color:#333;'> {accSetupGLModel.GLName}</span></div>";
                 return Json(new
                 {
                     success = true,

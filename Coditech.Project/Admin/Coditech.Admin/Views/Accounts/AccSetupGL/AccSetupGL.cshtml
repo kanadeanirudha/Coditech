@@ -1,6 +1,6 @@
 ﻿@model AccSetupGLModel
 @{
-    ViewBag.Title = "Balance Sheet List";
+    ViewBag.Title = "Chart Of Accounts";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "AccSetupGL.GetAccSetupBalanceSheetByCentreCodeAndTypeId()" };
@@ -56,4 +56,5 @@
     </div>
 </div>
 <!-- end page content -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="~/js/coditech/Accounts/AccSetupGL.js"></script>
