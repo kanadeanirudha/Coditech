@@ -17,5 +17,6 @@ namespace Coditech.API.Service
         ResetPasswordModel ResetPassword(ResetPasswordModel model);
         ResetPasswordSendLinkModel ResetPasswordSendLink(string userName, bool isMobileRequest);
         bool AcceptTermsAndConditions(string userType, long entityId);
+        List<UserTypeModel> GetUserTypeList();
     }
 }

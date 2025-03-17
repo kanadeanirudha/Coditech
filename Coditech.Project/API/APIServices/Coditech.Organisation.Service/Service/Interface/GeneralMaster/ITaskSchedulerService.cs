@@ -11,6 +11,7 @@ namespace Coditech.API.Service
         TaskSchedulerModel CreateTaskScheduler(TaskSchedulerModel model);
         TaskSchedulerModel GetTaskSchedulerDetails(int configuratorId, string schedulerCallFor);
         bool UpdateTaskSchedulerDetails(TaskSchedulerModel model);
-        bool DeleteTaskScheduler(ParameterModel parameterModel);       
+        bool DeleteTaskScheduler(ParameterModel parameterModel);
+        TaskSchedulerModel ExecuteTaskScheduler(DateTime startTime);
     }
 }

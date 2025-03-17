@@ -107,30 +107,15 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult GetGeneralPersonAddressess(long personId, long entityId, string entityType)
+        public virtual ActionResult GetGeneralPersonAddressess(long personId, long entityId, string entityType, string controllerName)
         {
             GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
             model.EntityId = entityId;
             model.EntityType = entityType;
+            model.ControllerName = controllerName;
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", model);
         }
 
-        [HttpPost]
-        public virtual ActionResult CreateEditGeneralPersonalAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-            }
-            if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Employee.ToString())
-                return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
-            else if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Patient.ToString())
-                return RedirectToAction("CreateEditPatientRegistrationAddress", "HospitalPatientRegistration", new { hospitalPatientRegistrationId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
-            else
-                return null;
-        }
 
         #region ResetPassword
         [HttpGet]

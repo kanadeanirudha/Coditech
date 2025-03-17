@@ -122,6 +122,13 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
         }
 
+        [HttpGet]
+        public virtual ActionResult ExecuteTaskScheduler(DateTime startTime)
+        {
+            TaskSchedulerViewModel taskSchedulerViewModel = _generalTaskSchedulerMasterAgent.GetExecuteTaskScheduler(startTime);
+            return ActionView(createEditTaskScheduler, taskSchedulerViewModel);
+        }
+
         public virtual ActionResult Cancel(string SelectedCentreCode)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
