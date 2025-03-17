@@ -115,13 +115,8 @@
         Employee,
         Customer,
         Patient,
-        Trainee
-    }
-
-    public enum ActiveProjectNameEnum
-    {
-        GMS,
-        HMS
+        Trainee,
+        GymMember,
     }
 
     public enum MediaTypeEnum
