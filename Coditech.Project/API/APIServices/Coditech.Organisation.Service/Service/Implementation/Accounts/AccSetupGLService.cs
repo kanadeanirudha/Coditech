@@ -269,7 +269,7 @@ namespace Coditech.API.ServiceAccounts
             return _accSetupGLBankRepository.Table.Any(x => x.AccSetupGLId == accSetupGLId);
         }
 
-        private void InsertBankDetails(AccSetupGLModel accSetupGLModel, int accSetupGLId)
+        protected virtual void InsertBankDetails(AccSetupGLModel accSetupGLModel, int accSetupGLId)
         {
             if (accSetupGLModel.AccSetupGLTypeId == 5 && accSetupGLModel.AccSetupGLBankList != null)
             {
