@@ -22,18 +22,9 @@
         public List<SalesInvoiceTaxModel> SalesInvoiceTaxList { get; set; }
         public List<SalesInvoiceDetailsPrintModel> SalesInvoiceDetailsList { get; set; }
         public SalesInvoiceCustomerInformationModel CustomerInformation { get; set; }
-        public OrganisationCentreInvoicePrintingFormat OrganisationCentreInvoicePrintingFormat { get; set; }
+        public OrganisationCentrePrintingFormatModel OrganisationCentreInvoicePrintingFormat { get; set; }
         public OrganisationCentreModel OrganisationCentreModel { get; set; }
 
-    }
-
-    public class OrganisationCentreInvoicePrintingFormat
-    {
-        public string PrintingLine1 { get; set; }
-        public string PrintingLine2 { get; set; }
-        public string PrintingLine3 { get; set; }
-        public string PrintingLine4 { get; set; }
-        public string LogoPath { get; set; }
     }
 
     public class SalesInvoiceCustomerInformationModel
