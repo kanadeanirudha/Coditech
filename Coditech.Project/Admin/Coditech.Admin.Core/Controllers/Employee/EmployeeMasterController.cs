@@ -11,14 +11,16 @@ namespace Coditech.Admin.Controllers
     public class EmployeeMasterController : BaseController
     {
         private readonly IEmployeeMasterAgent _employeeMasterAgent;
+        private readonly IUserAgent _userAgent;
         private const string createEditEmployee = "~/Views/EmployeeMaster/CreateEditEmployee.cshtml";
         private readonly IEmployeeServiceAgent _employeeServiceAgent;
         private const string createEditEmployeeService = "~/Views/EmployeeMaster/EmployeeService/UpdateEmployeeServiceDetails.cshtml";
 
-        public EmployeeMasterController(IEmployeeMasterAgent employeeMasterAgent, IEmployeeServiceAgent employeeServiceAgent)
+        public EmployeeMasterController(IEmployeeMasterAgent employeeMasterAgent, IEmployeeServiceAgent employeeServiceAgent, IUserAgent userAgent)
         {
             _employeeMasterAgent = employeeMasterAgent;
             _employeeServiceAgent = employeeServiceAgent;
+            _userAgent = userAgent;
         }
 
         #region Employee
@@ -137,6 +139,17 @@ namespace Coditech.Admin.Controllers
             return ActionView("~/Views/EmployeeMaster/CreateEditEmployeeAddress.cshtml", model);
         }
 
+        [HttpPost]
+        public virtual ActionResult CreateEditGeneralPersonalAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+            }
+            return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+        }
         #endregion Employee Address
 
         #region Employee Service

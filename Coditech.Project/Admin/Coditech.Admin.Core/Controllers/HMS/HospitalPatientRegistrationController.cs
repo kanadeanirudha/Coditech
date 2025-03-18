@@ -11,11 +11,13 @@ namespace Coditech.Admin.Controllers
     public class HospitalPatientRegistrationController : BaseController
     {
         private readonly IHospitalPatientRegistrationAgent _hospitalPatientRegistrationAgent;
+        private readonly IUserAgent _userAgent;
         private const string createEditPatientRegistration = "~/Views/HMS/HospitalPatientRegistration/CreateEditPatientRegistration.cshtml";
 
-        public HospitalPatientRegistrationController(IHospitalPatientRegistrationAgent hospitalPatientRegistrationAgent)
+        public HospitalPatientRegistrationController(IHospitalPatientRegistrationAgent hospitalPatientRegistrationAgent, IUserAgent userAgent)
         {
             _hospitalPatientRegistrationAgent = hospitalPatientRegistrationAgent;
+            _userAgent = userAgent;
         }
         #region Patient Registration
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
@@ -96,7 +98,7 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult Cancel(string SelectedCentreCode)
         {
-            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
         #endregion HospitalPatientRegistration
@@ -114,6 +116,17 @@ namespace Coditech.Admin.Controllers
             return ActionView("~/Views/HMS/HospitalPatientRegistration/CreateEditPatientRegistrationAddress.cshtml", model);
         }
 
+        [HttpPost]
+        public virtual ActionResult CreateEditGeneralPersonalAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+            }
+           return RedirectToAction("CreateEditPatientRegistrationAddress", "HospitalPatientRegistration", new { hospitalPatientRegistrationId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+        }
         #endregion Hospital Patient Registration Address Address
     }
 }

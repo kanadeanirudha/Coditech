@@ -75,5 +75,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Is Correspondance Address Same As Permanent Address?")]
         public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }
         public bool IsDefault { get; set; }
+        public string ControllerName { get; set; }
     }
 }
