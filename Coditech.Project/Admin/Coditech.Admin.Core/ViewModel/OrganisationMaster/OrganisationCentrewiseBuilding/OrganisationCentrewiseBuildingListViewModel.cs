@@ -10,6 +10,6 @@ namespace Coditech.Admin.ViewModel
         {
             OrganisationCentrewiseBuildingList = new List<OrganisationCentrewiseBuildingViewModel>();
         }
-        public string SelectedCentreCode { get; set; } = string.Empty;
+        public string SelectedCentreCode { get; set; } 
     }
 }
