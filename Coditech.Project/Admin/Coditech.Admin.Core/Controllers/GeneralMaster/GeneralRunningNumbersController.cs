@@ -40,6 +40,7 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Create(GeneralRunningNumbersViewModel generalRunningNumbersViewModel)
         {
+            ModelState.Remove("CentreCode");
             if (ModelState.IsValid)
             {
                 generalRunningNumbersViewModel = _generalRunningNumbersAgent.CreateRunningNumbers(generalRunningNumbersViewModel);
