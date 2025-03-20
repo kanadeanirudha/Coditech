@@ -10,5 +10,6 @@ namespace Coditech.Admin.ViewModel
         public List<MediaModel> MediaFiles { get; set; }
         public double TotalFileSize {  get; set; }
         public string SelectedParameter1 { get; set; }
+        public string SelectedParameter2 { get; set; }
     }
 }
