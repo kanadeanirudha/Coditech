@@ -50,6 +50,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Fax Number")]
         public string FaxNumber { get; set; }
         [MaxLength(50)]
+        [Required]
         [Display(Name = "Phone Number Office")]
         public string PhoneNumberOffice { get; set; }
         [Display(Name = "Establishment Date")]
