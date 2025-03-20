@@ -90,13 +90,13 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = centreCode });
         }
 
-        public virtual ActionResult GetFinancialYearListByCentreCode(string selectedCentreCode)
+        public virtual ActionResult GetFinancialYearListByCentreCode(string centreCode)
         {
             DropdownViewModel financialYearDropdown = new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.FinancialYear.ToString(),
                 DropdownName = "GeneralFinancialYearId",
-                Parameter = $"{selectedCentreCode}",
+                Parameter = $"{centreCode}",
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", financialYearDropdown);
         }
