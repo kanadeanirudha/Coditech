@@ -8,7 +8,6 @@ namespace Coditech.Common.API.Model
         public int OrganisationCentrePrintingFormatId { get; set; }
 
         [Required]
-        [Display(Name = "Centre Code")]
         public int OrganisationCentreMasterId { get; set; }
 
         [MaxLength(100)]
@@ -26,27 +25,16 @@ namespace Coditech.Common.API.Model
         [MaxLength(100)]
         [Display(Name = " PrintingLine 4 ")]
         public string PrintingLine4 { get; set; }
-
-        public byte[] Logo { get; set; }
-
-        [MaxLength(50)]
-        public string LogoType { get; set; }
-
-        [MaxLength(50)]
-        public string LogoFilename { get; set; }
-
-        [MaxLength(50)]
-        public string LogoFileWidth { get; set; }
-
-        [MaxLength(50)]
-        public string LogoFileHeight { get; set; }
-
-        [MaxLength(50)]
-        public string LogoFileSize { get; set; }
+        public long SignatureMediaId { get; set; }
+        public long LogoMediaId { get; set; }
 
         [MaxLength(100)]
         public string PrintingLinebelowLogo { get; set; }
         public string CentreName { get; set; }
         public string CentreCode { get; set; }
+        public string LogoMediaPath { get; set; }
+        public string LogoMediaFileName { get; set; }
+        public string SignatureMediaPath { get; set; }
+        public string SignatureMediaFileName { get; set; }
     }
 }

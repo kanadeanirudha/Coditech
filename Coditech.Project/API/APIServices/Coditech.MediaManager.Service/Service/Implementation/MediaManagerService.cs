@@ -167,7 +167,7 @@ namespace Coditech.API.Service
                 totalFileSizeInByte += !string.IsNullOrEmpty(media.Size) ? Convert.ToDouble(media.Size) : 0;
                 media.Path = GetMediaPathUrl(media.Type, url, media.Path);
             }
-            managerFolderResponse.MediaManagerFolderModel.TotalFileSize = totalFileSizeInByte > 0 ? ConvertBytesToMegabytes(totalFileSizeInByte) : 0;
+            //managerFolderResponse.MediaManagerFolderModel.TotalFileSize = totalFileSizeInByte > 0 ? ConvertBytesToMegabytes(totalFileSizeInByte) : 0;
             managerFolderResponse.BindPageListResponseModel(pageListModel);
             return managerFolderResponse;
         }
@@ -327,11 +327,11 @@ namespace Coditech.API.Service
         #endregion
 
         #region Protected Method
-        protected virtual double ConvertBytesToMegabytes(double bytes)
-        {
-            double megabytes = bytes / 1048576;
-            return Math.Round(megabytes, 2);
-        }
+        //protected virtual double ConvertBytesToMegabytes(double bytes)
+        //{
+        //    double megabytes = bytes / 1048576;
+        //    return Math.Round(megabytes, 2);
+        //}
 
         protected virtual List<MediaFolderMaster> GetAllChildFoldersAsync(int folderId)
         {

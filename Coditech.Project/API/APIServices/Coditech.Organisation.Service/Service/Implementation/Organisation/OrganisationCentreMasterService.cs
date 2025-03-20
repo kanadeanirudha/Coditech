@@ -28,6 +28,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralEmailTemplate> _generalEmailTemplateRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseWhatsAppSetting> _organisationCentrewiseWhatsAppSettingRepository;
+        private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
         public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -41,6 +42,7 @@ namespace Coditech.API.Service
             _generalEmailTemplateRepository = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseUserNameRegistrationRepository = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseWhatsAppSettingRepository = new CoditechRepository<OrganisationCentrewiseWhatsAppSetting>(_serviceProvider.GetService<Coditech_Entities>());
+            _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual OrganisationCentreListModel GetOrganisationCentreList(int adminRoleMasterId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -151,6 +153,25 @@ namespace Coditech.API.Service
             organisationCentrePrintingFormatModel.CentreCode = organisationCentreModel.CentreCode;
             organisationCentrePrintingFormatModel.CentreName = organisationCentreModel.CentreName;
             organisationCentrePrintingFormatModel.OrganisationCentreMasterId = organisationCentreId;
+
+            if (organisationCentrePrintingFormatModel.LogoMediaId > 0)
+            {
+                var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentrePrintingFormatModel.LogoMediaId).FirstOrDefault();
+                if (mediaDetail != null)
+                {
+                    organisationCentrePrintingFormatModel.LogoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
+                    organisationCentrePrintingFormatModel.LogoMediaFileName = mediaDetail.FileName;
+                }
+            }
+            if (organisationCentrePrintingFormatModel.SignatureMediaId > 0)
+            {
+                var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentrePrintingFormatModel.SignatureMediaId).FirstOrDefault();
+                if (mediaDetail != null)
+                {
+                    organisationCentrePrintingFormatModel.SignatureMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
+                    organisationCentrePrintingFormatModel.SignatureMediaFileName = mediaDetail.FileName;
+                }
+            }
             return organisationCentrePrintingFormatModel;
         }
 

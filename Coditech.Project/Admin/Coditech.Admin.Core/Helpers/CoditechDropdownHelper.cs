@@ -504,21 +504,25 @@ namespace Coditech.Admin.Helpers
 
         private static void GetFinancialYearList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            GeneralFinancialYearListResponse response = new GeneralFinancialYearClient().List(null, null, null, 1, int.MaxValue);
-            GeneralFinancialYearListModel list = new GeneralFinancialYearListModel() { GeneralFinancialYearList = response.GeneralFinancialYearList };
             if (dropdownViewModel.IsRequired)
                 dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
             else
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
-
-            foreach (var item in list?.GeneralFinancialYearList)
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
-                dropdownList.Add(new SelectListItem()
+                FilterCollection filters = new FilterCollection();
+                filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+                GeneralFinancialYearListResponse response = new GeneralFinancialYearClient().List(null, filters, null, 1, int.MaxValue);
+                GeneralFinancialYearListModel list = new GeneralFinancialYearListModel() { GeneralFinancialYearList = response.GeneralFinancialYearList };
+                foreach (var item in list?.GeneralFinancialYearList)
                 {
-                    Text = string.Concat(item.FromDate.ToCoditechDateFormat(), " To ", item.ToDate.ToCoditechDateFormat()),
-                    Value = Convert.ToString(item.GeneralFinancialYearId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
-                });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = string.Concat(item.FromDate.ToCoditechDateFormat(), " To ", item.ToDate.ToCoditechDateFormat()),
+                        Value = Convert.ToString(item.GeneralFinancialYearId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
+                    });
+                }
             }
         }
 
