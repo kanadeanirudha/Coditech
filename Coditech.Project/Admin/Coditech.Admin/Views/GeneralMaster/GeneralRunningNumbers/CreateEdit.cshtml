@@ -4,7 +4,7 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     Model.DisplayFormat = Model.GeneralRunningNumberId > 0 ? Model.DisplayFormat : "<centrecode><separator><prefix><separator><currentsequence>";
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "GeneralRunningNumbers.GetFinancialYearListByCentreCode()", IsDisabled = Model.GeneralRunningNumberId > 0 };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "GeneralRunningNumbers.GetFinancialYearListByCentreCode()", IsDisabled = Model.GeneralRunningNumberId > 0 };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -40,7 +40,7 @@
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.CentreCode, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
-                                        @Html.ValidationMessageFor(x => x.SelectedCentreCode)
+                                        @Html.ValidationMessageFor(x => x.CentreCode)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
