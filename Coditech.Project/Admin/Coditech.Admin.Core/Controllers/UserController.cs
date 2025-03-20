@@ -29,11 +29,10 @@ namespace Coditech.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 _userAgent.Logout();
-
-            GetLoginRememberMeCookie();
-            return View(new UserLoginViewModel());
+            
+            var userLoginViewModel = GetLoginRememberMeCookie();
+            return View(userLoginViewModel);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -88,7 +87,6 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(changePasswordViewModel.ErrorMessage));
             return View("~/Views/User/ChangePassword.cshtml", changePasswordViewModel);
         }
-
 
         [HttpGet]
         public virtual ActionResult Logout()
@@ -195,18 +193,21 @@ namespace Coditech.Admin.Controllers
                 CookieHelper.SetCookie(AdminConstants.LoginCookieNameValue, userId, (Convert.ToDouble(CoditechAdminSettings.CookieExpiresValue) * AdminConstants.MinutesInADay), true);
             }
         }
-        protected virtual void GetLoginRememberMeCookie()
+
+        protected virtual UserLoginViewModel GetLoginRememberMeCookie()
         {
+            UserLoginViewModel userLoginViewModel = new UserLoginViewModel();
+
             if (HttpContext.Request.Cookies?.Count > 0)
             {
                 if (CookieHelper.IsCookieExists(AdminConstants.LoginCookieNameValue))
                 {
                     string loginName = HttpUtility.HtmlEncode(CookieHelper.GetCookieValue<string>(AdminConstants.LoginCookieNameValue));
-                    UserLoginViewModel userLoginViewModel = new UserLoginViewModel();
                     userLoginViewModel.UserName = loginName;
                     userLoginViewModel.RememberMe = true;
                 }
             }
+            return userLoginViewModel;
         }
         #endregion
     }
