@@ -106,7 +106,7 @@ namespace Coditech.API.ServiceAccounts
                                         GLCode = a.GLCode,
                                         ParentAccSetupGLId = a.ParentAccSetupGLId,
                                         IsGroup = a.IsGroup,
-                                        IsSystemGenerated= a.IsSystemGenerated,
+                                        IsSystemGenerated = a.IsSystemGenerated,
                                         SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId) // Recursive call
                                     }).ToList();
 
@@ -199,7 +199,9 @@ namespace Coditech.API.ServiceAccounts
                 GLCode = accSetupGLModel.GLCode,
                 AltSetupGLId = accSetupGLModel.AccSetupBalancesheetId,
                 IsGroup = accSetupGLModel.IsGroup,
-                SelectedCentreCode = accSetupGLModel.SelectedCentreCode
+                SelectedCentreCode = accSetupGLModel.SelectedCentreCode,
+                IsControlHeadEnum = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
+
             };
 
             // Map the model to an entity.
@@ -248,7 +250,7 @@ namespace Coditech.API.ServiceAccounts
             if (IsDataPresentInAccsetupGLBankByAccsetupGLId(accSetupGLId))
                 throw new CoditechException(ErrorCodes.InvalidData, "Record is present in the bank , deletion not allowed.");
 
-            CoditechViewRepository<View_ReturnBoolean> objStoredProc =new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("AccSetupGLId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
 
@@ -262,19 +264,33 @@ namespace Coditech.API.ServiceAccounts
         // Check if GLName or GLCode already exists for a different AccSetupGLId
         protected virtual bool IsGLNameOrGLCodeAlreadyExist(string glName, string glCode, int accSetupGLId = 0)
         {
-            return _accSetupGLRepository.Table.Any(x =>(x.GLName == glName || x.GLCode == glCode) && (x.AccSetupGLId != accSetupGLId || accSetupGLId == 0));
+            return _accSetupGLRepository.Table.Any(x => (x.GLName == glName || x.GLCode == glCode) && (x.AccSetupGLId != accSetupGLId || accSetupGLId == 0));
         }
         protected virtual bool IsDataPresentInAccsetupGLBankByAccsetupGLId(int accSetupGLId)
         {
             return _accSetupGLBankRepository.Table.Any(x => x.AccSetupGLId == accSetupGLId);
         }
 
+        // Check if Bank Account Number already exists
+        protected virtual bool IsAccsetupGLBankAlreadyExist(string bankAccountNumber, int accSetupGLBankId = 0)
+        {
+            return _accSetupGLBankRepository.Table.Any(x =>
+                x.BankAccountNumber == bankAccountNumber &&
+                (x.AccSetupGLBankId != accSetupGLBankId || accSetupGLBankId == 0)
+            );
+        }
+
+        #endregion
         protected virtual void InsertBankDetails(AccSetupGLModel accSetupGLModel, int accSetupGLId)
         {
             if (accSetupGLModel.AccSetupGLTypeId == 5 && accSetupGLModel.AccSetupGLBankList != null)
             {
                 foreach (var item in accSetupGLModel.AccSetupGLBankList)
                 {
+                    if (IsAccsetupGLBankAlreadyExist(item.BankAccountNumber))
+                    {
+                        throw new InvalidOperationException("Bank account number already exists.");
+                    }
                     // Create a new bank model object
                     AccSetupGLBank accSetupGLBankData = new AccSetupGLBank
                     {
@@ -293,8 +309,5 @@ namespace Coditech.API.ServiceAccounts
                 }
             }
         }
-
-
-        #endregion
     }
 }

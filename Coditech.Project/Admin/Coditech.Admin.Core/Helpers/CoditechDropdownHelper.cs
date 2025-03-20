@@ -255,6 +255,10 @@ namespace Coditech.Admin.Helpers
             {
                 DashboardDaysDropDownList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UserTypeList.ToString()))
+            {
+                GetUserTypeList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -1449,6 +1453,26 @@ namespace Coditech.Admin.Helpers
                 {
                     dropdownList.Add(new SelectListItem() { Value = item, Text = $"Today", Selected = item == dropdownViewModel.DropdownSelectedValue });
                 }
+            }
+        }
+        private static void GetUserTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            UserTypeListResponse response = new UserClient().GetUserTypeList();
+            dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
+            foreach (var item in response?.UserTypeList)
+            {
+                if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(item.UserTypeCode)))
+                {
+                    continue;
+                }
+
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.UserDescription,
+                    Value = Convert.ToString(item.UserTypeId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.UserTypeId)
+                });
+
             }
         }
     }

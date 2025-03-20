@@ -87,6 +87,12 @@ namespace Coditech.Admin.Controllers
             {
                 return Json(new { success = false, message = "Invalid data. Please check the inputs." });
             }
+            //  set UserTypeId null if usertypeid is 0
+            accSetupGLModel.UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId;
+
+            // in this we are setting usertypeid to iscontrolheadenum
+            accSetupGLModel.IsControlHeadEnum = accSetupGLModel.UserTypeId;
+
 
             accSetupGLModel = _accSetupGLAgent.AddChild(accSetupGLModel);
 

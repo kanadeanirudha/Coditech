@@ -334,13 +334,23 @@ var AccSetupGL = {
         }
     }
 };
+function handleGLTypeChange() {
+    let glTypeId = parseInt($('#AccSetupGLTypeId').val());
+    if (glTypeId === 4 || glTypeId === 5) {
+        $('#UserTypeId').prop('disabled', true);
+        $('#UserTypeId').val('').trigger('change');
+    } else {
+        $('#UserTypeId').prop('disabled', false);
+    }
+};
+
 
 // Toggles sub-accounts visibility
 window.toggleSubAccounts = function (type, id) {
     var sub = document.getElementById(type === "cat" ? "cat-gl-" + id : "gl-subaccounts-" + id);
     var chev = document.getElementById(type === "cat" ? "cat-chevron-" + id : "gl-chevron-" + id);
     var actions = document.getElementById(type === "cat" ? "cat-buttons-" + id : "gl-buttons-" + id);
-
+    $('#AccSetupGLTypeId').on('change', handleGLTypeChange);
     if (sub) {
         var isExpanded = sub.style.display === "block";
         sub.style.display = isExpanded ? "none" : "block";
@@ -357,6 +367,7 @@ window.toggleSubAccounts = function (type, id) {
 
 // Loads the Bank Form if GL Type equals 5
 function InitializeBankForm() {
+
     let value = $("#AccSetupGLTypeId").val();
     let accSetupBalanceSheetId = $("#AccSetupBalanceSheetId").val();
 
@@ -373,6 +384,7 @@ function InitializeBankForm() {
             .fail(function () {
                 CoditechNotification.DisplayNotificationMessage("Failed to load Bank form.", "error");
             });
+
     } else {
         $("#bankContainer").html("");
         if (typeof Initialize === 'function') {

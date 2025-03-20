@@ -28,6 +28,10 @@ namespace Coditech.Common.API.Model
         public List<AccSetupGLModel> AccSetupGLList { get; set; }
         public List<AccSetupGLModel> SubAccounts { get; set; } = new List<AccSetupGLModel>();
         public List<AccSetupGLBankModel> AccSetupGLBankList { get; set; }
+        [Display(Name = "Control Head")]
+        public short? UserTypeId { get; set; }
+
         public string BankModelData { get; set; }
+        public short? IsControlHeadEnum { get; set; }
     }
 }

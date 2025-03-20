@@ -6,6 +6,13 @@
                 DropdownName = "AccSetupGLTypeId",
                 DropdownSelectedValue = Convert.ToString(Model.AccSetupGLTypeId)
             };
+    DropdownViewModel userTypeDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.UserTypeList.ToString(),
+                DropdownName = "UserTypeId",
+                DropdownSelectedValue = Convert.ToString(Model.UserTypeId),
+                ExcludedValues = new string[] { "Admin", "Branch" }
+            };
 }
 <!-- Add Child Modal -->
 <div class="modal fade" id="addChildModal" tabindex="-1" aria-hidden="true">
@@ -41,6 +48,12 @@
                             @Html.LabelFor(x => x.AccSetupGLTypeId, new { @class = "form-label required" })
                             @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", accSetupGLTypeDropdown)
                             @Html.ValidationMessageFor(x => x.AccSetupGLTypeId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="flex flex-col space-y-2">
+                            @Html.LabelFor(x => x.UserTypeId, new { @class = "form-label required" })
+                            @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", userTypeDropdown)
+                            @Html.ValidationMessageFor(x => x.UserTypeId, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="flex flex-col space-y-2">
