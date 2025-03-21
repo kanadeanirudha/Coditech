@@ -42,7 +42,7 @@ namespace Coditech.Admin.Controllers
                 if (!generalFinancialYearViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralFinancialYearMasterController>(x => x.List(null));
+                    return RedirectToAction("List", new { selectedCentreCode = generalFinancialYearViewModel.CentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalFinancialYearViewModel.ErrorMessage));
