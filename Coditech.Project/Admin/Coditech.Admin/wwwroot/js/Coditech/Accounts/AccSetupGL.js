@@ -338,7 +338,7 @@ function handleGLTypeChange() {
     let glTypeId = parseInt($('#AccSetupGLTypeId').val());
     if (glTypeId === 4 || glTypeId === 5) {
         $('#UserTypeId').prop('disabled', true);
-        $('#UserTypeId').val('').trigger('change');
+        $('#UserTypeId').val('').trigger('change'); 
     } else {
         $('#UserTypeId').prop('disabled', false);
     }
@@ -384,7 +384,7 @@ function InitializeBankForm() {
             .fail(function () {
                 CoditechNotification.DisplayNotificationMessage("Failed to load Bank form.", "error");
             });
-
+   
     } else {
         $("#bankContainer").html("");
         if (typeof Initialize === 'function') {

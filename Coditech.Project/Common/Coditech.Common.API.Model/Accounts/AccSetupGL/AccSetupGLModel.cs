@@ -30,7 +30,6 @@ namespace Coditech.Common.API.Model
         public List<AccSetupGLBankModel> AccSetupGLBankList { get; set; }
         [Display(Name = "Control Head")]
         public short? UserTypeId { get; set; }
-
         public string BankModelData { get; set; }
         public short? IsControlHeadEnum { get; set; }
     }

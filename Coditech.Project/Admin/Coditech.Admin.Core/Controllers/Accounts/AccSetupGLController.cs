@@ -122,7 +122,6 @@ namespace Coditech.Admin.Controllers
                 });
             }
         }
-
         public virtual ActionResult Delete(string accSetupGLIds)
         {
             if (string.IsNullOrEmpty(accSetupGLIds))
@@ -149,7 +148,5 @@ namespace Coditech.Admin.Controllers
                 return Json(new { success = false, message = "An error occurred: " + ex.Message, accountId = accSetupGLIds });
             }
         }
-
-
     }
 }

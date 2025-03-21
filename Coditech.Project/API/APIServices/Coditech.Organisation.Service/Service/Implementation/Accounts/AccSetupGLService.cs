@@ -150,14 +150,14 @@ namespace Coditech.API.ServiceAccounts
             {
                 //new record Insert 
                 List<AccSetupGLBalanceSheet> accSetupGLBalanceSheets = new List<AccSetupGLBalanceSheet>()
-        {
-            new AccSetupGLBalanceSheet()
-            {
-                AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
-                AccSetupGLId = accSetupGLModel.AccSetupGLId,
-                IsActive = true,
-            }
-        };
+                {
+                    new AccSetupGLBalanceSheet()
+                    {
+                        AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
+                        AccSetupGLId = accSetupGLModel.AccSetupGLId,
+                        IsActive = true,
+                    }
+                };
 
                 _accSetupGLBalanceSheetRepository.Insert(accSetupGLBalanceSheets);
             }
@@ -203,9 +203,10 @@ namespace Coditech.API.ServiceAccounts
                 IsControlHeadEnum = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
 
             };
-
+            InsertBankDetails(accSetupGLModel, accSetupGLModel1.AccSetupGLId);
             // Map the model to an entity.
             AccSetupGL accSetupGLEntity = accSetupGLModel1.FromModelToEntity<AccSetupGL>();
+
 
             // Insert the new child record.
             AccSetupGL accSetupGLData = _accSetupGLRepository.Insert(accSetupGLEntity);
@@ -220,23 +221,19 @@ namespace Coditech.API.ServiceAccounts
             accSetupGLModel.AccSetupGLId = accSetupGLData.AccSetupGLId;
 
             List<AccSetupGLBalanceSheet> balanceSheets = new List<AccSetupGLBalanceSheet>
-    {
-        new AccSetupGLBalanceSheet
-        {
-            AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
-            AccSetupGLId = accSetupGLData.AccSetupGLId,
-            IsActive = true,
-        }
-    };
-
+            {
+                new AccSetupGLBalanceSheet
+                {
+                    AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
+                    AccSetupGLId = accSetupGLData.AccSetupGLId,
+                    IsActive = true,
+                }
+            };
+            // Insert bank details
             _accSetupGLBalanceSheetRepository.Insert(balanceSheets);
-
-            // Insert bank details 
-            InsertBankDetails(accSetupGLModel, accSetupGLData.AccSetupGLId);
 
             return true;
         }
-
 
         //Delete AccountSetupGL.
         public virtual bool DeleteAccountSetupGL(ParameterModel parameterModel)
@@ -271,7 +268,7 @@ namespace Coditech.API.ServiceAccounts
             return _accSetupGLBankRepository.Table.Any(x => x.AccSetupGLId == accSetupGLId);
         }
 
-        // Check if Bank Account Number already exists
+        // Check if GLName or GLCode already exists for a different AccSetupGLId
         protected virtual bool IsAccsetupGLBankAlreadyExist(string bankAccountNumber, int accSetupGLBankId = 0)
         {
             return _accSetupGLBankRepository.Table.Any(x =>
@@ -279,7 +276,6 @@ namespace Coditech.API.ServiceAccounts
                 (x.AccSetupGLBankId != accSetupGLBankId || accSetupGLBankId == 0)
             );
         }
-
         #endregion
         protected virtual void InsertBankDetails(AccSetupGLModel accSetupGLModel, int accSetupGLId)
         {
@@ -287,10 +283,6 @@ namespace Coditech.API.ServiceAccounts
             {
                 foreach (var item in accSetupGLModel.AccSetupGLBankList)
                 {
-                    if (IsAccsetupGLBankAlreadyExist(item.BankAccountNumber))
-                    {
-                        throw new InvalidOperationException("Bank account number already exists.");
-                    }
                     // Create a new bank model object
                     AccSetupGLBank accSetupGLBankData = new AccSetupGLBank
                     {
@@ -304,6 +296,10 @@ namespace Coditech.API.ServiceAccounts
                         IFSCCode = item.IFSCCode.ToUpper(),
                         BankAccountNumber = item.BankAccountNumber,
                     };
+                    if (IsAccsetupGLBankAlreadyExist(item.BankAccountNumber))
+                    {
+                        throw new InvalidOperationException("Bank account number already exists.");
+                    }
 
                     _accSetupGLBankRepository.Insert(accSetupGLBankData);
                 }
