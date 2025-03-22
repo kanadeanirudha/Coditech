@@ -122,6 +122,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupGLAgent, AccSetupGLAgent>();
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateAgent, AccSetupChartOfAccountTemplateAgent>();
             builder.Services.AddScoped<IAccGLTransactionAgent, AccGLTransactionAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupAgent, OrganisationCentrewiseAccountSetupAgent>();
             #endregion
 
             #endregion Agent
@@ -229,6 +230,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupGLClient, AccSetupGLClient>();
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateClient, AccSetupChartOfAccountTemplateClient>();
             builder.Services.AddScoped<IAccGLTransactionClient, AccGLTransactionClient>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupClient, OrganisationCentrewiseAccountSetupClient>();
             #endregion
 
             #endregion Client
