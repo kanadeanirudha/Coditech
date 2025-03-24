@@ -145,6 +145,7 @@ namespace Coditech.API.Data
         public DbSet<InventoryUoMMaster> InventoryUoMMaster { get; set; }
         public DbSet<InventoryItemTrackingDimensionGroup> InventoryItemTrackingDimensionGroup { get; set; }
         public DbSet<InventoryItemTrackingDimensionGroupMapper> InventoryItemTrackingDimensionGroupMapper { get; set; }
+        public DbSet<InventoryCategoryTypeMaster> InventoryCategoryTypeMaster { get; set; }
 
         #endregion
 

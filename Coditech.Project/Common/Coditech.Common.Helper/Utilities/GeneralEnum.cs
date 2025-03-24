@@ -92,7 +92,8 @@
         CentrewiseAccountBalanceSheet,
         LimitedDataAccess,
         DashboardDaysDropDown,
-        UserTypeList
+        UserTypeList,
+        InventoryCategoryType
     }
 
     public enum GeneralSystemGlobleSettingEnum

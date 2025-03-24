@@ -99,7 +99,7 @@ namespace Coditech.API.Mapper
             CreateMap<InventoryStorageDimensionGroupMapperModel, InventoryStorageDimensionGroupMapper>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionGroupModel, InventoryItemTrackingDimensionGroup>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionGroupMapperModel, InventoryItemTrackingDimensionGroupMapper>().ReverseMap();
-
+            CreateMap<InventoryCategoryTypeModel, InventoryCategoryTypeMaster>().ReverseMap();
             #endregion
 
             #region Accounts
