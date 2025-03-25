@@ -145,6 +145,7 @@ namespace Coditech.API.Data
         public DbSet<InventoryUoMMaster> InventoryUoMMaster { get; set; }
         public DbSet<InventoryItemTrackingDimensionGroup> InventoryItemTrackingDimensionGroup { get; set; }
         public DbSet<InventoryItemTrackingDimensionGroupMapper> InventoryItemTrackingDimensionGroupMapper { get; set; }
+        public DbSet<InventoryCategoryTypeMaster> InventoryCategoryTypeMaster { get; set; }
 
         #endregion
 
@@ -171,6 +172,7 @@ namespace Coditech.API.Data
         public DbSet<AccSetupCategory> AccSetupCategory { get; set; }
         public DbSet<AccGLTransaction> AccGLTransaction { get; set; }
         public DbSet<AccSetupGLType> AccSetupGLType { get; set; }
+        public DbSet<OrganisationCentrewiseAccountSetup> OrganisationCentrewiseAccountSetup { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

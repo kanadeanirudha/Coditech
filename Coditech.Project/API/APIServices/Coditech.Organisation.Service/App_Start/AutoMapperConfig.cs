@@ -99,7 +99,7 @@ namespace Coditech.API.Mapper
             CreateMap<InventoryStorageDimensionGroupMapperModel, InventoryStorageDimensionGroupMapper>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionGroupModel, InventoryItemTrackingDimensionGroup>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionGroupMapperModel, InventoryItemTrackingDimensionGroupMapper>().ReverseMap();
-
+            CreateMap<InventoryCategoryTypeModel, InventoryCategoryTypeMaster>().ReverseMap();
             #endregion
 
             #region Accounts
@@ -113,6 +113,7 @@ namespace Coditech.API.Mapper
             CreateMap<AccSetupChartOfAccountTemplate, AccSetupChartOfAccountTemplateModel>().ReverseMap();
             CreateMap<AccSetupGLType, AccSetupGLTypeModel>().ReverseMap();
             CreateMap<AccGLTransaction, AccGLTransactionModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseAccountSetup, OrganisationCentrewiseAccountSetupModel>().ReverseMap();
             #endregion
         }
     }

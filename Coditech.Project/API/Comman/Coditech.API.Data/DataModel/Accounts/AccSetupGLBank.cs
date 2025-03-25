@@ -15,8 +15,8 @@ namespace Coditech.API.Data
         public decimal BankLimitAmount { get; set; }
         public decimal RateOfInterest { get; set; }
         public string InterestMode { get; set; }
-        public DateTime OpenDatetime { get; set; }
-        public DateTime DueDatetime { get; set; }
+        public DateTime? OpenDatetime { get; set; }
+        public DateTime? DueDatetime { get; set; }
         public int InterestTypeEnumId { get; set; }
         public string IFSCCode { get; set; }
         public bool IsActive { get; set; }

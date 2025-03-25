@@ -122,23 +122,5 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
-        public virtual AccSetupBalanceSheetListModel GetAccSetupBalanceSheet(string selectedCentreCode, byte accSetupBalanceSheetTypeId)
-        {
-
-            AccSetupBalanceSheetListModel listModel = new AccSetupBalanceSheetListModel();
-
-            listModel.AccSetupBalanceSheetList = (from a in _accSetupBalanceSheetRepository.Table
-                                                  join b in _accSetupBalanceSheetTypeRepository.Table
-                                                  on a.AccSetupBalanceSheetTypeId equals b.AccSetupBalanceSheetTypeId
-                                                  select new AccSetupBalanceSheetModel
-                                                  {
-                                                      AccSetupBalanceSheetId = a.AccSetupBalanceSheetId,
-                                                      CentreCode = a.CentreCode,
-                                                      AccBalancesheetHeadDesc = a.AccBalancesheetHeadDesc
-                                                  }).ToList();
-            return listModel;
-        }
-
-
     }
 }

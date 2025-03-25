@@ -5,6 +5,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+using Newtonsoft.Json;
 using System.Diagnostics;
 namespace Coditech.Admin.Agents
 {
@@ -104,6 +105,17 @@ namespace Coditech.Admin.Agents
         {
             try
             {
+                if (!string.IsNullOrEmpty(accSetupGLModel.BankModelData))
+                {
+                    if (!accSetupGLModel.BankModelData.Trim().StartsWith("["))
+                    {
+                        // Wrap it in an array if it's not already an array
+                        accSetupGLModel.BankModelData = "[" + accSetupGLModel.BankModelData + "]";
+                    }
+
+                    accSetupGLModel.AccSetupGLBankList = JsonConvert.DeserializeObject<List<AccSetupGLBankModel>>(accSetupGLModel.BankModelData);
+                }
+
                 AccSetupGLResponse response = _accSetupGLClient.AddChild(accSetupGLModel);
 
                 if (response?.HasError == true)
