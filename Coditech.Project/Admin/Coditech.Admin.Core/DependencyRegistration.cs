@@ -99,6 +99,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryStorageDimensionGroupAgent, InventoryStorageDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupAgent, InventoryItemTrackingDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterAgent, InventoryGeneralItemMasterAgent>();
+            builder.Services.AddScoped<IInventoryCategoryTypeAgent, InventoryCategoryTypeAgent>();
             #endregion
 
             #region Gazette

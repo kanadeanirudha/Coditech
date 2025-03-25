@@ -11,5 +11,16 @@ namespace Coditech.API.Endpoint
             string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategoryType/GetInventoryCategoryTypeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
+        public string CreateInventoryCategoryTypeAsync() =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategoryType/CreateInventoryCategoryType";
+
+        public string GetInventoryCategoryTypeAsync(byte inventoryCategoryTypeMasterId) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategoryType/GetInventoryCategoryType?inventoryCategoryTypeMasterId={inventoryCategoryTypeMasterId}";
+
+        public string UpdateInventoryCategoryTypeAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategoryType/UpdateInventoryCategoryType";
+
+        public string DeleteInventoryCategoryTypeAsync() =>
+                  $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/InventoryCategoryType/DeleteInventoryCategoryType";
     }
 }
