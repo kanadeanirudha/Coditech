@@ -255,6 +255,10 @@ namespace Coditech.Admin.Helpers
             {
                 DashboardDaysDropDownList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Currency.ToString()))
+            {
+                GetAccountSetupCurrencyList(dropdownViewModel, dropdownList);
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UserTypeList.ToString()))
             {
                 GetUserTypeList(dropdownViewModel, dropdownList);
@@ -1494,6 +1498,24 @@ namespace Coditech.Admin.Helpers
                     Text = item.CategoryTypeName,
                     Value = item.InventoryCategoryTypeMasterId.ToString(),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryCategoryTypeMasterId)
+                });
+            }
+        }
+
+        private static void GetAccountSetupCurrencyList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralCurrencyMasterListResponse response = new GeneralCurrencyMasterClient().List(null, null, null, 1, int.MaxValue);
+            if (response?.GeneralCurrencyMasterList?.Count != 1)
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Currency-------" });
+
+            GeneralCurrencyMasterListModel list = new GeneralCurrencyMasterListModel { GeneralCurrencyMasterList = response?.GeneralCurrencyMasterList };
+            foreach (var item in list.GeneralCurrencyMasterList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CurrencyName,
+                    Value = Convert.ToString(item.GeneralCurrencyMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCurrencyMasterId)
                 });
             }
         }

@@ -172,6 +172,7 @@ namespace Coditech.API.Data
         public DbSet<AccSetupCategory> AccSetupCategory { get; set; }
         public DbSet<AccGLTransaction> AccGLTransaction { get; set; }
         public DbSet<AccSetupGLType> AccSetupGLType { get; set; }
+        public DbSet<OrganisationCentrewiseAccountSetup> OrganisationCentrewiseAccountSetup { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

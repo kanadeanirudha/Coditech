@@ -93,7 +93,8 @@
         LimitedDataAccess,
         DashboardDaysDropDown,
         UserTypeList,
-        InventoryCategoryType
+        Currency,
+        InventoryCategoryType,
     }
 
     public enum GeneralSystemGlobleSettingEnum

@@ -113,6 +113,7 @@ namespace Coditech.API.Mapper
             CreateMap<AccSetupChartOfAccountTemplate, AccSetupChartOfAccountTemplateModel>().ReverseMap();
             CreateMap<AccSetupGLType, AccSetupGLTypeModel>().ReverseMap();
             CreateMap<AccGLTransaction, AccGLTransactionModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseAccountSetup, OrganisationCentrewiseAccountSetupModel>().ReverseMap();
             #endregion
         }
     }
