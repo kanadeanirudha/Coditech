@@ -131,28 +131,5 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
-        [HttpGet]
-        [Route("/AccSetupGLBank/GetAccSetupBalanceSheet")]
-        [Produces(typeof(AccSetupBalanceSheetListResponse))]
-        [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetAccSetupBalanceSheet(string selectedCentreCode, byte accSetupBalanceSheetTypeId)
-        {
-            try
-            {
-                AccSetupBalanceSheetListModel list = _accSetupGLBankService.GetAccSetupBalanceSheet(selectedCentreCode, accSetupBalanceSheetTypeId);
-                string data = ApiHelper.ToJson(list);
-                return !string.IsNullOrEmpty(data) ? CreateOKResponse<AccSetupBalanceSheetListResponse>(data) : CreateNoContentResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccSetupBalanceSheet.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new AccSetupBalanceSheetListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccSetupBalanceSheet.ToString(), TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new AccSetupBalanceSheetListResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
     }
 }

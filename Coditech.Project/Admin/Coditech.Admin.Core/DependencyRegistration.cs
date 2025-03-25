@@ -99,6 +99,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryStorageDimensionGroupAgent, InventoryStorageDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupAgent, InventoryItemTrackingDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterAgent, InventoryGeneralItemMasterAgent>();
+            builder.Services.AddScoped<IInventoryCategoryTypeAgent, InventoryCategoryTypeAgent>();
             #endregion
 
             #region Gazette
@@ -122,6 +123,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupGLAgent, AccSetupGLAgent>();
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateAgent, AccSetupChartOfAccountTemplateAgent>();
             builder.Services.AddScoped<IAccGLTransactionAgent, AccGLTransactionAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupAgent, OrganisationCentrewiseAccountSetupAgent>();
             #endregion
 
             #endregion Agent
@@ -159,6 +161,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralPersonFollowUpClient, GeneralPersonFollowUpClient>();
             builder.Services.AddScoped<IGeneralPersonAttendanceDetailsClient, GeneralPersonAttendanceDetailsClient>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterClient, InventoryGeneralItemMasterClient>();
+            builder.Services.AddScoped<IInventoryCategoryTypeClient, InventoryCategoryTypeClient>();
             builder.Services.AddScoped<IInventoryCategoryClient, InventoryCategoryClient>();
             builder.Services.AddScoped<IDashboardClient, DashboardClient>();
             builder.Services.AddScoped<IInventoryItemModelGroupClient, InventoryItemModelGroupClient>();
@@ -229,6 +232,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupGLClient, AccSetupGLClient>();
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateClient, AccSetupChartOfAccountTemplateClient>();
             builder.Services.AddScoped<IAccGLTransactionClient, AccGLTransactionClient>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupClient, OrganisationCentrewiseAccountSetupClient>();
             #endregion
 
             #endregion Client

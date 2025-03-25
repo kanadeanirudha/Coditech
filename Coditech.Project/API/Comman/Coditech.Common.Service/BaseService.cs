@@ -424,7 +424,7 @@ namespace Coditech.Common.Service
 
         protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId, bool isActive)
         {
-            string userNameBasedOn = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
+           string userNameBasedOn = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
             userMaster.IsAcceptedTermsAndConditions = true;
@@ -447,6 +447,7 @@ namespace Coditech.Common.Service
                 userMaster.UserName = generalPersonModel.PersonCode;
             }
             generalPersonModel.UserName = userMaster.UserName;
+            generalPersonModel.EntityId = entityId;
             userMaster = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(userMaster);
         }
 

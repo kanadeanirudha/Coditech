@@ -255,6 +255,18 @@ namespace Coditech.Admin.Helpers
             {
                 DashboardDaysDropDownList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Currency.ToString()))
+            {
+                GetAccountSetupCurrencyList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UserTypeList.ToString()))
+            {
+                GetUserTypeList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryCategoryType.ToString()))
+            {
+                GetInventoryCategoryTypeList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -865,7 +877,10 @@ namespace Coditech.Admin.Helpers
         private static void GetInventoryCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             InventoryCategoryListResponse response = new InventoryCategoryClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Category-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Category-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Category-------" });
 
             InventoryCategoryListModel list = new InventoryCategoryListModel { InventoryCategoryList = response.InventoryCategoryList };
             foreach (var item in list.InventoryCategoryList)
@@ -1449,6 +1464,59 @@ namespace Coditech.Admin.Helpers
                 {
                     dropdownList.Add(new SelectListItem() { Value = item, Text = $"Today", Selected = item == dropdownViewModel.DropdownSelectedValue });
                 }
+            }
+        }
+        private static void GetUserTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            UserTypeListResponse response = new UserClient().GetUserTypeList();
+            dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
+            foreach (var item in response?.UserTypeList)
+            {
+                if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(item.UserTypeCode)))
+                {
+                    continue;
+                }
+
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.UserDescription,
+                    Value = Convert.ToString(item.UserTypeId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.UserTypeId)
+                });
+            }
+        }
+
+        private static void GetInventoryCategoryTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryCategoryTypeListResponse response = new InventoryCategoryTypeClient().List(null, null, null, 1, int.MaxValue);
+            InventoryCategoryTypeListModel list = new InventoryCategoryTypeListModel() { InventoryCategoryTypeList = response.InventoryCategoryTypeList };
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Inventory Category Type-------" });
+            foreach (var item in list?.InventoryCategoryTypeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CategoryTypeName,
+                    Value = item.InventoryCategoryTypeMasterId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryCategoryTypeMasterId)
+                });
+            }
+        }
+
+        private static void GetAccountSetupCurrencyList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralCurrencyMasterListResponse response = new GeneralCurrencyMasterClient().List(null, null, null, 1, int.MaxValue);
+            if (response?.GeneralCurrencyMasterList?.Count != 1)
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Currency-------" });
+
+            GeneralCurrencyMasterListModel list = new GeneralCurrencyMasterListModel { GeneralCurrencyMasterList = response?.GeneralCurrencyMasterList };
+            foreach (var item in list.GeneralCurrencyMasterList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CurrencyName,
+                    Value = Convert.ToString(item.GeneralCurrencyMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCurrencyMasterId)
+                });
             }
         }
     }

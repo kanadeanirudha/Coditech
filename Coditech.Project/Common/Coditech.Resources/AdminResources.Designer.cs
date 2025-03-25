@@ -642,7 +642,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteInventoryCategory", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory category type due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryCategoryType
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteInventoryCategoryType", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory General Item Master due to associate record..
         /// </summary>

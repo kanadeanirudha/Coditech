@@ -20,6 +20,8 @@ namespace Coditech.API.ServiceAccounts
         private readonly ICoditechRepository<AccSetupGLBalanceSheet> _accSetupGLBalanceSheetRepository;
         private readonly ICoditechRepository<AccSetupChartOfAccountTemplate> _accSetupChartOfAccountTemplateRepository;
         private readonly ICoditechRepository<AccSetupCategory> _accSetupCategoryRepository;
+        private readonly ICoditechRepository<AccSetupGLBank> _accSetupGLBankRepository;
+
         public AccSetupGLService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -28,6 +30,7 @@ namespace Coditech.API.ServiceAccounts
             _accSetupGLBalanceSheetRepository = new CoditechRepository<AccSetupGLBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupChartOfAccountTemplateRepository = new CoditechRepository<AccSetupChartOfAccountTemplate>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupCategoryRepository = new CoditechRepository<AccSetupCategory>(_serviceProvider.GetService<Coditech_Entities>());
+            _accSetupGLBankRepository = new CoditechRepository<AccSetupGLBank>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         // Get BalanceSheetAndCentreCode
@@ -103,7 +106,7 @@ namespace Coditech.API.ServiceAccounts
                                         GLCode = a.GLCode,
                                         ParentAccSetupGLId = a.ParentAccSetupGLId,
                                         IsGroup = a.IsGroup,
-                                        IsSystemGenerated= a.IsSystemGenerated,
+                                        IsSystemGenerated = a.IsSystemGenerated,
                                         SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId) // Recursive call
                                     }).ToList();
 
@@ -147,14 +150,14 @@ namespace Coditech.API.ServiceAccounts
             {
                 //new record Insert 
                 List<AccSetupGLBalanceSheet> accSetupGLBalanceSheets = new List<AccSetupGLBalanceSheet>()
-        {
-            new AccSetupGLBalanceSheet()
-            {
-                AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
-                AccSetupGLId = accSetupGLModel.AccSetupGLId,
-                IsActive = true,
-            }
-        };
+                {
+                    new AccSetupGLBalanceSheet()
+                    {
+                        AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
+                        AccSetupGLId = accSetupGLModel.AccSetupGLId,
+                        IsActive = true,
+                    }
+                };
 
                 _accSetupGLBalanceSheetRepository.Insert(accSetupGLBalanceSheets);
             }
@@ -168,9 +171,8 @@ namespace Coditech.API.ServiceAccounts
         }
         public virtual bool AddChild(AccSetupGLModel accSetupGLModel)
         {
-            // Validate required fields.
-            if (string.IsNullOrWhiteSpace(accSetupGLModel.GLName))
-                throw new CoditechException(ErrorCodes.InvalidData, "GLName must be provided.");
+            if (IsNull(accSetupGLModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             if (IsGLNameOrGLCodeAlreadyExist(accSetupGLModel.GLName, accSetupGLModel.GLCode, accSetupGLModel.AccSetupGLId))
             {
@@ -180,76 +182,72 @@ namespace Coditech.API.ServiceAccounts
 
             if (accSetupGLModel.ParentAccSetupGLId == null || accSetupGLModel.ParentAccSetupGLId < 1)
             {
-                accSetupGLModel.ParentAccSetupGLId = accSetupGLModel.ParentAccSetupGLId = (int?)null;
+                accSetupGLModel.ParentAccSetupGLId = (int?)null;
             }
 
-            // Create a new child model instance.
-            AccSetupGLModel childModel = new AccSetupGLModel
+            // Create a new model instance.
+            AccSetupGLModel accSetupGLModel1 = new AccSetupGLModel
             {
                 GLName = accSetupGLModel.GLName,
                 ParentAccSetupGLId = accSetupGLModel.ParentAccSetupGLId,
                 IsActive = true,
                 AccSetupBalancesheetId = accSetupGLModel.AccSetupBalancesheetId,
-                AccSetupChartOfAccountTemplateId = (byte?)null,  // set to null if not valid.
+                AccSetupChartOfAccountTemplateId = (byte?)null,
                 AccSetupGLTypeId = accSetupGLModel.AccSetupGLTypeId,
                 AccSetupBalanceSheetTypeId = accSetupGLModel.AccSetupBalanceSheetTypeId,
                 AccSetupCategoryId = accSetupGLModel.AccSetupCategoryId,
                 GLCode = accSetupGLModel.GLCode,
                 AltSetupGLId = accSetupGLModel.AccSetupBalancesheetId,
                 IsGroup = accSetupGLModel.IsGroup,
-                SelectedCentreCode = accSetupGLModel.SelectedCentreCode
-            };
+                SelectedCentreCode = accSetupGLModel.SelectedCentreCode,
+                IsControlHeadEnum = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
 
-            // Map the view model to an entity.
-            AccSetupGL childEntity = childModel.FromModelToEntity<AccSetupGL>();
+            };
+            InsertBankDetails(accSetupGLModel, accSetupGLModel1.AccSetupGLId);
+            // Map the model to an entity.
+            AccSetupGL accSetupGLEntity = accSetupGLModel1.FromModelToEntity<AccSetupGL>();
+
 
             // Insert the new child record.
-            AccSetupGL insertedEntity = _accSetupGLRepository.Insert(childEntity);
-            if (insertedEntity == null || insertedEntity.AccSetupGLId < 1)
-            {
-                accSetupGLModel.HasError = true;
-                accSetupGLModel.ErrorMessage = "Error occurred while creating the record.";
-                return false;
-            }
+            AccSetupGL accSetupGLData = _accSetupGLRepository.Insert(accSetupGLEntity);
 
-            // Update the input model with the new child's ID.
-            accSetupGLModel.AccSetupGLId = insertedEntity.AccSetupGLId;
+            if (IsNull(accSetupGLData))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            // Optionally, insert a record into the BalanceSheet repository.
+            if (accSetupGLData.AccSetupGLId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLId"));
+
+            // Update the input model.
+            accSetupGLModel.AccSetupGLId = accSetupGLData.AccSetupGLId;
+
             List<AccSetupGLBalanceSheet> balanceSheets = new List<AccSetupGLBalanceSheet>
             {
-                 new AccSetupGLBalanceSheet
-                 {
+                new AccSetupGLBalanceSheet
+                {
                     AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
-                    AccSetupGLId = insertedEntity.AccSetupGLId,
+                    AccSetupGLId = accSetupGLData.AccSetupGLId,
                     IsActive = true,
-                 }
+                }
             };
+            // Insert bank details
             _accSetupGLBalanceSheetRepository.Insert(balanceSheets);
 
             return true;
         }
+
         //Delete AccountSetupGL.
         public virtual bool DeleteAccountSetupGL(ParameterModel parameterModel)
         {
             if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
 
-            //// Convert parameterModel.Ids to a valid integer
-            //if (!long.TryParse(parameterModel.Ids, out long accSetupGLId))
-            //    throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
+            if (!int.TryParse(parameterModel.Ids, out int accSetupGLId))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccSetupGLID"));
 
-            //// Fetch the record and check if IsSystemGenerated is true in a single query
-            //var isSystemGenerated = _accSetupGLRepository.Table.Where(x => x.AccSetupGLId == accSetupGLId).Select(x => x.IsSystemGenerated).FirstOrDefault();
+            if (IsDataPresentInAccsetupGLBankByAccsetupGLId(accSetupGLId))
+                throw new CoditechException(ErrorCodes.InvalidData, "Record is present in the bank , deletion not allowed.");
 
-            //// If the record is system-generated, prevent deletion
-            //if (isSystemGenerated == true)
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, "Failed to delete: The record is system-generated and cannot be deleted.");
-
-            // Proceed with deletion
-            CoditechViewRepository<View_ReturnBoolean> objStoredProc =
-                new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("AccSetupGLId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
 
@@ -259,15 +257,53 @@ namespace Coditech.API.ServiceAccounts
             return status == 1;
         }
 
-
         #region Protected Method
         // Check if GLName or GLCode already exists for a different AccSetupGLId
         protected virtual bool IsGLNameOrGLCodeAlreadyExist(string glName, string glCode, int accSetupGLId = 0)
         {
-            return _accSetupGLRepository.Table.Any(x =>
-                (x.GLName == glName || x.GLCode == glCode) &&
-                (x.AccSetupGLId != accSetupGLId || accSetupGLId == 0));
+            return _accSetupGLRepository.Table.Any(x => (x.GLName == glName || x.GLCode == glCode) && (x.AccSetupGLId != accSetupGLId || accSetupGLId == 0));
+        }
+        protected virtual bool IsDataPresentInAccsetupGLBankByAccsetupGLId(int accSetupGLId)
+        {
+            return _accSetupGLBankRepository.Table.Any(x => x.AccSetupGLId == accSetupGLId);
+        }
+
+        // Check if GLName or GLCode already exists for a different AccSetupGLId
+        protected virtual bool IsAccsetupGLBankAlreadyExist(string bankAccountNumber, int accSetupGLBankId = 0)
+        {
+            return _accSetupGLBankRepository.Table.Any(x =>
+                x.BankAccountNumber == bankAccountNumber &&
+                (x.AccSetupGLBankId != accSetupGLBankId || accSetupGLBankId == 0)
+            );
         }
         #endregion
+        protected virtual void InsertBankDetails(AccSetupGLModel accSetupGLModel, int accSetupGLId)
+        {
+            if (accSetupGLModel.AccSetupGLTypeId == 5 && accSetupGLModel.AccSetupGLBankList != null)
+            {
+                foreach (var item in accSetupGLModel.AccSetupGLBankList)
+                {
+                    // Create a new bank model object
+                    AccSetupGLBank accSetupGLBankData = new AccSetupGLBank
+                    {
+                        AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
+                        AccSetupGLId = accSetupGLId,
+                        BankAccountName = item.BankAccountName,
+                        BankBranchName = item.BankBranchName,
+                        BankLimitAmount = item.BankLimitAmount,
+                        RateOfInterest = item.RateOfInterest,
+                        InterestMode = item.InterestMode,
+                        IFSCCode = item.IFSCCode.ToUpper(),
+                        BankAccountNumber = item.BankAccountNumber,
+                    };
+                    if (IsAccsetupGLBankAlreadyExist(item.BankAccountNumber))
+                    {
+                        throw new InvalidOperationException("Bank account number already exists.");
+                    }
+
+                    _accSetupGLBankRepository.Insert(accSetupGLBankData);
+                }
+            }
+        }
     }
 }

@@ -11,6 +11,6 @@
         public string CategoryCode { get; set; }
         public string CategoryName { get; set; }
         public string ItemPrefix { get; set; }
-     
+        public byte InventoryCategoryTypeMasterId { get; set; }
     }
 }

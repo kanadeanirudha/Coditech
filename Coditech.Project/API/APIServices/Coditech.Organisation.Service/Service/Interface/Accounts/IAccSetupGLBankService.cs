@@ -10,7 +10,5 @@ namespace Coditech.API.Service
         AccSetupGLBankModel GetAccSetupGLBank(int accSetupGLBankId);
         bool UpdateAccSetupGLBank(AccSetupGLBankModel model);
         bool DeleteAccSetupGLBank(ParameterModel parameterModel);
-        AccSetupBalanceSheetListModel GetAccSetupBalanceSheet(string selectedCentreCode, byte accSetupBalanceSheetTypeId);
-
     }
 }

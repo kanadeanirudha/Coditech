@@ -28,6 +28,7 @@ namespace Coditech.Admin
             CreateMap<AccGLTransactionViewModel, AccGLTransactionListViewModel>().ReverseMap();
             CreateMap<AccSetupGLTypeModel, AccSetupGLTypeViewModel>().ReverseMap();
             CreateMap<AccSetupGLTypeViewModel, AccSetupGLTypeListViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseAccountSetupModel, OrganisationCentrewiseAccountSetupViewModel>().ReverseMap();
             #endregion
 
             #region Admin 
@@ -205,6 +206,8 @@ namespace Coditech.Admin
             CreateMap<InventoryItemTrackingDimensionGroupListModel, InventoryItemTrackingDimensionGroupListViewModel>().ReverseMap();
             CreateMap<InventoryGeneralItemMasterModel, InventoryGeneralItemMasterViewModel>().ReverseMap();
             CreateMap<InventoryGeneralItemMasterListModel, InventoryGeneralItemMasterListViewModel>().ReverseMap();
+            CreateMap<InventoryCategoryTypeModel, InventoryCategoryTypeViewModel>().ReverseMap();
+            CreateMap<InventoryCategoryTypeListModel, InventoryCategoryTypeListViewModel>().ReverseMap();
             #endregion
 
             #region Password

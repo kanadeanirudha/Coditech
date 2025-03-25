@@ -23,5 +23,8 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Item Prefix")]
         [MaxLength(20)]
         public string ItemPrefix { get; set; }
+        [Required]
+        [Display(Name = "Inventory Category Type")]
+        public byte InventoryCategoryTypeMasterId { get; set; }
     }
 }

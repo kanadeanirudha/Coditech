@@ -87,18 +87,18 @@ namespace Coditech.Admin.Controllers
             {
                 return Json(new { success = false, message = "Invalid data. Please check the inputs." });
             }
+            //  set UserTypeId null if usertypeid is 0
+            accSetupGLModel.UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId;
+
+            // in this we are setting usertypeid to iscontrolheadenum
+            accSetupGLModel.IsControlHeadEnum = accSetupGLModel.UserTypeId;
+
 
             accSetupGLModel = _accSetupGLAgent.AddChild(accSetupGLModel);
 
             if (accSetupGLModel != null && !accSetupGLModel.HasError)
             {
-                string newHtml = $@"
-            <div id='gl-{accSetupGLModel.AccSetupGLId}' 
-                 style='padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:4px; 
-                        background-color:#f9f9f9; display:flex; align-items:center;'>
-                <span style='font-weight:bold; color:#333;'> {accSetupGLModel.GLName}</span>
-            </div>";
-
+                string newHtml = $@"<div id='gl-{accSetupGLModel.AccSetupGLId}'style='padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:4px;background-color:#f9f9f9; display:flex; align-items:center;'> <span style='font-weight:bold; color:#333;'> {accSetupGLModel.GLName}</span></div>";
                 return Json(new
                 {
                     success = true,
@@ -122,7 +122,6 @@ namespace Coditech.Admin.Controllers
                 });
             }
         }
-
         public virtual ActionResult Delete(string accSetupGLIds)
         {
             if (string.IsNullOrEmpty(accSetupGLIds))
@@ -149,7 +148,5 @@ namespace Coditech.Admin.Controllers
                 return Json(new { success = false, message = "An error occurred: " + ex.Message, accountId = accSetupGLIds });
             }
         }
-
-
     }
 }

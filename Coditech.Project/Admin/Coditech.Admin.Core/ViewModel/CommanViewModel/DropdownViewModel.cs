@@ -24,5 +24,6 @@ namespace Coditech.Admin.ViewModel
         public bool IsCustomDropdown { get; set; }
         public string SelectedText { get; set; }
         public string SelectedValue { get; set; }
+        public string[] ExcludedValues { get; set; }
     }
 }
