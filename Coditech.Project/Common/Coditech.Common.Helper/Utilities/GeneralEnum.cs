@@ -91,9 +91,10 @@
         AccSetupTransactionType,
         CentrewiseAccountBalanceSheet,
         LimitedDataAccess,
-        UserTypeList,
         DashboardDaysDropDown,
-        Currency
+        UserTypeList,
+        Currency,
+        InventoryCategoryType,
     }
 
     public enum GeneralSystemGlobleSettingEnum

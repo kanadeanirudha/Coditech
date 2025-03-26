@@ -128,7 +128,8 @@
             TaskScheduler,
             AccGLTransaction, 
             AccSetupChartOfAccountTemplate,
-            UserType
+            UserType,
+            InventoryCategoryType
         }
     }
 }

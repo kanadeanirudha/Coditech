@@ -86,6 +86,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IInventoryUoMMasterService, InventoryUoMMasterService>();
             builder.Services.AddScoped<IInventoryStorageDimensionGroupService, InventoryStorageDimensionGroupService>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupService, InventoryItemTrackingDimensionGroupService>();
+            builder.Services.AddScoped<IInventoryCategoryTypeService, InventoryCategoryTypeService>();
             #endregion
 
             #region Accounts

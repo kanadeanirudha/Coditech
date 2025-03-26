@@ -263,6 +263,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetUserTypeList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryCategoryType.ToString()))
+            {
+                GetInventoryCategoryTypeList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -873,7 +877,10 @@ namespace Coditech.Admin.Helpers
         private static void GetInventoryCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             InventoryCategoryListResponse response = new InventoryCategoryClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Category-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Category-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Category-------" });
 
             InventoryCategoryListModel list = new InventoryCategoryListModel { InventoryCategoryList = response.InventoryCategoryList };
             foreach (var item in list.InventoryCategoryList)
@@ -1480,7 +1487,22 @@ namespace Coditech.Admin.Helpers
                     Value = Convert.ToString(item.UserTypeId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.UserTypeId)
                 });
+            }
+        }
 
+        private static void GetInventoryCategoryTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryCategoryTypeListResponse response = new InventoryCategoryTypeClient().List(null, null, null, 1, int.MaxValue);
+            InventoryCategoryTypeListModel list = new InventoryCategoryTypeListModel() { InventoryCategoryTypeList = response.InventoryCategoryTypeList };
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Inventory Category Type-------" });
+            foreach (var item in list?.InventoryCategoryTypeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CategoryTypeName,
+                    Value = item.InventoryCategoryTypeMasterId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryCategoryTypeMasterId)
+                });
             }
         }
 
