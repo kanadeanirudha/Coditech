@@ -11,8 +11,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         public int TaskSchedulerMasterId { get; set; }
         [Required]
-        public int ConfiguratorId { get; set; }
-        [Required]
+        public int ConfiguratorId { get; set; }        
         [Display(Name = "Scheduler Name")]
         public string SchedulerName { get; set; }
         [Display(Name = "Scheduler Type")]
