@@ -1357,6 +1357,10 @@ namespace Coditech.Admin.Helpers
         {
             foreach (SchedulerFrequencyEnum frequency in Enum.GetValues(typeof(SchedulerFrequencyEnum)))
             {
+                if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(frequency.ToString())))
+                {
+                    continue;
+                }
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = frequency.ToString(),
