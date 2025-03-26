@@ -68,7 +68,9 @@ namespace Coditech.API.Mapper
             CreateMap<TaskSchedulerMaster, TaskSchedulerModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCode, OrganisationCentrewiseJoiningCodeModel>().ReverseMap();
             CreateMap<GeneralCurrencyMaster, GeneralCurrencyMasterModel>().ReverseMap();
-            
+            CreateMap<UserType, UserTypeModel>().ReverseMap();
+
+
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();
             CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
