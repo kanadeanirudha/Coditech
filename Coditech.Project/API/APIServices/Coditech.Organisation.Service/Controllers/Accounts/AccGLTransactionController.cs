@@ -7,6 +7,7 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 
@@ -22,16 +23,16 @@ namespace Coditech.API.Controllers
             _coditechLogging = coditechLogging;
         }
 
-      
+
         [HttpGet]
         [Route("/AccGLTransaction/GetGLTransactionList")]
         [Produces(typeof(AccGLTransactionListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetGLTransactionList( string selectedCentreCode ,int accGLTransactionId, short generalFinancialYearId, short accSetupTransactionTypeId,byte accSetupBalanceSheetTypeId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetGLTransactionList(string selectedCentreCode, int accGLTransactionId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId, ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                AccGLTransactionListModel list = _accGLTransactionService.AccGLTransactionList(selectedCentreCode,accGLTransactionId, generalFinancialYearId, accSetupTransactionTypeId, accSetupBalanceSheetTypeId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                AccGLTransactionListModel list = _accGLTransactionService.AccGLTransactionList(selectedCentreCode, accGLTransactionId, generalFinancialYearId, accSetupTransactionTypeId, accSetupBalanceSheetTypeId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<AccGLTransactionListResponse>(data) : CreateNoContentResponse();
             }
@@ -46,7 +47,7 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new AccGLTransactionListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
-       
+
         [Route("/AccGLTransaction/CreateGLTransaction")]
         [HttpPost, ValidateModel]
         [Produces(typeof(AccGLTransactionResponse))]
@@ -54,7 +55,7 @@ namespace Coditech.API.Controllers
         {
             try
             {
-                
+
                 AccGLTransactionModel designation = _accGLTransactionService.CreateGLTransaction(model);
                 return IsNotNull(designation) ? CreateCreatedResponse(new AccGLTransactionResponse { AccGLTransactionModel = designation }) : CreateInternalServerErrorResponse();
             }
@@ -113,7 +114,25 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new AccGLTransactionResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        [Route("/AccGLTransaction/GetAccSetupGLAccountList")]
+        [HttpGet]
+        [Produces(typeof(AccGLTransactionResponse))]
+        public virtual IActionResult GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode)
+        {
+            try
+            {
+                List<AccGLTransactionModel> accGLTransactionList = _accGLTransactionService.GetAccSetupGLAccountList(searchKeyword, accSetupGLId, userType, transactionTypeCode);
 
+                return accGLTransactionList != null && accGLTransactionList.Any()
+                    ? CreateOKResponse(new AccGLTransactionListResponse { AccGLTransactionList = accGLTransactionList })
+                    : CreateNoContentResponse();
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AccGLTransactionResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
         //[Route("/AccGLTransaction/DeleteBalanceSheet")]
         //[HttpPost, ValidateModel]
         //[Produces(typeof(TrueFalseResponse))]
@@ -135,5 +154,6 @@ namespace Coditech.API.Controllers
         //        return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
         //    }
         //}
+
     }
 }

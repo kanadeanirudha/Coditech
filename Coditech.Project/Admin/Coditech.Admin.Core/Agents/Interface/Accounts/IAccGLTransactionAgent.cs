@@ -10,7 +10,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>AccGLTransactionListViewModel</returns>
-        AccGLTransactionListViewModel GetGLTransactionList(DataTableViewModel dataTableModel,string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId);
+        AccGLTransactionListViewModel GetGLTransactionList(DataTableViewModel dataTableModel, string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId);
 
         /// <summary>
         /// Create Designation.
@@ -32,6 +32,12 @@ namespace Coditech.Admin.Agents
         /// <param name="accGLTransactionViewModel">accGLTransactionViewModel.</param>
         /// <returns>Returns updated AccGLTransactionsViewModel</returns>
         AccGLTransactionViewModel UpdateGLTransaction(AccGLTransactionViewModel accGLTransactionViewModel);
+        /// <summary>
+        /// Update Designation.
+        /// </summary>
+        /// <param name="accGLTransactionViewModel">accGLTransactionViewModel.</param>
+        /// <returns>Returns updated AccGLTransactionsViewModel</returns>
+        List<AccGLTransactionViewModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode);
 
         /// <summary>
         ///// Delete Designation.

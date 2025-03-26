@@ -11,7 +11,7 @@ namespace Coditech.API.Client
         /// Get list of General Designation.
         /// </summary>
         /// <returns>AccGLTransactionListResponse</returns>
-        AccGLTransactionListResponse List(string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId ,byte accSetupBalanceSheetTypeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        AccGLTransactionListResponse List(string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Create Designation.
@@ -33,6 +33,13 @@ namespace Coditech.API.Client
         /// <param name="AccGLTransactionModel">AccGLTransactionModel.</param>
         /// <returns>Returns updated AccGLTransactionResponse</returns>
         AccGLTransactionResponse UpdateGLTransaction(AccGLTransactionModel body);
+
+        /// <param name="searchKeyword">Search keyword</param>
+        /// <param name="accSetupGLId">Account ID</param>
+        /// <param name="userType">Person Type</param>
+        /// <param name= "transactionTypeCode" > Transaction Type Code</param>
+        // <returns>List of AccSetupGLAccountResponse</returns>
+        AccGLTransactionListResponse GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode);
 
         ///// <summary>
         ///// Delete Designation.

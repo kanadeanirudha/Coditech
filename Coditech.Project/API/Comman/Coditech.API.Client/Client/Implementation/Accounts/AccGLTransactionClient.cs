@@ -12,18 +12,56 @@ namespace Coditech.API.Client
     public class AccGLTransactionClient : BaseClient, IAccGLTransactionClient
     {
         AccGLTransactionEndpoint accGLTransactionEndpoint = null;
+
         public AccGLTransactionClient()
         {
             accGLTransactionEndpoint = new AccGLTransactionEndpoint();
         }
+        public AccGLTransactionListResponse GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode)
+        {
+            return Task.Run(async () =>
+                await GetAccSetupGLAccountListAsync(searchKeyword, accSetupGLId, userType, transactionTypeCode, CancellationToken.None)
+            ).GetAwaiter().GetResult();
+        }
+        public async Task<AccGLTransactionListResponse> GetAccSetupGLAccountListAsync(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, CancellationToken cancellationToken)
+        {
+            string endpoint = accGLTransactionEndpoint.GetAccSetupGLAccountListAsync(searchKeyword, accSetupGLId, userType, transactionTypeCode);
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
 
-        public virtual AccGLTransactionListResponse List(string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId ,short accSetupTransactionTypeId,byte accSetupBalanceSheetTypeId,  IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers = BindHeaders(response);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<AccGLTransactionListResponse>(response, headers, cancellationToken).ConfigureAwait(false);
+                    return objectResponse.Object ?? new AccGLTransactionListResponse();
+                }
+                else
+                {
+                    string responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    AccGLTransactionListResponse typedBody = JsonConvert.DeserializeObject<AccGLTransactionListResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response?.Dispose();
+            }
+        }
+
+        public virtual AccGLTransactionListResponse List(string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await ListAsync(selectedCentreCode, accSetupBalanceSheetId, generalFinancialYearId, accSetupTransactionTypeId, accSetupBalanceSheetTypeId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
-        
 
-        public virtual async Task<AccGLTransactionListResponse> ListAsync(string selectedCentreCode,int accSetupBalanceSheetId ,short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId,  IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+
+        public virtual async Task<AccGLTransactionListResponse> ListAsync(string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
             string endpoint = accGLTransactionEndpoint.ListAsync(selectedCentreCode, accSetupBalanceSheetId, generalFinancialYearId, accSetupTransactionTypeId, accSetupBalanceSheetTypeId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;

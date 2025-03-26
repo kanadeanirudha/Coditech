@@ -52,7 +52,7 @@ namespace Coditech.Admin
             //Disposing the context
 
         }
-        /// <summary>
+        /// <summary>x
         /// Set logging settings in the cache.
         /// </summary>
         private void SetGlobalLoggingSetting()

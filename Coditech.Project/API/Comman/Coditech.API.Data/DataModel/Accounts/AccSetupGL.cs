@@ -16,13 +16,13 @@ namespace Coditech.API.Data
         public string GLName { get; set; }
         public string GLCode { get; set; }
         public bool IsGroup { get; set; }
-        public Nullable <short> UserTypeEnum { get; set; }
+        public Nullable<short> UserTypeEnum { get; set; }
         public byte DebitCreditEnum { get; set; }
         public bool IsOpBalRequired { get; set; }
         public int PrintingSequence { get; set; }
         public bool IsActive { get; set; }
         public bool IsSystemGenerated { get; set; }
-        public  Nullable<short> IsControlHeadEnum { get; set; }
+        public Nullable<byte> IsControlHeadEnum { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
