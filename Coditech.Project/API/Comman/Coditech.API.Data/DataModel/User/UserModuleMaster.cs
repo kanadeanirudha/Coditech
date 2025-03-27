@@ -1,7 +1,12 @@
-﻿namespace Coditech.API.Data
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Coditech.API.Data
 {
     public partial class UserModuleMaster
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public byte UserModuleMasterId { get; set; }
         public string ModuleCode { get; set; }
         public string ModuleName { get; set; }

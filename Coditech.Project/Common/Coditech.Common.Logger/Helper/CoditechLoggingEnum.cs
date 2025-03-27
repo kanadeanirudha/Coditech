@@ -129,7 +129,8 @@
             AccGLTransaction, 
             AccSetupChartOfAccountTemplate,
             UserType,
-            InventoryCategoryType
+            InventoryCategoryType,
+            UserModuleMaster
         }
     }
 }
