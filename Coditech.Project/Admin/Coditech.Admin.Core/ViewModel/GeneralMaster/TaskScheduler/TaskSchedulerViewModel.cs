@@ -11,7 +11,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         public int TaskSchedulerMasterId { get; set; }
         [Required]
-        public int ConfiguratorId { get; set; }
+        public int ConfiguratorId { get; set; }        
         [Display(Name = "Scheduler Name")]
         public string SchedulerName { get; set; }
         [Display(Name = "Scheduler Type")]
@@ -33,6 +33,10 @@ namespace Coditech.Admin.ViewModel
         public string OnDays { get; set; }
         public string OnMonths { get; set; }
         public int RecurEvery { get; set; }
+        
+        [Display(Name = "Cron Expression")]
+        public string CronExpression { get; set; }
+        public string HangfireJobId { get; set; }
         [Display(Name = "Is Monthly Days")]
         public bool IsMonthlyDays { get; set; }
         [Display(Name = "Is Active")]

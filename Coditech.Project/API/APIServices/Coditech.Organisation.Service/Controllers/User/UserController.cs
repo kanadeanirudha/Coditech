@@ -323,7 +323,7 @@ namespace Coditech.API.Controllers
             try
             {
                 List<UserTypeModel> list = _userService.GetUserTypeList();
-                return IsNotNull(list) ? CreateOKResponse(new UserTypeListResponse { UserTypeList = list }) : CreateNoContentResponse();
+                return IsNotNull(list) ? CreateOKResponse(new UserTypeListResponse { TypeList = list }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
             {

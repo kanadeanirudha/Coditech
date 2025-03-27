@@ -21,6 +21,8 @@ namespace Coditech.API.Data
         public string OnDays { get; set; }
         public string OnMonths { get; set; }
         public int RecurEvery { get; set; }
+        public string CronExpression { get; set; }
+        public string HangfireJobId { get; set; }
         public bool IsMonthlyDays { get; set; }
         public bool IsEnabled { get; set; }
         public string Custom1 { get; set; }
