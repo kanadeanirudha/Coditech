@@ -43,12 +43,15 @@ namespace Coditech.API.Service
             bool isOrganisationCentrewiseAccountSetupUpdated = false;
             OrganisationCentrewiseAccountSetup organisationCentrewiseAccountSetup = organisationCentrewiseAccountSetupModel.FromModelToEntity<OrganisationCentrewiseAccountSetup>();
 
-            if (organisationCentrewiseAccountSetupModel.OrganisationCentrewiseAccountSetupId > 0)
+            if (organisationCentrewiseAccountSetup.OrganisationCentrewiseAccountSetupId > 0)
                 isOrganisationCentrewiseAccountSetupUpdated = _organisationCentrewiseAccountSetupRepository.Update(organisationCentrewiseAccountSetup);
             else
             {
                 organisationCentrewiseAccountSetup = _organisationCentrewiseAccountSetupRepository.Insert(organisationCentrewiseAccountSetup);
-                isOrganisationCentrewiseAccountSetupUpdated = organisationCentrewiseAccountSetup.OrganisationCentrewiseAccountSetupId > 0;
+                isOrganisationCentrewiseAccountSetupUpdated = organisationCentrewiseAccountSetup?.OrganisationCentrewiseAccountSetupId > 0;
+                {
+                    organisationCentrewiseAccountSetupModel.OrganisationCentrewiseAccountSetupId = organisationCentrewiseAccountSetup.OrganisationCentrewiseAccountSetupId;
+                }
             }
 
             if (!isOrganisationCentrewiseAccountSetupUpdated)

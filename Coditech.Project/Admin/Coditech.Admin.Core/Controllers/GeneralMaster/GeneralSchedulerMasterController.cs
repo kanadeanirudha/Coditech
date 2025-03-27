@@ -41,13 +41,6 @@ namespace Coditech.Admin.Controllers
 
             TaskSchedulerViewModel taskSchedulerViewModel = new TaskSchedulerViewModel();
             taskSchedulerViewModel.SchedulerCallFor = schedulerCallFor;
-            taskSchedulerViewModel.SelectedWeekDays = !string.IsNullOrEmpty(taskSchedulerViewModel.WeekDays) ? taskSchedulerViewModel.WeekDays.Split(',').ToList() : new List<string>();
-
-            taskSchedulerViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.SchedulerWeeks.ToString(),
-                DropdownSelectedValue = taskSchedulerViewModel.WeekDays
-            }).DropdownList;
 
             if (string.IsNullOrEmpty(taskSchedulerViewModel.SchedulerFrequency))
             {

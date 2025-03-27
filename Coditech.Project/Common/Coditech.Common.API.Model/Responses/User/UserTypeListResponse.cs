@@ -2,6 +2,6 @@
 {
     public class UserTypeListResponse : BaseListResponse
     {
-        public List<UserTypeModel> UserTypeList { get; set; }
+        public List<UserTypeModel> TypeList { get; set; }
     }
 }

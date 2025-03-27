@@ -39,7 +39,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentrewiseAccountSetupAgent.UpdateOrganisationCentrewiseAccountSetup(organisationCentrewiseAccountSetupViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetOrganisationCentrewiseAccountSetup", new { centreCode = organisationCentrewiseAccountSetupViewModel.CentreCode });
+                return RedirectToAction("GetAccountSetup", new { centreCode = organisationCentrewiseAccountSetupViewModel.CentreCode });
             }
             return View(createEdit, organisationCentrewiseAccountSetupViewModel);
         }

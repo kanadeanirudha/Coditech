@@ -1364,6 +1364,10 @@ namespace Coditech.Admin.Helpers
         {
             foreach (SchedulerFrequencyEnum frequency in Enum.GetValues(typeof(SchedulerFrequencyEnum)))
             {
+                if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(frequency.ToString())))
+                {
+                    continue;
+                }
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = frequency.ToString(),
@@ -1470,7 +1474,7 @@ namespace Coditech.Admin.Helpers
         {
             UserTypeListResponse response = new UserClient().GetUserTypeList();
             dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
-            foreach (var item in response?.UserTypeList)
+            foreach (var item in response?.TypeList)
             {
                 if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(item.UserTypeCode)))
                 {
