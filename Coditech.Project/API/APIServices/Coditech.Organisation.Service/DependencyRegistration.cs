@@ -41,6 +41,8 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IGeneralBatchMasterService, GeneralBatchMasterService>();
             builder.Services.AddScoped<IGeneralCurrencyMasterService, GeneralCurrencyMasterService>();
             builder.Services.AddScoped<ITaskSchedulerService, TaskSchedulerService>();
+            builder.Services.AddScoped<IUserTypeService, UserTypeService>();
+
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();

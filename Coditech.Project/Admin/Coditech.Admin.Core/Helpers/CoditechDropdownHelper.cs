@@ -1474,7 +1474,7 @@ namespace Coditech.Admin.Helpers
         {
             UserTypeListResponse response = new UserClient().GetUserTypeList();
             dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
-            foreach (var item in response?.UserTypeList)
+            foreach (var item in response?.TypeList)
             {
                 if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(item.UserTypeCode)))
                 {

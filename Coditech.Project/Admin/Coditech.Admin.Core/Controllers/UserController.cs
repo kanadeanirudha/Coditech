@@ -29,14 +29,14 @@ namespace Coditech.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 _userAgent.Logout();
-            
+
             var userLoginViewModel = GetLoginRememberMeCookie();
             return View(userLoginViewModel);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         public virtual ActionResult Login(UserLoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
@@ -49,7 +49,7 @@ namespace Coditech.Admin.Controllers
                         _authenticationHelper.SetAuthCookie(model.UserName, model.RememberMe);
 
                         if (model.RememberMe)
-                            SaveLoginRememberMeCookie(model.UserName);
+                            SaveLoginRememberMeCookie(model.UserName, model.Password);
                         if (!loginviewModel.IsPasswordChange)
                         {
                             return RedirectToAction<UserController>(x => x.ChangePassword());
@@ -185,12 +185,12 @@ namespace Coditech.Admin.Controllers
             return Redirect($"{CoditechAdminSettings.DashboardUrl}?numberOfDaysRecord={CoditechAdminSettings.DefaultDashboardDataDays}");
         }
 
-        protected virtual void SaveLoginRememberMeCookie(string userId)
+        protected virtual void SaveLoginRememberMeCookie(string userId, string password)
         {
             //Check if the browser support cookies 
             if ((HttpContextHelper.Request.Cookies?.Count > 0))
             {
-                CookieHelper.SetCookie(AdminConstants.LoginCookieNameValue, userId, (Convert.ToDouble(CoditechAdminSettings.CookieExpiresValue) * AdminConstants.MinutesInADay), true);
+                CookieHelper.SetCookie(AdminConstants.LoginCookieNameValue, HelperUtility.EncodeBase64($"{userId}|{password}"), (Convert.ToDouble(CoditechAdminSettings.CookieExpiresValue) * AdminConstants.MinutesInADay), true);
             }
         }
 
@@ -202,9 +202,13 @@ namespace Coditech.Admin.Controllers
             {
                 if (CookieHelper.IsCookieExists(AdminConstants.LoginCookieNameValue))
                 {
-                    string loginName = HttpUtility.HtmlEncode(CookieHelper.GetCookieValue<string>(AdminConstants.LoginCookieNameValue));
-                    userLoginViewModel.UserName = loginName;
-                    userLoginViewModel.RememberMe = true;
+                    string loginNamePassword = HelperUtility.DecodeBase64(HttpUtility.HtmlEncode(CookieHelper.GetCookieValue<string>(AdminConstants.LoginCookieNameValue)));
+                    if (!string.IsNullOrEmpty(loginNamePassword))
+                    {
+                        userLoginViewModel.UserName = loginNamePassword.Split("|")[0];
+                        userLoginViewModel.Password = loginNamePassword.Split("|")[1];
+                        userLoginViewModel.RememberMe = true;
+                    }
                 }
             }
             return userLoginViewModel;
