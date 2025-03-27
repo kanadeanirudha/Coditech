@@ -174,7 +174,6 @@ namespace Coditech.API.Service
             else
             {
                 taskSchedulerModel.StartDate = taskSchedulerModel.StartDate + taskSchedulerModel.StartTime;
-                taskSchedulerModel.ExpireDate = taskSchedulerModel.ExpireDate + taskSchedulerModel.ExpireTime;
             }
         }
 

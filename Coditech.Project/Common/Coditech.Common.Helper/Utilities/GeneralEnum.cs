@@ -261,6 +261,7 @@
         OneTime,
         Daily,
         Weekly,
+        Recurring
         //Monthlyum
     }
     public enum SchedulerTypeEnum
