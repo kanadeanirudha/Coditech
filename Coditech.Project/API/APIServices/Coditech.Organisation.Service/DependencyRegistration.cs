@@ -31,6 +31,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IGeneralMeasurementUnitMasterService, GeneralMeasurementUnitMasterService>();
             builder.Services.AddScoped<IGeneralRunningNumbersService, GeneralRunningNumbersService>();
             builder.Services.AddScoped<IGeneralLeadGenerationMasterService, GeneralLeadGenerationMasterService>();
+            builder.Services.AddScoped<IGeneralUserModuleMasterService, GeneralUserModuleMasterService>();
             builder.Services.AddScoped<IGeneralUserMainMenuMasterService, GeneralUserMainMenuMasterService>();
             builder.Services.AddScoped<ICoditechApplicationSettingService, CoditechApplicationSettingService>();
             builder.Services.AddScoped<IGeneralSmsProviderMasterService, GeneralSmsProviderService>();

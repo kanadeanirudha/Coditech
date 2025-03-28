@@ -110,6 +110,10 @@ namespace Coditech.Admin
             CreateMap<GeneralCurrencyMasterListModel, GeneralCurrencyMasterListViewModel>().ReverseMap();
             CreateMap<TaskSchedulerModel, TaskSchedulerViewModel>().ReverseMap();
             CreateMap<TaskSchedulerListModel, TaskSchedulerListViewModel>().ReverseMap();
+            CreateMap<UserModuleModel, UserModuleViewModel>().ReverseMap();
+            CreateMap<UserModuleListModel, UserModuleListViewModel>().ReverseMap();
+            #endregion
+            #region
             CreateMap<UserTypeModel, UserTypeViewModel>().ReverseMap();
             CreateMap<UserTypeListModel, UserTypeListViewModel>().ReverseMap();
             #endregion

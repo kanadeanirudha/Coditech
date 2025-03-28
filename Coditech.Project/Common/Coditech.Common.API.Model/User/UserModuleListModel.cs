@@ -5,8 +5,7 @@
         public List<UserModuleModel> ModuleList { get; set; }
         public UserModuleListModel()
         {
-            ModuleList = new List<UserModuleModel>();
+           ModuleList = new List<UserModuleModel>();
         }
-
     }
 }
