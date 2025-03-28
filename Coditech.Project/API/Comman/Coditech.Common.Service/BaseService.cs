@@ -97,6 +97,7 @@ namespace Coditech.Common.Service
             string centreCode = string.Empty;
             string personCode = string.Empty;
             short generalDepartmentMasterId = 0;
+            bool isEntityActive = false;
             if (entityType == UserTypeEnum.Employee.ToString())
             {
                 EmployeeMaster employeeMaster = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EmployeeId == entityId);
@@ -105,13 +106,14 @@ namespace Coditech.Common.Service
                     personId = employeeMaster.PersonId;
                     centreCode = employeeMaster.CentreCode;
                     personCode = employeeMaster.PersonCode;
+                    isEntityActive = employeeMaster.IsActive;
                     generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
                 }
             }
-            return BindGeneralPersonInformation(personId, centreCode, personCode, generalDepartmentMasterId);
+            return BindGeneralPersonInformation(personId, centreCode, personCode, generalDepartmentMasterId, isEntityActive);
         }
 
-        protected virtual GeneralPersonModel BindGeneralPersonInformation(long personId, string centreCode, string personCode, short generalDepartmentMasterId)
+        protected virtual GeneralPersonModel BindGeneralPersonInformation(long personId, string centreCode, string personCode, short generalDepartmentMasterId, bool isEntityActive)
         {
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
             if (IsNotNull(generalPersonModel))
@@ -119,8 +121,8 @@ namespace Coditech.Common.Service
                 generalPersonModel.SelectedCentreCode = centreCode;
                 generalPersonModel.SelectedDepartmentId = Convert.ToString(generalDepartmentMasterId);
                 generalPersonModel.PersonCode = personCode;
+                generalPersonModel.IsEntityActive = isEntityActive;
             }
-
             return generalPersonModel;
         }
 
@@ -424,7 +426,7 @@ namespace Coditech.Common.Service
 
         protected virtual void InsertUserMasterDetails(GeneralPersonModel generalPersonModel, long entityId, bool isActive)
         {
-           string userNameBasedOn = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
+            string userNameBasedOn = new CoditechRepository<OrganisationCentrewiseUserNameRegistration>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.CentreCode == generalPersonModel.SelectedCentreCode && x.UserType.ToLower() == generalPersonModel.UserType.ToLower())?.Select(y => y.UserNameBasedOn)?.FirstOrDefault();
             UserMaster userMaster = generalPersonModel.FromModelToEntity<UserMaster>();
             userMaster.EntityId = entityId;
             userMaster.IsAcceptedTermsAndConditions = true;
