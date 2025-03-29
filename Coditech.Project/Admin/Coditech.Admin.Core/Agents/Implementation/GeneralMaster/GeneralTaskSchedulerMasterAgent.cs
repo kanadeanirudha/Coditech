@@ -163,13 +163,6 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
-
-        //Get Execute Task Scheduler.
-        public virtual TaskSchedulerViewModel GetExecuteTaskScheduler(DateTime startDate)
-        {
-            TaskSchedulerResponse response = _taskSchedulerClient.GetExecuteTaskScheduler(startDate);
-            return response?.TaskSchedulerModel.ToViewModel<TaskSchedulerViewModel>();
-        }
         #endregion
 
         #region protected
