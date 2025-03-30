@@ -130,7 +130,9 @@
             AccSetupChartOfAccountTemplate,
             UserType,
             InventoryCategoryType,
-            UserModuleMaster
+            UserModuleMaster,
+            ERP,
+            Hangfire
         }
     }
 }
