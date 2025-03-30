@@ -28,7 +28,7 @@ namespace Coditech.API.Controllers
 
         [HttpGet]
         [Route("/GeneralUserMainMenuMaster/GetUserMainMenuList")]
-        [Produces(typeof(GeneralCountryListResponse))]
+        [Produces(typeof(UserMainMenuListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
         public virtual IActionResult GetUserMainMenuList(FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
@@ -45,7 +45,7 @@ namespace Coditech.API.Controllers
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserMainMenuMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GeneralUserMainMenuListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }

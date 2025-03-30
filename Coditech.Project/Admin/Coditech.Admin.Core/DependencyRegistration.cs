@@ -66,6 +66,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeAgent, OrganisationCentrewiseJoiningCodeAgent>();
             builder.Services.AddScoped<IGeneralCurrencyMasterAgent, GeneralCurrencyMasterAgent>();
             builder.Services.AddScoped<IGeneralTaskSchedulerMasterAgent, GeneralTaskSchedulerMasterAgent>();
+            builder.Services.AddScoped<IGeneralUserModuleAgent, GeneralUserModuleAgent>();
             builder.Services.AddScoped<IUserTypeAgent, UserTypeAgent>();
 
             #region HMS
@@ -191,6 +192,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeClient, OrganisationCentrewiseJoiningCodeClient>();
             builder.Services.AddScoped<IGeneralCurrencyMasterClient, GeneralCurrencyMasterClient>();
             builder.Services.AddScoped<ITaskSchedulerClient, TaskSchedulerClient>();
+            builder.Services.AddScoped<IGeneralUserModuleClient, GeneralUserModuleClient>();
+
             builder.Services.AddScoped<IUserTypeClient, UserTypeClient>();
 
 

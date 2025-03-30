@@ -49,6 +49,7 @@ namespace Coditech.API.Mapper
             CreateMap<OrganisationCentrewiseEmailTemplate, OrganisationCentrewiseEmailTemplateModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseUserNameRegistration, OrganisationCentrewiseUserNameRegistrationModel>().ReverseMap();
             CreateMap<UserMainMenuMaster, UserMainMenuModel>().ReverseMap();
+            CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseSmsSetting, OrganisationCentrewiseSmsSettingModel>().ReverseMap();
             CreateMap<CoditechApplicationSetting, CoditechApplicationSettingModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseWhatsAppSetting, OrganisationCentrewiseWhatsAppSettingModel>().ReverseMap();

@@ -1,4 +1,5 @@
 ﻿using Coditech.API.Data;
+using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
@@ -57,15 +58,15 @@ namespace Coditech.API.Service
         //Delete LogMessage.
         public virtual bool DeleteLogMessage(ParameterModel parameterModel)
         {
-            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
+            if (IsNull(parameterModel))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "LogMessageID"));
-
+            
             CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("LogMessageId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("RetentionPeriod", ApiSettings.LogMessageRetentionPeriodTimeInDays, ParameterDirection.Input, DbType.Int16);
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
-            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteLogMessage @LogMessageId,  @Status OUT", 1, out status);
-
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteLogMessage @LogMessageId,@RetentionPeriod,@Status OUT", 2, out status);
             return status == 1 ? true : false;
         }
     }

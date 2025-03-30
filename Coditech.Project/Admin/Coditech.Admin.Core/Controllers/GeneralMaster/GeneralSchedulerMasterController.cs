@@ -98,7 +98,7 @@ namespace Coditech.Admin.Controllers
             return View(createEditTaskScheduler, taskSchedulerViewModel);
         }
 
-        public virtual ActionResult Delete(string taskSchedulerMasterIds, string selectedCentreCode)
+        public virtual ActionResult Delete(string taskSchedulerMasterIds)
         {
             string message = string.Empty;
             bool status = false;
@@ -108,18 +108,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+                return RedirectToAction<GeneralTaskSchedulerMasterController>(x => x.List(null));
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
-        }
-
-        [HttpGet]
-        public virtual ActionResult ExecuteTaskScheduler(DateTime startTime)
-        {
-            TaskSchedulerViewModel taskSchedulerViewModel = _generalTaskSchedulerMasterAgent.GetExecuteTaskScheduler(startTime);
-            return ActionView(createEditTaskScheduler, taskSchedulerViewModel);
+            return RedirectToAction<GeneralTaskSchedulerMasterController>(x => x.List(null));
         }
 
         public virtual ActionResult Cancel(string SelectedCentreCode)

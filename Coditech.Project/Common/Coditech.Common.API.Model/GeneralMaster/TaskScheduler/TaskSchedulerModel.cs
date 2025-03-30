@@ -7,6 +7,7 @@ namespace Coditech.Common.API.Model
         public int TaskSchedulerMasterId { get; set; }
         public int ConfiguratorId { get; set; }
         public string SchedulerName { get; set; }
+        public string SchedulerClassName { get; set; }
         public string SchedulerType { get; set; }
         public string SchedulerCallFor { get; set; }
         public string SchedulerCallForDisplayText { get; set; }
@@ -28,6 +29,9 @@ namespace Coditech.Common.API.Model
         public List<string> SelectedWeekDays { get; set; } = new List<string>();
         public TimeSpan StartTime { get; set; }
         public TimeSpan ExpireTime { get; set; }
+        public bool IsInstantJob { get; set; }
+        public bool IsCronJob { get; set; }
+        public string ExeParameters { get; set; }
     }
 }
 

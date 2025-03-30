@@ -9,5 +9,9 @@
         public const string PlanDurationType = "duration";
         public const string PlanSessionType = "session";
         public const string Mobile = "Mobile";
+        public const string OneTime = "OneTime";
+        public const string Recurring = "Recurring";
+        public const string Authorization = "Authorization";
+        public const string DeleteLogMessage = "DeleteLogMessage";
     }
 }

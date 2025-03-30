@@ -26,5 +26,6 @@ namespace Coditech.Admin.ViewModel
         public string SelectedDepartmentId { get; set; }
         public long PersonId { get; set; }
         public long DBTMTraineeDetailId { get; set; }
+        public bool IsEntityActive { get; set; }
     }
 }

@@ -159,11 +159,12 @@ namespace Coditech.API.Service
             listModel.BindPageListModel(pageListModel);
             if (personId > 0)
             {
-                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(entityId, userType);
                 if (IsNotNull(listModel))
                 {
                     listModel.FirstName = generalPersonModel.FirstName;
                     listModel.LastName = generalPersonModel.LastName;
+                    listModel.IsEntityActive = generalPersonModel.IsEntityActive;
                 }
             }
             listModel.EntityId = entityId;

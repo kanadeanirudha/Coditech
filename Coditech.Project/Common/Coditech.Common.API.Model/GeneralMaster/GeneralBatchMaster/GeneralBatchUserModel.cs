@@ -12,5 +12,6 @@
         public string ImagePath { get; set; }
         public bool IsAssociated { get; set; }
         public string BatchName { get; set; }
+        public bool IsBatchActive { get; set; }
     }
 }

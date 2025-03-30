@@ -129,7 +129,10 @@
             AccGLTransaction, 
             AccSetupChartOfAccountTemplate,
             UserType,
-            InventoryCategoryType
+            InventoryCategoryType,
+            UserModuleMaster,
+            ERP,
+            Hangfire
         }
     }
 }

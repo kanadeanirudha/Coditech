@@ -890,7 +890,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteUserMainMenuMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete User Module due to associate record..
+        /// </summary>
+        public static string ErrorDeleteUserModuleMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteUserModuleMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
         /// </summary>
