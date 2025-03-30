@@ -1,5 +1,4 @@
 ﻿using Coditech.Common.Helper;
-using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
@@ -50,5 +49,6 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "End Time")]
         public TimeSpan ExpireTime { get; set; }
+        public bool IsCronJob { get; set; }
     }
 }

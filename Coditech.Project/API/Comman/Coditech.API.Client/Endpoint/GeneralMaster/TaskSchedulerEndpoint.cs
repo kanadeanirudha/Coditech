@@ -24,10 +24,5 @@ namespace Coditech.API.Endpoint
 
         public string DeleteTaskSchedulerAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/DeleteTaskScheduler";
-
-        public string GetExecuteTaskSchedulerAsync(DateTime startTime) =>
-            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/TaskScheduler/GetExecuteTaskScheduler?startTime={startTime}";
-
-
     }
 }
