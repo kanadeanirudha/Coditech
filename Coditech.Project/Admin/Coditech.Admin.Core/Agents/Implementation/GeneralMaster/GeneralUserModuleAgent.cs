@@ -181,12 +181,6 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Module Color Class",
-                ColumnCode = "ModuleColorClass",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
                 ColumnName = "Module Form Name",
                 ColumnCode = "ModuleFormName",
                 IsSortable = true,
