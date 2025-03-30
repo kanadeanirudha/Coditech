@@ -110,5 +110,20 @@ namespace Coditech.Common.API
 
             }
         }
+        public static long ApiRequestTimeout
+        {
+            get
+            {
+                return Convert.ToInt64(settings["ApiRequestTimeout"]);
+
+            }
+        }
+        public static short LogMessageRetentionPeriodTimeInDays
+        {
+            get
+            {
+                return Convert.ToByte(settings["LogMessageRetentionPeriodTimeInDays"]);
+            }
+        }
     }
 }

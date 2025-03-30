@@ -1,7 +1,7 @@
-﻿using Coditech.API.Data;
-using Coditech.API.ServiceAccounts;
+﻿using Coditech.API.ServiceAccounts;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
+using Coditech.Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -43,7 +43,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IGeneralCurrencyMasterService, GeneralCurrencyMasterService>();
             builder.Services.AddScoped<ITaskSchedulerService, TaskSchedulerService>();
             builder.Services.AddScoped<IUserTypeService, UserTypeService>();
-
+            builder.Services.AddScoped<IERPJobs, ERPJobs>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();

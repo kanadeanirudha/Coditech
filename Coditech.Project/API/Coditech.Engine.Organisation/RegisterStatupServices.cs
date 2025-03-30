@@ -3,7 +3,7 @@ using Coditech.API.Service.DependencyRegistration;
 using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
-
+using Coditech.Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -42,6 +42,9 @@ namespace Coditech.API.Common
 
             //RegisterDI
             builder.RegisterDI();
+
+            // Register the hangfire services.
+            builder.RegisterHangfire();
 
             // Configured conventional route settings.
             builder.ConfigureRouteSettings();
@@ -161,6 +164,12 @@ namespace Coditech.API.Common
             // Contextaccesssor registration (HttpContext)
             builder.Services.AddHttpContextAccessor();
 
+        }
+
+        public static void RegisterHangfire(this WebApplicationBuilder builder)
+        {
+            // Configure the hangfire service
+            builder.Services.ConfigureServices(builder.Configuration);
         }
 
         /// <summary>
