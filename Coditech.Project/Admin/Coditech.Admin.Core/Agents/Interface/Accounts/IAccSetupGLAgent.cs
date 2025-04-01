@@ -30,6 +30,8 @@ namespace Coditech.Admin.Agents
         /// <param name="accSetupMasterViewModel">accSetupMasterViewModel.</param>
         /// <returns>Returns updated AccSetupMasterViewModel</returns>
         AccSetupGLModel AddChild(AccSetupGLModel accSetupGLModel);
+  //     AccSetupGLModel UpdateAccount(AccSetupGLModel accSetupGLModel);
+        AccSetupGLModel GetAccountSetupGL(int accSetupGLId);
 
         bool DeleteAccountSetupGL(string accSetupGLId, out string errorMessage);
 

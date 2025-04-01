@@ -5,6 +5,7 @@ namespace Coditech.Common.API.Model
     {
         public int AccSetupGLId { get; set; }
         [Display(Name = "Ledger Name")]
+
         public string GLName { get; set; }
         public int? ParentAccSetupGLId { get; set; }
         public string CategoryCode { get; set; }
@@ -31,6 +32,12 @@ namespace Coditech.Common.API.Model
         [Display(Name = "Control Head")]
         public short? UserTypeId { get; set; }
         public string BankModelData { get; set; }
+        public string dataModel { get; set; }
         public short? IsControlHeadEnum { get; set; }
+        public string BankAccountNumber { get; set; }
+        public string BankAccountName { get; set; }
+        public string BankBranchName { get; set; }
+        public string IFSCCode { get; set; }
+        public string Mode { get; set; }
     }
 }

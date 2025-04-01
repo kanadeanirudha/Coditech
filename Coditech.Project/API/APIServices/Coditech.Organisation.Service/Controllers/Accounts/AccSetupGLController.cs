@@ -128,5 +128,26 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        [Route("/AccSetupGL/GetAccountSetupGL")]
+        [HttpGet]
+        [Produces(typeof(AccSetupGLResponse))]
+        public virtual IActionResult GetAccountSetupGL(int accSetupGLId)
+        {
+            try
+            {
+                AccSetupGLModel accSetupGLModel = _accSetupGLService.GetAccountSetupGL(accSetupGLId);
+                return IsNotNull(accSetupGLModel) ? CreateOKResponse(new AccSetupGLResponse { AccSetupGLModel = accSetupGLModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new AccSetupGLResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AccSetupGLResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

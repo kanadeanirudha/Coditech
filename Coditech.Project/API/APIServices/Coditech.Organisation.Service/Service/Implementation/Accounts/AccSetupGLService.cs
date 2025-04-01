@@ -203,7 +203,8 @@ namespace Coditech.API.ServiceAccounts
                 IsControlHeadEnum = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
 
             };
-            InsertBankDetails(accSetupGLModel, accSetupGLModel1.AccSetupGLId);
+
+            
             // Map the model to an entity.
             AccSetupGL accSetupGLEntity = accSetupGLModel1.FromModelToEntity<AccSetupGL>();
 
@@ -229,7 +230,11 @@ namespace Coditech.API.ServiceAccounts
                     IsActive = true,
                 }
             };
-            // Insert bank details
+            if (accSetupGLModel.AccSetupGLTypeId == 5)
+            {
+                InsertBankDetails(accSetupGLModel);
+            }
+
             _accSetupGLBalanceSheetRepository.Insert(balanceSheets);
 
             return true;
@@ -256,6 +261,32 @@ namespace Coditech.API.ServiceAccounts
 
             return status == 1;
         }
+        //Get AccSetupMaster by AccSetupMaster id.
+        public virtual AccSetupGLModel GetAccountSetupGL(int accSetupGLId)
+        {
+            if (accSetupGLId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "accSetupGLId"));
+
+            // Get the AccSetupMaster Details based on id.
+            AccSetupGL accSetupGLMaster = _accSetupGLRepository.Table.FirstOrDefault(x => x.AccSetupGLId == accSetupGLId);
+            AccSetupGLModel accSetupGLModel = accSetupGLMaster?.FromEntityToModel<AccSetupGLModel>();
+            accSetupGLModel.UserTypeId = accSetupGLMaster.IsControlHeadEnum;
+
+            if (accSetupGLModel != null && accSetupGLModel.AccSetupGLTypeId == 5)
+            {
+                // ✅ Get bank data if GL Type ID is 5
+                var bankData = _accSetupGLBankRepository.Table.FirstOrDefault(b => b.AccSetupGLId == accSetupGLId);
+                if (bankData != null)
+                {
+                    accSetupGLModel.BankAccountName = bankData.BankAccountName;
+                    accSetupGLModel.BankAccountNumber = bankData.BankAccountNumber;
+                    accSetupGLModel.BankBranchName = bankData.BankBranchName;
+                    accSetupGLModel.IFSCCode = bankData.IFSCCode;
+                }
+            }
+
+            return accSetupGLModel; 
+        }
 
         #region Protected Method
         // Check if GLName or GLCode already exists for a different AccSetupGLId
@@ -277,7 +308,7 @@ namespace Coditech.API.ServiceAccounts
             );
         }
         #endregion
-        protected virtual void InsertBankDetails(AccSetupGLModel accSetupGLModel, int accSetupGLId)
+        protected virtual void InsertBankDetails(AccSetupGLModel accSetupGLModel)
         {
             if (accSetupGLModel.AccSetupGLTypeId == 5 && accSetupGLModel.AccSetupGLBankList != null)
             {
@@ -287,7 +318,7 @@ namespace Coditech.API.ServiceAccounts
                     AccSetupGLBank accSetupGLBankData = new AccSetupGLBank
                     {
                         AccSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId,
-                        AccSetupGLId = accSetupGLId,
+                        AccSetupGLId = accSetupGLModel.AccSetupGLId,
                         BankAccountName = item.BankAccountName,
                         BankBranchName = item.BankBranchName,
                         BankLimitAmount = item.BankLimitAmount,

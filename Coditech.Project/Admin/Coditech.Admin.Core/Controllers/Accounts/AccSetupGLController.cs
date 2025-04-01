@@ -83,11 +83,13 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult AddChild(AccSetupGLModel accSetupGLModel)
         {
+            
+
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, message = "Invalid data. Please check the inputs." });
             }
-            //  set UserTypeId null if usertypeid is 0
+            //set UserTypeId null if usertypeid is 0
             accSetupGLModel.UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId;
 
             // in this we are setting usertypeid to iscontrolheadenum
@@ -146,6 +148,80 @@ namespace Coditech.Admin.Controllers
             catch (Exception ex)
             {
                 return Json(new { success = false, message = "An error occurred: " + ex.Message, accountId = accSetupGLIds });
+            }
+        }
+        [HttpGet]
+        public ActionResult LoadAccountSetupGL(int? accSetupGLId)
+        {
+            var accSetupGLModel = accSetupGLId.HasValue
+                ? _accSetupGLAgent.GetAccountSetupGL(accSetupGLId.Value)
+                : new AccSetupGLModel();
+          
+            return Json(new
+            {
+                success = true,
+                data = new
+                {
+                    accSetupGLId = accSetupGLModel.AccSetupGLId,
+                    accSetupGLTypeId = accSetupGLModel.AccSetupGLTypeId,
+                    glName = accSetupGLModel.GLName,
+                    glCode = accSetupGLModel.GLCode,
+                    isGroup = accSetupGLModel.IsGroup,
+                    bankAccountName = accSetupGLModel.BankAccountName,
+                    bankAccountNumber = accSetupGLModel.BankAccountNumber,
+                    bankBranchName = accSetupGLModel.BankBranchName,
+                    iFSCCode = accSetupGLModel.IFSCCode,
+                    accSetupCategoryId = accSetupGLModel.AccSetupCategoryId,
+                    accSetupBalancesheetId = accSetupGLModel.AccSetupBalancesheetId,
+                    accSetupBalanceSheetTypeId = accSetupGLModel.AccSetupBalanceSheetTypeId,
+                    parentAccSetupGLId = accSetupGLModel.ParentAccSetupGLId,
+                    selectedCentreCode = accSetupGLModel.SelectedCentreCode
+
+                }
+            });
+        }
+    
+        [HttpPost]
+        public IActionResult RenderChildModel([FromBody] AccSetupGLModel model)
+        {
+            return PartialView("~/Views/Accounts/AccSetupGL/_ChildModel.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual ActionResult SaveAccountSetupGL()
+        {
+            try
+            {
+                var model = new AccSetupGLModel
+                {
+                    AccSetupGLId = Convert.ToInt32(Request.Form["accSetupGLId"]),
+                    AccSetupCategoryId = Convert.ToInt16(Request.Form["accSetupCategoryId"]), 
+                    GLName = Request.Form["glName"],
+                    GLCode = Request.Form["glCode"],
+                    AccSetupGLTypeId = byte.TryParse(Request.Form["accSetupGLTypeId"], out byte accSetupGLTypeId) ? accSetupGLTypeId : (byte?)null,
+                    IsGroup = bool.TryParse(Request.Form["isGroup"], out bool isGroup) && isGroup,
+                    UserTypeId = byte.TryParse(Request.Form["userTypeId"], out byte userTypeId) ? userTypeId : (byte?)null,
+                    // Allow nullable for int and byte types
+                    AccSetupBalancesheetId = Convert.ToInt32(Request.Form["accSetupBalancesheetId"]),
+                    BankAccountName = Request.Form.ContainsKey("bankAccountName") ? Request.Form["bankAccountName"].ToString() : string.Empty,
+                    BankAccountNumber = Request.Form.ContainsKey("bankAccountNumber") ? Request.Form["bankAccountNumber"].ToString() : string.Empty,
+                    BankBranchName = Request.Form.ContainsKey("bankBranchName") ? Request.Form["bankBranchName"].ToString() : string.Empty,
+                    IFSCCode = Request.Form.ContainsKey("iFSCCode") ? Request.Form["iFSCCode"].ToString() : string.Empty
+                    //AccSetupBalanceSheetTypeId = Convert.ToInt16(Request.Form["accSetupBalanceSheetTypeId"]),
+                };
+
+
+                // ✅ Log data for debugging
+                System.Diagnostics.Debug.WriteLine($"Model Data: {Newtonsoft.Json.JsonConvert.SerializeObject(model)}");
+
+                // ✅ Return success response
+                return Json(new { success = true, message = "Record saved successfully", data = model });
+            }
+            catch (Exception ex)
+            {
+                // ✅ Log the error for debugging
+                System.Diagnostics.Debug.WriteLine($"❌ Error: {ex.Message}");
+                return Json(new { success = false, message = $"An error occurred: {ex.Message}" });
             }
         }
     }

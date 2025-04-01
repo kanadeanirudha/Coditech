@@ -7,6 +7,7 @@ namespace Coditech.API.Service
         AccSetupGLModel CreateAccountSetupGL(AccSetupGLModel model);
         bool UpdateAccountSetupGL(AccSetupGLModel model);
         bool AddChild(AccSetupGLModel model);
+        AccSetupGLModel GetAccountSetupGL(int accSetupGLId);
         bool DeleteAccountSetupGL(ParameterModel parameterModel);
     }
 }
