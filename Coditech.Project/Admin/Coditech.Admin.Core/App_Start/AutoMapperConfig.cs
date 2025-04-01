@@ -112,6 +112,8 @@ namespace Coditech.Admin
             CreateMap<TaskSchedulerListModel, TaskSchedulerListViewModel>().ReverseMap();
             CreateMap<UserModuleModel, UserModuleViewModel>().ReverseMap();
             CreateMap<UserModuleListModel, UserModuleListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyModel, GeneralPolicyViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyListModel, GeneralPolicyListViewModel>().ReverseMap();
             #endregion
             #region
             CreateMap<UserTypeModel, UserTypeViewModel>().ReverseMap();
