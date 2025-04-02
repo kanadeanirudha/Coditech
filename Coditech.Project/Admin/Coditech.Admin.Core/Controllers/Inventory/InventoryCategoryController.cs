@@ -64,7 +64,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_inventoryCategoryAgent.UpdateInventoryCategory(inventoryCategoryViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { InventoryCategoryId = inventoryCategoryViewModel.InventoryCategoryId });
+                return RedirectToAction("Edit", new { inventoryCategoryId = inventoryCategoryViewModel.InventoryCategoryId });
             }
             return View(createEdit, inventoryCategoryViewModel);
         }
