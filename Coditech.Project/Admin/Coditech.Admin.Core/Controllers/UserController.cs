@@ -194,7 +194,7 @@ namespace Coditech.Admin.Controllers
                 }
 
                 // Save selected balance ID in session
-                SessionHelper.SaveDataInSession("AccSetupBalanceSheetId", selectedBalanceId);
+                SessionHelper.SaveDataInSession(AdminConstants.UserDataSession, userModel);
             }
 
             return RedirectToLocal(returnUrl);
