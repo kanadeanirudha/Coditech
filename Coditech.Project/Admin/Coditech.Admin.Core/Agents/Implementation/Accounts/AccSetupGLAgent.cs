@@ -70,6 +70,37 @@ namespace Coditech.Admin.Agents
             return response?.AccSetupGLModel ?? new AccSetupGLModel();
         }
 
+        //Update Account.
+        public virtual AccSetupGLModel UpdateAccount(AccSetupGLModel accSetupGLModel)
+        {
+            try
+            {
+                AccSetupGLResponse response = _accSetupGLClient.UpdateAccount(accSetupGLModel);
+
+                return response?.AccSetupGLModel ?? new AccSetupGLModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        accSetupGLModel.ErrorMessage = ex.ErrorMessage;
+                        break;
+                    default:
+                        accSetupGLModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                        break;
+                }
+                return accSetupGLModel;
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccountSetupGL.ToString(), TraceLevel.Error);
+                accSetupGLModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                return accSetupGLModel;
+            }
+        }
+
         //Update AccountSetupGL.
         public virtual AccSetupGLModel UpdateAccountSetupGL(AccSetupGLModel accSetupGLModel)
         {
@@ -100,7 +131,7 @@ namespace Coditech.Admin.Agents
                 return accSetupGLModel;
             }
         }
-        //Update AccountSetupGL.
+        //AddChild .
         public virtual AccSetupGLModel AddChild(AccSetupGLModel accSetupGLModel)
         {
             try
@@ -143,7 +174,7 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        //Delete DeleteAccountSetupGL.
+        //Delete AccountSetupGL.
         public virtual bool DeleteAccountSetupGL(string accSetupGLId, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;

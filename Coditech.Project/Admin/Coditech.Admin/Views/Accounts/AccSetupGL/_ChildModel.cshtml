@@ -5,10 +5,12 @@
     Layout = null;
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string mode = @Model.AccSetupGLId > 0 ? "edit" : "create";
     DropdownViewModel accSetupGLTypeDropdown = new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.AccSetupGLType.ToString(),
                 DropdownName = "AccSetupGLTypeId",
+                IsDisabled = mode == "edit",
                 DropdownSelectedValue = Convert.ToString(Model.AccSetupGLTypeId)
             };
     DropdownViewModel userTypeDropdown = new DropdownViewModel()
@@ -16,13 +18,14 @@
                 DropdownType = DropdownTypeEnum.UserTypeList.ToString(),
                 DropdownName = "UserTypeId",
                 DropdownSelectedValue = Convert.ToString(Model.UserTypeId),
+                IsDisabled = mode == "edit",
                 ExcludedValues = new string[] { "Admin", "Branch" }
             };
-    string mode = @Model.AccSetupGLId > 0 ? "edit" : "create";
+
 
 }
 @using (Html.BeginForm(formAction, controllerName, FormMethod.Post, new { id = mode == "create" ? "addChildForm" : "addForm", data_mode = mode }))
-    {
+{
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ParentAccSetupGLId)
     @Html.HiddenFor(m => m.AccSetupCategoryId)
@@ -48,7 +51,7 @@
                     <!-- GL Type Dropdown -->
                     <div class="flex flex-col space-y-2">
                         @Html.LabelFor(x => x.AccSetupGLTypeId, new { @class = "form-label required" })
-                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", accSetupGLTypeDropdown) 
+                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", accSetupGLTypeDropdown)
                         @Html.ValidationMessageFor(x => x.AccSetupGLTypeId, "", new { @class = "text-danger" })
                     </div>
 

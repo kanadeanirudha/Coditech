@@ -37,7 +37,6 @@ namespace Coditech.Admin.Controllers
             else
                 return PartialView("~/Views/Accounts/AccSetupGL/_UpdateAccountSetupGL.cshtml", accSetupGLModel);
         }
-
         public virtual ActionResult GetAccSetupBalanceSheetByCentreCodeAndTypeId(string selectedcentreCode, byte accSetupBalanceSheetTypeId)
         {
             DropdownViewModel accSetupBalanceSheetByCentreCodeDropdown = new DropdownViewModel()
@@ -83,8 +82,6 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult AddChild(AccSetupGLModel accSetupGLModel)
         {
-            
-
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, message = "Invalid data. Please check the inputs." });
@@ -94,7 +91,6 @@ namespace Coditech.Admin.Controllers
 
             // in this we are setting usertypeid to iscontrolheadenum
             accSetupGLModel.IsControlHeadEnum = accSetupGLModel.UserTypeId;
-
 
             accSetupGLModel = _accSetupGLAgent.AddChild(accSetupGLModel);
 
@@ -156,7 +152,7 @@ namespace Coditech.Admin.Controllers
             var accSetupGLModel = accSetupGLId.HasValue
                 ? _accSetupGLAgent.GetAccountSetupGL(accSetupGLId.Value)
                 : new AccSetupGLModel();
-          
+
             return Json(new
             {
                 success = true,
@@ -175,12 +171,13 @@ namespace Coditech.Admin.Controllers
                     accSetupBalancesheetId = accSetupGLModel.AccSetupBalancesheetId,
                     accSetupBalanceSheetTypeId = accSetupGLModel.AccSetupBalanceSheetTypeId,
                     parentAccSetupGLId = accSetupGLModel.ParentAccSetupGLId,
-                    selectedCentreCode = accSetupGLModel.SelectedCentreCode
+                    selectedCentreCode = accSetupGLModel.SelectedCentreCode,
+                    usertypeid = accSetupGLModel.IsControlHeadEnum
 
                 }
             });
         }
-    
+
         [HttpPost]
         public IActionResult RenderChildModel([FromBody] AccSetupGLModel model)
         {
@@ -192,10 +189,10 @@ namespace Coditech.Admin.Controllers
         {
             try
             {
-                var model = new AccSetupGLModel
+                var accSetupGLModel = new AccSetupGLModel
                 {
                     AccSetupGLId = Convert.ToInt32(Request.Form["accSetupGLId"]),
-                    AccSetupCategoryId = Convert.ToInt16(Request.Form["accSetupCategoryId"]), 
+                    AccSetupCategoryId = Convert.ToInt16(Request.Form["accSetupCategoryId"]),
                     GLName = Request.Form["glName"],
                     GLCode = Request.Form["glCode"],
                     AccSetupGLTypeId = byte.TryParse(Request.Form["accSetupGLTypeId"], out byte accSetupGLTypeId) ? accSetupGLTypeId : (byte?)null,
@@ -209,18 +206,25 @@ namespace Coditech.Admin.Controllers
                     IFSCCode = Request.Form.ContainsKey("iFSCCode") ? Request.Form["iFSCCode"].ToString() : string.Empty
                     //AccSetupBalanceSheetTypeId = Convert.ToInt16(Request.Form["accSetupBalanceSheetTypeId"]),
                 };
+                if (ModelState.IsValid)
+                {
+                    accSetupGLModel = _accSetupGLAgent.UpdateAccount(accSetupGLModel);
+                    SetNotificationMessage(GetSuccessNotificationMessage("Record Updated Successfully."));
+                    return Json(new { success = true });
 
+                    //return RedirectToAction("GetAccSetupGL", new { selectedcentreCode = model.SelectedCentreCode, accSetupBalanceSheetTypeId = model.AccSetupBalanceSheetTypeId, accSetupBalanceSheetId = model.AccSetupBalancesheetId });
+                }
 
                 // ✅ Log data for debugging
-                System.Diagnostics.Debug.WriteLine($"Model Data: {Newtonsoft.Json.JsonConvert.SerializeObject(model)}");
+                //System.Diagnostics.Debug.WriteLine($"Model Data: {Newtonsoft.Json.JsonConvert.SerializeObject(accSetupGLModel)}");
 
                 // ✅ Return success response
-                return Json(new { success = true, message = "Record saved successfully", data = model });
+                return Json(new { success = true, message = accSetupGLModel.ErrorMessage, data = accSetupGLModel });
             }
             catch (Exception ex)
             {
                 // ✅ Log the error for debugging
-                System.Diagnostics.Debug.WriteLine($"❌ Error: {ex.Message}");
+                //System.Diagnostics.Debug.WriteLine($"❌ Error: {ex.Message}");
                 return Json(new { success = false, message = $"An error occurred: {ex.Message}" });
             }
         }

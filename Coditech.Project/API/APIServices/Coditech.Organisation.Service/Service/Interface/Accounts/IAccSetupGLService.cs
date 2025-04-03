@@ -6,6 +6,7 @@ namespace Coditech.API.Service
         AccSetupGLModel GetAccSetupGLTree(string selectedcentreCode, byte accSetupBalanceSheetTypeId, int accSetupBalanceSheetId);
         AccSetupGLModel CreateAccountSetupGL(AccSetupGLModel model);
         bool UpdateAccountSetupGL(AccSetupGLModel model);
+        bool UpdateAccount(AccSetupGLModel model);
         bool AddChild(AccSetupGLModel model);
         AccSetupGLModel GetAccountSetupGL(int accSetupGLId);
         bool DeleteAccountSetupGL(ParameterModel parameterModel);

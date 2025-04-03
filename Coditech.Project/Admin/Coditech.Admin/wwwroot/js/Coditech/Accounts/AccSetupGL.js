@@ -241,11 +241,12 @@ var AccSetupGL = {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log("✅ Success:", response);
                 if (response.success) {
-                    alert(response.message);
+                    let url = window.location.origin + window.location.pathname;
+                    window.location.href = url;
+
                 } else {
-                    console.error("❌ Error:", response.message);
+                    CoditechNotification.DisplayNotificationMessage("error");
                 }
             },
             error: function (xhr) {
@@ -416,18 +417,25 @@ var AccSetupGL = {
                     // ✅ Populate general fields
                     $('input[name="GLName"]').val(response.data.glName || '');
                     $('input[name="GLCode"]').val(response.data.glCode || '');
-                    $('select[name="AccSetupGLTypeId"]').val(response.data.accSetupGLTypeId || '').prop('disabled', true).change();
+
+                    // Removed the disable functionality for AccSetupGLTypeId
+                    $('select[name="AccSetupGLTypeId"]').val(response.data.accSetupGLTypeId || '').change();
+
+                    // Removed the disable functionality for UserTypeId
+                    $('select[name="UserTypeId"]').val(response.data.userTypeId || '').change();
+
+                    // Other general fields
                     $('input[name="IsGroup"]').prop('checked', !!response.data.isGroup);
                     $('input[name="IsGroup"]').prop('checked', response.data.isGroup);
 
                     $('#addChildForm').attr('data-mode', 'edit'); // Set mode to Edit
 
-                    if (response.data.accSetupGLTypeId !== 5 && response.data.accSetupGLTypeId !== 4) { // 5 = Bank, 2 = Cash
-                        $('select[name="UserTypeId"]').val(response.data.userTypeId || $('select[name="UserTypeId"] option:first').val()).prop('disabled', true).change();
+                    if (response.data.accSetupGLTypeId !== 5 && response.data.accSetupGLTypeId !== 4) { // 5 = Bank, 4 = Cash
+                        $('select[name="UserTypeId"]').val(response.data.userTypeId || $('select[name="UserTypeId"] option:first').val()).change();
                     } else {
                         $('select[name="UserTypeId"]').val(response.data.userTypeId || '').change();
                     }
-                    $('select[name="UserTypeId"]').val(response.data.userTypeId || '').change();
+
                     $('input[name="AccSetupBalancesheetId"]').val(response.data.accSetupBalancesheetId || '');
                     $('input[name="AccSetupBalanceSheetTypeId"]').val(response.data.accSetupBalanceSheetTypeId || '');
                     $('input[name="AccSetupChartOfAccountTemplateId"]').val(response.data.accSetupChartOfAccountTemplateId || '');
@@ -436,40 +444,40 @@ var AccSetupGL = {
                     // ✅ Handle Control Head Enum: Disable if accSetupGLTypeId is 7
                     setTimeout(() => {
                         $('input[name="BankAccountName"]').val(response.data['bankAccountName'] || '');
-                        $('input[name="BankAccountNumber"]').val(response.data['bankAccountNumber'] || '').prop('disabled', true);
+                        $('input[name="BankAccountNumber"]').val(response.data['bankAccountNumber'] || '')
+                            .attr('disabled', 'disabled'); // ✅ Alternative method to disable input
                         $('input[name="BankBranchName"]').val(response.data['bankBranchName'] || '');
-                        $('input[name="IFSCCode"]').val(response.data['iFSCCode'] || '').prop('disabled', true);
+                        $('input[name="IFSCCode"]').val(response.data['iFSCCode'] || '').attr('disabled', 'disabled');
                     }, 100);
+
                     // ✅ Show Bank Fields only if accSetupGLTypeId is 5
                     if (response.data.accSetupGLTypeId === 5) {
                         $('#bankContainer').empty().html(`
-                                        <div class="flex flex-col space-y-2">
-                                            <label class="form-label required">Bank Account Name</label>
-                                            <input type="text" name="BankAccountName" class="form-control" value="${response.data['bankAccountName'] || ''}" />
-                                        </div>
-                                        <div class="flex flex-col space-y-2">
-                                            <label class="form-label required">Bank Account Number</label>
-                                            <input type="text" name="BankAccountNumber" class="form-control" value="${response.data['bankAccountNumber'] || ''}" />
-                                        </div>
-                                        <div class="flex flex-col space-y-2">
-                                            <label class="form-label required">Bank Branch Name</label>
-                                            <input type="text" name="BankBranchName" class="form-control" value="${response.data['bankBranchName'] || ''}" />
-                                        </div>
-                                        <div class="flex flex-col space-y-2">
-                                            <label class="form-label required">IFSC Code</label>
-                                            <input type="text" name="IFSCCode" class="form-control" value="${response.data['iFSCCode'] || ''}" />
-                                        </div>
-                                    `);
+                    <div class="flex flex-col space-y-2">
+                        <label class="form-label required">Bank Account Name</label>
+                        <input type="text" name="BankAccountName" class="form-control" value="${response.data['bankAccountName'] || ''}" />
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <label class="form-label required">Bank Account Number</label>
+                        <input type="text" name="BankAccountNumber" class="form-control" value="${response.data['bankAccountNumber'] || ''}" disabled />
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <label class="form-label required">Bank Branch Name</label>
+                        <input type="text" name="BankBranchName" class="form-control" value="${response.data['bankBranchName'] || ''}" />
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <label class="form-label required">IFSC Code</label>
+                        <input type="text" name="IFSCCode" class="form-control" value="${response.data['iFSCCode'] || ''}" />
+                    </div>
+                `);
                     } else {
-                        // ✅ Clear bank fields if not a bank
+                        // Clear bank fields if not a bank
                         $('#bankContainer').html('');
                     }
-                    // ✅ Open the modal
-                    //$('#addChildModal').modal('show');
 
-                    // ✅ Call renderChildModel after loading data
+                    // Call renderChildModel after loading data
                     AccSetupGL.renderChildModel(response.data);
-                  
+
                 } else {
                     CoditechNotification.DisplayNotificationMessage(response.message, "error");
                 }
@@ -492,20 +500,20 @@ var AccSetupGL = {
                 if (model.accSetupGLTypeId === 5) {
                     $('#bankContainer').empty().html(`
                                         <div class="flex flex-col space-y-2">
-                                            <label class="form-label required">Bank Account Name</label>
-                                            <input type="text" name="BankAccountName" class="form-control" value="${model.bankAccountName || ''}" />
+                                            <label class="form-label required">Account Name</label>
+                                            <input type="text" name="BankAccountName" class="form-control" value="${model.bankAccountName || ''}" disabled  />
                                         </div>
                                         <div class="flex flex-col space-y-2">
-                                            <label class="form-label required">Bank Account Number</label>
-                                            <input type="text" name="BankAccountNumber" class="form-control" value="${model.bankAccountNumber || ''}" />
+                                            <label class="form-label required">Account Number</label>
+                                            <input type="text" name="BankAccountNumber" class="form-control" value="${model.bankAccountNumber || ''}" disabled />
                                         </div>
                                         <div class="flex flex-col space-y-2">
-                                            <label class="form-label required">Bank Branch Name</label>
+                                            <label class="form-label required">Branch Name</label>
                                             <input type="text" name="BankBranchName" class="form-control" value="${model.bankBranchName || ''}" />
                                         </div>
                                         <div class="flex flex-col space-y-2">
                                             <label class="form-label required">IFSC Code</label>
-                                            <input type="text" name="IFSCCode" class="form-control" value="${model.ifscCode || ''}" />
+                                            <input type="text" name="IFSCCode" class="form-control" value="${model.iFSCCode || ''}" disabled />
                                         </div>
                                     `);
                     $('#addChildModal').modal('show');
@@ -600,6 +608,7 @@ var AccSetupGL = {
             CoditechNotification.DisplayNotificationMessage("Please select Centre and Balance Sheet Type and BalanceSheet.", "error");
         }
     }
+
 };
 function handleGLTypeChange() {
     let glTypeId = parseInt($('#AccSetupGLTypeId').val());

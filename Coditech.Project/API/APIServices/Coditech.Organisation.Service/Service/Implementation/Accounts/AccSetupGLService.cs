@@ -204,12 +204,10 @@ namespace Coditech.API.ServiceAccounts
 
             };
 
-            
             // Map the model to an entity.
             AccSetupGL accSetupGLEntity = accSetupGLModel1.FromModelToEntity<AccSetupGL>();
 
-
-            // Insert the new child record.
+            // Insert the new  record.
             AccSetupGL accSetupGLData = _accSetupGLRepository.Insert(accSetupGLEntity);
 
             if (IsNull(accSetupGLData))
@@ -230,6 +228,7 @@ namespace Coditech.API.ServiceAccounts
                     IsActive = true,
                 }
             };
+
             if (accSetupGLModel.AccSetupGLTypeId == 5)
             {
                 InsertBankDetails(accSetupGLModel);
@@ -285,7 +284,48 @@ namespace Coditech.API.ServiceAccounts
                 }
             }
 
-            return accSetupGLModel; 
+            return accSetupGLModel;
+        }
+        public virtual bool UpdateAccount(AccSetupGLModel accSetupGLModel)
+        {
+            if (accSetupGLModel == null || accSetupGLModel.AccSetupGLId <= 0)
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            // Fetch the existing entity
+            AccSetupGL accSetupGLMaster = _accSetupGLRepository.Table
+                .FirstOrDefault(x => x.AccSetupGLId == accSetupGLModel.AccSetupGLId);
+
+            if (accSetupGLMaster == null)
+                throw new CoditechException(ErrorCodes.NotFound, "Account setup record not found.");
+
+            // Update entity properties
+            accSetupGLMaster.GLName = accSetupGLModel.GLName;
+            accSetupGLMaster.GLCode = accSetupGLModel.GLCode;
+            accSetupGLMaster.IsActive = true;
+
+            _accSetupGLRepository.Update(accSetupGLMaster);
+
+            //Update AccsetupGLBank If AccsetupglTypeId = 5 //
+            if (accSetupGLModel.AccSetupGLTypeId == 5 && accSetupGLModel.AccSetupGLBankList != null)
+            {
+                foreach (var item in accSetupGLModel.AccSetupGLBankList)
+                {
+                    var existingBankRecord = _accSetupGLBankRepository.Table
+                        .FirstOrDefault(b => b.AccSetupGLId == accSetupGLModel.AccSetupGLId && b.BankAccountNumber == item.BankAccountNumber);
+
+                    if (existingBankRecord != null)
+                    {
+                        existingBankRecord.BankAccountName = item.BankAccountName;
+                        existingBankRecord.BankBranchName = item.BankBranchName;
+                        existingBankRecord.BankLimitAmount = item.BankLimitAmount;
+                        existingBankRecord.RateOfInterest = item.RateOfInterest;
+                        existingBankRecord.InterestMode = item.InterestMode;
+                        existingBankRecord.IFSCCode = item.IFSCCode.ToUpper();
+                        _accSetupGLBankRepository.Update(existingBankRecord);
+                    }
+                }
+            }
+            return true;
         }
 
         #region Protected Method
