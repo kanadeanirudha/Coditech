@@ -137,6 +137,7 @@ namespace Coditech.Admin.Controllers
                     AccSetupGLId = gl.AccSetupGLId,
                     GLName = gl.GLName?.Trim(), // Clean up extra spaces/tabs
                     GLCode = gl.GLCode?.Trim(),
+                    AccSetupGLTypeId=gl.AccSetupGLTypeId,
                     ParentAccSetupGLId = gl.ParentAccSetupGLId,
                     CategoryCode = gl.CategoryCode
                 })

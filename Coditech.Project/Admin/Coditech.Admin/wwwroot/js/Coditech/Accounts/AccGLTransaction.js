@@ -8,6 +8,7 @@
 
     Initialize: function () {
         this.BindEvents();
+
     },
 
     GetFinancialYearListByCentreCode: function () {
@@ -81,8 +82,9 @@
 
                     if (transaction && transaction.GLName) {
                         console.log("🟢 Found GLName:", transaction.GLName);
-                        AccGLTransaction.map[transaction.GLName] = transaction;
-                        suggestions.push(transaction.GLName);
+                        AccGLTransaction.map[transaction.GLName, transaction.AccSetupGLId] = transaction;
+                        suggestions.push(transaction.GLName, transaction.AccSetupGLId);
+
                     } else {
                         console.warn("⚠️ No GLName found in this item:", transaction);
                     }
@@ -93,7 +95,6 @@
             }
         });
     },
-
     AddRow: function () {
         var tableLength = $('#example tbody tr').length;
         var newRowCount = tableLength + 1;
@@ -109,16 +110,35 @@
         $('#example tbody tr td input[type=text]').attr('disabled', true);
 
         $("#example tbody").append(
-            `<tr id="row${newRowCount}">
-                <td><input id="AccGlName${newRowCount}" class="form-control input-sm typeahead" placeholder="Search Account*" type="text" maxlength="200" /></td>
-                <td><input class="form-control input-sm" type="text" maxlength="500" placeholder="Narration" /></td>
-                <td><input class="form-control input-sm debit-field validate-number" type="text" id="debitBal${newRowCount}" maxlength="15" value="0" /></td>
-                <td><input class="form-control input-sm credit-field validate-number" type="text" id="creditBal${newRowCount}" maxlength="15" value="0" /></td>
-                <td>
-                    <a href="#" class="btn btn-sm btn-soft-success edit-row" title="Edit"><i class="fas fa-edit"></i></a>
-                    <a href="#" class="btn btn-sm btn-soft-danger remove-row" title="Delete" data-rowid="row${newRowCount}"><i class="fas fa-trash-alt"></i></a>
-                </td>
-            </tr>`
+            `
+            <tr id="row${newRowCount}">
+    <!-- Account Name -->
+    <td>
+        <input id="AccGlName${newRowCount}" class="form-control input-sm typeahead" placeholder="Search Account*" type="text" maxlength="200" />
+        <div class="cheque-fields" style="display: none; margin-top: 5px;">
+            <input class="form-control input-sm" type="text" id="AccBranchName${newRowCount}" placeholder="Branch Name" />
+        </div>
+    </td>
+
+    <!-- Narration -->
+    <td>
+        <input class="form-control input-sm" type="text" maxlength="500" placeholder="Narration" />
+        <div class="cheque-fields" style="display: none; margin-top: 5px;">
+            <input class="form-control input-sm" type="text" id="AccChequeNumber${newRowCount}" placeholder="Cheque Number" />
+            <input class="form-control input-sm" type="date" id="AccChequeDate${newRowCount}" />
+        </div>
+    </td>
+
+    <!-- Debit & Credit Fields -->
+    <td><input class="form-control input-sm debit-field validate-number" type="text" id="debitBal${newRowCount}" maxlength="15" value="0" /></td>
+    <td><input class="form-control input-sm credit-field validate-number" type="text" id="creditBal${newRowCount}" maxlength="15" value="0" /></td>
+
+    <!-- Actions -->
+    <td>
+        <a href="#" class="btn btn-sm btn-soft-success edit-row" title="Edit"><i class="fas fa-edit"></i></a>
+        <a href="#" class="btn btn-sm btn-soft-danger remove-row" title="Delete"><i class="fas fa-trash-alt"></i></a>
+    </td>
+</tr>`
         );
 
         AccGLTransaction.valuTransactionType = valuTransactionType;
@@ -155,8 +175,9 @@
     },
 
     editRow: function (row) {
-        row.find("input").prop("readonly", false);
+        row.find("input").prop("disabled", false);
     },
+
     calculateTotals: function () {
         let totalDebit = 0, totalCredit = 0;
 
@@ -183,6 +204,7 @@
             $("#debitBal, #creditBal").css("border", "");
         }
     },
+
     //calculateTotals: function () {
     //    var totalDebit = 0, totalCredit = 0;
 
@@ -237,6 +259,8 @@
                                 label: item.GLName,
                                 value: item.GLName,
                                 id: item.AccSetupGLId, // If you need the ID
+                                typeId: item.AccSetupGLTypeId,
+                                parentId: item.ParentAccSetupGLId
                             };
                         });
 
@@ -256,17 +280,79 @@
             select: function (event, ui) {
                 console.log("✅ Selected Account:", ui.item);
 
-                // Store selected account data (optional)
+                // Store selected account data
                 $(selector).data("selected-account", ui.item);
+
+                // Find the closest row to apply the logic correctly
+                var row = $(selector).closest("tr");
+
+                // Check if typeId is 5
+                if (ui.item.typeId === 5) {
+                    console.log("🔄 Showing extra fields for typeId 5");
+
+                    // Show cheque-related fields
+                    row.find(".cheque-fields").show();
+                } else {
+                    console.log("🔄 Hiding extra fields for other types");
+
+                    // Hide cheque-related fields
+                    row.find(".cheque-fields").hide();
+                }
             }
         });
     },
 
     BindEvents: function () {
-        $(document).on("focus", ".typeahead", function () {
-            let transactionTypeCode = AccGLTransaction.valuTransactionType || $('#AccSetupTransactionTypeId').val();
-            console.log("✅ Fetching TransactionTypeCode on Focus:", transactionTypeCode);
-            AccGLTransaction.InitializeAutocomplete(this, transactionTypeCode);
+        $(document).keydown(function (e) {
+            if (e.altKey && e.shiftKey) {
+                const keyMap = {
+                    113: 'N ',  // Alt + Shift + F2 → New Transaction
+                    114: 'D ',  // Alt + Shift + F3 → Delete Transaction
+                    115: 'C ',  // Alt + Shift + F4 → Credit Transaction
+                    116: 'P ',  // Alt + Shift + F5 → Payment Transaction
+                    117: 'R ',  // Alt + Shift + F6 → Receipt Transaction
+                    118: 'J ',  // Alt + Shift + F7 → Journal Transaction
+                    119: 'S ',  // Alt + Shift + F8 → Sales Transaction
+                    120: 'H '   // Alt + Shift + F9 → History
+                };
+
+                if (keyMap[e.keyCode]) {
+                    $("#SelectedTransactionType").val(keyMap[e.keyCode]);
+                    AccGLTransaction.valuTransactionType();
+                    return false; // Prevent default browser action
+                }
+            }
+
+            if (e.altKey) {
+                const altKeyMap = {
+                    65: "#addRowButton",           // Alt + A → Add Row
+                    83: "#btnSave",          // Alt + S → Save Transaction
+                    114: "#remove-row",        // Alt + Delete → Delete Row
+                    69: "#edit-row",          // Alt + E → Edit Row
+                    80: "#btnPrint",         // Alt + P → Print Transaction
+                    76: "#btnClear",         // Alt + L → Clear Form
+                    82: "#btnRefresh",       // Alt + R → Refresh Page
+                    78: "#btnNewTransaction",// Alt + N → New Transaction
+                    84: "#btnSubmit",        // Alt + T → Submit Transaction
+                    72: "#btnHelp"           // Alt + H → Help
+                };
+
+                if (altKeyMap[e.keyCode]) {
+                    $(altKeyMap[e.keyCode]).click();
+                    return false;
+                }
+            }
+        });
+        $(document).on("input", ".debit-field", function () {
+            let row = $(this).closest("tr");
+            row.find(".credit-field").val(0); // Reset credit field
+            AccGLTransaction.calculateTotals();
+        });
+
+        $(document).on("input", ".credit-field", function () {
+            let row = $(this).closest("tr");
+            row.find(".debit-field").val(0); // Reset debit field
+            AccGLTransaction.calculateTotals();
         });
 
         $(document).on("click", ".remove-row", function () {
@@ -281,14 +367,18 @@
             AccGLTransaction.AddRow();
         });
 
-        $(document).on("input", ".debit-field, .credit-field", function () {
-            AccGLTransaction.calculateTotals();
-        });
 
         $(document).on("keypress", ".validate-number", function (e) {
             var charCode = e.which ? e.which : e.keyCode;
             if ((charCode < 48 || charCode > 57) && charCode !== 46) e.preventDefault();
             if (charCode === 46 && $(this).val().includes(".")) e.preventDefault();
+        });
+
+        $(document).on("click", ".edit-row", function (e) {
+            e.preventDefault();
+            var row = $(this).closest("tr");
+            console.log("🛠 Editing Row:", row.attr("id"));
+            row.find("input").prop("disabled", false);
         });
     }
 };

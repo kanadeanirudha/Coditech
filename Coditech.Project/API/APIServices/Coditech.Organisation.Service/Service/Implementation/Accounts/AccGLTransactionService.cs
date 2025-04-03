@@ -127,11 +127,6 @@ namespace Coditech.API.Service
             // Validate the input parameters
             if (string.IsNullOrEmpty(searchKeyword))
                 throw new CoditechException(ErrorCodes.InvalidData, "Search keyword cannot be empty.");
-
-            //if (accSetupGLId == 0)
-            //    throw new CoditechException(ErrorCodes.InvalidData, "Invalid AccSetupGLId.");
-
-            // Log the search request
             _coditechLogging.LogMessage($"Searching AccSetupGL for name: {searchKeyword}");
 
             // Fetch filtered data from AccSetupGL
@@ -140,6 +135,9 @@ namespace Coditech.API.Service
                 .Select(record => new AccSetupGLModel
                 {
                     GLName = record.GLName ?? string.Empty, // Prevents NULL values
+                    AccSetupGLId = record.AccSetupGLId,
+                    ParentAccSetupGLId = record.ParentAccSetupGLId,
+                    AccSetupGLTypeId = record.AccSetupGLTypeId,
                     GLCode = record.GLCode ?? string.Empty  // Prevents NULL values for GLCode
                 })
                 .ToList(); // Fetch data efficiently
