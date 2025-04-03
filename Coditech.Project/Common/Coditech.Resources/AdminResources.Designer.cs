@@ -218,6 +218,16 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteAccountSetupGL", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to Delete General Policy due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralPolicyMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralPolicyMaster", resourceCulture);
+            }
+        }
         public static string ErrorDeleteAccSetupMaster
         {
             get

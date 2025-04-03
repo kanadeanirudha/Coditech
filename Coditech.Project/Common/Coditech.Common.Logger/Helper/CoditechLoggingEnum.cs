@@ -132,7 +132,8 @@
             InventoryCategoryType,
             UserModuleMaster,
             ERP,
-            Hangfire
+            Hangfire,
+            PolicyMaster,
         }
     }
 }
