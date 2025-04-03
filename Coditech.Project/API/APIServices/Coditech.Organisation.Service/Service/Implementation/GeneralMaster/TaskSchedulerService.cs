@@ -1,12 +1,17 @@
 ﻿using Coditech.API.Data;
+using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
+using Coditech.Hangfire;
 using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using System.Data;
+using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
@@ -15,10 +20,12 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<TaskSchedulerMaster> _taskSchedulerRepository;
+        protected readonly IERPJobs _eRPJob;
         public TaskSchedulerService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
+            _eRPJob = _serviceProvider.GetService<IERPJobs>();
             _taskSchedulerRepository = new CoditechRepository<TaskSchedulerMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
@@ -53,22 +60,28 @@ namespace Coditech.API.Service
             TaskSchedulerMaster taskSchedulerData = _taskSchedulerRepository.Insert(taskScheduler);
             if (taskSchedulerData?.TaskSchedulerMasterId > 0)
             {
-                if (taskSchedulerData.ConfiguratorId == 0)
+                taskSchedulerModel.TaskSchedulerMasterId = taskSchedulerData.TaskSchedulerMasterId;
+                if (taskSchedulerModel.IsCronJob && taskSchedulerModel.IsEnabled)
                 {
-                    taskSchedulerData.ConfiguratorId = taskSchedulerData.TaskSchedulerMasterId;
-                    _taskSchedulerRepository.Update(taskSchedulerData);
+                    SetSchedulerParameters(taskSchedulerModel, ',');
+                    string hangfireJobId = null;
+                    bool schedulerStatus = true;
+                    schedulerStatus = _eRPJob.ConfigureJobs(taskSchedulerModel, out hangfireJobId, _coditechLogging);
+                    if (schedulerStatus)
+                    {
+                        taskSchedulerData.HangfireJobId = hangfireJobId;
+                        _taskSchedulerRepository.Update(taskSchedulerData);
+                    }
                 }
                 taskSchedulerModel.TaskSchedulerMasterId = taskSchedulerData.TaskSchedulerMasterId;
                 taskSchedulerModel.WeekDays = taskSchedulerData.WeekDays ?? "";
                 taskSchedulerModel.SelectedWeekDays = taskSchedulerData.WeekDays?.Split(',').ToList() ?? new List<string>();
-
             }
             else
             {
                 taskSchedulerModel.HasError = true;
                 taskSchedulerModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
-
             return taskSchedulerModel;
         }
 
@@ -90,7 +103,7 @@ namespace Coditech.API.Service
 
                 if (taskSchedulerModel.ExpireDate.HasValue)
                 {
-                    taskSchedulerModel.ExpireTime = taskScheduler.ExpireDate.Value.TimeOfDay; 
+                    taskSchedulerModel.ExpireTime = taskScheduler.ExpireDate.Value.TimeOfDay;
                 }
             }
             return taskSchedulerModel;
@@ -111,8 +124,6 @@ namespace Coditech.API.Service
 
             taskScheduler.ConfiguratorId = taskSchedulerMaster.ConfiguratorId;
             taskScheduler.SchedulerName = taskSchedulerMaster.SchedulerName;
-            //taskScheduler.SchedulerType = taskSchedulerMaster.SchedulerType;
-            // taskScheduler.RecurEvery = taskSchedulerMaster.RecurEvery;
             taskScheduler.WeekDays = taskSchedulerModel.SchedulerFrequency == "Weekly" && taskSchedulerModel.SelectedWeekDays != null && taskSchedulerModel.SelectedWeekDays.Any() ? string.Join(",", taskSchedulerModel.SelectedWeekDays) : "";
 
             //Update TaskScheduler
@@ -121,6 +132,37 @@ namespace Coditech.API.Service
             {
                 taskSchedulerModel.HasError = true;
                 taskSchedulerModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            else if (taskSchedulerModel.IsCronJob)
+            {
+                if (!taskSchedulerModel.IsEnabled)
+                {
+                    if (_eRPJob.RemoveJob(taskSchedulerModel))
+                    {
+                        taskSchedulerMaster.HangfireJobId = null;
+                        _taskSchedulerRepository.Update(taskSchedulerMaster);
+                    }
+                }
+                else
+                {
+                    string hangfireJobId = string.Empty;
+                    bool schedulerStatus = true;
+                    SetSchedulerParameters(taskSchedulerModel, ',');
+                    schedulerStatus = _eRPJob.ConfigureJobs(taskSchedulerModel, out hangfireJobId, _coditechLogging);
+                    if (schedulerStatus)
+                    {
+                        if (!string.IsNullOrEmpty(taskSchedulerMaster.HangfireJobId))
+                        {
+                            taskSchedulerMaster.HangfireJobId = hangfireJobId;
+                            _taskSchedulerRepository.Update(taskSchedulerMaster);
+                        }
+                    }
+                    else if (!schedulerStatus)
+                    {
+                        taskSchedulerModel.HasError = true;
+                        taskSchedulerModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                    }
+                }
             }
             return isTaskSchedulerUpdated;
         }
@@ -136,29 +178,16 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteTaskScheduler @TaskSchedulerMasterId,  @Status OUT", 1, out status);
-
-            return status == 1 ? true : false;
-        }
-
-        //Get ExecuteTaskScheduler by ExecuteTaskScheduler id.
-        public virtual TaskSchedulerModel ExecuteTaskScheduler(DateTime startTime)
-        {
-
-            // Get the ExecuteTaskScheduler Details based on id.
-            CoditechViewRepository<TaskSchedulerModel> objStoredProc =  new CoditechViewRepository<TaskSchedulerModel>(_serviceProvider.GetService<Coditech_Entities>());
-
-            objStoredProc.SetParameter("StartDate", startTime, ParameterDirection.Input, DbType.DateTime);
-            List<TaskSchedulerModel> taskSchedulerList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetTaskScheduler @StartDate").ToList();
-            DateTime currentTime = DateTime.Now;
-            var deleteLogSchedulers = taskSchedulerList.Where(x => x.SchedulerCallFor == SchedulerCallForEnum.DeleteLogMessage.ToString()).ToList();
-
-            foreach (TaskSchedulerModel taskScheduler in deleteLogSchedulers)
+            if (status == 1)
             {
-                TaskSchedulerModel taskSchedulerModel = taskScheduler.FromEntityToModel<TaskSchedulerModel>();
-                DeleteExecuteTaskScheduler(taskSchedulerModel);
+                int[] erpTaskSchedulerIdsArray = parameterModel.Ids.Split(',').Select(int.Parse).ToArray();
+                List<TaskSchedulerModel> taskSchedulerModelList = _taskSchedulerRepository.Table.Where(item => erpTaskSchedulerIdsArray.Contains(item.TaskSchedulerMasterId) && item.ConfiguratorId == 0)?.Select(x => x.FromEntityToModel<TaskSchedulerModel>())?.ToList();
+                if (taskSchedulerModelList?.Count > 0)
+                {
+                    _eRPJob.RemoveJob(taskSchedulerModelList);
+                }
             }
-
-            return new TaskSchedulerModel(); 
+            return status == 1 ? true : false;
         }
 
         #region Protected Method
@@ -174,26 +203,28 @@ namespace Coditech.API.Service
             else
             {
                 taskSchedulerModel.StartDate = taskSchedulerModel.StartDate + taskSchedulerModel.StartTime;
-                taskSchedulerModel.ExpireDate = taskSchedulerModel.ExpireDate + taskSchedulerModel.ExpireTime;
             }
         }
 
-        protected virtual void DeleteExecuteTaskScheduler(TaskSchedulerModel taskSchedulerModel)
+        //Set Scheduler Parameters
+        protected virtual void SetSchedulerParameters(TaskSchedulerModel erpTaskSchedulerModel, char separator = ' ')
         {
-
-            if (taskSchedulerModel.SchedulerCallFor == SchedulerCallForEnum.DeleteLogMessage.ToString())
+            switch (erpTaskSchedulerModel.SchedulerCallFor)
             {
-                CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-
-                objStoredProc.SetParameter("TaskSchedulerMasterId", taskSchedulerModel.TaskSchedulerMasterId, ParameterDirection.Input, DbType.Int32);
-                objStoredProc.SetParameter("RetentionPeriod", 30, ParameterDirection.Input, DbType.Int32);
-                objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
-
-                int status = 0;
-                objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteLogMessages @TaskSchedulerMasterId, @RetentionPeriod, @Status OUT", 1, out status);
+                case APIConstant.DeleteLogMessage:
+                    erpTaskSchedulerModel.ExeParameters = $"{BaseParameter(separator)}{erpTaskSchedulerModel.SchedulerCallFor}";
+                    break;
             }
+            _coditechLogging.LogMessage("ExeParameters value: ", CoditechLoggingEnum.Components.ERP.ToString(), TraceLevel.Verbose, erpTaskSchedulerModel?.ExeParameters);
         }
 
+        private string BaseParameter(char separator = ' ')
+        {
+            string apiDomainUrl = $"{HttpContextHelper.Current.Request.Scheme + "://"}{HttpContextHelper.Request.Headers[HeaderNames.Host]}";
+            string authValue = HttpContextHelper.Request.Headers[APIConstant.Authorization].ToString()?.Replace("Basic ", "");
+            long loginUserId = HelperMethods.GetLoginUserId();
+            return $"{apiDomainUrl}{separator}{authValue}{separator}{ApiSettings.ApiRequestTimeout}{separator}{loginUserId}";
+        }
         #endregion
     }
 }

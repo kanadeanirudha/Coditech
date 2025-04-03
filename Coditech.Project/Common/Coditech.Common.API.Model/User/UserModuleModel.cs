@@ -4,7 +4,6 @@ namespace Coditech.Common.API.Model
 {
     public class UserModuleModel : BaseModel
     {
-        [Required]
         public short UserModuleMasterId { get; set; }
 
         [MaxLength(50)]
@@ -27,5 +26,13 @@ namespace Coditech.Common.API.Model
         public string ModuleColorClass { get; set; }
 
         public string DefaultMenuLink { get; set; }
+        [MaxLength(50)]
+        public string ModuleRelatedWith { get; set; }
+        [MaxLength(50)]
+        public string ModuleFormName { get; set; }
+        [MaxLength(100)]
+        public string ModuleIconPath { get; set; }
+        public bool ModuleInstalledFlag { get; set; }
+        public bool ModuleActiveFlag { get; set; }
     }
 }

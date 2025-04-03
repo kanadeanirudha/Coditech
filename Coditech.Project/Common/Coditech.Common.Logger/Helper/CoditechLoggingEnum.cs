@@ -128,7 +128,12 @@
             TaskScheduler,
             AccGLTransaction, 
             AccSetupChartOfAccountTemplate,
-            UserType
+            UserType,
+            InventoryCategoryType,
+            UserModuleMaster,
+            ERP,
+            Hangfire,
+            PolicyMaster,
         }
     }
 }

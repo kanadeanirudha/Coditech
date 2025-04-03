@@ -98,3 +98,5 @@
 /Coditech.Project/API/APIServices/Coditech.Payment.Service/bin
 /Coditech.Project/API/APIServices/Coditech.Payment.Service/obj
 /SDKMerge
+/Coditech.Project/Common/Coditech.Hangfire/bin
+/Coditech.Project/Common/Coditech.Hangfire/obj

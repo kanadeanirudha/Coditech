@@ -92,7 +92,9 @@
         CentrewiseAccountBalanceSheet,
         LimitedDataAccess,
         DashboardDaysDropDown,
-        UserTypeList
+        UserTypeList,
+        Currency,
+        InventoryCategoryType,
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -259,6 +261,7 @@
         OneTime,
         Daily,
         Weekly,
+        Recurring
         //Monthlyum
     }
     public enum SchedulerTypeEnum

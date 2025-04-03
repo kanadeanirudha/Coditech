@@ -28,6 +28,7 @@ namespace Coditech.Admin
             CreateMap<AccGLTransactionViewModel, AccGLTransactionListViewModel>().ReverseMap();
             CreateMap<AccSetupGLTypeModel, AccSetupGLTypeViewModel>().ReverseMap();
             CreateMap<AccSetupGLTypeViewModel, AccSetupGLTypeListViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseAccountSetupModel, OrganisationCentrewiseAccountSetupViewModel>().ReverseMap();
             #endregion
 
             #region Admin 
@@ -109,8 +110,16 @@ namespace Coditech.Admin
             CreateMap<GeneralCurrencyMasterListModel, GeneralCurrencyMasterListViewModel>().ReverseMap();
             CreateMap<TaskSchedulerModel, TaskSchedulerViewModel>().ReverseMap();
             CreateMap<TaskSchedulerListModel, TaskSchedulerListViewModel>().ReverseMap();
-            #endregion            
-               
+            CreateMap<UserModuleModel, UserModuleViewModel>().ReverseMap();
+            CreateMap<UserModuleListModel, UserModuleListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyModel, GeneralPolicyViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyListModel, GeneralPolicyListViewModel>().ReverseMap();
+            #endregion
+            #region
+            CreateMap<UserTypeModel, UserTypeViewModel>().ReverseMap();
+            CreateMap<UserTypeListModel, UserTypeListViewModel>().ReverseMap();
+            #endregion
+
             #region Organisation
             CreateMap<OrganisationModel, OrganisationMasterViewModel>().ReverseMap();
             CreateMap<OrganisationCentreModel, OrganisationCentreViewModel>().ReverseMap();
@@ -205,6 +214,8 @@ namespace Coditech.Admin
             CreateMap<InventoryItemTrackingDimensionGroupListModel, InventoryItemTrackingDimensionGroupListViewModel>().ReverseMap();
             CreateMap<InventoryGeneralItemMasterModel, InventoryGeneralItemMasterViewModel>().ReverseMap();
             CreateMap<InventoryGeneralItemMasterListModel, InventoryGeneralItemMasterListViewModel>().ReverseMap();
+            CreateMap<InventoryCategoryTypeModel, InventoryCategoryTypeViewModel>().ReverseMap();
+            CreateMap<InventoryCategoryTypeListModel, InventoryCategoryTypeListViewModel>().ReverseMap();
             #endregion
 
             #region Password

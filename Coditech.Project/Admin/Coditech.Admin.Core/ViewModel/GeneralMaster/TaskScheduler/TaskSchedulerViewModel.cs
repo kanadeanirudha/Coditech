@@ -1,5 +1,4 @@
 ﻿using Coditech.Common.Helper;
-using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,7 +10,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         public int TaskSchedulerMasterId { get; set; }
         [Required]
-        public int ConfiguratorId { get; set; }
+        public int ConfiguratorId { get; set; }        
         [Display(Name = "Scheduler Name")]
         public string SchedulerName { get; set; }
         [Display(Name = "Scheduler Type")]
@@ -33,6 +32,10 @@ namespace Coditech.Admin.ViewModel
         public string OnDays { get; set; }
         public string OnMonths { get; set; }
         public int RecurEvery { get; set; }
+        
+        [Display(Name = "Cron Expression")]
+        public string CronExpression { get; set; }
+        public string HangfireJobId { get; set; }
         [Display(Name = "Is Monthly Days")]
         public bool IsMonthlyDays { get; set; }
         [Display(Name = "Is Active")]
@@ -46,5 +49,6 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "End Time")]
         public TimeSpan ExpireTime { get; set; }
+        public bool IsCronJob { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Coditech.API.Data;
-using Coditech.API.ServiceAccounts;
+﻿using Coditech.API.ServiceAccounts;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
+using Coditech.Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,6 +31,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IGeneralMeasurementUnitMasterService, GeneralMeasurementUnitMasterService>();
             builder.Services.AddScoped<IGeneralRunningNumbersService, GeneralRunningNumbersService>();
             builder.Services.AddScoped<IGeneralLeadGenerationMasterService, GeneralLeadGenerationMasterService>();
+            builder.Services.AddScoped<IGeneralUserModuleMasterService, GeneralUserModuleMasterService>();
             builder.Services.AddScoped<IGeneralUserMainMenuMasterService, GeneralUserMainMenuMasterService>();
             builder.Services.AddScoped<ICoditechApplicationSettingService, CoditechApplicationSettingService>();
             builder.Services.AddScoped<IGeneralSmsProviderMasterService, GeneralSmsProviderService>();
@@ -41,6 +42,9 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IGeneralBatchMasterService, GeneralBatchMasterService>();
             builder.Services.AddScoped<IGeneralCurrencyMasterService, GeneralCurrencyMasterService>();
             builder.Services.AddScoped<ITaskSchedulerService, TaskSchedulerService>();
+            builder.Services.AddScoped<IUserTypeService, UserTypeService>();
+            builder.Services.AddScoped<IERPJobs, ERPJobs>();
+            builder.Services.AddScoped<IGeneralPolicyMasterService, GeneralPolicyMasterService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
@@ -86,6 +90,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IInventoryUoMMasterService, InventoryUoMMasterService>();
             builder.Services.AddScoped<IInventoryStorageDimensionGroupService, InventoryStorageDimensionGroupService>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupService, InventoryItemTrackingDimensionGroupService>();
+            builder.Services.AddScoped<IInventoryCategoryTypeService, InventoryCategoryTypeService>();
             #endregion
 
             #region Accounts
@@ -99,6 +104,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateService, AccSetupChartOfAccountTemplateService>();
             builder.Services.AddScoped<IAccSetupGLTypeService, AccSetupGLTypeService>();
             builder.Services.AddScoped<IAccGLTransactionService, AccGLTransactionService>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupService, OrganisationCentrewiseAccountSetupService>();
             #endregion
 
         }

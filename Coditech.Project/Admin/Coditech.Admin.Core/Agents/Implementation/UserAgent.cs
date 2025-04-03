@@ -207,7 +207,7 @@ namespace Coditech.Admin.Agents
         public virtual UserTypeListModel GetUserTypeList()
         {
             UserTypeListResponse response = _userClient.GetUserTypeList();
-            UserTypeListModel userTypeListModel = new UserTypeListModel() { TypeList = response?.UserTypeList };
+            UserTypeListModel userTypeListModel = new UserTypeListModel() { TypeList = response?.TypeList };
             return userTypeListModel;
             
         }

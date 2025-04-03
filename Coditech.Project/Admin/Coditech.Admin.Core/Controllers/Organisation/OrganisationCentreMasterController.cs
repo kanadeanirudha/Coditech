@@ -331,7 +331,8 @@ namespace Coditech.Admin.Controllers
         {
             List<SelectListItem> UserTypeList = new List<SelectListItem>();
             UserTypeList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
-            var userTypeList = _userTypeAgent.GetUserTypeList().TypeList;
+            var userTypeList = _userTypeAgent.GetUserTypeList().TypeList.Where(x => x.UserTypeCode != "Admin" && x.UserTypeCode != "Branch");
+            
             foreach (var item in userTypeList)
             {
                 if (organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId == 0 &&
