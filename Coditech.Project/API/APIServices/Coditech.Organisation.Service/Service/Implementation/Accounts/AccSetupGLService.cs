@@ -33,7 +33,7 @@ namespace Coditech.API.ServiceAccounts
             _accSetupGLBankRepository = new CoditechRepository<AccSetupGLBank>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        // Get BalanceSheetAndCentreCode
+        // Get GetAccSetupGLTree
         public virtual AccSetupGLModel GetAccSetupGLTree(string selectedcentreCode, byte accSetupBalanceSheetTypeId, int accSetupBalanceSheetId)
         {
             if (accSetupBalanceSheetId <= 0)
@@ -109,7 +109,6 @@ namespace Coditech.API.ServiceAccounts
                                         IsSystemGenerated = a.IsSystemGenerated,
                                         SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId) // Recursive call
                                     }).ToList();
-
             return allAccounts1;
         }
         //Create CreateAccountSetupGL.
@@ -201,7 +200,6 @@ namespace Coditech.API.ServiceAccounts
                 IsGroup = accSetupGLModel.IsGroup,
                 SelectedCentreCode = accSetupGLModel.SelectedCentreCode,
                 IsControlHeadEnum = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
-
             };
 
             // Map the model to an entity.
@@ -306,23 +304,17 @@ namespace Coditech.API.ServiceAccounts
             _accSetupGLRepository.Update(accSetupGLMaster);
 
             //Update AccsetupGLBank If AccsetupglTypeId = 5 //
-            if (accSetupGLModel.AccSetupGLTypeId == 5 && accSetupGLModel.AccSetupGLBankList != null)
+            if (accSetupGLModel.AccSetupGLTypeId == 5)
             {
-                foreach (var item in accSetupGLModel.AccSetupGLBankList)
-                {
-                    var existingBankRecord = _accSetupGLBankRepository.Table
-                        .FirstOrDefault(b => b.AccSetupGLId == accSetupGLModel.AccSetupGLId && b.BankAccountNumber == item.BankAccountNumber);
+                var existingBankRecord = _accSetupGLBankRepository.Table
+                    .FirstOrDefault(b => b.AccSetupGLId == accSetupGLModel.AccSetupGLId && b.BankAccountNumber == accSetupGLModel.BankAccountNumber);
 
-                    if (existingBankRecord != null)
-                    {
-                        existingBankRecord.BankAccountName = item.BankAccountName;
-                        existingBankRecord.BankBranchName = item.BankBranchName;
-                        existingBankRecord.BankLimitAmount = item.BankLimitAmount;
-                        existingBankRecord.RateOfInterest = item.RateOfInterest;
-                        existingBankRecord.InterestMode = item.InterestMode;
-                        existingBankRecord.IFSCCode = item.IFSCCode.ToUpper();
-                        _accSetupGLBankRepository.Update(existingBankRecord);
-                    }
+                if (existingBankRecord != null)
+                {
+                    existingBankRecord.BankAccountName = accSetupGLModel.BankAccountName;
+                    existingBankRecord.BankBranchName = accSetupGLModel.BankBranchName;
+                    existingBankRecord.IFSCCode = accSetupGLModel.IFSCCode.ToUpper();
+                    _accSetupGLBankRepository.Update(existingBankRecord);
                 }
             }
             return true;

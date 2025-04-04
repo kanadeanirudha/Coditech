@@ -13,7 +13,6 @@ var AccSetupGL = {
             if (typeof Initialize === 'function') {
                 Initialize();
             } else {
-                console.error("Initialize function is not defined on page load");
             }
 
             $('#addChildForm').on('submit', function (e) {
@@ -23,37 +22,25 @@ var AccSetupGL = {
 
                 // Get form action from the form's 'action' attribute
                 let actionUrl = $(this).attr('action');
-                console.log('Form Action:', actionUrl);
 
                 if (mode === 'edit') {
-                    console.log("✏ Edit Mode Triggered");
 
-
-                    // 👉 Call AddChild when creating
-
-
+                    // 👉 Call SaveAccountSetupGL when editing 
                     AccSetupGL.SaveAccountSetupGL();
 
                 } else if (mode === 'create') {
-                    console.log("🔼 Create Mode Triggered");
                     AccSetupGL.AddChild();
-                    // 👉 Call SaveAccountSetupGL when editing
-
+                    // 👉 Call AddChild when editing
                 }
             });
             $('#addForm').on('submit', function (e) {
                 e.preventDefault();
                 let formData = $(this).serialize();
                 let mode = $(this).data('mode'); // ✅ Correct data attribute
-                console.log('Form Mode:', mode);
 
                 // Get form action from the form's 'action' attribute
                 let actionUrl = $(this).attr('action');
-                console.log('Form Action:', actionUrl);
-
                 if (mode === 'edit') {
-                    console.log("✏ Edit Mode Triggered");
-
 
                     // 👉 Call AddChild when creating
 
@@ -61,16 +48,10 @@ var AccSetupGL = {
                         if (response.success) {
                             alert(response.message, "asgag");
                         } else {
-                            console.error("❌ Error:", response.message);
                         }
                     });
-                    //AccSetupGL.SaveAccountSetupGL();
-
-                } else if (mode === 'create') {
-                    console.log("🔼 Create Mode Triggered");
-                    //AccSetupGL.AddChild();
-                    // 👉 Call SaveAccountSetupGL when editing
-
+                }
+                else if (mode === 'create') {
                 }
             });
             function handleResponse(response) {
@@ -109,6 +90,30 @@ var AccSetupGL = {
                     $(this).hide();
                 }
             });
+            $('#addChildForm').modal('hide').on('hidden.bs.modal', function () {
+                $('#addChildForm')[0].reset();
+                $('#AddForm').empty();
+                $('#bankContainer').empty();
+                $(".text-danger").text("");
+                console.log("🧹 3Modal fully reset on close");
+                let url = window.location.origin + window.location.pathname +
+                    '?selectedCentreCode=' + ( $("#SelectedCentreCode").val() || '') +
+                    '&accSetupBalanceSheetTypeId=' + ($("#AccSetupBalanceSheetTypeId").val() || '') +
+                    '&accSetupBalancesheetId=' + ($("#AccSetupBalancesheetId").val() || '');
+
+                setTimeout(function () {
+                    window.location.href = url;
+                }, 100);
+                $(this).off('hidden.bs.modal'); // Remove handler to avoid multiple bindings
+            });
+            $('#addChildForm').on('data-bs-dismiss', function () {
+                $('#addChildForm')[0].reset();
+                $('#bankContainer').empty();
+                $('#AddForm').empty();
+                $(".text-danger").text("");
+                //location.reload();
+                console.log("🧹 4Modal reset on cancel");
+            });
             // Bind change event for the GL Type dropdown
             $("#AccSetupGLTypeId").on("change", function () {
                 let value = $(this).val();
@@ -133,7 +138,6 @@ var AccSetupGL = {
             });
             // Bind click event for submitting a new child account
             $(document).off("click", "#submitAddChild").on("click", "#submitAddChild", function () {
-                AccSetupGL.AddChild();
             });
             // Bind click event for delete button
             $(document).off("click", ".del-child-btn").on("click", ".del-child-btn", function () {
@@ -170,6 +174,7 @@ var AccSetupGL = {
                 $("body").append(modalHtml);
                 $("#confirmDeleteModal").modal("show");
             });
+
             // Bind click event for confirmation of delete
             $(document).off("click", "#confirmDelete").on("click", "#confirmDelete", function () {
                 var glId = $(this).data("glid");
@@ -211,6 +216,7 @@ var AccSetupGL = {
             });
         });
     },
+
     SaveAccountSetupGL: function () {
         let formData = new FormData();
         let accSetupGLTypeId = $('select[name="AccSetupGLTypeId"]').val();
@@ -242,15 +248,21 @@ var AccSetupGL = {
             contentType: false,
             success: function (response) {
                 if (response.success) {
-                    let url = window.location.origin + window.location.pathname;
-                    window.location.href = url;
+                    $('#addChildModal').modal('hide');
+                    CoditechNotification.DisplayNotificationMessage(response.message, "success");
+                    let url = window.location.origin + window.location.pathname +
+                        '?selectedCentreCode=' + ($("#SelectedCentreCode").val() || '') +
+                        '&accSetupBalanceSheetTypeId=' + ($("#AccSetupBalanceSheetTypeId").val() || '') +
+                        '&accSetupBalancesheetId=' + ($("#AccSetupBalancesheetId").val() || '');
+                    setTimeout(function () {
+                        window.location.href = url;
+                    }, 100);
 
                 } else {
                     CoditechNotification.DisplayNotificationMessage("error");
                 }
             },
             error: function (xhr) {
-                console.error("❌ Error:", xhr.responseText);
                 alert("An error occurred while saving data.");
             }
         });
@@ -263,7 +275,6 @@ var AccSetupGL = {
         $('input[name="AccSetupCategoryId"]').val(categoryId);
         $('#childGLName, #childGLCode').val("");
         $('#addChildModal').modal('show');
-
         var balanceSheetId = $("#AccSetupBalancesheetId").val();
         var balanceSheetTypeId = $("#AccSetupBalanceSheetTypeId").val();
         var chartTemplateId = $("#AccSetupChartOfAccountTemplateId").val();
@@ -272,12 +283,11 @@ var AccSetupGL = {
         $('input[name="AccSetupBalanceSheetTypeId"]').val(balanceSheetTypeId);
         $('input[name="AccSetupChartOfAccountTemplateId"]').val(chartTemplateId);
         $('input[name="SelectedCentreCode"]').val(selectedCentreCode);
-        console.log("Form Mode (Create):", $('#addChildModal').data('mode'));
+        $('#addChildModal').data('mode');
     },
 
     // Adds a child GL account via AJAX
     AddChild: function () {
-
         $(".text-danger").text(""); // Clear previous validation messages
         let isValid = true;
         let accSetupGLTypeId = $("#AccSetupGLTypeId").val().trim();
@@ -348,7 +358,6 @@ var AccSetupGL = {
                 IFSCCode: ifscCode,
                 BankAccountNumber: bankAccountNumber
             };
-            console.log("✅ Bank Model:", bankModel); // Debugging log
         }
         // ✅ Store JSON Data in Hidden Field Only If AccSetupGLTypeId is 5
         if (bankModel) {
@@ -360,7 +369,6 @@ var AccSetupGL = {
         // ✅ Final Check Before Submitting
         if (!isValid) return;
         // ✅ Proceed with Form Submission
-        console.log("✅ All validations passed. Submitting form...");
         var formData = $("#addChildForm").serialize();
 
         $.ajax({
@@ -394,6 +402,7 @@ var AccSetupGL = {
             }
         });
     },
+
     OpenCreateChildModal: function (parentId, categoryId) {
         $('#addChildForm')[0].reset();
         $('#addChildForm').attr('data-mode', 'create'); // Set mode to Create
@@ -404,9 +413,8 @@ var AccSetupGL = {
         $('input[name="ParentAccSetupGLId"]').val(parentId);
         $('input[name="AccSetupCategoryId"]').val(categoryId);
         AccSetupGL.loadAccountSetupGL(glId);
-        // ✅ Fetch existing data using AJAX to populate fields
-
     },
+
     loadAccountSetupGL: function (accSetupGLId) {
         $.ajax({
             type: "GET",
@@ -417,20 +425,13 @@ var AccSetupGL = {
                     // ✅ Populate general fields
                     $('input[name="GLName"]').val(response.data.glName || '');
                     $('input[name="GLCode"]').val(response.data.glCode || '');
-
-                    // Removed the disable functionality for AccSetupGLTypeId
                     $('select[name="AccSetupGLTypeId"]').val(response.data.accSetupGLTypeId || '').change();
-
-                    // Removed the disable functionality for UserTypeId
                     $('select[name="UserTypeId"]').val(response.data.userTypeId || '').change();
-
-                    // Other general fields
                     $('input[name="IsGroup"]').prop('checked', !!response.data.isGroup);
                     $('input[name="IsGroup"]').prop('checked', response.data.isGroup);
-
                     $('#addChildForm').attr('data-mode', 'edit'); // Set mode to Edit
 
-                    if (response.data.accSetupGLTypeId !== 5 && response.data.accSetupGLTypeId !== 4) { // 5 = Bank, 4 = Cash
+                    if (response.data.accSetupGLTypeId !== 5 && response.data.accSetupGLTypeId !== 4) {
                         $('select[name="UserTypeId"]').val(response.data.userTypeId || $('select[name="UserTypeId"] option:first').val()).change();
                     } else {
                         $('select[name="UserTypeId"]').val(response.data.userTypeId || '').change();
@@ -441,11 +442,10 @@ var AccSetupGL = {
                     $('input[name="AccSetupChartOfAccountTemplateId"]').val(response.data.accSetupChartOfAccountTemplateId || '');
                     $('input[name="AccSetupGLTypeId"]').val(response.data.accSetupGLTypeId || '');
 
-                    // ✅ Handle Control Head Enum: Disable if accSetupGLTypeId is 7
                     setTimeout(() => {
                         $('input[name="BankAccountName"]').val(response.data['bankAccountName'] || '');
                         $('input[name="BankAccountNumber"]').val(response.data['bankAccountNumber'] || '')
-                            .attr('disabled', 'disabled'); // ✅ Alternative method to disable input
+                            .attr('disabled', 'disabled'); 
                         $('input[name="BankBranchName"]').val(response.data['bankBranchName'] || '');
                         $('input[name="IFSCCode"]').val(response.data['iFSCCode'] || '').attr('disabled', 'disabled');
                     }, 100);
@@ -483,11 +483,11 @@ var AccSetupGL = {
                 }
             },
             error: function (xhr, status, error) {
-                console.error("❌ Error fetching Account Setup GL:", xhr.responseText);
                 CoditechNotification.DisplayNotificationMessage("An error occurred while loading data.", "error");
             }
         });
     },
+
     // ✅ Move renderChildModel OUTSIDE the loadAccountSetupGL function
     renderChildModel: function (model) {
         $.ajax({
@@ -530,6 +530,7 @@ var AccSetupGL = {
             }
         });
     },
+
     GetAccSetupBalanceSheetId: function () {
         $('#DataTables_SearchById').val("");
         if ($("#SelectedCentreCode").val() == "") {
@@ -608,7 +609,6 @@ var AccSetupGL = {
             CoditechNotification.DisplayNotificationMessage("Please select Centre and Balance Sheet Type and BalanceSheet.", "error");
         }
     }
-
 };
 function handleGLTypeChange() {
     let glTypeId = parseInt($('#AccSetupGLTypeId').val());

@@ -134,22 +134,9 @@
 
         return html;
     }
-
 }
-
 <!-- Set global variables if needed -->
 <script>
     var actionMode = '@Model.ActionMode';
 </script>
-
-<!-- External JS files -->
 <script src="~/js/coditech/Accounts/AccSetupGL.js"></script>
-
-<!-- Optional: Call JS functions explicitly after the DOM is loaded -->
-<script>
-    $(document).ready(function () {
-        if (typeof AccSetupGL !== "undefined" && typeof AccSetupGL.Initialize === "function") {
-            AccSetupGL.Initialize();
-        }
-    });
-</script>

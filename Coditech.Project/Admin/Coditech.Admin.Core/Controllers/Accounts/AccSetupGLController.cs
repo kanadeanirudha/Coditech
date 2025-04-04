@@ -77,7 +77,6 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("GetAccSetupGL", new { selectedcentreCode = accSetupGLModel.SelectedCentreCode, accSetupBalanceSheetTypeId = accSetupGLModel.AccSetupBalanceSheetTypeId, accSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId });
             }
             return RedirectToAction("GetAccSetupGL", new { selectedcentreCode = accSetupGLModel.SelectedCentreCode, accSetupBalanceSheetTypeId = accSetupGLModel.AccSetupBalanceSheetTypeId, accSetupBalanceSheetId = accSetupGLModel.AccSetupBalancesheetId });
-
         }
         [HttpPost]
         public virtual ActionResult AddChild(AccSetupGLModel accSetupGLModel)
@@ -93,7 +92,6 @@ namespace Coditech.Admin.Controllers
             accSetupGLModel.IsControlHeadEnum = accSetupGLModel.UserTypeId;
 
             accSetupGLModel = _accSetupGLAgent.AddChild(accSetupGLModel);
-
             if (accSetupGLModel != null && !accSetupGLModel.HasError)
             {
                 string newHtml = $@"<div id='gl-{accSetupGLModel.AccSetupGLId}'style='padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:4px;background-color:#f9f9f9; display:flex; align-items:center;'> <span style='font-weight:bold; color:#333;'> {accSetupGLModel.GLName}</span></div>";
@@ -131,7 +129,6 @@ namespace Coditech.Admin.Controllers
             {
                 string message;
                 bool status = _accSetupGLAgent.DeleteAccountSetupGL(accSetupGLIds, out message);
-
                 if (status)
                 {
                     return Json(new { success = true, message = "Record deleted successfully.", accountId = accSetupGLIds });
@@ -173,7 +170,6 @@ namespace Coditech.Admin.Controllers
                     parentAccSetupGLId = accSetupGLModel.ParentAccSetupGLId,
                     selectedCentreCode = accSetupGLModel.SelectedCentreCode,
                     usertypeid = accSetupGLModel.IsControlHeadEnum
-
                 }
             });
         }
@@ -204,27 +200,19 @@ namespace Coditech.Admin.Controllers
                     BankAccountNumber = Request.Form.ContainsKey("bankAccountNumber") ? Request.Form["bankAccountNumber"].ToString() : string.Empty,
                     BankBranchName = Request.Form.ContainsKey("bankBranchName") ? Request.Form["bankBranchName"].ToString() : string.Empty,
                     IFSCCode = Request.Form.ContainsKey("iFSCCode") ? Request.Form["iFSCCode"].ToString() : string.Empty
-                    //AccSetupBalanceSheetTypeId = Convert.ToInt16(Request.Form["accSetupBalanceSheetTypeId"]),
                 };
                 if (ModelState.IsValid)
                 {
                     accSetupGLModel = _accSetupGLAgent.UpdateAccount(accSetupGLModel);
-                    SetNotificationMessage(GetSuccessNotificationMessage("Record Updated Successfully."));
-                    return Json(new { success = true });
-
-                    //return RedirectToAction("GetAccSetupGL", new { selectedcentreCode = model.SelectedCentreCode, accSetupBalanceSheetTypeId = model.AccSetupBalanceSheetTypeId, accSetupBalanceSheetId = model.AccSetupBalancesheetId });
+                    return Json(new { success = true, message = "Record Updated successfully!" });
                 }
-
-                // ✅ Log data for debugging
-                //System.Diagnostics.Debug.WriteLine($"Model Data: {Newtonsoft.Json.JsonConvert.SerializeObject(accSetupGLModel)}");
-
-                // ✅ Return success response
-                return Json(new { success = true, message = accSetupGLModel.ErrorMessage, data = accSetupGLModel });
+                else
+                {
+                    return Json(new { success = true, accSetupGLModel = !accSetupGLModel.HasError, message = accSetupGLModel.ErrorMessage, data = accSetupGLModel });
+                }
             }
             catch (Exception ex)
             {
-                // ✅ Log the error for debugging
-                //System.Diagnostics.Debug.WriteLine($"❌ Error: {ex.Message}");
                 return Json(new { success = false, message = $"An error occurred: {ex.Message}" });
             }
         }
