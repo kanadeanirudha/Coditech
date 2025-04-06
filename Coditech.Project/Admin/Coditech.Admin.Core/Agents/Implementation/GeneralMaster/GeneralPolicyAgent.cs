@@ -80,9 +80,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get general Policy by general Policy master id.
-        public virtual GeneralPolicyViewModel GetPolicy(short generalPolicyMasterId)
+        public virtual GeneralPolicyViewModel GetPolicy(string policyCode)
         {
-            GeneralPolicyResponse response = _generalPolicyClient.GetPolicy(generalPolicyMasterId);
+            GeneralPolicyResponse response = _generalPolicyClient.GetPolicy(policyCode);
             return response?.GeneralPolicyModel.ToViewModel<GeneralPolicyViewModel>();
         }
 
@@ -116,14 +116,14 @@ namespace Coditech.Admin.Agents
         }
 
         //Delete generalPolicy.
-        public virtual bool DeletePolicy(string generalPolicyMasterId, out string errorMessage)
+        public virtual bool DeletePolicy(string policyCode, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _generalPolicyClient.DeletePolicy(new ParameterModel { Ids = generalPolicyMasterId });
+                TrueFalseResponse trueFalseResponse = _generalPolicyClient.DeletePolicy(new ParameterModel { Ids = policyCode });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -146,6 +146,115 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+
+        //Policy Rules List.
+        public virtual GeneralPolicyRulesListViewModel GetGeneralPolicyRulesList(string policyCode,DataTableViewModel dataTableModel)
+        {
+            GeneralPolicyRulesListResponse response = _generalPolicyClient.GetGeneralPolicyRulesList(policyCode, null);
+            GeneralPolicyRulesListModel generalPolicyRulesListModel = new GeneralPolicyRulesListModel { GeneralPolicyRulesList = response?.GeneralPolicyRulesList };
+            GeneralPolicyRulesListViewModel listViewModel = new GeneralPolicyRulesListViewModel();
+            listViewModel.GeneralPolicyRulesList = generalPolicyRulesListModel?.GeneralPolicyRulesList?.ToViewModel<GeneralPolicyRulesViewModel>().ToList();
+
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralPolicyRulesList.Count, BindPolicyRulesColumns());
+            listViewModel.PolicyCode =policyCode;
+            return listViewModel;
+        }
+
+        //Create General Policy Rules.
+        public virtual GeneralPolicyRulesViewModel CreatePolicyRules(GeneralPolicyRulesViewModel generalPolicyRulesViewModel)
+        {
+            try
+            {
+                GeneralPolicyRulesResponse response = _generalPolicyClient.CreatePolicyRules(generalPolicyRulesViewModel.ToModel<GeneralPolicyRulesModel>());
+                GeneralPolicyRulesModel generalPolicyRulesModel = response?.GeneralPolicyRulesModel;
+                return IsNotNull(generalPolicyRulesModel) ? generalPolicyRulesModel.ToViewModel<GeneralPolicyRulesViewModel>() : new GeneralPolicyRulesViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (GeneralPolicyRulesViewModel)GetViewModelWithErrorMessage(generalPolicyRulesViewModel, ex.ErrorMessage);
+                    default:
+                        return (GeneralPolicyRulesViewModel)GetViewModelWithErrorMessage(generalPolicyRulesViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                return (GeneralPolicyRulesViewModel)GetViewModelWithErrorMessage(generalPolicyRulesViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get general Policy by general Policy Rules id.
+        public virtual GeneralPolicyRulesViewModel GetPolicyRules(short generalPolicyRulesId)
+        {
+            GeneralPolicyRulesResponse response = _generalPolicyClient.GetPolicyRules(generalPolicyRulesId);
+            return response?.GeneralPolicyRulesModel.ToViewModel<GeneralPolicyRulesViewModel>();
+        }
+
+        //Update generalPolicyRules.
+        public virtual GeneralPolicyRulesViewModel UpdatePolicyRules(GeneralPolicyRulesViewModel generalPolicyRulesViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Info);
+                GeneralPolicyRulesResponse response = _generalPolicyClient.UpdatePolicyRules(generalPolicyRulesViewModel.ToModel<GeneralPolicyRulesModel>());
+                GeneralPolicyRulesModel generalPolicyRulesModel = response?.GeneralPolicyRulesModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Info);
+                return IsNotNull(generalPolicyRulesModel) ? generalPolicyRulesModel.ToViewModel<GeneralPolicyRulesViewModel>() : (GeneralPolicyRulesViewModel)GetViewModelWithErrorMessage(new GeneralPolicyRulesViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (GeneralPolicyRulesViewModel)GetViewModelWithErrorMessage(generalPolicyRulesViewModel, ex.ErrorMessage);
+                    default:
+                        return (GeneralPolicyRulesViewModel)GetViewModelWithErrorMessage(generalPolicyRulesViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                return (GeneralPolicyRulesViewModel)GetViewModelWithErrorMessage(generalPolicyRulesViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        //Delete generalPolicyRules.
+        public virtual bool DeletePolicyRules(string generalPolicyRulesId, out string errorMessage)
+        {
+            errorMessage = GeneralResources.ErrorFailedToDelete;
+
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Info);
+                TrueFalseResponse trueFalseResponse = _generalPolicyClient.DeletePolicyRules(new ParameterModel { Ids = generalPolicyRulesId });
+                return trueFalseResponse.IsSuccess;
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AssociationDeleteError:
+                        errorMessage = AdminResources.ErrorDeleteGeneralPolicyMaster;
+                        return false;
+                    default:
+                        errorMessage = GeneralResources.ErrorFailedToDelete;
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                errorMessage = GeneralResources.ErrorFailedToDelete;
+                return false;
+            }
+        }
+
         #endregion
 
         #region protected
@@ -181,6 +290,43 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Is Active",
                 ColumnCode = "IsPolicyActive",
                 IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Common Policy",
+                ColumnCode = "IsCommonPolicy",
+                IsSortable = true,
+            });
+            return datatableColumnList;
+        }
+
+        protected virtual List<DatatableColumns> BindPolicyRulesColumns()
+        {
+            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Policy Question Description",
+                ColumnCode = "PolicyQuestionDescription",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Policy Range",
+                ColumnCode = "PolicyRange",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Policy Default Answer",
+                ColumnCode = "PolicyDefaultAnswer",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Policy Ans Type",
+                ColumnCode = "PolicyAnsType",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Range Separate By",
+                ColumnCode = "RangeSeparateBy",              
             });
             return datatableColumnList;
         }

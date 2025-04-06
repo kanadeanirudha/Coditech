@@ -71,6 +71,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralCurrencyMaster, GeneralCurrencyMasterModel>().ReverseMap();
             CreateMap<UserType, UserTypeModel>().ReverseMap();
             CreateMap<GeneralPolicyMaster, GeneralPolicyModel>().ReverseMap();
+            CreateMap<GeneralPolicyRules, GeneralPolicyRulesModel>().ReverseMap();
 
 
             #region User

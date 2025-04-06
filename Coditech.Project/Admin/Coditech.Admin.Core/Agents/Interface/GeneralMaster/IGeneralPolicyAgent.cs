@@ -22,9 +22,9 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// Get Policy by generalPolicyMasterId.
         /// </summary>
-        /// <param name="generalPolicyMasterId">generalPolicyMasterId</param>
+        /// <param name="policyCode">policyCode</param>
         /// <returns>Returns GeneralPolicyViewModel.</returns>
-        GeneralPolicyViewModel GetPolicy(short generalPolicyMasterId);
+        GeneralPolicyViewModel GetPolicy(string policyCode);
 
         /// <summary>
         /// Update Policy.
@@ -38,6 +38,41 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="generalPolicyMasterId">generalPolicyMasterId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
-        bool DeletePolicy(string generalPolicyMasterId, out string errorMessage);
+        bool DeletePolicy(string policyCode, out string errorMessage);
+
+        /// <summary>
+        /// Get list of Policy Rules.
+        /// </summary>
+        /// <param name="dataTableModel">DataTable ViewModel.</param>
+        /// <returns>GeneralPolicyRulesListViewModel</returns>
+        GeneralPolicyRulesListViewModel GetGeneralPolicyRulesList(string policyCode,DataTableViewModel dataTableViewModel);
+
+        /// <summary>
+        /// Create Policy Rules.
+        /// </summary>
+        /// <param name="generalPolicyViewModel">General Policy View Model.</param>
+        /// <returns>Returns created model.</returns>
+        GeneralPolicyRulesViewModel CreatePolicyRules(GeneralPolicyRulesViewModel generalPolicyViewModel);
+
+        /// <summary>
+        /// Get Policy by generalPolicyRulesId.
+        /// </summary>
+        /// <param name="generalPolicyRulesId">generalPolicyRulesId</param>
+        /// <returns>Returns GeneralPolicyRulesViewModel.</returns>
+        GeneralPolicyRulesViewModel GetPolicyRules(short generalPolicyRulesId);
+
+        /// <summary>
+        /// Update PolicyRules.
+        /// </summary>
+        /// <param name="generalPolicyRulesViewModel">generalPolicyRulesViewModel.</param>
+        /// <returns>Returns updated GeneralPolicyRulesViewModel</returns>
+        GeneralPolicyRulesViewModel UpdatePolicyRules(GeneralPolicyRulesViewModel generalPolicyRulesViewModel);
+
+        /// <summary>
+        /// Delete PolicyRules.
+        /// </summary>
+        /// <param name="generalPolicyRulesId">generalPolicyRulesId.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        bool DeletePolicyRules(string generalPolicyRulesId, out string errorMessage);
     }
 }
