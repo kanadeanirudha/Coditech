@@ -49,6 +49,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralCurrencyMaster> GeneralCurrencyMaster { get; set; }
         public DbSet<TaskSchedulerMaster> TaskSchedulerMaster { get; set; }
         public DbSet<GeneralPolicyMaster> GeneralPolicyMaster { get; set; }
+        public DbSet<GeneralPolicyRules> GeneralPolicyRules { get; set; }
 
         #endregion
 

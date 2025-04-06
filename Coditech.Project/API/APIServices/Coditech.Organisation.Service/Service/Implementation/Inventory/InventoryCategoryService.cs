@@ -72,7 +72,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "InventoryCategoryID"));
 
             //Get the InventoryCategory Details based on id.
-            InventoryCategory inventoryCategory = _inventoryCategoryRepository.Table.FirstOrDefault(x => x.InventoryCategoryId == inventoryCategoryId);
+            InventoryCategory inventoryCategory = _inventoryCategoryRepository.Table.Where(x => x.InventoryCategoryId == inventoryCategoryId)?.FirstOrDefault();
             InventoryCategoryModel inventoryCategoryModel = inventoryCategory?.FromEntityToModel<InventoryCategoryModel>();
             return inventoryCategoryModel;
         }

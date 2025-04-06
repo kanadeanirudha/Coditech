@@ -9,6 +9,7 @@
         public string PolicyRelatedToModuleCode { get; set; }
         public string PolicyApplicableStatus { get; set; }
         public bool IsPolicyActive { get; set; }
+        public bool? IsCommonPolicy { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

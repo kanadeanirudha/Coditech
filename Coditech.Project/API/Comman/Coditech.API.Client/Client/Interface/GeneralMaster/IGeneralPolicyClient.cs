@@ -23,9 +23,9 @@ namespace Coditech.API.Client
         /// <summary>
         /// Get Policy by generalPolicyId.
         /// </summary>
-        /// <param name="generalPolicyMasterId">generalPolicyMasterId</param>
+        /// <param name="policyCode">policyCode</param>
         /// <returns>Returns GeneralPolicyResponse.</returns>
-        GeneralPolicyResponse GetPolicy(short generalPolicyMasterId);
+        GeneralPolicyResponse GetPolicy(string policyCode);
 
         /// <summary>
         /// Update Policy.
@@ -40,5 +40,39 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeletePolicy(ParameterModel body);
+
+        /// <summary>
+        /// Get list of General Policy Rules.
+        /// </summary>
+        /// <returns>GeneralPolicyRulesListResponse</returns>
+        GeneralPolicyRulesListResponse GetGeneralPolicyRulesList(string policyCode,IEnumerable<string> expand);
+
+        /// <summary>
+        /// Create Policy Rules.
+        /// </summary>
+        /// <param name="GeneralPolicyRulesModel">GeneralPolicyRulesModel.</param>
+        /// <returns>Returns GeneralPolicyRulesResponse.</returns>
+        GeneralPolicyRulesResponse CreatePolicyRules(GeneralPolicyRulesModel body);
+
+        /// <summary>
+        /// Get Policy by generalPolicyRulesId.
+        /// </summary>
+        /// <param name="generalPolicyRulesId">generalPolicyRulesId</param>
+        /// <returns>Returns GeneralPolicyRulesResponse.</returns>
+        GeneralPolicyRulesResponse GetPolicyRules(short generalPolicyRulesId);
+
+        /// <summary>
+        /// Update PolicyRules.
+        /// </summary>
+        /// <param name="GeneralPolicyRulesModel">GeneralPolicyRulesModel.</param>
+        /// <returns>Returns updated GeneralPolicyRulesResponse</returns>
+        GeneralPolicyRulesResponse UpdatePolicyRules(GeneralPolicyRulesModel body);
+
+        /// <summary>
+        /// Delete PolicyRules.
+        /// </summary>
+        /// <param name="ParameterModel">ParameterModel.</param>
+        /// <returns>Returns true if deleted successfully else return false.</returns>
+        TrueFalseResponse DeletePolicyRules(ParameterModel body);
     }
 }

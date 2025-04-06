@@ -114,6 +114,8 @@ namespace Coditech.Admin
             CreateMap<UserModuleListModel, UserModuleListViewModel>().ReverseMap();
             CreateMap<GeneralPolicyModel, GeneralPolicyViewModel>().ReverseMap();
             CreateMap<GeneralPolicyListModel, GeneralPolicyListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyRulesModel, GeneralPolicyRulesViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyRulesListModel, GeneralPolicyRulesListViewModel>().ReverseMap();
             #endregion
             #region
             CreateMap<UserTypeModel, UserTypeViewModel>().ReverseMap();
