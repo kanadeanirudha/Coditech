@@ -84,11 +84,11 @@ namespace Coditech.Admin.Controllers
             if (!string.IsNullOrEmpty(organisationCentrewiseJoiningCodeViewModel?.CentreCode))
             {
                 SetNotificationMessage(GetSuccessNotificationMessage("Your Joining Code has been sent successfully."));
-                return Json(new { success = true, message = "Your Joining Code has been sent successfully.", centreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
+                return Json(new { success = true, centreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
                
             }
             SetNotificationMessage(GetErrorNotificationMessage("Failed to Send Joining Code."));
-            return Json(new { success = false, message = "Failed to Send Joining Code.", centreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
+            return Json(new { success = false, centreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
 
         }
 
