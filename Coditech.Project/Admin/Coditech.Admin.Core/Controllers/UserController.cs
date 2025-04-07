@@ -1,7 +1,10 @@
-﻿using Coditech.Admin.Agents;
+﻿using AutoMapper.Configuration.Conventions;
+using Coditech.Admin.Agents;
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
+using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
@@ -174,6 +177,29 @@ namespace Coditech.Admin.Controllers
             }
             return View("~/views/user/ResetPassword.cshtml", resetPasswordViewModel);
         }
+
+        [HttpGet]
+        public virtual ActionResult ChangeAccountBalanceSheet(int selectedBalanceId, string returnUrl)
+        {
+            // Retrieve user data from session
+            UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
+
+            if (userModel?.BalanceSheetList?.Count > 0)
+            {
+                var selectedBalance = userModel.BalanceSheetList.FirstOrDefault(b => b.AccSetupBalanceSheetId == selectedBalanceId);
+                if (selectedBalance != null)
+                {
+                    userModel.SelectedBalanceId = selectedBalance.AccSetupBalanceSheetId;
+                    userModel.SelectedBalanceSheet = selectedBalance.AccBalancesheetHeadDesc;
+                }
+
+                // Save selected balance ID in session
+                SessionHelper.SaveDataInSession(AdminConstants.UserDataSession, userModel);
+            }
+
+            return RedirectToLocal(returnUrl);
+        }
+
         #endregion
 
         #region Protected

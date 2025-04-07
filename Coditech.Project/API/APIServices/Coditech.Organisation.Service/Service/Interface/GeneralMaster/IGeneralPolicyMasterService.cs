@@ -9,8 +9,13 @@ namespace Coditech.API.Service
     {
         GeneralPolicyListModel GetPolicyList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         GeneralPolicyModel CreatePolicy(GeneralPolicyModel model);
-        GeneralPolicyModel GetPolicy(short generalPolicyMasterId);
+        GeneralPolicyModel GetPolicy(string policyCode);
         bool UpdatePolicy(GeneralPolicyModel model);
         bool DeletePolicy(ParameterModel parameterModel);
+        GeneralPolicyRulesListModel GetGeneralPolicyRulesList(string policyCode,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        GeneralPolicyRulesModel CreatePolicyRules(GeneralPolicyRulesModel model);
+        GeneralPolicyRulesModel GetPolicyRules(short generalPolicyRulesId);
+        bool UpdatePolicyRules(GeneralPolicyRulesModel model);
+        bool DeletePolicyRules(ParameterModel parameterModel);
     }
 }

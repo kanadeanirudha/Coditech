@@ -78,6 +78,11 @@
                 </div>
                 </div>
                 </li> *@
+                    @if (userData?.BalanceSheetList?.Count > 0)
+                    {
+                        @Html.Partial("~/Views/Shared/_AccBalanceSheetList.cshtml", userData)
+                        ;
+                    }
                     @* @Html.Partial("~/Views/Shared/_NotificationCount.cshtml", userData.UserMasterId) *@
                     @Html.Partial("~/Views/Shared/_Profile.cshtml", userData)
                     <li class="menu-item">

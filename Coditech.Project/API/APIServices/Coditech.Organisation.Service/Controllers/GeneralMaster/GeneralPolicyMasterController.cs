@@ -74,11 +74,11 @@ namespace Coditech.API.Controllers
         [Route("/GeneralPolicyMaster/GetPolicy")]
         [HttpGet]
         [Produces(typeof(GeneralPolicyResponse))]
-        public virtual IActionResult GetPolicy(short generalPolicyMasterId)
+        public virtual IActionResult GetPolicy(string policyCode)
         {
             try
             {
-                GeneralPolicyModel generalPolicyMasterModel = _generalPolicyMasterService.GetPolicy(generalPolicyMasterId);
+                GeneralPolicyModel generalPolicyMasterModel = _generalPolicyMasterService.GetPolicy(policyCode);
                 return IsNotNull(generalPolicyMasterModel) ? CreateOKResponse(new GeneralPolicyResponse { GeneralPolicyModel = generalPolicyMasterModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -123,6 +123,119 @@ namespace Coditech.API.Controllers
             try
             {
                 bool deleted = _generalPolicyMasterService.DeletePolicy(PolicyIds);
+                return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        //General Policy Rules
+        [HttpGet]
+        [Route("/GeneralPolicyMaster/GetGeneralPolicyRulesList")]
+        [Produces(typeof(GeneralPolicyRulesListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetGeneralPolicyRulesList(string policyCode,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                GeneralPolicyRulesListModel list = _generalPolicyMasterService.GetGeneralPolicyRulesList(policyCode,filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<GeneralPolicyRulesListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralPolicyRulesListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralPolicyRulesListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GeneralPolicyMaster/CreatePolicyRules")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(GeneralPolicyRulesResponse))]
+        public virtual IActionResult CreatePolicyRules([FromBody] GeneralPolicyRulesModel model)
+        {
+            try
+            {
+                GeneralPolicyRulesModel policyMaster = _generalPolicyMasterService.CreatePolicyRules(model);
+                return IsNotNull(policyMaster) ? CreateCreatedResponse(new GeneralPolicyRulesResponse { GeneralPolicyRulesModel = policyMaster }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralPolicyRulesResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralPolicyRulesResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GeneralPolicyMaster/GetPolicyRules")]
+        [HttpGet]
+        [Produces(typeof(GeneralPolicyRulesResponse))]
+        public virtual IActionResult GetPolicyRules(short generalPolicyRulesId)
+        {
+            try
+            {
+                GeneralPolicyRulesModel generalPolicyRulesModel = _generalPolicyMasterService.GetPolicyRules(generalPolicyRulesId);
+                return IsNotNull(generalPolicyRulesModel) ? CreateOKResponse(new GeneralPolicyRulesResponse { GeneralPolicyRulesModel = generalPolicyRulesModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralPolicyRulesResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralPolicyRulesResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GeneralPolicyMaster/UpdatePolicyRules")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(GeneralPolicyRulesResponse))]
+        public virtual IActionResult UpdatePolicyRules([FromBody] GeneralPolicyRulesModel model)
+        {
+            try
+            {
+                bool isUpdated = _generalPolicyMasterService.UpdatePolicyRules(model);
+                return isUpdated ? CreateOKResponse(new GeneralPolicyRulesResponse { GeneralPolicyRulesModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralPolicyRulesResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.PolicyMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralPolicyRulesResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GeneralPolicyMaster/DeletePolicyRules")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(TrueFalseResponse))]
+        public virtual IActionResult DeletePolicyRules([FromBody] ParameterModel PolicyIds)
+        {
+            try
+            {
+                bool deleted = _generalPolicyMasterService.DeletePolicyRules(PolicyIds);
                 return CreateOKResponse(new TrueFalseResponse { IsSuccess = deleted });
             }
             catch (CoditechException ex)

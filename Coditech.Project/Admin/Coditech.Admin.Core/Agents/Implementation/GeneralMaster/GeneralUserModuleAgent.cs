@@ -157,12 +157,6 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Module Related With",
-                ColumnCode = "ModuleRelatedWith",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
                 ColumnName = "Module Seq Number",
                 ColumnCode = "ModuleSeqNumber",
                 IsSortable = true,
@@ -177,18 +171,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Module Icon",
                 ColumnCode = "ModuleIconName",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Module Form Name",
-                ColumnCode = "ModuleFormName",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Icon Path",
-                ColumnCode = "ModuleIconPath",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
