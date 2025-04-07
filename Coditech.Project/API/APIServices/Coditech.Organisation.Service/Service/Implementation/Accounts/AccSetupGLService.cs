@@ -179,6 +179,11 @@ namespace Coditech.API.ServiceAccounts
                     string.Format(GeneralResources.ErrorCodeExists, "GL Name or GL Code"));
             }
 
+            if (IsAccsetupGLBankAlreadyExist(accSetupGLModel.BankAccountNumber))
+            {
+                throw new InvalidOperationException("Bank account number already exists.");
+            }
+
             if (accSetupGLModel.ParentAccSetupGLId == null || accSetupGLModel.ParentAccSetupGLId < 1)
             {
                 accSetupGLModel.ParentAccSetupGLId = (int?)null;

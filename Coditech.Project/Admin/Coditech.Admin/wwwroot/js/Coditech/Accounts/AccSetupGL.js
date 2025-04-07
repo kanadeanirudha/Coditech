@@ -388,16 +388,19 @@ var AccSetupGL = {
                         window.location.href = url;
                     }, 1000);
                 } else {
+                    $('#addChildModal').modal('hide');
                     if (response.errors && response.errors.length > 0) {
                         response.errors.forEach(function (error) {
                             $("[data-valmsg-for='" + error.Field + "']").text(error.Message);
                         });
                     } else {
+                        $('#addChildModal').modal('hide');
                         CoditechNotification.DisplayNotificationMessage(response.message, "error");
                     }
                 }
             },
             error: function () {
+                $('#addChildModal').modal('hide');
                 CoditechNotification.DisplayNotificationMessage("An error occurred while adding the record. Please try again.", "error");
             }
         });
@@ -521,7 +524,6 @@ var AccSetupGL = {
                     $('#addChildModal').modal('show');
                     // ✅ Clear bank fields if not a bank
                     $('#bankContainer').html('');
-
 
                 }// ✅ Open modal after rendering
             },
