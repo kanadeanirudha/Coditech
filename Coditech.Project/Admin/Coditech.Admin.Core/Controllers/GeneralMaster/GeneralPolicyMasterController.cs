@@ -47,7 +47,7 @@ namespace Coditech.Admin.Controllers
                 if (!generalPolicyViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    return RedirectToAction("Edit", new { policyCode = generalPolicyViewModel.PolicyCode });
                 }
             }
             BindDropdown(generalPolicyViewModel);
@@ -105,7 +105,6 @@ namespace Coditech.Admin.Controllers
             {
                 return PartialView("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/_GeneralPolicyRulesList.cshtml", list);
             }
-
             return View($"~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/GeneralPolicyRulesList.cshtml", list);
         }
 

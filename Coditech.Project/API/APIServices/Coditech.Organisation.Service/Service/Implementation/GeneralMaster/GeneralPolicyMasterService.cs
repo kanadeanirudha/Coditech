@@ -94,7 +94,6 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Policy Code"));
 
             GeneralPolicyMaster generalPolicyMaster = generalPolicyModel.FromModelToEntity<GeneralPolicyMaster>();
-
             //Update Policy
             bool isPolicyUpdated = _generalPolicyMasterRepository.Update(generalPolicyMaster);
             if (!isPolicyUpdated)
@@ -116,7 +115,6 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
             int status = 0;
             objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteGeneralPolicy @PolicyCode,  @Status OUT", 1, out status);
-
             return status == 1 ? true : false;
         }
 
@@ -134,7 +132,6 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<GeneralPolicyRulesModel> GeneralPolicyRulesList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralPolicyRulesList @PolicyCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             GeneralPolicyRulesListModel listModel = new GeneralPolicyRulesListModel();
-
             listModel.GeneralPolicyRulesList = GeneralPolicyRulesList?.Count > 0 ? GeneralPolicyRulesList : new List<GeneralPolicyRulesModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
@@ -147,19 +144,17 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             GeneralPolicyRules generalPolicyRulesMaster = generalPolicyRulesModel.FromModelToEntity<GeneralPolicyRules>();
-
             //Create new Policy and return it.
             GeneralPolicyRules policyRulesData = _generalPolicyRulesRepository.Insert(generalPolicyRulesMaster);
             if (policyRulesData?.GeneralPolicyRulesId > 0)
             {
                 generalPolicyRulesModel.GeneralPolicyRulesId = policyRulesData.GeneralPolicyRulesId;
                 GeneralPolicyMaster generalPolicyMaster = _generalPolicyMasterRepository.Table.Where(x => x.PolicyCode == generalPolicyRulesModel.PolicyCode).FirstOrDefault();
-                if (generalPolicyMaster.PolicyApplicableStatus == "General")
+                if (generalPolicyMaster.PolicyApplicableStatus == PolicyApplicableStatusEnum.General.ToString())
                 {
                     //InsertGeneralPolicyDetailsRecord
                     InsertGeneralPolicyDetails(generalPolicyRulesModel);
                 }
-
             }
             else
             {
@@ -174,26 +169,23 @@ namespace Coditech.API.Service
         {
             if (generalPolicyRulesId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralPolicyRulesID"));
-
             //Get the Policy Details based on id.
             GeneralPolicyRules generalPolicyRules = _generalPolicyRulesRepository.Table.Where(x => x.GeneralPolicyRulesId == generalPolicyRulesId).FirstOrDefault();
             GeneralPolicyRulesModel generalPolicyRulesModel = generalPolicyRules?.FromEntityToModel<GeneralPolicyRulesModel>();
             if (policyApplicableStatus == PolicyApplicableStatusEnum.General.ToString())
             {
                 generalPolicyRulesModel.PolicyApplicableStatus = policyApplicableStatus;
-                GeneralPolicyDetails generalPolicyDetails = _generalPolicyDetailsRepository.Table.Where(x => x.GeneralPolicyRulesId == generalPolicyRulesId)?.FirstOrDefault();
-                generalPolicyRulesModel.GeneralPolicyDetailId = generalPolicyDetails.GeneralPolicyDetailId;
+                GeneralPolicyDetails generalPolicyDetails = _generalPolicyDetailsRepository.Table.Where(x => x.GeneralPolicyRulesId == generalPolicyRulesId)?.FirstOrDefault();                
                 if (generalPolicyDetails?.GeneralPolicyDetailId > 0)
                 {
+                    generalPolicyRulesModel.GeneralPolicyDetailId = generalPolicyDetails.GeneralPolicyDetailId;
                     generalPolicyRulesModel.PolicyAnswered = generalPolicyDetails.PolicyAnswered;
                     generalPolicyRulesModel.ApplicableFromDate = generalPolicyDetails.ApplicableFromDate;
                     generalPolicyRulesModel.ApplicableUptoDate = generalPolicyDetails.ApplicableUptoDate;
-
                 }
             }
             return generalPolicyRulesModel;
         }
-
         public virtual bool UpdatePolicyRules(GeneralPolicyRulesModel generalPolicyRulesModel)
         {
             if (IsNull(generalPolicyRulesModel))
@@ -203,8 +195,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PolicyRulesID"));
 
             GeneralPolicyRules generalPolicyRules = generalPolicyRulesModel.FromModelToEntity<GeneralPolicyRules>();
-            bool isPolicyUpdated = _generalPolicyRulesRepository.Update(generalPolicyRules);
-   
+            bool isPolicyUpdated = _generalPolicyRulesRepository.Update(generalPolicyRules);   
             if (generalPolicyRulesModel.PolicyApplicableStatus == PolicyApplicableStatusEnum.General.ToString() && generalPolicyRulesModel.GeneralPolicyDetailId > 0)
             {
                 GeneralPolicyDetails generalPolicyDetails = new GeneralPolicyDetails
@@ -217,24 +208,20 @@ namespace Coditech.API.Service
                 };
                 _generalPolicyDetailsRepository.Update(generalPolicyDetails);
             }
-
             if (!isPolicyUpdated)
             {
                 generalPolicyRulesModel.HasError = true;
                 generalPolicyRulesModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
                 return false;
             }
-
             return isPolicyUpdated;
         }
-
 
         //Get Policy Details by Policy Details id.
         public virtual GeneralPolicyDetailsModel GetPolicyDetails(short generalPolicyDetailsId)
         {
             if (generalPolicyDetailsId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralPolicyDetailsID"));
-
             //Get the Policy Details based on id.
             GeneralPolicyDetails generalPolicyDetails = _generalPolicyDetailsRepository.Table.Where(x => x.GeneralPolicyDetailId == generalPolicyDetailsId).FirstOrDefault();
             GeneralPolicyDetailsModel generalPolicyDetailsModel = generalPolicyDetails?.FromEntityToModel<GeneralPolicyDetailsModel>();
@@ -250,9 +237,7 @@ namespace Coditech.API.Service
             if (generalPolicyDetailsModel.GeneralPolicyDetailId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PolicyDetailsID"));
 
-
             GeneralPolicyDetails generalPolicyDetails = generalPolicyDetailsModel.FromModelToEntity<GeneralPolicyDetails>();
-
             //Update PolicyDetails
             bool isPolicyUpdated = _generalPolicyDetailsRepository.Update(generalPolicyDetails);
             if (!isPolicyUpdated)
@@ -288,7 +273,9 @@ namespace Coditech.API.Service
             GeneralPolicyDetails policyDetailData = new GeneralPolicyDetails()
             {
                 GeneralPolicyRulesId = generalPolicyRulesModel.GeneralPolicyRulesId,
-                PolicyAnswered = "",
+                PolicyAnswered = generalPolicyRulesModel.PolicyAnswered,
+                ApplicableFromDate = generalPolicyRulesModel.ApplicableFromDate,
+                ApplicableUptoDate = generalPolicyRulesModel.ApplicableUptoDate
             };
             _generalPolicyDetailsRepository.Insert(policyDetailData);
         }
