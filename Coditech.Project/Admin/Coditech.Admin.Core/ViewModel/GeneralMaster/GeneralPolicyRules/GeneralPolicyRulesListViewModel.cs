@@ -1,4 +1,5 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 
 namespace Coditech.Admin.ViewModel
 {
@@ -9,8 +10,8 @@ namespace Coditech.Admin.ViewModel
         {
             GeneralPolicyRulesList = new List<GeneralPolicyRulesViewModel>();
         }
-        public short GeneralPolicyMasterId { get; set; }
         public string PolicyCode { get; set; }
-        public string SelectedParameter1 { get; set; }
+        public string PolicyApplicableStatus { get; set; }
+        public GeneralPolicyDetailsModel GeneralPolicyDetails { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Coditech.API.Endpoint
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/DeletePolicy";
 
         //General Policy Rules
-        public string GetGeneralPolicyRulesListAsync(string policyCode,IEnumerable<string> expand)
+        public string GetGeneralPolicyRulesListAsync(string policyCode, IEnumerable<string> expand)
         {
             string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/GetGeneralPolicyRulesList?policyCode={policyCode}{BuildEndpointQueryString(true,expand)}";
             return endpoint;
@@ -33,13 +33,19 @@ namespace Coditech.API.Endpoint
         public string CreatePolicyRulesAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/CreatePolicyRules";
 
-        public string GetPolicyRulesAsync(short generalPolicyRulesId) =>
-           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/GetPolicyRules?generalPolicyRulesId={generalPolicyRulesId}";
+        public string GetPolicyRulesAsync(short generalPolicyRulesId, string policyApplicableStatus) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/GetPolicyRules?generalPolicyRulesId={generalPolicyRulesId}&policyApplicableStatus={policyApplicableStatus}";
 
         public string UpdatePolicyRulesAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/UpdatePolicyRules";
 
         public string DeletePolicyRulesAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/DeletePolicyRules";
+
+        public string GetPolicyDetailsAsync(short generalPolicyDetailsId) =>
+          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/GetPolicyDetails?generalPolicyDetailsId={generalPolicyDetailsId}";
+
+        public string UpdatePolicyDetailsAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralPolicyMaster/UpdatePolicyDetails";
     }
 }

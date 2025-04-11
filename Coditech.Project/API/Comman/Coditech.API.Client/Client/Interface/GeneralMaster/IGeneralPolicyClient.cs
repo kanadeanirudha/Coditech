@@ -45,7 +45,7 @@ namespace Coditech.API.Client
         /// Get list of General Policy Rules.
         /// </summary>
         /// <returns>GeneralPolicyRulesListResponse</returns>
-        GeneralPolicyRulesListResponse GetGeneralPolicyRulesList(string policyCode,IEnumerable<string> expand);
+        GeneralPolicyRulesListResponse GetGeneralPolicyRulesList(string policyCode, IEnumerable<string> expand);
 
         /// <summary>
         /// Create Policy Rules.
@@ -59,7 +59,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="generalPolicyRulesId">generalPolicyRulesId</param>
         /// <returns>Returns GeneralPolicyRulesResponse.</returns>
-        GeneralPolicyRulesResponse GetPolicyRules(short generalPolicyRulesId);
+        GeneralPolicyRulesResponse GetPolicyRules(short generalPolicyRulesId, string policyApplicableStatus);
 
         /// <summary>
         /// Update PolicyRules.
@@ -74,5 +74,19 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeletePolicyRules(ParameterModel body);
+
+        /// <summary>
+        /// Get Policy by generalPolicyDetailsId.
+        /// </summary>
+        /// <param name="generalPolicyDetailsId">generalPolicyDetailsId</param>
+        /// <returns>Returns GeneralPolicyDetailsResponse.</returns>
+        GeneralPolicyDetailsResponse GetPolicyDetails(short generalPolicyDetailsId);
+
+        /// <summary>
+        /// Update PolicyDetails.
+        /// </summary>
+        /// <param name="GeneralPolicyDetailsModel">GeneralPolicyDetailsModel.</param>
+        /// <returns>Returns updated GeneralPolicyDetailsResponse</returns>
+        GeneralPolicyDetailsResponse UpdatePolicyDetails(GeneralPolicyDetailsModel body);
     }
 }

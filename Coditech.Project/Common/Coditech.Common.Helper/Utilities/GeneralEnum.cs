@@ -274,4 +274,9 @@
         DeleteLogMessage,
         Batch
     }
+    public enum PolicyApplicableStatusEnum
+    {
+        General,
+        Centrewise
+    }
 }

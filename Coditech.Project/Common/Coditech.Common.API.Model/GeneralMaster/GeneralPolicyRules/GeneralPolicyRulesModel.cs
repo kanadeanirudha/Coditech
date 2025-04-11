@@ -11,5 +11,10 @@ namespace Coditech.Common.API.Model
         public string PolicyDefaultAnswer { get; set; }
         public string PolicyAnsType { get; set; }
         public string RangeSeparateBy { get; set; }
+        public string PolicyApplicableStatus { get; set; }
+        public short GeneralPolicyDetailId { get; set; }
+        public string PolicyAnswered { get; set; }
+        public DateTime? ApplicableFromDate { get; set; }
+        public DateTime? ApplicableUptoDate { get; set; }
     }
 }

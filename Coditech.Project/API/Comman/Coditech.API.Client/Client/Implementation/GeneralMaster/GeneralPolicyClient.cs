@@ -1,4 +1,5 @@
-﻿using Coditech.API.Endpoint;
+﻿using Coditech.API.Data;
+using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -258,14 +259,14 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual GeneralPolicyRulesListResponse GetGeneralPolicyRulesList(string policyCode,IEnumerable<string> expand)
+        public virtual GeneralPolicyRulesListResponse GetGeneralPolicyRulesList(string policyCode, IEnumerable<string> expand)
         {
-            return Task.Run(async () => await GetGeneralPolicyRulesListAsync(policyCode,expand, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetGeneralPolicyRulesListAsync(policyCode, expand, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralPolicyRulesListResponse> GetGeneralPolicyRulesListAsync(string policyCode,IEnumerable<string> expand, CancellationToken cancellationToken)
+        public virtual async Task<GeneralPolicyRulesListResponse> GetGeneralPolicyRulesListAsync(string policyCode, IEnumerable<string> expand, CancellationToken cancellationToken)
         {
-            string endpoint = generalPolicyEndpoint.GetGeneralPolicyRulesListAsync(policyCode,expand);
+            string endpoint = generalPolicyEndpoint.GetGeneralPolicyRulesListAsync(policyCode, expand);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -358,18 +359,17 @@ namespace Coditech.API.Client
                 }
             }
         }
-
-        public virtual GeneralPolicyRulesResponse GetPolicyRules(short generalPolicyRulesId)
+        public virtual GeneralPolicyRulesResponse GetPolicyRules(short generalPolicyRulesId, string policyApplicableStatus)
         {
-            return Task.Run(async () => await GetPolicyRulesAsync(generalPolicyRulesId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetPolicyRulesAsync(generalPolicyRulesId, policyApplicableStatus, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralPolicyRulesResponse> GetPolicyRulesAsync(short generalPolicyRulesId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GeneralPolicyRulesResponse> GetPolicyRulesAsync(short generalPolicyRulesId, string policyApplicableStatus, System.Threading.CancellationToken cancellationToken)
         {
             if (generalPolicyRulesId <= 0)
                 throw new System.ArgumentNullException("generalPolicyRulesId");
 
-            string endpoint = generalPolicyEndpoint.GetPolicyRulesAsync(generalPolicyRulesId);
+            string endpoint = generalPolicyEndpoint.GetPolicyRulesAsync(generalPolicyRulesId, policyApplicableStatus);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -494,6 +494,108 @@ namespace Coditech.API.Client
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual GeneralPolicyDetailsResponse GetPolicyDetails(short generalPolicyDetailsId)
+        {
+            return Task.Run(async () => await GetPolicyDetailsAsync(generalPolicyDetailsId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<GeneralPolicyDetailsResponse> GetPolicyDetailsAsync(short generalPolicyDetailsId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (generalPolicyDetailsId <= 0)
+                throw new System.ArgumentNullException("generalPolicyDetailsId");
+
+            string endpoint = generalPolicyEndpoint.GetPolicyDetailsAsync(generalPolicyDetailsId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<GeneralPolicyDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new GeneralPolicyDetailsResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    GeneralPolicyDetailsResponse typedBody = JsonConvert.DeserializeObject<GeneralPolicyDetailsResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual GeneralPolicyDetailsResponse UpdatePolicyDetails(GeneralPolicyDetailsModel body)
+        {
+            return Task.Run(async () => await UpdatePolicyDetailsAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<GeneralPolicyDetailsResponse> UpdatePolicyDetailsAsync(GeneralPolicyDetailsModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = generalPolicyEndpoint.UpdatePolicyDetailsAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<GeneralPolicyDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<GeneralPolicyDetailsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    GeneralPolicyDetailsResponse typedBody = JsonConvert.DeserializeObject<GeneralPolicyDetailsResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
             }
             finally
             {
