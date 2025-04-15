@@ -134,6 +134,7 @@
             ERP,
             Hangfire,
             PolicyMaster,
+            OrganisationCentrewisePolicy,
         }
     }
 }

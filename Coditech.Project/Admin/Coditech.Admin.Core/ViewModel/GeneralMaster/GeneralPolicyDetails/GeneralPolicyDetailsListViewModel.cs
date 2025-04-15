@@ -9,5 +9,6 @@ namespace Coditech.Admin.ViewModel
         {
             GeneralPolicyDetailsList = new List<GeneralPolicyDetailsViewModel>();
         }
+        public string CentreCode { get; set; } = string.Empty;
     }
 }

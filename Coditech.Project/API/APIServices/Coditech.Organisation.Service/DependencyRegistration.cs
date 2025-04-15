@@ -53,6 +53,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeService, OrganisationCentrewiseJoiningCodeService>();
+            builder.Services.AddScoped<IOrganisationCentrewisePolicyService, OrganisationCentrewisePolicyService>();
             builder.Services.AddScoped<ILogMessageService, LogMessageService>();
 
             builder.Services.AddScoped<IUserService, UserService>();

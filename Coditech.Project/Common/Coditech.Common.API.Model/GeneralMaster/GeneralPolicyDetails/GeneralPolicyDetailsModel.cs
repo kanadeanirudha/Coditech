@@ -10,5 +10,7 @@ namespace Coditech.Common.API.Model
         public string PolicyAnswered { get; set; }      
         public DateTime? ApplicableFromDate { get; set; } 
         public DateTime? ApplicableUptoDate { get; set; }
+        public string PolicyCode { get; set; }
+        public string PolicyQuestionDescription { get; set; }
     }
 }
