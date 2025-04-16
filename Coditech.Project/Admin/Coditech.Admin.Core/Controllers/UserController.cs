@@ -189,7 +189,7 @@ namespace Coditech.Admin.Controllers
                 var selectedBalance = userModel.BalanceSheetList.FirstOrDefault(b => b.AccSetupBalanceSheetId == selectedBalanceId);
                 if (selectedBalance != null)
                 {
-                    userModel.SelectedBalanceId = selectedBalance.AccSetupBalanceSheetId;
+                    userModel.SelectedBalanceSheetId = selectedBalance.AccSetupBalanceSheetId;
                     userModel.SelectedBalanceSheet = selectedBalance.AccBalancesheetHeadDesc;
                 }
 

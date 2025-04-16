@@ -95,6 +95,7 @@
         UserTypeList,
         Currency,
         InventoryCategoryType,
+        AccSetupCategory, 
     }
 
     public enum GeneralSystemGlobleSettingEnum

@@ -133,7 +133,9 @@
             UserModuleMaster,
             ERP,
             Hangfire,
-            PolicyMaster,
+            AccGLOpeningBalance,
+            AccSetupCategory,
+            PolicyMaster
         }
     }
 }

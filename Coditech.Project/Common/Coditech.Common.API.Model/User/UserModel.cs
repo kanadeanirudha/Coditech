@@ -31,7 +31,7 @@
         public int SelectedAdminRoleMasterId { get; set; }
         public string SelectedRoleCode { get; set; }
         public string SelectedBalanceSheet { get; set; }
-        public int SelectedBalanceId { get; set; }
+        public int SelectedBalanceSheetId { get; set; }
         public string SelectedCentreCode { get; set; } = string.Empty;
         public List<AdminRoleDetailsModel> RoleList { get; set; }
         public List<UserModuleModel> ModuleList { get; set; }

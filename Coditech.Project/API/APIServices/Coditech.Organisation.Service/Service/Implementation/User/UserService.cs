@@ -671,7 +671,7 @@ namespace Coditech.API.Service
                 var firstBalanceSheet = userModel.BalanceSheetList.FirstOrDefault();
                 if (firstBalanceSheet != null)
                 {
-                    userModel.SelectedBalanceId = firstBalanceSheet.AccSetupBalanceSheetId;
+                    userModel.SelectedBalanceSheetId = firstBalanceSheet.AccSetupBalanceSheetId;
                     userModel.SelectedBalanceSheet = firstBalanceSheet.AccBalancesheetHeadDesc;
                 }
             }

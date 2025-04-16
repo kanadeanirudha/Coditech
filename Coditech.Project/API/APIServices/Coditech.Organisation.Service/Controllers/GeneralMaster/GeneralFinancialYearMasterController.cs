@@ -8,7 +8,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 
 using Microsoft.AspNetCore.Mvc;
-
 using System.Diagnostics;
 
 using static Coditech.Common.Helper.HelperUtility;
@@ -134,6 +133,28 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.FinancialYearMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/GeneralFinancialYearMaster/GetCurrentFinancialYear")]
+        [HttpGet]
+        [Produces(typeof(GeneralFinancialYearResponse))]
+        public virtual IActionResult GetCurrentFinancialYear(int accSetupBalanceSheetId)
+        {
+            try
+            {
+                GeneralFinancialYearModel generalFinancialYearModel = _generalFinancialYearMasterService.GetCurrentFinancialYear(accSetupBalanceSheetId);
+                return IsNotNull(generalFinancialYearModel) ? CreateOKResponse(new GeneralFinancialYearResponse { GeneralFinancialYearModel = generalFinancialYearModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.FinancialYearMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralFinancialYearResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.FinancialYearMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralFinancialYearResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

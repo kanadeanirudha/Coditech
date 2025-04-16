@@ -29,6 +29,9 @@ namespace Coditech.Admin
             CreateMap<AccSetupGLTypeModel, AccSetupGLTypeViewModel>().ReverseMap();
             CreateMap<AccSetupGLTypeViewModel, AccSetupGLTypeListViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseAccountSetupModel, OrganisationCentrewiseAccountSetupViewModel>().ReverseMap();
+
+            CreateMap<ACCGLOpeningBalanceModel, ACCGLOpeningBalanceViewModel>().ReverseMap();
+            CreateMap<ACCGLOpeningBalanceViewModel, ACCGLOpeningBalanceListViewModel>().ReverseMap();
             #endregion
 
             #region Admin 

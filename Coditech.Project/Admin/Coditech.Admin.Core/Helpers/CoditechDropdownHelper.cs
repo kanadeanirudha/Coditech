@@ -267,6 +267,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetInventoryCategoryTypeList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupCategory.ToString()))
+            {
+                GetAccSetupCategoryList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -1521,6 +1525,24 @@ namespace Coditech.Admin.Helpers
                     Value = Convert.ToString(item.GeneralCurrencyMasterId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCurrencyMasterId)
                 });
+            }
+        }
+        private static void GetAccSetupCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem() { Text = "-------Select AccSetup Category Type-------" });
+            {
+                AccSetupCategoryListResponse response = new AccSetupCategoryClient().GetAccSetupCategory();
+                AccSetupCategoryListModel list = new AccSetupCategoryListModel() { AccSetupCategoryList = response.AccSetupCategoryList };
+
+                foreach (var item in list?.AccSetupCategoryList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.CategoryName,
+                        Value = item.AccSetupCategoryId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupCategoryId)
+                    });
+                }
             }
         }
     }
