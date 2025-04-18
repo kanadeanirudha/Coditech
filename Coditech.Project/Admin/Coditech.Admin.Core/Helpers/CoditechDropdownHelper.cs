@@ -1425,7 +1425,7 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = item.TransactionTypeCode,
+                    Text = item.TransactionTypeName,
                     Value = item.AccSetupTransactionTypeId.ToString(),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupTransactionTypeId)
                 });
@@ -1442,7 +1442,7 @@ namespace Coditech.Admin.Helpers
                 {
                     Text = item.AccBalancesheetHeadDesc,
                     Value = item.AccSetupBalanceSheetId.ToString(),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupBalanceSheetId)
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item)
                 });
             }
         }

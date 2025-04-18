@@ -1,4 +1,6 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.API.Data;
+using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -9,8 +11,11 @@ namespace Coditech.Admin.ViewModel
         public long AccGLTransactionId { get; set; }
         [Display(Name = "Balance Sheet ")]
         public int AccSetupBalanceSheetId { get; set; }
+        [Display(Name = "Financial Year ")]
         public short GeneralFinancialYearId { get; set; }
+        [Display(Name = "Transaction Type ")]
         public short AccSetupTransactionTypeId { get; set; }
+        [Display(Name = "Balancesheet Type ")]
         public byte AccSetupBalanceSheetTypeId { get; set; }
         [Display(Name = "Centre Code")]
         [MaxLength(15)]
@@ -33,5 +38,13 @@ namespace Coditech.Admin.ViewModel
         public string ModeCode { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+        [Display(Name = "Centre")]
+        public string SelectedCentreCode { get; set; }
+        public string SearchKeywords { get; set; }
+        public string TransactionDetailsData { get; set; }
+        public List<AccGLTransactionDetailsModel> AccGLTransactionDetailsList { get; set; }
+        public List<AccSetupGLModel> AccSetupGLList { get; set; }
+        public List<AccSetupGLModel> SuggestionsAccSetupGLList { get; set; }
+
     }
 }
