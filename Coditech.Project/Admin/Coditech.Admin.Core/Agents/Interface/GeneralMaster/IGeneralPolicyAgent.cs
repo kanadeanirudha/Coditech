@@ -45,7 +45,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>GeneralPolicyRulesListViewModel</returns>
-        GeneralPolicyRulesListViewModel GetGeneralPolicyRulesList(string policyCode,DataTableViewModel dataTableViewModel);
+        GeneralPolicyRulesListViewModel GetGeneralPolicyRulesList(string policyCode, DataTableViewModel dataTableViewModel);
 
         /// <summary>
         /// Create Policy Rules.
@@ -59,7 +59,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="generalPolicyRulesId">generalPolicyRulesId</param>
         /// <returns>Returns GeneralPolicyRulesViewModel.</returns>
-        GeneralPolicyRulesViewModel GetPolicyRules(short generalPolicyRulesId);
+        GeneralPolicyRulesViewModel GetPolicyRules(short generalPolicyRulesId, string policyApplicableStatus);
 
         /// <summary>
         /// Update PolicyRules.
@@ -74,5 +74,19 @@ namespace Coditech.Admin.Agents
         /// <param name="generalPolicyRulesId">generalPolicyRulesId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeletePolicyRules(string generalPolicyRulesId, out string errorMessage);
+
+        /// <summary>
+        /// Get Policy by generalPolicyDetailsId.
+        /// </summary>
+        /// <param name="generalPolicyDetailsId">generalPolicyDetailsId</param>
+        /// <returns>Returns GeneralPolicyDetailsViewModel.</returns>
+        GeneralPolicyDetailsViewModel GetPolicyDetails(short generalPolicyDetailsId);
+
+        /// <summary>
+        /// Update PolicyDetailss.
+        /// </summary>
+        /// <param name="generalPolicyDetailsViewModel">generalPolicyDetailsViewModel.</param>
+        /// <returns>Returns updated GeneralPolicyDetailsViewModel</returns>
+        GeneralPolicyDetailsViewModel UpdatePolicyDetails(GeneralPolicyDetailsViewModel generalPolicyDetailsViewModel);
     }
 }

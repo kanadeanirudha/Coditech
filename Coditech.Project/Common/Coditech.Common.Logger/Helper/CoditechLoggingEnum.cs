@@ -133,9 +133,10 @@
             UserModuleMaster,
             ERP,
             Hangfire,
+            PolicyMaster,
+            OrganisationCentrewisePolicy,
             AccGLOpeningBalance,
-            AccSetupCategory,
-            PolicyMaster
+            AccSetupCategory
         }
     }
 }

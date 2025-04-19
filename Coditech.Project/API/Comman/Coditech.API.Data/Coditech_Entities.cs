@@ -50,6 +50,7 @@ namespace Coditech.API.Data
         public DbSet<TaskSchedulerMaster> TaskSchedulerMaster { get; set; }
         public DbSet<GeneralPolicyMaster> GeneralPolicyMaster { get; set; }
         public DbSet<GeneralPolicyRules> GeneralPolicyRules { get; set; }
+        public DbSet<GeneralPolicyDetails> GeneralPolicyDetails { get; set; }
 
         #endregion
 

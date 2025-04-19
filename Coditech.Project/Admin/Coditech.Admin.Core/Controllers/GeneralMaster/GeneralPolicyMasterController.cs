@@ -1,10 +1,12 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Coditech.Admin.Controllers
 {
@@ -31,6 +33,8 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
+            GeneralPolicyViewModel generalPolicyViewModel = new GeneralPolicyViewModel();
+            BindDropdown(generalPolicyViewModel);
             return View(createEdit, new GeneralPolicyViewModel());
         }
 
@@ -43,9 +47,10 @@ namespace Coditech.Admin.Controllers
                 if (!generalPolicyViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    return RedirectToAction("Edit", new { policyCode = generalPolicyViewModel.PolicyCode });
                 }
             }
+            BindDropdown(generalPolicyViewModel);
             SetNotificationMessage(GetErrorNotificationMessage(generalPolicyViewModel.ErrorMessage));
             return View(createEdit, generalPolicyViewModel);
         }
@@ -54,6 +59,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult Edit(string policyCode)
         {
             GeneralPolicyViewModel generalPolicyViewModel = _generalPolicyAgent.GetPolicy(policyCode);
+            BindDropdown(generalPolicyViewModel);
             return ActionView(createEdit, generalPolicyViewModel);
         }
 
@@ -68,6 +74,7 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("Edit", new { policyCode = generalPolicyViewModel.PolicyCode });
             }
+            BindDropdown(generalPolicyViewModel);
             return View(createEdit, generalPolicyViewModel);
         }
 
@@ -98,15 +105,17 @@ namespace Coditech.Admin.Controllers
             {
                 return PartialView("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/_GeneralPolicyRulesList.cshtml", list);
             }
-
             return View($"~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/GeneralPolicyRulesList.cshtml", list);
         }
 
         [HttpGet]
         public virtual ActionResult CreatePolicyRules(string policyCode)
         {
-            GeneralPolicyRulesViewModel generalPolicyRulesViewModel = new GeneralPolicyRulesViewModel(){ PolicyCode = policyCode };
-            return View("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", new GeneralPolicyRulesViewModel());
+            GeneralPolicyRulesViewModel generalPolicyRulesViewModel = new GeneralPolicyRulesViewModel()
+            { 
+                PolicyCode = policyCode
+            };
+            return View("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyRulesViewModel);
         }
 
         [HttpPost]
@@ -127,9 +136,9 @@ namespace Coditech.Admin.Controllers
 
 
         [HttpGet]
-        public virtual ActionResult EditRules(short generalPolicyRulesId)
+        public virtual ActionResult EditRules(short generalPolicyRulesId, string policyApplicableStatus)
         {
-            GeneralPolicyRulesViewModel generalPolicyRulesViewModel = _generalPolicyAgent.GetPolicyRules(generalPolicyRulesId);
+            GeneralPolicyRulesViewModel generalPolicyRulesViewModel = _generalPolicyAgent.GetPolicyRules(generalPolicyRulesId, policyApplicableStatus);
             return ActionView("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyRulesViewModel);
         }
 
@@ -142,7 +151,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(generalPolicyRulesViewModel.HasError
                 ? GetErrorNotificationMessage(generalPolicyRulesViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("EditRules", new { generalPolicyRulesId = generalPolicyRulesViewModel.GeneralPolicyRulesId });
+                return RedirectToAction("EditRules", new { generalPolicyRulesId = generalPolicyRulesViewModel.GeneralPolicyRulesId, policyApplicableStatus = generalPolicyRulesViewModel.PolicyApplicableStatus });
             }
             return View("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyRulesViewModel);
         }
@@ -164,9 +173,36 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction<GeneralPolicyMasterController>(x => x.List(null));
         }
 
+        [HttpGet]
+        public virtual ActionResult EditDetails(short generalPolicyDetailId)
+        {
+            GeneralPolicyDetailsViewModel generalPolicyDetailsViewModel = _generalPolicyAgent.GetPolicyDetails(generalPolicyDetailId);
+            return ActionView("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyDetailsViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult EditDetails(GeneralPolicyDetailsViewModel generalPolicyDetailsViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                generalPolicyDetailsViewModel = _generalPolicyAgent.UpdatePolicyDetails(generalPolicyDetailsViewModel);
+                SetNotificationMessage(generalPolicyDetailsViewModel.HasError
+                ? GetErrorNotificationMessage(generalPolicyDetailsViewModel.ErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("EditDetails", new { generalPolicyDetailId = generalPolicyDetailsViewModel.GeneralPolicyDetailId });
+            }
+            return View("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyDetailsViewModel);
+        }
+
         #endregion
         #region Protected
-
+        protected virtual void BindDropdown(GeneralPolicyViewModel generalPolicyViewModel)
+        {
+            List<SelectListItem> policyApplicableStatusList = new List<SelectListItem>();
+            policyApplicableStatusList.Add(new SelectListItem { Text = AdminConstants.General, Value = AdminConstants.General });
+            policyApplicableStatusList.Add(new SelectListItem { Text = AdminConstants.Centrewise, Value = AdminConstants.Centrewise });
+            ViewData["PolicyApplicableStatus"] = policyApplicableStatusList;
+        }
         #endregion
     }
 }

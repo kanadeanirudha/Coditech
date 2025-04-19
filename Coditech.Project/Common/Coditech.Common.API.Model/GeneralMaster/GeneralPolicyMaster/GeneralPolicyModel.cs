@@ -9,6 +9,5 @@
         public string PolicyRelatedToModuleCode { get; set; } 
         public string PolicyApplicableStatus { get; set; } 
         public bool IsPolicyActive { get; set; }
-        public bool IsCommonPolicy { get; set; }
     }
 }

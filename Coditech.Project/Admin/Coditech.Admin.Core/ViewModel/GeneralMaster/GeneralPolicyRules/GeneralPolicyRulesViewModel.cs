@@ -31,6 +31,14 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(2)]
         [Display(Name = "Range Separate By")]
         public string RangeSeparateBy { get; set; }
-        public List<GeneralPolicyModel> GeneralPolicyList { get; set; }
+        public string PolicyApplicableStatus { get; set; }
+        public short GeneralPolicyDetailId { get; set; }
+        [MaxLength(500)]
+        [Display(Name = "Policy Answered")]
+        public string PolicyAnswered { get; set; }
+        [Display(Name = "Applicable From Date")]
+        public DateTime? ApplicableFromDate { get; set; }
+        [Display(Name = "Applicable Upto Date")]
+        public DateTime? ApplicableUptoDate { get; set; }
     }
 }

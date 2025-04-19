@@ -29,7 +29,5 @@ namespace Coditech.Admin.ViewModel
         public string PolicyApplicableStatus { get; set; }
         [Display(Name = "Is Policy Active")]
         public bool IsPolicyActive { get; set; }
-        [Display(Name = "Is Common Policy")]
-        public bool IsCommonPolicy { get; set; }
     }
 }
