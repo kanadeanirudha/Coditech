@@ -15,7 +15,7 @@ namespace Coditech.API.Data
         public byte? AccSetupChartOfAccountTemplateId { get; set; }
         public string GLName { get; set; }
         public string GLCode { get; set; }
-        public Nullable<byte> UserTypeEnum { get; set; }
+        public Nullable<short> UserTypeId { get; set; }
         public byte DebitCreditEnum { get; set; }
         public int PrintingSequence { get; set; }
         public bool IsGroup { get; set; }

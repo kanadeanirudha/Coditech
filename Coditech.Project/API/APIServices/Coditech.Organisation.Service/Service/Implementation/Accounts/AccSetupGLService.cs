@@ -204,7 +204,7 @@ namespace Coditech.API.ServiceAccounts
                 AltSetupGLId = accSetupGLModel.AccSetupBalancesheetId,
                 IsGroup = accSetupGLModel.IsGroup,
                 SelectedCentreCode = accSetupGLModel.SelectedCentreCode,
-                IsControlHeadEnum = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
+                UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
             };
 
             // Map the model to an entity.
@@ -272,7 +272,7 @@ namespace Coditech.API.ServiceAccounts
             // Get the AccSetupMaster Details based on id.
             AccSetupGL accSetupGLMaster = _accSetupGLRepository.Table.FirstOrDefault(x => x.AccSetupGLId == accSetupGLId);
             AccSetupGLModel accSetupGLModel = accSetupGLMaster?.FromEntityToModel<AccSetupGLModel>();
-            accSetupGLModel.UserTypeId = accSetupGLMaster.IsControlHeadEnum;
+            accSetupGLModel.UserTypeId = accSetupGLMaster.UserTypeId;
 
             if (accSetupGLModel != null && accSetupGLModel.AccSetupGLTypeId == 5)
             {

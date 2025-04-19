@@ -88,8 +88,8 @@ namespace Coditech.Admin.Controllers
             //set UserTypeId null if usertypeid is 0
             accSetupGLModel.UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId;
 
-            // in this we are setting usertypeid to iscontrolheadenum
-            accSetupGLModel.IsControlHeadEnum = accSetupGLModel.UserTypeId;
+            // in this we are setting usertypeid 
+            accSetupGLModel.UserTypeId = accSetupGLModel.UserTypeId;
 
             accSetupGLModel = _accSetupGLAgent.AddChild(accSetupGLModel);
             if (accSetupGLModel != null && !accSetupGLModel.HasError)
@@ -169,7 +169,7 @@ namespace Coditech.Admin.Controllers
                     accSetupBalanceSheetTypeId = accSetupGLModel.AccSetupBalanceSheetTypeId,
                     parentAccSetupGLId = accSetupGLModel.ParentAccSetupGLId,
                     selectedCentreCode = accSetupGLModel.SelectedCentreCode,
-                    usertypeid = accSetupGLModel.IsControlHeadEnum
+                    usertypeid = accSetupGLModel.UserTypeId
                 }
             });
         }
