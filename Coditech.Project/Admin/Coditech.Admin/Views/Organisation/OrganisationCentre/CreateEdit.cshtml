@@ -254,6 +254,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-6">
+                                        @Html.LabelFor(x => x.LogoMediaId, new { @class = "form-label" })
+                                        <input type="file" id="logoUpload" class="form-control" />
+                                        <img id="logoPreview" src="#" alt="Uploaded Logo" style="display:none;width:100px;height:100px;margin-top:10px;" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-6">
+                                        @Html.LabelFor(x => x.LogoSmallMediaId, new { @class = "form-label" })
+                                        <input type="file" id="logoSmallUpload" class="form-control" />
+                                        <img id="logoSmallPreview" src="#" alt="Uploaded Logo Small" style="display:none;width:100px;height:100px;margin-top:10px;" />
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }

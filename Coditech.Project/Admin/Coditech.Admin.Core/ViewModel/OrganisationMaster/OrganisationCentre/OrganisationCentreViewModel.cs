@@ -86,5 +86,9 @@ namespace Coditech.Admin.ViewModel
         public string ESICNumber { get; set; }
         [MaxLength(35)]
         public string WaterMark { get; set; }
+        [Display(Name = "Logo")]
+        public long LogoMediaId { get; set; }
+        [Display(Name = "Logo Small")]
+        public long LogoSmallMediaId { get; set; }
     }
 }
