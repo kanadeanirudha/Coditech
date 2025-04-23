@@ -7,18 +7,21 @@ namespace Coditech.Admin.Agents
     {
 
         /// <summary>
-        /// Get Designation by accGLTransactionId.
+        /// Get ACCGLOpeningBalance
         /// </summary>
-        /// <param name="accGLTransactionId">accGLTransactionId</param>
-        /// <returns>Returns AccGLTransactionViewModel.</returns>
+        /// <param name="accSetupCategoryId">accSetupCategoryId</param>
+        /// <returns>Returns ACCGLOpeningBalanceListViewModel.</returns>
         ACCGLOpeningBalanceListViewModel GetNonControlHeadType(short accSetupCategoryId);
         GeneralFinancialYearModel GetCurrentFinancialYear();
 
         /// <summary>
-        /// Update Designation.
+        /// Update ACCGLOpeningBalance.
         /// </summary>
         /// <param name="accGLOpeningBalanceViewListModel">accGLOpeningBalanceListViewModel.</param>
         /// <returns>Returns updated ACCGLOpeningBalanceListViewModel</returns>
         ACCGLOpeningBalanceListViewModel UpdateNonControlHeadType(ACCGLOpeningBalanceListViewModel accGLOpeningBalanceListViewModel);
+        ACCGLOpeningBalanceViewModel GetControlHeadType(short accSetupCategoryId);
+        AccGLIndividualOpeningBalanceViewModel GetIndividualOpeningBalance(short userTypeId,short generalFinancialYearId,int accSetupGLId);
+        AccGLIndividualOpeningBalanceViewModel UpdateIndividualOpeningBalance(AccGLIndividualOpeningBalanceViewModel accGLIndividualOpeningBalanceViewModel);
     }
 }

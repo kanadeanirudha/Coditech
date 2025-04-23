@@ -19,5 +19,8 @@ namespace Coditech.API.Client
         /// <param name="ACCGLOpeningBalanceModel">ACCGLOpeningBalanceModel.</param>
         /// <returns>Returns updated ACCGLOpeningBalanceResponse</returns>
         ACCGLOpeningBalanceResponse UpdateNonControlHeadType(ACCGLOpeningBalanceModel body);
+        ACCGLOpeningBalanceResponse GetControlHeadType(int accSetupBalanceSheetId, short accSetupCategoryId, byte controlNonControl);
+        AccGLIndividualOpeningBalanceResponse GetIndividualOpeningBalance(int accSetupBalanceSheetId, short userTypeId, short generalFinancialYearId, int accSetupGLId);
+        AccGLIndividualOpeningBalanceResponse UpdateIndividualOpeningBalance(AccGLIndividualOpeningBalanceModel body);
     }
 }
