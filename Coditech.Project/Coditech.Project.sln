@@ -62,7 +62,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Organisation.Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Payment.Service", "API\APIServices\Coditech.Payment.Service\Coditech.Payment.Service.csproj", "{82850BCE-D792-4E9C-BFD3-85E6201DC0B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Hangfire", "Common\Coditech.Hangfire\Coditech.Hangfire.csproj", "{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Hangfire", "Common\Coditech.Hangfire\Coditech.Hangfire.csproj", "{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}"
+EndProject
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Coditech.Reports", "Coditech.Reports\Coditech.Reports.rptproj", "{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,6 +199,15 @@ Global
 		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.Debug|Any CPU.ActiveCfg = Debug
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.Debug|Any CPU.Build.0 = Debug
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.Debug|Any CPU.Deploy.0 = Debug
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.DebugLocal|Any CPU.ActiveCfg = DebugLocal
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.DebugLocal|Any CPU.Build.0 = DebugLocal
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.DebugLocal|Any CPU.Deploy.0 = DebugLocal
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.Release|Any CPU.ActiveCfg = Release
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.Release|Any CPU.Build.0 = Release
+		{B9D52007-EE66-4324-8E9F-1CEA7C98DBEA}.Release|Any CPU.Deploy.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
