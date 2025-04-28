@@ -2,6 +2,7 @@
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
@@ -23,23 +24,24 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(GetErrorNotificationMessage("Balance Sheet Not Associated."));
                 return View("~/Views/Shared/BalanceSheetAssociated.cshtml");
             }
-            ACCGLOpeningBalanceListViewModel list = new ACCGLOpeningBalanceListViewModel
-            {
-                GeneralFinancialYearModel = _accGLOpeningBalanceAgent.GetCurrentFinancialYear()
-            };
-            if (list.GeneralFinancialYearModel.GeneralFinancialYearId <= 0)
+            GeneralFinancialYearModel generalFinancialYearModel = _accGLOpeningBalanceAgent.GetCurrentFinancialYear();
+            ACCGLOpeningBalanceListViewModel model = new ACCGLOpeningBalanceListViewModel();
+
+            if (generalFinancialYearModel?.GeneralFinancialYearId <= 0)
             {
                 SetNotificationMessage(GetErrorNotificationMessage("Current Financial Year Not Set For Selected Balance Sheet."));
             }
             else if (accSetupCategoryId > 0)
             {
-                list = _accGLOpeningBalanceAgent.GetNonControlHeadType(accSetupCategoryId);
+                model = _accGLOpeningBalanceAgent.GetNonControlHeadType(accSetupCategoryId);
+
             }
+            model.GeneralFinancialYearModel = generalFinancialYearModel;
             if (AjaxHelper.IsAjaxRequest)
             {
-                return PartialView("~/Views/Accounts/AccGLOpeningBalance/_NonControlHeadTypeList.cshtml", list);
+                return PartialView("~/Views/Accounts/AccGLOpeningBalance/_NonControlHeadTypeList.cshtml", model);
             }
-            return View("~/Views/Accounts/AccGLOpeningBalance/NonControlHeadTypeList.cshtml", list);
+            return View("~/Views/Accounts/AccGLOpeningBalance/NonControlHeadTypeList.cshtml", model);
         }
 
         [HttpPost]

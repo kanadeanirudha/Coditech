@@ -1,8 +1,15 @@
-﻿using Coditech.Common.Helper;
+﻿using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 namespace Coditech.Admin.ViewModel
 {
     public class ACCGLOpeningBalanceViewModel : BaseViewModel
     {
+
+        public ACCGLOpeningBalanceViewModel()
+        {
+            ACCGLOpeningBalanceList = new List<ACCGLOpeningBalanceModel>();
+        }
+        public List<ACCGLOpeningBalanceModel> ACCGLOpeningBalanceList { get; set; }
         public int AccGLOpeningBalanceId { get; set; }
         public short GeneralFinancialYearId { get; set; }
         public int AccSetupGLId { get; set; }
@@ -17,5 +24,10 @@ namespace Coditech.Admin.ViewModel
         public string GLName { get; set; }
         public byte DebitCreditEnum { get; set; }
         public short AccSetupCategoryId { get; set; }
+        public string AccGLOpeningBalanceData { get; set; }
+        public GeneralFinancialYearModel GeneralFinancialYearModel { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+
     }
 }

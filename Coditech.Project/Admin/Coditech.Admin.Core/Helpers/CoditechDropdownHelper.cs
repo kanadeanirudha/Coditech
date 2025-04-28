@@ -1364,6 +1364,7 @@ namespace Coditech.Admin.Helpers
                 }
             }
         }
+
         private static void GetBatchSchedulerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             foreach (SchedulerFrequencyEnum frequency in Enum.GetValues(typeof(SchedulerFrequencyEnum)))
@@ -1474,6 +1475,7 @@ namespace Coditech.Admin.Helpers
                 }
             }
         }
+
         private static void GetUserTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             UserTypeListResponse response = new UserClient().GetUserTypeList();
@@ -1527,9 +1529,10 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
+
         private static void GetAccSetupCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            dropdownList.Add(new SelectListItem() { Text = "-------Select AccSetup Category Type-------" });
+            dropdownList.Add(new SelectListItem() { Text = "-------Account Category Type-------" });
             {
                 AccSetupCategoryListResponse response = new AccSetupCategoryClient().GetAccSetupCategory();
                 AccSetupCategoryListModel list = new AccSetupCategoryListModel() { AccSetupCategoryList = response.AccSetupCategoryList };

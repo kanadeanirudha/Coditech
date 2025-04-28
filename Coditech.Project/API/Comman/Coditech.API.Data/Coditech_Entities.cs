@@ -176,6 +176,7 @@ namespace Coditech.API.Data
         public DbSet<AccGLTransaction> AccGLTransaction { get; set; }
         public DbSet<AccSetupGLType> AccSetupGLType { get; set; }
         public DbSet<AccGLOpeningBalance> AccGLOpeningBalance { get; set; }
+        public DbSet<AccGLIndividualOpeningBalance> AccGLIndividualOpeningBalance { get; set; }
         public DbSet<OrganisationCentrewiseAccountSetup> OrganisationCentrewiseAccountSetup { get; set; }
         #endregion
 

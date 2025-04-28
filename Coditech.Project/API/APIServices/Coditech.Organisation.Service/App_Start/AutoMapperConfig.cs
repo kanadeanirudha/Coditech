@@ -120,6 +120,7 @@ namespace Coditech.API.Mapper
             CreateMap<AccGLTransaction, AccGLTransactionModel>().ReverseMap();
             CreateMap<AccGLOpeningBalance, ACCGLOpeningBalanceModel>().ReverseMap();
             CreateMap<AccSetupCategory, AccSetupCategoryModel>().ReverseMap();
+            CreateMap<AccGLIndividualOpeningBalance, AccGLIndividualOpeningBalanceModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseAccountSetup, OrganisationCentrewiseAccountSetupModel>().ReverseMap();
             #endregion
         }

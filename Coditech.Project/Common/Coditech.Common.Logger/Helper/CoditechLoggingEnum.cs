@@ -136,7 +136,8 @@
             PolicyMaster,
             OrganisationCentrewisePolicy,
             AccGLOpeningBalance,
-            AccSetupCategory
+            AccSetupCategory,
+            AccGLIndividualOpeningBalance
         }
     }
 }
