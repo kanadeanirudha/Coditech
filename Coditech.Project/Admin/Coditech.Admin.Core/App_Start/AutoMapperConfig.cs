@@ -29,6 +29,10 @@ namespace Coditech.Admin
             CreateMap<AccSetupGLTypeModel, AccSetupGLTypeViewModel>().ReverseMap();
             CreateMap<AccSetupGLTypeViewModel, AccSetupGLTypeListViewModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseAccountSetupModel, OrganisationCentrewiseAccountSetupViewModel>().ReverseMap();
+
+            CreateMap<ACCGLOpeningBalanceModel, ACCGLOpeningBalanceViewModel>().ReverseMap();
+            CreateMap<ACCGLOpeningBalanceViewModel, ACCGLOpeningBalanceListViewModel>().ReverseMap();
+            CreateMap<AccGLIndividualOpeningBalanceModel, AccGLIndividualOpeningBalanceViewModel>().ReverseMap();
             #endregion
 
             #region Admin 
@@ -112,6 +116,12 @@ namespace Coditech.Admin
             CreateMap<TaskSchedulerListModel, TaskSchedulerListViewModel>().ReverseMap();
             CreateMap<UserModuleModel, UserModuleViewModel>().ReverseMap();
             CreateMap<UserModuleListModel, UserModuleListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyModel, GeneralPolicyViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyListModel, GeneralPolicyListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyRulesModel, GeneralPolicyRulesViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyRulesListModel, GeneralPolicyRulesListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyDetailsModel, GeneralPolicyDetailsViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyDetailsListModel, GeneralPolicyDetailsListViewModel>().ReverseMap();
             #endregion
             #region
             CreateMap<UserTypeModel, UserTypeViewModel>().ReverseMap();

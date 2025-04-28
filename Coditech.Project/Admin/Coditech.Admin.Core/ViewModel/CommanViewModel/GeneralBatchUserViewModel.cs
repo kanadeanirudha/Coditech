@@ -8,6 +8,7 @@ namespace Coditech.Admin.ViewModel
         public int GeneralBatchMasterId { get; set; }
         public long EntityId { get; set; }
         public string UserType { get; set; }
+        public int ActivityStatusEnumId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MobileNumber { get; set; }

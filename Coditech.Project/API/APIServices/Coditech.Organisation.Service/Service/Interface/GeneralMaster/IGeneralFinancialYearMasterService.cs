@@ -12,5 +12,6 @@ namespace Coditech.API.Service
         GeneralFinancialYearModel GetFinancialYear(short generalFinancialYearMasterId);
         bool UpdateFinancialYear(GeneralFinancialYearModel model);
         bool DeleteFinancialYear(ParameterModel parameterModel);
+        GeneralFinancialYearModel GetCurrentFinancialYear(int accSetupBalanceSheetId);
     }
 }

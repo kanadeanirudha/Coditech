@@ -95,6 +95,7 @@
         UserTypeList,
         Currency,
         InventoryCategoryType,
+        AccSetupCategory, 
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -273,5 +274,10 @@
     {
         DeleteLogMessage,
         Batch
+    }
+    public enum PolicyApplicableStatusEnum
+    {
+        General,
+        Centrewise
     }
 }

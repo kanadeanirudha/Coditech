@@ -64,8 +64,8 @@ namespace Coditech.Admin.ViewModel
 
         [MaxLength(12)]
         [MinLength(12)]
-        [Display(Name = "AdharCard Number")]
-        [RegularExpression(@"^\d{12}", ErrorMessage = "The AdharCardNumber Must Be Exactly 12 Digit Long.")]
+        [Display(Name = "Aadhaar Card Number")]
+        [RegularExpression(@"^\d{12}", ErrorMessage = "The Aadhaar Card Number Must Be Exactly 12 Digit Long.")]
         public string AdharCardNumber { get; set; }
 
         public string ImagePath { get; set; }

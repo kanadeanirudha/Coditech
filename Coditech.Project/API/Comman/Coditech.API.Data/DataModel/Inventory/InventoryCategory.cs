@@ -7,8 +7,8 @@ namespace Coditech.API.Data
         [Key]
         public short InventoryCategoryId { get; set; }
         public short ParentInventoryCategoryId { get; set; }
-        public byte InventoryCategoryTypeMasterId { get; set; }
-        public long InventoryCategoryMediaId { get; set; }
+        public byte? InventoryCategoryTypeMasterId { get; set; }
+        public long? InventoryCategoryMediaId { get; set; }
         public string CategoryCode { get; set; }
         public string CategoryName { get; set; }
         public string ItemPrefix { get; set; }

@@ -9,6 +9,7 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 
@@ -30,21 +31,21 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual AccGLTransactionListViewModel GetGLTransactionList(DataTableViewModel dataTableModel, string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId , byte accSetupBalanceSheetTypeId)
+        public virtual AccGLTransactionListViewModel GetGLTransactionList(DataTableViewModel dataTableModel, string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                
+
                 //filters.Add("Description", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 //filters.Add("ShortCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            AccGLTransactionListResponse response = _accGLTransactionClient.List(selectedCentreCode, accSetupBalanceSheetId, generalFinancialYearId,accSetupTransactionTypeId, accSetupBalanceSheetTypeId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            AccGLTransactionListResponse response = _accGLTransactionClient.List(selectedCentreCode, accSetupBalanceSheetId, generalFinancialYearId, accSetupTransactionTypeId, accSetupBalanceSheetTypeId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             AccGLTransactionListModel accGLTransactionList = new AccGLTransactionListModel { AccGLTransactionList = response?.AccGLTransactionList };
             AccGLTransactionListViewModel listViewModel = new AccGLTransactionListViewModel();
             listViewModel.AccGLTransactionList = accGLTransactionList?.AccGLTransactionList?.ToViewModel<AccGLTransactionViewModel>().ToList();
@@ -57,20 +58,49 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                AccGLTransactionResponse response = _accGLTransactionClient.CreateGLTransaction(accGLTransactionViewModel.ToModel<AccGLTransactionModel>());
+                // Step 1: Ensure TransactionDetailsData is valid JSON and deserialize
+                if (!string.IsNullOrEmpty(accGLTransactionViewModel.TransactionDetailsData))
+                {
+                    Console.WriteLine("Raw JSON: " + accGLTransactionViewModel.TransactionDetailsData); // Debugging
+
+                    JsonSerializerSettings settings = new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.None,
+                        MissingMemberHandling = MissingMemberHandling.Ignore,
+                        NullValueHandling = NullValueHandling.Ignore
+                    };
+
+                    List<AccGLTransactionDetailsModel> transactionDetailsList = JsonConvert.DeserializeObject<List<AccGLTransactionDetailsModel>>(
+                        accGLTransactionViewModel.TransactionDetailsData, settings);
+
+                    if (transactionDetailsList != null && transactionDetailsList.Any())
+                    {
+                        accGLTransactionViewModel.AccGLTransactionDetailsList = transactionDetailsList;
+                        Console.WriteLine("Deserialization successful. Item count: " + transactionDetailsList.Count);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Deserialization returned null or empty list.");
+                    }
+                }
+
+                // Step 2: Convert ViewModel to Model and send to client service
+                AccGLTransactionResponse response =
+                    _accGLTransactionClient.CreateGLTransaction(accGLTransactionViewModel.ToModel<AccGLTransactionModel>());
+
+                // Step 3: Convert the response model back to ViewModel
                 AccGLTransactionModel accGLTransactionModel = response?.AccGLTransactionModel;
-                return IsNotNull(accGLTransactionModel) ? accGLTransactionModel.ToViewModel<AccGLTransactionViewModel>() : new AccGLTransactionViewModel();
+
+                return IsNotNull(accGLTransactionModel)
+                    ? accGLTransactionModel.ToViewModel<AccGLTransactionViewModel>()
+                    : new AccGLTransactionViewModel();
             }
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Warning);
-                switch (ex.ErrorCode)
-                {
-                    case ErrorCodes.AlreadyExist:
-                        return (AccGLTransactionViewModel)GetViewModelWithErrorMessage(accGLTransactionViewModel, ex.ErrorMessage);
-                    default:
-                        return (AccGLTransactionViewModel)GetViewModelWithErrorMessage(accGLTransactionViewModel, GeneralResources.ErrorFailedToCreate);
-                }
+
+                return (AccGLTransactionViewModel)GetViewModelWithErrorMessage(accGLTransactionViewModel,
+                    ex.ErrorCode == ErrorCodes.AlreadyExist ? ex.ErrorMessage : GeneralResources.ErrorFailedToCreate);
             }
             catch (Exception ex)
             {
@@ -86,7 +116,7 @@ namespace Coditech.Admin.Agents
             return response?.AccGLTransactionModel.ToViewModel<AccGLTransactionViewModel>();
         }
 
-        //Update Designation.
+        //Update GLTransaction.
         public virtual AccGLTransactionViewModel UpdateGLTransaction(AccGLTransactionViewModel accGLTransactionViewModel)
         {
             try
@@ -103,6 +133,14 @@ namespace Coditech.Admin.Agents
                 return (AccGLTransactionViewModel)GetViewModelWithErrorMessage(accGLTransactionViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
+        public List<AccGLTransactionViewModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode)
+        {
+            AccGLTransactionListResponse response = _accGLTransactionClient.GetAccSetupGLAccountList(searchKeyword, accSetupGLId, userType, transactionTypeCode);
+
+            return response?.AccGLTransactionList?.ToViewModel<AccGLTransactionViewModel>().ToList()
+                   ?? new List<AccGLTransactionViewModel>(); // Ensure returning a valid list
+        }
+
 
         ////Delete Designation.
         //public virtual bool DeleteBalanceSheet(string accGLTransactionId, out string errorMessage)

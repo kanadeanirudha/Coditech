@@ -132,7 +132,12 @@
             InventoryCategoryType,
             UserModuleMaster,
             ERP,
-            Hangfire
+            Hangfire,
+            PolicyMaster,
+            OrganisationCentrewisePolicy,
+            AccGLOpeningBalance,
+            AccSetupCategory,
+            AccGLIndividualOpeningBalance
         }
     }
 }
