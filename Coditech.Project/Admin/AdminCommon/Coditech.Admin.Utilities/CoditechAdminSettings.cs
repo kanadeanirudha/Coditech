@@ -108,6 +108,17 @@ namespace Coditech.Admin.Utilities
             }
         }
 
+        public static string ApplicationLogoSmallPath
+        {
+            get
+            {
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechMediaManagerApiRootUri"] + settings["ApplicationLogoSmallPath"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-mediamanager.{settings["ApiDomainName"]}{settings["ApplicationLogoSmallPath"]}");
+            }
+        }
+
         public static string NotificationMessagesIsFadeOut
         {
             get

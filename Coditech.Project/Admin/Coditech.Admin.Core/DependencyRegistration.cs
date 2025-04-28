@@ -68,6 +68,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralTaskSchedulerMasterAgent, GeneralTaskSchedulerMasterAgent>();
             builder.Services.AddScoped<IGeneralUserModuleAgent, GeneralUserModuleAgent>();
             builder.Services.AddScoped<IUserTypeAgent, UserTypeAgent>();
+            builder.Services.AddScoped<IGeneralPolicyAgent, GeneralPolicyAgent>();
+            builder.Services.AddScoped< IOrganisationCentrewisePolicyAgent, OrganisationCentrewisePolicyAgent>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
@@ -117,6 +119,7 @@ namespace Coditech.Admin
 
             #region Accounts         
             builder.Services.AddScoped<IAccGLSetupNarrationAgent, AccGLSetupNarrationAgent>();
+            builder.Services.AddScoped<IAccGLOpeningBalanceAgent, AccGLOpeningBalanceAgent>();
             builder.Services.AddScoped<IAccSetupMasterAgent, AccSetupMasterAgent>();
             builder.Services.AddScoped<IAccSetupBalanceSheetAgent, AccSetupBalanceSheetAgent>();
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeAgent, AccSetupBalanceSheetTypeAgent>();
@@ -193,6 +196,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralCurrencyMasterClient, GeneralCurrencyMasterClient>();
             builder.Services.AddScoped<ITaskSchedulerClient, TaskSchedulerClient>();
             builder.Services.AddScoped<IGeneralUserModuleClient, GeneralUserModuleClient>();
+            builder.Services.AddScoped<IGeneralPolicyClient, GeneralPolicyClient>();
+            builder.Services.AddScoped<IOrganisationCentrewisePolicyClient, OrganisationCentrewisePolicyClient>();
 
             builder.Services.AddScoped<IUserTypeClient, UserTypeClient>();
 
@@ -229,6 +234,7 @@ namespace Coditech.Admin
 
             #region Accounts
             builder.Services.AddScoped<IAccGLSetupNarrationClient, AccGLSetupNarrationClient>();
+            builder.Services.AddScoped<IAccGLOpeningBalanceClient, AccGLOpeningBalanceClient>();
             builder.Services.AddScoped<IAccSetupMasterClient, AccSetupMasterClient>();
             builder.Services.AddScoped<IAccSetupBalanceSheetClient, AccSetupBalanceSheetClient>();
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeClient, AccSetupBalanceSheetTypeClient>();

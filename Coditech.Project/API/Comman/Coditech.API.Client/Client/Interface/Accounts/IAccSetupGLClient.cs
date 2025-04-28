@@ -34,6 +34,14 @@ namespace Coditech.API.Client
         /// <returns>Returns updated AccSetupGLResponse</returns>
         AccSetupGLResponse UpdateAccountSetupGL(AccSetupGLModel body);
 
+
+        /// <summary>
+        /// Update UpdateAccount.
+        /// </summary>
+        /// <param name="AccSetupGLModel">AccSetupGLModel.</param>
+        /// <returns>Returns UpdateAccount AccSetupGLResponse</returns>
+        AccSetupGLResponse UpdateAccount(AccSetupGLModel body);
+
         /// <summary>
         /// AddChild AccountSetupGL.
         /// </summary>

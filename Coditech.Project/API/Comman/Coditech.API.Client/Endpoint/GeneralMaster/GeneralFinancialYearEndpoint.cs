@@ -17,11 +17,14 @@ namespace Coditech.API.Endpoint
 
         public string GetFinancialYearAsync(short generalFinancialYearId) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralFinancialYearMaster/GetFinancialYear?generalFinancialYearMasterId={generalFinancialYearId}";
-       
+
         public string UpdateFinancialYearAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralFinancialYearMaster/UpdateFinancialYear";
 
         public string DeleteFinancialYearAsync() =>
                   $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralFinancialYearMaster/DeleteFinancialYear";
+
+        public string GetCurrentFinancialYearAsync(int accSetupBalanceSheetId) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralFinancialYearMaster/GetCurrentFinancialYear?accSetupBalanceSheetId={accSetupBalanceSheetId}";
     }
 }

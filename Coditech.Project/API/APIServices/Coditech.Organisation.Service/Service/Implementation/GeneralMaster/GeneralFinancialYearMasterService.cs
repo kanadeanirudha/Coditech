@@ -17,11 +17,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
+        private readonly ICoditechRepository<AccSetupBalanceSheet> _accSetupBalanceSheetRepository;
         public GeneralFinancialYearMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
+            _accSetupBalanceSheetRepository = new CoditechRepository<AccSetupBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         public virtual GeneralFinancialYearListModel GetFinancialYearList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -45,6 +47,7 @@ namespace Coditech.API.Service
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
+
         //Create FinancialYear.
         public virtual GeneralFinancialYearModel CreateFinancialYear(GeneralFinancialYearModel generalFinancialYearModel)
         {
@@ -124,10 +127,31 @@ namespace Coditech.API.Service
             return status == 1 ? true : false;
         }
 
+        public virtual GeneralFinancialYearModel GetCurrentFinancialYear(int accSetupBalanceSheetId)
+        {
+            var centreCode = _accSetupBalanceSheetRepository.Table
+                                .Where(b => b.AccSetupBalanceSheetId == accSetupBalanceSheetId)
+                                .Select(b => b.CentreCode)
+                                .FirstOrDefault();
+
+            if (string.IsNullOrEmpty(centreCode))
+                return new GeneralFinancialYearModel(); 
+
+            GeneralFinancialYearModel model = (from a in _generalFinancialYearMasterRepository.Table
+                                                         where a.CentreCode == centreCode && a.IsCurrentFinancialYear
+                                                         select new GeneralFinancialYearModel
+                                                         {
+                                                             GeneralFinancialYearId = a.GeneralFinancialYearId,
+                                                             FromDate = a.FromDate,
+                                                             ToDate = a.ToDate,
+                                                             CentreCode = a.CentreCode,
+                                                             IsCurrentFinancialYear = a.IsCurrentFinancialYear
+                                                         })?.FirstOrDefault();
+
+            return model;
+        }
         #region Protected Method
-        //Check if FinancialYear code is already present or not.
-        //protected virtual bool IsFinancialYearCodeAlreadyExist(string financialYearName, short generalFinancialYearMasterId = 0)
-        // => _generalFinancialYearMasterRepository.Table.Any(x => x.FinancialYearName == financialYearName && (x.GeneralFinancialYearMasterId != generalFinancialYearMasterId || generalFinancialYearMasterId == 0));
+
 
         protected virtual bool IsFinancialYearEntryAlreadyExist(DateTime FromDate, DateTime ToDate, short generalFinancialYearId = 0)
         => _generalFinancialYearMasterRepository.Table.Any(x => x.FromDate == FromDate && x.ToDate == ToDate && (x.GeneralFinancialYearId != generalFinancialYearId || generalFinancialYearId == 0));

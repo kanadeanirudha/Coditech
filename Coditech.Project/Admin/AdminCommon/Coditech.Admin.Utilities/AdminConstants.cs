@@ -20,6 +20,8 @@
         public const string Addon = "Addon";
         public const string Temporary = "Temporary";
         public const string Permanent = "Permanent";
+        public const string General = "General";
+        public const string Centrewise = "Centrewise";
 
         #region CookieHelper constant
         public const double MinutesInAYear = 365 * 24 * 60;

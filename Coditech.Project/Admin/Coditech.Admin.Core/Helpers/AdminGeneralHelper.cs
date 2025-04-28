@@ -91,5 +91,14 @@ namespace Coditech.Admin.Helpers
             string dateTimeformat = dateTime.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString())+ " h:mm tt");
             return dateTimeformat;
         }
+        public static int GetSelectedBalanceSheetId()
+        {
+            return Convert.ToInt32(SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedBalanceSheetId);
+        }
+
+        public static bool IsBalanceSheetAssociated()
+        {
+            return GetSelectedBalanceSheetId() > 0;
+        }
     }
 }

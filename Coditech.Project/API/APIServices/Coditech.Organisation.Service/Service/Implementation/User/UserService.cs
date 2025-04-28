@@ -33,6 +33,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
         private readonly ICoditechRepository<AccSetupBalanceSheet> _accSetupBalanceSheetRepository;
         private readonly ICoditechRepository<UserType> _userTypeRepository;
+        private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -51,6 +52,7 @@ namespace Coditech.API.Service
             _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupBalanceSheetRepository = new CoditechRepository<AccSetupBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
             _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -110,7 +112,36 @@ namespace Coditech.API.Service
                 userModel.AccessibleCentreList = OrganisationCentreList();
             }
             userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
+         
+            if (!string.IsNullOrEmpty(userModel.SelectedCentreCode))
+            {
+                var selectedCentre = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
 
+                if (IsNotNull(selectedCentre))
+                {
+                    OrganisationCentreModel organisationCentreModel = selectedCentre.FromEntityToModel<OrganisationCentreModel>();
+
+                    if (organisationCentreModel.LogoMediaId > 0)
+                    {
+                        var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoMediaId).FirstOrDefault();
+                        if (mediaDetail != null)
+                        {
+                            organisationCentreModel.LogoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
+                        }
+                    }
+
+                    if (organisationCentreModel.LogoSmallMediaId > 0)
+                    {
+                        var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoSmallMediaId).FirstOrDefault();
+                        if (mediaDetail != null)
+                        {
+                            organisationCentreModel.LogoSmallMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
+                        }
+                    }
+                    userModel.LogoMediaPath = organisationCentreModel.LogoMediaPath;
+                    userModel.LogoSmallMediaPath = organisationCentreModel.LogoSmallMediaPath;
+                }
+            }
             userModel.GeneralEnumaratorList = BindEnumarator();
             userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();
             return userModel;
@@ -661,8 +692,8 @@ namespace Coditech.API.Service
             {
                 AccSetupBalanceSheetId = x.AccSetupBalanceSheetId,
                 AccBalancesheetHeadDesc = x.AccBalancesheetHeadDesc,
-                CentreCode =x.CentreCode,
-                AccBalancesheetCode =x.AccBalancesheetCode,
+                CentreCode = x.CentreCode,
+                AccBalancesheetCode = x.AccBalancesheetCode,
 
             })?.ToList();
 
@@ -671,7 +702,7 @@ namespace Coditech.API.Service
                 var firstBalanceSheet = userModel.BalanceSheetList.FirstOrDefault();
                 if (firstBalanceSheet != null)
                 {
-                    userModel.SelectedBalanceId = firstBalanceSheet.AccSetupBalanceSheetId;
+                    userModel.SelectedBalanceSheetId = firstBalanceSheet.AccSetupBalanceSheetId;
                     userModel.SelectedBalanceSheet = firstBalanceSheet.AccBalancesheetHeadDesc;
                 }
             }

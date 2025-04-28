@@ -97,8 +97,27 @@ namespace Coditech.API.Service
 
             //Get the  Organisation Details based on id.
             OrganisationCentreMaster organisationData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.OrganisationCentreMasterId == organisationCentreId);
-            OrganisationCentreModel organisationCentreModel = organisationData.FromEntityToModel<OrganisationCentreModel>();
-            return IsNotNull(organisationData) ? organisationCentreModel : new OrganisationCentreModel();
+            //OrganisationCentreModel organisationCentreModel = organisationData.FromEntityToModel<OrganisationCentreModel>();
+            OrganisationCentreModel organisationCentreModel = IsNull(organisationData) ? new OrganisationCentreModel() : organisationData.FromEntityToModel<OrganisationCentreModel>();
+            if (organisationCentreModel.LogoMediaId > 0)
+            {
+                var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoMediaId).FirstOrDefault();
+                if (mediaDetail != null)
+                {
+                    organisationCentreModel.LogoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
+                    organisationCentreModel.LogoMediaFileName = mediaDetail.FileName;
+                }
+            }
+            if (organisationCentreModel.LogoSmallMediaId > 0)
+            {
+                var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoSmallMediaId).FirstOrDefault();
+                if (mediaDetail != null)
+                {
+                    organisationCentreModel.LogoSmallMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
+                    organisationCentreModel.LogoSmallMediaFileName = mediaDetail.FileName;
+                }
+            }
+            return organisationCentreModel;
         }
 
         //Update  Organisation Centre.

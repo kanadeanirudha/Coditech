@@ -9,6 +9,7 @@ namespace Coditech.API.Data
         public int GeneralBatchMasterId { get; set; }
         public long EntityId { get; set; }
         public string UserType { get; set; }
+        public int ActivityStatusEnumId { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

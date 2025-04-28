@@ -44,6 +44,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<ITaskSchedulerService, TaskSchedulerService>();
             builder.Services.AddScoped<IUserTypeService, UserTypeService>();
             builder.Services.AddScoped<IERPJobs, ERPJobs>();
+            builder.Services.AddScoped<IGeneralPolicyMasterService, GeneralPolicyMasterService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
@@ -52,6 +53,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingMasterService, OrganisationCentrewiseBuildingMasterService>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsService, OrganisationCentrewiseBuildingRoomsService>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeService, OrganisationCentrewiseJoiningCodeService>();
+            builder.Services.AddScoped<IOrganisationCentrewisePolicyService, OrganisationCentrewisePolicyService>();
             builder.Services.AddScoped<ILogMessageService, LogMessageService>();
 
             builder.Services.AddScoped<IUserService, UserService>();
@@ -103,6 +105,8 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateService, AccSetupChartOfAccountTemplateService>();
             builder.Services.AddScoped<IAccSetupGLTypeService, AccSetupGLTypeService>();
             builder.Services.AddScoped<IAccGLTransactionService, AccGLTransactionService>();
+            builder.Services.AddScoped<IAccGLOpeningBalanceService, AccGLOpeningBalanceService>();
+            builder.Services.AddScoped<IAccSetupCategoryService, AccSetupCategoryService>();
             builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupService, OrganisationCentrewiseAccountSetupService>();
             #endregion
 

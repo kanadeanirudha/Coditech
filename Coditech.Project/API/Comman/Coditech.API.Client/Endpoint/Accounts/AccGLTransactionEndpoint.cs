@@ -7,9 +7,9 @@ namespace Coditech.API.Endpoint
 {
     public class AccGLTransactionEndpoint : BaseEndpoint
     {
-        public string ListAsync( string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string ListAsync(string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetGLTransactionList?selectedCentreCode={selectedCentreCode}&accSetupBalanceSheetId={accSetupBalanceSheetId}&generalFinancialYearId={generalFinancialYearId}&accSetupTransactionTypeId={accSetupTransactionTypeId}&accSetupBalanceSheetTypeId={accSetupBalanceSheetTypeId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetGLTransactionList?selectedCentreCode={selectedCentreCode}&accSetupBalanceSheetId={accSetupBalanceSheetId}&generalFinancialYearId={generalFinancialYearId}&accSetupTransactionTypeId={accSetupTransactionTypeId}&accSetupBalanceSheetTypeId={accSetupBalanceSheetTypeId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
 
@@ -18,9 +18,11 @@ namespace Coditech.API.Endpoint
 
         public string GetGLTransactionAsync(long accGLTransactionId) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetGLTransaction?accGLTransactionId={accGLTransactionId}";
-       
+
         public string UpdateGLTransactionAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/UpdateGLTransaction";
+        public string GetAccSetupGLAccountListAsync(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode) =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetAccSetupGLAccountList?searchKeyword={searchKeyword}&accSetupGLId={accSetupGLId}&userType={userType}&transactionTypeCode={transactionTypeCode}";
 
         //public string DeleteBalanceSheetAsync() =>
         //          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransactionMaster/DeleteBalanceSheet";
