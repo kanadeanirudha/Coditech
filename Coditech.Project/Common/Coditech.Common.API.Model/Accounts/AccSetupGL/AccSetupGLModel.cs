@@ -10,13 +10,14 @@ namespace Coditech.Common.API.Model
         public string CategoryCode { get; set; }
         [Display(Name = "Code")]
         public string GLCode { get; set; }
-        public decimal OpeningBalance { get; set; }
+        public decimal ClosingBalance { get; set; }
         [Display(Name = "Is Group")]
         public bool IsGroup { get; set; }
         [Display(Name = "GL Type")]
         public short? AccSetupGLTypeId { get; set; }
         public int AccSetupBalancesheetId { get; set; }
         public int? AltSetupGLId { get; set; }
+        public short? UserTypeEnum { get; set; }
         public byte? AccSetupChartOfAccountTemplateId { get; set; }
         public byte AccSetupBalanceSheetTypeId { get; set; }
         public string SelectedCentreCode { get; set; }
@@ -37,5 +38,7 @@ namespace Coditech.Common.API.Model
         public string BankAccountName { get; set; }
         public string BankBranchName { get; set; }
         public string IFSCCode { get; set; }
+        public string CurrencySymbol { get; set; }
+        
     }
 }

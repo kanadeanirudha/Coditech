@@ -1,4 +1,5 @@
-﻿using Coditech.API.Data;
+﻿using Coditech.Admin.Utilities;
+using Coditech.API.Data;
 using Coditech.API.Service;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
@@ -36,6 +37,7 @@ namespace Coditech.API.ServiceAccounts
         // Get GetAccSetupGLTree
         public virtual AccSetupGLModel GetAccSetupGLTree(string selectedcentreCode, byte accSetupBalanceSheetTypeId, int accSetupBalanceSheetId)
         {
+
             if (accSetupBalanceSheetId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, "AccSetupBalanceSheetId cannot be empty.");
 
@@ -61,8 +63,9 @@ namespace Coditech.API.ServiceAccounts
             objStoredProc.SetParameter("@AccSetupChartOfAccountTemplateId", accSetupChartOfAccountTemplateId, ParameterDirection.Input, DbType.Byte);
             objStoredProc.SetParameter("@AccSetupBalancesheetId", accSetupBalanceSheetId, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@ActionMode", accSetupGLModel.ActionMode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@GeneralFinancialYearId", 1, ParameterDirection.Input, DbType.Int16);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            accSetupGLRecords = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccSetupGLTree @AccSetupChartOfAccountTemplateId,@AccSetupBalancesheetId,@ActionMode, @RowsCount OUT", 3, out pageListModel.TotalRowCount)?.ToList();
+            accSetupGLRecords = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccSetupGLTree @AccSetupChartOfAccountTemplateId,@AccSetupBalancesheetId,@ActionMode,@GeneralFinancialYearId, @RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
 
             if (IsNotNull(accSetupGLRecords) && accSetupGLRecords.Any())
             {
@@ -107,7 +110,8 @@ namespace Coditech.API.ServiceAccounts
                                         ParentAccSetupGLId = a.ParentAccSetupGLId,
                                         IsGroup = a.IsGroup,
                                         IsSystemGenerated = a.IsSystemGenerated,
-                                        SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId) // Recursive call
+                                        SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId), // Recursive call
+                                        ClosingBalance = a.ClosingBalance
                                     }).ToList();
             return allAccounts1;
         }
@@ -204,7 +208,8 @@ namespace Coditech.API.ServiceAccounts
                 AltSetupGLId = accSetupGLModel.AccSetupBalancesheetId,
                 IsGroup = accSetupGLModel.IsGroup,
                 SelectedCentreCode = accSetupGLModel.SelectedCentreCode,
-                UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
+                UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId,
+                CurrencySymbol=accSetupGLModel.CurrencySymbol
             };
 
             // Map the model to an entity.

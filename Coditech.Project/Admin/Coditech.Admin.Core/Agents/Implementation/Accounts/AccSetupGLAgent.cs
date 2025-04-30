@@ -1,4 +1,6 @@
-﻿using Coditech.API.Client;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.Utilities;
+using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -28,7 +30,9 @@ namespace Coditech.Admin.Agents
         //Get Get AccSetupBalanceSheet.
         public virtual AccSetupGLModel GetAccSetupGLTree(string selectedcentreCode, byte accSetupBalanceSheetTypeId, int accSetupBalanceSheetId)
         {
+
             AccSetupGLResponse response = _accSetupGLClient.GetAccSetupGLTree(selectedcentreCode, accSetupBalanceSheetTypeId, accSetupBalanceSheetId);
+            response.AccSetupGLModel.CurrencySymbol = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.CurrencySymbol;
             return response?.AccSetupGLModel;
         }
         //Create CreateAccountSetupGL
