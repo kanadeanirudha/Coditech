@@ -1,5 +1,7 @@
 ﻿using Coditech.Admin.Agents;
+using Coditech.Admin.Helpers;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
@@ -16,7 +18,18 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult GetAccSetupGL(string selectedcentreCode = null, byte accSetupBalanceSheetTypeId = 0, int accSetupBalanceSheetId = 0)
         {
+            if (!AdminGeneralHelper.IsBalanceSheetAssociated())
+            {
+                SetNotificationMessage(GetErrorNotificationMessage("Balance Sheet Not Associated."));
+                return View("~/Views/Shared/BalanceSheetAssociated.cshtml");
+            }
+            GeneralFinancialYearModel generalFinancialYearModel = _accSetupGLAgent.GetCurrentFinancialYear();
+            if (generalFinancialYearModel?.GeneralFinancialYearId <= 0)
+            {
+                SetNotificationMessage(GetErrorNotificationMessage("Current Financial Year Not Set For Selected Balance Sheet."));
+            }
             AccSetupGLModel accSetupGLModel = new AccSetupGLModel();
+            accSetupGLModel.GeneralFinancialYearModel = generalFinancialYearModel;
             if (accSetupBalanceSheetId > 0)
             {
                 accSetupGLModel = _accSetupGLAgent.GetAccSetupGLTree(selectedcentreCode, accSetupBalanceSheetTypeId, accSetupBalanceSheetId);
