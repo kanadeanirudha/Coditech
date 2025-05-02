@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Helpers;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
@@ -30,6 +29,7 @@ namespace Coditech.Admin.Controllers
             }
             AccSetupGLModel accSetupGLModel = new AccSetupGLModel();
             accSetupGLModel.GeneralFinancialYearModel = generalFinancialYearModel;
+            accSetupGLModel.GeneralFinancialYearId = generalFinancialYearModel.GeneralFinancialYearId;
             if (accSetupBalanceSheetId > 0)
             {
                 accSetupGLModel = _accSetupGLAgent.GetAccSetupGLTree(selectedcentreCode, accSetupBalanceSheetTypeId, accSetupBalanceSheetId);
@@ -66,6 +66,9 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                GeneralFinancialYearModel generalFinancialYearModel = _accSetupGLAgent.GetCurrentFinancialYear();
+                accSetupGLModel.GeneralFinancialYearModel = generalFinancialYearModel;
+                accSetupGLModel.GeneralFinancialYearId = generalFinancialYearModel.GeneralFinancialYearId;
                 accSetupGLModel = _accSetupGLAgent.CreateAccountSetupGL(accSetupGLModel);
                 if (!accSetupGLModel.HasError)
                 {

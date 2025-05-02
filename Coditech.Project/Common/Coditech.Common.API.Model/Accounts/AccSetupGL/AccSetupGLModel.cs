@@ -37,6 +37,7 @@ namespace Coditech.Common.API.Model
         public string BankAccountName { get; set; }
         public string BankBranchName { get; set; }
         public string IFSCCode { get; set; }
+        public short GeneralFinancialYearId { get; set; }
         public GeneralFinancialYearModel GeneralFinancialYearModel { get; set; }
     }
 }
