@@ -20,7 +20,6 @@ namespace Coditech.API.Data
         public int PrintingSequence { get; set; }
         public bool IsGroup { get; set; }
         public bool IsOpBalRequired { get; set; }
-        public Nullable<byte> IsControlHeadEnum { get; set; }
         public bool IsActive { get; set; }
         public bool IsSystemGenerated { get; set; }
         public Nullable<long> CreatedBy { get; set; }

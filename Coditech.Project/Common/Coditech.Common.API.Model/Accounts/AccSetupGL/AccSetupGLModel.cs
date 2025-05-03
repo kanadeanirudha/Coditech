@@ -32,7 +32,6 @@ namespace Coditech.Common.API.Model
         public short? UserTypeId { get; set; }
         public string BankModelData { get; set; }
         public string dataModel { get; set; }
-        public short? IsControlHeadEnum { get; set; }
         public string BankAccountNumber { get; set; }
         public string BankAccountName { get; set; }
         public string BankBranchName { get; set; }
