@@ -24,9 +24,9 @@
                             @if (Model.GeneralFinancialYearModel != null)
                             {
                                 <label>
-                                    @Model.GeneralFinancialYearModel.ToDate.ToCoditechDateFormat()
-                                    To
                                     @Model.GeneralFinancialYearModel.FromDate.ToCoditechDateFormat()
+                                    To
+                                    @Model.GeneralFinancialYearModel.ToDate.ToCoditechDateFormat()
                                 </label>
                             }
                         </span>
