@@ -25,20 +25,20 @@ namespace Coditech.Common.API.Model
         public string CategoryName { get; set; }
         public bool IsActive { get; set; }
         public bool IsSystemGenerated { get; set; }
-        public List<AccSetupCategoryModel> AccSetupCategoryList { get; set; }
-        public List<AccSetupGLModel> AccSetupGLList { get; set; }
-        public List<AccSetupGLModel> SubAccounts { get; set; } = new List<AccSetupGLModel>();
-        public List<AccSetupGLBankModel> AccSetupGLBankList { get; set; }
-        [Display(Name = "Control Head")]
+        [Display(Name = "User Type")]
         public short? UserTypeId { get; set; }
         public string BankModelData { get; set; }
         public string dataModel { get; set; }
-        public short? IsControlHeadEnum { get; set; }
         public string BankAccountNumber { get; set; }
         public string BankAccountName { get; set; }
         public string BankBranchName { get; set; }
         public string IFSCCode { get; set; }
+        public short GeneralFinancialYearId { get; set; }
+        public List<AccSetupCategoryModel> AccSetupCategoryList { get; set; }
+        public List<AccSetupGLModel> AccSetupGLList { get; set; }
+        public List<AccSetupGLModel> SubAccounts { get; set; } = new List<AccSetupGLModel>();
+        public List<AccSetupGLBankModel> AccSetupGLBankList { get; set; }
+        public GeneralFinancialYearModel GeneralFinancialYearModel { get; set; }
         public string CurrencySymbol { get; set; }
-        
     }
 }
