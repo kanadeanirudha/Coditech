@@ -36,9 +36,9 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                
-                //filters.Add("Description", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                //filters.Add("ShortCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+
+                filters.Add("AccBalancesheetHeadDesc", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("AccBalsheetTypeDesc", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -147,29 +147,10 @@ namespace Coditech.Admin.Agents
                 IsSortable = true,
             }); datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Balance Type",
+                ColumnName = "Balance Sheet Type",
                 ColumnCode = "AccBalsheetTypeDesc",
                 IsSortable = true,
             });
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Short Code",
-            //    ColumnCode = "ShortCode",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Designation Level",
-            //    ColumnCode = "DesignationLevel",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Grade",
-            //    ColumnCode = "Grade",
-            //    IsSortable = true,
-            //});
-            
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",
