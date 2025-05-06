@@ -34,6 +34,8 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AccSetupBalanceSheet> _accSetupBalanceSheetRepository;
         private readonly ICoditechRepository<UserType> _userTypeRepository;
         private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseAccountSetup> _organisationCentrewiseAccountSetupRepository;
+        private readonly ICoditechRepository<GeneralCurrencyMaster> _generalCurrencyMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -53,6 +55,9 @@ namespace Coditech.API.Service
             _accSetupBalanceSheetRepository = new CoditechRepository<AccSetupBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
             _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseAccountSetupRepository = new CoditechRepository<OrganisationCentrewiseAccountSetup>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalCurrencyMasterRepository = new CoditechRepository<GeneralCurrencyMaster>(_serviceProvider.GetService<Coditech_Entities>());
+
         }
 
         #region Public
@@ -112,18 +117,18 @@ namespace Coditech.API.Service
                 userModel.AccessibleCentreList = OrganisationCentreList();
             }
             userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
-         
+
             if (!string.IsNullOrEmpty(userModel.SelectedCentreCode))
             {
-                var selectedCentre = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
+                OrganisationCentreMaster organisationCentreMasterData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
 
-                if (IsNotNull(selectedCentre))
+                if (IsNotNull(organisationCentreMasterData))
                 {
-                    OrganisationCentreModel organisationCentreModel = selectedCentre.FromEntityToModel<OrganisationCentreModel>();
+                    OrganisationCentreModel organisationCentreModel = organisationCentreMasterData.FromEntityToModel<OrganisationCentreModel>();
 
                     if (organisationCentreModel.LogoMediaId > 0)
                     {
-                        var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoMediaId).FirstOrDefault();
+                        MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoMediaId).FirstOrDefault();
                         if (mediaDetail != null)
                         {
                             organisationCentreModel.LogoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
@@ -132,7 +137,7 @@ namespace Coditech.API.Service
 
                     if (organisationCentreModel.LogoSmallMediaId > 0)
                     {
-                        var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoSmallMediaId).FirstOrDefault();
+                        MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoSmallMediaId).FirstOrDefault();
                         if (mediaDetail != null)
                         {
                             organisationCentreModel.LogoSmallMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
@@ -140,6 +145,24 @@ namespace Coditech.API.Service
                     }
                     userModel.LogoMediaPath = organisationCentreModel.LogoMediaPath;
                     userModel.LogoSmallMediaPath = organisationCentreModel.LogoSmallMediaPath;
+                }
+
+                OrganisationCentrewiseAccountSetup organisationCentrewiseAccountSetupData = _organisationCentrewiseAccountSetupRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
+                if (IsNotNull(organisationCentreMasterData))
+                {
+                    OrganisationCentrewiseAccountSetupModel organisationCentrewiseAccountSetupModel = organisationCentrewiseAccountSetupData.FromEntityToModel<OrganisationCentrewiseAccountSetupModel>();
+
+                    if (organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId > 0)
+                    {
+                        GeneralCurrencyMaster generalCurrencyMaster = _generalCurrencyMasterRepository.Table.Where(x => x.GeneralCurrencyMasterId == organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId).FirstOrDefault();
+                        if (generalCurrencyMaster != null)
+                        {
+                            organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId = generalCurrencyMaster.GeneralCurrencyMasterId;
+                            userModel.CurrencySymbol = generalCurrencyMaster.CurrencySymbol;
+
+                        }
+                    }
+                    userModel.GeneralCurrencyMasterId = organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId;
                 }
             }
             userModel.GeneralEnumaratorList = BindEnumarator();
@@ -683,7 +706,6 @@ namespace Coditech.API.Service
                 }
             }
         }
-
         protected virtual void BindAccountBalanceSheetIdByCentreCode(UserModel userModel)
         {
             List<string> centreCodeList = userModel.AccessibleCentreList.Select(x => x.CentreCode).ToList();

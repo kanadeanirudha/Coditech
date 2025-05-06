@@ -32,7 +32,7 @@
 						@using (Html.BeginForm(actionName, controllerName, FormMethod.Post, new { id = "frmWorkoutPlanDetails" }))
 						{
 							@Html.AntiForgeryToken()
-
+							@Html.HiddenFor(x => x.AccSetupBalanceSheetId)
 							@Html.HiddenFor(x => x.TransactionDetailsData)
 
 							<div class="row">
@@ -44,13 +44,13 @@
 									</div>
 								</div>
 
-								<div class="col-lg-3">
-									<div class="mb-3">
-										@Html.LabelFor(x => x.AccSetupBalanceSheetId, new { @class = "form-label required" })
-										@Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", balanceSheetDropdown)
-										@Html.ValidationMessageFor(x => x.AccSetupBalanceSheetId)
-									</div>
-								</div>
+								@* <div class="col-lg-3"> *@
+								@* 	<div class="mb-3"> *@
+								@* 		@Html.LabelFor(x => x.AccSetupBalanceSheetId, new { @class = "form-label required" }) *@
+								@* 		@Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", balanceSheetDropdown) *@
+								@* 		@Html.ValidationMessageFor(x => x.AccSetupBalanceSheetId) *@
+								@* 	</div> *@
+								@* </div> *@
 
 								<div class="col-lg-3">
 									<div class="mb-3">

@@ -44,5 +44,9 @@
         public string ImagePath { get; set; }
         public string LogoMediaPath { get; set; }
         public string LogoSmallMediaPath { get; set; }
+        public short GeneralCurrencyMasterId { get; set; }
+        public string CurrencySymbol { get; set; }
+
+
     }
 }

@@ -21,6 +21,7 @@ namespace Coditech.API.ServiceAccounts
         private readonly ICoditechRepository<AccSetupChartOfAccountTemplate> _accSetupChartOfAccountTemplateRepository;
         private readonly ICoditechRepository<AccSetupCategory> _accSetupCategoryRepository;
         private readonly ICoditechRepository<AccSetupGLBank> _accSetupGLBankRepository;
+        private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
 
         public AccSetupGLService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -31,11 +32,13 @@ namespace Coditech.API.ServiceAccounts
             _accSetupChartOfAccountTemplateRepository = new CoditechRepository<AccSetupChartOfAccountTemplate>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupCategoryRepository = new CoditechRepository<AccSetupCategory>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupGLBankRepository = new CoditechRepository<AccSetupGLBank>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         // Get GetAccSetupGLTree
         public virtual AccSetupGLModel GetAccSetupGLTree(string selectedcentreCode, byte accSetupBalanceSheetTypeId, int accSetupBalanceSheetId)
         {
+
             if (accSetupBalanceSheetId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, "AccSetupBalanceSheetId cannot be empty.");
 
@@ -43,13 +46,14 @@ namespace Coditech.API.ServiceAccounts
                 throw new CoditechException(ErrorCodes.IdLessThanOne, "CentreCode cannot be empty.");
 
             byte accSetupChartOfAccountTemplateId = _accSetupChartOfAccountTemplateRepository.Table.Where(x => x.TemplateName == AccSetupChartOfAccountTemplateEnum.IndianStandard.ToString()).Select(x => x.AccSetupChartOfAccountTemplateId).FirstOrDefault();
-
+            short generalFinancialYearId = _generalFinancialYearMasterRepository.Table.Where(x => x.CentreCode == selectedcentreCode && x.IsCurrentFinancialYear).Select(x => x.GeneralFinancialYearId).FirstOrDefault();
             if (accSetupChartOfAccountTemplateId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, "AccSetupChartOfAccountTemplateId cannot be empty.");
 
             AccSetupGLModel accSetupGLModel = new AccSetupGLModel()
             {
                 AccSetupChartOfAccountTemplateId = accSetupChartOfAccountTemplateId,
+                GeneralFinancialYearId = generalFinancialYearId,
             };
             List<AccSetupGLModel> accSetupGLRecords = new List<AccSetupGLModel>();
             if (!_accSetupGLBalanceSheetRepository.Table.Any(x => x.AccSetupBalanceSheetId == accSetupBalanceSheetId))
@@ -61,13 +65,24 @@ namespace Coditech.API.ServiceAccounts
             objStoredProc.SetParameter("@AccSetupChartOfAccountTemplateId", accSetupChartOfAccountTemplateId, ParameterDirection.Input, DbType.Byte);
             objStoredProc.SetParameter("@AccSetupBalancesheetId", accSetupBalanceSheetId, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@ActionMode", accSetupGLModel.ActionMode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@GeneralFinancialYearId", generalFinancialYearId, ParameterDirection.Input, DbType.Int16);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            accSetupGLRecords = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccSetupGLTree @AccSetupChartOfAccountTemplateId,@AccSetupBalancesheetId,@ActionMode, @RowsCount OUT", 3, out pageListModel.TotalRowCount)?.ToList();
+            accSetupGLRecords = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccSetupGLTree @AccSetupChartOfAccountTemplateId,@AccSetupBalancesheetId,@ActionMode,@GeneralFinancialYearId, @RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
 
             if (IsNotNull(accSetupGLRecords) && accSetupGLRecords.Any())
             {
                 accSetupGLModel.AccSetupGLList = BuildAccountTree(accSetupGLRecords, null);
             }
+            GeneralFinancialYearModel generalFinancialYearModel = _generalFinancialYearMasterRepository.Table
+                      .Where(x => x.GeneralFinancialYearId == accSetupGLModel.GeneralFinancialYearId)
+                      .Select(x => new GeneralFinancialYearModel
+                      {
+                          GeneralFinancialYearId = x.GeneralFinancialYearId,
+                          FromDate = x.FromDate,
+                          ToDate = x.ToDate
+                      })
+                      .FirstOrDefault();
+            accSetupGLModel.GeneralFinancialYearModel = generalFinancialYearModel;
 
             // Fetch active categories.
             List<AccSetupCategory> accSetupCategoryList = _accSetupCategoryRepository.Table.Where(x => x.IsActive).ToList();
@@ -107,7 +122,8 @@ namespace Coditech.API.ServiceAccounts
                                         ParentAccSetupGLId = a.ParentAccSetupGLId,
                                         IsGroup = a.IsGroup,
                                         IsSystemGenerated = a.IsSystemGenerated,
-                                        SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId) // Recursive call
+                                        SubAccounts = BuildAccountTree(allAccounts, a.AccSetupGLId), // Recursive call
+                                        ClosingBalance = a.ClosingBalance
                                     }).ToList();
             return allAccounts1;
         }
@@ -204,7 +220,8 @@ namespace Coditech.API.ServiceAccounts
                 AltSetupGLId = accSetupGLModel.AccSetupBalancesheetId,
                 IsGroup = accSetupGLModel.IsGroup,
                 SelectedCentreCode = accSetupGLModel.SelectedCentreCode,
-                UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId
+                UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId,
+                CurrencySymbol=accSetupGLModel.CurrencySymbol
             };
 
             // Map the model to an entity.
