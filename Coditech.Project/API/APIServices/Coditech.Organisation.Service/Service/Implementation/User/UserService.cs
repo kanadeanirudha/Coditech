@@ -152,15 +152,16 @@ namespace Coditech.API.Service
                 {
                     OrganisationCentrewiseAccountSetupModel organisationCentrewiseAccountSetupModel = organisationCentrewiseAccountSetupData.FromEntityToModel<OrganisationCentrewiseAccountSetupModel>();
 
-                    if (organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId > 0)
+                    if (organisationCentrewiseAccountSetupModel != null)
                     {
-                        GeneralCurrencyMaster generalCurrencyMaster = _generalCurrencyMasterRepository.Table.Where(x => x.GeneralCurrencyMasterId == organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId).FirstOrDefault();
+                        GeneralCurrencyMaster generalCurrencyMaster = _generalCurrencyMasterRepository.Table.Where(x => x.GeneralCurrencyMasterId == organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId && organisationCentrewiseAccountSetupData.CentreCode == userModel.SelectedCentreCode).FirstOrDefault();
                         if (generalCurrencyMaster != null)
                         {
                             organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId = generalCurrencyMaster.GeneralCurrencyMasterId;
                             userModel.CurrencySymbol = generalCurrencyMaster.CurrencySymbol;
 
                         }
+                        userModel.GeneralCurrencyMasterId = organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId;
                     }
                     userModel.GeneralCurrencyMasterId = organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId;
                 }
