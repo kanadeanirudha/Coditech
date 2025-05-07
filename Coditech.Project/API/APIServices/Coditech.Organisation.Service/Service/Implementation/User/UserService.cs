@@ -163,7 +163,6 @@ namespace Coditech.API.Service
                         }
                         userModel.GeneralCurrencyMasterId = organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId;
                     }
-                    userModel.GeneralCurrencyMasterId = organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId;
                 }
             }
             userModel.GeneralEnumaratorList = BindEnumarator();
