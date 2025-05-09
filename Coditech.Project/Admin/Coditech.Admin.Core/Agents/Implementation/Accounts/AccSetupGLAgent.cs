@@ -35,7 +35,7 @@ namespace Coditech.Admin.Agents
         {
 
             AccSetupGLResponse response = _accSetupGLClient.GetAccSetupGLTree(selectedcentreCode, accSetupBalanceSheetTypeId, accSetupBalanceSheetId);
-            response.AccSetupGLModel.CurrencySymbol = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.CurrencySymbol;
+            response.AccSetupGLModel.CurrencySymbol = SessionHelper.GetDataFromSession<AccPrequisiteModel>(AdminConstants.AccountPrerequisiteSession)?.CurrencySymbol;
             return response?.AccSetupGLModel;
         }
         public virtual GeneralFinancialYearModel GetCurrentFinancialYear()
