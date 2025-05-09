@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 using Coditech.Admin.Agents;
+using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Client;
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
+using Newtonsoft.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Coditech.Admin.Controllers
@@ -15,11 +19,14 @@ namespace Coditech.Admin.Controllers
     public class AccGLTransactionController : BaseController
     {
         private readonly IAccGLTransactionAgent _accGLTransactionAgent;
+        private readonly IGeneralCommonAgent _generalCommonAgent;
         private const string createEdit = "~/Views/Accounts/AccGLTransaction/CreateEdit.cshtml";
 
-        public AccGLTransactionController(IAccGLTransactionAgent accGLTransactionAgent)
+        public AccGLTransactionController(IAccGLTransactionAgent accGLTransactionAgent, IGeneralCommonAgent generalCommonAgent)
         {
             _accGLTransactionAgent = accGLTransactionAgent;
+            _generalCommonAgent = generalCommonAgent;
+
         }
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
@@ -54,6 +61,8 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
+            if (!_generalCommonAgent.GetAccountPrequisite())
+                return IscheckAccPrequisiteStatified();
             return View(createEdit, new AccGLTransactionViewModel());
         }
         [HttpPost]
@@ -65,18 +74,18 @@ namespace Coditech.Admin.Controllers
                 if (!accGLTransactionViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<AccGLTransactionController>(x => x.List(null));
+                    return RedirectToAction<AccGLTransactionController>(x => x.Create(null));
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(accGLTransactionViewModel.ErrorMessage));
             return View(createEdit, accGLTransactionViewModel);
         }
 
-        [HttpGet]
-        public virtual ActionResult Edit(long accGLTransactionId)
+
+        public virtual ActionResult Cancel()
         {
-            AccGLTransactionViewModel accGLTransactionViewModel = _accGLTransactionAgent.GetGLTransaction(accGLTransactionId);
-            return ActionView(createEdit, accGLTransactionViewModel);
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { };
+            return RedirectToAction("Create", dataTableViewModel);
         }
 
         [HttpPost]

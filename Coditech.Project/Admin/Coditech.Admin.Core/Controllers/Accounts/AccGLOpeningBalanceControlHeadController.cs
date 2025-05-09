@@ -10,15 +10,17 @@ namespace Coditech.Admin.Controllers
     public class AccGLOpeningBalanceControlHeadController : BaseController
     {
         private readonly IAccGLOpeningBalanceAgent _accGLOpeningBalanceAgent;
-
-        public AccGLOpeningBalanceControlHeadController(IAccGLOpeningBalanceAgent accGLOpeningBalanceAgent)
+        private readonly IGeneralCommonAgent _generalCommonAgent;
+        public AccGLOpeningBalanceControlHeadController(IAccGLOpeningBalanceAgent accGLOpeningBalanceAgent , IGeneralCommonAgent generalCommonAgent)
         {
             _accGLOpeningBalanceAgent = accGLOpeningBalanceAgent;
+            _generalCommonAgent = generalCommonAgent;
         }
-
         [HttpGet]
         public virtual ActionResult ControlHeadType(short accSetupCategoryId = 0, int accSetupGLId = 0)
         {
+            if (!_generalCommonAgent.GetAccountPrequisite())
+                return IscheckAccPrequisiteStatified();
             if (!AdminGeneralHelper.IsBalanceSheetAssociated())
             {
                 SetNotificationMessage(GetErrorNotificationMessage("Balance Sheet Not Associated."));

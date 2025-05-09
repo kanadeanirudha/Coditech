@@ -2,14 +2,10 @@
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Specialized;
-using System.Data;
-using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
 {

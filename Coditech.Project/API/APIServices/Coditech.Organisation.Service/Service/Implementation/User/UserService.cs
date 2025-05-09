@@ -1,4 +1,6 @@
-﻿using Coditech.API.Data;
+﻿using System.Data;
+using System.Diagnostics;
+using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
@@ -8,9 +10,6 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
-using System.Data;
-using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
@@ -36,6 +35,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseAccountSetup> _organisationCentrewiseAccountSetupRepository;
         private readonly ICoditechRepository<GeneralCurrencyMaster> _generalCurrencyMasterRepository;
+        private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -57,6 +57,7 @@ namespace Coditech.API.Service
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseAccountSetupRepository = new CoditechRepository<OrganisationCentrewiseAccountSetup>(_serviceProvider.GetService<Coditech_Entities>());
             _generalCurrencyMasterRepository = new CoditechRepository<GeneralCurrencyMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
 
         }
 
@@ -76,6 +77,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
             UserModel userModel = userMasterData?.FromEntityToModel<UserModel>();
+
 
             userModel.IsAdminUser = IsAdminUser(userModel.UserType);
             //Bind Role
@@ -117,7 +119,6 @@ namespace Coditech.API.Service
                 userModel.AccessibleCentreList = OrganisationCentreList();
             }
             userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
-
             if (!string.IsNullOrEmpty(userModel.SelectedCentreCode))
             {
                 OrganisationCentreMaster organisationCentreMasterData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
@@ -147,23 +148,7 @@ namespace Coditech.API.Service
                     userModel.LogoSmallMediaPath = organisationCentreModel.LogoSmallMediaPath;
                 }
 
-                OrganisationCentrewiseAccountSetup organisationCentrewiseAccountSetupData = _organisationCentrewiseAccountSetupRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
-                if (IsNotNull(organisationCentreMasterData))
-                {
-                    OrganisationCentrewiseAccountSetupModel organisationCentrewiseAccountSetupModel = organisationCentrewiseAccountSetupData.FromEntityToModel<OrganisationCentrewiseAccountSetupModel>();
 
-                    if (organisationCentrewiseAccountSetupModel != null)
-                    {
-                        GeneralCurrencyMaster generalCurrencyMaster = _generalCurrencyMasterRepository.Table.Where(x => x.GeneralCurrencyMasterId == organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId && organisationCentrewiseAccountSetupData.CentreCode == userModel.SelectedCentreCode).FirstOrDefault();
-                        if (generalCurrencyMaster != null)
-                        {
-                            organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId = generalCurrencyMaster.GeneralCurrencyMasterId;
-                            userModel.CurrencySymbol = generalCurrencyMaster.CurrencySymbol;
-
-                        }
-                        userModel.GeneralCurrencyMasterId = organisationCentrewiseAccountSetupModel.GeneralCurrencyMasterId;
-                    }
-                }
             }
             userModel.GeneralEnumaratorList = BindEnumarator();
             userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();

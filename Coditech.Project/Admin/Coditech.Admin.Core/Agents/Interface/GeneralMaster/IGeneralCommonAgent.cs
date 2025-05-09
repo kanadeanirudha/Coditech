@@ -11,5 +11,6 @@ namespace Coditech.Admin.Agents
         MediaManagerResponse UploadImage(IFormFile file);
 
         CoditechApplicationSettingListViewModel GetCoditechApplicationSettingList(string applicationCodes);
+        bool GetAccountPrequisite();
     }
 }
