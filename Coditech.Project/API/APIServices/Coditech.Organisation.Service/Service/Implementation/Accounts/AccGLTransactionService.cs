@@ -1,4 +1,5 @@
-﻿using Coditech.API.Data;
+﻿using System.Data;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
@@ -15,158 +16,106 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<AccGLTransaction> _accGLTransactionRepository;
         private readonly ICoditechRepository<AccSetupGL> _accSetupGLRepository;
+        private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
         public AccGLTransactionService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _accGLTransactionRepository = new CoditechRepository<AccGLTransaction>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupGLRepository = new CoditechRepository<AccSetupGL>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
         }
-        public virtual AccGLTransactionListModel AccGLTransactionList(string selectedCentreCode, int accGLTransaction, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        //Create GLTransaction.
+        public virtual bool CreateGLTransaction(AccGLTransactionModel accGLTransactionModel)
         {
-
-            //Bind the Filter, sorts & Paging details.
-            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
-            CoditechViewRepository<AccGLTransactionModel> objStoredProc = new CoditechViewRepository<AccGLTransactionModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@AccSetupBalanceSheetTypeId", accSetupBalanceSheetTypeId, ParameterDirection.Input, DbType.Byte);
-            objStoredProc.SetParameter("@AccSetupGLTransactionId", accGLTransaction, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@GeneralFinancialYearId", generalFinancialYearId, ParameterDirection.Input, DbType.Int16);
-            objStoredProc.SetParameter("@AccGLTransactionTypeId", accSetupTransactionTypeId, ParameterDirection.Input, DbType.Int16);
-            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<AccGLTransactionModel> accGLTransactionList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccGLTransactionList  @AccSetupGLTransactionId, @GeneralFinancialYearId ,@AccGLTransactionTypeId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 7, out pageListModel.TotalRowCount)?.ToList();
-            AccGLTransactionListModel listModel = new AccGLTransactionListModel();
-
-            listModel.AccGLTransactionList = accGLTransactionList?.Count > 0 ? accGLTransactionList : new List<AccGLTransactionModel>();
-            listModel.BindPageListModel(pageListModel);
-            return listModel;
-        }
-        //Create GLTransaction.sss
-        public virtual AccGLTransactionModel CreateGLTransaction(AccGLTransactionModel accGLTransactionModel)
-        {
-            if (IsNull(accGLTransactionModel))
-                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            //if (IsGLTransactionNameAlreadyExist(accSetupGLTransactionModel.AccBalancesheetHeadDesc))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "GLTransaction Name"));
-
-            AccGLTransaction accGLTransaction = accGLTransactionModel.FromModelToEntity<AccGLTransaction>();
-
-            //Create new GLTransaction and return it.
-            AccGLTransaction accGLTransactionData = _accGLTransactionRepository.Insert(accGLTransaction);
-            if (accGLTransactionData?.AccGLTransactionId > 0)
+            //long usermasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+            if (accGLTransactionModel.AccSetupBalanceSheetId > 0)
             {
-                accGLTransactionModel.AccGLTransactionId = accGLTransactionData.AccGLTransactionId;
+                CoditechViewRepository<AccGLTransactionModel> objStoredProc = new CoditechViewRepository<AccGLTransactionModel>(_serviceProvider.GetService<Coditech_Entities>());
+                objStoredProc.SetParameter("@TransactionXmlString", accGLTransactionModel.TransactionDetailsData, ParameterDirection.Input, DbType.Xml);
+                objStoredProc.SetParameter("@AccGLTransactionId", accGLTransactionModel.AccGLTransactionId, ParameterDirection.Input, DbType.Int64);
+                objStoredProc.SetParameter("@AccSetupBalanceSheetId", accGLTransactionModel.AccSetupBalanceSheetId, ParameterDirection.Input, DbType.Int32);
+                objStoredProc.SetParameter("@GeneralFinancialYearId", accGLTransactionModel.GeneralFinancialYearId, ParameterDirection.Input, DbType.Int16);
+                objStoredProc.SetParameter("@AccGLTransactionTypeId", accGLTransactionModel.AccSetupTransactionTypeId, ParameterDirection.Input, DbType.Byte);
+                objStoredProc.SetParameter("@NarrationDescription", accGLTransactionModel.NarrationDescription, ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@TransactionDate", accGLTransactionModel.TransactionDate, ParameterDirection.Input, DbType.DateTime);
+                objStoredProc.SetParameter("@PolicyType", "Auto", ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@AuthorityLevel", "ApprovalLevel", ParameterDirection.Input, DbType.String);// EntryLevel AuthorityLevel 
+                objStoredProc.SetParameter("@CreatedBy", accGLTransactionModel.CreatedBy, ParameterDirection.Input, DbType.Int64);
+                objStoredProc.SetParameter("@ModeCode", accGLTransactionModel.ModeCode, ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@VoucherAmount", accGLTransactionModel.TransactionAmount, ParameterDirection.Input, DbType.Decimal);
+                objStoredProc.SetParameter("@ErrorMessage", accGLTransactionModel.ErrorMessage, ParameterDirection.Output, DbType.Int32);
+                objStoredProc.SetParameter("@ErrorCode", accGLTransactionModel.HasError, ParameterDirection.Output, DbType.Int32);
+                objStoredProc.SetParameter("@Status", accGLTransactionModel.Status, ParameterDirection.Output, DbType.Int32);
+                int statusOutput = 0;
+                // Execute the stored procedure
+                objStoredProc.ExecuteStoredProcedureList(
+                    "Coditech_AccountVoucherInsert @TransactionXmlString,@AccGLTransactionId,@AccSetupBalanceSheetId,@GeneralFinancialYearId,@AccGLTransactionTypeId,@NarrationDescription,@TransactionDate,@PolicyType,@AuthorityLevel,@CreatedBy,@ModeCode,@VoucherAmount,@ErrorMessage,@ErrorCode,@Status OUT",
+                    14,
+                    out statusOutput // Use the local variable to capture the output value
+                );
+                return statusOutput == 1 ? true : false;
             }
             else
             {
                 accGLTransactionModel.HasError = true;
                 accGLTransactionModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
             }
-            return accGLTransactionModel;
+            return true;
         }
-        //Get GLTransaction by AccGLTransactionId.
-        public virtual AccGLTransactionModel GetGLTransaction(long accGLTransaction)
-        {
-            if (accGLTransaction <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GLTransactionId"));
-
-            //Get the accGLTransactionData Details based on id.
-            AccGLTransaction accGLTransactionData = _accGLTransactionRepository.Table.FirstOrDefault(x => x.AccGLTransactionId == accGLTransaction);
-            AccGLTransactionModel accSetupGLTransactionModel = accGLTransactionData.FromEntityToModel<AccGLTransactionModel>();
-            return accSetupGLTransactionModel;
-        }
-
-        //Update GLTransaction.
-        public virtual bool UpdateGLTransaction(AccGLTransactionModel accSetupGLTransactionModel)
-        {
-            //if (IsNull(accSetupGLTransactionModel))
-            //    throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
-
-            //if (accSetupGLTransactionModel.AccGLTransactionId < 1)
-            //    throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GLTransactionId"));
-
-            //if (IsGLTransactionNameAlreadyExist(accSetupGLTransactionModel.AccBalancesheetHeadDesc, accSetupGLTransactionModel.AccGLTransactionId))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "GLTransaction Name"));
-
-            AccGLTransaction accSetupGLTransaction = accSetupGLTransactionModel.FromModelToEntity<AccGLTransaction>();
-
-            //Update GLTransaction
-            bool isGLTransactionUpdated = _accGLTransactionRepository.Update(accSetupGLTransaction);
-            if (!isGLTransactionUpdated)
-            {
-                accSetupGLTransactionModel.HasError = true;
-                accSetupGLTransactionModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
-            }
-            return isGLTransactionUpdated;
-        }
-        ////Delete GLTransaction.
-        //public virtual bool DeleteGLTransaction(ParameterModel parameterModel)
-        //{
-        //    if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
-        //        throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "AccGLTransactionId"));
-
-        //    CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
-        //    objStoredProc.SetParameter("AccGLTransactionId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
-        //    objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
-        //    int status = 0;
-        //    objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteAccGLTransaction @AccGLTransactionId,  @Status OUT", 1, out status);
-        //    return status == 1 ? true : false;
-        //}
-
         #region Auto Search 
-        public virtual List<AccGLTransactionModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode)
+        public virtual List<AccGLTransactionModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balaceSheet)
         {
+            AccGLTransactionModel accGLTransactionModel = new AccGLTransactionModel();
+            accGLTransactionModel.AccSetupBalanceSheetId = balaceSheet;
             // Validate the input parameters
             if (string.IsNullOrEmpty(searchKeyword))
                 throw new CoditechException(ErrorCodes.InvalidData, "Search keyword cannot be empty.");
             _coditechLogging.LogMessage($"Searching AccSetupGL for name: {searchKeyword}");
-
-            // Fetch filtered data from AccSetupGL
-            var accSetupGLRecords = _accSetupGLRepository.Table
-                .Where(x => !string.IsNullOrEmpty(x.GLName) && x.GLName.Contains(searchKeyword))
-                .Select(record => new AccSetupGLModel
-                {
-                    GLName = record.GLName ?? string.Empty, // Prevents NULL values
-                    AccSetupGLId = record.AccSetupGLId,
-                    ParentAccSetupGLId = record.ParentAccSetupGLId,
-                    AccSetupGLTypeId = record.AccSetupGLTypeId,
-                    GLCode = record.GLCode ?? string.Empty  // Prevents NULL values for GLCode
-                })
-                .ToList(); // Fetch data efficiently
-
-            // Create the transaction model and return the result
+            CoditechViewRepository<AccSetupGLModel> objStoredProc = new CoditechViewRepository<AccSetupGLModel>(_serviceProvider.GetService<Coditech_Entities>());
+            PageListModel pageListModel = new PageListModel(null, null, 0, 0);
+            objStoredProc.SetParameter("@AccSetupChartOfAccountTemplateId", null, ParameterDirection.Input, DbType.Byte);
+            objStoredProc.SetParameter("@AccSetupBalancesheetId", 1, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@ActionMode", "update", ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@GeneralFinancialYearId", 2, ParameterDirection.Input, DbType.Int16);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<AccSetupGLModel> accSetupGLRecords = objStoredProc
+                .ExecuteStoredProcedureList("Coditech_GetAccSetupGLTree @AccSetupChartOfAccountTemplateId, @AccSetupBalancesheetId, @ActionMode,@GeneralFinancialYearId, @RowsCount OUT",
+                4,
+                out pageListModel.TotalRowCount)
+                ?.ToList() ?? new List<AccSetupGLModel>();
             AccGLTransactionModel transactionModel = new AccGLTransactionModel
             {
                 AccSetupGLList = accSetupGLRecords
             };
-
-            // ✅ Correct return statement
             return new List<AccGLTransactionModel> { transactionModel };
+        }
+        public virtual List<AccGLTransactionModel> GetPersons(string searchKeyword, int userTypeId, int balaceSheet)
+        {
+            short generalFinancialYearId = _generalFinancialYearMasterRepository.Table.Where(x => x.IsCurrentFinancialYear).Select(x => x.GeneralFinancialYearId).FirstOrDefault();
+
+            AccGLTransactionModel accGLTransactionModel = new AccGLTransactionModel();
+            accGLTransactionModel.AccSetupBalanceSheetId = balaceSheet;
+            if (string.IsNullOrEmpty(searchKeyword))
+                throw new CoditechException(ErrorCodes.InvalidData, "Search keyword cannot be empty.");
+            _coditechLogging.LogMessage($"Searching AccSetupGL for name: {searchKeyword}");
+            // Instantiate model and repository
+            CoditechViewRepository<AccGLIndividualOpeningBalanceModel> objStoredProc = new CoditechViewRepository<AccGLIndividualOpeningBalanceModel>(_serviceProvider.GetService<Coditech_Entities>());
+            PageListModel pageListModel = new PageListModel(null, null, 0, 0);
+            objStoredProc.SetParameter("@AccSetupBalancesheetId", balaceSheet, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@GeneralFinancialYearId", generalFinancialYearId, ParameterDirection.Input, DbType.Int16);
+            objStoredProc.SetParameter("@UserTypeId", userTypeId, ParameterDirection.Input, DbType.Int16);
+            List<AccGLIndividualOpeningBalanceModel> GetpersonList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetIndividualOpeningBalanceByUserType @AccSetupBalancesheetId,@GeneralFinancialYearId,@UserTypeId")?.ToList();
+            accGLTransactionModel.Personlist = GetpersonList;
+            // Assign to transaction model
+            AccGLTransactionModel personTransactionModel = new AccGLTransactionModel
+            {
+                Personlist = GetpersonList,
+            };
+            return new List<AccGLTransactionModel> { personTransactionModel };
         }
     }
 
 }
 
-//AccGLTransactionModel IAccGLTransactionService.GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode)
-//{
-//    //if (accSetupGLId <= 0)
-//    //    throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GLTransactionId"));
-
-
-
-//    // Convert to model
-//    return null;
-//}
-
-#endregion
-
-
-#region Protected Method
-//Check if GLTransaction Name is already present or not.
-//protected virtual bool IsGLTransactionNameAlreadyExist(string balancesheetName, int accGLTransaction = 0)
-// => _accGLTransactionRepository.Table.Any(x => x.AccBalancesheetHeadDesc == balancesheetName && (x.AccGLTransactionId != accGLTransaction || accGLTransaction == 0));
 #endregion

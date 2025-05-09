@@ -221,7 +221,7 @@ namespace Coditech.API.ServiceAccounts
                 IsGroup = accSetupGLModel.IsGroup,
                 SelectedCentreCode = accSetupGLModel.SelectedCentreCode,
                 UserTypeId = accSetupGLModel.UserTypeId == 0 ? (short?)null : accSetupGLModel.UserTypeId,
-                CurrencySymbol=accSetupGLModel.CurrencySymbol
+                CurrencySymbol = accSetupGLModel.CurrencySymbol
             };
 
             // Map the model to an entity.

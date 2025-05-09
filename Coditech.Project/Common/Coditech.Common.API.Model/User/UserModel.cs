@@ -10,7 +10,6 @@
             BalanceSheetList = new List<UserBalanceSheetModel>();
             AccessibleCentreList = new List<UserAccessibleCentreModel>();
             AdminRoleMediaFolderActionList = new List<AdminRoleMediaFolderActionModel>();
-            AccPrequisiteList = new List<AccPrequisiteModel>();
         }
         public long UserMasterId { get; set; }
         public long EntityId { get; set; }
@@ -45,7 +44,7 @@
         public string ImagePath { get; set; }
         public string LogoMediaPath { get; set; }
         public string LogoSmallMediaPath { get; set; }
-    
+
 
 
     }
