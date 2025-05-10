@@ -178,5 +178,24 @@ namespace Coditech.Admin.Controllers
                 }
             }
         }
+        public ActionResult IscheckAccPrequisiteStatified()
+        {
+            AccPrequisiteModel accPrequisitesModel = SessionHelper.GetDataFromSession<AccPrequisiteModel>(AdminConstants.AccountPrerequisiteSession);
+
+            List<AccPrequisiteModel> accPrequisiteLists = new List<AccPrequisiteModel>();
+
+            if (accPrequisitesModel == null)
+            {
+                accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Balance Sheet", Field = "BalanceSheet", IsAssociated = false });
+                return View("~/Views/Shared/BalanceSheetAssociated.cshtml", accPrequisiteLists);
+            }
+            accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Currency", Field = "Currency", IsAssociated = accPrequisitesModel.IsCurrencyAssociated });
+            accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Financial Year", Field = "FinancialYear", IsAssociated = accPrequisitesModel.IsFinacialYearAssociated });
+            accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Account GL Balance Sheet", Field = "AccGLBalanceSheet", IsAssociated = accPrequisitesModel.IsAccGLBalanceSheetAssociated });
+            return View("~/Views/Shared/BalanceSheetAssociated.cshtml", accPrequisiteLists);
+        }
+
+
+
     }
 }

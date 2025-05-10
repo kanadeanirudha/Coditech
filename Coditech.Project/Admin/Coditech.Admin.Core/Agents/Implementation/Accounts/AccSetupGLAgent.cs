@@ -1,8 +1,11 @@
-﻿using Coditech.API.Client;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.Utilities;
+using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
 using Newtonsoft.Json;
@@ -14,13 +17,15 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IAccSetupGLClient _accSetupGLClient;
+        private readonly IGeneralFinancialYearClient _generalFinancialYearClient;
         #endregion
 
         #region Public Constructor
-        public AccSetupGLAgent(ICoditechLogging coditechLogging, IAccSetupGLClient accSetupGLClient)
+        public AccSetupGLAgent(ICoditechLogging coditechLogging, IAccSetupGLClient accSetupGLClient, IGeneralFinancialYearClient generalFinancialYearClient)
         {
             _coditechLogging = coditechLogging;
             _accSetupGLClient = GetClient<IAccSetupGLClient>(accSetupGLClient);
+            _generalFinancialYearClient = GetClient<IGeneralFinancialYearClient>(generalFinancialYearClient);
         }
         #endregion
 
@@ -28,8 +33,16 @@ namespace Coditech.Admin.Agents
         //Get Get AccSetupBalanceSheet.
         public virtual AccSetupGLModel GetAccSetupGLTree(string selectedcentreCode, byte accSetupBalanceSheetTypeId, int accSetupBalanceSheetId)
         {
+
             AccSetupGLResponse response = _accSetupGLClient.GetAccSetupGLTree(selectedcentreCode, accSetupBalanceSheetTypeId, accSetupBalanceSheetId);
+            response.AccSetupGLModel.CurrencySymbol = SessionHelper.GetDataFromSession<AccPrequisiteModel>(AdminConstants.AccountPrerequisiteSession)?.CurrencySymbol;
             return response?.AccSetupGLModel;
+        }
+        public virtual GeneralFinancialYearModel GetCurrentFinancialYear()
+        {
+            int accSetupBalanceSheetId = AdminGeneralHelper.GetSelectedBalanceSheetId();
+            GeneralFinancialYearResponse financialyearresponse = _generalFinancialYearClient.GetCurrentFinancialYear(accSetupBalanceSheetId);
+            return financialyearresponse?.GeneralFinancialYearModel.ToViewModel<GeneralFinancialYearModel>();
         }
         //Create CreateAccountSetupGL
         public virtual AccSetupGLModel CreateAccountSetupGL(AccSetupGLModel accSetupGLModel)

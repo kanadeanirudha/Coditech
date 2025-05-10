@@ -13,5 +13,8 @@ namespace Coditech.API.Endpoint
 
         public string GetDropdownListByCodeAsync(string groupCodes) =>
            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCommon/GetDropdownListByCode?groupCodes={groupCodes}";
+        public string GetAccountPrequisiteAsync(int balanceSheetId) =>
+         $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCommon/GetAccountPrequisite?balanceSheetId={balanceSheetId}";
+
     }
 }

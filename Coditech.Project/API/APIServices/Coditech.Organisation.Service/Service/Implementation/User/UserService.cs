@@ -1,4 +1,6 @@
-﻿using Coditech.API.Data;
+﻿using System.Data;
+using System.Diagnostics;
+using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
@@ -8,9 +10,6 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
-using System.Data;
-using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.API.Service
@@ -34,6 +33,9 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AccSetupBalanceSheet> _accSetupBalanceSheetRepository;
         private readonly ICoditechRepository<UserType> _userTypeRepository;
         private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseAccountSetup> _organisationCentrewiseAccountSetupRepository;
+        private readonly ICoditechRepository<GeneralCurrencyMaster> _generalCurrencyMasterRepository;
+        private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -53,6 +55,10 @@ namespace Coditech.API.Service
             _accSetupBalanceSheetRepository = new CoditechRepository<AccSetupBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
             _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseAccountSetupRepository = new CoditechRepository<OrganisationCentrewiseAccountSetup>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalCurrencyMasterRepository = new CoditechRepository<GeneralCurrencyMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
+
         }
 
         #region Public
@@ -71,6 +77,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
             UserModel userModel = userMasterData?.FromEntityToModel<UserModel>();
+
 
             userModel.IsAdminUser = IsAdminUser(userModel.UserType);
             //Bind Role
@@ -112,18 +119,17 @@ namespace Coditech.API.Service
                 userModel.AccessibleCentreList = OrganisationCentreList();
             }
             userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
-         
             if (!string.IsNullOrEmpty(userModel.SelectedCentreCode))
             {
-                var selectedCentre = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
+                OrganisationCentreMaster organisationCentreMasterData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
 
-                if (IsNotNull(selectedCentre))
+                if (IsNotNull(organisationCentreMasterData))
                 {
-                    OrganisationCentreModel organisationCentreModel = selectedCentre.FromEntityToModel<OrganisationCentreModel>();
+                    OrganisationCentreModel organisationCentreModel = organisationCentreMasterData.FromEntityToModel<OrganisationCentreModel>();
 
                     if (organisationCentreModel.LogoMediaId > 0)
                     {
-                        var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoMediaId).FirstOrDefault();
+                        MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoMediaId).FirstOrDefault();
                         if (mediaDetail != null)
                         {
                             organisationCentreModel.LogoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
@@ -132,7 +138,7 @@ namespace Coditech.API.Service
 
                     if (organisationCentreModel.LogoSmallMediaId > 0)
                     {
-                        var mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoSmallMediaId).FirstOrDefault();
+                        MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoSmallMediaId).FirstOrDefault();
                         if (mediaDetail != null)
                         {
                             organisationCentreModel.LogoSmallMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
@@ -141,6 +147,8 @@ namespace Coditech.API.Service
                     userModel.LogoMediaPath = organisationCentreModel.LogoMediaPath;
                     userModel.LogoSmallMediaPath = organisationCentreModel.LogoSmallMediaPath;
                 }
+
+
             }
             userModel.GeneralEnumaratorList = BindEnumarator();
             userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();
@@ -683,7 +691,6 @@ namespace Coditech.API.Service
                 }
             }
         }
-
         protected virtual void BindAccountBalanceSheetIdByCentreCode(UserModel userModel)
         {
             List<string> centreCodeList = userModel.AccessibleCentreList.Select(x => x.CentreCode).ToList();

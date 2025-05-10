@@ -44,6 +44,7 @@ namespace Coditech.Admin.Agents
         /// <param name="accSetupGLModel">accSetupGLModel.</param>
         /// <returns>Returns GetAccountSetupGL accSetupGLModel</returns>
         AccSetupGLModel GetAccountSetupGL(int accSetupGLId);
+        GeneralFinancialYearModel GetCurrentFinancialYear();
         bool DeleteAccountSetupGL(string accSetupGLId, out string errorMessage);
     }
 }

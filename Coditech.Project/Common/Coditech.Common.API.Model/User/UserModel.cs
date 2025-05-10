@@ -44,5 +44,8 @@
         public string ImagePath { get; set; }
         public string LogoMediaPath { get; set; }
         public string LogoSmallMediaPath { get; set; }
+
+
+
     }
 }

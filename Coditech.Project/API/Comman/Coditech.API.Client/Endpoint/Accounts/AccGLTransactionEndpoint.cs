@@ -1,17 +1,11 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.API.Client.Endpoint;
-using Coditech.API.Data;
-using Coditech.Common.Helper.Utilities;
 
 namespace Coditech.API.Endpoint
 {
     public class AccGLTransactionEndpoint : BaseEndpoint
     {
-        public string ListAsync(string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
-        {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetGLTransactionList?selectedCentreCode={selectedCentreCode}&accSetupBalanceSheetId={accSetupBalanceSheetId}&generalFinancialYearId={generalFinancialYearId}&accSetupTransactionTypeId={accSetupTransactionTypeId}&accSetupBalanceSheetTypeId={accSetupBalanceSheetTypeId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
-            return endpoint;
-        }
+
 
         public string CreateGLTransactionAsync() =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/CreateGLTransaction";
@@ -23,14 +17,7 @@ namespace Coditech.API.Endpoint
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/UpdateGLTransaction";
         public string GetAccSetupGLAccountListAsync(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode) =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetAccSetupGLAccountList?searchKeyword={searchKeyword}&accSetupGLId={accSetupGLId}&userType={userType}&transactionTypeCode={transactionTypeCode}";
-
-        //public string DeleteBalanceSheetAsync() =>
-        //          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransactionMaster/DeleteBalanceSheet";
-
-        //public string GetGLTransactionByCentreCode(string centreCode)
-        //{
-        //    string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransactionMaster/GetBalanceSheetsByCentreCode?centreCode={centreCode}";
-        //    return endpoint;
-        //}
+        public string GetPersonsAsync(string searchKeyword, int userTypeId, int balanceSheet) =>
+                       $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetPersons?searchKeyword={searchKeyword}&userTypeId={userTypeId}&balanceSheet={balanceSheet}";
     }
 }

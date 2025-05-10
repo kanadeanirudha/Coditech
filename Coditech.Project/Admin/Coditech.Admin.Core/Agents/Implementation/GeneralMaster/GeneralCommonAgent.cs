@@ -1,4 +1,6 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -8,6 +10,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 
@@ -76,6 +79,23 @@ namespace Coditech.Admin.Agents
             listViewModel.CoditechApplicationSettingList = applicationSettingList?.CoditechApplicationSettingList?.ToViewModel<CoditechApplicationSettingViewModel>().ToList();
             return listViewModel;
         }
-        #endregion
+        // Account Pequsite 
+        public virtual bool GetAccountPrequisite()
+        {
+            int balanceSheetId = AdminGeneralHelper.GetSelectedBalanceSheetId();
+            if (balanceSheetId <= 0)
+                return false;
+            //SessionHelper.RemoveDataFromSession(AdminConstants.AccountPrerequisiteSession); // wroking 
+            AccPrequisiteModel accPrequisiteModel = SessionHelper.GetDataFromSession<AccPrequisiteModel>(AdminConstants.AccountPrerequisiteSession);
+            if (IsNull(accPrequisiteModel))
+            {
+                AccPrequisiteResponse response = _generalCommonClient.GetAccountPrequisite(balanceSheetId);
+                accPrequisiteModel = response.AccPrequisiteModel;
+                SaveInSession<AccPrequisiteModel>(AdminConstants.AccountPrerequisiteSession, accPrequisiteModel);
+            }
+            return accPrequisiteModel.IsAssociated;
+        }
+
     }
+    #endregion
 }

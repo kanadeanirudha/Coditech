@@ -9,5 +9,6 @@ namespace Coditech.API.Client
         GeneralMessagesResponse SendOTP(GeneralMessagesModel generalMessagesModel);
         CoditechApplicationSettingListResponse GetCoditechApplicationSettingList(string applicationCodes);
         GeneralEnumaratorListResponse GetDropdownListByCode(string groupCodes);
+        AccPrequisiteResponse GetAccountPrequisite(int balanceSheetId);
     }
 }
