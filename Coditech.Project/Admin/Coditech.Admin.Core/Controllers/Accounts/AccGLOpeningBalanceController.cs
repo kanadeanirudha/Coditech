@@ -10,20 +10,19 @@ namespace Coditech.Admin.Controllers
     public class AccGLOpeningBalanceController : BaseController
     {
         private readonly IAccGLOpeningBalanceAgent _accGLOpeningBalanceAgent;
+        private readonly IGeneralCommonAgent _generalCommonAgent;
 
-        public AccGLOpeningBalanceController(IAccGLOpeningBalanceAgent accGLOpeningBalanceAgent)
+        public AccGLOpeningBalanceController(IAccGLOpeningBalanceAgent accGLOpeningBalanceAgent , IGeneralCommonAgent generalCommonAgent)
         {
             _accGLOpeningBalanceAgent = accGLOpeningBalanceAgent;
+            _generalCommonAgent = generalCommonAgent;
         }
 
         [HttpGet]
         public virtual ActionResult UpdateNonControlHeadType(short accSetupCategoryId = 0)
         {
-            if (!AdminGeneralHelper.IsBalanceSheetAssociated())
-            {
-                SetNotificationMessage(GetErrorNotificationMessage("Balance Sheet Not Associated."));
-                return View("~/Views/Shared/BalanceSheetAssociated.cshtml");
-            }
+            if (!_generalCommonAgent.GetAccountPrequisite())
+                return IscheckAccPrequisiteStatified();
             GeneralFinancialYearModel generalFinancialYearModel = _accGLOpeningBalanceAgent.GetCurrentFinancialYear();
             ACCGLOpeningBalanceListViewModel model = new ACCGLOpeningBalanceListViewModel();
 

@@ -33,6 +33,7 @@ namespace Coditech.Admin
             CreateMap<ACCGLOpeningBalanceModel, ACCGLOpeningBalanceViewModel>().ReverseMap();
             CreateMap<ACCGLOpeningBalanceViewModel, ACCGLOpeningBalanceListViewModel>().ReverseMap();
             CreateMap<AccGLIndividualOpeningBalanceModel, AccGLIndividualOpeningBalanceViewModel>().ReverseMap();
+            CreateMap<AccPrequisiteModel, AccPrequisiteViewModel>().ReverseMap();
             #endregion
 
             #region Admin 
@@ -205,7 +206,7 @@ namespace Coditech.Admin
             CreateMap<InventoryCategoryListModel, InventoryCategoryListViewModel>().ReverseMap();
             CreateMap<InventoryItemModelGroupModel, InventoryItemModelGroupViewModel>().ReverseMap();
             CreateMap<InventoryItemModelGroupListModel, InventoryItemModelGroupListViewModel>().ReverseMap();
-            
+
             CreateMap<InventoryProductDimensionGroupModel, InventoryProductDimensionGroupViewModel>().ReverseMap();
             CreateMap<InventoryProductDimensionGroupListModel, InventoryProductDimensionGroupListViewModel>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionModel, InventoryItemTrackingDimensionViewModel>().ReverseMap();
@@ -235,7 +236,7 @@ namespace Coditech.Admin
             #region Dashboard
             CreateMap<DashboardModel, DashboardViewModel>().ReverseMap();
             #endregion
-            
+
             #region Media Manager
             CreateMap<MediaSettingMasterModel, MediaSettingMasterViewModel>().ReverseMap();
             CreateMap<MediaSettingMasterListModel, MediaSettingMasterListViewModel>().ReverseMap();

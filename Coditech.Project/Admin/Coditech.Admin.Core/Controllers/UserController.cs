@@ -191,6 +191,7 @@ namespace Coditech.Admin.Controllers
                 {
                     userModel.SelectedBalanceSheetId = selectedBalance.AccSetupBalanceSheetId;
                     userModel.SelectedBalanceSheet = selectedBalance.AccBalancesheetHeadDesc;
+                   // SessionHelper.RemoveDataFromSession(AdminConstants.AccountPrerequisiteSession);
                 }
 
                 // Save selected balance ID in session

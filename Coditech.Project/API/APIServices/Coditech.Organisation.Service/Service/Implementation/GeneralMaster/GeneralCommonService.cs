@@ -1,10 +1,12 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
+using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using System.Diagnostics;
@@ -19,6 +21,11 @@ namespace Coditech.API.Service
         protected readonly ICoditechSMS _coditechSMS;
         protected readonly ICoditechWhatsApp _coditechWhatsApp;
         private readonly ICoditechRepository<CoditechApplicationSetting> _coditechApplicationSettingRepository;
+        private readonly ICoditechRepository<AccSetupBalanceSheet> _accSetupBalanceSheetRepository;
+        private readonly ICoditechRepository<OrganisationCentrewiseAccountSetup> _organisationCentrewiseAccountSetupRepository;
+        private readonly ICoditechRepository<GeneralCurrencyMaster> _generalCurrencyMasterRepository;
+        private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
+        private readonly ICoditechRepository<AccSetupGLBalanceSheet> _accSetupGLBalanceSheetRepository;
         public GeneralCommonService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -27,6 +34,11 @@ namespace Coditech.API.Service
             _coditechSMS = coditechSMS;
             _coditechWhatsApp = coditechWhatsApp;
             _coditechApplicationSettingRepository = new CoditechRepository<CoditechApplicationSetting>(_serviceProvider.GetService<Coditech_Entities>());
+            _accSetupBalanceSheetRepository = new CoditechRepository<AccSetupBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
+            _organisationCentrewiseAccountSetupRepository = new CoditechRepository<OrganisationCentrewiseAccountSetup>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalCurrencyMasterRepository = new CoditechRepository<GeneralCurrencyMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
+            _accSetupGLBalanceSheetRepository = new CoditechRepository<AccSetupGLBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -108,6 +120,49 @@ namespace Coditech.API.Service
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralMessages.ToString(), TraceLevel.Error);
             }
             return generalMessagesModel;
+        }
+        public virtual AccPrequisiteModel GetAccountPrequisite(int balanceSheetId)
+        {
+            if (balanceSheetId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BalanceId"));
+
+            AccPrequisiteModel accPrequisiteModel = new AccPrequisiteModel();
+            //Get CC from bs
+            string centreCode = _accSetupBalanceSheetRepository.Table.Where(x => x.AccSetupBalanceSheetId == balanceSheetId).Select(x => x.CentreCode).FirstOrDefault();
+            int generalCurrencyMasterId = _organisationCentrewiseAccountSetupRepository.Table.Where(x => x.CentreCode == centreCode).Select(x => x.GeneralCurrencyMasterId).FirstOrDefault();
+            if (generalCurrencyMasterId > 0)
+            {
+                accPrequisiteModel.IsCurrencyAssociated = true;
+                accPrequisiteModel.CurrencySymbol = _generalCurrencyMasterRepository.Table.Where(x => x.GeneralCurrencyMasterId == generalCurrencyMasterId).FirstOrDefault().CurrencySymbol;
+                accPrequisiteModel.IsAssociated = true;
+            }
+            else
+            {
+                accPrequisiteModel.IsAssociated = false;
+            }
+
+            GeneralFinancialYear generalFinancialYear = _generalFinancialYearMasterRepository.Table.Where(x => x.CentreCode == centreCode && x.IsCurrentFinancialYear)?.FirstOrDefault();
+            if (IsNotNull(generalFinancialYear))
+            {
+                accPrequisiteModel.IsFinacialYearAssociated = true;
+                accPrequisiteModel.IsAssociated = true;
+            }
+            else
+            {
+                accPrequisiteModel.IsAssociated = false;
+            }
+            AccSetupGLBalanceSheet accSetupGLBalanceSheet = _accSetupGLBalanceSheetRepository.Table.Where(x => x.AccSetupBalanceSheetId == balanceSheetId)?.FirstOrDefault();
+
+            if (IsNotNull(accSetupGLBalanceSheet))
+            {
+                accPrequisiteModel.IsAccGLBalanceSheetAssociated = true;
+                accPrequisiteModel.IsAssociated = true;
+            }
+            else
+            {
+                accPrequisiteModel.IsAssociated = false;
+            }
+            return accPrequisiteModel;
         }
         #endregion
 

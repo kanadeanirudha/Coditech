@@ -209,7 +209,7 @@ namespace Coditech.Admin.Agents
             UserTypeListResponse response = _userClient.GetUserTypeList();
             UserTypeListModel userTypeListModel = new UserTypeListModel() { TypeList = response?.TypeList };
             return userTypeListModel;
-            
+
         }
         #endregion
         #endregion

@@ -3,6 +3,7 @@ using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Data;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,7 +50,7 @@ namespace Coditech.Admin.Controllers
                 if (!accSetupBalanceSheetViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<AccSetupBalanceSheetController>(x => x.List(null));
+                    return RedirectToAction("Edit", new { balanceSheetId = accSetupBalanceSheetViewModel.AccSetupBalanceSheetId });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(accSetupBalanceSheetViewModel.ErrorMessage));
@@ -91,10 +92,21 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<AccSetupBalanceSheetController>(x => x.List(null));
         }
-        public virtual ActionResult Cancel(string SelectedCentreCode , string SelectedParameter1)
+        public virtual ActionResult Cancel(string SelectedCentreCode, string SelectedParameter1)
         {
-            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedParameter1= SelectedParameter1 };
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode, SelectedParameter1 = SelectedParameter1 };
             return RedirectToAction("List", dataTableViewModel);
+        }
+        [HttpGet]
+        public ActionResult GetBalanceSheetByCentreCode(string selectedCentreCode)
+        {
+            DropdownViewModel accSetupBalanceSheetDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.AccSetupBalanceSheetType.ToString(),
+                DropdownName = "AccSetupBalanceSheetTypeId",
+                Parameter = selectedCentreCode,
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", accSetupBalanceSheetDropdown);
         }
         #region Protected
 

@@ -1,9 +1,6 @@
-﻿using Coditech.API.Data;
+﻿using System.ComponentModel.DataAnnotations;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
-using Coditech.Resources;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
 namespace Coditech.Admin.ViewModel
 {
     public class AccGLTransactionViewModel : BaseViewModel
@@ -45,6 +42,8 @@ namespace Coditech.Admin.ViewModel
         public List<AccGLTransactionDetailsModel> AccGLTransactionDetailsList { get; set; }
         public List<AccSetupGLModel> AccSetupGLList { get; set; }
         public List<AccSetupGLModel> SuggestionsAccSetupGLList { get; set; }
+        public List<AccGLIndividualOpeningBalanceModel> Personlist { get; set; }
+
 
     }
 }
