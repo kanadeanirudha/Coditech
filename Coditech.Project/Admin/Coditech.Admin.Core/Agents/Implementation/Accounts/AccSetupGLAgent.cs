@@ -51,6 +51,10 @@ namespace Coditech.Admin.Agents
             {
                 AccSetupGLResponse response = _accSetupGLClient.CreateAccountSetupGL(accSetupGLModel);
                 AccSetupGLModel model = response?.AccSetupGLModel;
+                if (!model.HasError)
+                {
+                    RemoveInSession(AdminConstants.AccountPrerequisiteSession);
+                }
 
                 // Return the model directly without converting to ViewModel
                 return model ?? new AccSetupGLModel();
