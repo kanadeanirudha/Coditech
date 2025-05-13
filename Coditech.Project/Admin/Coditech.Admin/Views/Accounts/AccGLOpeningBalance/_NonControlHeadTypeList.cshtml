@@ -36,10 +36,11 @@
                                                id="OpeningBalance_@item.AccSetupGLId"
                                                name="ACCGLBalanceList[@item.AccSetupGLId].OpeningBalance"
                                                type="text"
-                                               value="@item.OpeningBalance"
-                                        @(item.OpeningBalance > 0 ? "readonly" : "") />
+                                               value="@item.ClosingBalance"
+                                        @(item.OpeningBalance ==0 && item.ClosingBalance > 0 ? "readonly" : "") />
                                     </div>
                                 </td>
+
                                 <td class="text-center">
                                     @if (item.DebitCreditEnum == 0)
                                     {
@@ -60,8 +61,6 @@
     </div>
 </div>
 <script src="/js/coditech/Accounts/ACCGLOpeningBalance.js"></script>
-
-
 
 
 

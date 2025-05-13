@@ -15,7 +15,7 @@ namespace Coditech.Admin.ViewModel
         public int AccSetupGLId { get; set; }
         public int AccSetupBalanceSheetId { get; set; }
         public DateTime OpeningDatetime { get; set; }
-        public decimal OpeningBalance { get; set; }
+        public decimal? OpeningBalance { get; set; }
         public decimal TotalDebitAmount { get; set; }
         public decimal TotalCreditAmount { get; set; }
         public decimal ClosingBalance { get; set; }

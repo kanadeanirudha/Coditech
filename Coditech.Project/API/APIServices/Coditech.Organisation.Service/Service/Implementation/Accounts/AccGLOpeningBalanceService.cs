@@ -57,8 +57,9 @@ namespace Coditech.API.Service
             if (accGLOpeningBalanceModel.ACCGLBalanceList.Count > 0)
             {
                 List<AccGLOpeningBalance> ACCGLOpeningBalanceList = new List<AccGLOpeningBalance>();
-
-                foreach (ACCGLOpeningBalanceModel item in accGLOpeningBalanceModel.ACCGLBalanceList.Where(x => x.OpeningBalance > 0))
+                foreach (var item in accGLOpeningBalanceModel.ACCGLBalanceList
+                    .Where(x => x.OpeningBalance > 0)
+                    .DistinctBy(x => x.AccSetupGLId))
                 {
                     item.GeneralFinancialYearId = generalFinancialYearId;
                     ACCGLOpeningBalanceList.Add(new AccGLOpeningBalance()
@@ -122,7 +123,7 @@ namespace Coditech.API.Service
             {
 				List<AccGLIndividualOpeningBalance> IndividualOpeningBalanceList = new List<AccGLIndividualOpeningBalance>();
 
-                foreach (AccGLIndividualOpeningBalanceModel item in accGLIndividualOpeningBalanceModel.AccGLIndividualOpeningBalanceList.Where(x => x.OpeningBalance > 0))
+                foreach (AccGLIndividualOpeningBalanceModel item in accGLIndividualOpeningBalanceModel.AccGLIndividualOpeningBalanceList.Where(x => x.OpeningBalance > 0).DistinctBy(x => x.AccSetupGLId))
                 {
 					IndividualOpeningBalanceList.Add(new AccGLIndividualOpeningBalance()
                     {
