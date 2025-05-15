@@ -39,7 +39,6 @@
     },
 
     getData: function (query, process, valuTransactionType) {
-        console.log("✅ Selected Transaction Type Code:", valuTransactionType);
 
         $.ajax({
             url: "/AccGLTransaction/GetAccSetupGLAccountList",
@@ -53,43 +52,32 @@
             },
             dataType: "json",
             beforeSend: function () {
-                console.log("🚀 Sending Data:", {
-                    term: query,
-                    transactionTypeCode: valuTransactionType
-                });
+
             },
             success: function (response) {
-                console.log("✅ Full Response:", response);
 
                 if (!response || !response.Value || !response.Value.data) {
-                    console.error("❌ Error: Response structure is incorrect", response);
                     return;
                 }
 
                 var actualData = response.Value.data;
-                console.log("🔄 Processed Data Array:", actualData);
 
                 if (!Array.isArray(actualData) || actualData.length === 0) {
-                    console.warn("⚠️ No data found in response.Value.data!");
                     return;
                 }
 
                 var suggestions = [];
 
                 $.each(actualData, function (i, transaction) {
-                    console.log("🛠 Debugging Each Item:", transaction);
 
                     if (transaction && transaction.GLName) {
-                        console.log("🟢 Found GLName:", transaction.GLName);
                         AccGLTransaction.map[transaction.GLName, transaction.AccSetupGLId] = transaction;
                         suggestions.push(transaction.GLName, transaction.AccSetupGLId);
 
                     } else {
-                        console.warn("⚠️ No GLName found in this item:", transaction);
                     }
                 });
 
-                console.log("✅ Final Suggestions:", suggestions);
                 process(suggestions);
             }
         });
@@ -98,7 +86,6 @@
         var tableLength = $('#example tbody tr').length;
         var newRowCount = tableLength + 1;
         var valuTransactionType = $('#AccSetupTransactionTypeId').val();
-        console.log("✅ Inside AddRow: Selected Transaction Type Code:", valuTransactionType);
 
         if (tableLength === 0) {
             $("#debitBal").val(0);
@@ -220,12 +207,7 @@
         AccGLTransaction.SelectedXmlData = xmlData;
         $("#TransactionDetailsData").val(xmlData);
 
-        // Log final XML Data for debugging
-        console.log("✅ Final XML Data:\n", xmlData);
-
-        // Submit the form
-        $("#frmWorkoutPlanDetails").submit();
-        console.log("✅ Final XML Data submitted:\n", xmlData);
+        $("#transactionDetails").submit();
     },
 
 
@@ -246,7 +228,6 @@
             totalCredit += creditValue;
         });
 
-        console.log("🔢 Total Debit:", totalDebit, " | Total Credit:", totalCredit);
 
         $("#debitBal").val(totalDebit.toFixed(2));
         $("#creditBal").val(totalCredit.toFixed(2));
@@ -254,7 +235,6 @@
         // Check if debit equals credit
         if (totalDebit !== totalCredit) {
             $("#debitBal, #creditBal").css("border", "2px solid red");
-            console.warn("⚠️ Debit and Credit do not match!");
         } else {
             $("#debitBal, #creditBal").css("border", "");
         }
@@ -305,7 +285,6 @@
                             };
                         });
 
-                        console.log(suggestions);
                         response(suggestions);
                     },
                     error: function () {
@@ -318,7 +297,6 @@
 
                 var row = $(selector).closest("tr");
 
-                // Show/hide cheque fields based on account typeId
                 if (ui.item.typeId === 5) {
                     row.find(".cheque-fields").show();
                     row.find(".Person-field").hide();
@@ -327,15 +305,11 @@
                     row.find(".Person-field").hide();
                 }
 
-                // Show person field if userTypeId > 0
                 if (ui.item.userTypeId > 0) {
-                    console.log("Triggering person fetch...");
-
                     row.find(".Person-field").show();  // Display Person field
                     var $personInput = row.find(".Person-field input");
                     $personInput.val("");  // Clear previous value
 
-                    // Trigger person autocomplete based on selected account's userTypeId
                     $personInput.autocomplete({
                         minLength: 1,
                         delay: 0,
@@ -350,8 +324,6 @@
                                 dataType: "json",
                                 success: function (data) {
                                     let actualData = [];
-                                    console.log(data);
-
                                     if (Array.isArray(data.Value)) {
                                         actualData = data.Value;
                                     } else if (data.Value && Array.isArray(data.Value.data)) {
@@ -372,7 +344,6 @@
                                         };
                                     });
 
-                                    console.log(suggestions);
                                     response(suggestions);
                                 },
                                 error: function () {
@@ -383,19 +354,13 @@
                         select: function (event, person) {
                             var selectedPerson = person.item;
 
-                            // Save selected PersonId and UserTypeId on the input field
                             $personInput.data("person-id", selectedPerson.PersonId); // Store PersonId
                             $personInput.data("user-type-id", selectedPerson.userTypeId); // Store UserTypeId
 
-                            console.log("Selected PersonId:", selectedPerson.PersonId);
-                            console.log("Selected UserTypeId:", selectedPerson.userTypeId);
 
-                            // You can now access the stored PersonId and UserTypeId like this:
                             var personId = $personInput.data("person-id");
                             var userTypeId = $personInput.data("user-type-id");
 
-                            console.log("Stored PersonId from input field:", personId);
-                            console.log("Stored UserTypeId from input field:", userTypeId);
                         }
                     });
                 } else {
@@ -481,13 +446,10 @@
         $(document).on("click", ".edit-row", function (e) {
             e.preventDefault();
             var row = $(this).closest("tr");
-            console.log("🛠 Editing Row:", row.attr("id"));
             row.find("input").prop("disabled", false);
         });
     }
 };
-
-// ✅ Initialize on Page Load
 $(document).ready(function () {
     AccGLTransaction.InitializeAutocomplete(".typeahead");
     AccGLTransaction.Initialize();
