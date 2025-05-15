@@ -1,15 +1,12 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using System.Diagnostics;
+using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
-using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-using Coditech.Common.Exceptions;
-using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-using Coditech.Model;
 using Coditech.Resources;
-using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Admin.Agents
 {
@@ -45,6 +42,10 @@ namespace Coditech.Admin.Agents
                 OrganisationCentrewiseAccountSetupResponse response = _organisationCentrewiseAccountSetupClient.UpdateOrganisationCentrewiseAccountSetup(organisationCentrewiseAccountSetupViewModel.ToModel<OrganisationCentrewiseAccountSetupModel>());
                 OrganisationCentrewiseAccountSetupModel organisationCentrewiseAccountSetupModel = response?.OrganisationCentrewiseAccountSetupModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.OrganisationCentrewiseAccountSetup.ToString(), TraceLevel.Info);
+                if (!organisationCentrewiseAccountSetupModel.HasError)
+                {
+                    RemoveInSession(AdminConstants.AccountPrerequisiteSession);
+                }
                 return IsNotNull(organisationCentrewiseAccountSetupModel) ? organisationCentrewiseAccountSetupModel.ToViewModel<OrganisationCentrewiseAccountSetupViewModel>() : (OrganisationCentrewiseAccountSetupViewModel)GetViewModelWithErrorMessage(new OrganisationCentrewiseAccountSetupViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
