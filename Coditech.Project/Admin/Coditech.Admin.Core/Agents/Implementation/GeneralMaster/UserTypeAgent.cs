@@ -165,7 +165,13 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "UserDescription",
                 IsSortable = true,
             });
-            
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
+                IsSortable = true,
+            });
+
             return datatableColumnList;
         }
         #endregion
