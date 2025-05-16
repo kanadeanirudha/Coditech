@@ -13,6 +13,7 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "To Date")]
         public DateTime ToDate { get; set; } = DateTime.Now;
+        [Required]
         [Display(Name = "Centre")]
         public string CentreCode { get; set; }
         [Display(Name = "Is Year End")]
