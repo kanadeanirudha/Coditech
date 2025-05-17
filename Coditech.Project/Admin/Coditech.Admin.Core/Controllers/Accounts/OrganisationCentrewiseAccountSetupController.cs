@@ -1,8 +1,5 @@
 ﻿using Coditech.Admin.Agents;
-using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 namespace Coditech.Admin.Controllers
@@ -19,9 +16,14 @@ namespace Coditech.Admin.Controllers
 
         #region OrganisationCentrewiseAccountSetup
         [HttpGet]
-        public virtual ActionResult GetAccountSetup()
+        public virtual ActionResult GetAccountSetup(DataTableViewModel dataTableModel)
         {
-            return ActionView(createEdit, new OrganisationCentrewiseAccountSetupViewModel());
+            GetListOnlyIfSingleCentre(dataTableModel);
+            OrganisationCentrewiseAccountSetupViewModel organisationCentrewiseAccountSetupViewModel = new OrganisationCentrewiseAccountSetupViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
+                organisationCentrewiseAccountSetupViewModel = _organisationCentrewiseAccountSetupAgent.GetOrganisationCentrewiseAccountSetup(dataTableModel.SelectedCentreCode);
+
+            return ActionView(createEdit, organisationCentrewiseAccountSetupViewModel);
         }
 
         [HttpGet]

@@ -245,7 +245,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Employee Role Role",
+                ColumnName = "Employee Role",
                 ColumnCode = "SanctionPostName",
                 IsSortable = true,
             });
