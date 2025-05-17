@@ -15,8 +15,8 @@ namespace Coditech.API.Endpoint
 
         public string UpdateGLTransactionAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/UpdateGLTransaction";
-        public string GetAccSetupGLAccountListAsync(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode) =>
-               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetAccSetupGLAccountList?searchKeyword={searchKeyword}&accSetupGLId={accSetupGLId}&userType={userType}&transactionTypeCode={transactionTypeCode}";
+        public string GetAccSetupGLAccountListAsync(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balanceSheet) =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetAccSetupGLAccountList?searchKeyword={searchKeyword}&accSetupGLId={accSetupGLId}&userType={userType}&transactionTypeCode={transactionTypeCode}&balanceSheet={balanceSheet}";
         public string GetPersonsAsync(string searchKeyword, int userTypeId, int balanceSheet) =>
                        $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/AccGLTransaction/GetPersons?searchKeyword={searchKeyword}&userTypeId={userTypeId}&balanceSheet={balanceSheet}";
     }

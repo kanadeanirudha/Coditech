@@ -29,7 +29,7 @@
 						</h4>
 					</div>
 					<div class="card-body">
-						@using (Html.BeginForm(actionName, controllerName, FormMethod.Post, new { id = "frmWorkoutPlanDetails" }))
+						@using (Html.BeginForm(actionName, controllerName, FormMethod.Post, new { id = "transactionDetails" }))
 						{
 							@Html.AntiForgeryToken()
 							@Html.HiddenFor(x => x.AccSetupBalanceSheetId)

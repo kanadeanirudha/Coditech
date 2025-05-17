@@ -68,11 +68,11 @@ namespace Coditech.API.Controllers
         [Route("/AccGLTransaction/GetPersons")]
         [HttpGet]
         [Produces(typeof(AccGLTransactionResponse))]
-        public virtual IActionResult GetPersons(string searchKeyword, int userTypeId, int balaceSheet)
+        public virtual IActionResult GetPersons(string searchKeyword, int userTypeId, int balanceSheet)
         {
             try
             {
-                List<AccGLTransactionModel> accGLTransactionList = _accGLTransactionService.GetPersons(searchKeyword, userTypeId, balaceSheet);
+                List<AccGLTransactionModel> accGLTransactionList = _accGLTransactionService.GetPersons(searchKeyword, userTypeId, balanceSheet);
 
                 return accGLTransactionList != null && accGLTransactionList.Any()
                     ? CreateOKResponse(new AccGLTransactionListResponse { AccGLTransactionList = accGLTransactionList })

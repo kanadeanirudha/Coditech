@@ -19,7 +19,7 @@ namespace Coditech.API.Client
         /// <param name="userType">Person Type</param>
         /// <param name= "transactionTypeCode" > Transaction Type Code</param>
         // <returns>List of AccSetupGLAccountResponse</returns>
-        AccGLTransactionListResponse GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode);
+        AccGLTransactionListResponse GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balanceSheet);
 
         /// <param name="searchKeyword">Search keyword</param>
         /// <param name="userTypeId">User Type</param>
@@ -27,12 +27,5 @@ namespace Coditech.API.Client
         // <returns>List of AccSetupGLAccountResponse</returns>
         AccGLTransactionListResponse GetPersons(string searchKeyword, int userTypeId, int balanceSheet);
 
-        ///// <summary>
-        ///// Delete Designation.
-        ///// </summary>
-        ///// <param name="ParameterModel">ParameterModel.</param>
-        ///// <returns>Returns true if deleted successfully else return false.</returns>
-        //TrueFalseResponse DeleteBalanceSheet(ParameterModel body);
-        ////AccGLTransactionListResponse List(string selectedCentreCode, , object value, FilterCollection filters, SortCollection sortlist, int pageIndex, int pageSize);
     }
 }

@@ -20,7 +20,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="accGLTransactionViewModel">accGLTransactionViewModel.</param>
         /// <returns>Returns updated AccGLTransactionsViewModel</returns>
-        List<AccGLTransactionViewModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode);
+        List<AccGLTransactionViewModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balanceSheet);
         GeneralFinancialYearModel GetCurrentFinancialYear();
 
         /// <summary>

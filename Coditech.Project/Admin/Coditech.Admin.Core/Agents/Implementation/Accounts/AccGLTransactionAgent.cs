@@ -30,7 +30,7 @@ namespace Coditech.Admin.Agents
         {
             _coditechLogging = coditechLogging;
             _accGLTransactionClient = GetClient<IAccGLTransactionClient>(accGLTransactionClient);
-            _generalFinancialYearClient= GetClient<IGeneralFinancialYearClient>(generalFinancialYearClient);
+            _generalFinancialYearClient = GetClient<IGeneralFinancialYearClient>(generalFinancialYearClient);
         }
         #endregion
 
@@ -69,18 +69,19 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        public List<AccGLTransactionViewModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode)
+        public List<AccGLTransactionViewModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balanceSheet)
         {
-            AccGLTransactionListResponse response = _accGLTransactionClient.GetAccSetupGLAccountList(searchKeyword, accSetupGLId, userType, transactionTypeCode);
+            AccGLTransactionViewModel accGLTransactionViewModel = new AccGLTransactionViewModel();
+            balanceSheet = AdminGeneralHelper.GetSelectedBalanceSheetId();
+            AccGLTransactionListResponse response = _accGLTransactionClient.GetAccSetupGLAccountList(searchKeyword, accSetupGLId, userType, transactionTypeCode, balanceSheet);
 
             return response?.AccGLTransactionList?.ToViewModel<AccGLTransactionViewModel>().ToList()
                    ?? new List<AccGLTransactionViewModel>(); // Ensure returning a valid list
         }
         public List<AccGLTransactionViewModel> GetPersons(string searchKeyword, int userTypeId, int balanceSheet)
         {
-            var accGLTransactionViewModel = new AccGLTransactionViewModel();
             //Set the AccSetupBalanceSheetId from the AdminGeneralHelper
-            accGLTransactionViewModel.AccSetupBalanceSheetId = AdminGeneralHelper.GetSelectedBalanceSheetId();
+            balanceSheet = AdminGeneralHelper.GetSelectedBalanceSheetId();
             AccGLTransactionListResponse response = _accGLTransactionClient.GetPersons(searchKeyword, userTypeId, balanceSheet);
 
             return response?.AccGLTransactionList?.ToViewModel<AccGLTransactionViewModel>().ToList()
