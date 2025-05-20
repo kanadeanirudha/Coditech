@@ -7,32 +7,30 @@
     GetAccSetUpCategoryListByGLCategory: function () {
         $('#AccGLOpeningBalanceDivId').hide().html('');
         var accSetupCategoryId = $("#AccSetupCategoryId").val();
-        if (accSetupCategoryId === "") {
+        if (accSetupCategoryId == "") {
             CoditechNotification.DisplayNotificationMessage("Please select Category.", "error");
-
-            CoditechCommon.ShowLodder();
-            $.ajax({
-                cache: false,
-                type: "GET",
-                dataType: "html",
-                url: "/AccGLOpeningBalance/UpdateNonControlHeadType",
-                data: { accSetupCategoryId: accSetupCategoryId },
-             
-                contentType: "application/json; charset=utf-8",
-                
-                success: function (data) {
-                    $('#AccGLOpeningBalanceDivId').html(data).show();
-                    CoditechCommon.HideLodder();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    if (xhr.status == "401" || xhr.status == "403") {
-                        location.reload();
-                    }
-                    CoditechNotification.DisplayNotificationMessage("Failed to retrieve Acc SetUp Category.", "error")
-                    CoditechCommon.HideLodder();
-                }
-            });
+            return false;
         }
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: "html",
+            url: "/AccGLOpeningBalance/UpdateNonControlHeadType",
+            data: { "accSetupCategoryId": accSetupCategoryId },
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#AccGLOpeningBalanceDivId').html(data).show();
+                CoditechCommon.HideLodder();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == "401" || xhr.status == "403") {
+                    location.reload();
+                }
+                CoditechNotification.DisplayNotificationMessage("Failed to retrieve Acc SetUp Category.", "error")
+                CoditechCommon.HideLodder();
+            }
+        });
     },
 
     SaveDataDeatils: function () {
@@ -90,11 +88,11 @@
     },
 
     GetAccSetUpCategoryList: function () {
-        var accSetupCategoryId = $("#AccSetupCategoryId").val();
         $('#AccGLOpeningBalanceControlHeadDivId').html('');
-        if (accSetupCategoryId != "") {
+        var accSetupCategoryId = $("#AccSetupCategoryId").val();
+        if (accSetupCategoryId == "") {
             CoditechNotification.DisplayNotificationMessage("Please select Category.", "error");
-
+            return false;
         }
         CoditechCommon.ShowLodder();
         $.ajax({
