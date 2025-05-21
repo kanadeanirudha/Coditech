@@ -15,6 +15,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(20)]
         [Display(Name = "Balance Sheet Code")]
         public string AccBalancesheetCode { get; set; }
+        [Required]
         [Display(Name = "Centre")]
         [MaxLength(15)]
         public string CentreCode { get; set; }
