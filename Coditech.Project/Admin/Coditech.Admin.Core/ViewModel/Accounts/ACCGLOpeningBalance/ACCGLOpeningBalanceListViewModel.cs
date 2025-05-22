@@ -12,6 +12,7 @@ namespace Coditech.Admin.ViewModel
         public int AccGLOpeningBalanceId { get; set; }
         public short AccSetupCategoryId { get; set; }
         public int AccSetupGLId { get; set; }
+        public bool IsClosingBalanceUpdated { get; set; }
         public string AccGLOpeningBalanceData { get; set; }
         public List<ACCGLOpeningBalanceModel> ACCGLBalanceList { get; set; }
         public GeneralFinancialYearModel GeneralFinancialYearModel { get; set; }

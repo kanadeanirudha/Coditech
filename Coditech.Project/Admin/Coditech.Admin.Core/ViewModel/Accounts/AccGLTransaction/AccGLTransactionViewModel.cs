@@ -27,7 +27,7 @@ namespace Coditech.Admin.ViewModel
         public string VoucherNumber { get; set; }
         [Display(Name = "Transaction  Number")]
         public int TransactionEnum { get; set; }
-        [Display(Name = "Transaction Refrence Number")]
+        [Display(Name = "Transaction Reference Number")]
         [MaxLength(200)]
         public string TransactionRefId { get; set; }
         [MaxLength(30)]
