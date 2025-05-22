@@ -8,7 +8,7 @@ using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Specialized;
 using System.Data;
-
+using Z.EntityFramework.Extensions;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
@@ -57,6 +57,10 @@ namespace Coditech.API.Service
             if (IsFinancialYearEntryAlreadyExist(generalFinancialYearModel.FromDate, generalFinancialYearModel.ToDate, generalFinancialYearModel.GeneralFinancialYearId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Financial Year"));
 
+            if (generalFinancialYearModel.IsCurrentFinancialYear)
+            {
+                ResetCurrentFinancialYear();
+            }
 
             GeneralFinancialYear generalFinancialYearMaster = generalFinancialYearModel.FromModelToEntity<GeneralFinancialYear>();
 
@@ -99,6 +103,10 @@ namespace Coditech.API.Service
             if (generalFinancialYearModel.GeneralFinancialYearId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "FinancialYearID"));
 
+            if (generalFinancialYearModel.IsCurrentFinancialYear)
+            {
+                ResetCurrentFinancialYear(generalFinancialYearModel.GeneralFinancialYearId); 
+            }
 
             GeneralFinancialYear generalFinancialYearMaster = generalFinancialYearModel.FromModelToEntity<GeneralFinancialYear>();
 
@@ -155,6 +163,20 @@ namespace Coditech.API.Service
 
         protected virtual bool IsFinancialYearEntryAlreadyExist(DateTime FromDate, DateTime ToDate, short generalFinancialYearId = 0)
         => _generalFinancialYearMasterRepository.Table.Any(x => x.FromDate == FromDate && x.ToDate == ToDate && (x.GeneralFinancialYearId != generalFinancialYearId || generalFinancialYearId == 0));
+
+        public void ResetCurrentFinancialYear(short? financialYearId=null)
+        {
+            var allYears = _generalFinancialYearMasterRepository.Table.Where(x => x.IsCurrentFinancialYear).ToList();
+
+            foreach (var year in allYears)
+            {
+                if (!financialYearId.HasValue || year.GeneralFinancialYearId != financialYearId.Value)
+                {
+                    year.IsCurrentFinancialYear = false;
+                    _generalFinancialYearMasterRepository.Update(year); 
+                }
+            }
+        }
 
         #endregion
     }
