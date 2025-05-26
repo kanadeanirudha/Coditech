@@ -120,7 +120,7 @@ var AccSetupGL = {
                 $(".text-danger").text("");
                 console.log("🧹 3Modal fully reset on close");
                 let url = window.location.origin + window.location.pathname +
-                    '?selectedCentreCode=' + ( $("#SelectedCentreCode").val() || '') +
+                    '?selectedCentreCode=' + ($("#SelectedCentreCode").val() || '') +
                     '&accSetupBalanceSheetTypeId=' + ($("#AccSetupBalanceSheetTypeId").val() || '') +
                     '&accSetupBalancesheetId=' + ($("#AccSetupBalancesheetId").val() || '');
 
@@ -482,7 +482,7 @@ var AccSetupGL = {
                     setTimeout(() => {
                         $('input[name="BankAccountName"]').val(response.data['bankAccountName'] || '');
                         $('input[name="BankAccountNumber"]').val(response.data['bankAccountNumber'] || '')
-                            .attr('disabled', 'disabled'); 
+                            .attr('disabled', 'disabled');
                         $('input[name="BankBranchName"]').val(response.data['bankBranchName'] || '');
                         $('input[name="IFSCCode"]').val(response.data['iFSCCode'] || '').attr('disabled', 'disabled');
                     }, 100);
@@ -610,12 +610,13 @@ var AccSetupGL = {
             CoditechNotification.DisplayNotificationMessage("Please select Centre and Balance Sheet Type.", "error");
         }
     },
-
     GetAccSetupGLTree: function () {
         var selectedCentreCode = $("#SelectedCentreCode").val();
         var accSetupBalanceSheetTypeId = $("#AccSetupBalanceSheetTypeId").val();
         var accSetupBalanceSheetId = $("#AccSetupBalanceSheetId").val();
+
         $("#AccSetupGLTreeDivId").html("");
+
         if (selectedCentreCode != "" && accSetupBalanceSheetTypeId != "" && accSetupBalanceSheetId != "") {
             CoditechCommon.ShowLodder();
             $.ajax({
@@ -637,12 +638,24 @@ var AccSetupGL = {
                     if (xhr.status == "401" || xhr.status == "403") {
                         location.reload();
                     }
+
                     CoditechNotification.DisplayNotificationMessage("Failed to retrieve BalanceSheet.", "error");
+
+                    // Automatically fade out the error message after 10 seconds
+                    setTimeout(function () {
+                        $("#notificationDivId").fadeOut(1000);
+                    }, 1000);
+
                     CoditechCommon.HideLodder();
                 }
             });
         } else {
             CoditechNotification.DisplayNotificationMessage("Please select Centre and Balance Sheet Type and BalanceSheet.", "error");
+
+            // Automatically fade out the error message after 10 seconds
+            setTimeout(function () {
+                $("#notificationDivId").fadeOut(1000);
+            }, 1000);
         }
     }
 };
