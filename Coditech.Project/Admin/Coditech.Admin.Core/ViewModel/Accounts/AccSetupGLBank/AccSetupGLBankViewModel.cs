@@ -8,6 +8,7 @@ namespace Coditech.Admin.ViewModel
         public int ParentAccSetupGLId { get; set; }
         public int AccSetupBalanceSheetId { get; set; }
         public int AccSetupGLId { get; set; }
+        [MaxLength(20)]
         [Display(Name = "Account Number")]
         public string BankAccountNumber { get; set; }
         [Display(Name = "Account Name")]
@@ -22,6 +23,7 @@ namespace Coditech.Admin.ViewModel
         public DateTime DueDatetime { get; set; } = DateTime.Now;
         public int InterestTypeEnumId { get; set; }
         [Display(Name = "IFSC Code")]
+        [MaxLength(11)]
         public string IFSCCode { get; set; }
         public short AccSetupCategoryId { get; set; }
         public bool IsActive { get; set; }
