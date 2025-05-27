@@ -7,7 +7,7 @@
         public string CountryCode { get; set; }
         public string CallingCode { get; set; }
         public bool IsUserDefined { get; set; }
-        public Nullable<bool> DefaultFlag { get; set; }
+        public bool DefaultFlag { get; set; }
         public Nullable<int> SeqNo { get; set; }
         public string CurrencyCode { get; set; }
         public string currencySymbol { get; set; }

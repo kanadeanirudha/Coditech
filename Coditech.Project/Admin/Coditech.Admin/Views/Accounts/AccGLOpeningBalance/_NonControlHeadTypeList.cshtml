@@ -15,16 +15,15 @@
             @Html.HiddenFor(m => m.IsClosingBalanceUpdated)
             @Html.HiddenFor(m => m.GeneralFinancialYearModel)
             @Html.HiddenFor(m => m.AccSetupCategoryId)
-            <table class="table table-bordered table-sm" id="makeEditable">
-
+            <table class="table table-bordered table-sm-centre" id="makeEditable">
                 <tbody>
                     @if (Model?.ACCGLOpeningBalanceList?.Count > 0)
                     {
                     <thead>
                         <tr>
                             <th>GL Name</th>
-                            <th class="text-center">Opening Balance</th>
-                            <th class="text-center">Debit / Credit</th>
+                            <th class="text-left">Opening Balance</th>
+                            <th class="text-left">Debit / Credit</th>
                         </tr>
                     </thead>
                         foreach (var item in Model.ACCGLOpeningBalanceList)
@@ -34,7 +33,7 @@
                             <td>@item.GLName</td>
                             <td class="col-auto">
                                 <div>
-                                    <input class="form-control form-control-sm text-center opening-balance"
+                                    <input class="form-control form-control-sm text-end opening-balance"
                                            id="OpeningBalance_@item.AccSetupGLId"
                                            name="ACCGLBalanceList[@item.AccSetupGLId].OpeningBalance"
                                            type="text"
@@ -43,7 +42,7 @@
                                            onkeypress="return CoditechCommon.ValidNumeric()" />
                                 </div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-left">
                                     @if (item.DebitCreditEnum == 0)
                                     {
                                     <span style="color: red; font-weight: bold;">Debit</span>
