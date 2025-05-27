@@ -53,7 +53,11 @@ namespace Coditech.API.Service
 
             if (IsCallingCodeAlreadyExist(generalCountryModel.CallingCode, generalCountryModel.GeneralCountryMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Calling Code"));
-
+            if (generalCountryModel.DefaultFlag)
+            {
+                ResetCurrentDefaultFlag();
+            }
+          
 
             GeneralCountryMaster generalCountryMaster = generalCountryModel.FromModelToEntity<GeneralCountryMaster>();
 
@@ -97,7 +101,10 @@ namespace Coditech.API.Service
 
             if (IsCallingCodeAlreadyExist(generalCountryModel.CallingCode, generalCountryModel.GeneralCountryMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Calling Code"));
-
+            if (generalCountryModel.DefaultFlag)
+            {
+                ResetCurrentDefaultFlag(generalCountryModel.GeneralCountryMasterId);
+            }
 
             GeneralCountryMaster generalCountryMaster = generalCountryModel.FromModelToEntity<GeneralCountryMaster>();
 
@@ -132,6 +139,20 @@ namespace Coditech.API.Service
          => _generalCountryMasterRepository.Table.Any(x => x.CountryName == countryName && (x.GeneralCountryMasterId != generalCountryMasterId || generalCountryMasterId == 0));
         protected virtual bool IsCallingCodeAlreadyExist(string callingCode, short generalCountryMasterId = 0)
          => _generalCountryMasterRepository.Table.Any(x => x.CallingCode == callingCode && (x.GeneralCountryMasterId != generalCountryMasterId || generalCountryMasterId == 0));
+
+        public void ResetCurrentDefaultFlag(short? countryId = null)
+        {
+            var allDefaultflag = _generalCountryMasterRepository.Table.Where(x => x.DefaultFlag).ToList();
+
+            foreach (var defaultflag in allDefaultflag)
+            {
+                if (!countryId.HasValue || defaultflag.GeneralCountryMasterId != countryId.Value)
+                {
+                    defaultflag.DefaultFlag = false;
+                    _generalCountryMasterRepository.Update(defaultflag);
+                }
+            }
+        }
         #endregion
     }
 }

@@ -71,7 +71,7 @@
 
 									<div class="col-lg-2">
 										<div class="mb-3">
-											@Html.LabelFor(x => x.NarrationDescription, new { @class = "form-label required " })
+											@Html.LabelFor(x => x.NarrationDescription, new { @class = "form-label required "})
 											@Html.TextAreaFor(x => x.NarrationDescription, new { @class = "form-control" })
 											@Html.ValidationMessageFor(x => x.NarrationDescription)
 										</div>
@@ -137,20 +137,53 @@
 <script src="~/js/coditech/Accounts/AccGLTransaction.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function () {
-		console.log("jQuery loaded:", typeof jQuery);
-		console.log("Typeahead loaded:", typeof $.fn.typeahead);
-	});
-	$(document).ready(function () {
+		console.log("DOM fully loaded");
+
+		const addRowButton = document.getElementById("addRowButton");
+
 		if (typeof AccGLTransaction !== "undefined" && AccGLTransaction !== null) {
-			// Attach event to Add Row button
-			$("#addRowButton").click(function () {
+			addRowButton.addEventListener("click", function () {
+				let isValid = true;
+				let messages = [];
+
+				// Utility to validate field and show error
+				function validateField(fieldId, message) {
+					const field = document.getElementById(fieldId);
+					const value = field?.value?.trim();
+					const validationSpan = field?.closest(".mb-3")?.querySelector(".field-validation-error");
+					if (!value) {
+						isValid = false;
+						messages.push(message);
+						if (validationSpan) validationSpan.textContent = message;
+					} else {
+						if (validationSpan) validationSpan.textContent = "";
+					}
+				}
+
+				// Run validations
+				validateField("SelectedCentreCode", "Centre is required.");
+				validateField("GeneralFinancialYearId", "Financial Year is required.");
+				validateField("AccSetupTransactionTypeId", "Transaction Type is required.");
+				validateField("NarrationDescription", "Narration Description is required.");
+				validateField("TransactionRefId", "Transaction Ref is required.");
+
+				if (!isValid) {
+					CoditechNotification.DisplayNotificationMessage("Please select the required fields");
+					return false;
+				}
+
+				// All good, add row
 				AccGLTransaction.AddRow();
 			});
-			// Update totals when debit/credit fields change
-			$(document).on("input", ".debit-field, .credit-field", function () {
-				AccGLTransaction.calculateTotals();
+
+			// Handle debit/credit input changes
+			document.addEventListener("input", function (event) {
+				if (event.target.classList.contains("debit-field") || event.target.classList.contains("credit-field")) {
+					AccGLTransaction.calculateTotals();
+				}
 			});
-			// Uncomment this if you want to pre-load transaction details
+
+			// Load initial rows if needed
 			AccGLTransaction.GetTransactionDetailsByType(@Model.AccSetupBalanceSheetTypeId);
 
 		} else {
@@ -158,4 +191,7 @@
 		}
 	});
 </script>
+
+
+
 

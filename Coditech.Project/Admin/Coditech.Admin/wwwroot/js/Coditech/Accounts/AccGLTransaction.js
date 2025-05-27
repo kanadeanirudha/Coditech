@@ -135,29 +135,27 @@
         AccGLTransaction.calculateTotals();
     },
 
-
     SaveData: function () {
         var data = [];
+        var isValid = true;
         $('#example tbody tr').each(function () {
             var row = $(this);
             var rowId = row.attr('id').replace("row", "");
 
-            // Get debit and credit values
             var debitAmount = parseFloat(row.find(`#debitBal${rowId}`).val()) || 0;
             var creditAmount = parseFloat(row.find(`#creditBal${rowId}`).val()) || 0;
-
-            // Determine flag and amount
-            var debitCreditEnum = debitAmount > 0 ? 0 : 1;  // 0 for debit, 1 for credit
-            var transactionAmount = debitAmount > 0 ? debitAmount : creditAmount;
-
-            // Get selected account info
             var selectedAccount = row.find(`#AccGlName${rowId}`).data("selected-account");
 
-            // Get UserTypeId from selected account's userTypeId
-            var userTypeId = selectedAccount ? selectedAccount.userTypeId : "";  // Assign default value if not selected
-
-            // Get PersonId from the person autocomplete (stored after person selection)
-            var personId = row.find(`#PersonId${rowId}`).data("person-id") || ""; // Use `data` to retrieve the selected PersonId
+            if ((debitAmount > 0 || creditAmount > 0) && !selectedAccount) {
+                isValid = false;
+                CoditechNotification.DisplayNotificationMessage("Please select Account.", "error");
+                
+                return false; 
+            }
+            var debitCreditEnum = debitAmount > 0 ? 0 : 1;
+            var transactionAmount = debitAmount > 0 ? debitAmount : creditAmount;
+            var userTypeId = selectedAccount ? selectedAccount.userTypeId : "";
+            var personId = row.find(`#PersonId${rowId}`).data("person-id") || "";
 
             // Build row data object
             var rowData = {
@@ -178,6 +176,7 @@
             // Push the row data into the data array
             data.push(rowData);
         });
+        if (!isValid) return false;
 
         // Build XML with enum-based DebitCreditEnum
         const safe = val => (val != null ? val : "");
@@ -209,12 +208,9 @@
 
         $("#transactionDetails").submit();
     },
-
-
     editRow: function (row) {
         row.find("input").prop("disabled", false);
     },
-
     calculateTotals: function () {
         let totalDebit = 0, totalCredit = 0;
 
@@ -228,7 +224,6 @@
             totalCredit += creditValue;
         });
 
-
         $("#debitBal").val(totalDebit.toFixed(2));
         $("#creditBal").val(totalCredit.toFixed(2));
 
@@ -239,8 +234,6 @@
             $("#debitBal, #creditBal").css("border", "");
         }
     },
-
-
 
     InitializeAutocomplete: function (selector, transactionTypeCode) {
         transactionTypeCode = transactionTypeCode || AccGLTransaction.valuTransactionType;
@@ -268,7 +261,6 @@
                         } else if (data.Value && Array.isArray(data.Value.data)) {
                             actualData = data.Value.data;
                         }
-
                         const term = request.term.toLowerCase();
                         const filtered = actualData.filter(item =>
                             item.GLName.toLowerCase().includes(term)
@@ -284,7 +276,6 @@
                                 userTypeId: item.UserTypeId
                             };
                         });
-
                         response(suggestions);
                     },
                     error: function () {
@@ -304,7 +295,6 @@
                     row.find(".cheque-fields").hide();
                     row.find(".Person-field").hide();
                 }
-
                 if (ui.item.userTypeId > 0) {
                     row.find(".Person-field").show();  // Display Person field
                     var $personInput = row.find(".Person-field input");
@@ -329,7 +319,6 @@
                                     } else if (data.Value && Array.isArray(data.Value.data)) {
                                         actualData = data.Value.data;
                                     }
-
                                     const term = request.term.toLowerCase();
                                     const filtered = actualData.filter(item =>
                                         item.PersonName.toLowerCase().includes(term)
