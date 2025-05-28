@@ -31,7 +31,7 @@ namespace Coditech.Admin.Controllers
                 DropdownName = "GeneralFinancialYearId",
                 Parameter = $"{selectedCentreCode}",
             };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", financialYearDropdown);
+			return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", financialYearDropdown);
         }
         [HttpGet]
         public virtual ActionResult Create()
@@ -55,8 +55,6 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(accGLTransactionViewModel.ErrorMessage));
             return View(createEdit, accGLTransactionViewModel);
         }
-
-
         public virtual ActionResult Cancel()
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { };

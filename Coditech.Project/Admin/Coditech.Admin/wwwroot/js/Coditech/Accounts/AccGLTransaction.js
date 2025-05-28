@@ -22,7 +22,7 @@
                 data: { "selectedCentreCode": selectedCentreCode },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    $("#GeneralFinancialYearId").html(data);
+                    $("#GeneralFinancialYearId").html("").html(data);
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr) {
@@ -149,8 +149,8 @@
             if ((debitAmount > 0 || creditAmount > 0) && !selectedAccount) {
                 isValid = false;
                 CoditechNotification.DisplayNotificationMessage("Please select Account.", "error");
-                
-                return false; 
+
+                return false;
             }
             var debitCreditEnum = debitAmount > 0 ? 0 : 1;
             var transactionAmount = debitAmount > 0 ? debitAmount : creditAmount;
@@ -205,9 +205,9 @@
         // Set hidden field and global var with XML data
         AccGLTransaction.SelectedXmlData = xmlData;
         $("#TransactionDetailsData").val(xmlData);
-
         $("#transactionDetails").submit();
     },
+
     editRow: function (row) {
         row.find("input").prop("disabled", false);
     },
