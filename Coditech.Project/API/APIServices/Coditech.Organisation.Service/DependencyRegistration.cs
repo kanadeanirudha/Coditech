@@ -108,6 +108,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IAccGLOpeningBalanceService, AccGLOpeningBalanceService>();
             builder.Services.AddScoped<IAccSetupCategoryService, AccSetupCategoryService>();
             builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupService, OrganisationCentrewiseAccountSetupService>();
+            builder.Services.AddScoped<IAccountReportService, AccountReportService>();
             #endregion
 
         }
