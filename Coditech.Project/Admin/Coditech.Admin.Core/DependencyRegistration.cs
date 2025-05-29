@@ -69,7 +69,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralUserModuleAgent, GeneralUserModuleAgent>();
             builder.Services.AddScoped<IUserTypeAgent, UserTypeAgent>();
             builder.Services.AddScoped<IGeneralPolicyAgent, GeneralPolicyAgent>();
-            builder.Services.AddScoped< IOrganisationCentrewisePolicyAgent, OrganisationCentrewisePolicyAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewisePolicyAgent, OrganisationCentrewisePolicyAgent>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
@@ -129,6 +129,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateAgent, AccSetupChartOfAccountTemplateAgent>();
             builder.Services.AddScoped<IAccGLTransactionAgent, AccGLTransactionAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupAgent, OrganisationCentrewiseAccountSetupAgent>();
+            builder.Services.AddScoped<IAccountReportAgent, AccountReportAgent>();
             #endregion
 
             #endregion Agent
@@ -198,7 +199,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralUserModuleClient, GeneralUserModuleClient>();
             builder.Services.AddScoped<IGeneralPolicyClient, GeneralPolicyClient>();
             builder.Services.AddScoped<IOrganisationCentrewisePolicyClient, OrganisationCentrewisePolicyClient>();
-
+            builder.Services.AddScoped<IAccountReportClient, AccountReportClient>();
             builder.Services.AddScoped<IUserTypeClient, UserTypeClient>();
 
 
@@ -228,7 +229,7 @@ namespace Coditech.Admin
             #endregion Gazette
 
             #region Payment 
-            builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>(); 
+            builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>();
             builder.Services.AddScoped<IPaymentGatewayDetailsClient, PaymentGatewayDetailsClient>();
             #endregion
 
