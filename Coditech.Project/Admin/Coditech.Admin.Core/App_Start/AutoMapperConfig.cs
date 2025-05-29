@@ -35,6 +35,7 @@ namespace Coditech.Admin
             CreateMap<AccGLIndividualOpeningBalanceModel, AccGLIndividualOpeningBalanceViewModel>().ReverseMap();
             CreateMap<AccPrequisiteModel, AccPrequisiteViewModel>().ReverseMap();
             CreateMap<AccountBalanceSheetReportModel, AccountBalanceSheetReportViewModel>().ReverseMap();
+            CreateMap<AccountProfitAndLossReportModel, AccountProfitAndLossReportViewModel>().ReverseMap();
             #endregion
 
             #region Admin 

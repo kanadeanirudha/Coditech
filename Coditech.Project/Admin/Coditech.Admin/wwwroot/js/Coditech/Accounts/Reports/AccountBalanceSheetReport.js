@@ -1,5 +1,6 @@
 ﻿var AccountBalanceSheetReport = {
     Initialize: function () {
+        this.GetFinancialYearListByCentreCode
     },
 
     constructor: function () {
@@ -34,6 +35,6 @@
     },
 };
 $(document).ready(function () {
-    AccGLTransaction.InitializeAutocomplete(".typeahead");
-    AccGLTransaction.Initialize();
+    
+    AccountBalanceSheetReport.Initialize();
 });

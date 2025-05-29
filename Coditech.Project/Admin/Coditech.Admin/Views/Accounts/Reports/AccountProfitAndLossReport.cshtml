@@ -1,6 +1,6 @@
-﻿@model AccountBalanceSheetReportViewModel
+﻿@model AccountProfitAndLossReportViewModel
 @{
-	ViewBag.Title = "Account BalanceSheet Report";
+	ViewBag.Title = "Account Profit And Loss Report";
 	string controllerName = ViewContext.RouteData.Values["controller"].ToString();
 	string actionName = ViewContext.RouteData.Values["action"].ToString();
 	DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "AccountBalanceSheetReport.GetFinancialYearListByCentreCode()" };
@@ -15,10 +15,10 @@
 			<div class="col-12">
 				<div class="card">
 					<div class="card-header">
-						<span class="card-title">Account BalanceSheet Reports</span>
+						<span class="card-title">Account Profit And Loss Report</span>
 					</div>
 					<div class="card-header">
-						@using (Html.BeginForm("AccountBalanceSheetReport", controllerName, FormMethod.Post))
+						@using (Html.BeginForm("AccountProfitAndLossReport", controllerName, FormMethod.Post))
 						{
 							<div class="row">
 								<div class="col-md-1">

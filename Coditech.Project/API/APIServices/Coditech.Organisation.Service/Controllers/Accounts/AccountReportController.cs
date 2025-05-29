@@ -18,7 +18,7 @@ namespace Coditech.API.Controllers
             _accountReportService = accountReportService;
             _coditechLogging = coditechLogging;
         }
-
+        #region BalanceSheet 
         [HttpGet]
         [Route("/AccountReport/GetBalanceSheetReportList")]
         [Produces(typeof(AccountBalanceSheetReportListResponse))]
@@ -42,5 +42,31 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new AccountBalanceSheetReportListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        #endregion
+        #region Profit And Loss 
+        [HttpGet]
+        [Route("/AccountReport/GetProfitAndLossReportList")]
+        [Produces(typeof(AccountProfitAndLossReportListResponse))]
+        [TypeFilter(typeof(BindQueryFilter))]
+        public virtual IActionResult GetProfitAndLossReportList(string selectedCentreCode, string selectedParameter1, string selectedParameter2, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        {
+            try
+            {
+                AccountProfitAndLossReportListModel list = _accountReportService.GetProfitAndLossReportList(selectedCentreCode, selectedParameter1, selectedParameter2, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                string data = ApiHelper.ToJson(list);
+                return !string.IsNullOrEmpty(data) ? CreateOKResponse<AccountProfitAndLossReportListResponse>(data) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "Account GL", TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AccountProfitAndLossReportListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "Account GL", TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new AccountProfitAndLossReportListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        #endregion
     }
 }

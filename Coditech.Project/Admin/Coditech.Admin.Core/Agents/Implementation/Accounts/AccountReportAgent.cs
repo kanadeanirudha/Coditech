@@ -24,6 +24,7 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
+        #region Balance Sheet Report 
         public virtual AccountBalanceSheetReportListViewModel GetBalanceSheetReportList(DataTableViewModel dataTableModel)
         {
             FilterCollection filters = null;
@@ -44,7 +45,29 @@ namespace Coditech.Admin.Agents
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AccountBalanceSheetReportList.Count, BindColumns());
             return listViewModel;
         }
-
+        #endregion
+        #region Account Profit And Loss 
+        public virtual AccountProfitAndLossReportListViewModel GetProfitAndLossReportList(DataTableViewModel dataTableModel)
+        {
+            FilterCollection filters = null;
+            dataTableModel = dataTableModel ?? new DataTableViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
+            {
+                filters = new FilterCollection();
+                filters.Add("GLName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+            }
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            AccountProfitAndLossReportListResponse response = _accountReportClient.GetProfitAndLossReportList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedParameter1, dataTableModel.SelectedParameter2, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            AccountProfitAndLossReportListModel accountProfitAndLossReportList = new AccountProfitAndLossReportListModel { AccountProfitAndLossReportList = response?.AccountProfitAndLossReportList };
+            AccountProfitAndLossReportListViewModel listViewModel = new AccountProfitAndLossReportListViewModel();
+            listViewModel.AccountProfitAndLossReportList = accountProfitAndLossReportList?.AccountProfitAndLossReportList?.ToViewModel<AccountProfitAndLossReportViewModel>().ToList();
+            listViewModel.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            listViewModel.SelectedParameter2 = dataTableModel.SelectedParameter2;
+            listViewModel.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AccountProfitAndLossReportList.Count, BindColumns());
+            return listViewModel;
+        }
+        #endregion
         #endregion
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
