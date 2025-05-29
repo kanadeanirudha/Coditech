@@ -22,5 +22,4 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\APIServices\Coditech.Payment.Service\Coditech.Payment.Service.csproj" />
 	</ItemGroup>
-
 </Project>

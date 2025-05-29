@@ -26,5 +26,4 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\APIServices\Coditech.Organisation.Service\Coditech.Organisation.Service.csproj" />
 	</ItemGroup>
-
 </Project>

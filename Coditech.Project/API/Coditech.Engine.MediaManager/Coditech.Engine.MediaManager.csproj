@@ -29,5 +29,4 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\APIServices\Coditech.MediaManager.Service\Coditech.MediaManager.Service.csproj" />
 	</ItemGroup>
-
 </Project>
