@@ -133,11 +133,19 @@
         AccGLTransaction.valuTransactionType = valuTransactionType;
         AccGLTransaction.InitializeAutocomplete("#AccGlName" + newRowCount, valuTransactionType);
         AccGLTransaction.calculateTotals();
+        $(`#AccGlName${newRowCount}`).on("blur", function () {
+            var selectedAccount = $(this).data("selected-account");
+            if (!selectedAccount) {
+                CoditechNotification.DisplayNotificationMessage("Please select a valid Account for the new row.", "error");
+            }
+        });
     },
 
     SaveData: function () {
         var data = [];
         var isValid = true;
+        var totalDebit = 0, totalCredit = 0;
+
         $('#example tbody tr').each(function () {
             var row = $(this);
             var rowId = row.attr('id').replace("row", "");
@@ -149,13 +157,20 @@
             if ((debitAmount > 0 || creditAmount > 0) && !selectedAccount) {
                 isValid = false;
                 CoditechNotification.DisplayNotificationMessage("Please select Account.", "error");
-
                 return false;
             }
+
             var debitCreditEnum = debitAmount > 0 ? 0 : 1;
             var transactionAmount = debitAmount > 0 ? debitAmount : creditAmount;
             var userTypeId = selectedAccount ? selectedAccount.userTypeId : "";
             var personId = row.find(`#PersonId${rowId}`).data("person-id") || "";
+
+            // Update totals for validation
+            if (debitCreditEnum === 0) {
+                totalDebit += transactionAmount;
+            } else {
+                totalCredit += transactionAmount;
+            }
 
             // Build row data object
             var rowData = {
@@ -168,41 +183,44 @@
                 NarrationDescription: row.find("td:eq(1) input").val() || "",
                 AccGLName: row.find(`#AccGlName${rowId}`).val() || "",
                 BranchName: row.find(`#AccBranchName${rowId}`).val() || "",
-                PersonId: personId,  // Use selected PersonId from person autocomplete
-                UserType: userTypeId || "",  // Store userTypeId from the selected account
+                PersonId: personId,
+                UserType: userTypeId || "",
                 IsActive: 1
             };
 
-            // Push the row data into the data array
             data.push(rowData);
         });
+
         if (!isValid) return false;
 
-        // Build XML with enum-based DebitCreditEnum
-        const safe = val => (val != null ? val : "");
+        if (totalDebit !== totalCredit) {
+            CoditechNotification.DisplayNotificationMessage("Total Debit and Credit amounts must be equal.", "error");
+            return false;
+        }
 
-        // Initialize XML structure
-        xmlData = "<rows>";
+        // Build XML
+        const safe = val => (val != null ? val : "");
+        let xmlData = "<rows>";
         data.forEach(item => {
             xmlData += `
-    <row>
-        <TransactionSubId>${safe(item.TransactionSubId)}</TransactionSubId>
-        <AccSetupGLId>${safe(item.AccSetupGLId)}</AccSetupGLId>
-        <DebitCreditEnum>${safe(item.DebitCreditEnum)}</DebitCreditEnum>
-        <TransactionAmount>${safe(item.TransactionAmount)}</TransactionAmount>
-        <ChequeNo>${safe(item.ChequeNo)}</ChequeNo>
-        <ChequeDatetime>${safe(item.ChequeDatetime)}</ChequeDatetime>
-        <NarrationDescription>${safe(item.NarrationDescription)}</NarrationDescription>
-        <AccGLName>${safe(item.AccGLName)}</AccGLName>
-        <BranchName>${safe(item.BranchName)}</BranchName>
-        <PersonId>${safe(item.PersonId)}</PersonId>  <!-- Store PersonId -->
-        <UserTypeId>${safe(item.UserType)}</UserTypeId>  <!-- Store UserTypeId -->
-        <IsActive>${safe(item.IsActive)}</IsActive>
-    </row>`;
+<row>
+    <TransactionSubId>${safe(item.TransactionSubId)}</TransactionSubId>
+    <AccSetupGLId>${safe(item.AccSetupGLId)}</AccSetupGLId>
+    <DebitCreditEnum>${safe(item.DebitCreditEnum)}</DebitCreditEnum>
+    <TransactionAmount>${safe(item.TransactionAmount)}</TransactionAmount>
+    <ChequeNo>${safe(item.ChequeNo)}</ChequeNo>
+    <ChequeDatetime>${safe(item.ChequeDatetime)}</ChequeDatetime>
+    <NarrationDescription>${safe(item.NarrationDescription)}</NarrationDescription>
+    <AccGLName>${safe(item.AccGLName)}</AccGLName>
+    <BranchName>${safe(item.BranchName)}</BranchName>
+    <PersonId>${safe(item.PersonId)}</PersonId>
+    <UserTypeId>${safe(item.UserType)}</UserTypeId>
+    <IsActive>${safe(item.IsActive)}</IsActive>
+</row>`;
         });
         xmlData += "</rows>";
 
-        // Set hidden field and global var with XML data
+        // Assign and submit
         AccGLTransaction.SelectedXmlData = xmlData;
         $("#TransactionDetailsData").val(xmlData);
         $("#transactionDetails").submit();

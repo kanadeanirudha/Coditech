@@ -1,12 +1,9 @@
-﻿using AutoMapper.Configuration.Conventions;
-using Coditech.Admin.Agents;
+﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Authorization;
@@ -191,7 +188,7 @@ namespace Coditech.Admin.Controllers
                 {
                     userModel.SelectedBalanceSheetId = selectedBalance.AccSetupBalanceSheetId;
                     userModel.SelectedBalanceSheet = selectedBalance.AccBalancesheetHeadDesc;
-                   // SessionHelper.RemoveDataFromSession(AdminConstants.AccountPrerequisiteSession);
+                    // SessionHelper.RemoveDataFromSession(AdminConstants.AccountPrerequisiteSession);
                 }
 
                 // Save selected balance ID in session
