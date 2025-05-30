@@ -80,7 +80,7 @@
                 if (xhr.status === 401 || xhr.status === 403) {
                     location.reload();
                 } else {
-                    CoditechNotification.DisplayNotificationMessage("Save failed. Please try again.", "error");
+                    CoditechNotification.DisplayNotificationMessage("Save failed. Please try again.", "info");
                     CoditechCommon.HideLodder();
                 }
             }
