@@ -115,8 +115,7 @@
                                     </table>
                                 </div>
                             </div>
-                
-                            <button type="submit" class="btn btn-success" onclick="AccGLTransaction.SaveData()">@AdminResources.LabelSave</button>
+                            <button type="button" class="btn btn-success" onclick="AccGLTransaction.SaveData()">@AdminResources.LabelSave</button>
 
                             <a href="../@controllerName/Cancel?SelectedParameter1=@Model.AccSetupBalanceSheetId" class="btn btn-secondary">
                                 <i class="ft-x"></i>@AdminResources.LabelCancel
@@ -166,6 +165,11 @@
                 if (!isValid) {
                     console.log("Validation failed:", messages);
                     CoditechNotification.DisplayNotificationMessage("Please select the required fields", "error");
+                    setTimeout(function () {
+                        if ($("#notificationDivId").is(":visible")) {
+                            $("#notificationDivId").fadeOut(1000);
+                        }
+                    }, 2500);
                     return false;
                 }
                 // All good, add row
@@ -186,4 +190,4 @@
             console.error("⚠️ AccGLTransaction is not loaded. Check script path or JS errors.");
         }
     });
-    </script>
+</script>
