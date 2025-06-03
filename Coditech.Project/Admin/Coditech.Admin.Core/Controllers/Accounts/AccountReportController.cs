@@ -128,7 +128,7 @@ namespace Coditech.Admin.Controllers
                     model.IsRecordFound = false;
                 }
             }
-            return View("~/Views/Accounts/Reports/AccountBalanceSheetReport.cshtml", model);
+            return View("~/Views/Accounts/Reports/AccountProfitAndLossReport.cshtml", model);
         }
         #endregion
     }
