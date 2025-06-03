@@ -57,7 +57,7 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<AccountProfitAndLossReportModel> accountProfitAndLossReportList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccGLBalanceSheetReport @AccSetupBalanceSheetId,@GeneralFinancialYearId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            List<AccountProfitAndLossReportModel> accountProfitAndLossReportList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAccGLProfitAndLossReport @AccSetupBalanceSheetId,@GeneralFinancialYearId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
 
             AccountProfitAndLossReportListModel listModel = new AccountProfitAndLossReportListModel();
             listModel.AccountProfitAndLossReportList = accountProfitAndLossReportList?.Count > 0 ? accountProfitAndLossReportList : new List<AccountProfitAndLossReportModel>();
