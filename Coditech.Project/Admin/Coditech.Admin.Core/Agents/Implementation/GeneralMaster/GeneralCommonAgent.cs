@@ -10,7 +10,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 

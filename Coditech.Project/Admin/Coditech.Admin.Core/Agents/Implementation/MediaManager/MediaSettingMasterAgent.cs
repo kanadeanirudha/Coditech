@@ -121,7 +121,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "IsActive",
+                ColumnName = "Is Active",
                 ColumnCode = "IsActive",
                 IsSortable = true,
             });
