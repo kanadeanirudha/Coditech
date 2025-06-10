@@ -36,6 +36,7 @@
     <link href="~/css/layout/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/css/layout/site.css" rel="stylesheet" />
     <link href="~/css/layout/jstree.css" rel="stylesheet" />
+    <link href="~/css/layout/select2.min.css" rel="stylesheet" />
     @if (!Convert.ToBoolean(CoditechAdminSettings.IsDefaultTheme))
     {
         <link href="~/css/layout/@CoditechAdminSettings.ThemeColor-theme.css" rel="stylesheet" />
@@ -155,6 +156,7 @@
     <script src="~/js/layout/daterangepicker.js"></script>
     <script src="~/js/layout/app.js"></script>
     <script src="~/js/layout/bootstrap-select.min.js"></script>
+    <script src="~/js/layout/select2.min.js"></script>
     <!-- coditech script-->
     <script src="~/js/coditech/common/coditechcommon.js"></script>
     <script src="~/js/coditech/common/coditechdatatable.js"></script>
@@ -176,4 +178,9 @@
             }
         }
     };
+    $('.select2-dropdown').select2({
+        placeholder: "--------- Select ----------",
+        allowClear: true,
+        width: '100%'
+    });
 </script>
