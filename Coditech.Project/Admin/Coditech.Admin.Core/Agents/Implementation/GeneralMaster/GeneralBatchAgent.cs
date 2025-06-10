@@ -42,10 +42,10 @@ namespace Coditech.Admin.Agents
                 filters.Add("BatchName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("BatchTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-            long entityId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).EntityId;
+            long userId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).UserMasterId;
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "BatchName " : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            GeneralBatchListResponse response = _generalBatchClient.List(dataTableModel.SelectedCentreCode, entityId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            GeneralBatchListResponse response = _generalBatchClient.List(dataTableModel.SelectedCentreCode, userId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralBatchListModel generalBatchList = new GeneralBatchListModel { GeneralBatchList = response?.GeneralBatchList };
             GeneralBatchListViewModel listViewModel = new GeneralBatchListViewModel();
             listViewModel.GeneralBatchList = generalBatchList?.GeneralBatchList?.ToViewModel<GeneralBatchViewModel>().ToList();
