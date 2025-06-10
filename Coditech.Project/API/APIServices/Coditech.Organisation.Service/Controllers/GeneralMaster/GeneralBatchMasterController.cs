@@ -30,11 +30,11 @@ namespace Coditech.API.Controllers
         [Route("/GeneralBatchMaster/GetBatchList")]
         [Produces(typeof(GeneralBatchListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetBatchList(string selectedCentreCode,ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetBatchList(string selectedCentreCode, long entityId,ExpandCollection expand, FilterCollection filter, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                GeneralBatchListModel list = _generalBatchMasterService.GetBatchList(selectedCentreCode,filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                GeneralBatchListModel list = _generalBatchMasterService.GetBatchList(selectedCentreCode,entityId,filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<GeneralBatchListResponse>(data) : CreateNoContentResponse();
             }
