@@ -14,7 +14,6 @@ namespace Coditech.Admin.Agents
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IDashboardClient _dashboardClient;
         #endregion
-
         #region Public Constructor
         public DashboardAgent(ICoditechLogging coditechLogging, IDashboardClient dashboardClient)
         {
