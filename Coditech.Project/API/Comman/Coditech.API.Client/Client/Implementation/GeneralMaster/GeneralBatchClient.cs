@@ -17,14 +17,14 @@ namespace Coditech.API.Client
         {
             generalBatchEndpoint = new GeneralBatchEndpoint();
         }
-        public virtual GeneralBatchListResponse List(string SelectedCentreCode, long entityId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual GeneralBatchListResponse List(string SelectedCentreCode, long userId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(SelectedCentreCode,entityId,expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(SelectedCentreCode, userId, expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<GeneralBatchListResponse> ListAsync(string SelectedCentreCode,long entityId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<GeneralBatchListResponse> ListAsync(string SelectedCentreCode,long userId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = generalBatchEndpoint.ListAsync(SelectedCentreCode,entityId,expand, filter, sort, pageIndex, pageSize);
+            string endpoint = generalBatchEndpoint.ListAsync(SelectedCentreCode, userId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
