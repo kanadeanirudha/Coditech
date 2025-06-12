@@ -1,8 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.API.Data;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -99,7 +97,7 @@ namespace Coditech.Admin.Controllers
         //General Policy Rules
         public virtual ActionResult GetGeneralPolicyRulesList(string policyCode)
         {
-            DataTableViewModel dataTableViewModel = new DataTableViewModel(); 
+            DataTableViewModel dataTableViewModel = new DataTableViewModel();
             GeneralPolicyRulesListViewModel list = _generalPolicyAgent.GetGeneralPolicyRulesList(policyCode, dataTableViewModel);
             if (AjaxHelper.IsAjaxRequest)
             {
@@ -112,7 +110,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult CreatePolicyRules(string policyCode)
         {
             GeneralPolicyRulesViewModel generalPolicyRulesViewModel = new GeneralPolicyRulesViewModel()
-            { 
+            {
                 PolicyCode = policyCode
             };
             return View("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyRulesViewModel);

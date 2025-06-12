@@ -165,18 +165,15 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "UserDescription",
                 IsSortable = true,
             });
-            
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
+                IsSortable = true,
+            });
+
             return datatableColumnList;
         }
         #endregion
-        //#region
-
-        //// it will return get all user type list from database 
-        //public virtual UserTypeListResponse GetUserTypeList()
-        //{
-        //    UserTypeListResponse userTypeList = _userTypeClient.List(null, null, null, 1, int.MaxValue);
-        //    return userTypeList?.UserTypeList?.Count > 0 ? userTypeList : new UserTypeListResponse();
-        //}
-        //#endregion
     }
 }

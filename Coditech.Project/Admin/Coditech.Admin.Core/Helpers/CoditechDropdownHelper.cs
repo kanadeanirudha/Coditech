@@ -8,6 +8,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Net.Mime.MediaTypeNames;
 namespace Coditech.Admin.Helpers
 {
     public static partial class CoditechDropdownHelper
@@ -1532,7 +1533,10 @@ namespace Coditech.Admin.Helpers
 
         private static void GetAccSetupCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            dropdownList.Add(new SelectListItem() { Text = "-------Account Category Type-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Account Category Type-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Account Category Type-------" });
             {
                 AccSetupCategoryListResponse response = new AccSetupCategoryClient().GetAccSetupCategory();
                 AccSetupCategoryListModel list = new AccSetupCategoryListModel() { AccSetupCategoryList = response.AccSetupCategoryList };

@@ -28,6 +28,6 @@ namespace Coditech.Admin.ViewModel
         public GeneralFinancialYearModel GeneralFinancialYearModel { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-
+        public bool IsClosingBalanceUpdated { get; set; }
     }
 }

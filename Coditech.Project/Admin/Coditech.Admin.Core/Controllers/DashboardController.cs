@@ -2,12 +2,9 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Exceptions;
-using Coditech.Common.Helper.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.Admin.Controllers
 {
     public class DashboardController : BaseController

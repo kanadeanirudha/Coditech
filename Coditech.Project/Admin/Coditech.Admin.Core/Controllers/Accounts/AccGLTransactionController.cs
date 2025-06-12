@@ -31,7 +31,7 @@ namespace Coditech.Admin.Controllers
                 DropdownName = "GeneralFinancialYearId",
                 Parameter = $"{selectedCentreCode}",
             };
-            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", financialYearDropdown);
+			return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", financialYearDropdown);
         }
         [HttpGet]
         public virtual ActionResult Create()
@@ -55,18 +55,16 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(accGLTransactionViewModel.ErrorMessage));
             return View(createEdit, accGLTransactionViewModel);
         }
-
-
         public virtual ActionResult Cancel()
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { };
             return RedirectToAction("Create", dataTableViewModel);
         }
         #region AutoSearch
-        public virtual JsonResult GetAccounts(string term, int accountId, string personType, string transactionTypeCode)
+        public virtual JsonResult GetAccounts(string term, int accountId, string personType, string transactionTypeCode, int balanceSheet)
         {
 
-            var data = GetAccSetupGLAccountList(term, accountId, personType, transactionTypeCode);
+            var data = GetAccSetupGLAccountList(term, accountId, personType, transactionTypeCode, balanceSheet);
             return Json(data);
         }
         public virtual JsonResult GetPersonsByUserType(string term, int userTypeId, int balanceSheet)
@@ -106,18 +104,19 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpPost]
-        public virtual IActionResult GetAccSetupGLAccountList(string SearchKeyWord, int accountId, string personType, string transactionTypeCode)
+        public virtual IActionResult GetAccSetupGLAccountList(string SearchKeyWord, int accountId, string personType, string transactionTypeCode, int balanceSheet)
         {
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, message = "Invalid request." });
             }
 
-            var transactions = _accGLTransactionAgent.GetAccSetupGLAccountList(SearchKeyWord, accountId, personType, transactionTypeCode);
+            var transactions = _accGLTransactionAgent.GetAccSetupGLAccountList(SearchKeyWord, accountId, personType, transactionTypeCode, balanceSheet);
 
             // Extract only AccSetupGLList and store it in SuggestionsAccSetupGLList
             var suggestionsAccSetupGLList = transactions
-                .SelectMany(t => t.AccSetupGLList ?? new List<AccSetupGLModel>()) // Flatten the list
+                .SelectMany(t => t.AccSetupGLList ?? new List<AccSetupGLModel>())
+                .Where(gl => !gl.IsGroup || (gl.IsGroup && gl.UserTypeId != null)) // Flatten the list
                 .Select(gl => new AccSetupGLModel
                 {
                     AccSetupGLId = gl.AccSetupGLId,

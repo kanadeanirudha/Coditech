@@ -16,15 +16,15 @@ namespace Coditech.API.Client
         {
             accGLTransactionEndpoint = new AccGLTransactionEndpoint();
         }
-        public AccGLTransactionListResponse GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode)
+        public AccGLTransactionListResponse GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balanceSheet)
         {
             return Task.Run(async () =>
-                await GetAccSetupGLAccountListAsync(searchKeyword, accSetupGLId, userType, transactionTypeCode, CancellationToken.None)
+                await GetAccSetupGLAccountListAsync(searchKeyword, accSetupGLId, userType, transactionTypeCode, balanceSheet, CancellationToken.None)
             ).GetAwaiter().GetResult();
         }
-        public async Task<AccGLTransactionListResponse> GetAccSetupGLAccountListAsync(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, CancellationToken cancellationToken)
+        public async Task<AccGLTransactionListResponse> GetAccSetupGLAccountListAsync(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balanceSheet, CancellationToken cancellationToken)
         {
-            string endpoint = accGLTransactionEndpoint.GetAccSetupGLAccountListAsync(searchKeyword, accSetupGLId, userType, transactionTypeCode);
+            string endpoint = accGLTransactionEndpoint.GetAccSetupGLAccountListAsync(searchKeyword, accSetupGLId, userType, transactionTypeCode, balanceSheet);
             HttpResponseMessage response = null;
             bool disposeResponse = true;
 
@@ -146,142 +146,7 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual AccGLTransactionResponse GetGLTransaction(long accGLTransactionId)
-        {
-            return Task.Run(async () => await GetGLTransactionAsync(accGLTransactionId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
-        }
 
-        public virtual async Task<AccGLTransactionResponse> GetGLTransactionAsync(long accGLTransactionId, System.Threading.CancellationToken cancellationToken)
-        {
-            if (accGLTransactionId <= 0)
-                throw new System.ArgumentNullException("accGLTransactionId");
 
-            string endpoint = accGLTransactionEndpoint.GetGLTransactionAsync(accGLTransactionId);
-            HttpResponseMessage response = null;
-            var disposeResponse = true;
-            try
-            {
-                ApiStatus status = new ApiStatus();
-                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
-                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
-                var status_ = (int)response.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse = await ReadObjectResponseAsync<AccGLTransactionResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse.Object == null)
-                    {
-                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
-                    }
-                    return objectResponse.Object;
-                }
-                else
-                if (status_ == 204)
-                {
-                    return new AccGLTransactionResponse();
-                }
-                else
-                {
-                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    AccGLTransactionResponse typedBody = JsonConvert.DeserializeObject<AccGLTransactionResponse>(responseData);
-                    UpdateApiStatus(typedBody, status, response);
-                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-                }
-            }
-            finally
-            {
-                if (disposeResponse)
-                    response.Dispose();
-            }
-        }
-
-        public virtual AccGLTransactionResponse UpdateGLTransaction(AccGLTransactionModel body)
-        {
-            return Task.Run(async () => await UpdateGLTransactionAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
-        }
-
-        public virtual async Task<AccGLTransactionResponse> UpdateGLTransactionAsync(AccGLTransactionModel body, System.Threading.CancellationToken cancellationToken)
-        {
-            string endpoint = accGLTransactionEndpoint.UpdateGLTransactionAsync();
-            HttpResponseMessage response = null;
-            var disposeResponse = true;
-            try
-            {
-                ApiStatus status = new ApiStatus();
-                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
-                var headers_ = BindHeaders(response);
-                var status_ = (int)response.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse = await ReadObjectResponseAsync<AccGLTransactionResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse.Object == null)
-                    {
-                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
-                    }
-                    return objectResponse.Object;
-                }
-                else
-                if (status_ == 201)
-                {
-                    var objectResponse = await ReadObjectResponseAsync<AccGLTransactionResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse.Object == null)
-                    {
-                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
-                    }
-                    return objectResponse.Object;
-                }
-                else
-                {
-                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    AccGLTransactionResponse typedBody = JsonConvert.DeserializeObject<AccGLTransactionResponse>(responseData);
-                    UpdateApiStatus(typedBody, status, response);
-                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-                }
-            }
-            finally
-            {
-                if (disposeResponse)
-                    response.Dispose();
-            }
-        }
-
-        //public virtual TrueFalseResponse DeleteUpdateGLTransaction(ParameterModel body)
-        //{
-        //    return Task.Run(async () => await DeleteBalanceSheetAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
-        //}
-
-        //public virtual async Task<TrueFalseResponse> DeleteBalanceSheetAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
-        //{
-        //    string endpoint = accGLTransactionEndpoint.DeleteBalanceSheetAsync();
-        //    HttpResponseMessage response = null;
-        //    var disposeResponse = true;
-        //    try
-        //    {
-        //        ApiStatus status = new ApiStatus();
-        //        response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
-        //        var headers_ = BindHeaders(response);
-        //        var status_ = (int)response.StatusCode;
-        //        if (status_ == 200)
-        //        {
-        //            var objectResponse = await ReadObjectResponseAsync<TrueFalseResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
-        //            if (objectResponse.Object == null)
-        //            {
-        //                throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
-        //            }
-        //            return objectResponse.Object;
-        //        }
-        //        else
-        //        {
-        //            string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        //            TrueFalseResponse typedBody = JsonConvert.DeserializeObject<TrueFalseResponse>(responseData);
-        //            UpdateApiStatus(typedBody, status, response);
-        //            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        if (disposeResponse)
-        //            response.Dispose();
-        //    }
-        //}
     }
 }
