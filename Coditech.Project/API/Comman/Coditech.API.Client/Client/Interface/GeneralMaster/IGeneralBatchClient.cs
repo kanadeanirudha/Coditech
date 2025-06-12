@@ -12,7 +12,7 @@ namespace Coditech.API.Client
         /// Get list of General Batch.
         /// </summary>
         /// <returns>GeneralBatchListResponse</returns>
-        GeneralBatchListResponse List(string SelectedCentreCode, long entityId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        GeneralBatchListResponse List(string SelectedCentreCode, long userId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Create GeneralBatch.
