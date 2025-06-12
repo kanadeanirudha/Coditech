@@ -10,6 +10,9 @@
     },
 
     HideLodder: function () {
+        $(function () {
+            initializeSelect2Dropdowns();
+        });
         $('.spinner').css('display', 'none');
     },
 
