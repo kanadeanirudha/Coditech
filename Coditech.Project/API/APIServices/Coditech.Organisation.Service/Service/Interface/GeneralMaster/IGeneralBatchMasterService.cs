@@ -7,7 +7,7 @@ namespace Coditech.API.Service
 {
     public interface IGeneralBatchMasterService
     {
-        GeneralBatchListModel GetBatchList(string selectedCentreCode,long entityId,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        GeneralBatchListModel GetBatchList(string selectedCentreCode,long userId,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         GeneralBatchModel CreateGeneralBatch(GeneralBatchModel model);
         GeneralBatchModel GetGeneralBatch(int generalBatchMasterId);
         bool UpdateGeneralBatch(GeneralBatchModel model);
