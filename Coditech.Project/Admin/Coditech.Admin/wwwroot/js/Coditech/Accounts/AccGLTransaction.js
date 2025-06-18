@@ -82,6 +82,7 @@
             }
         });
     },
+
     AddRow: function () {
         var tableLength = $('#example tbody tr').length;
         var newRowCount = tableLength + 1;
@@ -95,52 +96,55 @@
         $('#tableDebitCredit').show();
         $('#example tbody tr td input[type=text]').attr('disabled', true);
 
-        $("#example tbody").append(
-            `
-            <tr id="row${newRowCount}">
-    <!-- Account Name -->
-        <td>
-            <input id="AccGlName${newRowCount}" class="form-control input-sm typeahead" placeholder="Search Account*" type="text" maxlength="200" />
-            <div class="cheque-fields" style="display: none; margin-top: 5px;">
-                <input class="form-control input-sm" type="text" id="AccBranchName${newRowCount}" placeholder="Branch Name" />
-            </div>
-            <div class="Person-field" style="display: none; margin-top: 5px;">
-                <input class="form-control input-sm" type="text" id="PersonId${newRowCount}" placeholder="Person Name" />
-            </div>
-        </td>
-
+        $("#example tbody").append(`
+        <tr id="row${newRowCount}">
+            <td>
+                <input id="AccGlName${newRowCount}" class="form-control input-sm typeahead" placeholder="Search Account*" type="text" maxlength="200" />
+                <div class="cheque-fields" style="display: none; margin-top: 5px;">
+                    <input class="form-control input-sm" type="text" id="AccBranchName${newRowCount}" placeholder="Branch Name" />
+                </div>
+                <div class="Person-field" style="display: none; margin-top: 5px;">
+                    <input class="form-control input-sm" type="text" id="PersonId${newRowCount}" placeholder="Person Name" />
+                </div>
+            </td>
         <!-- Narration -->
-        <td>
-            <input class="form-control input-sm" type="text" maxlength="500" placeholder="Narration" />
-            <div class="cheque-fields" style="display: none; margin-top: 5px;">
-                <input class="form-control input-sm" type="text" id="AccChequeNumber${newRowCount}" placeholder="Cheque Number" />
-                <input class="form-control input-sm" type="date" id="AccChequeDate${newRowCount}" />
-            </div>
-        </td>
-
+            <td>
+                <input class="form-control input-sm" type="text" maxlength="500" placeholder="Narration" />
+                <div class="cheque-fields" style="display: none; margin-top: 5px;">
+                    <input class="form-control input-sm" type="text" id="AccChequeNumber${newRowCount}" placeholder="Cheque Number" />
+                    <input class="form-control input-sm" type="date" id="AccChequeDate${newRowCount}" />
+                </div>
+            </td>
         <!-- Debit & Credit Fields -->
-        <td><input class="form-control input-sm debit-field validate-number" type="text" id="debitBal${newRowCount}" maxlength="15" value="0" /></td>
-        <td><input class="form-control input-sm credit-field validate-number" type="text" id="creditBal${newRowCount}" maxlength="15" value="0" /></td>
-
+            <td><input class="form-control input-sm debit-field validate-number" type="text" id="debitBal${newRowCount}" maxlength="15" value="0" /></td>
+            <td><input class="form-control input-sm credit-field validate-number" type="text" id="creditBal${newRowCount}" maxlength="15" value="0" /></td>
         <!-- Actions -->
-        <td>
-            <a href="#" class="btn btn-sm btn-soft-success edit-row" title="Edit"><i class="fas fa-edit"></i></a>
-            <a href="#" class="btn btn-sm btn-soft-danger remove-row" title="Delete"><i class="fas fa-trash-alt"></i></a>
-        </td>
-    </tr>`
-        );
+            <td>
+                <a href="#" class="btn btn-sm btn-soft-success edit-row" title="Edit"><i class="fas fa-edit"></i></a>
+                <a href="#" class="btn btn-sm btn-soft-danger remove-row" title="Delete"><i class="fas fa-trash-alt"></i></a>
+            </td>
+        </tr>
+    `);
 
         AccGLTransaction.valuTransactionType = valuTransactionType;
-        AccGLTransaction.InitializeAutocomplete("#AccGlName" + newRowCount, valuTransactionType);
+        AccGLTransaction.InitializeAutocomplete(`#AccGlName${newRowCount}`, valuTransactionType);
         AccGLTransaction.calculateTotals();
-        $(`#AccGlName${newRowCount}`).on("blur", function () {
-            var selectedAccount = $(this).data("selected-account");
-            if (!selectedAccount) {
-                CoditechNotification.DisplayNotificationMessage("Please select a valid Account for the new row.", "error");
+
+        $(`#debitBal${newRowCount}, #creditBal${newRowCount}`).on("input", function () {
+            var $input = $(this);
+            var row = $input.closest("tr");
+            var accInput = row.find(`#AccGlName${newRowCount}`);
+            var selectedAccount = accInput.data("selected-account") || {};
+            var accountText = accInput.val()?.trim();
+            var enteredValue = parseFloat($input.val());
+
+            if ((!selectedAccount.AccountId || !accountText) && enteredValue > 0) {
+                CoditechNotification.DisplayNotificationMessage("Please select an Account before entering Debit or Credit.", "error");
+                $input.val("0");
+                accInput.focus();
             }
         });
     },
-
     SaveData: function () {
         var data = [];
         var isValid = true;
@@ -153,6 +157,8 @@
             var debitAmount = parseFloat(row.find(`#debitBal${rowId}`).val()) || 0;
             var creditAmount = parseFloat(row.find(`#creditBal${rowId}`).val()) || 0;
             var selectedAccount = row.find(`#AccGlName${rowId}`).data("selected-account");
+
+
 
             if ((debitAmount > 0 || creditAmount > 0) && !selectedAccount) {
                 isValid = false;
@@ -457,7 +463,3 @@
         });
     }
 };
-$(document).ready(function () {
-    AccGLTransaction.InitializeAutocomplete(".typeahead");
-    AccGLTransaction.Initialize();
-});
