@@ -82,7 +82,6 @@
             }
         });
     },
-
     AddRow: function () {
         var tableLength = $('#example tbody tr').length;
         var newRowCount = tableLength + 1;
@@ -96,6 +95,7 @@
         $('#tableDebitCredit').show();
         $('#example tbody tr td input[type=text]').attr('disabled', true);
 
+        // Add row with debit/credit fields initially disabled
         $("#example tbody").append(`
         <tr id="row${newRowCount}">
             <td>
@@ -107,7 +107,6 @@
                     <input class="form-control input-sm" type="text" id="PersonId${newRowCount}" placeholder="Person Name" />
                 </div>
             </td>
-        <!-- Narration -->
             <td>
                 <input class="form-control input-sm" type="text" maxlength="500" placeholder="Narration" />
                 <div class="cheque-fields" style="display: none; margin-top: 5px;">
@@ -115,10 +114,12 @@
                     <input class="form-control input-sm" type="date" id="AccChequeDate${newRowCount}" />
                 </div>
             </td>
-        <!-- Debit & Credit Fields -->
-            <td><input class="form-control input-sm debit-field validate-number" type="text" id="debitBal${newRowCount}" maxlength="15" value="0" /></td>
-            <td><input class="form-control input-sm credit-field validate-number" type="text" id="creditBal${newRowCount}" maxlength="15" value="0" /></td>
-        <!-- Actions -->
+            <td>
+                <input class="form-control input-sm debit-field validate-number" type="text" id="debitBal${newRowCount}" maxlength="15" value="0" disabled />
+            </td>
+            <td>
+                <input class="form-control input-sm credit-field validate-number" type="text" id="creditBal${newRowCount}" maxlength="15" value="0" disabled />
+            </td>
             <td>
                 <a href="#" class="btn btn-sm btn-soft-success edit-row" title="Edit"><i class="fas fa-edit"></i></a>
                 <a href="#" class="btn btn-sm btn-soft-danger remove-row" title="Delete"><i class="fas fa-trash-alt"></i></a>
@@ -126,24 +127,26 @@
         </tr>
     `);
 
+        const accSelector = `#AccGlName${newRowCount}`;
+        const debitSelector = `#debitBal${newRowCount}`;
+        const creditSelector = `#creditBal${newRowCount}`;
+
+        const $accInput = $(accSelector);
+        const $debit = $(debitSelector);
+        const $credit = $(creditSelector);
+
         AccGLTransaction.valuTransactionType = valuTransactionType;
-        AccGLTransaction.InitializeAutocomplete(`#AccGlName${newRowCount}`, valuTransactionType);
+        AccGLTransaction.InitializeAutocomplete(accSelector, valuTransactionType);
         AccGLTransaction.calculateTotals();
 
-        $(`#debitBal${newRowCount}, #creditBal${newRowCount}`).on("input", function () {
-            var $input = $(this);
-            var row = $input.closest("tr");
-            var accInput = row.find(`#AccGlName${newRowCount}`);
-            var selectedAccount = accInput.data("selected-account") || {};
-            var accountText = accInput.val()?.trim();
-            var enteredValue = parseFloat($input.val());
-
-            if ((!selectedAccount.AccountId || !accountText) && enteredValue > 0) {
-                CoditechNotification.DisplayNotificationMessage("Please select an Account before entering Debit or Credit.", "error");
-                $input.val("0");
-                accInput.focus();
-            }
+        // 🔁 Enable fields only on valid selection from autocomplete
+        $accInput.on("autocompleteselect", function (event, ui) {
+            $(this).data("selected-account", ui.item);
+            $debit.prop("disabled", false);
+            $credit.prop("disabled", false);
         });
+
+        
     },
     SaveData: function () {
         var data = [];
@@ -308,9 +311,13 @@
                 });
             },
             select: function (event, ui) {
-                $(selector).data("selected-account", ui.item);
+                 const $accInput = $(selector); // this is the textbox
+                const row = $accInput.closest("tr");
+                $accInput.val(ui.item.label);
+                $accInput.data("selected-account", ui.item);
 
-                var row = $(selector).closest("tr");
+                // ✅ Enable debit/credit fields only after account selected
+                row.find(".debit-field, .credit-field").prop("disabled", false);
 
                 if (ui.item.typeId === 5) {
                     row.find(".cheque-fields").show();
