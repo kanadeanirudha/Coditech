@@ -16,6 +16,7 @@ namespace Coditech.Admin.ViewModel
         public string EntityType { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ControllerName { get; set; }
 
         [Display(Name = "Same as Permanent Address")]
         public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }

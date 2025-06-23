@@ -18,7 +18,7 @@ namespace Coditech.API.Data
         public DateTime  PostedDate { get; set; }
         public int TransactionEnum { get; set; }
         public string TransactionRefId { get; set; }
-        public string ModeCode { get; set; }
+        public short PaymentModeEnum { get; set; }
         public bool IsActive { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

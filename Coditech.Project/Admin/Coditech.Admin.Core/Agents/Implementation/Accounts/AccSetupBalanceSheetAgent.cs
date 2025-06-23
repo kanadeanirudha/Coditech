@@ -1,4 +1,6 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using System.Diagnostics;
+using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
@@ -9,7 +11,6 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
-using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -30,15 +31,15 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual AccSetupBalanceSheetListViewModel GetBalanceSheetList(DataTableViewModel dataTableModel , byte accSetupBalanceSheetTypeId)
+        public virtual AccSetupBalanceSheetListViewModel GetBalanceSheetList(DataTableViewModel dataTableModel, byte accSetupBalanceSheetTypeId)
         {
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                
-                //filters.Add("Description", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                //filters.Add("ShortCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+
+                filters.Add("AccBalancesheetHeadDesc", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("AccBalsheetTypeDesc", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -58,6 +59,11 @@ namespace Coditech.Admin.Agents
             {
                 AccSetupBalanceSheetResponse response = _accSetupBalanceSheetClient.CreateBalanceSheet(accSetupBalanceSheetViewModel.ToModel<AccSetupBalanceSheetModel>());
                 AccSetupBalanceSheetModel accSetupBalanceSheetModel = response?.AccSetupBalanceSheetModel;
+                if (!accSetupBalanceSheetModel.HasError)
+                {
+                    RemoveInSession(AdminConstants.AccountPrerequisiteSession);
+                }
+
                 return IsNotNull(accSetupBalanceSheetModel) ? accSetupBalanceSheetModel.ToViewModel<AccSetupBalanceSheetViewModel>() : new AccSetupBalanceSheetViewModel();
             }
             catch (CoditechException ex)
@@ -147,29 +153,10 @@ namespace Coditech.Admin.Agents
                 IsSortable = true,
             }); datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Balance Type",
+                ColumnName = "Balance Sheet Type",
                 ColumnCode = "AccBalsheetTypeDesc",
                 IsSortable = true,
             });
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Short Code",
-            //    ColumnCode = "ShortCode",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Designation Level",
-            //    ColumnCode = "DesignationLevel",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Grade",
-            //    ColumnCode = "Grade",
-            //    IsSortable = true,
-            //});
-            
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active",

@@ -6,9 +6,9 @@ namespace Coditech.API.Endpoint
 {
     public class GeneralBatchEndpoint : BaseEndpoint
     {
-        public string ListAsync(string selectedCentreCode, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string ListAsync(string selectedCentreCode, long userId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralBatchMaster/GetBatchList?selectedCentreCode={selectedCentreCode}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralBatchMaster/GetBatchList?selectedCentreCode={selectedCentreCode}&userId={userId}{BuildEndpointQueryString(true,expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string CreateGeneralBatchAsync() =>

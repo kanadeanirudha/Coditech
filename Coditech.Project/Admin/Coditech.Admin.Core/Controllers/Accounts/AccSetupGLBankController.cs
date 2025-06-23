@@ -82,5 +82,16 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<AccSetupGLBankController>(x => x.List(null));
         }
+
+        [HttpGet]
+        public virtual ActionResult GetBankForm(int accSetupBalanceSheetId)
+        {
+            AccSetupGLBankViewModel accSetupGLBankViewModel = new AccSetupGLBankViewModel
+            {
+                AccSetupBalanceSheetId = accSetupBalanceSheetId,
+            };
+
+            return PartialView("~/Views/Accounts/AccSetupGLBank/_AccsetupGLBank.cshtml", accSetupGLBankViewModel);
+        }
     }
 }

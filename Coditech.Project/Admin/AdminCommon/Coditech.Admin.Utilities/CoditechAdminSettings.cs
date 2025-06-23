@@ -76,17 +76,6 @@ namespace Coditech.Admin.Utilities
             }
         }
 
-        public static string CoditechGymManagementSystemApiRootUri
-        {
-            get
-            {
-                if (settings["EnvironmentName"] == "dev")
-                    return Convert.ToString(settings["CoditechGymManagementSystemApiRootUri"]);
-                else
-                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-gymmanagementsystem.{settings["ApiDomainName"]}");
-            }
-        }
-
         public static string CoditechGazetteApiRootUri
         {
             get
@@ -116,6 +105,17 @@ namespace Coditech.Admin.Utilities
                     return Convert.ToString(settings["CoditechMediaManagerApiRootUri"] + settings["ApplicationLogoPath"]);
                 else
                     return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-mediamanager.{settings["ApiDomainName"]}{settings["ApplicationLogoPath"]}");
+            }
+        }
+
+        public static string ApplicationLogoSmallPath
+        {
+            get
+            {
+                if (settings["EnvironmentName"] == "dev")
+                    return Convert.ToString(settings["CoditechMediaManagerApiRootUri"] + settings["ApplicationLogoSmallPath"]);
+                else
+                    return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-mediamanager.{settings["ApiDomainName"]}{settings["ApplicationLogoSmallPath"]}");
             }
         }
 

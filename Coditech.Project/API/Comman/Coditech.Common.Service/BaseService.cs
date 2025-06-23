@@ -97,16 +97,8 @@ namespace Coditech.Common.Service
             string centreCode = string.Empty;
             string personCode = string.Empty;
             short generalDepartmentMasterId = 0;
-            if (entityType == UserTypeEnum.GymMember.ToString())
-            {
-                GymMemberDetails gymMemberDetails = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId)?.FirstOrDefault();
-                if (IsNotNull(gymMemberDetails))
-                {
-                    personId = gymMemberDetails.PersonId;
-                    centreCode = gymMemberDetails.CentreCode;
-                }
-            }
-            else if (entityType == UserTypeEnum.Employee.ToString())
+            bool isEntityActive = false;
+            if (entityType == UserTypeEnum.Employee.ToString())
             {
                 EmployeeMaster employeeMaster = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.EmployeeId == entityId);
                 if (IsNotNull(employeeMaster))
@@ -114,13 +106,14 @@ namespace Coditech.Common.Service
                     personId = employeeMaster.PersonId;
                     centreCode = employeeMaster.CentreCode;
                     personCode = employeeMaster.PersonCode;
+                    isEntityActive = employeeMaster.IsActive;
                     generalDepartmentMasterId = employeeMaster.GeneralDepartmentMasterId;
                 }
             }
-            return BindGeneralPersonInformation(personId, centreCode, personCode, generalDepartmentMasterId);
+            return BindGeneralPersonInformation(personId, centreCode, personCode, generalDepartmentMasterId, isEntityActive);
         }
 
-        protected virtual GeneralPersonModel BindGeneralPersonInformation(long personId, string centreCode, string personCode, short generalDepartmentMasterId)
+        protected virtual GeneralPersonModel BindGeneralPersonInformation(long personId, string centreCode, string personCode, short generalDepartmentMasterId, bool isEntityActive)
         {
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
             if (IsNotNull(generalPersonModel))
@@ -128,8 +121,8 @@ namespace Coditech.Common.Service
                 generalPersonModel.SelectedCentreCode = centreCode;
                 generalPersonModel.SelectedDepartmentId = Convert.ToString(generalDepartmentMasterId);
                 generalPersonModel.PersonCode = personCode;
+                generalPersonModel.IsEntityActive = isEntityActive;
             }
-
             return generalPersonModel;
         }
 
@@ -456,6 +449,7 @@ namespace Coditech.Common.Service
                 userMaster.UserName = generalPersonModel.PersonCode;
             }
             generalPersonModel.UserName = userMaster.UserName;
+            generalPersonModel.EntityId = entityId;
             userMaster = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(userMaster);
         }
 

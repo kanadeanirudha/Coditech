@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Coditech.Admin.Agents;
-using Coditech.Admin.Utilities;
+﻿using Coditech.Admin.Agents;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Data;
+using Coditech.Common.API.Model;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,38 +11,35 @@ namespace Coditech.Admin.Controllers
     public class AccGLTransactionController : BaseController
     {
         private readonly IAccGLTransactionAgent _accGLTransactionAgent;
+        private readonly IGeneralCommonAgent _generalCommonAgent;
         private const string createEdit = "~/Views/Accounts/AccGLTransaction/CreateEdit.cshtml";
 
-        public AccGLTransactionController(IAccGLTransactionAgent accGLTransactionAgent)
+        public AccGLTransactionController(IAccGLTransactionAgent accGLTransactionAgent, IGeneralCommonAgent generalCommonAgent)
         {
             _accGLTransactionAgent = accGLTransactionAgent;
-        }
-        public virtual ActionResult List(DataTableViewModel dataTableModel)
-        {
-            AccGLTransactionListViewModel list = new AccGLTransactionListViewModel();
-            GetListOnlyIfSingleCentre(dataTableModel);
-            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter1) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter2) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter3) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter4))
-            {
-                list = _accGLTransactionAgent.GetGLTransactionList(dataTableModel, Convert.ToString(dataTableModel.SelectedCentreCode), Convert.ToInt32(dataTableModel.SelectedParameter1), Convert.ToInt16(dataTableModel.SelectedParameter2), Convert.ToInt16(dataTableModel.SelectedParameter3),Convert.ToByte(dataTableModel.SelectedParameter4));
-            }
-            list.SelectedCentreCode= dataTableModel.SelectedCentreCode;
-            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
-            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
-            list.SelectedParameter3 = dataTableModel.SelectedParameter3;
-            list.SelectedParameter4 = dataTableModel.SelectedParameter4;
-            if (AjaxHelper.IsAjaxRequest)
-            {
-                return PartialView("~/Views/Accounts/AccGLTransaction/_List.cshtml", list);
-            }
-            return View($"~/Views/Accounts/AccGLTransaction/List.cshtml", list);
+            _generalCommonAgent = generalCommonAgent;
+
         }
 
+
+        [HttpGet]
+        public virtual ActionResult GetFinancialYearListByCentreCode(string selectedCentreCode)
+        {
+            DropdownViewModel financialYearDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.FinancialYear.ToString(),
+                DropdownName = "GeneralFinancialYearId",
+                Parameter = $"{selectedCentreCode}",
+            };
+			return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", financialYearDropdown);
+        }
         [HttpGet]
         public virtual ActionResult Create()
         {
+            if (!_generalCommonAgent.GetAccountPrequisite())
+                return IscheckAccPrequisiteStatified();
             return View(createEdit, new AccGLTransactionViewModel());
         }
-
         [HttpPost]
         public virtual ActionResult Create(AccGLTransactionViewModel accGLTransactionViewModel)
         {
@@ -52,53 +49,93 @@ namespace Coditech.Admin.Controllers
                 if (!accGLTransactionViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<AccGLTransactionController>(x => x.List(null));
+                    return RedirectToAction<AccGLTransactionController>(x => x.Create(null));
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(accGLTransactionViewModel.ErrorMessage));
             return View(createEdit, accGLTransactionViewModel);
         }
-
-        [HttpGet]
-        public virtual ActionResult Edit(long accGLTransactionId)
+        public virtual ActionResult Cancel()
         {
-            AccGLTransactionViewModel accGLTransactionViewModel = _accGLTransactionAgent.GetGLTransaction(accGLTransactionId);
-            return ActionView(createEdit, accGLTransactionViewModel);
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { };
+            return RedirectToAction("Create", dataTableViewModel);
+        }
+        #region AutoSearch
+        public virtual JsonResult GetAccounts(string term, int accountId, string personType, string transactionTypeCode, int balanceSheet)
+        {
+
+            var data = GetAccSetupGLAccountList(term, accountId, personType, transactionTypeCode, balanceSheet);
+            return Json(data);
+        }
+        public virtual JsonResult GetPersonsByUserType(string term, int userTypeId, int balanceSheet)
+        {
+            var data = GetPersons(term, userTypeId, balanceSheet);
+            return Json(data);
         }
 
         [HttpPost]
-        public virtual ActionResult Edit(AccGLTransactionViewModel accGLTransactionViewModel)
+        public virtual IActionResult GetPersons(string SearchKeyWord, int userTypeId, int balanceSheet)
         {
-            if (ModelState.IsValid)
-            {
-                SetNotificationMessage(_accGLTransactionAgent.UpdateGLTransaction(accGLTransactionViewModel).HasError
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { accGLTransactionId = accGLTransactionViewModel.AccGLTransactionId });
-            }
-            return View(createEdit, accGLTransactionViewModel);
-        }
-        //public virtual ActionResult Delete(string accGLTransactionIds)
-        //{
-        //    string message = string.Empty;
-        //    bool status = false;
-        //    if (!string.IsNullOrEmpty(accGLTransactionIds))
-        //    {
-        //        status = _accGLTransactionAgent.DeleteGLTransaction(accGLTransactionIds, out message);
-        //        SetNotificationMessage(!status
-        //        ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
-        //        : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-        //        return RedirectToAction<AccGLTransactionController>(x => x.List(null));
-        //    }
+            GeneralFinancialYearModel generalFinancialYearModel = _accGLTransactionAgent.GetCurrentFinancialYear();
+            ACCGLOpeningBalanceViewModel model = new ACCGLOpeningBalanceViewModel();
+            model.GeneralFinancialYearModel = generalFinancialYearModel;
 
-        //    SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-        //    return RedirectToAction<AccGLTransactionController>(x => x.List(null));
-        //}
-        public virtual ActionResult Cancel( string SelectedParameter1 , string SelectedParameter2 , string SelectParameter3)
-        {
-            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedParameter1= SelectedParameter1 ,SelectedParameter2=SelectedParameter2, SelectedParameter3=SelectParameter3  };
-            return RedirectToAction("List", dataTableViewModel);
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, message = "Invalid request." });
+            }
+
+            var transactions = _accGLTransactionAgent.GetPersons(SearchKeyWord, userTypeId, balanceSheet);
+
+            // Extract only AccSetupGLList and store it in SuggestionsAccSetupGLList
+            var suggestionsAccSetupGLList = transactions
+                .SelectMany(t => t.Personlist ?? new List<AccGLIndividualOpeningBalanceModel>()) // Flatten the list
+                .Select(pl => new AccGLIndividualOpeningBalanceModel
+                {
+                    AccSetupGLId = pl.AccSetupGLId,
+                    PersonName = pl.PersonName.Trim(), // Clean up extra spaces/tabs
+                    PersonId = pl.PersonId,
+                    UserTypeId = pl.UserTypeId,
+                })
+                .ToList();
+
+            return Json(suggestionsAccSetupGLList); // Instead of wrapping it inside another object
+
         }
+
+        [HttpPost]
+        public virtual IActionResult GetAccSetupGLAccountList(string SearchKeyWord, int accountId, string personType, string transactionTypeCode, int balanceSheet)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, message = "Invalid request." });
+            }
+
+            var transactions = _accGLTransactionAgent.GetAccSetupGLAccountList(SearchKeyWord, accountId, personType, transactionTypeCode, balanceSheet);
+
+            // Extract only AccSetupGLList and store it in SuggestionsAccSetupGLList
+            var suggestionsAccSetupGLList = transactions
+                .SelectMany(t => t.AccSetupGLList ?? new List<AccSetupGLModel>())
+                .Where(gl => !gl.IsGroup || (gl.IsGroup && gl.UserTypeId != null)) // Flatten the list
+                .Select(gl => new AccSetupGLModel
+                {
+                    AccSetupGLId = gl.AccSetupGLId,
+                    GLName = gl.GLName?.Trim(), // Clean up extra spaces/tabs
+                    GLCode = gl.GLCode?.Trim(),
+                    AccSetupGLTypeId = gl.AccSetupGLTypeId,
+                    ParentAccSetupGLId = gl.ParentAccSetupGLId,
+                    CategoryCode = gl.CategoryCode,
+                    UserTypeId = gl.UserTypeId,
+                })
+                .ToList();
+
+            return Json(suggestionsAccSetupGLList); // Instead of wrapping it inside another object
+
+        }
+
+        #endregion
+
+
         #region Protected
 
         #endregion

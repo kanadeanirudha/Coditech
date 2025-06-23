@@ -37,21 +37,15 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralRegionAgent, GeneralRegionAgent>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingAgent, GeneralSystemGlobleSettingAgent>();
             builder.Services.AddScoped<IEmployeeMasterAgent, EmployeeMasterAgent>();
-            builder.Services.AddScoped<IGymMemberDetailsAgent, GymMemberDetailsAgent>();
-            builder.Services.AddScoped<IGymMembershipPlanAgent, GymMembershipPlanAgent>();
             builder.Services.AddScoped<IGeneralEnumaratorGroupAgent, GeneralEnumaratorGroupAgent>();
             builder.Services.AddScoped<IGeneralOccupationAgent, GeneralOccupationAgent>();
             builder.Services.AddScoped<IGeneralMeasurementUnitAgent, GeneralMeasurementUnitAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseDepartmentAgent, OrganisationCentrewiseDepartmentAgent>();
-            builder.Services.AddScoped<IGymBodyMeasurementTypeAgent, GymBodyMeasurementTypeAgent>();
             builder.Services.AddScoped<IGeneralRunningNumbersAgent, GeneralRunningNumbersAgent>();
             builder.Services.AddScoped<IGeneralLeadGenerationAgent, GeneralLeadGenerationAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsAgent, OrganisationCentrewiseBuildingRoomsAgent>();
             builder.Services.AddScoped<IGeneralPersonFollowUpAgent, GeneralPersonFollowUpAgent>();
-            builder.Services.AddScoped<IGymMemberBodyMeasurementAgent, GymMemberBodyMeasurementAgent>();
-            builder.Services.AddScoped<IGymSalesInvoiceAgent, GymSalesInvoiceAgent>();
             builder.Services.AddScoped<IDashboardAgent, DashboardAgent>();
-            builder.Services.AddScoped<IGymDashboardAgent, GymDashboardAgent>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionAgent, InventoryItemTrackingDimensionAgent>();
             builder.Services.AddScoped<IInventoryProductDimensionAgent, InventoryProductDimensionAgent>();
             builder.Services.AddScoped<IGeneralUserMainMenuAgent, GeneralUserMainMenuAgent>();
@@ -67,12 +61,15 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralTrainerAgent, GeneralTrainerAgent>();
             builder.Services.AddScoped<IGeneralBatchAgent, GeneralBatchAgent>();
             builder.Services.AddScoped<ITaskApprovalSettingAgent, TaskApprovalSettingAgent>();
-            builder.Services.AddScoped<IGymWorkoutPlanAgent, GymWorkoutPlanAgent>();
             builder.Services.AddScoped<ITaskMasterAgent, TaskMasterAgent>();
             builder.Services.AddScoped<ITicketMasterAgent, TicketMasterAgent>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeAgent, OrganisationCentrewiseJoiningCodeAgent>();
             builder.Services.AddScoped<IGeneralCurrencyMasterAgent, GeneralCurrencyMasterAgent>();
             builder.Services.AddScoped<IGeneralTaskSchedulerMasterAgent, GeneralTaskSchedulerMasterAgent>();
+            builder.Services.AddScoped<IGeneralUserModuleAgent, GeneralUserModuleAgent>();
+            builder.Services.AddScoped<IUserTypeAgent, UserTypeAgent>();
+            builder.Services.AddScoped<IGeneralPolicyAgent, GeneralPolicyAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewisePolicyAgent, OrganisationCentrewisePolicyAgent>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
@@ -106,6 +103,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IInventoryStorageDimensionGroupAgent, InventoryStorageDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionGroupAgent, InventoryItemTrackingDimensionGroupAgent>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterAgent, InventoryGeneralItemMasterAgent>();
+            builder.Services.AddScoped<IInventoryCategoryTypeAgent, InventoryCategoryTypeAgent>();
             #endregion
 
             #region Gazette
@@ -121,6 +119,7 @@ namespace Coditech.Admin
 
             #region Accounts         
             builder.Services.AddScoped<IAccGLSetupNarrationAgent, AccGLSetupNarrationAgent>();
+            builder.Services.AddScoped<IAccGLOpeningBalanceAgent, AccGLOpeningBalanceAgent>();
             builder.Services.AddScoped<IAccSetupMasterAgent, AccSetupMasterAgent>();
             builder.Services.AddScoped<IAccSetupBalanceSheetAgent, AccSetupBalanceSheetAgent>();
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeAgent, AccSetupBalanceSheetTypeAgent>();
@@ -129,6 +128,8 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupGLAgent, AccSetupGLAgent>();
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateAgent, AccSetupChartOfAccountTemplateAgent>();
             builder.Services.AddScoped<IAccGLTransactionAgent, AccGLTransactionAgent>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupAgent, OrganisationCentrewiseAccountSetupAgent>();
+            builder.Services.AddScoped<IAccountReportAgent, AccountReportAgent>();
             #endregion
 
             #endregion Agent
@@ -155,25 +156,20 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralRegionClient, GeneralRegionClient>();
             builder.Services.AddScoped<IGeneralSystemGlobleSettingClient, GeneralSystemGlobleSettingClient>();
             builder.Services.AddScoped<IEmployeeMasterClient, EmployeeMasterClient>();
-            builder.Services.AddScoped<IGymMemberDetailsClient, GymMemberDetailsClient>();
-            builder.Services.AddScoped<IGymMembershipPlanClient, GymMembershipPlanClient>();
             builder.Services.AddScoped<IMediaManagerClient, MediaManagerClient>();
             builder.Services.AddScoped<IGeneralEnumaratorGroupClient, GeneralEnumaratorGroupClient>();
             builder.Services.AddScoped<IGeneralOccupationClient, GeneralOccupationClient>();
             builder.Services.AddScoped<IGeneralMeasurementUnitClient, GeneralMeasurementUnitClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseDepartmentClient, OrganisationCentrewiseDepartmentClient>();
-            builder.Services.AddScoped<IGymBodyMeasurementTypeClient, GymBodyMeasurementTypeClient>();
             builder.Services.AddScoped<IGeneralRunningNumbersClient, GeneralRunningNumbersClient>();
             builder.Services.AddScoped<IGeneralLeadGenerationClient, GeneralLeadGenerationClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseBuildingRoomsClient, OrganisationCentrewiseBuildingRoomsClient>();
             builder.Services.AddScoped<IGeneralPersonFollowUpClient, GeneralPersonFollowUpClient>();
-            builder.Services.AddScoped<IGymMemberBodyMeasurementClient, GymMemberBodyMeasurementClient>();
             builder.Services.AddScoped<IGeneralPersonAttendanceDetailsClient, GeneralPersonAttendanceDetailsClient>();
             builder.Services.AddScoped<IInventoryGeneralItemMasterClient, InventoryGeneralItemMasterClient>();
+            builder.Services.AddScoped<IInventoryCategoryTypeClient, InventoryCategoryTypeClient>();
             builder.Services.AddScoped<IInventoryCategoryClient, InventoryCategoryClient>();
-            builder.Services.AddScoped<IGymSalesInvoiceClient, GymSalesInvoiceClient>();
             builder.Services.AddScoped<IDashboardClient, DashboardClient>();
-            builder.Services.AddScoped<IGymDashboardClient, GymDashboardClient>();
             builder.Services.AddScoped<IInventoryItemModelGroupClient, InventoryItemModelGroupClient>();
             builder.Services.AddScoped<IInventoryItemStorageDimensionClient, InventoryItemStorageDimensionClient>();
             builder.Services.AddScoped<IInventoryItemTrackingDimensionClient, InventoryItemTrackingDimensionClient>();
@@ -194,14 +190,18 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralTrainerClient, GeneralTrainerClient>();
             builder.Services.AddScoped<IGeneralBatchClient, GeneralBatchClient>();
             builder.Services.AddScoped<ITaskApprovalSettingClient, TaskApprovalSettingClient>();
-            builder.Services.AddScoped<IGymWorkoutPlanClient, GymWorkoutPlanClient>();
             builder.Services.AddScoped<ITaskMasterClient, TaskMasterClient>();
             builder.Services.AddScoped<IGeneralCommonClient, GeneralCommonClient>();
             builder.Services.AddScoped<ITicketMasterClient, TicketMasterClient>();
             builder.Services.AddScoped<IOrganisationCentrewiseJoiningCodeClient, OrganisationCentrewiseJoiningCodeClient>();
             builder.Services.AddScoped<IGeneralCurrencyMasterClient, GeneralCurrencyMasterClient>();
             builder.Services.AddScoped<ITaskSchedulerClient, TaskSchedulerClient>();
-            
+            builder.Services.AddScoped<IGeneralUserModuleClient, GeneralUserModuleClient>();
+            builder.Services.AddScoped<IGeneralPolicyClient, GeneralPolicyClient>();
+            builder.Services.AddScoped<IOrganisationCentrewisePolicyClient, OrganisationCentrewisePolicyClient>();
+            builder.Services.AddScoped<IAccountReportClient, AccountReportClient>();
+            builder.Services.AddScoped<IUserTypeClient, UserTypeClient>();
+
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsClient, HospitalDoctorsClient>();
@@ -229,12 +229,13 @@ namespace Coditech.Admin
             #endregion Gazette
 
             #region Payment 
-            builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>(); 
+            builder.Services.AddScoped<IPaymentGatewaysClient, PaymentGatewaysClient>();
             builder.Services.AddScoped<IPaymentGatewayDetailsClient, PaymentGatewayDetailsClient>();
             #endregion
 
             #region Accounts
             builder.Services.AddScoped<IAccGLSetupNarrationClient, AccGLSetupNarrationClient>();
+            builder.Services.AddScoped<IAccGLOpeningBalanceClient, AccGLOpeningBalanceClient>();
             builder.Services.AddScoped<IAccSetupMasterClient, AccSetupMasterClient>();
             builder.Services.AddScoped<IAccSetupBalanceSheetClient, AccSetupBalanceSheetClient>();
             builder.Services.AddScoped<IAccSetupBalanceSheetTypeClient, AccSetupBalanceSheetTypeClient>();
@@ -243,6 +244,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccSetupGLClient, AccSetupGLClient>();
             builder.Services.AddScoped<IAccSetupChartOfAccountTemplateClient, AccSetupChartOfAccountTemplateClient>();
             builder.Services.AddScoped<IAccGLTransactionClient, AccGLTransactionClient>();
+            builder.Services.AddScoped<IOrganisationCentrewiseAccountSetupClient, OrganisationCentrewiseAccountSetupClient>();
             #endregion
 
             #endregion Client

@@ -51,6 +51,14 @@ namespace Coditech.API.Service
             if (IsCountryCodeAlreadyExist(generalCountryModel.CountryName, generalCountryModel.GeneralCountryMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Name"));
 
+            if (IsCallingCodeAlreadyExist(generalCountryModel.CallingCode, generalCountryModel.GeneralCountryMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Calling Code"));
+            if (generalCountryModel.DefaultFlag)
+            {
+                ResetCurrentDefaultFlag();
+            }
+          
+
             GeneralCountryMaster generalCountryMaster = generalCountryModel.FromModelToEntity<GeneralCountryMaster>();
 
             //Create new Country and return it.
@@ -91,6 +99,13 @@ namespace Coditech.API.Service
             if (IsCountryCodeAlreadyExist(generalCountryModel.CountryName, generalCountryModel.GeneralCountryMasterId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Country Name"));
 
+            if (IsCallingCodeAlreadyExist(generalCountryModel.CallingCode, generalCountryModel.GeneralCountryMasterId))
+                throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Calling Code"));
+            if (generalCountryModel.DefaultFlag)
+            {
+                ResetCurrentDefaultFlag(generalCountryModel.GeneralCountryMasterId);
+            }
+
             GeneralCountryMaster generalCountryMaster = generalCountryModel.FromModelToEntity<GeneralCountryMaster>();
 
             //Update Country
@@ -122,6 +137,22 @@ namespace Coditech.API.Service
         //Check if Country code is already present or not.
         protected virtual bool IsCountryCodeAlreadyExist(string countryName, short generalCountryMasterId = 0)
          => _generalCountryMasterRepository.Table.Any(x => x.CountryName == countryName && (x.GeneralCountryMasterId != generalCountryMasterId || generalCountryMasterId == 0));
+        protected virtual bool IsCallingCodeAlreadyExist(string callingCode, short generalCountryMasterId = 0)
+         => _generalCountryMasterRepository.Table.Any(x => x.CallingCode == callingCode && (x.GeneralCountryMasterId != generalCountryMasterId || generalCountryMasterId == 0));
+
+        public void ResetCurrentDefaultFlag(short? countryId = null)
+        {
+            var allDefaultflag = _generalCountryMasterRepository.Table.Where(x => x.DefaultFlag).ToList();
+
+            foreach (var defaultflag in allDefaultflag)
+            {
+                if (!countryId.HasValue || defaultflag.GeneralCountryMasterId != countryId.Value)
+                {
+                    defaultflag.DefaultFlag = false;
+                    _generalCountryMasterRepository.Update(defaultflag);
+                }
+            }
+        }
         #endregion
     }
 }

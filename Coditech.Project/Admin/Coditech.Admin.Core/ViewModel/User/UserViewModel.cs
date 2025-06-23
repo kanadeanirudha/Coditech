@@ -1,7 +1,5 @@
 ﻿using Coditech.Common.Helper;
-
 using System.ComponentModel.DataAnnotations;
-
 namespace Coditech.Admin.ViewModel
 {
     public class UserViewModel : BaseViewModel

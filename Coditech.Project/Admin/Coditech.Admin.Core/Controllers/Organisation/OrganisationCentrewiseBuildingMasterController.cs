@@ -92,6 +92,10 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<OrganisationCentrewiseBuildingMasterController>(x => x.List(null));
         }
-
+        public virtual ActionResult Cancel(string SelectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
+            return RedirectToAction("List", dataTableViewModel);
+        }
     }
 }

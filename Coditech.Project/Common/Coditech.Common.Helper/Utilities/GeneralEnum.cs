@@ -24,15 +24,12 @@
         BloodGroups,
         Title,
         Occupation,
-        GymGroup,
-        GymSource,
+        LeadSource,
         MeasurementUnit,
         UnAssociatedEmployeeList,
-        GymPlanType,
-        GymPlanDurationType,
         FinancialYear,
         GeneralRunningNumberFor,
-        GymFollowupTypes,
+        GeneralFollowupTypes,
         LeadStatus,
         LeadCategory,
         UserType,
@@ -41,7 +38,6 @@
         CentrewiseBuildingRooms,
         Floors,
         AttendanceState,
-        GymMembershipPlan,
         PaymentType,
         InventoryGeneralServiecs,
         DashboardForm,
@@ -95,14 +91,17 @@
         AccSetupTransactionType,
         CentrewiseAccountBalanceSheet,
         LimitedDataAccess,
-        DashboardDaysDropDown
+        DashboardDaysDropDown,
+        UserTypeList,
+        Currency,
+        InventoryCategoryType,
+        AccSetupCategory, 
     }
 
     public enum GeneralSystemGlobleSettingEnum
     {
         GSTEInvoiceCancellationPeriodInMinute,
         CoditechModules,
-        IsGymMemberLogin,
         IsEmployeeLogin,
         IsPatientLogin,
         ActiveProjectName,
@@ -119,15 +118,8 @@
         Admin,
         Employee,
         Customer,
-        GymMember,
         Patient,
         Trainee
-    }
-
-    public enum ActiveProjectNameEnum
-    {
-        GMS,
-        HMS
     }
 
     public enum MediaTypeEnum
@@ -146,16 +138,11 @@
     }
     public enum GeneralRunningNumberForEnum
     {
-        GymMemberRegistration,
         EmployeeRegistration,
         InvoiceNumber,
         PatientUAHNumber
     }
-    public enum DashboardFormEnum
-    {
-        GymOwnerDashboard,
-        GymOperatorDashboard
-    }
+
     public enum ErrorMessageTypeEnum
     {
         Application
@@ -176,9 +163,7 @@
     {
         EmployeeRegistration,
         CustomerRegistration,
-        GymMemberRegistration,
         ResetPasswordLink,
-        AssociateGymMembershipPlan,
         SendOTP,
     }
     public enum UserNameRegistrationTypeEnum
@@ -213,7 +198,7 @@
         DeleteFile,
     }
 
-    public enum GymFollowupTypesEnum
+    public enum GeneralFollowupTypesEnum
     {
         Call,
         TextSMS,
@@ -277,6 +262,7 @@
         OneTime,
         Daily,
         Weekly,
+        Recurring
         //Monthlyum
     }
     public enum SchedulerTypeEnum
@@ -288,5 +274,10 @@
     {
         DeleteLogMessage,
         Batch
+    }
+    public enum PolicyApplicableStatusEnum
+    {
+        General,
+        Centrewise
     }
 }

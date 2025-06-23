@@ -49,6 +49,7 @@ namespace Coditech.API.Mapper
             CreateMap<OrganisationCentrewiseEmailTemplate, OrganisationCentrewiseEmailTemplateModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseUserNameRegistration, OrganisationCentrewiseUserNameRegistrationModel>().ReverseMap();
             CreateMap<UserMainMenuMaster, UserMainMenuModel>().ReverseMap();
+            CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseSmsSetting, OrganisationCentrewiseSmsSettingModel>().ReverseMap();
             CreateMap<CoditechApplicationSetting, CoditechApplicationSettingModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseWhatsAppSetting, OrganisationCentrewiseWhatsAppSettingModel>().ReverseMap();
@@ -68,7 +69,11 @@ namespace Coditech.API.Mapper
             CreateMap<TaskSchedulerMaster, TaskSchedulerModel>().ReverseMap();
             CreateMap<OrganisationCentrewiseJoiningCode, OrganisationCentrewiseJoiningCodeModel>().ReverseMap();
             CreateMap<GeneralCurrencyMaster, GeneralCurrencyMasterModel>().ReverseMap();
-            
+            CreateMap<UserType, UserTypeModel>().ReverseMap();
+            CreateMap<GeneralPolicyMaster, GeneralPolicyModel>().ReverseMap();
+            CreateMap<GeneralPolicyRules, GeneralPolicyRulesModel>().ReverseMap();
+            CreateMap<GeneralPolicyDetails, GeneralPolicyDetailsModel>().ReverseMap();
+
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();
             CreateMap<UserModuleMaster, UserModuleModel>().ReverseMap();
@@ -99,7 +104,7 @@ namespace Coditech.API.Mapper
             CreateMap<InventoryStorageDimensionGroupMapperModel, InventoryStorageDimensionGroupMapper>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionGroupModel, InventoryItemTrackingDimensionGroup>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionGroupMapperModel, InventoryItemTrackingDimensionGroupMapper>().ReverseMap();
-
+            CreateMap<InventoryCategoryTypeModel, InventoryCategoryTypeMaster>().ReverseMap();
             #endregion
 
             #region Accounts
@@ -113,6 +118,10 @@ namespace Coditech.API.Mapper
             CreateMap<AccSetupChartOfAccountTemplate, AccSetupChartOfAccountTemplateModel>().ReverseMap();
             CreateMap<AccSetupGLType, AccSetupGLTypeModel>().ReverseMap();
             CreateMap<AccGLTransaction, AccGLTransactionModel>().ReverseMap();
+            CreateMap<AccGLOpeningBalance, ACCGLOpeningBalanceModel>().ReverseMap();
+            CreateMap<AccSetupCategory, AccSetupCategoryModel>().ReverseMap();
+            CreateMap<AccGLIndividualOpeningBalance, AccGLIndividualOpeningBalanceModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseAccountSetup, OrganisationCentrewiseAccountSetupModel>().ReverseMap();
             #endregion
         }
     }

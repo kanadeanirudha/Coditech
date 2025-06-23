@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.8.18" />
+		<PackageReference Include="Hangfire.Dashboard.BasicAuthorization" Version="1.0.2" />
+		<PackageReference Include="Hangfire.SqlServer" Version="1.8.18" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="StructureMap" Version="4.7.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\API\Comman\Coditech.Common.API\Coditech.Common.API.csproj" />
+		<ProjectReference Include="..\Coditech.Common.API.Model\Coditech.Common.API.Model.csproj" />
+		<ProjectReference Include="..\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -42,7 +42,7 @@ namespace Coditech.Admin.Controllers
                 if (!generalFinancialYearViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralFinancialYearMasterController>(x => x.List(null));
+                    return RedirectToAction("List", new { selectedCentreCode = generalFinancialYearViewModel.CentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalFinancialYearViewModel.ErrorMessage));
@@ -86,7 +86,11 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<GeneralFinancialYearMasterController>(x => x.List(null));
         }
-
+        public virtual ActionResult Cancel(string SelectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
+            return RedirectToAction("List", dataTableViewModel);
+        }
         #region Protected
 
         #endregion

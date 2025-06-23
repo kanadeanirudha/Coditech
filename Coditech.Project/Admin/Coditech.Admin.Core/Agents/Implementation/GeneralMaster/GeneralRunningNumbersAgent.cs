@@ -34,7 +34,6 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
                 filters.Add("CentreCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("Description", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("IsActive", ProcedureFilterOperators.Like, dataTableModel.SearchBy);

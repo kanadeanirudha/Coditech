@@ -121,16 +121,8 @@ namespace Coditech.API.Service
         //Is Allow Attendance.
         public virtual bool IsAllowAttendance(int entityId, string userType, double pointToCheckLatitude, double pointToCheckLongitude)
         {
-            string centreCode = null;
             bool isWithinRadius = false;
-            if (string.Equals(userType, UserTypeEnum.GymMember.ToString(), StringComparison.InvariantCultureIgnoreCase))
-            {
-                centreCode = new CoditechRepository<GymMemberDetails>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.GymMemberDetailId == entityId)?.Select(y => y.CentreCode)?.FirstOrDefault();
-            }
-            else if (string.Equals(userType, UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
-            {
-                centreCode = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmployeeId == entityId)?.Select(y => y.CentreCode)?.FirstOrDefault();
-            }
+            string centreCode = CheckUserType(entityId, userType);
 
             if (!string.IsNullOrEmpty(centreCode))
             {
@@ -141,6 +133,16 @@ namespace Coditech.API.Service
                     _coditechLogging.LogMessage("Organisation Centre latitude, longitude or CampusArea configuration is missing.", CoditechLoggingEnum.Components.PersonAttendance.ToString(), TraceLevel.Error);
             }
             return isWithinRadius;
+        }
+
+        protected virtual string CheckUserType(int entityId, string userType)
+        {
+            string centreCode = string.Empty;
+            if (string.Equals(userType, UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                centreCode = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmployeeId == entityId)?.Select(y => y.CentreCode)?.FirstOrDefault();
+            }
+            return centreCode;
         }
 
         #region Protected Method

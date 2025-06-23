@@ -27,18 +27,19 @@ namespace Coditech.API.Service
             _generalBatchUserRepository = new CoditechRepository<GeneralBatchUser>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
-        public virtual GeneralBatchListModel GetBatchList(string selectedCentreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual GeneralBatchListModel GetBatchList(string selectedCentreCode, long userId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralBatchModel> objStoredProc = new CoditechViewRepository<GeneralBatchModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@UserMasterId", userId, ParameterDirection.Input, DbType.Int64);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<GeneralBatchModel> generalBatchList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralBatchList @CentreCode, @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            List<GeneralBatchModel> generalBatchList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralBatchList @CentreCode,@UserMasterId, @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             GeneralBatchListModel listModel = new GeneralBatchListModel();
 
             listModel.GeneralBatchList = generalBatchList?.Count > 0 ? generalBatchList : new List<GeneralBatchModel>();

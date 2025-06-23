@@ -41,13 +41,6 @@ namespace Coditech.Admin.Controllers
 
             TaskSchedulerViewModel taskSchedulerViewModel = new TaskSchedulerViewModel();
             taskSchedulerViewModel.SchedulerCallFor = schedulerCallFor;
-            taskSchedulerViewModel.SelectedWeekDays = !string.IsNullOrEmpty(taskSchedulerViewModel.WeekDays) ? taskSchedulerViewModel.WeekDays.Split(',').ToList() : new List<string>();
-
-            taskSchedulerViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.SchedulerWeeks.ToString(),
-                DropdownSelectedValue = taskSchedulerViewModel.WeekDays
-            }).DropdownList;
 
             if (string.IsNullOrEmpty(taskSchedulerViewModel.SchedulerFrequency))
             {
@@ -105,7 +98,7 @@ namespace Coditech.Admin.Controllers
             return View(createEditTaskScheduler, taskSchedulerViewModel);
         }
 
-        public virtual ActionResult Delete(string taskSchedulerMasterIds, string selectedCentreCode)
+        public virtual ActionResult Delete(string taskSchedulerMasterIds)
         {
             string message = string.Empty;
             bool status = false;
@@ -115,11 +108,11 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+                return RedirectToAction<GeneralTaskSchedulerMasterController>(x => x.List(null));
             }
 
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
+            return RedirectToAction<GeneralTaskSchedulerMasterController>(x => x.List(null));
         }
 
         public virtual ActionResult Cancel(string SelectedCentreCode)

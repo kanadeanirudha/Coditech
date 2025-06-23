@@ -1,11 +1,11 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
-using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
@@ -19,42 +19,33 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IAccGLTransactionClient _accGLTransactionClient;
+        private readonly IGeneralFinancialYearClient _generalFinancialYearClient;
         #endregion
 
         #region Public Constructor
-        public AccGLTransactionAgent(ICoditechLogging coditechLogging, IAccGLTransactionClient accGLTransactionClient)
+        public AccGLTransactionAgent(ICoditechLogging coditechLogging, IAccGLTransactionClient accGLTransactionClient, IGeneralFinancialYearClient generalFinancialYearClient)
         {
             _coditechLogging = coditechLogging;
             _accGLTransactionClient = GetClient<IAccGLTransactionClient>(accGLTransactionClient);
+            _generalFinancialYearClient = GetClient<IGeneralFinancialYearClient>(generalFinancialYearClient);
         }
         #endregion
 
         #region Public Methods
-        public virtual AccGLTransactionListViewModel GetGLTransactionList(DataTableViewModel dataTableModel, string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId , byte accSetupBalanceSheetTypeId)
+
+
+        public virtual GeneralFinancialYearModel GetCurrentFinancialYear()
         {
-            FilterCollection filters = new FilterCollection();
-            dataTableModel = dataTableModel ?? new DataTableViewModel();
-            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
-            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
-            {
-                
-                //filters.Add("Description", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                //filters.Add("ShortCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-            }
-
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
-
-            AccGLTransactionListResponse response = _accGLTransactionClient.List(selectedCentreCode, accSetupBalanceSheetId, generalFinancialYearId,accSetupTransactionTypeId, accSetupBalanceSheetTypeId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            AccGLTransactionListModel accGLTransactionList = new AccGLTransactionListModel { AccGLTransactionList = response?.AccGLTransactionList };
-            AccGLTransactionListViewModel listViewModel = new AccGLTransactionListViewModel();
-            listViewModel.AccGLTransactionList = accGLTransactionList?.AccGLTransactionList?.ToViewModel<AccGLTransactionViewModel>().ToList();
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.AccGLTransactionList.Count, BindColumns());
-            return listViewModel;
+            int accSetupBalanceSheetId = AdminGeneralHelper.GetSelectedBalanceSheetId();
+            GeneralFinancialYearResponse financialyearresponse = _generalFinancialYearClient.GetCurrentFinancialYear(accSetupBalanceSheetId);
+            return financialyearresponse?.GeneralFinancialYearModel.ToViewModel<GeneralFinancialYearModel>();
         }
-
         //Create General Designation.
         public virtual AccGLTransactionViewModel CreateGLTransaction(AccGLTransactionViewModel accGLTransactionViewModel)
         {
+
+
+            accGLTransactionViewModel.AccSetupBalanceSheetId = AdminGeneralHelper.GetSelectedBalanceSheetId();
             try
             {
                 AccGLTransactionResponse response = _accGLTransactionClient.CreateGLTransaction(accGLTransactionViewModel.ToModel<AccGLTransactionModel>());
@@ -64,13 +55,9 @@ namespace Coditech.Admin.Agents
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Warning);
-                switch (ex.ErrorCode)
-                {
-                    case ErrorCodes.AlreadyExist:
-                        return (AccGLTransactionViewModel)GetViewModelWithErrorMessage(accGLTransactionViewModel, ex.ErrorMessage);
-                    default:
-                        return (AccGLTransactionViewModel)GetViewModelWithErrorMessage(accGLTransactionViewModel, GeneralResources.ErrorFailedToCreate);
-                }
+
+                return (AccGLTransactionViewModel)GetViewModelWithErrorMessage(accGLTransactionViewModel,
+                    ex.ErrorCode == ErrorCodes.AlreadyExist ? ex.ErrorMessage : GeneralResources.ErrorFailedToCreate);
             }
             catch (Exception ex)
             {
@@ -79,106 +66,29 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        //Get general Designation by general designation master id.
-        public virtual AccGLTransactionViewModel GetGLTransaction(long accGLTransactionId)
+        public List<AccGLTransactionViewModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balanceSheet)
         {
-            AccGLTransactionResponse response = _accGLTransactionClient.GetGLTransaction(accGLTransactionId);
-            return response?.AccGLTransactionModel.ToViewModel<AccGLTransactionViewModel>();
+            AccGLTransactionViewModel accGLTransactionViewModel = new AccGLTransactionViewModel();
+            balanceSheet = AdminGeneralHelper.GetSelectedBalanceSheetId();
+            AccGLTransactionListResponse response = _accGLTransactionClient.GetAccSetupGLAccountList(searchKeyword, accSetupGLId, userType, transactionTypeCode, balanceSheet);
+
+            return response?.AccGLTransactionList?.ToViewModel<AccGLTransactionViewModel>().ToList()
+                   ?? new List<AccGLTransactionViewModel>(); // Ensure returning a valid list
+        }
+        public List<AccGLTransactionViewModel> GetPersons(string searchKeyword, int userTypeId, int balanceSheet)
+        {
+            //Set the AccSetupBalanceSheetId from the AdminGeneralHelper
+            balanceSheet = AdminGeneralHelper.GetSelectedBalanceSheetId();
+            AccGLTransactionListResponse response = _accGLTransactionClient.GetPersons(searchKeyword, userTypeId, balanceSheet);
+
+            return response?.AccGLTransactionList?.ToViewModel<AccGLTransactionViewModel>().ToList()
+                   ?? new List<AccGLTransactionViewModel>(); // Ensure returning a valid list
         }
 
-        //Update Designation.
-        public virtual AccGLTransactionViewModel UpdateGLTransaction(AccGLTransactionViewModel accGLTransactionViewModel)
-        {
-            try
-            {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Info);
-                AccGLTransactionResponse response = _accGLTransactionClient.UpdateGLTransaction(accGLTransactionViewModel.ToModel<AccGLTransactionModel>());
-                AccGLTransactionModel accGLTransactionModel = response?.AccGLTransactionModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Info);
-                return IsNotNull(accGLTransactionModel) ? accGLTransactionModel.ToViewModel<AccGLTransactionViewModel>() : (AccGLTransactionViewModel)GetViewModelWithErrorMessage(new AccGLTransactionViewModel(), GeneralResources.UpdateErrorMessage);
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Error);
-                return (AccGLTransactionViewModel)GetViewModelWithErrorMessage(accGLTransactionViewModel, GeneralResources.UpdateErrorMessage);
-            }
-        }
-
-        ////Delete Designation.
-        //public virtual bool DeleteBalanceSheet(string accGLTransactionId, out string errorMessage)
-        //{
-        //    errorMessage = GeneralResources.ErrorFailedToDelete;
-
-        //    try
-        //    {
-        //        _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Info);
-        //        TrueFalseResponse trueFalseResponse = _accGLTransactionClient.DeleteBalanceSheet(new ParameterModel { Ids = accGLTransactionId });
-        //        return trueFalseResponse.IsSuccess;
-        //    }
-        //    catch (CoditechException ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Warning);
-        //        switch (ex.ErrorCode)
-        //        {
-        //            case ErrorCodes.AssociationDeleteError:
-        //                errorMessage = AdminResources.ErrorDeleteAccGLTransactionMaster;
-        //                return false;
-        //            default:
-        //                errorMessage = GeneralResources.ErrorFailedToDelete;
-        //                return false;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.AccGLTransaction.ToString(), TraceLevel.Error);
-        //        errorMessage = GeneralResources.ErrorFailedToDelete;
-        //        return false;
-        //    }
-        //}
         #endregion
 
         #region protected
-        protected virtual List<DatatableColumns> BindColumns()
-        {
-            List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Balance Sheet",
-            //    ColumnCode = "AccBalancesheetHeadDesc",
-            //    IsSortable = true,
-            //}); datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Balance Type",
-            //    ColumnCode = "AccBalsheetTypeDesc",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Short Code",
-            //    ColumnCode = "ShortCode",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Designation Level",
-            //    ColumnCode = "DesignationLevel",
-            //    IsSortable = true,
-            //});
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Transaction Date",
-                ColumnCode = "TransactionDate",
-                IsSortable = true,
-            });
 
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Narration Description",
-                ColumnCode = "NarrationDescription",
-                IsSortable = true,
-            });
-            return datatableColumnList;
-        }
         #endregion
     }
 }

@@ -15,11 +15,6 @@ on:
          required: true
          default: true
          type: boolean
-       gymmanagementsystem_api_deploy:
-         description: 'Deploy GymManagementSystem API'
-         required: true
-         default: true
-         type: boolean
        mediamanager_api_deploy:
          description: 'Deploy MediaManager API'
          required: true

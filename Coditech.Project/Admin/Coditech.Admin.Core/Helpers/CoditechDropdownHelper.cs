@@ -8,6 +8,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Net.Mime.MediaTypeNames;
 namespace Coditech.Admin.Helpers
 {
     public static partial class CoditechDropdownHelper
@@ -122,10 +123,6 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.CentrewiseBuildingRooms.ToString()))
             {
                 GetCentrewiseBuildingRoomList(dropdownViewModel, dropdownList);
-            }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.GymMembershipPlan.ToString()))
-            {
-                GetGymMembershipPlanList(dropdownViewModel, dropdownList);
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryGeneralServiecs.ToString()))
             {
@@ -258,7 +255,23 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.DashboardDaysDropDown.ToString()))
             {
                 DashboardDaysDropDownList(dropdownViewModel, dropdownList);
-            }          
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.Currency.ToString()))
+            {
+                GetAccountSetupCurrencyList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.UserTypeList.ToString()))
+            {
+                GetUserTypeList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.InventoryCategoryType.ToString()))
+            {
+                GetInventoryCategoryTypeList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.AccSetupCategory.ToString()))
+            {
+                GetAccSetupCategoryList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -508,21 +521,25 @@ namespace Coditech.Admin.Helpers
 
         private static void GetFinancialYearList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            GeneralFinancialYearListResponse response = new GeneralFinancialYearClient().List(null, null, null, 1, int.MaxValue);
-            GeneralFinancialYearListModel list = new GeneralFinancialYearListModel() { GeneralFinancialYearList = response.GeneralFinancialYearList };
             if (dropdownViewModel.IsRequired)
                 dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
             else
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
-
-            foreach (var item in list?.GeneralFinancialYearList)
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
             {
-                dropdownList.Add(new SelectListItem()
+                FilterCollection filters = new FilterCollection();
+                filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+                GeneralFinancialYearListResponse response = new GeneralFinancialYearClient().List(null, filters, null, 1, int.MaxValue);
+                GeneralFinancialYearListModel list = new GeneralFinancialYearListModel() { GeneralFinancialYearList = response.GeneralFinancialYearList };
+                foreach (var item in list?.GeneralFinancialYearList)
                 {
-                    Text = string.Concat(item.FromDate.ToCoditechDateFormat(), " To ", item.ToDate.ToCoditechDateFormat()),
-                    Value = Convert.ToString(item.GeneralFinancialYearId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
-                });
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = string.Concat(item.FromDate.ToCoditechDateFormat(), " To ", item.ToDate.ToCoditechDateFormat()),
+                        Value = Convert.ToString(item.GeneralFinancialYearId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralFinancialYearId)
+                    });
+                }
             }
         }
 
@@ -612,29 +629,6 @@ namespace Coditech.Admin.Helpers
                         Text = item.RoomName,
                         Value = item.OrganisationCentrewiseBuildingRoomId.ToString(),
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.OrganisationCentrewiseBuildingRoomId)
-                    });
-                }
-            }
-        }
-
-        private static void GetGymMembershipPlanList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Membership Plan-------", Value = "" });
-
-            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            {
-                FilterCollection filters = new FilterCollection();
-                filters.Add(FilterKeys.IsActive, ProcedureFilterOperators.Equals, "1");
-                GymMembershipPlanListResponse response = new GymMembershipPlanClient().List(dropdownViewModel.Parameter, null, filters, null, 1, int.MaxValue);
-                GymMembershipPlanListModel list = new GymMembershipPlanListModel() { GymMembershipPlanList = response.GymMembershipPlanList };
-                foreach (var item in list?.GymMembershipPlanList)
-                {
-                    string planDuration = item.PlanDurationType.ToLower() == "duration" ? $"{item.PlanDurationInMonth} Month {item.PlanDurationInDays} Days" : $"{item.PlanDurationInSession} Session";
-                    dropdownList.Add(new SelectListItem()
-                    {
-                        Text = $"{item.MembershipPlanName}-{item.PlanType}-{planDuration}",
-                        Value = $"{item.GymMembershipPlanId.ToString()}~{item.PlanDurationType}~{item.MaxCost}~{(item.MaxCost - item.MinCost)}",
-                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GymMembershipPlanId)
                     });
                 }
             }
@@ -888,7 +882,10 @@ namespace Coditech.Admin.Helpers
         private static void GetInventoryCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             InventoryCategoryListResponse response = new InventoryCategoryClient().List(null, null, null, 1, int.MaxValue);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Category-------" });
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Select Category-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Category-------" });
 
             InventoryCategoryListModel list = new InventoryCategoryListModel { InventoryCategoryList = response.InventoryCategoryList };
             foreach (var item in list.InventoryCategoryList)
@@ -1368,10 +1365,15 @@ namespace Coditech.Admin.Helpers
                 }
             }
         }
+
         private static void GetBatchSchedulerList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             foreach (SchedulerFrequencyEnum frequency in Enum.GetValues(typeof(SchedulerFrequencyEnum)))
             {
+                if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(frequency.ToString())))
+                {
+                    continue;
+                }
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = frequency.ToString(),
@@ -1380,7 +1382,7 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-      
+
         private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             dropdownList.Add(new SelectListItem() { Value = "NA", Text = GeneralResources.SelectLabel });
@@ -1429,7 +1431,7 @@ namespace Coditech.Admin.Helpers
             {
                 dropdownList.Add(new SelectListItem()
                 {
-                    Text = item.TransactionTypeCode,
+                    Text = item.TransactionTypeName,
                     Value = item.AccSetupTransactionTypeId.ToString(),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupTransactionTypeId)
                 });
@@ -1446,7 +1448,7 @@ namespace Coditech.Admin.Helpers
                 {
                     Text = item.AccBalancesheetHeadDesc,
                     Value = item.AccSetupBalanceSheetId.ToString(),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupBalanceSheetId)
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item)
                 });
             }
         }
@@ -1471,6 +1473,82 @@ namespace Coditech.Admin.Helpers
                 else if (Convert.ToInt16(item) == 0)
                 {
                     dropdownList.Add(new SelectListItem() { Value = item, Text = $"Today", Selected = item == dropdownViewModel.DropdownSelectedValue });
+                }
+            }
+        }
+
+        private static void GetUserTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            UserTypeListResponse response = new UserClient().GetUserTypeList();
+            dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
+            foreach (var item in response?.TypeList)
+            {
+                if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(item.UserTypeCode)))
+                {
+                    continue;
+                }
+
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.UserDescription,
+                    Value = Convert.ToString(item.UserTypeId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.UserTypeId)
+                });
+            }
+        }
+
+        private static void GetInventoryCategoryTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            InventoryCategoryTypeListResponse response = new InventoryCategoryTypeClient().List(null, null, null, 1, int.MaxValue);
+            InventoryCategoryTypeListModel list = new InventoryCategoryTypeListModel() { InventoryCategoryTypeList = response.InventoryCategoryTypeList };
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Inventory Category Type-------" });
+            foreach (var item in list?.InventoryCategoryTypeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CategoryTypeName,
+                    Value = item.InventoryCategoryTypeMasterId.ToString(),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.InventoryCategoryTypeMasterId)
+                });
+            }
+        }
+
+        private static void GetAccountSetupCurrencyList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            GeneralCurrencyMasterListResponse response = new GeneralCurrencyMasterClient().List(null, null, null, 1, int.MaxValue);
+            if (response?.GeneralCurrencyMasterList?.Count != 1)
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Currency-------" });
+
+            GeneralCurrencyMasterListModel list = new GeneralCurrencyMasterListModel { GeneralCurrencyMasterList = response?.GeneralCurrencyMasterList };
+            foreach (var item in list.GeneralCurrencyMasterList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CurrencyName,
+                    Value = Convert.ToString(item.GeneralCurrencyMasterId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralCurrencyMasterId)
+                });
+            }
+        }
+
+        private static void GetAccSetupCategoryList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "-------Account Category Type-------" });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Account Category Type-------" });
+            {
+                AccSetupCategoryListResponse response = new AccSetupCategoryClient().GetAccSetupCategory();
+                AccSetupCategoryListModel list = new AccSetupCategoryListModel() { AccSetupCategoryList = response.AccSetupCategoryList };
+
+                foreach (var item in list?.AccSetupCategoryList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.CategoryName,
+                        Value = item.AccSetupCategoryId.ToString(),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupCategoryId)
+                    });
                 }
             }
         }

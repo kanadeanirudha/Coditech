@@ -14,5 +14,6 @@
         public string EmailId { get; set; }
         public string SelectedCentreCode { get; set; }
         public string SelectedDepartmentId { get; set; }
+        public bool IsEntityActive { get; set; }
     }
 }

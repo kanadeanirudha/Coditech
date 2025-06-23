@@ -24,7 +24,7 @@ namespace Coditech.API.Controllers
             _generalCommonService = generalCommonService;
             _coditechLogging = coditechLogging;
         }
-        
+
         [HttpGet]
         [Route("/GeneralCommon/GetDropdownListByCode")]
         [Produces(typeof(GeneralEnumaratorListResponse))]
@@ -114,6 +114,27 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CoditechGeneralApi.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new StringResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/GeneralCommon/GetAccountPrequisite")]
+        [HttpGet]
+        [Produces(typeof(AccPrequisiteResponse))]
+        public virtual IActionResult GetAccountPrequisite(int balanceSheetId)
+        {
+            try
+            {
+                AccPrequisiteModel accPrequisiteModel = _generalCommonService.GetAccountPrequisite(balanceSheetId);
+                return IsNotNull(accPrequisiteModel) ? CreateOKResponse(new AccPrequisiteResponse { AccPrequisiteModel = accPrequisiteModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

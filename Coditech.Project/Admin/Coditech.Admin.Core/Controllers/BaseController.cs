@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 using System.Data;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace Coditech.Admin.Controllers
 {
@@ -149,7 +150,7 @@ namespace Coditech.Admin.Controllers
             return dataTableModel;
         }
 
-        public virtual Stream GetReport(IWebHostEnvironment _environment, string reportFolder, string rdlcReportName, DataTable dataTable, string dataSet, Dictionary<string, string> reportParameters)
+        public virtual Stream GetReport(IWebHostEnvironment _environment, string reportFolder, string rdlcReportName, DataTable dataTable, string dataSet, Dictionary<string, string> reportParameters, RenderType renderType)
         {
             string mimeType = "";
             int pageIndex = 1;
@@ -159,7 +160,7 @@ namespace Coditech.Admin.Controllers
             localReport.AddDataSource(dataSet, dataTable);
 
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            var result = localReport.Execute(RenderType.Excel, pageIndex, reportParameters, mimeType);
+            var result = localReport.Execute(renderType, pageIndex, reportParameters, mimeType);
             byte[] file = result.MainStream;
 
             Stream stream = new MemoryStream(file);
@@ -177,5 +178,24 @@ namespace Coditech.Admin.Controllers
                 }
             }
         }
+        public ActionResult IscheckAccPrequisiteStatified()
+        {
+            AccPrequisiteModel accPrequisitesModel = SessionHelper.GetDataFromSession<AccPrequisiteModel>(AdminConstants.AccountPrerequisiteSession);
+
+            List<AccPrequisiteModel> accPrequisiteLists = new List<AccPrequisiteModel>();
+
+            if (accPrequisitesModel == null)
+            {
+                accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Balance Sheet", Field = "BalanceSheet", IsAssociated = false });
+                return View("~/Views/Shared/BalanceSheetAssociated.cshtml", accPrequisiteLists);
+            }
+            accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Currency", Field = "Currency", IsAssociated = accPrequisitesModel.IsCurrencyAssociated });
+            accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Financial Year", Field = "FinancialYear", IsAssociated = accPrequisitesModel.IsFinacialYearAssociated });
+            accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Account GL Balance Sheet", Field = "AccGLBalanceSheet", IsAssociated = accPrequisitesModel.IsAccGLBalanceSheetAssociated });
+            return View("~/Views/Shared/BalanceSheetAssociated.cshtml", accPrequisiteLists);
+        }
+
+
+
     }
 }

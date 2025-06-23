@@ -218,6 +218,16 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteAccountSetupGL", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to Delete General Policy due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralPolicyMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralPolicyMaster", resourceCulture);
+            }
+        }
         public static string ErrorDeleteAccSetupMaster
         {
             get
@@ -289,6 +299,16 @@ namespace Coditech.Resources {
             }
         }
 
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete country due to associate record..
+        /// </summary>
+        public static string ErrorDeleteUserType
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralUserType", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete country due to associate record..
         /// </summary>
@@ -642,7 +662,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteInventoryCategory", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete inventory category type due to associate record..
+        /// </summary>
+        public static string ErrorDeleteInventoryCategoryType
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteInventoryCategoryType", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete Inventory General Item Master due to associate record..
         /// </summary>
@@ -869,7 +900,18 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("ErrorDeleteUserMainMenuMaster", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete User Module due to associate record..
+        /// </summary>
+        public static string ErrorDeleteUserModuleMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteUserModuleMaster", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to This account does not exist. Enter a valid email address or password.
         /// </summary>

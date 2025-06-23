@@ -28,6 +28,14 @@ namespace Coditech.Admin
             CreateMap<AccGLTransactionViewModel, AccGLTransactionListViewModel>().ReverseMap();
             CreateMap<AccSetupGLTypeModel, AccSetupGLTypeViewModel>().ReverseMap();
             CreateMap<AccSetupGLTypeViewModel, AccSetupGLTypeListViewModel>().ReverseMap();
+            CreateMap<OrganisationCentrewiseAccountSetupModel, OrganisationCentrewiseAccountSetupViewModel>().ReverseMap();
+
+            CreateMap<ACCGLOpeningBalanceModel, ACCGLOpeningBalanceViewModel>().ReverseMap();
+            CreateMap<ACCGLOpeningBalanceViewModel, ACCGLOpeningBalanceListViewModel>().ReverseMap();
+            CreateMap<AccGLIndividualOpeningBalanceModel, AccGLIndividualOpeningBalanceViewModel>().ReverseMap();
+            CreateMap<AccPrequisiteModel, AccPrequisiteViewModel>().ReverseMap();
+            CreateMap<AccountBalanceSheetReportModel, AccountBalanceSheetReportViewModel>().ReverseMap();
+            CreateMap<AccountProfitAndLossReportModel, AccountProfitAndLossReportViewModel>().ReverseMap();
             #endregion
 
             #region Admin 
@@ -64,8 +72,6 @@ namespace Coditech.Admin
             CreateMap<GeneralPersonModel, GeneralPersonViewModel>().ReverseMap();
             CreateMap<GeneralSystemGlobleSettingModel, GeneralSystemGlobleSettingViewModel>().ReverseMap();
             CreateMap<GeneralSystemGlobleSettingListModel, GeneralSystemGlobleSettingListViewModel>().ReverseMap();
-            CreateMap<GymMemberDetailsModel, GymMemberDetailsViewModel>().ReverseMap();
-            CreateMap<GymMemberDetailsListModel, GymMemberDetailsListViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorGroupListModel, GeneralEnumaratorGroupViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorGroupModel, GeneralEnumaratorGroupViewModel>().ReverseMap();
             CreateMap<GeneralEnumaratorModel, GeneralEnumaratorViewModel>().ReverseMap();
@@ -111,8 +117,20 @@ namespace Coditech.Admin
             CreateMap<GeneralCurrencyMasterListModel, GeneralCurrencyMasterListViewModel>().ReverseMap();
             CreateMap<TaskSchedulerModel, TaskSchedulerViewModel>().ReverseMap();
             CreateMap<TaskSchedulerListModel, TaskSchedulerListViewModel>().ReverseMap();
-            #endregion            
-               
+            CreateMap<UserModuleModel, UserModuleViewModel>().ReverseMap();
+            CreateMap<UserModuleListModel, UserModuleListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyModel, GeneralPolicyViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyListModel, GeneralPolicyListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyRulesModel, GeneralPolicyRulesViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyRulesListModel, GeneralPolicyRulesListViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyDetailsModel, GeneralPolicyDetailsViewModel>().ReverseMap();
+            CreateMap<GeneralPolicyDetailsListModel, GeneralPolicyDetailsListViewModel>().ReverseMap();
+            #endregion
+            #region
+            CreateMap<UserTypeModel, UserTypeViewModel>().ReverseMap();
+            CreateMap<UserTypeListModel, UserTypeListViewModel>().ReverseMap();
+            #endregion
+
             #region Organisation
             CreateMap<OrganisationModel, OrganisationMasterViewModel>().ReverseMap();
             CreateMap<OrganisationCentreModel, OrganisationCentreViewModel>().ReverseMap();
@@ -140,32 +158,9 @@ namespace Coditech.Admin
             CreateMap<EmployeeMasterModel, EmployeeMasterViewModel>().ReverseMap();
             CreateMap<EmployeeServiceListModel, EmployeeServiceListViewModel>().ReverseMap();
             CreateMap<EmployeeServiceModel, EmployeeServiceViewModel>().ReverseMap();
-            #endregion
-
-            #region Gym
-            CreateMap<GymCreateEditMemberViewModel, GeneralPersonModel>().ReverseMap();
-            CreateMap<GymMemberFollowUpListViewModel, GymMemberFollowUpListModel>().ReverseMap();
-            CreateMap<GymMemberFollowUpViewModel, GymMemberFollowUpModel>().ReverseMap();
-            CreateMap<GymBodyMeasurementTypeModel, GymBodyMeasurementTypeViewModel>().ReverseMap();
-            CreateMap<GymBodyMeasurementTypeListModel, GymBodyMeasurementTypeListViewModel>().ReverseMap();
-            CreateMap<GymMembershipPlanModel, GymMembershipPlanViewModel>().ReverseMap();
-            CreateMap<GymMembershipPlanListModel, GymMembershipPlanListViewModel>().ReverseMap();
             CreateMap<EmployeeCreateEditViewModel, EmployeeMasterModel>().ReverseMap();
-            CreateMap<GymMemberBodyMeasurementModel, GymMemberBodyMeasurementViewModel>().ReverseMap();
-            CreateMap<GymMemberBodyMeasurementListModel, GymMemberBodyMeasurementListViewModel>().ReverseMap();
             CreateMap<GeneralPersonAttendanceDetailsListViewModel, GeneralPersonAttendanceDetailsListModel>().ReverseMap();
             CreateMap<GeneralPersonAttendanceDetailsViewModel, GeneralPersonAttendanceDetailsModel>().ReverseMap();
-            CreateMap<GymMemberMembershipPlanModel, GymMemberMembershipPlanViewModel>().ReverseMap();
-            CreateMap<GymMemberMembershipPlanListModel, GymMemberMembershipPlanListViewModel>().ReverseMap();
-            CreateMap<GymMemberSalesInvoiceModel, GymMemberSalesInvoiceViewModel>().ReverseMap();
-            CreateMap<GymMemberSalesInvoiceListModel, GymMemberSalesInvoiceListViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanModel, GymWorkoutPlanViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanListModel, GymWorkoutPlanListViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanDetailsModel, GymWorkoutPlanDetailsViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanSetModel, GymWorkoutPlanSetViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanUserModel, GymWorkoutPlanUserViewModel>().ReverseMap();
-            CreateMap<GymWorkoutPlanUserListModel, GymWorkoutPlanUserListViewModel>().ReverseMap();
-
             #endregion
 
             #region Person
@@ -213,7 +208,7 @@ namespace Coditech.Admin
             CreateMap<InventoryCategoryListModel, InventoryCategoryListViewModel>().ReverseMap();
             CreateMap<InventoryItemModelGroupModel, InventoryItemModelGroupViewModel>().ReverseMap();
             CreateMap<InventoryItemModelGroupListModel, InventoryItemModelGroupListViewModel>().ReverseMap();
-            
+
             CreateMap<InventoryProductDimensionGroupModel, InventoryProductDimensionGroupViewModel>().ReverseMap();
             CreateMap<InventoryProductDimensionGroupListModel, InventoryProductDimensionGroupListViewModel>().ReverseMap();
             CreateMap<InventoryItemTrackingDimensionModel, InventoryItemTrackingDimensionViewModel>().ReverseMap();
@@ -230,6 +225,8 @@ namespace Coditech.Admin
             CreateMap<InventoryItemTrackingDimensionGroupListModel, InventoryItemTrackingDimensionGroupListViewModel>().ReverseMap();
             CreateMap<InventoryGeneralItemMasterModel, InventoryGeneralItemMasterViewModel>().ReverseMap();
             CreateMap<InventoryGeneralItemMasterListModel, InventoryGeneralItemMasterListViewModel>().ReverseMap();
+            CreateMap<InventoryCategoryTypeModel, InventoryCategoryTypeViewModel>().ReverseMap();
+            CreateMap<InventoryCategoryTypeListModel, InventoryCategoryTypeListViewModel>().ReverseMap();
             #endregion
 
             #region Password
@@ -240,10 +237,6 @@ namespace Coditech.Admin
 
             #region Dashboard
             CreateMap<DashboardModel, DashboardViewModel>().ReverseMap();
-            #endregion
-            
-            #region GymDashboard
-            CreateMap<GymDashboardModel, GymDashboardViewModel>().ReverseMap();
             #endregion
 
             #region Media Manager

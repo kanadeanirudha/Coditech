@@ -62,5 +62,14 @@ namespace Coditech.Common.API.Model
         public string ESICNumber { get; set; }
         [MaxLength(35)]
         public string WaterMark { get; set; }
+        public long LogoMediaId { get; set; }
+        public long LogoSmallMediaId { get; set; }
+        public string LogoMediaPath { get; set; }
+        public string LogoMediaFileName { get; set; }
+        public string LogoSmallMediaPath { get; set; }
+        public string LogoSmallMediaFileName { get; set; }
+        public string DefaultCurrency { get; set; }
+        public short GeneralCurrencyMasterId { get; set; }
+
     }
 }

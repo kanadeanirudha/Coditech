@@ -1,7 +1,4 @@
 ﻿using Coditech.Common.API.Model;
-using Coditech.Common.Helper.Utilities;
-
-using System.Collections.Specialized;
 
 namespace Coditech.API.Service
 {
@@ -11,6 +8,6 @@ namespace Coditech.API.Service
         TaskSchedulerModel CreateTaskScheduler(TaskSchedulerModel model);
         TaskSchedulerModel GetTaskSchedulerDetails(int configuratorId, string schedulerCallFor);
         bool UpdateTaskSchedulerDetails(TaskSchedulerModel model);
-        bool DeleteTaskScheduler(ParameterModel parameterModel);       
+        bool DeleteTaskScheduler(ParameterModel parameterModel);
     }
 }

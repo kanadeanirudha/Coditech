@@ -9,6 +9,6 @@ namespace Coditech.Admin.ViewModel
         {
             GeneralRunningNumbersList = new List<GeneralRunningNumbersViewModel>();
         }
-        public string SelectedCentreCode { get; set; } = string.Empty;
+        public string SelectedCentreCode { get; set; } 
     }
 }

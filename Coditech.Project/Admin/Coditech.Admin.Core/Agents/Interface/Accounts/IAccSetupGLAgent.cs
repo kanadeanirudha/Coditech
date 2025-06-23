@@ -27,11 +27,24 @@ namespace Coditech.Admin.Agents
         /// <summary>
         /// AddChild AccountSetupGL.
         /// </summary>
-        /// <param name="accSetupMasterViewModel">accSetupMasterViewModel.</param>
-        /// <returns>Returns updated AccSetupMasterViewModel</returns>
+        /// <param name="accSetupGLModel">accSetupGLModel.</param>
+        /// <returns>Returns Added accSetupGLModel</returns>
         AccSetupGLModel AddChild(AccSetupGLModel accSetupGLModel);
 
-        bool DeleteAccountSetupGL(string accSetupGLId, out string errorMessage);
+        /// <summary>
+        /// UpdateAccount.
+        /// </summary>
+        /// <param name="accSetupGLModel">accSetupGLModel.</param>
+        /// <returns>Returns updated UpdateAccount accSetupGLModel</returns>
+        AccSetupGLModel UpdateAccount(AccSetupGLModel accSetupGLModel);
 
+        /// <summary>
+        /// GetAccountSetupGL.
+        /// </summary>
+        /// <param name="accSetupGLModel">accSetupGLModel.</param>
+        /// <returns>Returns GetAccountSetupGL accSetupGLModel</returns>
+        AccSetupGLModel GetAccountSetupGL(int accSetupGLId);
+        GeneralFinancialYearModel GetCurrentFinancialYear();
+        bool DeleteAccountSetupGL(string accSetupGLId, out string errorMessage);
     }
 }

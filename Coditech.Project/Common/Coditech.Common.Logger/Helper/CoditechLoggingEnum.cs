@@ -36,14 +36,12 @@
             Person,
             GlobleSettingMaster,
             MediaManager,
-            Gym,
             EmployeeMaster,
             EmployeeService,
             OccupationMaster,
             MeasurementUnitMaster,
             OrganisationCentrewiseDepartment,
             AssociateUnAssociateCentrewiseDepartment,
-            GymBodyMeasurementType,
             RunningNumbers,
             LeadGenerationMaster,
             OrganisationCentrewiseBuilding,
@@ -105,7 +103,6 @@
             NotificationMaster,
             Trainer,
             AssociatedTrainer,
-            GymWorkoutPlan,
             GeneralBatch,
             GeneralBatchUser,
             AssociateUnAssociateBatchwiseUser,
@@ -130,7 +127,17 @@
             AccSetupGLType,
             TaskScheduler,
             AccGLTransaction, 
-            AccSetupChartOfAccountTemplate
+            AccSetupChartOfAccountTemplate,
+            UserType,
+            InventoryCategoryType,
+            UserModuleMaster,
+            ERP,
+            Hangfire,
+            PolicyMaster,
+            OrganisationCentrewisePolicy,
+            AccGLOpeningBalance,
+            AccSetupCategory,
+            AccGLIndividualOpeningBalance
         }
     }
 }

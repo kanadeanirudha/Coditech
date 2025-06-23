@@ -2,8 +2,8 @@
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Authorization;
@@ -30,14 +30,13 @@ namespace Coditech.Admin.Controllers
             if (User.Identity.IsAuthenticated)
                 _userAgent.Logout();
 
-            GetLoginRememberMeCookie();
-            return View(new UserLoginViewModel());
+            var userLoginViewModel = GetLoginRememberMeCookie();
+            return View(userLoginViewModel);
         }
 
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         public virtual ActionResult Login(UserLoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
@@ -50,7 +49,7 @@ namespace Coditech.Admin.Controllers
                         _authenticationHelper.SetAuthCookie(model.UserName, model.RememberMe);
 
                         if (model.RememberMe)
-                            SaveLoginRememberMeCookie(model.UserName);
+                            SaveLoginRememberMeCookie(model.UserName, model.Password);
                         if (!loginviewModel.IsPasswordChange)
                         {
                             return RedirectToAction<UserController>(x => x.ChangePassword());
@@ -89,7 +88,6 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/User/ChangePassword.cshtml", changePasswordViewModel);
         }
 
-
         [HttpGet]
         public virtual ActionResult Logout()
         {
@@ -107,32 +105,15 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult GetGeneralPersonAddressess(long personId, long entityId, string entityType)
+        public virtual ActionResult GetGeneralPersonAddressess(long personId, long entityId, string entityType, string controllerName)
         {
             GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
             model.EntityId = entityId;
             model.EntityType = entityType;
+            model.ControllerName = controllerName;
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", model);
         }
 
-        [HttpPost]
-        public virtual ActionResult CreateEditGeneralPersonalAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-            }
-            if (generalPersonAddressViewModel.EntityType == UserTypeEnum.GymMember.ToString())
-                return RedirectToAction("CreateEditGymMemberAddress", "GymMemberDetails", new { gymMemberDetailId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
-            else if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Employee.ToString())
-                return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
-            else if (generalPersonAddressViewModel.EntityType == UserTypeEnum.Patient.ToString())
-                return RedirectToAction("CreateEditPatientRegistrationAddress", "HospitalPatientRegistration", new { hospitalPatientRegistrationId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
-            else
-                return null;
-        }
 
         #region ResetPassword
         [HttpGet]
@@ -193,6 +174,30 @@ namespace Coditech.Admin.Controllers
             }
             return View("~/views/user/ResetPassword.cshtml", resetPasswordViewModel);
         }
+
+        [HttpGet]
+        public virtual ActionResult ChangeAccountBalanceSheet(int selectedBalanceId, string returnUrl)
+        {
+            // Retrieve user data from session
+            UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
+
+            if (userModel?.BalanceSheetList?.Count > 0)
+            {
+                var selectedBalance = userModel.BalanceSheetList.FirstOrDefault(b => b.AccSetupBalanceSheetId == selectedBalanceId);
+                if (selectedBalance != null)
+                {
+                    userModel.SelectedBalanceSheetId = selectedBalance.AccSetupBalanceSheetId;
+                    userModel.SelectedBalanceSheet = selectedBalance.AccBalancesheetHeadDesc;
+                    // SessionHelper.RemoveDataFromSession(AdminConstants.AccountPrerequisiteSession);
+                }
+
+                // Save selected balance ID in session
+                SessionHelper.SaveDataInSession(AdminConstants.UserDataSession, userModel);
+            }
+
+            return RedirectToLocal(returnUrl);
+        }
+
         #endregion
 
         #region Protected
@@ -204,26 +209,33 @@ namespace Coditech.Admin.Controllers
             return Redirect($"{CoditechAdminSettings.DashboardUrl}?numberOfDaysRecord={CoditechAdminSettings.DefaultDashboardDataDays}");
         }
 
-        protected virtual void SaveLoginRememberMeCookie(string userId)
+        protected virtual void SaveLoginRememberMeCookie(string userId, string password)
         {
             //Check if the browser support cookies 
             if ((HttpContextHelper.Request.Cookies?.Count > 0))
             {
-                CookieHelper.SetCookie(AdminConstants.LoginCookieNameValue, userId, (Convert.ToDouble(CoditechAdminSettings.CookieExpiresValue) * AdminConstants.MinutesInADay), true);
+                CookieHelper.SetCookie(AdminConstants.LoginCookieNameValue, HelperUtility.EncodeBase64($"{userId}|{password}"), (Convert.ToDouble(CoditechAdminSettings.CookieExpiresValue) * AdminConstants.MinutesInADay), true);
             }
         }
-        protected virtual void GetLoginRememberMeCookie()
+
+        protected virtual UserLoginViewModel GetLoginRememberMeCookie()
         {
+            UserLoginViewModel userLoginViewModel = new UserLoginViewModel();
+
             if (HttpContext.Request.Cookies?.Count > 0)
             {
                 if (CookieHelper.IsCookieExists(AdminConstants.LoginCookieNameValue))
                 {
-                    string loginName = HttpUtility.HtmlEncode(CookieHelper.GetCookieValue<string>(AdminConstants.LoginCookieNameValue));
-                    UserLoginViewModel userLoginViewModel = new UserLoginViewModel();
-                    userLoginViewModel.UserName = loginName;
-                    userLoginViewModel.RememberMe = true;
+                    string loginNamePassword = HelperUtility.DecodeBase64(HttpUtility.HtmlEncode(CookieHelper.GetCookieValue<string>(AdminConstants.LoginCookieNameValue)));
+                    if (!string.IsNullOrEmpty(loginNamePassword))
+                    {
+                        userLoginViewModel.UserName = loginNamePassword.Split("|")[0];
+                        userLoginViewModel.Password = loginNamePassword.Split("|")[1];
+                        userLoginViewModel.RememberMe = true;
+                    }
                 }
             }
+            return userLoginViewModel;
         }
         #endregion
     }

@@ -6,14 +6,14 @@ namespace Coditech.Admin.ViewModel
     {
         public short AccSetupTransactionTypeId { get; set; }
 
-        [Display(Name = "TransactionTypeCode")]
+        [Display(Name = "Transaction Type Code")]
         [Required]
         public string TransactionTypeCode { get; set; }
 
-        [Display(Name = "TransactionTypeName")]
+        [Display(Name = "Transaction Type Name")]
         [Required]
         public string TransactionTypeName { get; set; }
-        [Display(Name = "IsActive")]
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
 
 

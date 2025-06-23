@@ -1,16 +1,11 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.API.Data;
+using Coditech.Common.API.Model;
 
 namespace Coditech.Admin.Agents
 {
     public interface IAccGLTransactionAgent
     {
-        /// <summary>
-        /// Get list of Balance Sheet.
-        /// </summary>
-        /// <param name="dataTableModel">DataTable ViewModel.</param>
-        /// <returns>AccGLTransactionListViewModel</returns>
-        AccGLTransactionListViewModel GetGLTransactionList(DataTableViewModel dataTableModel,string selectedCentreCode, int accSetupBalanceSheetId, short generalFinancialYearId, short accSetupTransactionTypeId, byte accSetupBalanceSheetTypeId);
 
         /// <summary>
         /// Create Designation.
@@ -19,25 +14,21 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns created model.</returns>short
         AccGLTransactionViewModel CreateGLTransaction(AccGLTransactionViewModel accGLTransactionViewModel);
 
-        /// <summary>
-        /// Get Designation by accGLTransactionId.
-        /// </summary>
-        /// <param name="accGLTransactionId">accGLTransactionId</param>
-        /// <returns>Returns AccGLTransactionViewModel.</returns>
-        AccGLTransactionViewModel GetGLTransaction(long accGLTransactionId);
 
         /// <summary>
         /// Update Designation.
         /// </summary>
         /// <param name="accGLTransactionViewModel">accGLTransactionViewModel.</param>
         /// <returns>Returns updated AccGLTransactionsViewModel</returns>
-        AccGLTransactionViewModel UpdateGLTransaction(AccGLTransactionViewModel accGLTransactionViewModel);
+        List<AccGLTransactionViewModel> GetAccSetupGLAccountList(string searchKeyword, int accSetupGLId, string userType, string transactionTypeCode, int balanceSheet);
+        GeneralFinancialYearModel GetCurrentFinancialYear();
 
         /// <summary>
-        ///// Delete Designation.
-        ///// </summary>
-        ///// <param name="accGLTransactionId">accGLTransactionId.</param>
-        ///// <returns>Returns true if deleted successfully else return false.</returns>
-        //bool DeleteBalanceSheet(string accGLTransactionId, out string errorMessage);
+        ///GetPersonsByUserType
+        /// </summary>
+        /// <param name="accGLTransactionViewModel">accGLTransactionViewModel.</param>
+        /// <returns>Returns updated AccGLTransactionsViewModel</returns>
+        List<AccGLTransactionViewModel> GetPersons(string searchKeyword, int userTypeId, int balanceSheet);
+
     }
 }

@@ -8,26 +8,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Reports\Gym\GymLeads.rdlc" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Reports\Gym\GymLeads.rdlc" />
-	  <Content Include="Reports\Gym\GymSalesInvoice.rdlc" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Content>
-		<Content Update="Views\Shared\Control\_HTMLEditor.cshtml">
-		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Update="wwwroot\js\Coditech\Organisation\OrganisationCentrewiseJoiningCode.js">
-		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
 	</ItemGroup>
 
@@ -51,4 +34,31 @@
 		<Folder Include="wwwroot\css\login\" />
 		<Folder Include="wwwroot\js\login\" />
 	</ItemGroup>
+
+	<Target Name="CopySharedLibrariesDll" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(OutputPath)Coditech.Admin.Core.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Admin.Utilities.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.API.Client.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.API.Data.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Resources.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Common.API.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Common.API.Model.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Common.Helper.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Common.Logger.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(ProjectDir)appsettings.json" DestinationFolder="$(SolutionDir)..\SDKMerge\Appsetting\Admin\" />
+	</Target>
+
+	<Target Name="CopyViewsFolder" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<ItemGroup>
+			<ViewFiles Include="$(ProjectDir)Views\**\*" Exclude="$(ProjectDir)Views\HMS\**\*;$(ProjectDir)Views\Gazette\**\*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(ViewFiles)" DestinationFiles="@(ViewFiles->'$(SolutionDir)..\SDKMerge\Views\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
+	
+	<Target Name="CopywwwrootFolder" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<ItemGroup>
+			<wwwrootFiles Include="$(ProjectDir)wwwroot\**\*" Exclude="$(ProjectDir)wwwroot\assets\**\*;$(ProjectDir)wwwroot\favicon.ico;" />
+		</ItemGroup>
+		<Copy SourceFiles="@(wwwrootFiles)" DestinationFiles="@(wwwrootFiles->'$(SolutionDir)..\SDKMerge\wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
 </Project>

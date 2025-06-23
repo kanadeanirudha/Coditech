@@ -24,16 +24,15 @@ namespace Coditech.Admin.Agents
 
         public virtual MediaManagerFolderListViewModel GetFolderStructure(DataTableViewModel dataTableModel)
         {
-            FilterCollection filters = null;
+            FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters = new FilterCollection();
                 filters.Add("FileName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("Size", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "FileName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? " " : dataTableModel.SortByColumn, dataTableModel.SortBy);
             UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
             dataTableModel.SelectedParameter1 = string.IsNullOrEmpty(dataTableModel.SelectedParameter1) ? "0" : dataTableModel.SelectedParameter1;
             MediaManagerFolderResponse response = _mediaManagerClient.GetFolderStructure(Convert.ToInt32(dataTableModel.SelectedParameter1), userModel.SelectedAdminRoleMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);

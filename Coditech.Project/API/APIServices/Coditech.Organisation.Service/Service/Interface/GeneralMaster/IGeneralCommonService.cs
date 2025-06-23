@@ -8,5 +8,6 @@ namespace Coditech.API.Service
         CoditechApplicationSettingListModel GetCoditechApplicationSettingList(string applicationCodes);
         string GetDomainAPIKey(string requestKey);
         GeneralMessagesModel SendOTP(GeneralMessagesModel generalMessagesModel);
+        AccPrequisiteModel GetAccountPrequisite(int balanceSheetId);
     }
 }

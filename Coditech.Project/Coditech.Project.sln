@@ -37,8 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Common.Service", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.Organisation", "API\Coditech.Engine.Organisation\Coditech.Engine.Organisation.csproj", "{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.GymManagementSystem", "API\Coditech.Engine.GymManagementSystem\Coditech.Engine.GymManagementSystem.csproj", "{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.MediaManager", "API\Coditech.Engine.MediaManager\Coditech.Engine.MediaManager.csproj", "{40A85D54-D60A-4DC3-8D0F-A41C04E4B229}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Engine.HospitalManagementSystem", "API\Coditech.Engine.HospitalManagementSystem\Coditech.Engine.HospitalManagementSystem.csproj", "{29DED480-D4C7-42A3-A3CB-BCE196F9A42B}"
@@ -63,6 +61,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Organisation.Service", "API\APIServices\Coditech.Organisation.Service\Coditech.Organisation.Service.csproj", "{12408D18-D673-44F7-A94C-67BE687433BE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Payment.Service", "API\APIServices\Coditech.Payment.Service\Coditech.Payment.Service.csproj", "{82850BCE-D792-4E9C-BFD3-85E6201DC0B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Hangfire", "Common\Coditech.Hangfire\Coditech.Hangfire.csproj", "{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,12 +143,6 @@ Global
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B0DCDB4-4217-44F5-8C72-A1BA17D53DC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DA85BF4-24C1-4B16-8210-F90156A0BD7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{40A85D54-D60A-4DC3-8D0F-A41C04E4B229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40A85D54-D60A-4DC3-8D0F-A41C04E4B229}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40A85D54-D60A-4DC3-8D0F-A41C04E4B229}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
@@ -197,6 +191,12 @@ Global
 		{82850BCE-D792-4E9C-BFD3-85E6201DC0B6}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{82850BCE-D792-4E9C-BFD3-85E6201DC0B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82850BCE-D792-4E9C-BFD3-85E6201DC0B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -221,6 +221,7 @@ Global
 		{5E1B426B-E8E3-456F-AA2C-8CB3B1099E1E} = {DEE7F0C8-7DB8-42DA-A314-4694FE78A6FF}
 		{12408D18-D673-44F7-A94C-67BE687433BE} = {DEE7F0C8-7DB8-42DA-A314-4694FE78A6FF}
 		{82850BCE-D792-4E9C-BFD3-85E6201DC0B6} = {DEE7F0C8-7DB8-42DA-A314-4694FE78A6FF}
+		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9} = {56B5A9D6-463C-47DE-8366-6A5976E51406}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C29948E7-3002-49F1-8F85-8AC9847A8945}

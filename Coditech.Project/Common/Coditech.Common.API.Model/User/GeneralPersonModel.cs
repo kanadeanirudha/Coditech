@@ -38,5 +38,6 @@
         public short EmployeeDesignationMasterId { get; set; }
         public byte HospitalPatientTypeId { get; set; }
         public bool IsPasswordChange { get; set; } = false;
+        public bool IsEntityActive { get; set; } = false;
     }
 }

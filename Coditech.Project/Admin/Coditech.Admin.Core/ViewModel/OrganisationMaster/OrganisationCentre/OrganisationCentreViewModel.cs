@@ -50,6 +50,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Fax Number")]
         public string FaxNumber { get; set; }
         [MaxLength(50)]
+        [Required]
         [Display(Name = "Phone Number Office")]
         public string PhoneNumberOffice { get; set; }
         [Display(Name = "Establishment Date")]
@@ -85,5 +86,13 @@ namespace Coditech.Admin.ViewModel
         public string ESICNumber { get; set; }
         [MaxLength(35)]
         public string WaterMark { get; set; }
+        [Display(Name = "Logo")]
+        public long LogoMediaId { get; set; }
+        [Display(Name = "Logo Small")]
+        public long LogoSmallMediaId { get; set; }
+        public string LogoMediaPath { get; set; }
+        public string LogoMediaFileName { get; set; }
+        public string LogoSmallMediaPath { get; set; }
+        public string LogoSmallMediaFileName { get; set; }
     }
 }

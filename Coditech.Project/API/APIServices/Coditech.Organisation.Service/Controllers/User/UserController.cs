@@ -315,5 +315,26 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("/User/GetUserTypeList")]
+        [Produces(typeof(UserTypeListResponse))]
+        public virtual IActionResult GetUserTypeList()
+        {
+            try
+            {
+                List<UserTypeModel> list = _userService.GetUserTypeList();
+                return IsNotNull(list) ? CreateOKResponse(new UserTypeListResponse { TypeList = list }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserType.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new UserTypeListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserType.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new UserTypeListResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

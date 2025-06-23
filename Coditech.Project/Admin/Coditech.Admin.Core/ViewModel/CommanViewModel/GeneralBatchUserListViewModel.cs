@@ -9,7 +9,6 @@ namespace Coditech.Admin.ViewModel
         {
             GeneralBatchUserList = new List<GeneralBatchUserViewModel>();
         }
-        public long DBTMTraineeDetailId { get; set; }
         public int GeneralBatchMasterId { get; set; }
         public string BatchName { get; set; }
         public string SelectedParameter1 { get; set; }
