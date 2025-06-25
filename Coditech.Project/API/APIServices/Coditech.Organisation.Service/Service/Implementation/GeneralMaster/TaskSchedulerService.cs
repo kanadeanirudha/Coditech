@@ -94,6 +94,7 @@ namespace Coditech.API.Service
             //Get the TaskScheduler Details based on id.
             TaskSchedulerMaster taskScheduler = _taskSchedulerRepository.Table.Where(x => x.ConfiguratorId == configuratorId && x.SchedulerCallFor == schedulerCallFor)?.FirstOrDefault();
             TaskSchedulerModel taskSchedulerModel = taskScheduler?.FromEntityToModel<TaskSchedulerModel>() ?? new TaskSchedulerModel();
+            taskSchedulerModel.ConfiguratorId = configuratorId;
             if (taskSchedulerModel.TaskSchedulerMasterId > 0)
             {
                 if (taskSchedulerModel.StartDate.HasValue)
