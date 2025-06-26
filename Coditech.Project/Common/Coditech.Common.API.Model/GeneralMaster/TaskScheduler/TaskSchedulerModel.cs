@@ -32,6 +32,7 @@ namespace Coditech.Common.API.Model
         public bool IsInstantJob { get; set; }
         public bool IsCronJob { get; set; }
         public string ExeParameters { get; set; }
+        public string CentreCode { get; set; }
     }
 }
 

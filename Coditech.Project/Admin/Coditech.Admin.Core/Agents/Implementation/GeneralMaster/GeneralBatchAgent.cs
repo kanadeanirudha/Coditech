@@ -39,11 +39,13 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
+                filters = new FilterCollection();
                 filters.Add("BatchName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("BatchTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("BatchStartTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
             long userId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).UserMasterId;
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "BatchName " : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "createddate" : dataTableModel.SortByColumn, dataTableModel.SortBy = IsNotNull(dataTableModel.SortByColumn) ? "desc" : string.IsNullOrEmpty(dataTableModel.SortBy) ? "asc" : dataTableModel.SortBy);
 
             GeneralBatchListResponse response = _generalBatchClient.List(dataTableModel.SelectedCentreCode, userId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralBatchListModel generalBatchList = new GeneralBatchListModel { GeneralBatchList = response?.GeneralBatchList };
@@ -211,7 +213,7 @@ namespace Coditech.Admin.Agents
                 taskSchedulerViewModel.SchedulerCallFor = SchedulerCallForEnum.Batch.ToString();
                 taskSchedulerViewModel.SchedulerType = SchedulerTypeEnum.Scheduled.ToString();
                 taskSchedulerViewModel.RecurEvery = 1;
-               
+
                 TaskSchedulerResponse response = _taskSchedulerClient.CreateTaskScheduler(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
                 TaskSchedulerModel taskSchedulerModel = response?.TaskSchedulerModel;
                 return IsNotNull(taskSchedulerModel) ? taskSchedulerModel.ToViewModel<TaskSchedulerViewModel>() : new TaskSchedulerViewModel();
@@ -237,7 +239,7 @@ namespace Coditech.Admin.Agents
         //Get TaskScheduler by TaskSchedulerMasterId.
         public virtual TaskSchedulerViewModel GetBatchTaskSchedulerDetails(int configuratorId)
         {
-            TaskSchedulerResponse response = _taskSchedulerClient.GetTaskSchedulerDetails(configuratorId,SchedulerCallForEnum.Batch.ToString());
+            TaskSchedulerResponse response = _taskSchedulerClient.GetTaskSchedulerDetails(configuratorId, SchedulerCallForEnum.Batch.ToString());
             return response?.TaskSchedulerModel.ToViewModel<TaskSchedulerViewModel>();
         }
 

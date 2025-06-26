@@ -50,5 +50,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "End Time")]
         public TimeSpan ExpireTime { get; set; }
         public bool IsCronJob { get; set; }
+        public string CentreCode { get; set; }
     }
 }
