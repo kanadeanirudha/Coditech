@@ -88,8 +88,13 @@ namespace Coditech.Admin.Helpers
 
         public static string ToCoditechDateWithTimeFormat(this DateTime dateTime)
         {
-            string dateTimeformat = dateTime.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString())+ " h:mm tt");
+            string dateTimeformat = dateTime.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.DateFormat.ToString()) + " " + GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.TimeFormat.ToString()));
             return dateTimeformat;
+        }
+        public static string ToCoditechTimeFormat(this TimeOnly time)
+        {
+            string timeformat = time.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.TimeFormat.ToString()));
+            return timeformat;
         }
         public static int GetSelectedBalanceSheetId()
         {

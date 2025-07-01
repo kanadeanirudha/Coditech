@@ -1,5 +1,4 @@
 ﻿using Coditech.Admin.Utilities;
-using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
 using Coditech.Common.Logger;
