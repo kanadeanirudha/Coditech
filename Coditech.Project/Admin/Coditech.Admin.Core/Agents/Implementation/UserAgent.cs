@@ -45,12 +45,13 @@ namespace Coditech.Admin.Agents
                 UserModel userModel = _userClient.Login(null, new UserLoginModel()
                 {
                     UserName = userLoginViewModel.UserName,
-                    Password = userLoginViewModel.Password
+                    Password = userLoginViewModel.Password,
                 });
                 if (IsNotNull(userModel))
                 {
                     userLoginViewModel.IsPasswordChange = userModel.IsPasswordChange;
                     SaveInSession<UserModel>(AdminConstants.UserDataSession, userModel);
+                    SaveLoginLogoCookie(userModel.LogoMediaPath);
                 }
                 return userLoginViewModel;
             }
@@ -140,7 +141,14 @@ namespace Coditech.Admin.Agents
                 return (GeneralPersonAddressViewModel)GetViewModelWithErrorMessage(generalPersonAddressViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
-
+        protected virtual void SaveLoginLogoCookie(string logoMediaPath)
+        {
+            //Check if the browser support cookies 
+            if ((HttpContextHelper.Request.Cookies?.Count > 0))
+            {
+                CookieHelper.SetCookie(AdminConstants.LogoCookieNameValue, $"{logoMediaPath}", (Convert.ToDouble(CoditechAdminSettings.CookieExpiresValue) * AdminConstants.MinutesInADay), true);
+            }
+        }
         #region ResetPassword
         // This method is used to reset password the user
         public virtual ResetPasswordSendLinkViewModel ResetPasswordSendLink(string userName)
