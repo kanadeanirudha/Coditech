@@ -96,6 +96,16 @@ namespace Coditech.Admin.Helpers
             string timeformat = time.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.TimeFormat.ToString()));
             return timeformat;
         }
+        public static string ToCoditechTimeFormat(this TimeSpan time)
+        {
+            string timeformat = time.ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.TimeFormat.ToString()));
+            return timeformat;
+        }
+        public static string ToCoditechTimeFormat(this TimeSpan? time)
+        {
+            string timeformat = time == null ? "" : new TimeOnly(time.Value.Hours, time.Value.Minutes, time.Value.Seconds).ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.TimeFormat.ToString()));
+            return timeformat;
+        }
         public static int GetSelectedBalanceSheetId()
         {
             return Convert.ToInt32(SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedBalanceSheetId);
