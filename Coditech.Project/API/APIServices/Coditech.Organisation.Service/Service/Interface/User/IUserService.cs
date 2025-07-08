@@ -1,5 +1,4 @@
-﻿using Coditech.API.Data;
-using Coditech.Common.API.Model;
+﻿using Coditech.Common.API.Model;
 
 namespace Coditech.API.Service
 {
@@ -8,7 +7,7 @@ namespace Coditech.API.Service
         UserModel Login(UserLoginModel model);
         List<UserModuleModel> GetActiveModuleList();
         List<UserMainMenuModel> GetActiveMenuList(string moduleCode);
-        GeneralPersonModel InsertPersonInformation(GeneralPersonModel model);
+        GeneralPersonModel InsertPersonInformation(GeneralPersonModel model, string customData = null);
         GeneralPersonModel GetPersonInformation(long personId);
         bool UpdatePersonInformation(GeneralPersonModel model);
         GeneralPersonAddressListModel GetGeneralPersonAddresses(long personId);
