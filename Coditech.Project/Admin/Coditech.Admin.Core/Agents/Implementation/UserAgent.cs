@@ -44,8 +44,8 @@ namespace Coditech.Admin.Agents
 
                 UserModel userModel = _userClient.Login(null, new UserLoginModel()
                 {
-                    UserName = userLoginViewModel.UserName,
-                    Password = userLoginViewModel.Password,
+                    UserName = userLoginViewModel.UserName.Trim(),
+                    Password = userLoginViewModel.Password.Trim(),
                 });
                 if (IsNotNull(userModel))
                 {
