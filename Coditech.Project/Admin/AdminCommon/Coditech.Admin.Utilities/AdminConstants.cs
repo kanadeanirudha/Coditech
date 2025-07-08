@@ -5,6 +5,7 @@
         public const string DESCKey = "desc";
         public const string ASCKey = "asc";
         public const string LoginCookieNameValue = "loginCookie";
+        public const string LogoCookieNameValue = "logoCookie";
         public const string AreaKey = "area";
         public const string Controller = "controller";
         public const string Action = "action";
