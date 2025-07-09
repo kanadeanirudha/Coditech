@@ -316,7 +316,7 @@ namespace Coditech.API.Service
         }
 
         #region General Person
-        public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel)
+        public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel, string customData = null)
         {
             string errorMessage = string.Empty;
             if (!ValidatedGeneralPersonData(generalPersonModel, out errorMessage))
@@ -342,7 +342,7 @@ namespace Coditech.API.Service
                 }
                 generalPersonModel.CentreName = GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode);
 
-                InsertPersonDetails(generalPersonModel, settingMasterList);
+                InsertPersonDetails(generalPersonModel, settingMasterList, customData);
             }
             else
             {
@@ -874,7 +874,7 @@ namespace Coditech.API.Service
 
             return birthYear;
         }
-        protected virtual void InsertPersonDetails(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
+        protected virtual void InsertPersonDetails(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList, string customData = null)
         {
             if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
