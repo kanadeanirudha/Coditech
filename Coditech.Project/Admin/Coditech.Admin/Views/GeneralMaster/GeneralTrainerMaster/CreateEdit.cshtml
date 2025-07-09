@@ -36,7 +36,6 @@
                                 @Html.HiddenFor(m => m.SelectedDepartmentId)
                                 @Html.HiddenFor(m => m.FirstName)
                                 @Html.HiddenFor(m => m.LastName)
-                               
                             }
                             <div class="row">
                                 <div class="col-lg-6">
@@ -85,6 +84,7 @@
                                             {
                                                 DropdownSelectedValue = Model.TrainerSpecializationEnumId.ToString(),
                                                                                 DropdownName = "TrainerSpecializationEnumId",
+                                                                                IsRequired = true,
                                                                                 GroupCode = DropdownTypeEnum.TrainerSpecialization.ToString()
                                                                                 })
                                         @Html.ValidationMessageFor(x => x.TrainerSpecializationEnumId)
