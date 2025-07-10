@@ -894,8 +894,7 @@ namespace Coditech.API.Service
         {
             if (generalPersonModel.UserType == UserTypeEnum.Employee.ToString())
             {
-                EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == generalPersonModel.EntityId);
-
+                EmployeeMaster employeeMaster = _employeeMasterRepository.Table.Where(x => x.EmployeeId == generalPersonModel.EntityId).FirstOrDefault();
                 if (employeeMaster != null)
                 {
                     employeeMaster.IsActive = generalPersonModel.IsActive;
