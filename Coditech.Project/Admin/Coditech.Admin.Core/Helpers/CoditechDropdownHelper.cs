@@ -8,7 +8,6 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using static System.Net.Mime.MediaTypeNames;
 namespace Coditech.Admin.Helpers
 {
     public static partial class CoditechDropdownHelper

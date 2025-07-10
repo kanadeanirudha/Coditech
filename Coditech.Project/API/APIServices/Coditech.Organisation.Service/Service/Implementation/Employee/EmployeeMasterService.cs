@@ -87,6 +87,7 @@ namespace Coditech.API.Service
                 {
                     employeeMasterModel.FirstName = generalPersonModel.FirstName;
                     employeeMasterModel.LastName = generalPersonModel.LastName;
+                    employeeMasterModel.IsActive = employeeMaster.IsActive;
                 }
             }
             return employeeMasterModel;
@@ -106,11 +107,7 @@ namespace Coditech.API.Service
 
             //Update Employee
             bool isEmployeeUpdated = _employeeMasterRepository.Update(employeeMaster);
-            if (isEmployeeUpdated)
-            {
-                ActiveInActiveUserLogin(employeeMasterModel.IsActive, employeeMasterModel.EmployeeId, UserTypeEnum.Employee.ToString());
-            }
-            else
+            if (!isEmployeeUpdated)
             {
                 employeeMasterModel.HasError = true;
                 employeeMasterModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
@@ -151,7 +148,6 @@ namespace Coditech.API.Service
             employeeMaster.BankAccountNumber = employeeMasterModel.BankAccountNumber;
             employeeMaster.BankName = employeeMasterModel.BankName;
             employeeMaster.BankIFSCCode = employeeMasterModel.BankIFSCCode;
-            employeeMaster.IsActive = employeeMasterModel.IsActive;
         }
 
         #endregion

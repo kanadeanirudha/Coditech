@@ -36,6 +36,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseAccountSetup> _organisationCentrewiseAccountSetupRepository;
         private readonly ICoditechRepository<GeneralCurrencyMaster> _generalCurrencyMasterRepository;
         private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
+        private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -58,7 +59,7 @@ namespace Coditech.API.Service
             _organisationCentrewiseAccountSetupRepository = new CoditechRepository<OrganisationCentrewiseAccountSetup>(_serviceProvider.GetService<Coditech_Entities>());
             _generalCurrencyMasterRepository = new CoditechRepository<GeneralCurrencyMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
-
+            _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -316,7 +317,7 @@ namespace Coditech.API.Service
         }
 
         #region General Person
-        public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel)
+        public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel, string customData = null)
         {
             string errorMessage = string.Empty;
             if (!ValidatedGeneralPersonData(generalPersonModel, out errorMessage))
@@ -342,7 +343,7 @@ namespace Coditech.API.Service
                 }
                 generalPersonModel.CentreName = GetOrganisationCentreNameByCentreCode(generalPersonModel.SelectedCentreCode);
 
-                InsertPersonDetails(generalPersonModel, settingMasterList);
+                InsertPersonDetails(generalPersonModel, settingMasterList, customData);
             }
             else
             {
@@ -413,8 +414,10 @@ namespace Coditech.API.Service
                     MiddleName = generalPersonModel.MiddleName,
                     LastName = generalPersonModel.LastName,
                     EmailId = generalPersonModel.EmailId,
+                    IsActive = generalPersonModel.IsActive,
                 };
                 UpdateUserMasterDetails(userMaster);
+                UpdateIsActiveFlagForUserType(generalPersonModel);
             }
             else
             {
@@ -726,6 +729,7 @@ namespace Coditech.API.Service
                 userMaster.MiddleName = model.MiddleName ?? userMaster.MiddleName;
                 userMaster.LastName = model.LastName ?? userMaster.LastName;
                 userMaster.EmailId = model.EmailId ?? userMaster.EmailId ?? userMaster.EmailId;
+                userMaster.IsActive = model.IsActive;
                 _userMasterRepository.Update(userMaster);
             }
         }
@@ -874,11 +878,11 @@ namespace Coditech.API.Service
 
             return birthYear;
         }
-        protected virtual void InsertPersonDetails(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList)
+        protected virtual void InsertPersonDetails(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList, string customData = null)
         {
             if (generalPersonModel.UserType.Equals(UserTypeEnum.Employee.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
-                InsertEmployee(generalPersonModel, settingMasterList, false);
+                InsertEmployee(generalPersonModel, settingMasterList, generalPersonModel.IsActive);
             }
             else if (generalPersonModel.UserType.Equals(UserTypeEnum.Patient.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
@@ -886,6 +890,19 @@ namespace Coditech.API.Service
             }
         }
 
+        protected virtual void UpdateIsActiveFlagForUserType(GeneralPersonModel generalPersonModel)
+        {
+            if (generalPersonModel.UserType == UserTypeEnum.Employee.ToString())
+            {
+                EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == generalPersonModel.EntityId);
+
+                if (employeeMaster != null)
+                {
+                    employeeMaster.IsActive = generalPersonModel.IsActive;
+                    _employeeMasterRepository.Update(employeeMaster);
+                }
+            }
+        }
         #endregion
     }
 }

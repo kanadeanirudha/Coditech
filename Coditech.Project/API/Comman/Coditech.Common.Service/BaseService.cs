@@ -266,7 +266,7 @@ namespace Coditech.Common.Service
             return GetGeneralEmailTemplateByCode(centreCode, emailTemplateByCode, false, true);
         }
 
-        private GeneralEmailTemplateModel GetGeneralEmailTemplateByCode(string centreCode, string emailTemplateByCode, bool isSmsTemplate, bool isWhatsAppTemplate)
+        protected virtual GeneralEmailTemplateModel GetGeneralEmailTemplateByCode(string centreCode, string emailTemplateByCode, bool isSmsTemplate, bool isWhatsAppTemplate)
         {
             GeneralEmailTemplateModel emailTemplateModel = new GeneralEmailTemplateModel();
             if (!string.IsNullOrEmpty(centreCode))
@@ -280,20 +280,29 @@ namespace Coditech.Common.Service
                     emailTemplateModel.IsSmsTemplate = organisationCentrewiseEmailTemplate.IsSmsTemplate;
                     emailTemplateModel.IsWhatsAppTemplate = organisationCentrewiseEmailTemplate.IsWhatsAppTemplate;
                 }
+                else
+                {
+                    BindEmailTemplateModel(emailTemplateByCode, isSmsTemplate, emailTemplateModel);
+                }
             }
             else
             {
-                GeneralEmailTemplate generalEmailTemplate = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmailTemplateCode == emailTemplateByCode && x.IsActive && x.IsSmsTemplate == isSmsTemplate)?.FirstOrDefault();
-                if (IsNotNull(generalEmailTemplate))
-                {
-                    emailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
-                    emailTemplateModel.EmailTemplate = generalEmailTemplate.EmailTemplate;
-                    emailTemplateModel.Subject = generalEmailTemplate.Subject;
-                    emailTemplateModel.IsSmsTemplate = generalEmailTemplate.IsSmsTemplate;
-                    emailTemplateModel.IsWhatsAppTemplate = generalEmailTemplate.IsWhatsAppTemplate;
-                }
+                BindEmailTemplateModel(emailTemplateByCode, isSmsTemplate, emailTemplateModel);
             }
             return emailTemplateModel;
+        }
+
+        protected virtual void BindEmailTemplateModel(string emailTemplateByCode, bool isSmsTemplate, GeneralEmailTemplateModel emailTemplateModel)
+        {
+            GeneralEmailTemplate generalEmailTemplate = new CoditechRepository<GeneralEmailTemplate>(_serviceProvider.GetService<Coditech_Entities>()).Table.Where(x => x.EmailTemplateCode == emailTemplateByCode && x.IsActive && x.IsSmsTemplate == isSmsTemplate)?.FirstOrDefault();
+            if (IsNotNull(generalEmailTemplate))
+            {
+                emailTemplateModel.EmailTemplateCode = generalEmailTemplate.EmailTemplateCode;
+                emailTemplateModel.EmailTemplate = generalEmailTemplate.EmailTemplate;
+                emailTemplateModel.Subject = generalEmailTemplate.Subject;
+                emailTemplateModel.IsSmsTemplate = generalEmailTemplate.IsSmsTemplate;
+                emailTemplateModel.IsWhatsAppTemplate = generalEmailTemplate.IsWhatsAppTemplate;
+            }
         }
 
         protected virtual List<GeneralEnumaratorModel> BindEnumarator()

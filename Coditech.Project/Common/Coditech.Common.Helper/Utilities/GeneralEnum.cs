@@ -111,6 +111,7 @@
         InventoryRoundOff,
         DateFormat,
         DateFormatForCalendar,
+        TimeFormat
     }
 
     public enum UserTypeEnum
