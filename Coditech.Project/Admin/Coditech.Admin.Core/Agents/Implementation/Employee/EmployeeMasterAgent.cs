@@ -108,6 +108,7 @@ namespace Coditech.Admin.Agents
                     employeeCreateEditViewModel.SelectedCentreCode = employeeMasterResponse.EmployeeMasterModel.CentreCode;
                     employeeCreateEditViewModel.SelectedDepartmentId = Convert.ToString(employeeMasterResponse.EmployeeMasterModel.GeneralDepartmentMasterId);
                     employeeCreateEditViewModel.EmployeeDesignationMasterId = employeeMasterResponse.EmployeeMasterModel.EmployeeDesignationMasterId;
+                    employeeCreateEditViewModel.IsActive = employeeMasterResponse.EmployeeMasterModel.IsActive;
                 }
                 employeeCreateEditViewModel.EmployeeId = employeeId;
                 employeeCreateEditViewModel.PersonId = personId;
