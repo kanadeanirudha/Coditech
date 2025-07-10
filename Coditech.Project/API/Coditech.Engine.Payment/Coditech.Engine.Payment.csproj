@@ -24,7 +24,7 @@
 	</ItemGroup>
 	
 	<Target Name="CopySharedLibrariesDll" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
-		<Copy SourceFiles="$(OutputPath)Coditech.Payment.Service.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Payment.Service.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
 		<Copy SourceFiles="$(ProjectDir)appsettings.json" DestinationFolder="$(SolutionDir)..\SDKMerge\Appsetting\Payment\" />
 	</Target>
 </Project>
