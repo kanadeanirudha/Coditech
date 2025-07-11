@@ -154,16 +154,12 @@ namespace Coditech.Admin.Agents
                 filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
-
-            GeneralBatchUserListResponse response = _generalBatchClient.GetGeneralBatchUserList(generalBatchMasterId, UserTypeEnum.Trainee.ToString(), null, filters, sortlist, dataTableModel.PageIndex, int.MaxValue);
+            GeneralBatchUserListResponse response = _generalBatchClient.GetGeneralBatchUserList(generalBatchMasterId, UserTypeEnum.Trainee.ToString(), null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             GeneralBatchUserListModel generalBatchUserList = new GeneralBatchUserListModel { GeneralBatchUserList = response?.GeneralBatchUserList };
             GeneralBatchUserListViewModel listViewModel = new GeneralBatchUserListViewModel();
             listViewModel.GeneralBatchUserList = generalBatchUserList?.GeneralBatchUserList?.ToViewModel<GeneralBatchUserViewModel>().ToList();
-
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralBatchUserList.Count, BindAssociatedBatchColumns());
-
             listViewModel.GeneralBatchMasterId = generalBatchMasterId;
             listViewModel.BatchName = response.BatchName;
             return listViewModel;
