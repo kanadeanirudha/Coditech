@@ -50,6 +50,8 @@ namespace Coditech.Admin.Controllers
 
                         if (model.RememberMe)
                             SaveLoginRememberMeCookie(model.UserName, model.Password);
+                        else
+                            RemoveLoginRememberMeCookie();
                         if (!loginviewModel.IsPasswordChange)
                         {
                             return RedirectToAction<UserController>(x => x.ChangePassword());
@@ -218,21 +220,27 @@ namespace Coditech.Admin.Controllers
             }
         }
 
+        protected virtual void RemoveLoginRememberMeCookie()
+        {
+            //Check if the browser support cookies 
+            if (HttpContext.Request.Cookies?.Count > 0 && CookieHelper.IsCookieExists(AdminConstants.LoginCookieNameValue))
+            {
+                CookieHelper.RemoveCookie(AdminConstants.LoginCookieNameValue);
+            }
+        }
+
         protected virtual UserLoginViewModel GetLoginRememberMeCookie()
         {
             UserLoginViewModel userLoginViewModel = new UserLoginViewModel();
 
-            if (HttpContext.Request.Cookies?.Count > 0)
+            if (HttpContext.Request.Cookies?.Count > 0 && CookieHelper.IsCookieExists(AdminConstants.LoginCookieNameValue))
             {
-                if (CookieHelper.IsCookieExists(AdminConstants.LoginCookieNameValue))
+                string loginNamePassword = HelperUtility.DecodeBase64(HttpUtility.HtmlEncode(CookieHelper.GetCookieValue<string>(AdminConstants.LoginCookieNameValue)));
+                if (!string.IsNullOrEmpty(loginNamePassword))
                 {
-                    string loginNamePassword = HelperUtility.DecodeBase64(HttpUtility.HtmlEncode(CookieHelper.GetCookieValue<string>(AdminConstants.LoginCookieNameValue)));
-                    if (!string.IsNullOrEmpty(loginNamePassword))
-                    {
-                        userLoginViewModel.UserName = loginNamePassword.Split("|")[0];
-                        userLoginViewModel.Password = loginNamePassword.Split("|")[1];
-                        userLoginViewModel.RememberMe = true;
-                    }
+                    userLoginViewModel.UserName = loginNamePassword.Split("|")[0];
+                    userLoginViewModel.Password = loginNamePassword.Split("|")[1];
+                    userLoginViewModel.RememberMe = true;
                 }
             }
             return userLoginViewModel;

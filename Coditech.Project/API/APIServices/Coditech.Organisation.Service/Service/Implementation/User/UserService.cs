@@ -69,7 +69,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.Equals(userLoginModel.UserName, StringComparison.InvariantCultureIgnoreCase) && x.Password == userLoginModel.Password
                                                                                         && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
 
             if (IsNull(userMasterData))
@@ -77,6 +77,28 @@ namespace Coditech.API.Service
             else if (!userMasterData.IsActive)
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
+            UserModel userModel = BindUserDetail(userMasterData);
+            return userModel;
+        }
+
+        public virtual UserModel GetUserDetailByUserName(UserLoginModel userLoginModel)
+        {
+            if (IsNull(userLoginModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.Equals(userLoginModel.UserName, StringComparison.InvariantCultureIgnoreCase) && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
+
+            if (IsNull(userMasterData))
+                throw new CoditechException(ErrorCodes.NotFound, null);
+            else if (!userMasterData.IsActive)
+                throw new CoditechException(ErrorCodes.ContactAdministrator, null);
+
+            UserModel userModel = BindUserDetail(userMasterData);
+            return userModel;
+        }
+
+        protected virtual UserModel BindUserDetail(UserMaster userMasterData)
+        {
             UserModel userModel = userMasterData?.FromEntityToModel<UserModel>();
 
 
