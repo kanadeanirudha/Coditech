@@ -69,9 +69,8 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.Equals(userLoginModel.UserName, StringComparison.InvariantCultureIgnoreCase) && x.Password == userLoginModel.Password
-                                                                                        && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
-
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName.ToLower() && x.Password == userLoginModel.Password
+                                                                             && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
             else if (!userMasterData.IsActive)
@@ -86,7 +85,7 @@ namespace Coditech.API.Service
             if (IsNull(userLoginModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.Equals(userLoginModel.UserName, StringComparison.InvariantCultureIgnoreCase) && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
