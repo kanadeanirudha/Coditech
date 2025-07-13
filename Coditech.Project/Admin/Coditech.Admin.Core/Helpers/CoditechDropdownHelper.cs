@@ -1383,10 +1383,7 @@ namespace Coditech.Admin.Helpers
         }
 
         private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            dropdownList.Add(new SelectListItem() { Value = "NA", Text = GeneralResources.SelectLabel });
-
-            //string[] selectedValues = dropdownViewModel.DropdownSelectedValue?.Split(',') ?? new string[] { };
+        {         
             string[] selectedValues = !string.IsNullOrEmpty(dropdownViewModel.DropdownSelectedValue)
         ? dropdownViewModel.DropdownSelectedValue.Split(',')
         : new string[] { };
