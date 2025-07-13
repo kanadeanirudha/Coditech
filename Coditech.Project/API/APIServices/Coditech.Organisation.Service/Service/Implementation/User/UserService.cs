@@ -249,6 +249,7 @@ namespace Coditech.API.Service
                     ModuleCode = item.ModuleCode,
                     MenuCode = item.MenuCode,
                     MenuName = item.MenuName,
+                    ControllerName = item.ControllerName,
                     ParentMenuCode = item.ParentMenuCode,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
                 });

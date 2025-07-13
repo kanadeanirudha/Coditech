@@ -202,6 +202,12 @@ namespace Coditech.Admin.Controllers
 
         #endregion
 
+        [HttpGet]
+        public virtual ActionResult UnauthorizedRequest()
+        {
+            return View("~/Views/User/UnauthorizedRequest.cshtml");
+        }
+
         #region Protected
         protected virtual ActionResult RedirectToLocal(string returnUrl)
         {
