@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Coditech.Admin.Helpers
 {
@@ -8,12 +8,9 @@ namespace Coditech.Admin.Helpers
         Task SetAuthCookie(string userName, bool createPersistantCookie);
 
         //Redirect to login view in case user is not authenticate.
-        void RedirectFromLoginPage(string userName, bool createPersistantCookie);
 
         //Overloaded method for Authorize attribute, user to authenticate & authorize the user for each action.
-        void OnAuthorization(AuthorizationHandlerContext filterContext);
+        void OnAuthorization(AuthorizationFilterContext filterContext);
 
-        //Method Used to Authenticate the user.
-        void AuthenticateUser(AuthorizationHandlerContext filterContext);
     }
 }

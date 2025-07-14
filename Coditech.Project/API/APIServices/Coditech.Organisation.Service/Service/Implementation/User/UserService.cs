@@ -69,90 +69,30 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userLoginModel.UserName && x.Password == userLoginModel.Password
-                                                                                        && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.ToLower() == userLoginModel.UserName.ToLower() && x.Password == userLoginModel.Password
+                                                                             && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
+            if (IsNull(userMasterData))
+                throw new CoditechException(ErrorCodes.NotFound, null);
+            else if (!userMasterData.IsActive)
+                throw new CoditechException(ErrorCodes.ContactAdministrator, null);
+
+            UserModel userModel = BindUserDetail(userMasterData);
+            return userModel;
+        }
+
+        public virtual UserModel GetUserDetailByUserName(UserLoginModel userLoginModel)
+        {
+            if (IsNull(userLoginModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.ToLower() == userLoginModel.UserName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
             else if (!userMasterData.IsActive)
                 throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
-            UserModel userModel = userMasterData?.FromEntityToModel<UserModel>();
-
-
-            userModel.IsAdminUser = IsAdminUser(userModel.UserType);
-            //Bind Role
-            BindRoleTypes(userModel);
-
-            List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
-            List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
-            List<AdminRoleMenuDetails> userRoleMenuList = new List<AdminRoleMenuDetails>();
-            List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList = new CoditechRepository<AdminRoleMediaFolderAction>(_serviceProvider.GetService<Coditech_Entities>()).Table?.ToList();
-            if (!userModel.IsAdminUser)
-            {
-                userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.ToList();
-                if (userRoleMenuList?.Count == 0)
-                {
-                    throw new CoditechException(ErrorCodes.ContactAdministrator, null);
-                }
-                else
-                {
-                    userAllModuleList = userAllModuleList.Where(x => x.ModuleCode != "CODITECHTOOLKIT")?.ToList();
-                    //Bind Menu And Modules For Admin User
-                    BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
-                    BindRoleMediaFolderAction(userModel, userRoleMediaFolderActionList);
-                    //Bind accessible Centre
-                    List<string> centreCodeList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId && x.IsActive)?.Select(y => y.CentreCode)?.ToList();
-                    List<UserAccessibleCentreModel> allCentreList = OrganisationCentreList();
-                    foreach (string centreCode in centreCodeList)
-                    {
-                        userModel.AccessibleCentreList.Add(allCentreList.First(x => x.CentreCode == centreCode));
-                    }
-                    //Bind Balance Sheet
-                    BindAccountBalanceSheetIdByCentreCode(userModel);
-                }
-            }
-            else
-            {
-                //Bind Menu And Modules For Non Admin User
-                BindMenuAndModulesForAdminUser(userModel, userAllModuleList, userAllMenuList);
-                BindRoleMediaFolderAction(userModel, userRoleMediaFolderActionList);
-                userModel.AccessibleCentreList = OrganisationCentreList();
-            }
-            userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
-            if (!string.IsNullOrEmpty(userModel.SelectedCentreCode))
-            {
-                OrganisationCentreMaster organisationCentreMasterData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
-
-                if (IsNotNull(organisationCentreMasterData))
-                {
-                    OrganisationCentreModel organisationCentreModel = organisationCentreMasterData.FromEntityToModel<OrganisationCentreModel>();
-
-                    if (organisationCentreModel.LogoMediaId > 0)
-                    {
-                        MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoMediaId).FirstOrDefault();
-                        if (mediaDetail != null)
-                        {
-                            organisationCentreModel.LogoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
-                        }
-                    }
-
-                    if (organisationCentreModel.LogoSmallMediaId > 0)
-                    {
-                        MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoSmallMediaId).FirstOrDefault();
-                        if (mediaDetail != null)
-                        {
-                            organisationCentreModel.LogoSmallMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
-                        }
-                    }
-                    userModel.LogoMediaPath = organisationCentreModel.LogoMediaPath;
-                    userModel.LogoSmallMediaPath = organisationCentreModel.LogoSmallMediaPath;
-                }
-
-
-            }
-            userModel.GeneralEnumaratorList = BindEnumarator();
-            userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();
+            UserModel userModel = BindUserDetail(userMasterData);
             return userModel;
         }
 
@@ -309,6 +249,7 @@ namespace Coditech.API.Service
                     ModuleCode = item.ModuleCode,
                     MenuCode = item.MenuCode,
                     MenuName = item.MenuName,
+                    ControllerName = item.ControllerName,
                     ParentMenuCode = item.ParentMenuCode,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
                 });
@@ -565,6 +506,88 @@ namespace Coditech.API.Service
         #endregion
 
         #region Protected Method
+
+
+        protected virtual UserModel BindUserDetail(UserMaster userMasterData)
+        {
+            UserModel userModel = userMasterData?.FromEntityToModel<UserModel>();
+
+
+            userModel.IsAdminUser = IsAdminUser(userModel.UserType);
+            //Bind Role
+            BindRoleTypes(userModel);
+
+            List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
+            List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
+            List<AdminRoleMenuDetails> userRoleMenuList = new List<AdminRoleMenuDetails>();
+            List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList = new CoditechRepository<AdminRoleMediaFolderAction>(_serviceProvider.GetService<Coditech_Entities>()).Table?.ToList();
+            if (!userModel.IsAdminUser)
+            {
+                userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.ToList();
+                if (userRoleMenuList?.Count == 0)
+                {
+                    throw new CoditechException(ErrorCodes.ContactAdministrator, null);
+                }
+                else
+                {
+                    userAllModuleList = userAllModuleList.Where(x => x.ModuleCode != "CODITECHTOOLKIT")?.ToList();
+                    //Bind Menu And Modules For Admin User
+                    BindMenuAndModulesForNonAdminUser(userModel, userAllModuleList, userAllMenuList, userRoleMenuList);
+                    BindRoleMediaFolderAction(userModel, userRoleMediaFolderActionList);
+                    //Bind accessible Centre
+                    List<string> centreCodeList = _adminRoleCentreRightsRepository.Table.Where(x => x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId && x.IsActive)?.Select(y => y.CentreCode)?.ToList();
+                    List<UserAccessibleCentreModel> allCentreList = OrganisationCentreList();
+                    foreach (string centreCode in centreCodeList)
+                    {
+                        userModel.AccessibleCentreList.Add(allCentreList.First(x => x.CentreCode == centreCode));
+                    }
+                    //Bind Balance Sheet
+                    BindAccountBalanceSheetIdByCentreCode(userModel);
+                }
+            }
+            else
+            {
+                //Bind Menu And Modules For Non Admin User
+                BindMenuAndModulesForAdminUser(userModel, userAllModuleList, userAllMenuList);
+                BindRoleMediaFolderAction(userModel, userRoleMediaFolderActionList);
+                userModel.AccessibleCentreList = OrganisationCentreList();
+            }
+            userModel.SelectedCentreCode = userModel?.AccessibleCentreList?.FirstOrDefault()?.CentreCode;
+            if (!string.IsNullOrEmpty(userModel.SelectedCentreCode))
+            {
+                OrganisationCentreMaster organisationCentreMasterData = _organisationCentreMasterRepository.Table.FirstOrDefault(x => x.CentreCode == userModel.SelectedCentreCode);
+
+                if (IsNotNull(organisationCentreMasterData))
+                {
+                    OrganisationCentreModel organisationCentreModel = organisationCentreMasterData.FromEntityToModel<OrganisationCentreModel>();
+
+                    if (organisationCentreModel.LogoMediaId > 0)
+                    {
+                        MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoMediaId).FirstOrDefault();
+                        if (mediaDetail != null)
+                        {
+                            organisationCentreModel.LogoMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
+                        }
+                    }
+
+                    if (organisationCentreModel.LogoSmallMediaId > 0)
+                    {
+                        MediaDetail mediaDetail = _mediaDetailRepository.Table.Where(x => x.MediaId == organisationCentreModel.LogoSmallMediaId).FirstOrDefault();
+                        if (mediaDetail != null)
+                        {
+                            organisationCentreModel.LogoSmallMediaPath = $"{GetMediaUrl()}{mediaDetail.Path}";
+                        }
+                    }
+                    userModel.LogoMediaPath = organisationCentreModel.LogoMediaPath;
+                    userModel.LogoSmallMediaPath = organisationCentreModel.LogoSmallMediaPath;
+                }
+
+
+            }
+            userModel.GeneralEnumaratorList = BindEnumarator();
+            userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();
+            return userModel;
+        }
 
         //Bind Role Types
         protected virtual void BindRoleTypes(UserModel userModel)
@@ -894,8 +917,7 @@ namespace Coditech.API.Service
         {
             if (generalPersonModel.UserType == UserTypeEnum.Employee.ToString())
             {
-                EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == generalPersonModel.EntityId);
-
+                EmployeeMaster employeeMaster = _employeeMasterRepository.Table.Where(x => x.EmployeeId == generalPersonModel.EntityId).FirstOrDefault();
                 if (employeeMaster != null)
                 {
                     employeeMaster.IsActive = generalPersonModel.IsActive;
