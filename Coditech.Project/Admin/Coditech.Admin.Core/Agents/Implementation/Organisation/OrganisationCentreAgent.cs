@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.Utilities;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
@@ -63,6 +64,7 @@ namespace Coditech.Admin.Agents
             {
                 OrganisationCentreResponse response = _organisationCentreClient.CreateOrganisationCentre(organisationCentreViewModel.ToModel<OrganisationCentreModel>());
                 OrganisationCentreModel organisationCentreModel = response?.OrganisationCentreModel;
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(organisationCentreModel) ? organisationCentreModel.ToViewModel<OrganisationCentreViewModel>() : new OrganisationCentreViewModel();
             }
             catch (CoditechException ex)
@@ -99,6 +101,7 @@ namespace Coditech.Admin.Agents
                 OrganisationCentreResponse response = _organisationCentreClient.UpdateOrganisationCentre(organisationCentreViewModel.ToModel<OrganisationCentreModel>());
                 OrganisationCentreModel organisationCentreModel = response?.OrganisationCentreModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(organisationCentreModel) ? organisationCentreModel.ToViewModel<OrganisationCentreViewModel>() : (OrganisationCentreViewModel)GetViewModelWithErrorMessage(new OrganisationCentreViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -117,6 +120,7 @@ namespace Coditech.Admin.Agents
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _organisationCentreClient.DeleteOrganisationCentre(new ParameterModel { Ids = organisationCentreId });
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)

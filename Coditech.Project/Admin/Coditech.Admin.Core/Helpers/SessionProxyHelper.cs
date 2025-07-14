@@ -43,8 +43,9 @@ namespace Coditech.Admin.Helpers
                         //Get the User Details. 
                         //Don't Use the Agent here, it will cause the infinite looping. As this method gets called from the BaseAgent.
                         UserClient client = new UserClient();
-                        UserModel userModel = new UserModel();//client.GetUserDetailByUserName(new UserLoginModel { UserName = HttpContextHelper.Current.User.Identity.Name });
-                        if (!Equals(userModel, null))
+                         model = client.GetUserDetailByUserName(HttpContextHelper.Current.User.Identity.Name);
+
+                        if (!Equals(model, null))
                         {
                             SessionHelper.SaveDataInSession<UserModel>(AdminConstants.UserDataSession, model);
                         }
@@ -58,7 +59,7 @@ namespace Coditech.Admin.Helpers
             return model;
         }
 
-        public static void RemoveAdBindUserDetails()
+        public static void RemoveAndBindUserDetails()
         {
             SessionHelper.RemoveDataFromSession(AdminConstants.UserDataSession);
             GetUserDetails();
