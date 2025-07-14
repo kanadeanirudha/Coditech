@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -60,6 +61,7 @@ namespace Coditech.Admin.Agents
             {
                 GeneralUserMainMenuResponse response = _generalUserMainMenuClient.CreateUserMainMenu(generalUserMainnMenuViewModel.ToModel<UserMainMenuModel>());
                 UserMainMenuModel generalUserMainMenuModel = response?.GeneralUserMainMenuModel;
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalUserMainMenuModel) ? generalUserMainMenuModel.ToViewModel<UserMainMenuViewModel>() : new UserMainMenuViewModel();
             }
             catch (CoditechException ex)
@@ -96,6 +98,7 @@ namespace Coditech.Admin.Agents
                 GeneralUserMainMenuResponse response = _generalUserMainMenuClient.UpdateUserMainMenu(generalUserMainnMenuViewModel.ToModel<UserMainMenuModel>());
                 UserMainMenuModel generalUserMainMenuModel = response?.GeneralUserMainMenuModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalUserMainMenuModel) ? generalUserMainMenuModel.ToViewModel<UserMainMenuViewModel>() : (UserMainMenuViewModel)GetViewModelWithErrorMessage(new UserMainMenuViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -114,6 +117,7 @@ namespace Coditech.Admin.Agents
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.UserMainMenuMaster.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _generalUserMainMenuClient.DeleteUserMainMenu(new ParameterModel { Ids = generalUserMainMenuId });
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)

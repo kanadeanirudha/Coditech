@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -58,6 +59,7 @@ namespace Coditech.Admin.Agents
             {
                 GeneralSystemGlobleSettingResponse response = _generalSystemGlobleSettingClient.CreateSystemGlobleSetting(generalSystemGlobleSettingViewModel.ToModel<GeneralSystemGlobleSettingModel>());
                 GeneralSystemGlobleSettingModel generalSystemGlobleSettingModel = response?.GeneralSystemGlobleSettingModel;
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalSystemGlobleSettingModel) ? generalSystemGlobleSettingModel.ToViewModel<GeneralSystemGlobleSettingViewModel>() : new GeneralSystemGlobleSettingViewModel();
             }
             catch (CoditechException ex)
@@ -94,6 +96,7 @@ namespace Coditech.Admin.Agents
                 GeneralSystemGlobleSettingResponse response = _generalSystemGlobleSettingClient.UpdateSystemGlobleSetting(generalSystemGlobleSettingViewModel.ToModel<GeneralSystemGlobleSettingModel>());
                 GeneralSystemGlobleSettingModel generalSystemGlobleSettingModel = response?.GeneralSystemGlobleSettingModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.GlobleSettingMaster.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalSystemGlobleSettingModel) ? generalSystemGlobleSettingModel.ToViewModel<GeneralSystemGlobleSettingViewModel>() : (GeneralSystemGlobleSettingViewModel)GetViewModelWithErrorMessage(new GeneralSystemGlobleSettingViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -112,6 +115,7 @@ namespace Coditech.Admin.Agents
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.GlobleSettingMaster.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _generalSystemGlobleSettingClient.DeleteSystemGlobleSetting(new ParameterModel { Ids = generalSystemGlobleSettingId });
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)

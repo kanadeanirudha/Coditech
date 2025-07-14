@@ -38,6 +38,9 @@ namespace Coditech.API.Endpoint
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/ResetPasswordSendLink?userName={userName}";
         public string GetUserTypeListAsync() =>
            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/GetUserTypeList";
+
+        public string GetUserDetailByUserNameAsync(string userName) =>
+            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/GetUserDetailByUserName?userName={userName}";
     }
 }
        

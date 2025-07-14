@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -61,6 +62,7 @@ namespace Coditech.Admin.Agents
             {
                 GeneralUserModuleResponse response = _generalUserModuleClient.CreateUserModule(generalUserModuleViewModel.ToModel<UserModuleModel>());
                 UserModuleModel generalUserModuleModel = response?.UserModuleModel;
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalUserModuleModel) ? generalUserModuleModel.ToViewModel<UserModuleViewModel>() : new UserModuleViewModel();
             }
             catch (CoditechException ex)
@@ -97,6 +99,7 @@ namespace Coditech.Admin.Agents
                 GeneralUserModuleResponse response = _generalUserModuleClient.UpdateUserModule(generalUserModuleViewModel.ToModel<UserModuleModel>());
                 UserModuleModel generalUserModuleModel = response?.UserModuleModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.UserModuleMaster.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalUserModuleModel) ? generalUserModuleModel.ToViewModel<UserModuleViewModel>() : (UserModuleViewModel)GetViewModelWithErrorMessage(new UserModuleViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -115,6 +118,7 @@ namespace Coditech.Admin.Agents
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.UserModuleMaster.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _generalUserModuleClient.DeleteUserModule(new ParameterModel { Ids = userModuleMasterId });
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
