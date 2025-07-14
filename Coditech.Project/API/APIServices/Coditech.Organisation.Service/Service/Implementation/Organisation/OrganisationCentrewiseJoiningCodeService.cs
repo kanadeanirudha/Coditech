@@ -82,7 +82,7 @@ namespace Coditech.API.Service
             if (string.IsNullOrEmpty(joiningCode))
                 throw new CoditechException(ErrorCodes.NullModel, "Joining Code cannot be null or empty.");
 
-           
+
             string centreCode = _organisationCentrewiseJoiningCodeRepository.Table.Where(x => x.JoiningCode == joiningCode)?.Select(x => x.CentreCode)?.FirstOrDefault();
 
             if (string.IsNullOrEmpty(centreCode))
@@ -129,7 +129,7 @@ namespace Coditech.API.Service
                 {
                     try
                     {
-                        _coditechWhatsApp.SendWhatsAppMessage(centreCode, messageBody, mobileNumber);
+                        _coditechWhatsApp.SendWhatsAppMessage(centreCode, messageBody, "91" + mobileNumber);
                     }
                     catch (Exception ex)
                     {

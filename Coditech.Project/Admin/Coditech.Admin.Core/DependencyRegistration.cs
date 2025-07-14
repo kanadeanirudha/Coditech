@@ -4,6 +4,7 @@ using Coditech.API.Client;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 namespace Coditech.Admin
 {
@@ -20,6 +21,7 @@ namespace Coditech.Admin
             #endregion
 
             builder.Services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddSingleton<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IUserAgent, UserAgent>();
             builder.Services.AddScoped<IGeneralDepartmentAgent, GeneralDepartmentAgent>();

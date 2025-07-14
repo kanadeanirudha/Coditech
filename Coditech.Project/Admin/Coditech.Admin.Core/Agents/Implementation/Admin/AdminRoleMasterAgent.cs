@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -71,6 +72,7 @@ namespace Coditech.Admin.Agents
                 AdminRoleResponse response = _adminRoleMasterClient.UpdateAdminRole(adminRoleMasterViewModel.ToModel<AdminRoleModel>());
                 AdminRoleModel adminRoleMasterModel = response?.AdminRoleModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(adminRoleMasterModel) ? adminRoleMasterModel.ToViewModel<AdminRoleViewModel>() : (AdminRoleViewModel)GetViewModelWithErrorMessage(new AdminRoleViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -89,6 +91,7 @@ namespace Coditech.Admin.Agents
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _adminRoleMasterClient.DeleteAdminRole(new ParameterModel { Ids = adminRoleMasterId });
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -129,6 +132,7 @@ namespace Coditech.Admin.Agents
                 AdminRoleMenuDetailsResponse response = _adminRoleMasterClient.InsertUpdateAdminRoleMenuDetails(adminRoleMenuDetailsViewModel.ToModel<AdminRoleMenuDetailsModel>());
                 AdminRoleMenuDetailsModel adminRoleMenuDetailsModel = response?.AdminRoleMenuDetailsModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(adminRoleMenuDetailsModel) ? adminRoleMenuDetailsModel.ToViewModel<AdminRoleMenuDetailsViewModel>() : (AdminRoleMenuDetailsViewModel)GetViewModelWithErrorMessage(new AdminRoleMenuDetailsViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -181,6 +185,7 @@ namespace Coditech.Admin.Agents
                 AdminRoleApplicableDetailsResponse response = _adminRoleMasterClient.AssociateUnAssociateAdminRoleToUser(adminRoleApplicableDetailsViewModel.ToModel<AdminRoleApplicableDetailsModel>());
                 AdminRoleApplicableDetailsModel adminRoleApplicableDetailsModel = response?.AdminRoleApplicableDetailsModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(adminRoleApplicableDetailsModel) ? adminRoleApplicableDetailsModel.ToViewModel<AdminRoleApplicableDetailsViewModel>() : (AdminRoleApplicableDetailsViewModel)GetViewModelWithErrorMessage(new AdminRoleApplicableDetailsViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -206,6 +211,7 @@ namespace Coditech.Admin.Agents
                 AdminRoleMediaFolderActionResponse response = _adminRoleMasterClient.InsertUpdateAdminRoleWiseMediaFolderAction(adminRoleMediaFolderActionViewModel.ToModel<AdminRoleMediaFolderActionModel>());
                 AdminRoleMediaFolderActionModel mediaSettingMasterModel = response?.AdminRoleMediaFolderActionModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(mediaSettingMasterModel) ? mediaSettingMasterModel.ToViewModel<AdminRoleMediaFolderActionViewModel>() : (AdminRoleMediaFolderActionViewModel)GetViewModelWithErrorMessage(new AdminRoleMediaFolderActionViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -233,6 +239,7 @@ namespace Coditech.Admin.Agents
                 AdminRoleMediaFoldersResponse response = _adminRoleMasterClient.InsertUpdateAdminRoleWiseMediaFolders(adminRoleMediaFoldersViewModel.ToModel<AdminRoleMediaFoldersModel>());
                 AdminRoleMediaFoldersModel mediaSettingMasterModel = response?.AdminRoleMediaFoldersModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.AdminRoleMaster.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(mediaSettingMasterModel) ? mediaSettingMasterModel.ToViewModel<AdminRoleMediaFoldersViewModel>() : (AdminRoleMediaFoldersViewModel)GetViewModelWithErrorMessage(new AdminRoleMediaFoldersViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)

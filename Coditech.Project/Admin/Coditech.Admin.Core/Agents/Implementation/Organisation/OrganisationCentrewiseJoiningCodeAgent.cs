@@ -26,7 +26,7 @@ namespace Coditech.Admin.Agents
             _organisationCentrewiseJoiningCodeClient = GetClient<IOrganisationCentrewiseJoiningCodeClient>(organisationCentrewiseJoiningCodeClient);
         }
         #endregion
-
+            
         #region Public Methods
         public virtual OrganisationCentrewiseJoiningCodeListViewModel GetOrganisationCentrewiseJoiningCodeList(DataTableViewModel dataTableModel)
         {
@@ -39,7 +39,7 @@ namespace Coditech.Admin.Agents
                 filters.Add("JoiningCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
+            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "IsExpired" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             OrganisationCentrewiseJoiningCodeListResponse response = _organisationCentrewiseJoiningCodeClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentrewiseJoiningCodeListModel organisationCentrewiseJoiningCodeList = new OrganisationCentrewiseJoiningCodeListModel { OrganisationCentrewiseJoiningCodeList = response?.OrganisationCentrewiseJoiningCodeList };

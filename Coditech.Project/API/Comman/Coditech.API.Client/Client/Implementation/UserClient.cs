@@ -715,5 +715,53 @@ namespace Coditech.API.Client
         }
         protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        public virtual UserModel GetUserDetailByUserName(string userName)
+        {
+            return Task.Run(async () => await GetUserDetailByUserNameAsync(userName, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<UserModel> GetUserDetailByUserNameAsync(string userName, System.Threading.CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrEmpty(userName))
+                throw new System.ArgumentNullException("userName");
+
+            string endpoint = userEndpoint.GetUserDetailByUserNameAsync(userName);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<UserModel>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new UserModel();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    UserModel typedBody = JsonConvert.DeserializeObject<UserModel>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
     }
 }

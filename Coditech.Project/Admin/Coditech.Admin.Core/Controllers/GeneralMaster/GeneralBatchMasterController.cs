@@ -86,7 +86,7 @@ namespace Coditech.Admin.Controllers
             {
                 status = _generalBatchAgent.DeleteGeneralBatch(generalBatchMasterIds, out message);
                 SetNotificationMessage(!status
-                ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
+                ? GetErrorNotificationMessage(string.IsNullOrEmpty(message) ? GeneralResources.DeleteErrorMessage: message)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
                 return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
             }
@@ -151,18 +151,18 @@ namespace Coditech.Admin.Controllers
         {
             TaskSchedulerViewModel taskSchedulerViewModel = _generalBatchAgent.GetBatchTaskSchedulerDetails(configuratorId);
 
-            taskSchedulerViewModel.SelectedWeekDays = !string.IsNullOrEmpty(taskSchedulerViewModel.WeekDays)? taskSchedulerViewModel.WeekDays.Split(',').ToList(): new List<string>();
+            taskSchedulerViewModel.SelectedWeekDays = !string.IsNullOrEmpty(taskSchedulerViewModel.WeekDays) ? taskSchedulerViewModel.WeekDays.Split(',').ToList() : new List<string>();
 
             taskSchedulerViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.SchedulerWeeks.ToString(),
-                DropdownSelectedValue = taskSchedulerViewModel.WeekDays 
+                DropdownSelectedValue = taskSchedulerViewModel.WeekDays
             }).DropdownList;
 
             if (string.IsNullOrEmpty(taskSchedulerViewModel.SchedulerFrequency))
             {
-                taskSchedulerViewModel.SchedulerFrequency = SchedulerFrequencyEnum.OneTime.ToString(); 
-            }           
+                taskSchedulerViewModel.SchedulerFrequency = SchedulerFrequencyEnum.OneTime.ToString();
+            }
             return ActionView(createEditTaskScheduler, taskSchedulerViewModel);
         }
 

@@ -336,5 +336,28 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new UserTypeListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/User/GetUserDetailByUserName")]
+        [HttpGet]
+        [Produces(typeof(UserModel))]
+        public virtual IActionResult GetUserDetailByUserName(string userName)
+        {
+            try
+            {
+                UserModel userModel = _userService.GetUserDetailByUserName(userName);
+                return HelperUtility.IsNotNull(userModel) ? CreateOKResponse(userModel) : null;
+
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Warning);
+                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Error);
+                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }
