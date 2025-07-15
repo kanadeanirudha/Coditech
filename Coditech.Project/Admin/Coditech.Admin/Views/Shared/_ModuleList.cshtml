@@ -14,7 +14,7 @@
     <a href="#">
         <span>
             <i class="@userModuleModel.ModuleIconName"></i>
-            @userModuleModel.ModuleName
+            @userModuleModel.ModuleName.ToUpper()
         </span>
     </a>
     <ul class="submenu">
@@ -22,7 +22,7 @@
         {
             <li>
                 <a href="/@item.DefaultMenuLink">
-                    <i class="@item.ModuleIconName"></i>@item.ModuleName
+                    <i class="@item.ModuleIconName"></i>@item.ModuleName.ToUpper()
                 </a>
             </li>
         }
