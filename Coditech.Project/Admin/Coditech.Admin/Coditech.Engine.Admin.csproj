@@ -36,15 +36,15 @@
 	</ItemGroup>
 
 	<Target Name="CopySharedLibrariesDll" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
-		<Copy SourceFiles="$(OutputPath)Coditech.Admin.Core.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
-		<Copy SourceFiles="$(OutputPath)Coditech.Admin.Utilities.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
-		<Copy SourceFiles="$(OutputPath)Coditech.API.Client.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
-		<Copy SourceFiles="$(OutputPath)Coditech.API.Data.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
-		<Copy SourceFiles="$(OutputPath)Coditech.Resources.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
-		<Copy SourceFiles="$(OutputPath)Coditech.Common.API.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
-		<Copy SourceFiles="$(OutputPath)Coditech.Common.API.Model.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
-		<Copy SourceFiles="$(OutputPath)Coditech.Common.Helper.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
-		<Copy SourceFiles="$(OutputPath)Coditech.Common.Logger.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Admin.Core.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Admin.Utilities.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.API.Client.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.API.Data.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Resources.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Common.API.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Common.API.Model.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Common.Helper.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Common.Logger.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\SharedLibraries\" />
 		<Copy SourceFiles="$(ProjectDir)appsettings.json" DestinationFolder="$(SolutionDir)..\SDKMerge\Appsetting\Admin\" />
 	</Target>
 
