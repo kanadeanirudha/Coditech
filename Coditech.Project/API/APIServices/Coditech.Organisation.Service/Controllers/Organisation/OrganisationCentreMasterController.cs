@@ -556,5 +556,27 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/OrganisationCentreMaster/GetSendTestEmailModalSend")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseSmtpSettingSendTestEmailResponse))]
+        public virtual IActionResult GetSendTestEmailModalSend([FromBody] OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
+        {
+            try
+            {
+                OrganisationCentrewiseSmtpSettingSendTestEmailModel organisationCentrewiseSmtpSettingSendTestEmail = _organisationCentreMasterService.GetSendTestEmailModalSend(model);
+                return IsNotNull(organisationCentrewiseSmtpSettingSendTestEmail) ? CreateCreatedResponse(new OrganisationCentrewiseSmtpSettingSendTestEmailResponse { OrganisationCentrewiseSmtpSettingSendTestEmailModel = organisationCentrewiseSmtpSettingSendTestEmail }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SendTestEmail.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmtpSettingSendTestEmailResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SendTestEmail.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmtpSettingSendTestEmailResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

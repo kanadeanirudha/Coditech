@@ -193,7 +193,31 @@ namespace Coditech.Admin.Agents
                 return (OrganisationCentrewiseGSTCredentialViewModel)GetViewModelWithErrorMessage(organisationCentrewiseGSTCredentialViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
-
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailViewModel GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
+        {
+            try
+            {
+                OrganisationCentrewiseSmtpSettingSendTestEmailResponse response = _organisationCentreClient.GetSendTestEmailModalSend(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ToModel<OrganisationCentrewiseSmtpSettingSendTestEmailModel>());
+                OrganisationCentrewiseSmtpSettingSendTestEmailModel organisationCentrewiseSmtpSettingSendTestEmailModel = response?.OrganisationCentrewiseSmtpSettingSendTestEmailModel;
+                return IsNotNull(organisationCentrewiseSmtpSettingSendTestEmailModel) ? organisationCentrewiseSmtpSettingSendTestEmailModel.ToViewModel<OrganisationCentrewiseSmtpSettingSendTestEmailViewModel>() : new OrganisationCentrewiseSmtpSettingSendTestEmailViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SendTestEmail.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (OrganisationCentrewiseSmtpSettingSendTestEmailViewModel)GetViewModelWithErrorMessage(organisationCentrewiseSmtpSettingSendTestEmailViewModel, ex.ErrorMessage);
+                    default:
+                        return (OrganisationCentrewiseSmtpSettingSendTestEmailViewModel)GetViewModelWithErrorMessage(organisationCentrewiseSmtpSettingSendTestEmailViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SendTestEmail.ToString(), TraceLevel.Error);
+                return (OrganisationCentrewiseSmtpSettingSendTestEmailViewModel)GetViewModelWithErrorMessage(organisationCentrewiseSmtpSettingSendTestEmailViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
         //Get Organisation Centrewise Smtp Setting by organisationCentreId.
         public virtual OrganisationCentrewiseSmtpSettingViewModel GetCentrewiseSmtpSetup(int organisationCentreId)
         {

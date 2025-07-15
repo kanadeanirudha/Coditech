@@ -2,13 +2,10 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Data;
-using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace Coditech.Admin.Controllers
 {
     public class OrganisationCentreMasterController : BaseController
@@ -167,6 +164,32 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("CentrewiseSmtpSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentreMasterId });
             }
             return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
+        }
+        [HttpGet]
+        public virtual ActionResult GetSendTestEmailModalSend(string centreCode)
+        {
+            OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel = new OrganisationCentrewiseSmtpSettingSendTestEmailViewModel()
+            {
+                CentreCode = centreCode
+            };
+            return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseSmtpSettingSendTestEmailPopUp.cshtml", organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+        }
+        
+        [HttpPost]
+        public ActionResult GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.GetSendTestEmailModalSend(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+                if (!organisationCentrewiseSmtpSettingSendTestEmailViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage("Test email sent successfully."));
+
+                    return RedirectToAction<OrganisationCentreMasterController>(x => x.List(null));
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ErrorMessage));
+            return View(createEdit, organisationCentrewiseSmtpSettingSendTestEmailViewModel);
         }
         #endregion
 

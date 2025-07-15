@@ -137,7 +137,8 @@
             OrganisationCentrewisePolicy,
             AccGLOpeningBalance,
             AccSetupCategory,
-            AccGLIndividualOpeningBalance
+            AccGLIndividualOpeningBalance,
+            SendTestEmail
         }
     }
 }

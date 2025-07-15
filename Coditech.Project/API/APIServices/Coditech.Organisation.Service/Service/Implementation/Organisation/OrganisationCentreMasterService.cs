@@ -10,9 +10,7 @@ using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Specialized;
 using System.Data;
-
 using static Coditech.Common.Helper.HelperUtility;
-
 namespace Coditech.API.Service
 {
     public class OrganisationCentreMasterService : BaseService, IOrganisationCentreMasterService
@@ -653,6 +651,11 @@ namespace Coditech.API.Service
 
             return _organisationCentreMasterRepository.Table.Any(x => x.CentreName == centreName);
         }
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailModel GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
+        {
+            _coditechEmail.SendEmail(model.CentreCode, model.TO, string.Empty, model.CC,model.BCC, model.Subject, model.Body);
+            return model;
+        }
 
         #region Protected Method
         //Check if Centre code is already present or not.
@@ -662,7 +665,7 @@ namespace Coditech.API.Service
         protected virtual bool IsCentrewiseUserNameAlreadyExist(string centreCode, string userType, int organisationCentrewiseUserNameRegistrationId = 0)
         => _organisationCentrewiseUserNameRegistrationRepository.Table.Any(x => x.CentreCode == centreCode && x.UserType == userType && (x.OrganisationCentrewiseUserNameRegistrationId != organisationCentrewiseUserNameRegistrationId || organisationCentrewiseUserNameRegistrationId == 0));
         #endregion
-        
+
     }
 }
 

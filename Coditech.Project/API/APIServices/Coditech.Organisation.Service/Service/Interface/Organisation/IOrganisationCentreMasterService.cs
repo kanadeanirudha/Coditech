@@ -2,7 +2,6 @@
 using Coditech.Common.Helper.Utilities;
 using Coditech.Model;
 using System.Collections.Specialized;
-
 namespace Coditech.API.Service
 {
     public interface IOrganisationCentreMasterService
@@ -31,6 +30,8 @@ namespace Coditech.API.Service
         OrganisationCentrewiseEmailTemplateModel GetCentrewiseWhatsAppTemplateSetup(int organisationCentreMasterId, string emailTemplateCode);
         bool UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
         bool IsCentreNameAlreadyExist(string centreName);
+        OrganisationCentrewiseSmtpSettingSendTestEmailModel GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailModel model);
+
     }
 }
 
