@@ -11,11 +11,8 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Model;
 using Coditech.Resources;
-
 using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
-
 namespace Coditech.Admin.Agents
 {
     public class OrganisationCentreAgent : BaseAgent, IOrganisationCentreAgent
@@ -193,11 +190,11 @@ namespace Coditech.Admin.Agents
                 return (OrganisationCentrewiseGSTCredentialViewModel)GetViewModelWithErrorMessage(organisationCentrewiseGSTCredentialViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
-        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailViewModel GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailViewModel SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
         {
             try
             {
-                OrganisationCentrewiseSmtpSettingSendTestEmailResponse response = _organisationCentreClient.GetSendTestEmailModalSend(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ToModel<OrganisationCentrewiseSmtpSettingSendTestEmailModel>());
+                OrganisationCentrewiseSmtpSettingSendTestEmailResponse response = _organisationCentreClient.SendTestModal(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ToModel<OrganisationCentrewiseSmtpSettingSendTestEmailModel>());
                 OrganisationCentrewiseSmtpSettingSendTestEmailModel organisationCentrewiseSmtpSettingSendTestEmailModel = response?.OrganisationCentrewiseSmtpSettingSendTestEmailModel;
                 return IsNotNull(organisationCentrewiseSmtpSettingSendTestEmailModel) ? organisationCentrewiseSmtpSettingSendTestEmailModel.ToViewModel<OrganisationCentrewiseSmtpSettingSendTestEmailViewModel>() : new OrganisationCentrewiseSmtpSettingSendTestEmailViewModel();
             }

@@ -27,10 +27,14 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<OrganisationCentrewiseUserNameRegistration> _organisationCentrewiseUserNameRegistrationRepository;
         private readonly ICoditechRepository<OrganisationCentrewiseWhatsAppSetting> _organisationCentrewiseWhatsAppSettingRepository;
         private readonly ICoditechRepository<MediaDetail> _mediaDetailRepository;
-        public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        protected readonly ICoditechWhatsApp _coditechWhatsApp;
+        protected readonly ICoditechSMS _coditechSMS;
+        public OrganisationCentreMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
+            _coditechSMS = coditechSMS;
+            _coditechWhatsApp = coditechWhatsApp;
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrePrintingFormatRepository = new CoditechRepository<OrganisationCentrePrintingFormat>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentrewiseGSTCredentialRepository = new CoditechRepository<OrganisationCentrewiseGSTCredential>(_serviceProvider.GetService<Coditech_Entities>());
@@ -42,7 +46,6 @@ namespace Coditech.API.Service
             _organisationCentrewiseWhatsAppSettingRepository = new CoditechRepository<OrganisationCentrewiseWhatsAppSetting>(_serviceProvider.GetService<Coditech_Entities>());
             _mediaDetailRepository = new CoditechRepository<MediaDetail>(_serviceProvider.GetService<Coditech_Entities>());
         }
-
         public virtual OrganisationCentreListModel GetOrganisationCentreList(int adminRoleMasterId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
@@ -651,9 +654,25 @@ namespace Coditech.API.Service
 
             return _organisationCentreMasterRepository.Table.Any(x => x.CentreName == centreName);
         }
-        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailModel GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailModel SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
         {
-            _coditechEmail.SendEmail(model.CentreCode, model.TO, string.Empty, model.CC,model.BCC, model.Subject, model.Body);
+            string messageBody = model.Message;
+            // Send WhatsApp
+            if ((model.IsWhatsappMessage))
+            {
+                    _coditechWhatsApp.SendWhatsAppMessage(model.CentreCode, messageBody, "+91" + model.MobileNumber);
+            }
+            // Send SMS
+            if ((model.IsSmsMessage))
+            {
+                    _coditechSMS.SendSMS(model.CentreCode, messageBody, "+91" + model.MobileNumber);
+            }
+            // Send Email
+            if ((model.IsEmailMessage))
+            {
+                    _coditechEmail.SendEmail(model.CentreCode, model.TO, string.Empty, model.CC, model.BCC, model.Subject, model.Body);
+            }
+          
             return model;
         }
 

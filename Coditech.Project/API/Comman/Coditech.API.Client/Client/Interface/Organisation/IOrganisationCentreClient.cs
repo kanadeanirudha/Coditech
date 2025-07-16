@@ -169,6 +169,6 @@ namespace Coditech.API.Client
         /// <param name="OrganisationCentrewiseEmailTemplateModel">OrganisationCentrewiseEmailTemplateModel.</param>
         /// <returns>Returns updated OrganisationCentrewiseEmailTemplateResponse</returns>
         OrganisationCentrewiseEmailTemplateResponse UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel body);
-        OrganisationCentrewiseSmtpSettingSendTestEmailResponse GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailModel body);
+        OrganisationCentrewiseSmtpSettingSendTestEmailResponse SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailModel body);
     }
 }

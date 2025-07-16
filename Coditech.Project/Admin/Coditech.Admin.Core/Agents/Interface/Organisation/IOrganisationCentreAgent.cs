@@ -155,7 +155,7 @@ namespace Coditech.Admin.Agents
         OrganisationCentrewiseEmailTemplateViewModel GetCentrewiseWhatsAppTemplateSetup(int organisationCentreId, string emailTemplateCode);
 
         OrganisationCentrewiseEmailTemplateViewModel UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateViewModel organisationCentrewiseEmailTemplateViewModel);
-        OrganisationCentrewiseSmtpSettingSendTestEmailViewModel GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+        OrganisationCentrewiseSmtpSettingSendTestEmailViewModel SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel);
     }
 }
 

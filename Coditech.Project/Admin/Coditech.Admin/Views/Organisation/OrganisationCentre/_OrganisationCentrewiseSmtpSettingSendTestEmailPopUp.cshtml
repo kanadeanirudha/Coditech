@@ -6,14 +6,18 @@
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("CentreCode", Model.CentreCode);
+    keyValuePairs.Add("OrganisationCentreMasterId", Model.OrganisationCentreMasterId.ToString());
 }
 <div class="modal-header">
     <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Send Test Email</h6>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-@using (Html.BeginForm("GetSendTestEmailModalSend", controllerName, FormMethod.Post, new { id = "frmSendDetails" }))
+@using (Html.BeginForm("SendTestEmailModel", controllerName, FormMethod.Post, new { id = "frmSendDetails" }))
 {
     @Html.HiddenFor(m => m.CentreCode)
+    @Html.HiddenFor(m => m.OrganisationCentreMasterId)
+    @Html.Hidden("IsEmailMessage", true)
+
     <div class="modal-body">
         <div class="row">
             <div class="col-lg-9">
@@ -61,5 +65,5 @@
 @Html.Partial("_ValidationScriptsPartial")
 @section scripts {
     <!-- end page content -->
-    <script src="~/js/coditech/Organisation/OrganisationCentrewiseJoiningCode.js"></script>
+    <script src="~/js/coditech/Organisation/OrganisationTestModel.js"></script>
 }

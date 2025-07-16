@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.API.Client.Endpoint;
 using Coditech.Common.Helper.Utilities;
-
 namespace Coditech.API.Endpoint
 {
     public class OrganisationCentreEndpoint : BaseEndpoint
@@ -74,8 +73,7 @@ namespace Coditech.API.Endpoint
         public string UpdateCentrewiseWhatsAppTemplateSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseWhatsAppTemplateSetup";
 
-        public string GetSendTestEmailModalSendAsync() =>
-                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetSendTestEmailModalSend";
-
+        public string SendTestModalAsync() =>
+                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/SendTestModal";
     }
 }

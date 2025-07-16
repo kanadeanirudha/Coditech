@@ -17,9 +17,9 @@ namespace Coditech.API.Client
             organisationCentreEndpoint = new OrganisationCentreEndpoint();
         }
         #region OrganisationCentre
-        public virtual OrganisationCentreListResponse List(int adminRoleMasterId,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual OrganisationCentreListResponse List(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(adminRoleMasterId,expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(adminRoleMasterId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
         public virtual async Task<OrganisationCentreListResponse> ListAsync(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
@@ -560,14 +560,14 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailResponse GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailModel body)
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailResponse SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailModel body)
         {
-            return Task.Run(async () => await GetSendTestEmailModalSendAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await SendTestModalAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrewiseSmtpSettingSendTestEmailResponse> GetSendTestEmailModalSendAsync(OrganisationCentrewiseSmtpSettingSendTestEmailModel body, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseSmtpSettingSendTestEmailResponse> SendTestModalAsync(OrganisationCentrewiseSmtpSettingSendTestEmailModel body, CancellationToken cancellationToken)
         {
-            string endpoint = organisationCentreEndpoint.GetSendTestEmailModalSendAsync();
+            string endpoint = organisationCentreEndpoint.SendTestModalAsync();
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try

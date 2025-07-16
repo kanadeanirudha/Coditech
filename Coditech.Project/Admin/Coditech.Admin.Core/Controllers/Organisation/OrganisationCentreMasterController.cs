@@ -166,26 +166,30 @@ namespace Coditech.Admin.Controllers
             return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
         }
         [HttpGet]
-        public virtual ActionResult GetSendTestEmailModalSend(string centreCode)
+        public virtual ActionResult SendTestEmailModel(string centreCode, int organisationCentreMasterId)
         {
             OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel = new OrganisationCentrewiseSmtpSettingSendTestEmailViewModel()
             {
-                CentreCode = centreCode
+                CentreCode = centreCode,
+                OrganisationCentreMasterId = organisationCentreMasterId
             };
             return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseSmtpSettingSendTestEmailPopUp.cshtml", organisationCentrewiseSmtpSettingSendTestEmailViewModel);
         }
-        
+
         [HttpPost]
-        public ActionResult GetSendTestEmailModalSend(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
+        public ActionResult SendTestEmailModel(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
         {
+            int OrganisationCentreMasterId = organisationCentrewiseSmtpSettingSendTestEmailViewModel.OrganisationCentreMasterId;
+            ModelState.Remove("Message");
+            ModelState.Remove("MobileNumber");
             if (ModelState.IsValid)
             {
-                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.GetSendTestEmailModalSend(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestModal(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
                 if (!organisationCentrewiseSmtpSettingSendTestEmailViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage("Test email sent successfully."));
 
-                    return RedirectToAction<OrganisationCentreMasterController>(x => x.List(null));
+                    return RedirectToAction("CentrewiseSmtpSetup", new { organisationCentreId = OrganisationCentreMasterId });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ErrorMessage));
@@ -217,6 +221,40 @@ namespace Coditech.Admin.Controllers
             }
             return View(OrganisationCentrewiseSmsSetting, organisationCentrewiseSmsSettingViewModel);
         }
+        [HttpGet]
+        public virtual ActionResult SendSmsTestModel(string centreCode, int organisationCentreMasterId)
+        {
+            OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel = new OrganisationCentrewiseSmtpSettingSendTestEmailViewModel()
+            {
+                CentreCode = centreCode,
+                OrganisationCentreMasterId = organisationCentreMasterId
+            };
+            return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseSmsTestPopUp.cshtml", organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult SendSmsTestModel(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
+        {
+            int OrganisationCentreMasterId = organisationCentrewiseSmtpSettingSendTestEmailViewModel.OrganisationCentreMasterId;
+
+            ModelState.Remove("TO");
+            ModelState.Remove("Subject");
+            ModelState.Remove("Body");
+            if (ModelState.IsValid)
+            {
+                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestModal(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+                if (!organisationCentrewiseSmtpSettingSendTestEmailViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage("Test SMS sent successfully."));
+
+                    return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = OrganisationCentreMasterId });
+
+
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ErrorMessage));
+            return View(createEdit, organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+        }
         #endregion
 
         #region CentrewiseWhatsAppSetting
@@ -242,6 +280,41 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("CentrewiseWhatsAppSetup", new { organisationCentreId = organisationCentrewiseWhatsAppSettingViewModel.OrganisationCentreMasterId, generalWhatsAppProviderId = organisationCentrewiseWhatsAppSettingViewModel.GeneralWhatsAppProviderId });
             }
             return View(OrganisationCentrewiseWhatsAppSetting, organisationCentrewiseWhatsAppSettingViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult SendWhatsAppTestModel(string centreCode, int organisationCentreMasterId)
+        {
+            OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel = new OrganisationCentrewiseSmtpSettingSendTestEmailViewModel()
+            {
+                CentreCode = centreCode,
+                OrganisationCentreMasterId = organisationCentreMasterId
+            };
+            return PartialView("~/Views/Organisation/OrganisationCentre/_OrganisationCentrewiseWhatsAppTestPopUp.cshtml", organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult SendWhatsAppTestModel(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
+        {
+            int OrganisationCentreMasterId = organisationCentrewiseSmtpSettingSendTestEmailViewModel.OrganisationCentreMasterId;
+
+            ModelState.Remove("TO");
+            ModelState.Remove("Subject");
+            ModelState.Remove("Body");
+            if (ModelState.IsValid)
+            {
+                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestModal(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+                if (!organisationCentrewiseSmtpSettingSendTestEmailViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage("Test whatsApp mesage sent successfully."));
+
+                    return RedirectToAction("CentrewiseWhatsAppSetup", new { organisationCentreId = OrganisationCentreMasterId });
+
+
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ErrorMessage));
+            return View(createEdit, organisationCentrewiseSmtpSettingSendTestEmailViewModel);
         }
         #endregion
 
@@ -355,7 +428,7 @@ namespace Coditech.Admin.Controllers
             List<SelectListItem> UserTypeList = new List<SelectListItem>();
             UserTypeList.Add(new SelectListItem { Text = GeneralResources.SelectLabel, Value = "" });
             var userTypeList = _userTypeAgent.GetUserTypeList().TypeList.Where(x => x.UserTypeCode != "Admin" && x.UserTypeCode != "Branch");
-            
+
             foreach (var item in userTypeList)
             {
                 if (organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId == 0 &&

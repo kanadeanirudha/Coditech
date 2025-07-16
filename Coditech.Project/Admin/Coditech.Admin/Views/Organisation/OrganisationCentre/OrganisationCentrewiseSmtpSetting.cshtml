@@ -114,7 +114,7 @@
                                                 class="btn btn-gradient-info"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#@sendTestEmailModal.ModelPopUpId"
-                                                onclick="OrganisationCentrewiseSmtpSetting.GetSendTestEmailModalSend('@sendTestEmailModal.ModalContentId','@Model.CentreCode')"
+                                                onclick="OrganisationTestModel.SendTestEmailModel('@sendTestEmailModal.ModalContentId','@Model.CentreCode','@Model.OrganisationCentreMasterId')"
                                                 title="Send Test Email">
                                             Send Test Email
                                         </button>
@@ -131,4 +131,4 @@
     </div>
 </div>
 @Html.Partial("~/Views/Shared/_ModelPopUp.cshtml", sendTestEmailModal)
-<script src="~/js/coditech/Organisation/OrganisationCentrewiseSmtpSetting.js"></script>
+<script src="~/js/coditech/Organisation/OrganisationTestModel.js"></script>
