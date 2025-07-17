@@ -12,6 +12,7 @@ namespace Coditech.Admin.ViewModel
         public long EmployeeId { get; set; }
         public long PersonId { get; set; }
         [Required]
+        [Display(Name = "Specialization")]
         public int TrainerSpecializationEnumId { get; set; }
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string SelectedCentreCode { get; set; }
