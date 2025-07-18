@@ -394,3 +394,11 @@ body[data-layout="horizontal"] .page-wrapper .page-content {
 .card-header {
     padding: .35rem 1rem !important;
 }
+
+.avatar-color {
+    background-color: rgba(253, 60, 151, 0.08) !important;
+    color: #fd3c97 !important;
+}
+.logo-background {
+    background-color: #ffffff !important;
+}
