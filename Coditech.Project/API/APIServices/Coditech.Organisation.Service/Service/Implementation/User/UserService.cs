@@ -624,7 +624,7 @@ namespace Coditech.API.Service
                 {
                     UserModuleMasterId = item.UserModuleMasterId,
                     ModuleCode = item.ModuleCode,
-                    ModuleName = item.ModuleName,
+                    ModuleName = item.ModuleName.ToUpper(),
                     ModuleSeqNumber = item.ModuleSeqNumber,
                     ModuleTooltip = item.ModuleTooltip,
                     ModuleIconName = item.ModuleIconName,
@@ -639,7 +639,7 @@ namespace Coditech.API.Service
                 {
                     UserMainMenuMasterId = item.UserMainMenuMasterId,
                     ModuleCode = item.ModuleCode,
-                    MenuCode = item.MenuCode,
+                    MenuCode = item.MenuCode.ToUpper(),
                     MenuName = item.MenuName,
                     ParentMenuCode = item.ParentMenuCode,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
