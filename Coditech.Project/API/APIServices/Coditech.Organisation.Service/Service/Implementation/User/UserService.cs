@@ -639,7 +639,7 @@ namespace Coditech.API.Service
                 {
                     UserMainMenuMasterId = item.UserMainMenuMasterId,
                     ModuleCode = item.ModuleCode,
-                    MenuCode = item.MenuCode.ToUpper(),
+                    MenuCode = item.MenuCode,
                     MenuName = item.MenuName,
                     ParentMenuCode = item.ParentMenuCode,
                     MenuDisplaySeqNo = item.MenuDisplaySeqNo,
