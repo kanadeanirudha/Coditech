@@ -7,7 +7,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Model;
 using Newtonsoft.Json;
 using System.Net;
-
 namespace Coditech.API.Client
 {
     public class OrganisationCentreClient : BaseClient, IOrganisationCentreClient
@@ -18,9 +17,9 @@ namespace Coditech.API.Client
             organisationCentreEndpoint = new OrganisationCentreEndpoint();
         }
         #region OrganisationCentre
-        public virtual OrganisationCentreListResponse List(int adminRoleMasterId,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual OrganisationCentreListResponse List(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(adminRoleMasterId,expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(adminRoleMasterId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
         public virtual async Task<OrganisationCentreListResponse> ListAsync(int adminRoleMasterId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
@@ -559,6 +558,61 @@ namespace Coditech.API.Client
             {
                 if (disposeResponse)
                     response.Dispose();
+            }
+        }
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailResponse SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailModel body)
+        {
+            return Task.Run(async () => await SendTestModalAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<OrganisationCentrewiseSmtpSettingSendTestEmailResponse> SendTestModalAsync(OrganisationCentrewiseSmtpSettingSendTestEmailModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = organisationCentreEndpoint.SendTestModalAsync();
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<OrganisationCentrewiseSmtpSettingSendTestEmailResponse> objectResponseResult2 = await ReadObjectResponseAsync<OrganisationCentrewiseSmtpSettingSendTestEmailResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<OrganisationCentrewiseSmtpSettingSendTestEmailResponse> objectResponseResult = await ReadObjectResponseAsync<OrganisationCentrewiseSmtpSettingSendTestEmailResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            OrganisationCentrewiseSmtpSettingSendTestEmailResponse result = JsonConvert.DeserializeObject<OrganisationCentrewiseSmtpSettingSendTestEmailResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
             }
         }
         #endregion

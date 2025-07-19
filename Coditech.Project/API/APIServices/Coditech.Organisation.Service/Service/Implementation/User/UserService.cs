@@ -80,12 +80,12 @@ namespace Coditech.API.Service
             return userModel;
         }
 
-        public virtual UserModel GetUserDetailByUserName(UserLoginModel userLoginModel)
+        public virtual UserModel GetUserDetailByUserName(string userName)
         {
-            if (IsNull(userLoginModel))
+            if (IsNull(userName))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.ToLower() == userLoginModel.UserName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.ToLower() == userName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
@@ -624,7 +624,7 @@ namespace Coditech.API.Service
                 {
                     UserModuleMasterId = item.UserModuleMasterId,
                     ModuleCode = item.ModuleCode,
-                    ModuleName = item.ModuleName,
+                    ModuleName = item.ModuleName.ToUpper(),
                     ModuleSeqNumber = item.ModuleSeqNumber,
                     ModuleTooltip = item.ModuleTooltip,
                     ModuleIconName = item.ModuleIconName,

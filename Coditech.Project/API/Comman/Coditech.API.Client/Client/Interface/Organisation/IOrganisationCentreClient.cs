@@ -3,7 +3,6 @@ using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Model;
-
 namespace Coditech.API.Client
 {
     public interface IOrganisationCentreClient : IBaseClient
@@ -170,5 +169,6 @@ namespace Coditech.API.Client
         /// <param name="OrganisationCentrewiseEmailTemplateModel">OrganisationCentrewiseEmailTemplateModel.</param>
         /// <returns>Returns updated OrganisationCentrewiseEmailTemplateResponse</returns>
         OrganisationCentrewiseEmailTemplateResponse UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel body);
+        OrganisationCentrewiseSmtpSettingSendTestEmailResponse SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailModel body);
     }
 }

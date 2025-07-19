@@ -7,13 +7,9 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Model;
-
 using Microsoft.AspNetCore.Mvc;
-
 using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
-
 namespace Coditech.API.Controllers
 {
     public class OrganisationCentreMasterController : BaseController
@@ -30,7 +26,7 @@ namespace Coditech.API.Controllers
         [Route("/OrganisationCentreMaster/GetOrganisationCentreList")]
         [Produces(typeof(OrganisationCentreListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetOrganisationCentreList(int adminRoleMasterId,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetOrganisationCentreList(int adminRoleMasterId, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
@@ -554,6 +550,28 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.OrganisationCentre.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new OrganisationCentreResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/OrganisationCentreMaster/SendTestModal")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(OrganisationCentrewiseSmtpSettingSendTestEmailResponse))]
+        public virtual IActionResult SendTestModal([FromBody] OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
+        {
+            try
+            {
+                OrganisationCentrewiseSmtpSettingSendTestEmailModel organisationCentrewiseSmtpSettingSendTestEmail = _organisationCentreMasterService.SendTestModal(model);
+                return IsNotNull(organisationCentrewiseSmtpSettingSendTestEmail) ? CreateCreatedResponse(new OrganisationCentrewiseSmtpSettingSendTestEmailResponse { OrganisationCentrewiseSmtpSettingSendTestEmailModel = organisationCentrewiseSmtpSettingSendTestEmail }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SendTestEmail.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmtpSettingSendTestEmailResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.SendTestEmail.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new OrganisationCentrewiseSmtpSettingSendTestEmailResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

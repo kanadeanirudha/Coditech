@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Helpers;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -62,6 +63,7 @@ namespace Coditech.Admin.Agents
             {
                 GeneralEnumaratorGroupResponse response = _generalEnumaratorGroupClient.CreateEnumaratorGroup(generalEnumaratorGroupViewModel.ToModel<GeneralEnumaratorGroupModel>());
                 GeneralEnumaratorGroupModel generalEnumaratorGroupModel = response?.GeneralEnumaratorGroupModel;
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalEnumaratorGroupModel) ? generalEnumaratorGroupModel.ToViewModel<GeneralEnumaratorGroupViewModel>() : new GeneralEnumaratorGroupViewModel();
             }
             catch (CoditechException ex)
@@ -98,6 +100,7 @@ namespace Coditech.Admin.Agents
                 GeneralEnumaratorGroupResponse response = _generalEnumaratorGroupClient.UpdateEnumaratorGroup(generalEnumaratorGroupViewModel.ToModel<GeneralEnumaratorGroupModel>());
                 GeneralEnumaratorGroupModel generalEnumaratorGroupModel = response?.GeneralEnumaratorGroupModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.EnumaratorGroup.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalEnumaratorGroupModel) ? generalEnumaratorGroupModel.ToViewModel<GeneralEnumaratorGroupViewModel>() : (GeneralEnumaratorGroupViewModel)GetViewModelWithErrorMessage(new GeneralEnumaratorGroupViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -116,6 +119,7 @@ namespace Coditech.Admin.Agents
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.EnumaratorGroup.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _generalEnumaratorGroupClient.DeleteEnumaratorGroup(new ParameterModel { Ids = generalEnumaratorGroupId });
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)
@@ -159,6 +163,7 @@ namespace Coditech.Admin.Agents
                 GeneralEnumaratorResponse response = _generalEnumaratorGroupClient.InsertUpdateEnumarator(generalEnumaratorViewModel.ToModel<GeneralEnumaratorModel>());
                 GeneralEnumaratorModel generalEnumaratorModel = response?.GeneralEnumaratorModel;
                 _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Info);
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return IsNotNull(generalEnumaratorModel) ? generalEnumaratorModel.ToViewModel<GeneralEnumaratorViewModel>() : (GeneralEnumaratorViewModel)GetViewModelWithErrorMessage(new GeneralEnumaratorViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (Exception ex)
@@ -177,6 +182,7 @@ namespace Coditech.Admin.Agents
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.Enumarator.ToString(), TraceLevel.Info);
                 TrueFalseResponse trueFalseResponse = _generalEnumaratorGroupClient.DeleteEnumarator(new ParameterModel { Ids = generalEnumaratorId });
+                SessionProxyHelper.RemoveAndBindUserDetails();
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)

@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.API.Client.Endpoint;
 using Coditech.Common.Helper.Utilities;
-
 namespace Coditech.API.Endpoint
 {
     public class OrganisationCentreEndpoint : BaseEndpoint
@@ -17,7 +16,7 @@ namespace Coditech.API.Endpoint
 
         public string GetOrganisationAsync(int organisationCentreId) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetOrganisationCentre?organisationCentreMasterId={organisationCentreId}";
-       
+
         public string UpdateOrganisationAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateOrganisationCentre";
 
@@ -57,7 +56,7 @@ namespace Coditech.API.Endpoint
 
         public string UpdateCentrewiseEmailTemplateSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseEmailTemplateSetup";
-        public string GetCentrewiseUserNameAsync(int organisationCentreId,int organisationCentrewiseUserNameRegistrationId) =>
+        public string GetCentrewiseUserNameAsync(int organisationCentreId, int organisationCentrewiseUserNameRegistrationId) =>
          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/GetCentrewiseUserName?organisationCentreMasterId={organisationCentreId}&organisationCentrewiseUserNameRegistrationId={organisationCentrewiseUserNameRegistrationId}";
         public string UpdateCentrewiseUserNameAsync() =>
               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseUserName";
@@ -73,5 +72,8 @@ namespace Coditech.API.Endpoint
 
         public string UpdateCentrewiseWhatsAppTemplateSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseWhatsAppTemplateSetup";
+
+        public string SendTestModalAsync() =>
+                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/SendTestModal";
     }
 }
