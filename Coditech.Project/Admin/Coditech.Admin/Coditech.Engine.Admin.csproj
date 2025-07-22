@@ -57,7 +57,7 @@
 	
 	<Target Name="CopywwwrootFolder" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
 		<ItemGroup>
-			<wwwrootFiles Include="$(ProjectDir)wwwroot\**\*" Exclude="$(ProjectDir)wwwroot\assets\**\*;$(ProjectDir)wwwroot\favicon.ico;" />
+			<wwwrootFiles Include="$(ProjectDir)wwwroot\**\*" Exclude="$(ProjectDir)wwwroot\assets\**\*;$(ProjectDir)wwwroot\favicon.ico;$(ProjectDir)wwwroot\js\Coditech\HMS;$(ProjectDir)wwwroot\js\Coditech\HMS" />
 		</ItemGroup>
 		<Copy SourceFiles="@(wwwrootFiles)" DestinationFiles="@(wwwrootFiles->'$(SolutionDir)..\SDKMerge\wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" />
 	</Target>
