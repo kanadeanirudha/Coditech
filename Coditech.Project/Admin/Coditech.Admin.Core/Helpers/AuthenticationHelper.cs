@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Http.Extensions;          
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
@@ -74,7 +74,7 @@ namespace Coditech.Admin.Helpers
             {
                 UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
                 if (userModel != null && userModel?.MenuList.Count > 0)
-                    return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).MenuList.Where(x => !string.IsNullOrEmpty(x.ParentMenuCode)).Any(x => x.ControllerName.ToLower() == controllerName);
+                    return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).MenuList.Where(x => !string.IsNullOrEmpty(x.ParentMenuCode)).Any(x => x.ControllerName.ToLower().Contains(controllerName.ToLower()));
                 else
                     return false;
             }
