@@ -16,7 +16,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Batch Time")]
         public TimeSpan? BatchTime { get; set; }
-        [Required]
+        
         [Display(Name = "Batch Start Time")]
         public TimeSpan? BatchStartTime { get; set; }
 
