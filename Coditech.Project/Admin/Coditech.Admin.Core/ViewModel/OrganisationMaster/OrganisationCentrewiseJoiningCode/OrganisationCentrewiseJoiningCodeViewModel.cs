@@ -21,6 +21,9 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(70)]
         [Display(Name = "Email Address")]
         public string EmailId { get; set; }
-        
+        public int TotalJoiningCodeCount { get; set; }
+        public int ActiveJoiningCodeCount { get; set; }
+        public int ExpireJoiningCodeCount { get; set; }
+
     }
 }
