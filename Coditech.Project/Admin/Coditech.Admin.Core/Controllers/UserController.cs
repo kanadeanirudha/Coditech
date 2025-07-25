@@ -207,6 +207,11 @@ namespace Coditech.Admin.Controllers
         {
             return View("~/Views/User/UnauthorizedRequest.cshtml");
         }
+        [HttpGet]
+        public virtual ActionResult UserProfile()
+        {
+            return View("~/Views/User/UserProfile.cshtml");
+        }
 
         #region Protected
         protected virtual ActionResult RedirectToLocal(string returnUrl)
