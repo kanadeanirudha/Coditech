@@ -11,7 +11,6 @@ namespace Coditech.Common.API.Model
         public string BatchName { get; set; }
         [Required]
         public TimeSpan BatchTime { get; set; }
-        [Required]
         public TimeSpan BatchStartTime { get; set; }
         public bool IsActive { get; set; }
     }

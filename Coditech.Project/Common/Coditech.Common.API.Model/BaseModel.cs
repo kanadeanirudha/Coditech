@@ -21,5 +21,10 @@ namespace Coditech.Common.API.Model
         public string ErrorMessage { get; set; }
         public string ActionMode { get; set; }
         public int? ErrorCode { get; set; }
+        public List<string> CustomDropdownSelectedValue1 { get; set; }
+        public List<string> CustomDropdownSelectedValue2 { get; set; }
+        public List<string> CustomDropdownSelectedValue3 { get; set; }
+        public List<string> CustomDropdownSelectedValue4 { get; set; }
+        public List<string> CustomDropdownSelectedValue5 { get; set; }
     }
 }

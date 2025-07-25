@@ -4,7 +4,6 @@ using Coditech.Admin.ViewModel;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Coditech.API.Data.EntityLogging;
 namespace Coditech.Admin.Controllers
 {
     public class OrganisationCentrewiseJoiningCodeController : BaseController
@@ -23,7 +22,6 @@ namespace Coditech.Admin.Controllers
             {
                 list = _oganisationCentrewiseJoiningCodeAgent.GetOrganisationCentrewiseJoiningCodeList(dataTableModel);
             }
-            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
 
             if (AjaxHelper.IsAjaxRequest)
             {
@@ -62,8 +60,6 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Organisation/OrganisationCentrewiseJoiningCode/_SendDetailsPopUp.cshtml", organisationCentrewiseJoiningCodeViewModel);
         }
-
-
 
         [AllowAnonymous]
         [HttpPost]
