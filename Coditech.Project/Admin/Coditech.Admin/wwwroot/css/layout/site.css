@@ -244,6 +244,9 @@ label {
 .login-page-wrapper .card-body.auth-footer {
     border-radius: 0 0 4px 4px;
 }
+.modal-content .modal-header {
+    background-color: #1c2d41
+}
 /*Responsive*/
 @media only screen and (max-width:768px) {
     #barchart, .apex-charts {
