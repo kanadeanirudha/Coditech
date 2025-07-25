@@ -66,7 +66,8 @@ namespace Coditech.Admin.Helpers
             {
                 "dashboard",
                 "user",
-                "generalcommon"
+                "generalcommon",
+                "ticketmaster",
             };
             if (unrestricted.Contains(controllerName))
                 return true;
@@ -74,7 +75,7 @@ namespace Coditech.Admin.Helpers
             {
                 UserModel userModel = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
                 if (userModel != null && userModel?.MenuList.Count > 0)
-                    return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).MenuList.Where(x => !string.IsNullOrEmpty(x.ParentMenuCode)).Any(x => x.ControllerName.ToLower().Contains(controllerName.ToLower()));
+                    return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).MenuList.Where(x => !string.IsNullOrEmpty(x.ParentMenuCode)).Any(x => controllerName.ToLower().Contains(x.ControllerName.ToLower()));
                 else
                     return false;
             }
