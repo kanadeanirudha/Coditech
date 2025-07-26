@@ -10,8 +10,15 @@ namespace Coditech.Common.API.Model
         [Required]
         public string BatchName { get; set; }
         [Required]
-        public TimeSpan BatchTime { get; set; }
+        public DateTime BatchStartDate { get; set; }
+        [Required]
         public TimeSpan BatchStartTime { get; set; }
+        public string BatchFrequency { get; set; }
+        public string WeekDays { get; set; }        
+        public TimeSpan? Duration { get; set; }
         public bool IsActive { get; set; }
+        public List<string> SelectedWeekDays { get; set; } = new List<string>();
+        public string DurationHours { get; set; }
+        public string DurationMinutes { get; set; }
     }
 }
