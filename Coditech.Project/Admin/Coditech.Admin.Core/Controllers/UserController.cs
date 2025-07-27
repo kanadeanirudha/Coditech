@@ -5,12 +5,9 @@ using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using System.Web;
-
 namespace Coditech.Admin.Controllers
 {
     public class UserController : BaseController
@@ -209,8 +206,60 @@ namespace Coditech.Admin.Controllers
         }
         [HttpGet]
         public virtual ActionResult UserProfile()
+        
         {
-            return View("~/Views/User/UserProfile.cshtml");
+            UserProfileViewModel userProfileViewModel = _userAgent.GetUserProfile();
+            return View("~/Views/User/UserProfile.cshtml", userProfileViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UserProfile(UserProfileViewModel userProfileViewModel)
+        {
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("NewPassword");
+            ModelState.Remove("CurrentPassword");
+
+            if (ModelState.IsValid)
+            {
+                userProfileViewModel = _userAgent.UpdateUserProfile(userProfileViewModel);
+                SetNotificationMessage(userProfileViewModel.HasError
+                ? GetErrorNotificationMessage(userProfileViewModel.ErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UserProfile", new { userMasterId = userProfileViewModel.UserMasterId });
+            }
+            return View("~/Views/User/UserProfile.cshtml", userProfileViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult PasswordChange(ChangePasswordViewModel changePasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                changePasswordViewModel = _userAgent.ChangePassword(changePasswordViewModel);
+                if (!changePasswordViewModel.HasError)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = GetSuccessNotificationMessage(GeneralResources.ChangePasswordSuccessMessage)
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = changePasswordViewModel.ErrorMessage ?? "Failed to change password."
+                    });
+                }
+            }
+
+            // Generic fallback if model state is invalid
+            return Json(new
+            {
+                success = false,
+                message = "Please fill all required fields correctly."
+            });
         }
 
         #region Protected

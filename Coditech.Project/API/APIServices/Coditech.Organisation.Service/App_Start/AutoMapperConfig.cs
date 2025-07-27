@@ -4,7 +4,6 @@ using Coditech.API.Data.DataModel.Inventory;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Model;
-
 namespace Coditech.API.Mapper
 {
     public class AutoMapperConfig : Profile
@@ -19,6 +18,7 @@ namespace Coditech.API.Mapper
             CreateMap<AdminRoleApplicableDetails, AdminRoleApplicableDetailsModel>().ReverseMap();
             CreateMap<AdminRoleMediaFolderAction, AdminRoleMediaFolderActionModel>().ReverseMap();
             CreateMap<AdminRoleMediaFolders, AdminRoleMediaFoldersModel>().ReverseMap();
+            CreateMap<UserMaster, UserProfileModel>().ReverseMap();
 
             CreateMap<GeneralDepartmentMaster, GeneralDepartmentModel>().ReverseMap();
             CreateMap<GeneralCountryMaster, GeneralCountryModel>().ReverseMap();

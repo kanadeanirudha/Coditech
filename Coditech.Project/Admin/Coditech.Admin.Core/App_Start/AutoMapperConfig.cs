@@ -9,6 +9,7 @@ namespace Coditech.Admin
         public AutoMapperConfig()
         {
             #region Accounts
+            CreateMap<UserProfileModel, UserProfileViewModel>().ReverseMap();
             CreateMap<AccGLSetupNarrationModel, AccGLSetupNarrationViewModel>().ReverseMap();
             CreateMap<AccGLSetupNarrationViewModel, AccGLSetupNarrationListViewModel>().ReverseMap();
             CreateMap<AccSetupMasterModel, AccSetupMasterViewModel>().ReverseMap();

@@ -41,6 +41,11 @@ namespace Coditech.API.Endpoint
 
         public string GetUserDetailByUserNameAsync(string userName) =>
             $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/GetUserDetailByUserName?userName={userName}";
+        public string GetUserProfileAsync(long userMasterId, string userType) =>
+           $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/GetUserProfile?userMasterId={userMasterId}&userType={userType}";
+
+        public string UpdateUserProfileAsync() =>
+               $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/User/UpdateUserProfile";
     }
 }
        
