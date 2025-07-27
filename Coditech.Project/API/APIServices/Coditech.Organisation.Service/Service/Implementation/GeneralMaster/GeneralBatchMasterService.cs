@@ -52,8 +52,9 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalBatchModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
+            
             GeneralBatchMaster generalBatchMaster = generalBatchModel.FromModelToEntity<GeneralBatchMaster>();
+            generalBatchMaster.WeekDays = generalBatchModel.BatchFrequency == "Weekly" && generalBatchModel.SelectedWeekDays != null && generalBatchModel.SelectedWeekDays.Any() ? string.Join(",", generalBatchModel.SelectedWeekDays) : "";
 
             //Create new GeneralBatchMaster and return it.
             GeneralBatchMaster generalBatchData = _generalBatchMasterRepository.Insert(generalBatchMaster);
@@ -78,6 +79,11 @@ namespace Coditech.API.Service
             //Get the GeneralBatchMaster Details based on id.
             GeneralBatchMaster generalBatchMaster = _generalBatchMasterRepository.Table.Where(x => x.GeneralBatchMasterId == generalBatchMasterId)?.FirstOrDefault();
             GeneralBatchModel generalBatchModel = generalBatchMaster?.FromEntityToModel<GeneralBatchModel>();
+            if (generalBatchModel?.Duration != null)
+            {
+                generalBatchModel.DurationHours = generalBatchModel.Duration.Value.Hours.ToString("D2");
+                generalBatchModel.DurationMinutes = generalBatchModel.Duration.Value.Minutes.ToString("D2");
+            }
             return generalBatchModel;
         }
 
@@ -91,6 +97,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralBatchMasterId"));
 
             GeneralBatchMaster generalBatchMaster = generalBatchModel.FromModelToEntity<GeneralBatchMaster>();
+            generalBatchMaster.WeekDays = generalBatchModel.BatchFrequency == "Weekly" && generalBatchModel.SelectedWeekDays != null && generalBatchModel.SelectedWeekDays.Any() ? string.Join(",", generalBatchModel.SelectedWeekDays) : "";
 
             //Update GeneralBatchMaster
             bool isGeneralBatchUpdated = _generalBatchMasterRepository.Update(generalBatchMaster);
