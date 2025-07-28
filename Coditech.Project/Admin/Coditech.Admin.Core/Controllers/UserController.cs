@@ -241,7 +241,7 @@ namespace Coditech.Admin.Controllers
                     return Json(new
                     {
                         success = true,
-                        message = GetSuccessNotificationMessage(GeneralResources.ChangePasswordSuccessMessage)
+                        message = "Password changed successfully."
                     });
                 }
                 else
@@ -254,7 +254,6 @@ namespace Coditech.Admin.Controllers
                 }
             }
 
-            // Generic fallback if model state is invalid
             return Json(new
             {
                 success = false,
