@@ -560,14 +560,14 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailResponse SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailModel body)
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailResponse SendTestSetting(OrganisationCentrewiseSmtpSettingSendTestEmailModel body)
         {
-            return Task.Run(async () => await SendTestModalAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await SendTestSettingAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<OrganisationCentrewiseSmtpSettingSendTestEmailResponse> SendTestModalAsync(OrganisationCentrewiseSmtpSettingSendTestEmailModel body, CancellationToken cancellationToken)
+        public virtual async Task<OrganisationCentrewiseSmtpSettingSendTestEmailResponse> SendTestSettingAsync(OrganisationCentrewiseSmtpSettingSendTestEmailModel body, CancellationToken cancellationToken)
         {
-            string endpoint = organisationCentreEndpoint.SendTestModalAsync();
+            string endpoint = organisationCentreEndpoint.SendTestSettingAsync();
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try

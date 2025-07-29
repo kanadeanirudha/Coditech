@@ -45,7 +45,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "CentreName" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            OrganisationCentreListResponse response = _organisationCentreClient.List(adminRoleMasterId,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            OrganisationCentreListResponse response = _organisationCentreClient.List(adminRoleMasterId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             OrganisationCentreListModel organisationCentreList = new OrganisationCentreListModel { OrganisationCentreList = response?.OrganisationCentreList };
             OrganisationCentreListViewModel listViewModel = new OrganisationCentreListViewModel();
             listViewModel.OrganisationCentreList = organisationCentreList?.OrganisationCentreList?.ToViewModel<OrganisationCentreViewModel>().ToList();
@@ -190,11 +190,11 @@ namespace Coditech.Admin.Agents
                 return (OrganisationCentrewiseGSTCredentialViewModel)GetViewModelWithErrorMessage(organisationCentrewiseGSTCredentialViewModel, GeneralResources.UpdateErrorMessage);
             }
         }
-        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailViewModel SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailViewModel SendTestSetting(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
         {
             try
             {
-                OrganisationCentrewiseSmtpSettingSendTestEmailResponse response = _organisationCentreClient.SendTestModal(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ToModel<OrganisationCentrewiseSmtpSettingSendTestEmailModel>());
+                OrganisationCentrewiseSmtpSettingSendTestEmailResponse response = _organisationCentreClient.SendTestSetting(organisationCentrewiseSmtpSettingSendTestEmailViewModel.ToModel<OrganisationCentrewiseSmtpSettingSendTestEmailModel>());
                 OrganisationCentrewiseSmtpSettingSendTestEmailModel organisationCentrewiseSmtpSettingSendTestEmailModel = response?.OrganisationCentrewiseSmtpSettingSendTestEmailModel;
                 return IsNotNull(organisationCentrewiseSmtpSettingSendTestEmailModel) ? organisationCentrewiseSmtpSettingSendTestEmailModel.ToViewModel<OrganisationCentrewiseSmtpSettingSendTestEmailViewModel>() : new OrganisationCentrewiseSmtpSettingSendTestEmailViewModel();
             }

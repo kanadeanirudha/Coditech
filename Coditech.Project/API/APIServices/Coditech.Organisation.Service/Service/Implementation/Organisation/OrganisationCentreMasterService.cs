@@ -654,25 +654,25 @@ namespace Coditech.API.Service
 
             return _organisationCentreMasterRepository.Table.Any(x => x.CentreName == centreName);
         }
-        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailModel SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
+        public virtual OrganisationCentrewiseSmtpSettingSendTestEmailModel SendTestSetting(OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
         {
             string messageBody = model.Message;
             // Send WhatsApp
             if ((model.IsWhatsappMessage))
             {
-                    _coditechWhatsApp.SendWhatsAppMessage(model.CentreCode, messageBody, "+91" + model.MobileNumber);
+                _coditechWhatsApp.SendWhatsAppMessage(model.CentreCode, messageBody, "+91" + model.MobileNumber);
             }
             // Send SMS
             if ((model.IsSmsMessage))
             {
-                    _coditechSMS.SendSMS(model.CentreCode, messageBody, "+91" + model.MobileNumber);
+                _coditechSMS.SendSMS(model.CentreCode, messageBody, "+91" + model.MobileNumber);
             }
             // Send Email
             if ((model.IsEmailMessage))
             {
-                    _coditechEmail.SendEmail(model.CentreCode, model.TO, string.Empty, model.CC, model.BCC, model.Subject, model.Body);
+                _coditechEmail.SendEmail(model.CentreCode, model.TO, string.Empty, model.CC, model.BCC, model.Subject, model.Body);
             }
-          
+
             return model;
         }
 
