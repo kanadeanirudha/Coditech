@@ -166,5 +166,29 @@
                 maxDate: new Date(2035, 11, 31),
             });
         });
+        $('form').submit(function (e) {
+            var hours = $('#DurationHours').val();
+            var minutes = $('#DurationMinutes').val();
+                if (hours === "00" && minutes === "00") {
+                    var validationSpan = $('[data-valmsg-for="Duration"]');
+                    validationSpan.text("Duration cannot be 00 Hours and 00 Minutes.");
+                    validationSpan.addClass("field-validation-error").removeClass("field-validation-valid");
+                    e.preventDefault();
+                } else {
+                    var validationSpan = $('[data-valmsg-for="Duration"]');
+                    validationSpan.text("");
+                    validationSpan.addClass("field-validation-valid").removeClass("field-validation-error");
+                }
+                var frequency = $("#BatchFrequency").val();
+                    if (frequency === "Weekly") {
+                        var selectedWeekDays = $("#SelectedWeekDays option:selected").length;
+                            if (selectedWeekDays === 0) {
+                                var validationSpan = $('[data-valmsg-for="SelectedWeekDays"]');
+                                    validationSpan.text("Please select at least one Week Day.");
+                                    validationSpan.addClass("field-validation-error").removeClass("field-validation-valid");
+                                    e.preventDefault();
+                        }
+                   }
+            });
     </script>
 }
