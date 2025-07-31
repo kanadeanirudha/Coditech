@@ -73,7 +73,7 @@ namespace Coditech.API.Endpoint
         public string UpdateCentrewiseWhatsAppTemplateSetupAsync() =>
                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/UpdateCentrewiseWhatsAppTemplateSetup";
 
-        public string SendTestModalAsync() =>
-                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/SendTestModal";
+        public string SendTestSettingAsync() =>
+                $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/OrganisationCentreMaster/SendTestSetting";
     }
 }

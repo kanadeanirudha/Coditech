@@ -1,5 +1,4 @@
 ﻿using Coditech.Common.API.Model;
-
 namespace Coditech.API.Service
 {
     public interface IUserService
@@ -18,5 +17,7 @@ namespace Coditech.API.Service
         bool AcceptTermsAndConditions(string userType, long entityId);
         List<UserTypeModel> GetUserTypeList();
         UserModel GetUserDetailByUserName(string userName);
+        UserProfileModel GetUserProfile(long userMasterId, string userType);
+        bool UpdateUserProfile(UserProfileModel model);
     }
 }

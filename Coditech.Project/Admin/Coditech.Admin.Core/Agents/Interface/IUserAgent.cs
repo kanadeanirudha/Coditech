@@ -1,6 +1,5 @@
 ﻿using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
-
 namespace Coditech.Admin.Agents
 {
     public interface IUserAgent
@@ -50,11 +49,19 @@ namespace Coditech.Admin.Agents
         /// <param name="userName">userName</param>
         /// <returns>Returns the reset password send link view model.</returns>
         ResetPasswordSendLinkViewModel ResetPasswordSendLink(string userName);
-
+     
         /// <summary>
         /// Get UserType.
         /// </summary>
         /// <returns>Returns UserTypeListViewModel.</returns>
         UserTypeListModel GetUserTypeList();
+        //  IEnumerable<object> GetUserTypeList();
+        UserProfileViewModel GetUserProfile();
+        /// <summary>
+        /// This method is used to Update the UserProfile Data.
+        /// </summary>
+        /// <param name="userProfileViewModel">Change Password View Model.</param>
+        /// <returns>Returns created model.</returns>
+        UserProfileViewModel UpdateUserProfile(UserProfileViewModel userProfileViewModel);
     }
 }

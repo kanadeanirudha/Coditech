@@ -52,7 +52,7 @@
 			<!-- LOGO -->
 			<div class="brand logo-background">
 				<a href="..@dashboardUrl" class="logo">
-					<span>
+					<span class="logo-small-wrapper">
 						@if (!string.IsNullOrEmpty(userData?.LogoSmallMediaPath))
 						{
 							<img src="@userData.LogoSmallMediaPath" alt="logo-small" class="logo-sm">
@@ -63,7 +63,7 @@
 						}
 
 					</span>
-					<span>
+					<span class="logo-large-wrapper">
 						@if (!string.IsNullOrEmpty(userData?.LogoMediaPath))
 						{
 							<img src="@userData?.LogoMediaPath" alt="logo-large" class="logo-lg logo-dark">

@@ -271,7 +271,7 @@ namespace Coditech.Admin.Helpers
             {
                 GetAccSetupCategoryList(dropdownViewModel, dropdownList);
             }
-            dropdownViewModel.DropdownList = dropdownList;
+            dropdownViewModel.DropdownList = dropdownList.OrderBy(x => x.Text ?? string.Empty).ToList();
             return dropdownViewModel;
         }
 

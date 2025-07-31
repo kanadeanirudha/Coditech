@@ -39,7 +39,6 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteGeneralBatch(string generalBatchMasterId, out string errorMessage);
        
-
         /// <summary>
         /// Get list of Associated Batch.
         /// </summary>
@@ -53,27 +52,5 @@ namespace Coditech.Admin.Agents
         /// <param name="generalBatchUserViewModel">generalBatchUserViewModel.</param>
         /// <returns>Returns updated GeneralBatchUserViewModel</returns>
         GeneralBatchUserViewModel AssociateUnAssociateBatchwiseUser(GeneralBatchUserViewModel generalBatchUserViewModel);
-
-        /// <summary>
-        /// Create TaskScheduler.
-        /// </summary>
-        /// <param name="taskSchedulerViewModel"> Task Scheduler View Model.</param>
-        /// <returns>Returns created model.</returns>
-        TaskSchedulerViewModel CreateBatchTaskScheduler(TaskSchedulerViewModel taskSchedulerViewModel);
-
-        /// <summary>
-        /// Get taskScheduler by TaskSchedulerMasterId.
-        /// </summary>
-        /// <param name="configuratorId">configuratorId</param>
-        /// <param name="schedulerCallFor">schedulerCallFor</param>
-        /// <returns>Returns TaskSchedulerViewModel.</returns>
-        TaskSchedulerViewModel GetBatchTaskSchedulerDetails(int configuratorId);
-
-        /// <summary>
-        /// Update General Batch.
-        /// </summary>
-        /// <param name="taskSchedulerViewModel">taskSchedulerViewModel.</param>
-        /// <returns>Returns updated taskSchedulerViewModel</returns>
-        TaskSchedulerViewModel UpdateBatchTaskSchedulerDetails(TaskSchedulerViewModel taskSchedulerViewModel);
     }
 }

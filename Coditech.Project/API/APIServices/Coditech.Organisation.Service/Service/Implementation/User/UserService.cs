@@ -1,6 +1,4 @@
-﻿using System.Data;
-using System.Diagnostics;
-using Coditech.API.Data;
+﻿using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.Exceptions;
@@ -10,8 +8,9 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
+using System.Data;
+using System.Diagnostics;
 using static Coditech.Common.Helper.HelperUtility;
-
 namespace Coditech.API.Service
 {
     public class UserService : BaseService, IUserService
@@ -37,6 +36,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralCurrencyMaster> _generalCurrencyMasterRepository;
         private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
+        private readonly ICoditechRepository<EmployeeDesignationMaster> _employeeDesignationMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -60,6 +60,7 @@ namespace Coditech.API.Service
             _generalCurrencyMasterRepository = new CoditechRepository<GeneralCurrencyMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _employeeDesignationMasterRepository = new CoditechRepository<EmployeeDesignationMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
 
         #region Public
@@ -218,7 +219,7 @@ namespace Coditech.API.Service
             {
                 changePasswordModel.HasError = true;
                 changePasswordModel.ErrorCode = ErrorCodes.AlreadyExist;
-                changePasswordModel.ErrorMessage = "Current Password DoesNot Match.";
+                changePasswordModel.ErrorMessage = "Current password does not match.";
             }
             return changePasswordModel;
         }
@@ -502,7 +503,83 @@ namespace Coditech.API.Service
             return typeList;
         }
         #endregion
+        public virtual UserProfileModel GetUserProfile(long userMasterId, string userType)
+        {
+            if (userMasterId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "UserMasterID"));
+            UserMaster userMaster = _userMasterRepository.Table
+                .FirstOrDefault(x => x.UserMasterId == userMasterId && x.UserType == userType);
 
+            EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == userMaster.EntityId);
+
+
+            EmployeeDesignationMaster employeeDesignationMaster = _employeeDesignationMasterRepository.Table.FirstOrDefault(x => x.EmployeeDesignationMasterId == employeeMaster.EmployeeDesignationMasterId);
+
+
+
+            if (userMaster == null)
+                throw new CoditechException(ErrorCodes.NotFound, "User not found with the specified ID and type.");
+            UserProfileModel userProfileModel = userMaster.FromEntityToModel<UserProfileModel>();
+
+
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(userMaster.EntityId, userMaster.UserType);
+            if (generalPersonModel != null)
+            {
+                userProfileModel.MobileNumber = generalPersonModel.MobileNumber;
+                userProfileModel.MaritalStatus = generalPersonModel.MaritalStatus;
+                userProfileModel.DateOfBirth = generalPersonModel.DateOfBirth;
+                userProfileModel.PhotoMediaId = generalPersonModel.PhotoMediaId;
+                userProfileModel.Age = generalPersonModel.Age;
+                userProfileModel.EmergencyContact = generalPersonModel.EmergencyContact;
+                userProfileModel.PhotoMediaPath = GetImagePath(generalPersonModel.PhotoMediaId);
+
+            }
+            userProfileModel.EmployeeDesignationMasterId = employeeMaster.EmployeeDesignationMasterId;
+            userProfileModel.Description = employeeDesignationMaster.Description;
+            return userProfileModel;
+        }
+        public virtual bool UpdateUserProfile(UserProfileModel userProfileModel)
+        {
+            if (IsNull(userProfileModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (userProfileModel.UserMasterId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "UserMasterID"));
+
+            UserMaster userMasterData = _userMasterRepository.Table
+                .FirstOrDefault(x => x.UserMasterId == userProfileModel.UserMasterId && x.UserType == userProfileModel.UserType);
+
+            if (userMasterData == null)
+                throw new CoditechException(ErrorCodes.NotFound, "User not found with the specified ID and type.");
+
+            EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == userMasterData.EntityId);
+
+            if (employeeMaster == null)
+                throw new CoditechException(ErrorCodes.NotFound, "Employee not found for the specified user.");
+
+            GeneralPerson generalPerson = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == employeeMaster.PersonId);
+
+            if (generalPerson == null)
+                throw new CoditechException(ErrorCodes.NotFound, "General person not found for the specified user.");
+
+            generalPerson.MobileNumber = userProfileModel.MobileNumber;
+            generalPerson.MaritalStatus = userProfileModel.MaritalStatus;
+            generalPerson.DateOfBirth = userProfileModel.DateOfBirth;
+            generalPerson.PhotoMediaId = userProfileModel.PhotoMediaId;
+            generalPerson.EmergencyContact = userProfileModel.EmergencyContact;
+            generalPerson.PhotoMediaId = userProfileModel.PhotoMediaId;
+
+            bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
+
+            if (!isPersonUpdated)
+            {
+                userProfileModel.HasError = true;
+                userProfileModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+                return false;
+            }
+
+            return true;
+        }
         #endregion
 
         #region Protected Method

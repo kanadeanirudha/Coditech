@@ -138,7 +138,8 @@
             AccGLOpeningBalance,
             AccSetupCategory,
             AccGLIndividualOpeningBalance,
-            SendTestEmail
+            SendTestEmail,
+            UserProfile
         }
     }
 }
