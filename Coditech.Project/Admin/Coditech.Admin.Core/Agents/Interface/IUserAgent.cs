@@ -56,6 +56,5 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <returns>Returns UserTypeListViewModel.</returns>
         UserTypeListModel GetUserTypeList();
-      //  IEnumerable<object> GetUserTypeList();
     }
 }
