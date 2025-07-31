@@ -49,7 +49,7 @@ namespace Coditech.Admin.Controllers
 
             if (string.IsNullOrEmpty(generalBatchViewModel.BatchFrequency))
             {
-                generalBatchViewModel.BatchFrequency = SchedulerFrequencyEnum.OneTime.ToString();
+                generalBatchViewModel.BatchFrequency = SchedulerFrequencyEnum.Daily.ToString();
             }
             return View(createEditBatch, generalBatchViewModel);
         }
@@ -57,7 +57,7 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Create(GeneralBatchViewModel generalBatchViewModel)
         {
-           
+
             if (ModelState.IsValid)
             {
                 BindDuration(generalBatchViewModel);

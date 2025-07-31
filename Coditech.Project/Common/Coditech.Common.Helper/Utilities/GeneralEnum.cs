@@ -260,11 +260,11 @@
     }
     public enum SchedulerFrequencyEnum
     {
-        OneTime,
         Daily,
+        OneTime,
         Weekly,
         Recurring
-        //Monthlyum
+        //Monthly
     }
     public enum SchedulerTypeEnum
     {
