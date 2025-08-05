@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
@@ -7,9 +8,6 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Logger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Controllers
 {
@@ -135,6 +133,49 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("GeneralCommon/FetchPostalCode/")]
+        [HttpGet]
+        [Produces(typeof(BindAddressToPostalCodeListResponse))]
+        public virtual IActionResult FetchPostalCode(string postalCode)
+        {
+            try
+            {
+                List<BindAddressToPostalCodeModel> list = _generalCommonService.FetchPostalCode(postalCode);
+                return IsNotNull(list) ? CreateOKResponse(new BindAddressToPostalCodeListResponse { BindAddressToPostalCodeList = list }) : CreateNoContentResponse();
+
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralCountryResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/GeneralCommon/ValidateAddress")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(BindAddressToPostalCodeResponse))]
+        public virtual IActionResult ValidateAddress([FromBody] BindAddressToPostalCodeModel bindAddressToPostalCodeModel)
+        {
+            try
+            {
+                BindAddressToPostalCodeModel generalCommon = _generalCommonService.ValidateAddress(bindAddressToPostalCodeModel);
+                return IsNotNull(generalCommon) ? CreateOKResponse(new BindAddressToPostalCodeResponse { BindAddressToPostalCodeModel = bindAddressToPostalCodeModel }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralMessages.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new GeneralMessagesResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralMessages.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new GeneralMessagesResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

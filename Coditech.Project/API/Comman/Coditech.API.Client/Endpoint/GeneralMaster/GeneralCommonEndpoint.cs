@@ -1,5 +1,6 @@
 ﻿using Coditech.Admin.Utilities;
 using Coditech.API.Client.Endpoint;
+using Coditech.Common.API.Model;
 
 namespace Coditech.API.Endpoint
 {
@@ -15,6 +16,10 @@ namespace Coditech.API.Endpoint
            $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCommon/GetDropdownListByCode?groupCodes={groupCodes}";
         public string GetAccountPrequisiteAsync(int balanceSheetId) =>
          $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCommon/GetAccountPrequisite?balanceSheetId={balanceSheetId}";
+        public string FetchPostalCodeAsync(string postalCode) =>
+        $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCommon/FetchPostalCode?postalCode={postalCode}";
+        public string ValidateAddressAsync() =>
+        $"{CoditechAdminSettings.CoditechOrganisationApiRootUri}/GeneralCommon/ValidateAddress";
 
     }
 }

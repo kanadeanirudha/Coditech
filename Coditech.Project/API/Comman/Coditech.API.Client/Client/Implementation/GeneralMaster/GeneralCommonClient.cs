@@ -1,4 +1,5 @@
-﻿using Coditech.API.Endpoint;
+﻿using System.Net;
+using Coditech.API.Endpoint;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
@@ -203,6 +204,106 @@ namespace Coditech.API.Client
             {
                 if (disposeResponse)
                     response.Dispose();
+            }
+        }
+        public virtual BindAddressToPostalCodeListResponse FetchPostalCode(string postalCode)
+        {
+            return Task.Run(async () => await FetchPostalCodeAsync(postalCode, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<BindAddressToPostalCodeListResponse> FetchPostalCodeAsync(string postalCode, CancellationToken cancellationToken)
+        {
+            string endpoint = generalCommonEndpoint.FetchPostalCodeAsync(postalCode);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BindAddressToPostalCodeListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else if (status_ == 204)
+                {
+                    return new BindAddressToPostalCodeListResponse();
+                }
+                else
+                {
+                    string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                    BindAddressToPostalCodeListResponse result = JsonConvert.DeserializeObject<BindAddressToPostalCodeListResponse>(value);
+                    UpdateApiStatus(result, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        public virtual BindAddressToPostalCodeResponse ValidateAddress(BindAddressToPostalCodeModel body)
+        {
+            return Task.Run(async () => await ValidateAddressAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<BindAddressToPostalCodeResponse> ValidateAddressAsync(BindAddressToPostalCodeModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = generalCommonEndpoint.ValidateAddressAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<BindAddressToPostalCodeResponse> objectResponseResult2 = await ReadObjectResponseAsync<BindAddressToPostalCodeResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<BindAddressToPostalCodeResponse> objectResponseResult = await ReadObjectResponseAsync<BindAddressToPostalCodeResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            BindAddressToPostalCodeResponse result = JsonConvert.DeserializeObject<BindAddressToPostalCodeResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
             }
         }
     }

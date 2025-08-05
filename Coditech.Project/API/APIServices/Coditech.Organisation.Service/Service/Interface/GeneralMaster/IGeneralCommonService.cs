@@ -9,5 +9,8 @@ namespace Coditech.API.Service
         string GetDomainAPIKey(string requestKey);
         GeneralMessagesModel SendOTP(GeneralMessagesModel generalMessagesModel);
         AccPrequisiteModel GetAccountPrequisite(int balanceSheetId);
+        List<BindAddressToPostalCodeModel> FetchPostalCode(string code);
+        BindAddressToPostalCodeModel ValidateAddress(BindAddressToPostalCodeModel bindAddressToPostalCodeModel);
+
     }
 }

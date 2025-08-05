@@ -1,6 +1,9 @@
-﻿using Coditech.Admin.Agents;
+﻿using System.Collections.Generic;
+using Coditech.Admin.Agents;
+using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper.Utilities;
+using Coditech.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -158,5 +161,37 @@ namespace Coditech.Admin.Controllers
             else
                 return Json(new { success = false, message = "Invalid OTP." });
         }
+        [HttpGet]
+        public virtual ActionResult FetchPostalCode(string postalCode)
+        {
+
+            BindAddressToPostalCodeListViewModel listModel = _generalCommonAgent.FetchPostalCode(postalCode);
+            BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel = new BindAddressToPostalCodeViewModel
+            {
+                BindAddressToPostalCodeList = listModel.BindAddressToPostalCodeList
+            };
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", bindAddressToPostalCodeViewModel);
+            }
+            return PartialView($"~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", bindAddressToPostalCodeViewModel);
+        }
+        [HttpPost]
+        public virtual ActionResult FetchPostalCode(BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                bindAddressToPostalCodeViewModel = _generalCommonAgent.ValidateAddress(bindAddressToPostalCodeViewModel);
+                if (!bindAddressToPostalCodeViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("$~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", CreateActionDataTable());
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bindAddressToPostalCodeViewModel.ErrorMessage));
+            return PartialView($"~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", bindAddressToPostalCodeViewModel);
+        }
+
     }
 }

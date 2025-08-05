@@ -95,6 +95,42 @@ namespace Coditech.Admin.Agents
             return accPrequisiteModel.IsAssociated;
         }
 
+        public virtual BindAddressToPostalCodeListViewModel FetchPostalCode(string postalCode)
+        {
+            BindAddressToPostalCodeListViewModel bindAddressToPostalCodeListViewModel = new BindAddressToPostalCodeListViewModel();
+            BindAddressToPostalCodeListResponse response = _generalCommonClient.FetchPostalCode(postalCode);
+            BindAddressToPostalCodeListModel bindAddressToPostalCodeList = new BindAddressToPostalCodeListModel { BindAddressToPostalCodeList = response?.BindAddressToPostalCodeList };
+            BindAddressToPostalCodeListViewModel listViewModel = new BindAddressToPostalCodeListViewModel();
+            listViewModel.BindAddressToPostalCodeList = bindAddressToPostalCodeList?.BindAddressToPostalCodeList?.ToViewModel<BindAddressToPostalCodeViewModel>().ToList();
+            return listViewModel;
+        }
+
+
+        public virtual BindAddressToPostalCodeViewModel ValidateAddress(BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel)
+        {
+            try
+            {
+                BindAddressToPostalCodeResponse response = _generalCommonClient.ValidateAddress(bindAddressToPostalCodeViewModel.ToModel<BindAddressToPostalCodeModel>());
+                BindAddressToPostalCodeModel bindAddressToPostalCodeModel = response?.BindAddressToPostalCodeModel;
+                return IsNotNull(bindAddressToPostalCodeModel) ? bindAddressToPostalCodeModel.ToViewModel<BindAddressToPostalCodeViewModel>() : new BindAddressToPostalCodeViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BindAddressToPostalCodeViewModel)GetViewModelWithErrorMessage(bindAddressToPostalCodeViewModel, ex.ErrorMessage);
+                    default:
+                        return (BindAddressToPostalCodeViewModel)GetViewModelWithErrorMessage(bindAddressToPostalCodeViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.CountryMaster.ToString(), TraceLevel.Error);
+                return (BindAddressToPostalCodeViewModel)GetViewModelWithErrorMessage(bindAddressToPostalCodeViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+        #endregion
     }
-    #endregion
 }
