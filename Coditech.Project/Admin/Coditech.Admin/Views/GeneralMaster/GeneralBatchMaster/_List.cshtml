@@ -24,8 +24,8 @@
                             <td>@item.BatchName</td>
                             <td>@item.BatchFrequency</td>
                             <td>@item.BatchStartDate.ToCoditechDateFormat()</td>
-                            <td>@item.BatchStartTime</td>
-                            <td>@item.Duration</td>
+                            <td>@item.BatchStartTime.ToCoditechTimeFormat()</td>
+                            <td>@item.Duration.ToCoditech24HourTimeFormat()</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
                             </td>
