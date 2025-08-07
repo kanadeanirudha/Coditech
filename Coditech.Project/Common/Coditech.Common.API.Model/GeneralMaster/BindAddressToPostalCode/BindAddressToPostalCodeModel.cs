@@ -15,6 +15,10 @@ namespace Coditech.Common.API.Model
         public string State { get; set; }
         public string Country { get; set; }
         public string Pincode { get; set; }
+        public long? PersonId { get; set; }
+        public long? EntityId { get; set; }
         public List<BindAddressToPostalCodeModel> BindAddressToPostalCodeList { get; set; }
+        public int SelectedCityId { get; set; }
+        public short SelectedRegionId { get; set; }
     }
 }

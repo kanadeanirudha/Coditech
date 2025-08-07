@@ -131,6 +131,8 @@
 }
 <script>
 	const postalInput = $('input[name="Postalcode"]');
+	const personId = $('input[name="PersonId"]').val();
+	const entityId = $('input[name="EntityId"]').val();
 	const countrySelect = $('select[name="GeneralCountryMasterId"]');
 	let popupTimeout = null;
 	function isExplicitlyIndiaSelected() {
@@ -159,7 +161,9 @@
 		$.ajax({
 			url: `/GeneralCommon/FetchPostalCode`,
 			type: 'GET',
-			data: { postalCode: postalCode },
+			data: {  postalCode: postalCode,
+						personId: personId,
+						entityId: entityId },
 			success: function (response) {
 				console.log("GET response:", response);
 				$('#postalCodeModalContent').html(response);

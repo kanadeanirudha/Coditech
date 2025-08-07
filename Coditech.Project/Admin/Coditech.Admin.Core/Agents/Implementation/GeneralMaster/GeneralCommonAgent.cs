@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.Helpers;
+﻿using System.Diagnostics;
+using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
@@ -10,7 +11,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Http;
-using System.Diagnostics;
+using Newtonsoft.Json;
 using static Coditech.Common.Helper.HelperUtility;
 
 namespace Coditech.Admin.Agents
@@ -112,6 +113,7 @@ namespace Coditech.Admin.Agents
             {
                 BindAddressToPostalCodeResponse response = _generalCommonClient.ValidateAddress(bindAddressToPostalCodeViewModel.ToModel<BindAddressToPostalCodeModel>());
                 BindAddressToPostalCodeModel bindAddressToPostalCodeModel = response?.BindAddressToPostalCodeModel;
+                UserModel userData = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession);
                 return IsNotNull(bindAddressToPostalCodeModel) ? bindAddressToPostalCodeModel.ToViewModel<BindAddressToPostalCodeViewModel>() : new BindAddressToPostalCodeViewModel();
             }
             catch (CoditechException ex)

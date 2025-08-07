@@ -32,6 +32,7 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AccSetupGLBalanceSheet> _accSetupGLBalanceSheetRepository;
         private readonly ICoditechRepository<GeneralCityMaster> _generalCityMasterRepository;
         private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
+        private readonly ICoditechRepository<GeneralCountryMaster> _generalCountryMasterRepository;
         public GeneralCommonService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -47,6 +48,8 @@ namespace Coditech.API.Service
             _accSetupGLBalanceSheetRepository = new CoditechRepository<AccSetupGLBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
             _generalCityMasterRepository = new CoditechRepository<GeneralCityMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalCountryMasterRepository = new CoditechRepository<GeneralCountryMaster>(_serviceProvider.GetService<Coditech_Entities>());
+
         }
 
         #region Public
@@ -250,9 +253,8 @@ namespace Coditech.API.Service
             {
                 if (bindAddressToPostalCodeModel != null)
                 {
-                    // Match or create Region (State)
-                    GeneralRegionMaster generalRegionMaster = _generalRegionMasterRepository.Table
-                        .FirstOrDefault(x => x.RegionName.ToLower() == bindAddressToPostalCodeModel.State.ToLower());
+                    GeneralCountryMaster generalCountryMaster = _generalCountryMasterRepository.Table.FirstOrDefault(x => x.CountryName == "India");
+                    GeneralRegionMaster generalRegionMaster = _generalRegionMasterRepository.Table.FirstOrDefault(x => x.RegionName.ToLower() == bindAddressToPostalCodeModel.State.ToLower());
 
                     if (generalRegionMaster == null)
                     {
@@ -286,11 +288,19 @@ namespace Coditech.API.Service
                         _generalCityMasterRepository.Insert(generalCityMaster);
                     }
 
-                    // Fill returned model
-                    bindAddressToPostalCodeModel.Custom1 = generalRegionMaster.GeneralRegionMasterId.ToString();
+                    bindAddressToPostalCodeModel.SelectedRegionId = generalRegionMaster.GeneralRegionMasterId;
                     bindAddressToPostalCodeModel.State = generalRegionMaster.RegionName;
-                    bindAddressToPostalCodeModel.Custom2 = generalCityMaster.GeneralCityMasterId.ToString();
+                    bindAddressToPostalCodeModel.SelectedCityId = generalCityMaster.GeneralCityMasterId;
                     bindAddressToPostalCodeModel.District = generalCityMaster.CityName;
+                    bindAddressToPostalCodeModel.Country = generalCountryMaster.CountryName;
+                    bindAddressToPostalCodeModel.BindAddressToPostalCodeList.Add(new BindAddressToPostalCodeModel
+                    {
+                        District = bindAddressToPostalCodeModel.District,
+                        State = bindAddressToPostalCodeModel.State,
+                        SelectedRegionId = bindAddressToPostalCodeModel.SelectedRegionId,
+                        SelectedCityId = bindAddressToPostalCodeModel.SelectedCityId,
+                        Country = bindAddressToPostalCodeModel.Country
+                    });
                 }
             }
             catch (Exception ex)
