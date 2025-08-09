@@ -20,5 +20,6 @@ namespace Coditech.Common.API.Model
         public List<string> SelectedWeekDays { get; set; } = new List<string>();
         public string DurationHours { get; set; }
         public string DurationMinutes { get; set; }
+        public string AssignedBy { get; set; }
     }
 }

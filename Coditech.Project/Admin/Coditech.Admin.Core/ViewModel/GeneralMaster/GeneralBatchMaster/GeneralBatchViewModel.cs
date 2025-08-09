@@ -34,5 +34,6 @@ namespace Coditech.Admin.ViewModel
         public string DurationHours { get; set; }
         [Required(ErrorMessage = "Duration Minutes is required.")]
         public string DurationMinutes { get; set; }
+        public string AssignedBy { get; set; }
     }
 }
