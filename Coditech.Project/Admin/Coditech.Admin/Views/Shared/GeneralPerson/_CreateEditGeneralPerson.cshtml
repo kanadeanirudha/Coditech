@@ -78,7 +78,7 @@
             }
             else
             {
-                @Html.TextBoxFor(x => x.Age, new { @class = "form-control", onkeypress = "return CoditechCommon.ValidNumeric()" })
+                @Html.TextBoxFor(x => x.Age, new { @class = "form-control", @readonly = "true", onkeypress = "return CoditechCommon.ValidNumeric()" })
             }
             @Html.ValidationMessageFor(x => x.Age)
         </div>
