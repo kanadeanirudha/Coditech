@@ -13,7 +13,6 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IGeneralBatchAgent _generalBatchAgent;
         private const string createEditBatch = "~/Views/GeneralMaster/GeneralBatchMaster/CreateEditGeneralBatch.cshtml";
-        private const string createEditTaskScheduler = "~/Views/GeneralMaster/GeneralBatchMaster/CreateEditTaskScheduler.cshtml";
 
         public GeneralBatchMasterController(IGeneralBatchAgent generalBatchAgent)
         {
@@ -39,25 +38,13 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult Create()
         {
             GeneralBatchViewModel generalBatchViewModel = new GeneralBatchViewModel();
-            generalBatchViewModel.SelectedWeekDays = !string.IsNullOrEmpty(generalBatchViewModel.WeekDays) ? generalBatchViewModel.WeekDays.Split(',').ToList() : new List<string>();
-
-            generalBatchViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.SchedulerWeeks.ToString(),
-                DropdownSelectedValue = generalBatchViewModel.WeekDays
-            }).DropdownList;
-
-            if (string.IsNullOrEmpty(generalBatchViewModel.BatchFrequency))
-            {
-                generalBatchViewModel.BatchFrequency = SchedulerFrequencyEnum.Daily.ToString();
-            }
+            BindDropdown(generalBatchViewModel);
             return View(createEditBatch, generalBatchViewModel);
         }
 
         [HttpPost]
         public virtual ActionResult Create(GeneralBatchViewModel generalBatchViewModel)
         {
-
             if (ModelState.IsValid)
             {
                 BindDuration(generalBatchViewModel);
@@ -68,6 +55,7 @@ namespace Coditech.Admin.Controllers
                     return RedirectToAction("List", new { selectedCentreCode = generalBatchViewModel.CentreCode });
                 }
             }
+            BindDropdown(generalBatchViewModel);
             SetNotificationMessage(GetErrorNotificationMessage(generalBatchViewModel.ErrorMessage));
             return View(createEditBatch, generalBatchViewModel);
         }
@@ -76,14 +64,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult UpdateGeneralBatch(int generalBatchMasterId)
         {
             GeneralBatchViewModel generalBatchViewModel = _generalBatchAgent.GetGeneralBatch(generalBatchMasterId);
-
-            generalBatchViewModel.SelectedWeekDays = !string.IsNullOrEmpty(generalBatchViewModel.WeekDays)? generalBatchViewModel.WeekDays.Split(',').ToList() : new List<string>();
-
-            generalBatchViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
-            {
-                DropdownType = DropdownTypeEnum.SchedulerWeeks.ToString(),
-                DropdownSelectedValue = generalBatchViewModel.WeekDays
-            }).DropdownList;
+            BindDropdown(generalBatchViewModel);
             return ActionView(createEditBatch, generalBatchViewModel);
         }
 
@@ -98,6 +79,7 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("UpdateGeneralBatch", new { generalBatchMasterId = generalBatchViewModel.GeneralBatchMasterId });
             }
+            BindDropdown(generalBatchViewModel);
             return View(createEditBatch, generalBatchViewModel);
         }
 
@@ -109,11 +91,10 @@ namespace Coditech.Admin.Controllers
             {
                 status = _generalBatchAgent.DeleteGeneralBatch(generalBatchMasterIds, out message);
                 SetNotificationMessage(!status
-                ? GetErrorNotificationMessage(string.IsNullOrEmpty(message) ? GeneralResources.DeleteErrorMessage: message)
+                ? GetErrorNotificationMessage(string.IsNullOrEmpty(message) ? GeneralResources.DeleteErrorMessage : message)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
                 return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
             }
-
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
         }
@@ -127,7 +108,6 @@ namespace Coditech.Admin.Controllers
             }
             list.SelectedParameter1 = dataTableViewModel.SelectedParameter1;
             list.SelectedParameter2 = dataTableViewModel.SelectedParameter2;
-
             return View($"~/Views/GeneralMaster/GeneralBatchMaster/GeneralBatchUser/AssociatedBatchList.cshtml", list);
         }
 
@@ -152,7 +132,6 @@ namespace Coditech.Admin.Controllers
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
-
         protected void BindDuration(GeneralBatchViewModel model)
         {
             if (!string.IsNullOrEmpty(model.DurationHours) && !string.IsNullOrEmpty(model.DurationMinutes))
@@ -164,8 +143,24 @@ namespace Coditech.Admin.Controllers
                 }
             }
         }
+        protected void BindFrequency(GeneralBatchViewModel generalBatchViewModel)
+        {
+            generalBatchViewModel.SelectedWeekDays = !string.IsNullOrEmpty(generalBatchViewModel.WeekDays) ? generalBatchViewModel.WeekDays.Split(',').ToList() : new List<string>();
+            generalBatchViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.SchedulerWeeks.ToString(),
+                DropdownSelectedValue = generalBatchViewModel.WeekDays
+            }).DropdownList;
+            if (string.IsNullOrEmpty(generalBatchViewModel.BatchFrequency))
+            {
+                generalBatchViewModel.BatchFrequency = SchedulerFrequencyEnum.Daily.ToString();
+            }
+        }
+        protected void BindDropdown(GeneralBatchViewModel generalBatchViewModel)
+        {
+            BindFrequency(generalBatchViewModel);
+        }
         #endregion
-
     }
 }
 
