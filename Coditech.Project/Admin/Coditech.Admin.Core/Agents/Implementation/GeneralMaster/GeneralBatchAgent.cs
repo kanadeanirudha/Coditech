@@ -218,6 +218,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Created By",
+                ColumnCode = "AssignedBy",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Batch Start Date",
                 ColumnCode = "BatchStartDate",
                 IsSortable = true,
