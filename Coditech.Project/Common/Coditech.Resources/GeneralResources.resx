@@ -162,6 +162,9 @@
   <data name="ModelNotNull" xml:space="preserve">
     <value>Model can not be null.</value>
   </data>
+  <data name="PasswordRulesTooltip" xml:space="preserve">
+    <value> Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@$!%*?&amp;#)</value>
+  </data>
   <data name="RecordAddedSuccessMessage" xml:space="preserve">
     <value>Record added successfully.</value>
   </data>
