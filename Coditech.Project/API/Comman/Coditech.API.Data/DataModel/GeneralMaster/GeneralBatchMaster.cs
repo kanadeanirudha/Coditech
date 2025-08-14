@@ -9,6 +9,7 @@ namespace Coditech.API.Data
         public string CentreCode { get; set; }
         public string BatchName { get; set; }
         public DateTime BatchStartDate { get; set; }
+        public DateTime BatchExpireDate { get; set; }
         public TimeSpan BatchStartTime { get; set; }
         public string BatchFrequency { get; set; }
         public string WeekDays { get; set; }
