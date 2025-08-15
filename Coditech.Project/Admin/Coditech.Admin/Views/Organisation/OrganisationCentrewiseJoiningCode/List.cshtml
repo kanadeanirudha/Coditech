@@ -10,6 +10,21 @@
 		DropdownSelectedValue = Model.SelectedCentreCode,
 		ChangeEvent = "CoditechCommon.LoadListByCentreCode('" + controllerName + "','" + actionName + "')"
 	};
+
+	DropdownViewModel joiningCodeType = new DropdownViewModel()
+	{
+		DropdownType = DropdownTypeEnum.OrganisationJoiningCodeType.ToString(),
+		DropdownName = "JoiningCodeTypeEnumId",
+		DropdownSelectedValue = string.IsNullOrEmpty(Model.JoiningCodeTypeEnumId.ToString())
+		|| Model.JoiningCodeTypeEnumId == 0
+		? "0" // All
+		: Model.JoiningCodeTypeEnumId.ToString(),
+		GroupCode = DropdownTypeEnum.OrganisationJoiningCodeType.ToString(),
+		SelectedText = "All",
+		SelectedValue = "0",
+		ChangeEvent = "OrganisationCentrewiseJoiningCode.JoiningCodeListByCentreCodeList()"
+	};
+
 }
 <div class="page-content mt-5">
 	<div class="container-fluid">
@@ -28,14 +43,20 @@
 							<div class="col-md-1">
 								<label>@AdminResources.LabelCentre</label>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-2">
 								@Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+							</div>
+							<div class="col-md-1">
+								<label>Joining Code Type</label>
+							</div>
+							<div class="col-md-2">
+								@Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", joiningCodeType)
 							</div>
 							<div class="col-md-1">
 								<input type="button" class="btn btn-success" value="Show" id="ShowDataId"
 									   onclick="CoditechCommon.LoadListByCentreCode('@controllerName','@actionName')" />
 							</div>
-							<div class="col-md-6 ">
+							<div class="col-md-4 ">
 								<label class="fw-bold">
 
 									Total Joining Code:  <span class="badge badge-soft-primary me-2 "><span id="TotalCodeCount"></span> </span>
@@ -60,6 +81,7 @@
 </div>
 <!-- jQuery CDN (if not already loaded) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/coditech/Organisation/OrganisationCentrewiseJoiningCode.js"></script>
 
 <script>
 	$(document).ready(function () {
@@ -75,8 +97,9 @@
 			$('#ActiveCodeCount').text(active);
 			$('#ExpiredCodeCount').text(expired);
 			$('#TotalCodeCount').text(total);
-			clearInterval(checkCounts); 
+			clearInterval(checkCounts);
 		}
 	}, 300);
 	});
+
 </script>

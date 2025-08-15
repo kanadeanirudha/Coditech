@@ -24,6 +24,10 @@ namespace Coditech.Admin.ViewModel
         public int TotalJoiningCodeCount { get; set; }
         public int ActiveJoiningCodeCount { get; set; }
         public int ExpireJoiningCodeCount { get; set; }
+        [Display(Name = "Joining Code Type")]
+        public string JoiningCodeType { get; set; }
+        public int JoiningCodeTypeEnumId { get; set; }
+
 
     }
 }

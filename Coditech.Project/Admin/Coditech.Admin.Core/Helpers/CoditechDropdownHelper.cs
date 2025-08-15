@@ -814,7 +814,10 @@ namespace Coditech.Admin.Helpers
             {
                 generalEnumaratorList = new GeneralCommonClient().GetDropdownListByCode(dropdownViewModel.GroupCode)?.GeneralEnumaratorList;
             }
-            if (dropdownViewModel.AddSelectItem)
+
+            if (!string.IsNullOrEmpty(dropdownViewModel.SelectedText))
+                dropdownList.Add(new SelectListItem() { Text = dropdownViewModel.SelectedText, Value = dropdownViewModel.SelectedValue });
+            else if (dropdownViewModel.AddSelectItem)
             {
                 if (dropdownViewModel.IsRequired)
                 {
