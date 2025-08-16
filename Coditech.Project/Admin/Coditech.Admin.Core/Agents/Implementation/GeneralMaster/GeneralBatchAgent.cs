@@ -230,6 +230,12 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Batch End Date",
+                ColumnCode = "BatchExpireDate",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Batch Start Time",
                 ColumnCode = "BatchStartTime",
                 IsSortable = true,

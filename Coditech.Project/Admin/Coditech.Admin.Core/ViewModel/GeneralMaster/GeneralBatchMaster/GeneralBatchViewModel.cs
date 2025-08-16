@@ -20,6 +20,9 @@ namespace Coditech.Admin.ViewModel
         [Required(ErrorMessage = "Start Date is required.")]
         [Display(Name = "Start Date")]
         public DateTime? BatchStartDate { get; set; }
+        [Required(ErrorMessage = "End Date is required.")]
+        [Display(Name = "End Date")]
+        public DateTime? BatchExpireDate { get; set; }
         [Required]
         [Display(Name = "Batch Start Time")]
         public TimeSpan? BatchStartTime { get; set; }
