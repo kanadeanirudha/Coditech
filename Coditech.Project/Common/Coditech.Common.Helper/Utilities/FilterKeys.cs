@@ -9,7 +9,7 @@
         public static string IsActive { get; } = "isactive";
         public static string EmployeeId { get; } = "employeeid";
         public static string IsEmailTemplate { get; } = "isemailtemplate";
-        public static string GeneralTrainerMasterId { get; } = "generaltrainermasterid,";
-        public static string JoiningCodeTypeEnumId { get; } = "JoiningCodeTypeEnumId,";
+        public static string GeneralTrainerMasterId { get; } = "generaltrainermasterid";
+        public static string JoiningCodeTypeEnumId { get; } = "joiningcodetypeenumid";
     }
 }

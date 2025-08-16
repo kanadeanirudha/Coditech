@@ -18,7 +18,7 @@ namespace Coditech.Admin.Controllers
         }
        
 
-        public virtual ActionResult List(DataTableViewModel dataTableModel, int JoiningCodeTypeEnumId)
+        public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             OrganisationCentrewiseJoiningCodeListViewModel list = new OrganisationCentrewiseJoiningCodeListViewModel();
             GetListOnlyIfSingleCentre(dataTableModel);
