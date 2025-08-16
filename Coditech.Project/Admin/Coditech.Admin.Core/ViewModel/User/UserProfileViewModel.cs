@@ -49,7 +49,7 @@ namespace Coditech.Admin.ViewModel
         public string CurrentPassword { get; set; }
         [MaxLength(100)]
         [MinLength(8)]
-        [Required(ErrorMessage = "Please Enter The New Password")]
+        [Required(ErrorMessage = "New Password Is Required")]
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$",
         ErrorMessage = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@$!%*?&#).")]
         [DataType(DataType.Password)]

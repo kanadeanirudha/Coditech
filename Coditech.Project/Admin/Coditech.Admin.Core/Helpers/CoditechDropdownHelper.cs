@@ -271,7 +271,8 @@ namespace Coditech.Admin.Helpers
             {
                 GetAccSetupCategoryList(dropdownViewModel, dropdownList);
             }
-            dropdownViewModel.DropdownList = dropdownList.OrderBy(x => x.Text ?? string.Empty).ToList();
+
+            dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
 
@@ -280,7 +281,7 @@ namespace Coditech.Admin.Helpers
             GeneralSmsProviderListResponse response = new GeneralSmsProviderClient().List(null, null, null, 1, int.MaxValue);
             GeneralSmsProviderListModel list = new GeneralSmsProviderListModel() { GeneralSmsProviderList = response.GeneralSmsProviderList };
             dropdownList.Add(new SelectListItem() { Text = "-------Select SMS Provider-------", Value = "" });
-            foreach (var item in list?.GeneralSmsProviderList)
+            foreach (var item in list?.GeneralSmsProviderList.OrderBy(x => x.ProviderName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -295,7 +296,7 @@ namespace Coditech.Admin.Helpers
             GeneralMeasurementUnitListResponse response = new GeneralMeasurementUnitClient().List(null, null, null, 1, int.MaxValue);
             GeneralMeasurementUnitListModel list = new GeneralMeasurementUnitListModel() { GeneralMeasurementUnitList = response.GeneralMeasurementUnitList };
             dropdownList.Add(new SelectListItem() { Text = "-------Select Measurement Unit-------" });
-            foreach (var item in list?.GeneralMeasurementUnitList)
+            foreach (var item in list?.GeneralMeasurementUnitList.OrderBy(x => x.MeasurementUnitDisplayName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -311,7 +312,7 @@ namespace Coditech.Admin.Helpers
 
             PaymentGatewaysListModel list = new PaymentGatewaysListModel() { PaymentGatewaysList = response.PaymentGatewaysList };
             dropdownList.Add(new SelectListItem() { Text = "-------Select Payment Gateways-------" });
-            foreach (var item in list?.PaymentGatewaysList)
+            foreach (var item in list?.PaymentGatewaysList.OrderBy(x => x.PaymentName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -331,7 +332,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
 
             GeneralOccupationListModel list = new GeneralOccupationListModel { GeneralOccupationList = response.GeneralOccupationList };
-            foreach (var item in list.GeneralOccupationList)
+            foreach (var item in list.GeneralOccupationList.OrderBy(x => x.OccupationName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -434,7 +435,7 @@ namespace Coditech.Admin.Helpers
             {
                 UserMainMenuListResponse response = new UserClient().GetActiveMenuList(dropdownViewModel.Parameter);
 
-                foreach (var item in response?.MenuList)
+                foreach (var item in response?.MenuList.OrderBy(x => x.MenuName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -450,7 +451,7 @@ namespace Coditech.Admin.Helpers
         {
             UserModuleListResponse response = new UserClient().GetActiveModuleList();
             dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
-            foreach (var item in response?.ModuleList)
+            foreach (var item in response?.ModuleList.OrderBy(x => x.ModuleName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -470,7 +471,7 @@ namespace Coditech.Admin.Helpers
                 list = new GeneralRegionListModel { GeneralRegionList = response?.GeneralRegionList };
             }
             dropdownList.Add(new SelectListItem() { Text = "-------- Select Region --------" });
-            foreach (var item in list?.GeneralRegionList)
+            foreach (var item in list?.GeneralRegionList.OrderBy(x => x.RegionName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -490,7 +491,7 @@ namespace Coditech.Admin.Helpers
                 list = new GeneralDistrictListModel { GeneralDistrictList = response?.GeneralDistrictList };
             }
             dropdownList.Add(new SelectListItem() { Text = "-------- Select District --------" });
-            foreach (var item in list?.GeneralDistrictList)
+            foreach (var item in list?.GeneralDistrictList.OrderBy(x => x.DistrictName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -507,7 +508,7 @@ namespace Coditech.Admin.Helpers
             GeneralTaxGroupListResponse response = new GeneralTaxGroupClient().List(null, null, null, 1, int.MaxValue);
             GeneralTaxGroupMasterListModel list = new GeneralTaxGroupMasterListModel() { GeneralTaxGroupMasterList = response.GeneralTaxGroupMasterList };
             dropdownList.Add(new SelectListItem() { Text = "-------Select-------" });
-            foreach (var item in list?.GeneralTaxGroupMasterList)
+            foreach (var item in list?.GeneralTaxGroupMasterList.OrderBy(x => x.TaxGroupName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -530,7 +531,7 @@ namespace Coditech.Admin.Helpers
                 filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
                 GeneralFinancialYearListResponse response = new GeneralFinancialYearClient().List(null, filters, null, 1, int.MaxValue);
                 GeneralFinancialYearListModel list = new GeneralFinancialYearListModel() { GeneralFinancialYearList = response.GeneralFinancialYearList };
-                foreach (var item in list?.GeneralFinancialYearList)
+                foreach (var item in list?.GeneralFinancialYearList.OrderBy(x => x.FromDate))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -556,7 +557,7 @@ namespace Coditech.Admin.Helpers
                 filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
                 OrganisationCentrewiseBuildingListResponse response = new OrganisationCentrewiseBuildingClient().List(null, filters, null, 1, int.MaxValue);
                 OrganisationCentrewiseBuildingListModel list = new OrganisationCentrewiseBuildingListModel() { OrganisationCentrewiseBuildingList = response.OrganisationCentrewiseBuildingList };
-                foreach (var item in list?.OrganisationCentrewiseBuildingList)
+                foreach (var item in list?.OrganisationCentrewiseBuildingList.OrderBy(x => x.BuildingName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -578,7 +579,7 @@ namespace Coditech.Admin.Helpers
                 short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
                 HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId, false, null, null, null, 1, int.MaxValue);
                 HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
-                foreach (var item in list?.HospitalDoctorsList)
+                foreach (var item in list?.HospitalDoctorsList.OrderBy(x => x.FirstName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -600,7 +601,7 @@ namespace Coditech.Admin.Helpers
                 short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
                 GeneralTrainerListResponse response = new GeneralTrainerClient().List(selectedCentreCode, selectedDepartmentId, false, null, null, null, 1, int.MaxValue);
                 GeneralTrainerListModel list = new GeneralTrainerListModel() { GeneralTrainerList = response.GeneralTrainerList };
-                foreach (var item in list?.GeneralTrainerList)
+                foreach (var item in list?.GeneralTrainerList.OrderBy(x => x.FirstName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -621,7 +622,7 @@ namespace Coditech.Admin.Helpers
                 filters.Add(FilterKeys.OrganisationCentrewiseBuildingMasterId, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
                 OrganisationCentrewiseBuildingRoomsListResponse response = new OrganisationCentrewiseBuildingRoomsClient().List(null, filters, null, 1, int.MaxValue);
                 OrganisationCentrewiseBuildingRoomsListModel list = new OrganisationCentrewiseBuildingRoomsListModel() { OrganisationCentrewiseBuildingRoomsList = response.OrganisationCentrewiseBuildingRoomsList };
-                foreach (var item in list?.OrganisationCentrewiseBuildingRoomsList)
+                foreach (var item in list?.OrganisationCentrewiseBuildingRoomsList.OrderBy(x => x.RoomName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -666,7 +667,7 @@ namespace Coditech.Admin.Helpers
             GeneralDepartmentListResponse response = new GeneralDepartmentClient().List(null, null, null, 1, int.MaxValue);
             GeneralDepartmentListModel list = new GeneralDepartmentListModel() { GeneralDepartmentList = response.GeneralDepartmentList };
             dropdownList.Add(new SelectListItem() { Text = "-------Select Department-------" });
-            foreach (var item in list?.GeneralDepartmentList)
+            foreach (var item in list?.GeneralDepartmentList.OrderBy(x => x.DepartmentName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -707,7 +708,7 @@ namespace Coditech.Admin.Helpers
                 list = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
             }
             dropdownList.Add(new SelectListItem() { Text = "-------Select Department-------", Value = "" });
-            foreach (var item in list?.GeneralDepartmentList)
+            foreach (var item in list?.GeneralDepartmentList.OrderBy(x => x.DepartmentName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -726,7 +727,7 @@ namespace Coditech.Admin.Helpers
             else
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------", Value = "" });
 
-            foreach (var item in accessibleCentreList)
+            foreach (var item in accessibleCentreList.OrderBy(x => x.CentreName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -744,7 +745,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Text = "-------Select -------" });
 
             GeneralNationalityListModel list = new GeneralNationalityListModel { GeneralNationalityList = response?.GeneralNationalityList };
-            foreach (var item in list.GeneralNationalityList)
+            foreach (var item in list.GeneralNationalityList.OrderBy(x => x.Description))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -762,7 +763,7 @@ namespace Coditech.Admin.Helpers
             dropdownList.Add(new SelectListItem() { Text = "-------Select Country-------" });
 
             GeneralCountryListModel list = new GeneralCountryListModel { GeneralCountryList = response.GeneralCountryList };
-            foreach (var item in list.GeneralCountryList)
+            foreach (var item in list.GeneralCountryList.OrderBy(x => x.CountryName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -796,7 +797,7 @@ namespace Coditech.Admin.Helpers
             GeneralCityListResponse response = new GeneralCityClient().GetCityByRegionWise(Convert.ToInt16(dropdownViewModel.Parameter));
             dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
             GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response?.GeneralCityList };
-            foreach (var item in list.GeneralCityList)
+            foreach (var item in list.GeneralCityList.OrderBy(x => x.CityName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -849,7 +850,7 @@ namespace Coditech.Admin.Helpers
 
             InventoryGeneralItemMasterListResponse response = new InventoryGeneralItemMasterClient().GetGeneralServicesList(dropdownViewModel.Parameter);
             InventoryGeneralItemMasterListModel list = new InventoryGeneralItemMasterListModel() { InventoryGeneralItemMasterList = response.InventoryGeneralItemMasterList };
-            foreach (var item in list?.InventoryGeneralItemMasterList)
+            foreach (var item in list?.InventoryGeneralItemMasterList.OrderBy(x => x.ItemName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -864,7 +865,7 @@ namespace Coditech.Admin.Helpers
             GeneralCityListResponse response = new GeneralCityClient().GetAllCities();
             dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
             GeneralCityListModel list = new GeneralCityListModel { GeneralCityList = response?.GeneralCityList };
-            foreach (var item in list.GeneralCityList)
+            foreach (var item in list.GeneralCityList.OrderBy(x => x.CityName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -890,7 +891,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select Category-------" });
 
             InventoryCategoryListModel list = new InventoryCategoryListModel { InventoryCategoryList = response.InventoryCategoryList };
-            foreach (var item in list.InventoryCategoryList)
+            foreach (var item in list.InventoryCategoryList.OrderBy(x => x.CategoryName))
             {
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.InventoryCategoryId == Convert.ToInt16(dropdownViewModel.Parameter))
                 {
@@ -914,7 +915,7 @@ namespace Coditech.Admin.Helpers
 
 
             HospitalPathologyTestGroupListModel list = new HospitalPathologyTestGroupListModel { HospitalPathologyTestGroupList = response.HospitalPathologyTestGroupList };
-            foreach (var item in list.HospitalPathologyTestGroupList)
+            foreach (var item in list.HospitalPathologyTestGroupList.OrderBy(x => x.PathologyTestGroupName))
             {
                 if (!string.IsNullOrEmpty(dropdownViewModel.Parameter) && Convert.ToInt16(dropdownViewModel.Parameter) > 0 && item.HospitalPathologyTestGroupId == Convert.ToInt16(dropdownViewModel.Parameter))
                 {
@@ -975,7 +976,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
 
             InventoryProductDimensionGroupListModel list = new InventoryProductDimensionGroupListModel { InventoryProductDimensionGroupList = response.InventoryProductDimensionGroupList };
-            foreach (var item in list.InventoryProductDimensionGroupList)
+            foreach (var item in list.InventoryProductDimensionGroupList.OrderBy(x => x.ProductDimensionGroupName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -995,7 +996,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
 
             InventoryStorageDimensionGroupListModel list = new InventoryStorageDimensionGroupListModel { InventoryStorageDimensionGroupList = response.InventoryStorageDimensionGroupList };
-            foreach (var item in list.InventoryStorageDimensionGroupList)
+            foreach (var item in list.InventoryStorageDimensionGroupList.OrderBy(x => x.StorageDimensionGroupName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1015,7 +1016,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
 
             InventoryItemTrackingDimensionGroupListModel list = new InventoryItemTrackingDimensionGroupListModel { InventoryItemTrackingDimensionGroupList = response.InventoryItemTrackingDimensionGroupList };
-            foreach (var item in list.InventoryItemTrackingDimensionGroupList)
+            foreach (var item in list.InventoryItemTrackingDimensionGroupList.OrderBy(x => x.ItemTrackingDimensionGroupName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1035,7 +1036,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
 
             InventoryItemGroupListModel list = new InventoryItemGroupListModel { InventoryItemGroupList = response.InventoryItemGroupList };
-            foreach (var item in list.InventoryItemGroupList)
+            foreach (var item in list.InventoryItemGroupList.OrderBy(x => x.ItemGroupName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1055,7 +1056,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
 
             InventoryUoMMasterListModel list = new InventoryUoMMasterListModel { InventoryUoMMasterList = response.InventoryUoMMasterList };
-            foreach (var item in list.InventoryUoMMasterList)
+            foreach (var item in list.InventoryUoMMasterList.OrderBy(x => x.UomDescription))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1079,7 +1080,7 @@ namespace Coditech.Admin.Helpers
                 short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
                 HospitalDoctorsListResponse response = new HospitalDoctorsClient().List(selectedCentreCode, selectedDepartmentId, true, null, null, null, 1, int.MaxValue);
                 HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
-                foreach (var item in list?.HospitalDoctorsList)
+                foreach (var item in list?.HospitalDoctorsList.OrderBy(x => x.FirstName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -1100,7 +1101,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
 
             HospitalPatientTypeListModel list = new HospitalPatientTypeListModel { HospitalPatientTypeList = response.HospitalPatientTypeList };
-            foreach (var item in list?.HospitalPatientTypeList)
+            foreach (var item in list?.HospitalPatientTypeList.OrderBy(x => x.PatientType))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1124,7 +1125,7 @@ namespace Coditech.Admin.Helpers
                 int medicalSpecializationEnumId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
                 HospitalDoctorsListResponse response = new HospitalPatientAppointmentClient().GetDoctorsByCentreCodeAndSpecialization(selectedCentreCode, medicalSpecializationEnumId);
                 HospitalDoctorsListModel list = new HospitalDoctorsListModel() { HospitalDoctorsList = response.HospitalDoctorsList };
-                foreach (var item in list?.HospitalDoctorsList)
+                foreach (var item in list?.HospitalDoctorsList.OrderBy(x => x.FirstName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -1145,7 +1146,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Value = "0", Text = "-------Select-------" });
 
             HospitalPatientAppointmentPurposeListModel list = new HospitalPatientAppointmentPurposeListModel { HospitalPatientAppointmentPurposeList = response.HospitalPatientAppointmentPurposeList };
-            foreach (var item in list?.HospitalPatientAppointmentPurposeList)
+            foreach (var item in list?.HospitalPatientAppointmentPurposeList.OrderBy(x => x.AppointmentPurpose))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1162,7 +1163,7 @@ namespace Coditech.Admin.Helpers
             dropdownList.Add(new SelectListItem() { Text = "-------Select Pathology Test Group-------" });
 
             HospitalPathologyTestGroupListModel list = new HospitalPathologyTestGroupListModel { HospitalPathologyTestGroupList = response.HospitalPathologyTestGroupList };
-            foreach (var item in list.HospitalPathologyTestGroupList)
+            foreach (var item in list.HospitalPathologyTestGroupList.OrderBy(x => x.PathologyTestGroupName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1193,7 +1194,7 @@ namespace Coditech.Admin.Helpers
 
                 HospitalPathologyTestPricesListResponse response = new HospitalPathologyTestPricesClient().List(hospitalPathologyPriceCategoryEnumId, null, filters, null, 1, int.MaxValue);
                 HospitalPathologyTestPricesListModel list = new HospitalPathologyTestPricesListModel() { HospitalPathologyTestPricesList = response.HospitalPathologyTestPricesList };
-                foreach (var item in list?.HospitalPathologyTestPricesList)
+                foreach (var item in list?.HospitalPathologyTestPricesList.OrderBy(x => x.PathologyTestName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -1228,7 +1229,7 @@ namespace Coditech.Admin.Helpers
                 //short selectedDepartmentId = Convert.ToInt16(dropdownViewModel.Parameter.Split("~")[1]);
                 HospitalPatientRegistrationListResponse response = new HospitalPatientRegistrationClient().List(selectedCentreCode, null, null, null, 1, int.MaxValue);
                 HospitalPatientRegistrationListModel list = new HospitalPatientRegistrationListModel() { HospitalPatientRegistrationList = response.HospitalPatientRegistrationList };
-                foreach (var item in list?.HospitalPatientRegistrationList)
+                foreach (var item in list?.HospitalPatientRegistrationList.OrderBy(x => x.FirstName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -1304,7 +1305,7 @@ namespace Coditech.Admin.Helpers
                 bool isAssociated = Convert.ToBoolean(dropdownViewModel.Parameter.Split("~")[4]);
                 GeneralTraineeAssociatedToTrainerListResponse response = new GeneralTrainerClient().GetAssociatedTrainerList(selectedCentreCode, selectedDepartmentId, isAssociated, entityId, userType, 0, null, null, null, 1, int.MaxValue);
                 GeneralTraineeAssociatedToTrainerListModel list = new GeneralTraineeAssociatedToTrainerListModel() { AssociatedTrainerList = response.AssociatedTrainerList };
-                foreach (var item in list?.AssociatedTrainerList)
+                foreach (var item in list?.AssociatedTrainerList.OrderBy(x => x.FirstName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -1356,7 +1357,7 @@ namespace Coditech.Admin.Helpers
                 AccSetupBalanceSheetListResponse response = new AccSetupBalanceSheetClient().List(selectedCentreCode, accSetupBalanceSheetTypeId, null, null, null, 1, int.MaxValue);
                 AccSetupBalanceSheetListModel list = new AccSetupBalanceSheetListModel() { AccSetupBalanceSheetList = response.AccSetupBalanceSheetList };
 
-                foreach (var item in list?.AccSetupBalanceSheetList)
+                foreach (var item in list?.AccSetupBalanceSheetList.OrderBy(x => x.AccBalancesheetHeadDesc))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -1386,7 +1387,7 @@ namespace Coditech.Admin.Helpers
         }
 
         private static void GetBatchSchedulerWeeksList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {         
+        {
             string[] selectedValues = !string.IsNullOrEmpty(dropdownViewModel.DropdownSelectedValue)
         ? dropdownViewModel.DropdownSelectedValue.Split(',')
         : new string[] { };
@@ -1408,7 +1409,7 @@ namespace Coditech.Admin.Helpers
 
             AccSetupGLTypeListModel list = new AccSetupGLTypeListModel() { AccSetupGLTypeList = response.AccSetupGLTypeList };
             dropdownList.Add(new SelectListItem() { Text = "-------AccSetup GL Type-------" });
-            foreach (var item in list?.AccSetupGLTypeList)
+            foreach (var item in list?.AccSetupGLTypeList.OrderBy(x => x.Name))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1426,7 +1427,7 @@ namespace Coditech.Admin.Helpers
             AccSetupTransactionTypeListModel list = new AccSetupTransactionTypeListModel() { AccSetupTransactionTypeList = response.AccSetupTransactionTypeList };
 
             dropdownList.Add(new SelectListItem() { Text = "-------Transaction Type-------" });
-            foreach (var item in list?.AccSetupTransactionTypeList)
+            foreach (var item in list?.AccSetupTransactionTypeList.OrderBy(x => x.TransactionTypeName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1441,7 +1442,7 @@ namespace Coditech.Admin.Helpers
             List<UserBalanceSheetModel> BalanceSheetList = BindAccountBalanceSheetIdByCentreCodeList();
             dropdownList.Add(new SelectListItem() { Text = "-------Select Balancesheet-------", Value = "" });
 
-            foreach (var item in BalanceSheetList)
+            foreach (var item in BalanceSheetList.OrderBy(x => x.AccBalancesheetHeadDesc))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1480,7 +1481,7 @@ namespace Coditech.Admin.Helpers
         {
             UserTypeListResponse response = new UserClient().GetUserTypeList();
             dropdownList.Add(new SelectListItem() { Text = "-------Select-------", Value = "" });
-            foreach (var item in response?.TypeList)
+            foreach (var item in response?.TypeList.OrderBy(x => x.UserDescription))
             {
                 if (dropdownViewModel.ExcludedValues != null && dropdownViewModel.ExcludedValues.Any(x => x.Contains(item.UserTypeCode)))
                 {
@@ -1501,7 +1502,7 @@ namespace Coditech.Admin.Helpers
             InventoryCategoryTypeListResponse response = new InventoryCategoryTypeClient().List(null, null, null, 1, int.MaxValue);
             InventoryCategoryTypeListModel list = new InventoryCategoryTypeListModel() { InventoryCategoryTypeList = response.InventoryCategoryTypeList };
             dropdownList.Add(new SelectListItem() { Text = "-------Select Inventory Category Type-------" });
-            foreach (var item in list?.InventoryCategoryTypeList)
+            foreach (var item in list?.InventoryCategoryTypeList.OrderBy(x => x.CategoryTypeName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1519,7 +1520,7 @@ namespace Coditech.Admin.Helpers
                 dropdownList.Add(new SelectListItem() { Text = "-------Select Currency-------" });
 
             GeneralCurrencyMasterListModel list = new GeneralCurrencyMasterListModel { GeneralCurrencyMasterList = response?.GeneralCurrencyMasterList };
-            foreach (var item in list.GeneralCurrencyMasterList)
+            foreach (var item in list.GeneralCurrencyMasterList.OrderBy(x => x.CurrencyName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
@@ -1540,7 +1541,7 @@ namespace Coditech.Admin.Helpers
                 AccSetupCategoryListResponse response = new AccSetupCategoryClient().GetAccSetupCategory();
                 AccSetupCategoryListModel list = new AccSetupCategoryListModel() { AccSetupCategoryList = response.AccSetupCategoryList };
 
-                foreach (var item in list?.AccSetupCategoryList)
+                foreach (var item in list?.AccSetupCategoryList.OrderBy(x => x.CategoryName))
                 {
                     dropdownList.Add(new SelectListItem()
                     {
