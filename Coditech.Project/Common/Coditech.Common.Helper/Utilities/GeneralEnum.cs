@@ -95,7 +95,8 @@
         UserTypeList,
         Currency,
         InventoryCategoryType,
-        AccSetupCategory, 
+        AccSetupCategory,
+        OrganisationJoiningCodeType,
     }
 
     public enum GeneralSystemGlobleSettingEnum

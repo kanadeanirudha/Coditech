@@ -1,9 +1,11 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 namespace Coditech.Admin.Controllers
 {
     public class OrganisationCentrewiseJoiningCodeController : BaseController
@@ -14,14 +16,23 @@ namespace Coditech.Admin.Controllers
         {
             _oganisationCentrewiseJoiningCodeAgent = oganisationCentrewiseJoiningCodeAgent;
         }
+       
+
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             OrganisationCentrewiseJoiningCodeListViewModel list = new OrganisationCentrewiseJoiningCodeListViewModel();
             GetListOnlyIfSingleCentre(dataTableModel);
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
             {
+                if (string.IsNullOrEmpty(dataTableModel.SelectedParameter1))
+                {
+                    dataTableModel.SelectedParameter1 = "0";
+                }
                 list = _oganisationCentrewiseJoiningCodeAgent.GetOrganisationCentrewiseJoiningCodeList(dataTableModel);
             }
+
+            list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
+            list.SelectedParameter1 = dataTableModel.SelectedParameter1;
 
             if (AjaxHelper.IsAjaxRequest)
             {
@@ -29,7 +40,7 @@ namespace Coditech.Admin.Controllers
             }
             return View($"~/Views/Organisation/OrganisationCentrewiseJoiningCode/List.cshtml", list);
         }
-       
+
         [HttpGet]
         public virtual ActionResult Create()
         {
@@ -65,7 +76,7 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public ActionResult GetOrganisationCentrewiseJoiningCodeSend(string joiningCode, string sendOTPOn, string mobileNumber = null, string callingCode = null, string emailId = null)
         {
-           
+
             OrganisationCentrewiseJoiningCodeViewModel organisationCentrewiseJoiningCodeViewModel = new()
             {
 
@@ -81,7 +92,7 @@ namespace Coditech.Admin.Controllers
             {
                 SetNotificationMessage(GetSuccessNotificationMessage("Your Joining Code has been sent successfully."));
                 return Json(new { success = true, centreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
-               
+
             }
             SetNotificationMessage(GetErrorNotificationMessage("Failed to Send Joining Code."));
             return Json(new { success = false, centreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
