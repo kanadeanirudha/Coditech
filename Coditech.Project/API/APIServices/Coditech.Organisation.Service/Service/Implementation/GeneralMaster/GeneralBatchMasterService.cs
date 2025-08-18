@@ -52,10 +52,13 @@ namespace Coditech.API.Service
         {
             if (IsNull(generalBatchModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            
+
             GeneralBatchMaster generalBatchMaster = generalBatchModel.FromModelToEntity<GeneralBatchMaster>();
             generalBatchMaster.WeekDays = generalBatchModel.BatchFrequency == "Weekly" && generalBatchModel.SelectedWeekDays != null && generalBatchModel.SelectedWeekDays.Any() ? string.Join(",", generalBatchModel.SelectedWeekDays) : "";
-
+            if (generalBatchModel.BatchFrequency == SchedulerFrequencyEnum.OneTime.ToString())
+            {
+                generalBatchMaster.BatchStartDate = generalBatchModel.BatchExpireDate;
+            }
             //Create new GeneralBatchMaster and return it.
             GeneralBatchMaster generalBatchData = _generalBatchMasterRepository.Insert(generalBatchMaster);
             if (generalBatchData?.GeneralBatchMasterId > 0)
@@ -98,7 +101,10 @@ namespace Coditech.API.Service
 
             GeneralBatchMaster generalBatchMaster = generalBatchModel.FromModelToEntity<GeneralBatchMaster>();
             generalBatchMaster.WeekDays = generalBatchModel.BatchFrequency == "Weekly" && generalBatchModel.SelectedWeekDays != null && generalBatchModel.SelectedWeekDays.Any() ? string.Join(",", generalBatchModel.SelectedWeekDays) : "";
-
+            if (generalBatchModel.BatchFrequency == SchedulerFrequencyEnum.OneTime.ToString())
+            {
+                generalBatchMaster.BatchStartDate = generalBatchModel.BatchExpireDate;
+            }
             //Update GeneralBatchMaster
             bool isGeneralBatchUpdated = _generalBatchMasterRepository.Update(generalBatchMaster);
             if (!isGeneralBatchUpdated)
@@ -161,24 +167,24 @@ namespace Coditech.API.Service
             bool isAssociateUnAssociateBatchwiseUser = false;
 
             GeneralBatchUser generalBatchUser = new GeneralBatchUser();
-            if (generalBatchUserModel.GeneralBatchUserId > 0)  
+            if (generalBatchUserModel.GeneralBatchUserId > 0)
             {
-                generalBatchUser = _generalBatchUserRepository.Table.Where(x=>x.GeneralBatchUserId == generalBatchUserModel.GeneralBatchUserId)?.FirstOrDefault();
+                generalBatchUser = _generalBatchUserRepository.Table.Where(x => x.GeneralBatchUserId == generalBatchUserModel.GeneralBatchUserId)?.FirstOrDefault();
                 isAssociateUnAssociateBatchwiseUser = _generalBatchUserRepository.Delete(generalBatchUser);
             }
-            else  
+            else
             {
-                 generalBatchUser =generalBatchUserModel.FromModelToEntity<GeneralBatchUser>();
-                 generalBatchUser = _generalBatchUserRepository.Insert(generalBatchUser);
+                generalBatchUser = generalBatchUserModel.FromModelToEntity<GeneralBatchUser>();
+                generalBatchUser = _generalBatchUserRepository.Insert(generalBatchUser);
                 isAssociateUnAssociateBatchwiseUser = generalBatchUser.GeneralBatchUserId > 0;
             }
 
             if (!isAssociateUnAssociateBatchwiseUser)
             {
                 generalBatchUserModel.HasError = true;
-                generalBatchUserModel.ErrorMessage = GeneralResources.UpdateErrorMessage;  
+                generalBatchUserModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
-            return isAssociateUnAssociateBatchwiseUser;  
+            return isAssociateUnAssociateBatchwiseUser;
         }
         #endregion
     }
