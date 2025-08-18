@@ -123,7 +123,7 @@
                 },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    $("#OrganisationCentrewiseJoiningCodeDivId").html("").html(data);
+                    $("#DataTablesDivId").html("").html(data);
                     CoditechCommon.HideLodder();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
