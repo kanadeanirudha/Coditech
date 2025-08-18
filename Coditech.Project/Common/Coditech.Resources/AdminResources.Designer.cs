@@ -965,7 +965,17 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCentre", resourceCulture);
             }
         }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to City List.
+        /// </summary>
+        public static string LabelJoiningCodeTypeList
+        {
+            get
+            {
+                return ResourceManager.GetString("JoiningCodeTypeList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to City List.
         /// </summary>

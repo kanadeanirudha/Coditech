@@ -13,5 +13,8 @@ namespace Coditech.Admin.ViewModel
 
         [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
         public string SelectedCentreCode { get; set; }
+        public int JoiningCodeTypeEnumId { get; set; }
+        public string SelectedParameter1 { get; set; }
+
     }
 }
