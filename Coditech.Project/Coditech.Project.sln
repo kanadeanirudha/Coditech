@@ -62,7 +62,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Organisation.Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Payment.Service", "API\APIServices\Coditech.Payment.Service\Coditech.Payment.Service.csproj", "{82850BCE-D792-4E9C-BFD3-85E6201DC0B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Hangfire", "Common\Coditech.Hangfire\Coditech.Hangfire.csproj", "{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Hangfire", "Common\Coditech.Hangfire\Coditech.Hangfire.csproj", "{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.XUnitTestCase", "Coditech.XUnitTestCase\Coditech.XUnitTestCase.csproj", "{B596D213-4CB8-409B-9FBF-17B0ED87A628}"
 EndProject

@@ -33,10 +33,12 @@ namespace Coditech.Admin.Agents
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
+            filters.Add(FilterKeys.JoiningCodeTypeEnumId, ProcedureFilterOperators.Equals, dataTableModel.SelectedParameter1);
 
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters.Add("JoiningCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("JoiningCodeType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "IsExpired" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -123,6 +125,12 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Joining Code",
                 ColumnCode = "JoiningCode",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Joining Code Type ",
+                ColumnCode = "JoiningCodeType",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()

@@ -11,6 +11,7 @@ namespace Coditech.API.Data
         public string JoiningCode { get; set; }
         public int Quantity { get; set; }
         public bool IsExpired { get; set; }
+        public int JoiningCodeTypeEnumId { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

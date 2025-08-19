@@ -108,13 +108,19 @@ namespace Coditech.Admin.Helpers
         }
         public static string ToCoditech24HourTimeFormat(this TimeSpan? time)
         {
-            string timeformat = time == null ? "" : new TimeOnly(time.Value.Hours, time.Value.Minutes, time.Value.Seconds).ToString("HH:mm");
+            if (time == null)
+                return "";
+            int hours = time.Value.Hours;
+            int minutes = time.Value.Minutes;
+            string timeformat = $"{(hours > 0 ? hours.ToString("00") + "H " : "")}{minutes.ToString("00") + "M"}";
             return timeformat;
         }
         public static string ToCoditech24HourTimeFormat(this TimeSpan time)
         {
-            string timeformat = new TimeOnly(time.Hours, time.Minutes, time.Seconds).ToString("HH:mm");
-            return timeformat;
+            int hours = time.Hours;
+            int minutes = time.Minutes;
+            string timeformat = $"{(hours > 0 ? hours.ToString("00") + "H " : "")}{minutes.ToString("00") + "M"}";
+            return timeformat.Trim();
         }
         public static int GetSelectedBalanceSheetId()
         {
