@@ -196,6 +196,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@$!%*?&amp;#).
+        /// </summary>
+        public static string PasswordRulesTooltip {
+            get {
+                return ResourceManager.GetString("PasswordRulesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Record added successfully..
         /// </summary>
         public static string RecordAddedSuccessMessage {

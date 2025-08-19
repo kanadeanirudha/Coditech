@@ -71,9 +71,11 @@ namespace Coditech.API.Service
                 {
                     JoiningCode = GenerateAlphaNumericCode(ApiSettings.JoiningCodeLength),
                     Quantity = 1,
-                    CentreCode = organisationCentrewiseJoiningCodeModel.CentreCode
+                    CentreCode = organisationCentrewiseJoiningCodeModel.CentreCode,
+                    JoiningCodeTypeEnumId = organisationCentrewiseJoiningCodeModel.JoiningCodeTypeEnumId
                 });
             }
+            
             _organisationCentrewiseJoiningCodeRepository.Insert(insertList);
             return organisationCentrewiseJoiningCodeModel;
         }
