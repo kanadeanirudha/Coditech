@@ -57,7 +57,7 @@ namespace Coditech.API.Service
             generalBatchMaster.WeekDays = generalBatchModel.BatchFrequency == "Weekly" && generalBatchModel.SelectedWeekDays != null && generalBatchModel.SelectedWeekDays.Any() ? string.Join(",", generalBatchModel.SelectedWeekDays) : "";
             if (generalBatchModel.BatchFrequency == SchedulerFrequencyEnum.OneTime.ToString())
             {
-                generalBatchMaster.BatchStartDate = generalBatchModel.BatchExpireDate;
+                generalBatchMaster.BatchExpireDate = generalBatchModel.BatchStartDate;
             }
             //Create new GeneralBatchMaster and return it.
             GeneralBatchMaster generalBatchData = _generalBatchMasterRepository.Insert(generalBatchMaster);
@@ -103,7 +103,7 @@ namespace Coditech.API.Service
             generalBatchMaster.WeekDays = generalBatchModel.BatchFrequency == "Weekly" && generalBatchModel.SelectedWeekDays != null && generalBatchModel.SelectedWeekDays.Any() ? string.Join(",", generalBatchModel.SelectedWeekDays) : "";
             if (generalBatchModel.BatchFrequency == SchedulerFrequencyEnum.OneTime.ToString())
             {
-                generalBatchMaster.BatchStartDate = generalBatchModel.BatchExpireDate;
+                generalBatchMaster.BatchExpireDate = generalBatchModel.BatchStartDate;
             }
             //Update GeneralBatchMaster
             bool isGeneralBatchUpdated = _generalBatchMasterRepository.Update(generalBatchMaster);

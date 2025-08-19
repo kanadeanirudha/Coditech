@@ -38,7 +38,7 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters.Add("JoiningCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("JoiningCodeType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                //filters.Add("JoiningCodeType", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "IsExpired" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -125,19 +125,19 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Joining Code",
                 ColumnCode = "JoiningCode",
-                IsSortable = true,
+                IsSortable = false,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Joining Code Type ",
                 ColumnCode = "JoiningCodeType",
-                IsSortable = true,
+                IsSortable = false,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Active Joining Code",
                 ColumnCode = "IsExpired",
-                IsSortable = true,
+                IsSortable = false,
             });
             return datatableColumnList;
         }
