@@ -11,8 +11,7 @@ namespace Coditech.Common.API.Model
         public string BatchName { get; set; }
         [Required]
         public DateTime BatchStartDate { get; set; }
-        [Required]
-        public DateTime BatchExpireDate { get; set; }
+        public DateTime? BatchExpireDate { get; set; }
         [Required]
         public TimeSpan BatchStartTime { get; set; }
         public string BatchFrequency { get; set; }
