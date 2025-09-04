@@ -24,6 +24,12 @@ namespace Coditech.API.Data
             return userId;
         }
 
+        public static void AddLoginUserId(long userId)
+        {
+            if (HttpContextHelper.Request != null && userId > 0)
+                HttpContextHelper.Request.Headers["LoginAsUserId"] = userId.ToString();
+        }
+
         public static bool IsUserWantToDebugSql
         {
             get
