@@ -282,4 +282,13 @@
         General,
         Centrewise
     }
+    public enum PopUpSizeEnum
+    {
+        Default = 0,
+        Small,
+        Large,
+        ExtraLarge,
+        CenterPopUp,
+        ScrollablePopUp
+    }
 }
