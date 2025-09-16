@@ -3,22 +3,11 @@
     "Name": "New Profile",
     "Projects": [
       {
-        "Name": "Admin\\Coditech.Admin\\Coditech.Engine.Admin.csproj",
-        "Action": "Start",
-        "DebugTarget": ""
+        "Path": "Admin\\Coditech.Admin\\Coditech.Engine.Admin.csproj",
+        "Action": "Start"
       },
       {
-        "Name": "API\\Coditech.Engine.Organisation\\Coditech.Engine.Organisation.csproj",
-        "Action": "Start",
-        "DebugTarget": ""
-      },
-      {
-        "Name": "API\\Coditech.Engine.User\\Coditech.Engine.User.csproj",
-        "Action": "Start",
-        "DebugTarget": ""
-      },
-      {
-        "Name": "API\\Coditech.Engine.Employee\\Coditech.Engine.Employee.csproj",
+        "Path": "API\\Coditech.Engine.Organisation\\Coditech.Engine.Organisation.csproj",
         "Action": "Start"
       }
     ]

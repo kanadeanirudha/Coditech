@@ -965,7 +965,17 @@ namespace Coditech.Resources {
                 return ResourceManager.GetString("LabelCentre", resourceCulture);
             }
         }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to City List.
+        /// </summary>
+        public static string LabelJoiningCodeTypeList
+        {
+            get
+            {
+                return ResourceManager.GetString("JoiningCodeTypeList", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to City List.
         /// </summary>
@@ -1416,6 +1426,17 @@ namespace Coditech.Resources {
         public static string LabelWhatsAppProviderList {
             get {
                 return ResourceManager.GetString("LabelWhatsAppProviderList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to Delete DBTM Graph Master due to associate record..
+        /// </summary>
+        public static string ErrorDeleteDBTMGraphMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteDBTMGraphMaster", resourceCulture);
             }
         }
     }

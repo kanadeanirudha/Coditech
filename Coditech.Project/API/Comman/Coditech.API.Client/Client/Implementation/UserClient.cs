@@ -3,11 +3,8 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
-
 using Newtonsoft.Json;
-
 using System.Net;
-
 namespace Coditech.API.Client
 {
     public partial class UserClient : BaseClient, IUserClient
@@ -469,7 +466,7 @@ namespace Coditech.API.Client
             return Task.Run(async () => await GetPersonInformationAsync(personId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        
+
         public virtual async Task<GeneralPersonResponse> GetPersonInformationAsync(long personId, System.Threading.CancellationToken cancellationToken)
         {
             if (personId <= 0)
@@ -669,12 +666,12 @@ namespace Coditech.API.Client
 
         public virtual UserTypeListResponse GetUserTypeList()
         {
-            return Task.Run(async () => await GetUserTypeListAsync( System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetUserTypeListAsync(System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
 
         public virtual async Task<UserTypeListResponse> GetUserTypeListAsync(System.Threading.CancellationToken cancellationToken)
         {
-            
+
             string endpoint = userEndpoint.GetUserTypeListAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
@@ -756,6 +753,106 @@ namespace Coditech.API.Client
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        public virtual UserProfileResponse GetUserProfile(long userMasterId, string userType)
+        {
+            return Task.Run(async () => await GetUserProfileAsync(userMasterId, userType, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<UserProfileResponse> GetUserProfileAsync(long userMasterId, string userType, System.Threading.CancellationToken cancellationToken)
+        {
+            if (userMasterId <= 0)
+                throw new System.ArgumentNullException("userMasterId");
+
+            string endpoint = userEndpoint.GetUserProfileAsync(userMasterId, userType);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<UserProfileResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new UserProfileResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    UserProfileResponse typedBody = JsonConvert.DeserializeObject<UserProfileResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        public virtual UserProfileResponse UpdateUserProfile(UserProfileModel body)
+        {
+            return Task.Run(async () => await UpdateUserProfileAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<UserProfileResponse> UpdateUserProfileAsync(UserProfileModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = userEndpoint.UpdateUserProfileAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<UserProfileResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<UserProfileResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    UserProfileResponse typedBody = JsonConvert.DeserializeObject<UserProfileResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
             }
             finally
             {

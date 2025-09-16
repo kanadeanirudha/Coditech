@@ -13,13 +13,11 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IGeneralBatchAgent _generalBatchAgent;
         private const string createEditBatch = "~/Views/GeneralMaster/GeneralBatchMaster/CreateEditGeneralBatch.cshtml";
-        private const string createEditTaskScheduler = "~/Views/GeneralMaster/GeneralBatchMaster/CreateEditTaskScheduler.cshtml";
 
         public GeneralBatchMasterController(IGeneralBatchAgent generalBatchAgent)
         {
             _generalBatchAgent = generalBatchAgent;
         }
-
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralBatchListViewModel list = new GeneralBatchListViewModel();
@@ -39,7 +37,9 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
-            return View(createEditBatch, new GeneralBatchViewModel());
+            GeneralBatchViewModel generalBatchViewModel = new GeneralBatchViewModel();
+            BindDropdown(generalBatchViewModel);
+            return View(createEditBatch, generalBatchViewModel);
         }
 
         [HttpPost]
@@ -47,6 +47,7 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                BindDuration(generalBatchViewModel);
                 generalBatchViewModel = _generalBatchAgent.CreateGeneralBatch(generalBatchViewModel);
                 if (!generalBatchViewModel.HasError)
                 {
@@ -54,6 +55,7 @@ namespace Coditech.Admin.Controllers
                     return RedirectToAction("List", new { selectedCentreCode = generalBatchViewModel.CentreCode });
                 }
             }
+            BindDropdown(generalBatchViewModel);
             SetNotificationMessage(GetErrorNotificationMessage(generalBatchViewModel.ErrorMessage));
             return View(createEditBatch, generalBatchViewModel);
         }
@@ -62,6 +64,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult UpdateGeneralBatch(int generalBatchMasterId)
         {
             GeneralBatchViewModel generalBatchViewModel = _generalBatchAgent.GetGeneralBatch(generalBatchMasterId);
+            BindDropdown(generalBatchViewModel);
             return ActionView(createEditBatch, generalBatchViewModel);
         }
 
@@ -70,11 +73,13 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                BindDuration(generalBatchViewModel);
                 SetNotificationMessage(_generalBatchAgent.UpdateGeneralBatch(generalBatchViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 return RedirectToAction("UpdateGeneralBatch", new { generalBatchMasterId = generalBatchViewModel.GeneralBatchMasterId });
             }
+            BindDropdown(generalBatchViewModel);
             return View(createEditBatch, generalBatchViewModel);
         }
 
@@ -86,11 +91,10 @@ namespace Coditech.Admin.Controllers
             {
                 status = _generalBatchAgent.DeleteGeneralBatch(generalBatchMasterIds, out message);
                 SetNotificationMessage(!status
-                ? GetErrorNotificationMessage(string.IsNullOrEmpty(message) ? GeneralResources.DeleteErrorMessage: message)
+                ? GetErrorNotificationMessage(string.IsNullOrEmpty(message) ? GeneralResources.DeleteErrorMessage : message)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
                 return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
             }
-
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = selectedCentreCode });
         }
@@ -104,7 +108,6 @@ namespace Coditech.Admin.Controllers
             }
             list.SelectedParameter1 = dataTableViewModel.SelectedParameter1;
             list.SelectedParameter2 = dataTableViewModel.SelectedParameter2;
-
             return View($"~/Views/GeneralMaster/GeneralBatchMaster/GeneralBatchUser/AssociatedBatchList.cshtml", list);
         }
 
@@ -123,63 +126,41 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("GetGeneralBatchUserList", new DataTableViewModel { SelectedParameter1 = generalBatchUserViewModel.GeneralBatchMasterId.ToString(), SelectedParameter2 = generalBatchUserViewModel.UserType });
         }
 
+        #region 
         public virtual ActionResult Cancel(string SelectedCentreCode)
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode };
             return RedirectToAction("List", dataTableViewModel);
         }
-
-        #region TaskScheduler
-        [HttpPost]
-        public virtual ActionResult CreateBatchTaskScheduler(TaskSchedulerViewModel taskSchedulerViewModel)
+        protected void BindDuration(GeneralBatchViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!string.IsNullOrEmpty(model.DurationHours) && !string.IsNullOrEmpty(model.DurationMinutes))
             {
-                taskSchedulerViewModel = _generalBatchAgent.CreateBatchTaskScheduler(taskSchedulerViewModel);
-                if (!taskSchedulerViewModel.HasError)
+                string durationString = $"{model.DurationHours}:{model.DurationMinutes}:00";
+                if (TimeSpan.TryParse(durationString, out var duration))
                 {
-                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("GetBatchTaskSchedulerDetails", new { configuratorId = taskSchedulerViewModel.ConfiguratorId });
+                    model.Duration = duration;
                 }
             }
-            SetNotificationMessage(GetErrorNotificationMessage(taskSchedulerViewModel.ErrorMessage));
-            return View(createEditTaskScheduler, taskSchedulerViewModel);
         }
-
-        [HttpGet]
-        public virtual ActionResult GetBatchTaskSchedulerDetails(int configuratorId)
+        protected void BindFrequency(GeneralBatchViewModel generalBatchViewModel)
         {
-            TaskSchedulerViewModel taskSchedulerViewModel = _generalBatchAgent.GetBatchTaskSchedulerDetails(configuratorId);
-
-            taskSchedulerViewModel.SelectedWeekDays = !string.IsNullOrEmpty(taskSchedulerViewModel.WeekDays) ? taskSchedulerViewModel.WeekDays.Split(',').ToList() : new List<string>();
-
-            taskSchedulerViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
+            generalBatchViewModel.SelectedWeekDays = !string.IsNullOrEmpty(generalBatchViewModel.WeekDays) ? generalBatchViewModel.WeekDays.Split(',').ToList() : new List<string>();
+            generalBatchViewModel.SchedulerWeekDaysList = CoditechDropdownHelper.GeneralDropdownList(new DropdownViewModel()
             {
                 DropdownType = DropdownTypeEnum.SchedulerWeeks.ToString(),
-                DropdownSelectedValue = taskSchedulerViewModel.WeekDays
+                DropdownSelectedValue = generalBatchViewModel.WeekDays
             }).DropdownList;
-
-            if (string.IsNullOrEmpty(taskSchedulerViewModel.SchedulerFrequency))
+            if (string.IsNullOrEmpty(generalBatchViewModel.BatchFrequency))
             {
-                taskSchedulerViewModel.SchedulerFrequency = SchedulerFrequencyEnum.OneTime.ToString();
+                generalBatchViewModel.BatchFrequency = SchedulerFrequencyEnum.Daily.ToString();
             }
-            return ActionView(createEditTaskScheduler, taskSchedulerViewModel);
         }
-
-        [HttpPost]
-        public virtual ActionResult UpdateBatchTaskSchedulerDetails(TaskSchedulerViewModel taskSchedulerViewModel)
+        protected void BindDropdown(GeneralBatchViewModel generalBatchViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                SetNotificationMessage(_generalBatchAgent.UpdateBatchTaskSchedulerDetails(taskSchedulerViewModel).HasError
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetBatchTaskSchedulerDetails", new { configuratorId = taskSchedulerViewModel.ConfiguratorId });
-            }
-            return View(createEditTaskScheduler, taskSchedulerViewModel);
+            BindFrequency(generalBatchViewModel);
         }
         #endregion
-
     }
 }
 

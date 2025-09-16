@@ -166,7 +166,7 @@ namespace Coditech.Admin.Controllers
             return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
         }
         [HttpGet]
-        public virtual ActionResult SendTestEmailModel(string centreCode, int organisationCentreMasterId)
+        public virtual ActionResult SendTestEmail(string centreCode, int organisationCentreMasterId)
         {
             OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel = new OrganisationCentrewiseSmtpSettingSendTestEmailViewModel()
             {
@@ -177,14 +177,14 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendTestEmailModel(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
+        public ActionResult SendTestEmail(OrganisationCentrewiseSmtpSettingSendTestEmailViewModel organisationCentrewiseSmtpSettingSendTestEmailViewModel)
         {
             int OrganisationCentreMasterId = organisationCentrewiseSmtpSettingSendTestEmailViewModel.OrganisationCentreMasterId;
             ModelState.Remove("Message");
             ModelState.Remove("MobileNumber");
             if (ModelState.IsValid)
             {
-                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestModal(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestSetting(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
                 if (!organisationCentrewiseSmtpSettingSendTestEmailViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage("Test email sent successfully."));
@@ -242,7 +242,7 @@ namespace Coditech.Admin.Controllers
             ModelState.Remove("Body");
             if (ModelState.IsValid)
             {
-                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestModal(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestSetting(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
                 if (!organisationCentrewiseSmtpSettingSendTestEmailViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage("Test SMS sent successfully."));
@@ -303,7 +303,7 @@ namespace Coditech.Admin.Controllers
             ModelState.Remove("Body");
             if (ModelState.IsValid)
             {
-                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestModal(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
+                organisationCentrewiseSmtpSettingSendTestEmailViewModel = _organisationCentreAgent.SendTestSetting(organisationCentrewiseSmtpSettingSendTestEmailViewModel);
                 if (!organisationCentrewiseSmtpSettingSendTestEmailViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage("Test whatsApp mesage sent successfully."));

@@ -14,5 +14,8 @@ namespace Coditech.Common.API.Model
         public int TotalJoiningCodeCount { get; set; }
         public int ActiveJoiningCodeCount { get; set; }
         public int ExpireJoiningCodeCount { get; set; }
+        public int JoiningCodeTypeEnumId { get; set; }
+        public string JoiningCodeType { get; set; }
+
     }
 }

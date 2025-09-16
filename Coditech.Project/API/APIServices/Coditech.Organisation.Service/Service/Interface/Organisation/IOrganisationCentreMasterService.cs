@@ -30,7 +30,7 @@ namespace Coditech.API.Service
         OrganisationCentrewiseEmailTemplateModel GetCentrewiseWhatsAppTemplateSetup(int organisationCentreMasterId, string emailTemplateCode);
         bool UpdateCentrewiseWhatsAppTemplateSetup(OrganisationCentrewiseEmailTemplateModel model);
         bool IsCentreNameAlreadyExist(string centreName);
-        OrganisationCentrewiseSmtpSettingSendTestEmailModel SendTestModal(OrganisationCentrewiseSmtpSettingSendTestEmailModel model);
+        OrganisationCentrewiseSmtpSettingSendTestEmailModel SendTestSetting(OrganisationCentrewiseSmtpSettingSendTestEmailModel model);
 
     }
 }

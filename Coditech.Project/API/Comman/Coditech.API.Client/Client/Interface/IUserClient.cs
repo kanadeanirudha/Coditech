@@ -1,7 +1,6 @@
 ﻿using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
-
 namespace Coditech.API.Client
 {
     public interface IUserClient : IBaseClient
@@ -90,5 +89,13 @@ namespace Coditech.API.Client
         /// <param name="userName">userName</param>
         /// <returns>Returns UserModel.</returns>
         UserModel GetUserDetailByUserName(string userName);
+        UserProfileResponse GetUserProfile(long userMasterId, string userType);
+
+        /// <summary>
+        ///Update UserProfile
+        /// </summary>
+        /// <param name="UserProfileModel">UserProfileModel.</param>
+        /// <returns>Returns UserProfileResponse.</returns>
+        UserProfileResponse UpdateUserProfile(UserProfileModel body);
     }
 }

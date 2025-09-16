@@ -29,7 +29,7 @@ namespace Coditech.Admin.Helpers
 
 
         //Get the Login User Details based on the user name. To bind user id in Api request.
-        public static UserModel GetUserDetails()
+        public static UserModel GetUserDetails(string userId = null)
         {
             UserModel model = null;
             try
@@ -43,7 +43,7 @@ namespace Coditech.Admin.Helpers
                         //Get the User Details. 
                         //Don't Use the Agent here, it will cause the infinite looping. As this method gets called from the BaseAgent.
                         UserClient client = new UserClient();
-                         model = client.GetUserDetailByUserName(HttpContextHelper.Current.User.Identity.Name);
+                        model = client.GetUserDetailByUserName(userId ?? HttpContextHelper.Current.User.Identity.Name);
 
                         if (!Equals(model, null))
                         {

@@ -9,14 +9,10 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
 using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
-
 namespace Coditech.Admin.Agents
 {
     public class UserAgent : BaseAgent, IUserAgent
@@ -218,6 +214,43 @@ namespace Coditech.Admin.Agents
             UserTypeListModel userTypeListModel = new UserTypeListModel() { TypeList = response?.TypeList };
             return userTypeListModel;
 
+        }
+        #endregion
+        #region UserProfile
+        public virtual UserProfileViewModel GetUserProfile()
+        {
+            long userMasterId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserMasterId ?? 0;
+            string userType = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.UserType;
+
+            UserProfileResponse response = _userClient.GetUserProfile(userMasterId, userType);
+            return response?.UserProfileModel.ToViewModel<UserProfileViewModel>();
+        }
+        public virtual UserProfileViewModel UpdateUserProfile(UserProfileViewModel userProfileViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.UserProfile.ToString(), TraceLevel.Info);
+                UserProfileResponse response = _userClient.UpdateUserProfile(userProfileViewModel.ToModel<UserProfileModel>());
+                UserProfileModel userProfileModel = response?.UserProfileModel;
+                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.UserProfile.ToString(), TraceLevel.Info);
+                return IsNotNull(userProfileModel) ? userProfileModel.ToViewModel<UserProfileViewModel>() : (UserProfileViewModel)GetViewModelWithErrorMessage(new UserProfileViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserProfile.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (UserProfileViewModel)GetViewModelWithErrorMessage(userProfileViewModel, ex.ErrorMessage);
+                    default:
+                        return (UserProfileViewModel)GetViewModelWithErrorMessage(userProfileViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserProfile.ToString(), TraceLevel.Error);
+                return (UserProfileViewModel)GetViewModelWithErrorMessage(userProfileViewModel, GeneralResources.UpdateErrorMessage);
+            }
         }
         #endregion
         #endregion

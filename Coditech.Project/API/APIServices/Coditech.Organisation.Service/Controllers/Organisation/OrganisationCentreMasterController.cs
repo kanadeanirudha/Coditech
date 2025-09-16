@@ -553,14 +553,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/OrganisationCentreMaster/SendTestModal")]
+        [Route("/OrganisationCentreMaster/SendTestSetting")]
         [HttpPost, ValidateModel]
         [Produces(typeof(OrganisationCentrewiseSmtpSettingSendTestEmailResponse))]
-        public virtual IActionResult SendTestModal([FromBody] OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
+        public virtual IActionResult SendTestSetting([FromBody] OrganisationCentrewiseSmtpSettingSendTestEmailModel model)
         {
             try
             {
-                OrganisationCentrewiseSmtpSettingSendTestEmailModel organisationCentrewiseSmtpSettingSendTestEmail = _organisationCentreMasterService.SendTestModal(model);
+                OrganisationCentrewiseSmtpSettingSendTestEmailModel organisationCentrewiseSmtpSettingSendTestEmail = _organisationCentreMasterService.SendTestSetting(model);
                 return IsNotNull(organisationCentrewiseSmtpSettingSendTestEmail) ? CreateCreatedResponse(new OrganisationCentrewiseSmtpSettingSendTestEmailResponse { OrganisationCentrewiseSmtpSettingSendTestEmailModel = organisationCentrewiseSmtpSettingSendTestEmail }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)

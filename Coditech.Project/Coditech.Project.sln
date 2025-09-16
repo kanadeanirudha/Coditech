@@ -64,6 +64,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coditech.Payment.Service", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.Hangfire", "Common\Coditech.Hangfire\Coditech.Hangfire.csproj", "{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coditech.XUnitTestCase", "Coditech.XUnitTestCase\Coditech.XUnitTestCase.csproj", "{B596D213-4CB8-409B-9FBF-17B0ED87A628}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +199,12 @@ Global
 		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FAB0BCA-2FE9-41BF-A398-3ABBF68A9EC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B596D213-4CB8-409B-9FBF-17B0ED87A628}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B596D213-4CB8-409B-9FBF-17B0ED87A628}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B596D213-4CB8-409B-9FBF-17B0ED87A628}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{B596D213-4CB8-409B-9FBF-17B0ED87A628}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{B596D213-4CB8-409B-9FBF-17B0ED87A628}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B596D213-4CB8-409B-9FBF-17B0ED87A628}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

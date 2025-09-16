@@ -1,16 +1,14 @@
-﻿using Coditech.Admin.Agents;
+﻿using System.Web;
+using Coditech.Admin.Agents;
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using System.Web;
-
+using Newtonsoft.Json;
 namespace Coditech.Admin.Controllers
 {
     public class UserController : BaseController
@@ -109,11 +107,27 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult GetGeneralPersonAddressess(long personId, long entityId, string entityType, string controllerName)
         {
-            GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
-            model.EntityId = entityId;
-            model.EntityType = entityType;
-            model.ControllerName = controllerName;
-            return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", model);
+            if (TempData["GeneralPersonAddressViewModel"] is string serializedModel)
+            {
+                TempData.Keep();
+                GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
+                GeneralPersonAddressViewModel viewModel = JsonConvert.DeserializeObject<GeneralPersonAddressViewModel>(serializedModel);
+                model.GeneralPersonAddressList = new List<GeneralPersonAddressViewModel> { viewModel };
+                model.PersonId = viewModel.PersonId;
+                model.EntityType = viewModel.EntityType;
+                model.EntityId = viewModel.EntityId;
+                model.GeneralPersonAddressList = new List<GeneralPersonAddressViewModel> { viewModel };
+                return ActionView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", model);
+
+            }
+            else
+            {
+                GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
+                model.EntityId = entityId;
+                model.EntityType = entityType;
+                model.ControllerName = controllerName;
+                return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", model);
+            }
         }
 
 
@@ -206,6 +220,62 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult UnauthorizedRequest()
         {
             return View("~/Views/User/UnauthorizedRequest.cshtml");
+        }
+        [HttpGet]
+        public virtual ActionResult UserProfile()
+
+        {
+            UserProfileViewModel userProfileViewModel = _userAgent.GetUserProfile();
+            return View("~/Views/User/UserProfile.cshtml", userProfileViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UserProfile(UserProfileViewModel userProfileViewModel)
+        {
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("NewPassword");
+            ModelState.Remove("CurrentPassword");
+
+            if (ModelState.IsValid)
+            {
+                userProfileViewModel = _userAgent.UpdateUserProfile(userProfileViewModel);
+                SetNotificationMessage(userProfileViewModel.HasError
+                ? GetErrorNotificationMessage(userProfileViewModel.ErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UserProfile", new { userMasterId = userProfileViewModel.UserMasterId });
+            }
+            return View("~/Views/User/UserProfile.cshtml", userProfileViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult PasswordChange(ChangePasswordViewModel changePasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                changePasswordViewModel = _userAgent.ChangePassword(changePasswordViewModel);
+                if (!changePasswordViewModel.HasError)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = "Password changed successfully."
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = changePasswordViewModel.ErrorMessage ?? "Failed to change password."
+                    });
+                }
+            }
+
+            return Json(new
+            {
+                success = false,
+                message = "Please fill all required fields correctly."
+            });
         }
 
         #region Protected

@@ -106,6 +106,22 @@ namespace Coditech.Admin.Helpers
             string timeformat = time == null ? "" : new TimeOnly(time.Value.Hours, time.Value.Minutes, time.Value.Seconds).ToString(GetSystemGlobleSettingFeatureValue(GeneralSystemGlobleSettingEnum.TimeFormat.ToString()));
             return timeformat;
         }
+        public static string ToCoditech24HourTimeFormat(this TimeSpan? time)
+        {
+            if (time == null)
+                return "";
+            int hours = time.Value.Hours;
+            int minutes = time.Value.Minutes;
+            string timeformat = $"{(hours > 0 ? hours.ToString("00") + "H " : "")}{minutes.ToString("00") + "M"}";
+            return timeformat;
+        }
+        public static string ToCoditech24HourTimeFormat(this TimeSpan time)
+        {
+            int hours = time.Hours;
+            int minutes = time.Minutes;
+            string timeformat = $"{(hours > 0 ? hours.ToString("00") + "H " : "")}{minutes.ToString("00") + "M"}";
+            return timeformat.Trim();
+        }
         public static int GetSelectedBalanceSheetId()
         {
             return Convert.ToInt32(SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedBalanceSheetId);

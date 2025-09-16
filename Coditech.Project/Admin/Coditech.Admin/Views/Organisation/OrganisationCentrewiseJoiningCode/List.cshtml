@@ -4,12 +4,27 @@
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel()
-    {
-        DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(),
-        DropdownName = "SelectedCentreCode",
-        DropdownSelectedValue = Model.SelectedCentreCode,
-        ChangeEvent = "CoditechCommon.LoadListByCentreCode('" + controllerName + "','" + actionName + "')"
-    };
+            {
+                DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(),
+                DropdownName = "SelectedCentreCode",
+                DropdownSelectedValue = Model.SelectedCentreCode,
+                ChangeEvent = "OrganisationCentrewiseJoiningCode.JoiningCodeListByCentreCodeList()"
+            };
+
+    DropdownViewModel joiningCodeType = new DropdownViewModel()
+            {
+                DropdownType = DropdownTypeEnum.OrganisationJoiningCodeType.ToString(),
+                DropdownName = "JoiningCodeTypeEnumId",
+                DropdownSelectedValue = string.IsNullOrEmpty(Model.JoiningCodeTypeEnumId.ToString())
+                || Model.JoiningCodeTypeEnumId == 0
+                ? "0" // All
+                : Model.JoiningCodeTypeEnumId.ToString(),
+                GroupCode = DropdownTypeEnum.OrganisationJoiningCodeType.ToString(),
+                SelectedText = "All",
+                SelectedValue = "0",
+                ChangeEvent = "OrganisationCentrewiseJoiningCode.JoiningCodeListByCentreCodeList()"
+            };
+
 }
 <div class="page-content mt-5">
     <div class="container-fluid">
@@ -28,14 +43,20 @@
                             <div class="col-md-1">
                                 <label>@AdminResources.LabelCentre</label>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
                             </div>
                             <div class="col-md-1">
-                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId"
-                                       onclick="CoditechCommon.LoadListByCentreCode('@controllerName','@actionName')" />
+                                <label>Joining Code Type</label>
                             </div>
-                            <div class="col-md-6 ">
+                            <div class="col-md-2">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", joiningCodeType)
+                            </div>
+                            <div class="col-md-1">
+                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId"
+                                       onclick="OrganisationCentrewiseJoiningCode.JoiningCodeListByCentreCodeList()" />
+                            </div>
+                            <div class="col-md-5">
                                 <label class="fw-bold">
 
                                     Total Joining Code:  <span class="badge badge-soft-primary me-2 "><span id="TotalCodeCount"></span> </span>
@@ -60,25 +81,25 @@
 </div>
 <!-- jQuery CDN (if not already loaded) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/coditech/Organisation/OrganisationCentrewiseJoiningCode.js"></script>
 
 <script>
     $(document).ready(function () {
-        const observer = new MutationObserver(function () {
-            const active = parseInt($('#AjaxActiveCodeCount').text()) || 0;
-            const expired = parseInt($('#AjaxExpiredCodeCount').text()) || 0;
-            const total = parseInt($('#AjaxTotalJoiningCodeCount').text()) || 0;
-
-            $('#ActiveCodeCount').text(active);
-            $('#ExpiredCodeCount').text(expired);
-            $('#TotalCodeCount').text(total);
-        });
-
-        const target = document.getElementById('DataTablesDivId');
-        if (target) {
-            observer.observe(target, {
-                childList: true,
-                subtree: true
-            });
-        }
+        const checkCounts = setInterval(function () {
+            const $active = $('#AjaxActiveCodeCount');
+            const $expired = $('#AjaxExpiredCodeCount');
+            const $total = $('#AjaxTotalJoiningCodeCount');
+            if ($active.length && $expired.length && $total.length &&
+                $active.text().trim() !== '' && $expired.text().trim() !== '' && $total.text().trim() !== '') {
+                const active = parseInt($active.text()) || 0;
+                const expired = parseInt($expired.text()) || 0;
+                const total = parseInt($total.text()) || 0;
+                $('#ActiveCodeCount').text(active);
+                $('#ExpiredCodeCount').text(expired);
+                $('#TotalCodeCount').text(total);
+                clearInterval(checkCounts);
+            }
+        }, 300);
     });
+
 </script>

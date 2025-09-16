@@ -6,11 +6,8 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Logger;
-
 using Microsoft.AspNetCore.Mvc;
-
 using System.Diagnostics;
-
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Controllers
 {
@@ -357,6 +354,48 @@ namespace Coditech.API.Controllers
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Error);
                 return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/User/GetUserProfile")]
+        [HttpGet]
+        [Produces(typeof(UserProfileResponse))]
+        public virtual IActionResult GetUserProfile(long userMasterId, string userType)
+        {
+            try
+            {
+                UserProfileModel userProfileModel = _userService.GetUserProfile(userMasterId, userType);
+                return IsNotNull(userProfileModel) ? CreateOKResponse(new UserProfileResponse { UserProfileModel = userProfileModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserProfile.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new UserProfileResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserProfile.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new UserProfileResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/User/UpdateUserProfile")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(UserProfileResponse))]
+        public virtual IActionResult UpdateUserProfile([FromBody] UserProfileModel model)
+        {
+            try
+            {
+                bool isUpdated = _userService.UpdateUserProfile(model);
+                return isUpdated ? CreateOKResponse(new UserProfileResponse { UserProfileModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserProfile.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new UserProfileResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserProfile.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new UserProfileResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

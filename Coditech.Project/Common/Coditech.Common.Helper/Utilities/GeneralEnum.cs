@@ -95,7 +95,8 @@
         UserTypeList,
         Currency,
         InventoryCategoryType,
-        AccSetupCategory, 
+        AccSetupCategory,
+        OrganisationJoiningCodeType,
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -280,5 +281,14 @@
     {
         General,
         Centrewise
+    }
+    public enum PopUpSizeEnum
+    {
+        Default = 0,
+        Small,
+        Large,
+        ExtraLarge,
+        CenterPopUp,
+        ScrollablePopUp
     }
 }

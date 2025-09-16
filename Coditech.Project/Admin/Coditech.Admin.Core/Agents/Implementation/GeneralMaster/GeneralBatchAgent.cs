@@ -41,8 +41,9 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("BatchName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("BatchTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("BatchStartDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("BatchStartTime", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("BatchFrequency", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
             long userId = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession).UserMasterId;
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "createddate" : dataTableModel.SortByColumn, dataTableModel.SortBy = IsNotNull(dataTableModel.SortByColumn) ? "desc" : string.IsNullOrEmpty(dataTableModel.SortBy) ? "asc" : dataTableModel.SortBy);
@@ -198,66 +199,7 @@ namespace Coditech.Admin.Agents
             }
         }
 
-        #endregion
-
-        #region TaskScheduler
-        //Create TaskScheduler.
-        public virtual TaskSchedulerViewModel CreateBatchTaskScheduler(TaskSchedulerViewModel taskSchedulerViewModel)
-        {
-            try
-            {
-                taskSchedulerViewModel.SchedulerCallFor = SchedulerCallForEnum.Batch.ToString();
-                taskSchedulerViewModel.SchedulerType = SchedulerTypeEnum.Scheduled.ToString();
-                taskSchedulerViewModel.RecurEvery = 1;
-
-                TaskSchedulerResponse response = _taskSchedulerClient.CreateTaskScheduler(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
-                TaskSchedulerModel taskSchedulerModel = response?.TaskSchedulerModel;
-                return IsNotNull(taskSchedulerModel) ? taskSchedulerModel.ToViewModel<TaskSchedulerViewModel>() : new TaskSchedulerViewModel();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Warning);
-                switch (ex.ErrorCode)
-                {
-                    case ErrorCodes.AlreadyExist:
-                        return (TaskSchedulerViewModel)GetViewModelWithErrorMessage(taskSchedulerViewModel, ex.ErrorMessage);
-                    default:
-                        return (TaskSchedulerViewModel)GetViewModelWithErrorMessage(taskSchedulerViewModel, GeneralResources.ErrorFailedToCreate);
-                }
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
-                return (TaskSchedulerViewModel)GetViewModelWithErrorMessage(taskSchedulerViewModel, GeneralResources.ErrorFailedToCreate);
-            }
-        }
-
-        //Get TaskScheduler by TaskSchedulerMasterId.
-        public virtual TaskSchedulerViewModel GetBatchTaskSchedulerDetails(int configuratorId)
-        {
-            TaskSchedulerResponse response = _taskSchedulerClient.GetTaskSchedulerDetails(configuratorId, SchedulerCallForEnum.Batch.ToString());
-            return response?.TaskSchedulerModel.ToViewModel<TaskSchedulerViewModel>();
-        }
-
-        //Update  TaskScheduler.
-        public virtual TaskSchedulerViewModel UpdateBatchTaskSchedulerDetails(TaskSchedulerViewModel taskSchedulerViewModel)
-        {
-            try
-            {
-                _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Info);
-                TaskSchedulerResponse response = _taskSchedulerClient.UpdateTaskSchedulerDetails(taskSchedulerViewModel.ToModel<TaskSchedulerModel>());
-                TaskSchedulerModel taskSchedulerModel = response?.TaskSchedulerModel;
-                _coditechLogging.LogMessage("Agent method execution done.", CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Info);
-                return IsNotNull(taskSchedulerModel) ? taskSchedulerModel.ToViewModel<TaskSchedulerViewModel>() : (TaskSchedulerViewModel)GetViewModelWithErrorMessage(new TaskSchedulerViewModel(), GeneralResources.UpdateErrorMessage);
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.TaskScheduler.ToString(), TraceLevel.Error);
-                return (TaskSchedulerViewModel)GetViewModelWithErrorMessage(taskSchedulerViewModel, GeneralResources.UpdateErrorMessage);
-            }
-        }
-        #endregion
-
+        #endregion       
         #region protected
         protected virtual List<DatatableColumns> BindColumns()
         {
@@ -270,14 +212,38 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Batch Time",
-                ColumnCode = "BatchTime",
+                ColumnName = "Batch Frequency",
+                ColumnCode = "BatchFrequency",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Created By",
+                ColumnCode = "AssignedBy",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Batch Start Date",
+                ColumnCode = "BatchStartDate",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Batch End Date",
+                ColumnCode = "BatchExpireDate",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Batch Start Time",
                 ColumnCode = "BatchStartTime",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Duration",
+                ColumnCode = "Duration",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -318,13 +284,11 @@ namespace Coditech.Admin.Agents
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "Is Associated",
-                ColumnCode = "GeneralBatchMasterId",
+                ColumnCode = "GeneralBatchUserId",
                 IsSortable = true,
             });
             return datatableColumnList;
         }
-        #endregion
-        #region
         #endregion
     }
 }

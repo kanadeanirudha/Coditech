@@ -17,7 +17,7 @@ namespace Coditech.API.Data
         private static string CreatedBy = "CreatedBy";
         private static string ModifiedDate = "ModifiedDate";
         private static string ModifiedBy = "ModifiedBy";
-        private DateTime CurrentDateTime = DateTime.Now;
+       // private DateTime CurrentDateTime = DateTime.Now;
         public virtual bool IsUserWantToDebugSql { get; set; } = HelperMethods.IsUserWantToDebugSql;
 
         #endregion
@@ -793,6 +793,7 @@ namespace Coditech.API.Data
         }
         public void SetDataIntoEntity(EntityEntry dbEntry, long loginUserAccountId, long createdBy = 0, long modifiedBy = 0)
         {
+            DateTime CurrentDateTime = DateTime.Now;
             if (Equals(dbEntry.State, EntityState.Added))
             {
                 dbEntry.Entity.SetPropertyValue(CreatedBy, (createdBy > 0) ? createdBy : loginUserAccountId);

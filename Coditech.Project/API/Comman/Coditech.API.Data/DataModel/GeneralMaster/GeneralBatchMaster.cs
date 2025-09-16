@@ -8,8 +8,12 @@ namespace Coditech.API.Data
         public int GeneralBatchMasterId { get; set; }
         public string CentreCode { get; set; }
         public string BatchName { get; set; }
-        public TimeSpan BatchTime { get; set; }
+        public DateTime BatchStartDate { get; set; }
+        public DateTime BatchExpireDate { get; set; }
         public TimeSpan BatchStartTime { get; set; }
+        public string BatchFrequency { get; set; }
+        public string WeekDays { get; set; }
+        public Nullable<TimeSpan> Duration { get; set; }
         public bool IsActive { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
