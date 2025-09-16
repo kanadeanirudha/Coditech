@@ -1,10 +1,12 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Helpers;
+using Coditech.Admin.Utilities;
 using Coditech.API.Client;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 namespace Coditech.Admin
 {
@@ -22,6 +24,7 @@ namespace Coditech.Admin
 
             builder.Services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddSingleton<IUrlHelperFactory, EncryptedUrlHelperFactory>();
             builder.Services.AddSingleton<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<IUserAgent, UserAgent>();
             builder.Services.AddScoped<IGeneralDepartmentAgent, GeneralDepartmentAgent>();
