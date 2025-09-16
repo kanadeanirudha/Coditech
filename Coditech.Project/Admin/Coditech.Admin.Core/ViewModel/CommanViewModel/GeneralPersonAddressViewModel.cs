@@ -35,7 +35,7 @@ namespace Coditech.Admin.ViewModel
         public string AddressLine2 { get; set; }
 
         [MaxLength(100)]
-        [Display(Name ="Company Name")]
+        [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
         [Required]
@@ -76,5 +76,8 @@ namespace Coditech.Admin.ViewModel
         public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }
         public bool IsDefault { get; set; }
         public string ControllerName { get; set; }
+        public string AddressData { get; set; }
+        public List<BindAddressToPostalCodeViewModel> BindAddressToPostalCodeList { get; set; }
+
     }
 }

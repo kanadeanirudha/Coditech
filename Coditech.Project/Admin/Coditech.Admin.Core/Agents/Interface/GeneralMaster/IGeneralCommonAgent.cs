@@ -11,6 +11,8 @@ namespace Coditech.Admin.Agents
         MediaManagerResponse UploadImage(IFormFile file);
 
         CoditechApplicationSettingListViewModel GetCoditechApplicationSettingList(string applicationCodes);
+        BindAddressToPostalCodeListViewModel FetchPostalCode(string postalCode);
+        BindAddressToPostalCodeViewModel ValidateAddress(BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel);
         bool GetAccountPrequisite();
     }
 }

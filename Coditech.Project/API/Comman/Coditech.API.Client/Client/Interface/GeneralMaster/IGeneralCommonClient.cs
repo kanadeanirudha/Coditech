@@ -10,5 +10,7 @@ namespace Coditech.API.Client
         CoditechApplicationSettingListResponse GetCoditechApplicationSettingList(string applicationCodes);
         GeneralEnumaratorListResponse GetDropdownListByCode(string groupCodes);
         AccPrequisiteResponse GetAccountPrequisite(int balanceSheetId);
+        BindAddressToPostalCodeListResponse FetchPostalCode(string postalCode);
+        BindAddressToPostalCodeResponse ValidateAddress(BindAddressToPostalCodeModel bindAddressToPostalCodeModel);
     }
 }
