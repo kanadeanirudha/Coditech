@@ -10,10 +10,10 @@
     <div class="card-body">
         <div class="files-nav">
             <div class="nav flex-column nav-pills" id="files-tab" aria-orientation="vertical">
-                <a class="nav-link" href="/HospitalPatientRegistration/UpdatePatientPersonalDetails?hospitalPatientRegistrationId=@hospitalPatientRegistrationId&personId=@personId" aria-selected="true">
+                <a class="nav-link" href="@Url.Action("UpdatePatientPersonalDetails", "HospitalPatientRegistration", new { hospitalPatientRegistrationId=@hospitalPatientRegistrationId, personId=@personId })" aria-selected="true">
                     <i class="ti-menu"></i><h5 class="m-0 ps-2">Personal Details</h5>
                 </a>
-                <a class="nav-link" href="/HospitalPatientRegistration/CreateEditPatientRegistrationAddress?hospitalPatientRegistrationId=@hospitalPatientRegistrationId&personId=@personId" aria-selected="true">
+                <a class="nav-link" href="@Url.Action("CreateEditPatientRegistrationAddress", "HospitalPatientRegistration", new { hospitalPatientRegistrationId=@hospitalPatientRegistrationId, personId=@personId })" aria-selected="true">
                     <i class="fas fa-map-marker-alt"></i><h5 class="m-0 ps-2">Address</h5>
                 </a>
             </div>
