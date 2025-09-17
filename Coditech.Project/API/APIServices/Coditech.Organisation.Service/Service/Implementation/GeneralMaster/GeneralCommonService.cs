@@ -1,6 +1,10 @@
-﻿using Coditech.API.Data;
+﻿using System.Data;
+using System.Diagnostics;
+using System.Text.Json;
+using Coditech.API.Data;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
+using Coditech.Common.API.Model.Response;
 using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
@@ -8,8 +12,8 @@ using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
 using Microsoft.Extensions.DependencyInjection;
-using System.Data;
-using System.Diagnostics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
@@ -26,6 +30,9 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<GeneralCurrencyMaster> _generalCurrencyMasterRepository;
         private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
         private readonly ICoditechRepository<AccSetupGLBalanceSheet> _accSetupGLBalanceSheetRepository;
+        private readonly ICoditechRepository<GeneralCityMaster> _generalCityMasterRepository;
+        private readonly ICoditechRepository<GeneralRegionMaster> _generalRegionMasterRepository;
+        private readonly ICoditechRepository<GeneralCountryMaster> _generalCountryMasterRepository;
         public GeneralCommonService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -39,6 +46,10 @@ namespace Coditech.API.Service
             _generalCurrencyMasterRepository = new CoditechRepository<GeneralCurrencyMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
             _accSetupGLBalanceSheetRepository = new CoditechRepository<AccSetupGLBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalCityMasterRepository = new CoditechRepository<GeneralCityMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalRegionMasterRepository = new CoditechRepository<GeneralRegionMaster>(_serviceProvider.GetService<Coditech_Entities>());
+            _generalCountryMasterRepository = new CoditechRepository<GeneralCountryMaster>(_serviceProvider.GetService<Coditech_Entities>());
+
         }
 
         #region Public
@@ -164,6 +175,144 @@ namespace Coditech.API.Service
             }
             return accPrequisiteModel;
         }
+
+        public virtual List<BindAddressToPostalCodeModel> FetchPostalCode(string code)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var response = httpClient.GetAsync($"https://api.postalpincode.in/pincode/{code}").Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<BindAddressToPostalCodeModel>
+            {
+                new BindAddressToPostalCodeModel
+                {
+                    HasError = true,
+                    ErrorMessage = "API request failed"
+                }
+            };
+                }
+
+                var json = response.Content.ReadAsStringAsync().Result;
+
+                var jArray = JArray.Parse(json);
+                var firstItem = jArray.FirstOrDefault();
+
+                if (firstItem == null)
+                {
+                    return new List<BindAddressToPostalCodeModel>
+            {
+                new BindAddressToPostalCodeModel
+                {
+                    HasError = true,
+                    ErrorMessage = "Invalid or empty response"
+                }
+            };
+                }
+
+                List<BindAddressToPostalCodeModel> addressList = new List<BindAddressToPostalCodeModel>();
+                var postOffices = firstItem["PostOffice"] as JArray;
+
+                if (postOffices != null)
+                {
+                    foreach (var item in postOffices)
+                    {
+                        addressList.Add(new BindAddressToPostalCodeModel
+                        {
+                            Name = item["Name"]?.ToString(),
+                            District = item["District"]?.ToString(),
+                            Division = item["Division"]?.ToString(),
+                            State = item["State"]?.ToString(),
+                            Pincode = item["Pincode"]?.ToString(),
+                            Country = item["Country"]?.ToString(),
+                        });
+                    }
+                }
+
+                // Create response object and serialize/deserialize if needed
+                BindAddressToPostalCodeListResponse responseModel = new BindAddressToPostalCodeListResponse
+                {
+                    ErrorMessage = firstItem["Message"]?.ToString(),
+                    BindAddressToPostalCodeList = addressList,
+                    PageIndex = 1,
+                    PageSize = addressList.Count,
+                    TotalResults = addressList.Count
+                };
+
+                string serialized = JsonConvert.SerializeObject(responseModel);
+                var finalModel = JsonConvert.DeserializeObject<BindAddressToPostalCodeListResponse>(serialized);
+
+                return finalModel?.BindAddressToPostalCodeList ?? new List<BindAddressToPostalCodeModel>();
+            }
+        }
+
+        public virtual BindAddressToPostalCodeModel ValidateAddress(BindAddressToPostalCodeModel bindAddressToPostalCodeModel)
+        {
+            try
+            {
+                if (bindAddressToPostalCodeModel != null)
+                {
+                    GeneralCountryMaster generalCountryMaster = _generalCountryMasterRepository.Table.FirstOrDefault(x => x.CountryName == "India");
+                    GeneralRegionMaster generalRegionMaster = _generalRegionMasterRepository.Table.FirstOrDefault(x => x.RegionName.ToLower() == bindAddressToPostalCodeModel.State.ToLower());
+
+                    if (generalRegionMaster == null)
+                    {
+                        generalRegionMaster = new GeneralRegionMaster
+                        {
+                            RegionName = bindAddressToPostalCodeModel.State?.Trim(),
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            CreatedBy = 1,
+                            ModifiedBy = 1
+                        };
+                        _generalRegionMasterRepository.Insert(generalRegionMaster);
+                    }
+
+                    // Match or create City (District)
+                    GeneralCityMaster generalCityMaster = _generalCityMasterRepository.Table
+                        .FirstOrDefault(c => c.CityName == bindAddressToPostalCodeModel.District.Trim()
+                                          && c.GeneralRegionMasterId == generalRegionMaster.GeneralRegionMasterId);
+
+                    if (generalCityMaster == null)
+                    {
+                        generalCityMaster = new GeneralCityMaster
+                        {
+                            CityName = bindAddressToPostalCodeModel.District.Trim(),
+                            GeneralRegionMasterId = generalRegionMaster.GeneralRegionMasterId,
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            CreatedBy = 1,
+                            ModifiedBy = 1
+                        };
+                        _generalCityMasterRepository.Insert(generalCityMaster);
+                    }
+
+                    bindAddressToPostalCodeModel.SelectedRegionId = generalRegionMaster.GeneralRegionMasterId;
+                    bindAddressToPostalCodeModel.State = generalRegionMaster.RegionName;
+                    bindAddressToPostalCodeModel.SelectedCityId = generalCityMaster.GeneralCityMasterId;
+                    bindAddressToPostalCodeModel.District = generalCityMaster.CityName;
+                    bindAddressToPostalCodeModel.Country = generalCountryMaster.CountryName;
+                    bindAddressToPostalCodeModel.BindAddressToPostalCodeList.Add(new BindAddressToPostalCodeModel
+                    {
+                        District = bindAddressToPostalCodeModel.District,
+                        State = bindAddressToPostalCodeModel.State,
+                        SelectedRegionId = bindAddressToPostalCodeModel.SelectedRegionId,
+                        SelectedCityId = bindAddressToPostalCodeModel.SelectedCityId,
+                        Country = bindAddressToPostalCodeModel.Country
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.GeneralMessages.ToString(), TraceLevel.Error);
+                bindAddressToPostalCodeModel.HasError = true;
+                bindAddressToPostalCodeModel.ErrorMessage = "Something went wrong while validating address.";
+            }
+
+            return bindAddressToPostalCodeModel;
+        }
+
         #endregion
 
         #region Protected Method

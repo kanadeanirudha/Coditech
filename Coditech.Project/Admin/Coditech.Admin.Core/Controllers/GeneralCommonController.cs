@@ -1,6 +1,10 @@
-﻿using Coditech.Admin.Agents;
+﻿using System.Collections.Generic;
+using Coditech.Admin.Agents;
+using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
+using Coditech.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -157,6 +161,24 @@ namespace Coditech.Admin.Controllers
             }
             else
                 return Json(new { success = false, message = "Invalid OTP." });
+        }
+        [HttpGet]
+        public virtual ActionResult FetchPostalCode(string postalCode, long? personId, long? entityId)
+        {
+            BindAddressToPostalCodeListViewModel listModel = _generalCommonAgent.FetchPostalCode(postalCode);
+            BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel = new BindAddressToPostalCodeViewModel
+            {
+                BindAddressToPostalCodeList = listModel.BindAddressToPostalCodeList
+
+            };
+            bindAddressToPostalCodeViewModel.EntityId = entityId;
+            bindAddressToPostalCodeViewModel.PersonId = personId;
+
+            if (AjaxHelper.IsAjaxRequest)
+            {
+                return PartialView("~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", bindAddressToPostalCodeViewModel);
+            }
+            return PartialView($"~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", bindAddressToPostalCodeViewModel);
         }
     }
 }

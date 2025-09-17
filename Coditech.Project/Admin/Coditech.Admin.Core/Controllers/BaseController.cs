@@ -1,17 +1,15 @@
-﻿using AspNetCore.Reporting;
-
+﻿using System.Data;
+using System.Linq.Expressions;
+using System.Text;
+using AspNetCore.Reporting;
 using Coditech.Admin.Helpers;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.API.Model;
+using Coditech.Resources;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
-
-using System.Data;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace Coditech.Admin.Controllers
 {
@@ -195,7 +193,27 @@ namespace Coditech.Admin.Controllers
             return View("~/Views/Shared/BalanceSheetAssociated.cshtml", accPrequisiteLists);
         }
 
+        public virtual ActionResult FetchPostalCode(BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel)
+        {
 
+            if (ModelState.IsValid)
+            {
+                if (!bindAddressToPostalCodeViewModel.HasError)
+                {
+                    TempData["PersonId"] = bindAddressToPostalCodeViewModel.PersonId.ToString();
+                    TempData["EntityId"] = bindAddressToPostalCodeViewModel.EntityId.ToString();
+                    TempData["SelectedRegionId"] = bindAddressToPostalCodeViewModel.SelectedRegionId.ToString();
+                    TempData["SelectedCityId"] = bindAddressToPostalCodeViewModel.SelectedCityId.ToString();
+                    TempData["SelectedPostalCode"] = bindAddressToPostalCodeViewModel.Pincode?.ToString();
+                    TempData["AddressData"] = bindAddressToPostalCodeViewModel.AddressData?.ToString();
+                    TempData.Keep();
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = bindAddressToPostalCodeViewModel.EntityId, personId = bindAddressToPostalCodeViewModel.PersonId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bindAddressToPostalCodeViewModel.ErrorMessage));
+            return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = bindAddressToPostalCodeViewModel.EntityId, personId = bindAddressToPostalCodeViewModel.PersonId });
+        }
 
     }
 }

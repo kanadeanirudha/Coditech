@@ -30,8 +30,8 @@
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsAttended)
                             </td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?hospitalPatientAppointmentId=@item.HospitalPatientAppointmentId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>@* <span class="m-2">|</span> *@
-                               @*  <a href="../@controllerName/Delete?hospitalPatientAppointmentIds=@item.HospitalPatientAppointmentId&SelectedCentreCode=@Model.SelectedCentreCode" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
+                                <a href="@Url.Action("Edit", controllerName, new { hospitalPatientAppointmentId=@item.HospitalPatientAppointmentId })" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>@* <span class="m-2">|</span> *@
+                                @*  <a href="../@controllerName/Delete?hospitalPatientAppointmentIds=@item.HospitalPatientAppointmentId&SelectedCentreCode=@Model.SelectedCentreCode" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
                             </td>
                         </tr>
                     }

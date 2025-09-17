@@ -17,13 +17,13 @@
                 {
                     foreach (var item in Model?.HospitalPatientTypeList)
                     {
-                        <tr>                                                     
+                        <tr>
                             <td>@item.PatientType</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.IsActive)
-                            </td>                                         
+                            </td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?hospitalPatientTypeId=@item.HospitalPatientTypeId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>
+                                <a href="@Url.Action("Edit", controllerName, new { hospitalPatientTypeId=@item.HospitalPatientTypeId })" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>
                                 @* <span class="m-2">|</span>*@
                             </td>
                         </tr>
