@@ -28,7 +28,7 @@
                                 }
                                 else
                                 {
-                                    <a href="" @Url.Action("Create", controllerName, new { gazetteChapterId = @item.GazetteChapterId })" title="Add" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-plus"></i></a>
+                                    <a href="@Url.Action("Create", controllerName, new { gazetteChapterId = @item.GazetteChapterId })" title="Add" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-plus"></i></a>
                                 }
                                 <span class="m-2">|</span>
                                 <a href="@Url.Action("Delete", controllerName, new { gazetteChaptersPageDetailIds = @item.GazetteChapterPageDetailId })" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
