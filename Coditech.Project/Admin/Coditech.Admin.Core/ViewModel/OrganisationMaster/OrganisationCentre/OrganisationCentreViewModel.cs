@@ -94,5 +94,9 @@ namespace Coditech.Admin.ViewModel
         public string LogoMediaFileName { get; set; }
         public string LogoSmallMediaPath { get; set; }
         public string LogoSmallMediaFileName { get; set; }
+        [Display(Name = "Logo Css")]
+        public string LogoCss { get; set; }
+        [Display(Name = "Small Logo Css")]
+        public string SmallLogoCss { get; set; }
     }
 }

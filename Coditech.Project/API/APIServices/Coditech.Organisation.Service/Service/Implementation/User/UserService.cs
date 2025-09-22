@@ -657,9 +657,9 @@ namespace Coditech.API.Service
                     }
                     userModel.LogoMediaPath = organisationCentreModel.LogoMediaPath;
                     userModel.LogoSmallMediaPath = organisationCentreModel.LogoSmallMediaPath;
+                    userModel.LogoCss = organisationCentreModel.LogoCss;
+                    userModel.SmallLogoCss = organisationCentreModel.SmallLogoCss;
                 }
-
-
             }
             userModel.GeneralEnumaratorList = BindEnumarator();
             userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();
