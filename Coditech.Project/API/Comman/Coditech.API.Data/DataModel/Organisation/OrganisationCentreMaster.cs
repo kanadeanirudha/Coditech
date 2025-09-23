@@ -37,6 +37,8 @@ namespace Coditech.API.Data
         public string WaterMark { get; set; }
         public long? LogoMediaId { get; set; }
         public long? LogoSmallMediaId { get; set; }
+        public string LogoCss { get; set; }
+        public string SmallLogoCss { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

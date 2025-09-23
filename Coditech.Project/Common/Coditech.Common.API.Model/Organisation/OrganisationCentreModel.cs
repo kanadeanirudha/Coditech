@@ -70,6 +70,8 @@ namespace Coditech.Common.API.Model
         public string LogoSmallMediaFileName { get; set; }
         public string DefaultCurrency { get; set; }
         public short GeneralCurrencyMasterId { get; set; }
+        public string LogoCss { get; set; }
+        public string SmallLogoCss { get; set; }
 
     }
 }
