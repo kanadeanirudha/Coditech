@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
@@ -17,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\API\Comman\Coditech.Common.API\Coditech.Common.API.csproj" />
     <ProjectReference Include="..\..\..\Common\Coditech.Common.Helper\Coditech.Common.Helper.csproj" />
     <ProjectReference Include="..\..\..\Common\Coditech.Common.Logger\Coditech.Common.Logger.csproj" />
   </ItemGroup>
