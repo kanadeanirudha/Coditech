@@ -1,12 +1,11 @@
-﻿using Coditech.Common.API;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 namespace Coditech.Admin.Utilities
 {
     public static class EncryptionHelper
     {
-        private static readonly byte[] Key = Encoding.UTF8.GetBytes(ApiSettings.EncryptionKey);
-        private static readonly byte[] IV = Encoding.UTF8.GetBytes(ApiSettings.EncryptionIV);
+        private static readonly byte[] Key = Encoding.UTF8.GetBytes(CoditechAdminSettings.EncryptionKey);
+        private static readonly byte[] IV = Encoding.UTF8.GetBytes(CoditechAdminSettings.EncryptionIV);
 
         public static string Encrypt(string plainText)
         {
