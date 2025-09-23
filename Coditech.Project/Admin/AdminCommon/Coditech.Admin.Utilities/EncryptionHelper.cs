@@ -1,13 +1,13 @@
-﻿using System.Security.Cryptography;
+﻿using Coditech.Common.API;
+using System.Security.Cryptography;
 using System.Text;
-using System.IO;
-
 namespace Coditech.Admin.Utilities
 {
     public static class EncryptionHelper
     {
-        private static readonly byte[] Key = Encoding.UTF8.GetBytes("MySecretKey12345"); // here we will take key from appsetting.json 
-        private static readonly byte[] IV = Encoding.UTF8.GetBytes("MySecretIV123456");  // here we will take IV from appsetting.json 
+        private static readonly byte[] Key = Encoding.UTF8.GetBytes(ApiSettings.EncryptionKey);
+        private static readonly byte[] IV = Encoding.UTF8.GetBytes(ApiSettings.EncryptionIV);
+
         public static string Encrypt(string plainText)
         {
             using var aes = Aes.Create();
