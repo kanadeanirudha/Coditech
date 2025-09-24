@@ -14,7 +14,8 @@ namespace Coditech.Admin.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Query.ContainsKey("data"))
+            // If encryption Is disable , then return plain text
+            if (CoditechAdminSettings.IsEncryption && context.Request.Query.ContainsKey("data"))
             {
                 try
                 {
@@ -22,7 +23,6 @@ namespace Coditech.Admin.Middleware
                     var decrypted = EncryptionHelper.Decrypt(encrypted!);
 
                     var dict = QueryHelpers.ParseQuery(decrypted);
-
                     var queryCollection = new QueryCollection(dict.ToDictionary(
                         kvp => kvp.Key,
                         kvp => new Microsoft.Extensions.Primitives.StringValues(kvp.Value.ToArray())
@@ -35,7 +35,9 @@ namespace Coditech.Admin.Middleware
 
             context.Response.OnStarting(() =>
             {
-                if (context.Response.StatusCode == 302 && context.Response.Headers.ContainsKey("Location"))
+                if (CoditechAdminSettings.IsEncryption &&
+                    context.Response.StatusCode == 302 &&
+                    context.Response.Headers.ContainsKey("Location"))
                 {
                     var location = context.Response.Headers["Location"].ToString();
                     var uri = new Uri(location, UriKind.RelativeOrAbsolute);
@@ -52,5 +54,6 @@ namespace Coditech.Admin.Middleware
 
             await _next(context);
         }
+
     }
 }
