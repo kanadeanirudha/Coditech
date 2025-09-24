@@ -221,5 +221,13 @@ namespace Coditech.Admin.Utilities
 
             }
         }
+        public static bool IsEncryption
+        {
+            get
+            {
+                return Convert.ToBoolean(settings["IsEncryption"]);
+
+            }
+        }
     }
 }
