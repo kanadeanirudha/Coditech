@@ -1,178 +1,242 @@
 ﻿@model GeneralPersonAddressViewModel
 @{
-	Layout = null;
-	DropdownViewModel countryDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Country.ToString(), DropdownName = "GeneralCountryMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"User.GetRegionListByCountryId('{Model.AddressTypeEnum}')", ClassName = $"GeneralCountryMasterId_{Model.AddressTypeEnum}" };
-	DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"User.GetCityListByRegionId('{Model.AddressTypeEnum}')", ClassName = $"GeneralRegionMasterId_{Model.AddressTypeEnum}" };
-	DropdownViewModel cityDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.City.ToString(), DropdownName = "GeneralCityMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCityMasterId), Parameter = Convert.ToString(Model.GeneralRegionMasterId), ClassName = $"GeneralCityMasterId_{Model.AddressTypeEnum}" };
+    Layout = null;
+    DropdownViewModel countryDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Country.ToString(), DropdownName = "GeneralCountryMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"User.GetRegionListByCountryId('{Model.AddressTypeEnum}')", ClassName = $"GeneralCountryMasterId_{Model.AddressTypeEnum}" };
+    DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"User.GetCityListByRegionId('{Model.AddressTypeEnum}')", ClassName = $"GeneralRegionMasterId_{Model.AddressTypeEnum}" };
+    DropdownViewModel cityDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.City.ToString(), DropdownName = "GeneralCityMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCityMasterId), Parameter = Convert.ToString(Model.GeneralRegionMasterId), ClassName = $"GeneralCityMasterId_{Model.AddressTypeEnum}" };
 }
 @using (Html.BeginForm("CreateEditGeneralPersonalAddress", Model.ControllerName, FormMethod.Post, new { id = $"frmGeneralPersonalAddress_{Model.AddressTypeEnum}" }))
 {
-	@Html.AntiForgeryToken()
-	@Html.HiddenFor(m => m.GeneralPersonAddressId)
-	@Html.HiddenFor(m => m.PersonId)
-	@Html.HiddenFor(m => m.AddressTypeEnum)
-	@Html.HiddenFor(m => m.EntityId)
-	@Html.HiddenFor(m => m.EntityType)
-	<div class="row">
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.FirstName, new { @class = "form-label required" })
-				@Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @onkeypress = "return CoditechCommon.AllowOnlyAlphabetWithouSpacing()" })
-				@Html.ValidationMessageFor(x => x.FirstName)
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.MiddleName, new { @class = "form-label" })
-				@Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control", @onkeypress = "return CoditechCommon.AllowOnlyAlphabetWithouSpacing()" })
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.LastName, new { @class = "form-label required" })
-				@Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @onkeypress = "return CoditechCommon.AllowOnlyAlphabetWithouSpacing()" })
-				@Html.ValidationMessageFor(x => x.LastName)
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.EmailAddress, new { @class = "form-label" })
-				@Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control" })
-				@Html.ValidationMessageFor(x => x.EmailAddress)
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.PhoneNumber, new { @class = "form-label" })
-				@Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
-				@Html.ValidationMessageFor(x => x.PhoneNumber)
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.MobileNumber, new { @class = "form-label" })
-				@Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control" })
-				@Html.ValidationMessageFor(x => x.MobileNumber)
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.AddressLine1, new { @class = "form-label required" })
-				@Html.TextAreaFor(x => x.AddressLine1, new { @class = "form-control" })
-				@Html.ValidationMessageFor(x => x.AddressLine1)
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.AddressLine2, new { @class = "form-label" })
-				@Html.TextAreaFor(x => x.AddressLine2, new { @class = "form-control" })
-				@Html.ValidationMessageFor(x => x.AddressLine2)
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.GeneralCountryMasterId, new { @class = "form-label required" })
-				@Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", countryDropdown)
-				@Html.ValidationMessageFor(x => x.GeneralCountryMasterId, null, new { id = $"errorGeneralCountryMasterId_{Model.AddressTypeEnum}" })
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.Postalcode, new { @class = "form-label required" })
-				@Html.TextBoxFor(x => x.Postalcode, new { @class = "form-control" })
-				@Html.ValidationMessageFor(x => x.Postalcode)
-			</div>
-		</div>
-		<div id="postalCodeModal" class="modal fade" tabindex="-1" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content" id="postalCodeModalContent"></div>
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.GeneralRegionMasterId, new { @class = "form-label required" })
-				@Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", regionDropdown)
-				@Html.ValidationMessageFor(x => x.GeneralRegionMasterId, null, new { id = $"errorGeneralRegionMasterId_{Model.AddressTypeEnum}" })
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="mb-3">
-				@Html.LabelFor(x => x.GeneralCityMasterId, new { @class = "form-label required" })
-				@Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", cityDropdown)
-				@Html.ValidationMessageFor(x => x.GeneralCityMasterId, null, new { id = $"errorGeneralCityMasterId_{Model.AddressTypeEnum}" })
-			</div>
-		</div>
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.GeneralPersonAddressId)
+    @Html.HiddenFor(m => m.PersonId)
+    @Html.HiddenFor(m => m.AddressTypeEnum)
+    @Html.HiddenFor(m => m.EntityId)
+    @Html.HiddenFor(m => m.EntityType)
+    @Html.HiddenFor(m => m.ControllerName)
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.FirstName, new { @class = "form-label required" })
+                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @onkeypress = "return CoditechCommon.AllowOnlyAlphabetWithouSpacing()" })
+                @Html.ValidationMessageFor(x => x.FirstName)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.MiddleName, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control", @onkeypress = "return CoditechCommon.AllowOnlyAlphabetWithouSpacing()" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.LastName, new { @class = "form-label required" })
+                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @onkeypress = "return CoditechCommon.AllowOnlyAlphabetWithouSpacing()" })
+                @Html.ValidationMessageFor(x => x.LastName)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.EmailAddress, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.EmailAddress)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.PhoneNumber, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.PhoneNumber)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.MobileNumber, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.MobileNumber)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.AddressLine1, new { @class = "form-label required" })
+                @Html.TextAreaFor(x => x.AddressLine1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.AddressLine1)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.AddressLine2, new { @class = "form-label" })
+                @Html.TextAreaFor(x => x.AddressLine2, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.AddressLine2)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.GeneralCountryMasterId, new { @class = "form-label required" })
+                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", countryDropdown)
+                @Html.ValidationMessageFor(x => x.GeneralCountryMasterId, null, new { id = $"errorGeneralCountryMasterId_{Model.AddressTypeEnum}" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Postalcode, new { @class = "form-label required" })
+                @Html.TextBoxFor(x => x.Postalcode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Postalcode)
+            </div>
+        </div>
+        <div id="postalCodeModal" class="modal fade" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" id="postalCodeModalContent"></div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.GeneralRegionMasterId, new { @class = "form-label required" })
+                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", regionDropdown)
+                @Html.ValidationMessageFor(x => x.GeneralRegionMasterId, null, new { id = $"errorGeneralRegionMasterId_{Model.AddressTypeEnum}" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.GeneralCityMasterId, new { @class = "form-label required" })
+                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", cityDropdown)
+                @Html.ValidationMessageFor(x => x.GeneralCityMasterId, null, new { id = $"errorGeneralCityMasterId_{Model.AddressTypeEnum}" })
+            </div>
+        </div>
 
-		@if (Model.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString())
-		{
-			<div class="col-lg-4">
-				<div class="mb-3">
-					@Html.LabelFor(x => x.IsCorrespondanceAddressSameAsPermanentAddress, new { @class = "form-label" })
-					<div class="form-check">
-						@Html.CheckBoxFor(x => x.IsCorrespondanceAddressSameAsPermanentAddress, new { @class = "form-check-input" })
-					</div>
-				</div>
-			</div>
-		}
-		@if (Model.AddressTypeEnum == AddressTypeEnum.BusinessAddress.ToString())
-		{
-			<div class="col-lg-4">
-				<div class="mb-3">
-					@Html.LabelFor(x => x.CompanyName, new { @class = "form-label" })
-					@Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control" })
-					@Html.ValidationMessageFor(x => x.CompanyName)
-				</div>
-			</div>
-		}
-	</div>
-	<button type="submit" id="saveDraft_@Model.AddressTypeEnum" class="btn btn-success" data-test-selector="linkSave" onclick="User.SaveGeneralPersonalAddress('@Model.AddressTypeEnum'); return false;">
-		@AdminResources.LabelSave
-	</button>
+        @if (Model.AddressTypeEnum == AddressTypeEnum.PermanentAddress.ToString())
+        {
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.IsCorrespondanceAddressSameAsPermanentAddress, new { @class = "form-label" })
+                    <div class="form-check">
+                        @Html.CheckBoxFor(x => x.IsCorrespondanceAddressSameAsPermanentAddress, new { @class = "form-check-input" })
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.AddressTypeEnum == AddressTypeEnum.BusinessAddress.ToString())
+        {
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.CompanyName, new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.CompanyName)
+                </div>
+            </div>
+        }
+    </div>
+    <button type="submit" id="saveDraft_@Model.AddressTypeEnum" class="btn btn-success" data-test-selector="linkSave" onclick="User.SaveGeneralPersonalAddress('@Model.AddressTypeEnum'); return false;">
+        @AdminResources.LabelSave
+    </button>
 }
 <script>
-	const postalInput = $('input[name="Postalcode"]');
-	const personId = $('input[name="PersonId"]').val();
-	const entityId = $('input[name="EntityId"]').val();
-	const countrySelect = $('select[name="GeneralCountryMasterId"]');
-	let popupTimeout = null;
-	function isExplicitlyIndiaSelected() {
-		const selectedOption = countrySelect.find('option:selected');
-		const isIndiaText = selectedOption.text()?.toLowerCase().includes('india');
-		return isIndiaText;
-	}
-	function showPostalCodePopup() {
-		alert("Postal code is exactly 6 characters and country is India.");
-	}
-	postalInput.on('input', function () {
-		const postalVal = $(this).val().trim();
-		clearTimeout(popupTimeout);
-		if (postalVal.length === 6 && isExplicitlyIndiaSelected()) {
-			popupTimeout = setTimeout(() => {
-				fetchPostalCode(postalVal);
-			}, 800);
-		}
-	});
+       
+        const postalInput = $('input[name="Postalcode"]');
+        const personId = $('input[name="PersonId"]').val();
+        const entityId = $('input[name="EntityId"]').val();
+        const countrySelect = $('select[name="GeneralCountryMasterId"]');
+        const addressTypeEnum = $('input[name="AddressTypeEnum"]').val();
+        let popupTimeout = null;
 
-	countrySelect.on('change', function () {
-		postalInput.trigger('input');
-	});
+        function isExplicitlyIndiaSelected() {
+            const selectedOption = countrySelect.find('option:selected');
+            return selectedOption.text()?.toLowerCase().includes('india');
+        }
 
-		function fetchPostalCode(postalCode) {
-		$.ajax({
-			url: `/GeneralCommon/FetchPostalCode`,
-			type: 'GET',
-			data: {  postalCode: postalCode,
-						personId: personId,
-						entityId: entityId },
-			success: function (response) {
-				console.log("GET response:", response);
-				$('#postalCodeModalContent').html(response);
-				$('#postalCodeModal').modal('show');
-			},
-			error: function (xhr) {
-				console.error("GET error:", xhr.responseText);
-			}
-		});
-	}
+        function fetchPostalCode(postalCode) {
+            CoditechCommon.ShowLodder();
+            $.ajax({
+                url: `/GeneralCommon/FetchPostalCode`,
+                type: 'GET',
+                data: { postalCode, personId, entityId, addressTypeEnum },
+                success: function (response) {
 
+                    $('#postalCodeModalContent').html(response);
+                    $('#postalCodeModal').modal('show');
+                    CoditechCommon.HideLodder();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == "401" || xhr.status == "403") {
+                        location.reload();
+                    }
+                    CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
+                    CoditechCommon.HideLodder();
+                }
+            });
+        }
+
+        postalInput.on('input', function () {
+            const postalVal = $(this).val().trim();
+            clearTimeout(popupTimeout);
+            if (postalVal.length === 6 && isExplicitlyIndiaSelected()) {
+                popupTimeout = setTimeout(() => {
+                    fetchPostalCode(postalVal);
+                }, 800);
+            }
+        });
+
+        countrySelect.on('change', function () {
+            postalInput.trigger('input');
+        });
+
+        // Handle modal submit
+        $(document).on('submit', '#frmSendDetails', function (e) {
+            e.preventDefault();
+
+            const selected = $('input[name="SelectedAddress"]:checked').val();
+            if (!selected) {
+                alert('Please select an address before submitting.');
+                return;
+            }
+
+            const parts = selected.split('|');
+            const userAddress = {
+                Name: parts[0],
+                District: parts[1],
+                Division: parts[2],
+                State: parts[3],
+                Country: parts[4],
+                Pincode: parts[5]
+            };
+
+            const backendData = {
+                Postalcode: $('input[name="Postalcode"]').val(),
+                PersonId: $('input[name="PersonId"]').val(),
+                EntityId: $('input[name="EntityId"]').val(),
+                EntityType: $('input[name="EntityType"]').val(),
+                ControllerName: $('input[name="ControllerName"]').val(),
+                GeneralCountryMasterId: $('select[name="GeneralCountryMasterId"]').val(),
+                AddressTypeEnum: $('input[name="AddressTypeEnum"]').val()
+            };
+
+            const payload = {
+                BackendData: backendData,
+                UserSelectedAddress: userAddress
+            };
+
+            console.log("Payload to send:", payload);
+            CoditechCommon.ShowLodder();
+            $.ajax({
+                url: '/GeneralCommon/ValidateAddress',
+                type: 'POST', // ✅ must be POST
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(payload),
+                success: function (response) {
+                    console.log("ValidateAddress OK");
+                    $('#postalCodeModal').modal('hide');
+                    CoditechCommon.HideLodder();
+                    if (response) {
+                        $('#addressContainer').html(response);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == "401" || xhr.status == "403") {
+                        location.reload();
+                    }
+                    CoditechNotification.DisplayNotificationMessage("Failed to display record.", "error");
+                    CoditechCommon.HideLodder();
+                }
+            });
+        });
 </script>

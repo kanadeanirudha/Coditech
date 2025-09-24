@@ -131,62 +131,85 @@ namespace Coditech.Admin.Controllers
         #endregion Employee Other Detail
 
         #region Employee Address
+        //[HttpGet]
+        //public virtual ActionResult CreateEditEmployeeAddress(long employeeId, long personId)
+        //{
+        //    if (TempData["GeneralPersonAddressViewModel"] is string serializedModel)
+        //    {
+        //        TempData.Keep();
+        //        GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
+        //        GeneralPersonAddressViewModel viewModel = JsonConvert.DeserializeObject<GeneralPersonAddressViewModel>(serializedModel);
+        //        model.GeneralPersonAddressList = new List<GeneralPersonAddressViewModel> { viewModel };
+        //        model.PersonId = viewModel.PersonId;
+        //        model.EntityType = viewModel.EntityType;
+        //        model.EntityId = viewModel.EntityId;
+        //        model.GeneralPersonAddressList = new List<GeneralPersonAddressViewModel> { viewModel };
+        //        return ActionView("~/Views/EmployeeMaster/CreateEditEmployeeAddress.cshtml", model);
+
+        //    }
+        //    else
+        //    {
+        //        GeneralPersonAddressListViewModel model = new GeneralPersonAddressListViewModel()
+        //        {
+        //            EntityId = employeeId,
+        //            PersonId = personId,
+        //            EntityType = UserTypeEnum.Employee.ToString()
+
+        //        };
+        //        return ActionView("~/Views/EmployeeMaster/CreateEditEmployeeAddress.cshtml", model);
+
+        //    }
+        //}
+
+        //[HttpPost]
+        //public virtual ActionResult CreateEditGeneralPersonalAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel)
+        //{
+        //    if (!generalPersonAddressViewModel.AddressData.IsNullOrEmpty())
+        //    {
+        //        BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel = new BindAddressToPostalCodeViewModel();
+        //        bindAddressToPostalCodeViewModel = JsonConvert.DeserializeObject<BindAddressToPostalCodeViewModel>(generalPersonAddressViewModel.AddressData);
+
+        //        BindAddressToPostalCodeViewModel listModel = _generalCommonAgent.ValidateAddress(bindAddressToPostalCodeViewModel);
+        //        generalPersonAddressViewModel.BindAddressToPostalCodeList = listModel.BindAddressToPostalCodeList;
+        //        if (generalPersonAddressViewModel.BindAddressToPostalCodeList.Count > 0)
+        //        {
+        //            generalPersonAddressViewModel.AddressLine1 = bindAddressToPostalCodeViewModel.Name;
+        //            generalPersonAddressViewModel.GeneralCityMasterId = generalPersonAddressViewModel.BindAddressToPostalCodeList[0].SelectedCityId;
+        //            generalPersonAddressViewModel.GeneralRegionMasterId = generalPersonAddressViewModel.BindAddressToPostalCodeList[0].SelectedRegionId;
+        //            TempData["GeneralPersonAddressViewModel"] = JsonConvert.SerializeObject(generalPersonAddressViewModel);
+        //            return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+        //        }
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
+        //        ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+        //        : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+        //    }
+
+        //    return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
+        //}
         [HttpGet]
         public virtual ActionResult CreateEditEmployeeAddress(long employeeId, long personId)
         {
-            if (TempData["GeneralPersonAddressViewModel"] is string serializedModel)
+            GeneralPersonAddressListViewModel model = new GeneralPersonAddressListViewModel()
             {
-                TempData.Keep();
-                GeneralPersonAddressListViewModel model = _userAgent.GetGeneralPersonAddresses(personId);
-                GeneralPersonAddressViewModel viewModel = JsonConvert.DeserializeObject<GeneralPersonAddressViewModel>(serializedModel);
-                model.GeneralPersonAddressList = new List<GeneralPersonAddressViewModel> { viewModel };
-                model.PersonId = viewModel.PersonId;
-                model.EntityType = viewModel.EntityType;
-                model.EntityId = viewModel.EntityId;
-                model.GeneralPersonAddressList = new List<GeneralPersonAddressViewModel> { viewModel };
-                return ActionView("~/Views/EmployeeMaster/CreateEditEmployeeAddress.cshtml", model);
-
-            }
-            else
-            {
-                GeneralPersonAddressListViewModel model = new GeneralPersonAddressListViewModel()
-                {
-                    EntityId = employeeId,
-                    PersonId = personId,
-                    EntityType = UserTypeEnum.Employee.ToString()
-
-                };
-                return ActionView("~/Views/EmployeeMaster/CreateEditEmployeeAddress.cshtml", model);
-
-            }
+                EntityId = employeeId,
+                PersonId = personId,
+                EntityType = UserTypeEnum.Employee.ToString()
+            };
+            return ActionView("~/Views/EmployeeMaster/CreateEditEmployeeAddress.cshtml", model);
         }
 
         [HttpPost]
         public virtual ActionResult CreateEditGeneralPersonalAddress(GeneralPersonAddressViewModel generalPersonAddressViewModel)
         {
-            if (!generalPersonAddressViewModel.AddressData.IsNullOrEmpty())
-            {
-                BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel = new BindAddressToPostalCodeViewModel();
-                bindAddressToPostalCodeViewModel = JsonConvert.DeserializeObject<BindAddressToPostalCodeViewModel>(generalPersonAddressViewModel.AddressData);
-
-                BindAddressToPostalCodeViewModel listModel = _generalCommonAgent.ValidateAddress(bindAddressToPostalCodeViewModel);
-                generalPersonAddressViewModel.BindAddressToPostalCodeList = listModel.BindAddressToPostalCodeList;
-                if (generalPersonAddressViewModel.BindAddressToPostalCodeList.Count > 0)
-                {
-                    generalPersonAddressViewModel.AddressLine1 = bindAddressToPostalCodeViewModel.Name;
-                    generalPersonAddressViewModel.GeneralCityMasterId = generalPersonAddressViewModel.BindAddressToPostalCodeList[0].SelectedCityId;
-                    generalPersonAddressViewModel.GeneralRegionMasterId = generalPersonAddressViewModel.BindAddressToPostalCodeList[0].SelectedRegionId;
-                    TempData["GeneralPersonAddressViewModel"] = JsonConvert.SerializeObject(generalPersonAddressViewModel);
-                    return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
-                }
-            }
             if (ModelState.IsValid)
             {
                 SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
             }
-
             return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = generalPersonAddressViewModel.EntityId, personId = generalPersonAddressViewModel.PersonId });
         }
         #endregion Employee Address
