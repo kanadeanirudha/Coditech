@@ -11,7 +11,7 @@ namespace Coditech.Admin.Utilities
         public static string Encrypt(string plainText)
         {
             // If encryption Is disable , then return plain text
-            if (!CoditechAdminSettings.IsEncryption)
+            if (!CoditechAdminSettings.IsURLEncrypted)
                 return plainText;
 
             using var aes = Aes.Create();
@@ -30,7 +30,7 @@ namespace Coditech.Admin.Utilities
         public static string Decrypt(string cipherText)
         {
             //If encryption Is disable , then return plain text
-            if (!CoditechAdminSettings.IsEncryption)
+            if (!CoditechAdminSettings.IsURLEncrypted)
                 return cipherText;
 
             var buffer = Convert.FromBase64String(cipherText);

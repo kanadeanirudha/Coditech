@@ -14,7 +14,7 @@ namespace Coditech.Admin.Utilities
                 return url;
 
             // If encryption Is disable , then return plain text
-            if (!CoditechAdminSettings.IsEncryption)
+            if (!CoditechAdminSettings.IsURLEncrypted)
                 return url;
 
             var parts = url.Split('?');

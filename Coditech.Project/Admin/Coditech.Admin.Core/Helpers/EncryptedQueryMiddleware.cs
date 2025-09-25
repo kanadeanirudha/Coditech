@@ -15,7 +15,7 @@ namespace Coditech.Admin.Middleware
         public async Task Invoke(HttpContext context)
         {
             // If encryption Is disable , then return plain text
-            if (CoditechAdminSettings.IsEncryption && context.Request.Query.ContainsKey("data"))
+            if (CoditechAdminSettings.IsURLEncrypted && context.Request.Query.ContainsKey("data"))
             {
                 try
                 {
@@ -35,7 +35,7 @@ namespace Coditech.Admin.Middleware
 
             context.Response.OnStarting(() =>
             {
-                if (CoditechAdminSettings.IsEncryption &&
+                if (CoditechAdminSettings.IsURLEncrypted &&
                     context.Response.StatusCode == 302 &&
                     context.Response.Headers.ContainsKey("Location"))
                 {
