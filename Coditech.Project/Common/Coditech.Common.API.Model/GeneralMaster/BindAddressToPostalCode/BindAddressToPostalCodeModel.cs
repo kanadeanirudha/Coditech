@@ -20,5 +20,6 @@ namespace Coditech.Common.API.Model
         public List<BindAddressToPostalCodeModel> BindAddressToPostalCodeList { get; set; }
         public int SelectedCityId { get; set; }
         public short SelectedRegionId { get; set; }
+        public short GeneralCountryMasterId { get; set; }
     }
 }

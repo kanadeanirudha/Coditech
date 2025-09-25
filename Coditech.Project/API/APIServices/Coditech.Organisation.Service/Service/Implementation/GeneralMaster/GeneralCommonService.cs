@@ -185,15 +185,14 @@ namespace Coditech.API.Service
                 if (!response.IsSuccessStatusCode)
                 {
                     return new List<BindAddressToPostalCodeModel>
-            {
-                new BindAddressToPostalCodeModel
-                {
-                    HasError = true,
-                    ErrorMessage = "API request failed"
+                    {
+                        new BindAddressToPostalCodeModel
+                        {
+                            HasError = true,
+                            ErrorMessage = "API request failed"
+                        }
+                    };
                 }
-            };
-                }
-
                 var json = response.Content.ReadAsStringAsync().Result;
 
                 var jArray = JArray.Parse(json);
@@ -202,13 +201,13 @@ namespace Coditech.API.Service
                 if (firstItem == null)
                 {
                     return new List<BindAddressToPostalCodeModel>
-            {
-                new BindAddressToPostalCodeModel
-                {
-                    HasError = true,
-                    ErrorMessage = "Invalid or empty response"
-                }
-            };
+                    {
+                        new BindAddressToPostalCodeModel
+                        {
+                            HasError = true,
+                            ErrorMessage = "Invalid or empty response"
+                        }
+                    };
                 }
 
                 List<BindAddressToPostalCodeModel> addressList = new List<BindAddressToPostalCodeModel>();
@@ -251,16 +250,17 @@ namespace Coditech.API.Service
         {
             try
             {
-                if (bindAddressToPostalCodeModel != null)
+                if (IsNotNull(bindAddressToPostalCodeModel))
                 {
                     GeneralCountryMaster generalCountryMaster = _generalCountryMasterRepository.Table.FirstOrDefault(x => x.CountryName == "India");
                     GeneralRegionMaster generalRegionMaster = _generalRegionMasterRepository.Table.FirstOrDefault(x => x.RegionName.ToLower() == bindAddressToPostalCodeModel.State.ToLower());
 
-                    if (generalRegionMaster == null)
+                    if (!IsNotNull(generalRegionMaster))
                     {
                         generalRegionMaster = new GeneralRegionMaster
                         {
                             RegionName = bindAddressToPostalCodeModel.State?.Trim(),
+                            GeneralCountryMasterId = generalCountryMaster.GeneralCountryMasterId,
                             CreatedDate = DateTime.Now,
                             ModifiedDate = DateTime.Now,
                             CreatedBy = 1,
@@ -269,12 +269,11 @@ namespace Coditech.API.Service
                         _generalRegionMasterRepository.Insert(generalRegionMaster);
                     }
 
-                    // Match or create City (District)
                     GeneralCityMaster generalCityMaster = _generalCityMasterRepository.Table
                         .FirstOrDefault(c => c.CityName == bindAddressToPostalCodeModel.District.Trim()
                                           && c.GeneralRegionMasterId == generalRegionMaster.GeneralRegionMasterId);
 
-                    if (generalCityMaster == null)
+                    if(!IsNotNull(generalCityMaster))
                     {
                         generalCityMaster = new GeneralCityMaster
                         {
@@ -293,13 +292,15 @@ namespace Coditech.API.Service
                     bindAddressToPostalCodeModel.SelectedCityId = generalCityMaster.GeneralCityMasterId;
                     bindAddressToPostalCodeModel.District = generalCityMaster.CityName;
                     bindAddressToPostalCodeModel.Country = generalCountryMaster.CountryName;
+                    bindAddressToPostalCodeModel.GeneralCountryMasterId = generalCountryMaster.GeneralCountryMasterId;
                     bindAddressToPostalCodeModel.BindAddressToPostalCodeList.Add(new BindAddressToPostalCodeModel
                     {
                         District = bindAddressToPostalCodeModel.District,
                         State = bindAddressToPostalCodeModel.State,
                         SelectedRegionId = bindAddressToPostalCodeModel.SelectedRegionId,
                         SelectedCityId = bindAddressToPostalCodeModel.SelectedCityId,
-                        Country = bindAddressToPostalCodeModel.Country
+                        Country = bindAddressToPostalCodeModel.Country,
+                        GeneralCountryMasterId = bindAddressToPostalCodeModel.GeneralCountryMasterId
                     });
                 }
             }
