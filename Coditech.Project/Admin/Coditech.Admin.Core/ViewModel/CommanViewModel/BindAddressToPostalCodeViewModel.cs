@@ -14,9 +14,13 @@ namespace Coditech.Admin.ViewModel
         public string Pincode { get; set; }
         public long? PersonId { get; set; }
         public long? EntityId { get; set; }
+        public string ControllerName { get; set; }
+        public string EntityType { get; set; }
+        public string AddressTypeEnum { get; set; }
         public string AddressData { get; set; }
         public int SelectedCityId { get; set; }
         public short SelectedRegionId { get; set; }
+        public short GeneralCountryMasterId { get; set; }
         public List<BindAddressToPostalCodeViewModel> BindAddressToPostalCodeList { get; set; }
 
     }

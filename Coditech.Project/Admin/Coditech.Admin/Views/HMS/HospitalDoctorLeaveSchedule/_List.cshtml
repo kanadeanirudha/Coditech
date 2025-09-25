@@ -27,7 +27,7 @@
                             <td>@item.FromTime</td>
                             <td>@item.UptoTime</td>
                             <td class="text-center">
-                                <a href="../@controllerName/Edit?hospitalDoctorLeaveScheduleId=@item.HospitalDoctorLeaveScheduleId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
+                                <a href="@Url.Action("Edit", controllerName, new { hospitalDoctorLeaveScheduleId = @item.HospitalDoctorLeaveScheduleId })" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a><span class="m-2">|</span>
                                 <!-- Delete Button Triggering Modal -->
                                 <a href="#" title="Delete" class="btn btn-sm btn-soft-danger btn-circle" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal_@item.HospitalDoctorLeaveScheduleId"><i class="fas fa-trash-alt"></i></a>
                                 <!-- Delete Confirmation Modal -->
@@ -45,7 +45,7 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                 <!-- Delete action with selectedCentreCode parameter -->
-                                                <a href="/@controllerName/Delete?hospitalDoctorLeaveScheduleIds=@item.HospitalDoctorLeaveScheduleId&selectedCentreCode=@Model.SelectedCentreCode&SelectedDepartmentId=@Model.SelectedDepartmentId" class="btn btn-outline-danger">Delete</a>
+                                                <a href="@Url.Action("Delete", controllerName, new { hospitalDoctorLeaveScheduleIds = @item.HospitalDoctorLeaveScheduleId, selectedCentreCode = @Model.SelectedCentreCode, SelectedDepartmentId = @Model.SelectedDepartmentId })" class="btn btn-outline-danger">Delete</a>
                                             </div>
                                         </div>
                                     </div>

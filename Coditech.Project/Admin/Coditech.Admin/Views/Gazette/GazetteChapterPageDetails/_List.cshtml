@@ -24,15 +24,14 @@
                             <td class="text-center">
                                 @if (item.GazetteChapterPageDetailId > 0)
                                 {
-                                    <a href="../@controllerName/Edit?gazetteChaptersPageDetailId=@item.GazetteChapterPageDetailId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>
+                                    <a href="@Url.Action("Edit", controllerName, new { gazetteChaptersPageDetailId = item.GazetteChapterPageDetailId })" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"> <i class="fas fa-edit"></i> </a>
                                 }
                                 else
                                 {
-                                    <a href="../@controllerName/Create?gazetteChapterId=@item.GazetteChapterId" title="Add" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-plus"></i></a>
+                                    <a href="@Url.Action("Create", controllerName, new { gazetteChapterId = @item.GazetteChapterId })" title="Add" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-plus"></i></a>
                                 }
                                 <span class="m-2">|</span>
-                                <a href="../@controllerName/Delete?gazetteChaptersPageDetailIds=@item.GazetteChapterPageDetailId
-                                " title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                                <a href="@Url.Action("Delete", controllerName, new { gazetteChaptersPageDetailIds = @item.GazetteChapterPageDetailId })" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }
