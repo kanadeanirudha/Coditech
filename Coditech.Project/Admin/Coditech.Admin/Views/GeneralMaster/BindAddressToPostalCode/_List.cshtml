@@ -77,6 +77,7 @@
                 return;
             }
             CoditechCommon.ShowLodder();
+            $('#postalCodeModal').modal('hide');
             const parts = selected.split('|');
             const userAddress = {
                 Name: parts[0] || '',
@@ -101,7 +102,6 @@
                 type: 'POST',
                 data: { addressData: JSON.stringify(merged) },
                 success: function (response) {
-                    $('#postalCodeModal').modal('hide');
                      CoditechCommon.HideLodder();
                      location.reload();
                 },

@@ -14,6 +14,7 @@
     @Html.HiddenFor(m => m.EntityId)
     @Html.HiddenFor(m => m.EntityType)
     @Html.HiddenFor(m => m.ControllerName)
+
     <div class="row">
         <div class="col-lg-4">
             <div class="mb-3">
@@ -90,7 +91,7 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="mb-3">
+            <div class="mb-3 readonly-dropdown">
                 @Html.LabelFor(x => x.GeneralRegionMasterId, new { @class = "form-label required" })
                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", regionDropdown)
                 @Html.ValidationMessageFor(x => x.GeneralRegionMasterId, null, new { id = $"errorGeneralRegionMasterId_{Model.AddressTypeEnum}" })
@@ -131,8 +132,12 @@
     </button>
 }
 <script>
-       
-        const postalInput = $('input[name="Postalcode"]');
+
+
+      $('#GeneralCountryMasterId').attr('disabled', true);  
+      $('#GeneralRegionMasterId').attr('disabled', true);
+      $('#GeneralCityMasterId').attr('disabled', true);
+    const postalInput = $('input[name="Postalcode"]');
         const personId = $('input[name="PersonId"]').val();
         const entityId = $('input[name="EntityId"]').val();
         const countrySelect = $('select[name="GeneralCountryMasterId"]');
