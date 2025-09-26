@@ -192,28 +192,5 @@ namespace Coditech.Admin.Controllers
             accPrequisiteLists.Add(new AccPrequisiteModel { Name = "Account GL Balance Sheet", Field = "AccGLBalanceSheet", IsAssociated = accPrequisitesModel.IsAccGLBalanceSheetAssociated });
             return View("~/Views/Shared/BalanceSheetAssociated.cshtml", accPrequisiteLists);
         }
-
-        public virtual ActionResult FetchPostalCode(BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel)
-        {
-
-            if (ModelState.IsValid)
-            {
-                if (!bindAddressToPostalCodeViewModel.HasError)
-                {
-                    TempData["PersonId"] = bindAddressToPostalCodeViewModel.PersonId.ToString();
-                    TempData["EntityId"] = bindAddressToPostalCodeViewModel.EntityId.ToString();
-                    TempData["SelectedRegionId"] = bindAddressToPostalCodeViewModel.SelectedRegionId.ToString();
-                    TempData["SelectedCityId"] = bindAddressToPostalCodeViewModel.SelectedCityId.ToString();
-                    TempData["SelectedPostalCode"] = bindAddressToPostalCodeViewModel.Pincode?.ToString();
-                    TempData["AddressData"] = bindAddressToPostalCodeViewModel.AddressData?.ToString();
-                    TempData.Keep();
-                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = bindAddressToPostalCodeViewModel.EntityId, personId = bindAddressToPostalCodeViewModel.PersonId });
-                }
-            }
-            SetNotificationMessage(GetErrorNotificationMessage(bindAddressToPostalCodeViewModel.ErrorMessage));
-            return RedirectToAction("CreateEditEmployeeAddress", "EmployeeMaster", new { employeeId = bindAddressToPostalCodeViewModel.EntityId, personId = bindAddressToPostalCodeViewModel.PersonId });
-        }
-
     }
 }

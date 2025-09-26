@@ -189,16 +189,26 @@ namespace Coditech.Admin.Controllers
                 generalPersonAddressViewModel.GeneralRegionMasterId = validatedAddress.SelectedRegionId;
                 generalPersonAddressViewModel.GeneralCountryMasterId = validatedAddress.GeneralCountryMasterId;
                 generalPersonAddressViewModel.Postalcode = validatedAddress.Pincode;
+                generalPersonAddressViewModel.PersonId = bindAddressToPostalCodeViewModel.PersonId ?? 0;
+                generalPersonAddressViewModel.FirstName = bindAddressToPostalCodeViewModel.FirstName;
+                generalPersonAddressViewModel.LastName = bindAddressToPostalCodeViewModel.LastName;
+                generalPersonAddressViewModel.MiddleName = bindAddressToPostalCodeViewModel.MiddleName;
+                generalPersonAddressViewModel.AddressLine1 = bindAddressToPostalCodeViewModel.AddressLine1;
+                generalPersonAddressViewModel.AddressLine2 = bindAddressToPostalCodeViewModel.AddressLine2;
+                generalPersonAddressViewModel.MobileNumber = bindAddressToPostalCodeViewModel.MobileNumber;
+                generalPersonAddressViewModel.PhoneNumber = bindAddressToPostalCodeViewModel.PhoneNumber;
+                generalPersonAddressViewModel.EmailAddress = bindAddressToPostalCodeViewModel.EmailAddress;
             }
-            GeneralPersonAddressListViewModel updatedModel = _userAgent.GetGeneralPersonAddresses(generalPersonAddressViewModel.PersonId);
+            GeneralPersonAddressListViewModel updatedModel = _userAgent.GetGeneralPersonAddresses(bindAddressToPostalCodeViewModel.PersonId ?? 0);
             if (string.IsNullOrEmpty(generalPersonAddressViewModel.ControllerName))
             {
                 updatedModel.ControllerName = bindAddressToPostalCodeViewModel.ControllerName;
                 updatedModel.PersonId = validatedAddress.PersonId ?? 0;
                 updatedModel.EntityId = validatedAddress.EntityId ?? 0;
             }
-            SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError?
-            GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage):GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+           
+            SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError ?
+            GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", updatedModel);
         }
 

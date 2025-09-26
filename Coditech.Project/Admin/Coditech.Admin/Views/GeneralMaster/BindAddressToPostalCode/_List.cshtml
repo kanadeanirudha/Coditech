@@ -87,15 +87,24 @@
                 Country: parts[4] || '',
                 Pincode: parts[5] || ''
             };
-            const backendData = {
+           const backendData = {
                 Postalcode: $('input[name="Postalcode"]').val(),
                 PersonId: $('input[name="PersonId"]').val(),
                 EntityId: $('input[name="EntityId"]').val(),
-                ControllerName: $('input[name="ControllerName"]').val(),
                 EntityType: $('input[name="EntityType"]').val(),
+                ControllerName: $('input[name="ControllerName"]').val(),
                 GeneralCountryMasterId: $('select[name="GeneralCountryMasterId"]').val(),
-                AddressTypeEnum: $('input[name="AddressTypeEnum"]').val()
+                AddressTypeEnum: $('input[name="AddressTypeEnum"]').val(),
+                AddressLine1: $('textarea[name="AddressLine1"]').val(),
+                AddressLine2: $('textarea[name="AddressLine2"]').val(),
+                FirstName: $('input[name="FirstName"]').val(),
+                MiddleName: $('input[name="MiddleName"]').val(),
+                LastName: $('input[name="LastName"]').val(),
+                EmailAddress: $('input[name="EmailAddress"]').val(),
+                PhoneNumber: $('input[name="PhoneNumber"]').val(),
+                MobileNumber: $('input[name="MobileNumber"]').val(),
             };
+
             const merged = { ...userAddress, ...backendData };
             $.ajax({
                 url: '/GeneralCommon/ValidateAddress',

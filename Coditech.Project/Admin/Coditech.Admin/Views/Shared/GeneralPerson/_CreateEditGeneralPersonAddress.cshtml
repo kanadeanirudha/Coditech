@@ -1,9 +1,9 @@
 ﻿@model GeneralPersonAddressViewModel
 @{
     Layout = null;
-    DropdownViewModel countryDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Country.ToString(), DropdownName = "GeneralCountryMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"User.GetRegionListByCountryId('{Model.AddressTypeEnum}')", ClassName = $"GeneralCountryMasterId_{Model.AddressTypeEnum}" };
-    DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"User.GetCityListByRegionId('{Model.AddressTypeEnum}')", ClassName = $"GeneralRegionMasterId_{Model.AddressTypeEnum}" };
-    DropdownViewModel cityDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.City.ToString(), DropdownName = "GeneralCityMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCityMasterId), Parameter = Convert.ToString(Model.GeneralRegionMasterId), ClassName = $"GeneralCityMasterId_{Model.AddressTypeEnum}" };
+    DropdownViewModel countryDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Country.ToString(), DropdownName = "GeneralCountryMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"User.GetRegionListByCountryId('{Model.AddressTypeEnum}')", ClassName = $"GeneralCountryMasterId_{Model.AddressTypeEnum}", IsDisabled = Model.GeneralPersonAddressId > 0 };
+    DropdownViewModel regionDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.Region.ToString(), DropdownName = "GeneralRegionMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralRegionMasterId), Parameter = Convert.ToString(Model.GeneralCountryMasterId), ChangeEvent = $"User.GetCityListByRegionId('{Model.AddressTypeEnum}')", ClassName = $"GeneralRegionMasterId_{Model.AddressTypeEnum}", IsDisabled = Model.GeneralPersonAddressId >= 0 };
+    DropdownViewModel cityDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.City.ToString(), DropdownName = "GeneralCityMasterId", DropdownSelectedValue = Convert.ToString(Model.GeneralCityMasterId), Parameter = Convert.ToString(Model.GeneralRegionMasterId), ClassName = $"GeneralCityMasterId_{Model.AddressTypeEnum}", IsDisabled = Model.GeneralPersonAddressId >= 0 };
 }
 @using (Html.BeginForm("CreateEditGeneralPersonalAddress", Model.ControllerName, FormMethod.Post, new { id = $"frmGeneralPersonalAddress_{Model.AddressTypeEnum}" }))
 {
@@ -14,6 +14,12 @@
     @Html.HiddenFor(m => m.EntityId)
     @Html.HiddenFor(m => m.EntityType)
     @Html.HiddenFor(m => m.ControllerName)
+    @if (Model.GeneralPersonAddressId > 0)
+    {
+        @Html.HiddenFor(m => m.GeneralCountryMasterId)
+        @Html.HiddenFor(m => m.GeneralRegionMasterId)
+        @Html.HiddenFor(m => m.GeneralCityMasterId)
+    }
 
     <div class="row">
         <div class="col-lg-4">
@@ -92,14 +98,14 @@
         </div>
         <div class="col-lg-4">
             <div class="mb-3 readonly-dropdown">
-                @Html.LabelFor(x => x.GeneralRegionMasterId, new { @class = "form-label required" })
+                @Html.LabelFor(x => x.GeneralRegionMasterId, new { @class = "form-label required readonly" })
                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", regionDropdown)
                 @Html.ValidationMessageFor(x => x.GeneralRegionMasterId, null, new { id = $"errorGeneralRegionMasterId_{Model.AddressTypeEnum}" })
             </div>
         </div>
         <div class="col-lg-4">
             <div class="mb-3">
-                @Html.LabelFor(x => x.GeneralCityMasterId, new { @class = "form-label required" })
+                @Html.LabelFor(x => x.GeneralCityMasterId, new { @class = "form-label required readonly" })
                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", cityDropdown)
                 @Html.ValidationMessageFor(x => x.GeneralCityMasterId, null, new { id = $"errorGeneralCityMasterId_{Model.AddressTypeEnum}" })
             </div>
@@ -133,10 +139,6 @@
 }
 <script>
 
-
-      $('#GeneralCountryMasterId').attr('disabled', true);  
-      $('#GeneralRegionMasterId').attr('disabled', true);
-      $('#GeneralCityMasterId').attr('disabled', true);
     const postalInput = $('input[name="Postalcode"]');
         const personId = $('input[name="PersonId"]').val();
         const entityId = $('input[name="EntityId"]').val();
@@ -212,7 +214,15 @@
                 EntityType: $('input[name="EntityType"]').val(),
                 ControllerName: $('input[name="ControllerName"]').val(),
                 GeneralCountryMasterId: $('select[name="GeneralCountryMasterId"]').val(),
-                AddressTypeEnum: $('input[name="AddressTypeEnum"]').val()
+                AddressTypeEnum: $('input[name="AddressTypeEnum"]').val(),
+                AddressLine1: $('textarea[name="AddressLine1"]').val(),
+                AddressLine2: $('textarea[name="AddressLine2"]').val(),
+                FirstName: $('input[name="FirstName"]').val(),
+                MiddleName: $('input[name="MiddleName"]').val(),
+                LastName: $('input[name="LastName"]').val(),
+                EmailAddress: $('input[name="EmailAddress"]').val(),
+                PhoneNumber: $('input[name="PhoneNumber"]').val(),
+                MobileNumber: $('input[name="MobileNumber"]').val(),
             };
 
             const payload = {
