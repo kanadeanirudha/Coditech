@@ -193,11 +193,12 @@ namespace Coditech.Admin.Controllers
                 generalPersonAddressViewModel.FirstName = bindAddressToPostalCodeViewModel.FirstName;
                 generalPersonAddressViewModel.LastName = bindAddressToPostalCodeViewModel.LastName;
                 generalPersonAddressViewModel.MiddleName = bindAddressToPostalCodeViewModel.MiddleName;
-                generalPersonAddressViewModel.AddressLine1 = bindAddressToPostalCodeViewModel.AddressLine1;
-                generalPersonAddressViewModel.AddressLine2 = bindAddressToPostalCodeViewModel.AddressLine2;
+                generalPersonAddressViewModel.AddressLine1 = bindAddressToPostalCodeViewModel.Name;
+                generalPersonAddressViewModel.AddressLine2 = bindAddressToPostalCodeViewModel.Name;
                 generalPersonAddressViewModel.MobileNumber = bindAddressToPostalCodeViewModel.MobileNumber;
                 generalPersonAddressViewModel.PhoneNumber = bindAddressToPostalCodeViewModel.PhoneNumber;
                 generalPersonAddressViewModel.EmailAddress = bindAddressToPostalCodeViewModel.EmailAddress;
+                generalPersonAddressViewModel.AddressTypeEnum = bindAddressToPostalCodeViewModel.AddressTypeEnum;
             }
             GeneralPersonAddressListViewModel updatedModel = _userAgent.GetGeneralPersonAddresses(bindAddressToPostalCodeViewModel.PersonId ?? 0);
             if (string.IsNullOrEmpty(generalPersonAddressViewModel.ControllerName))
@@ -208,7 +209,7 @@ namespace Coditech.Admin.Controllers
             }
            
             SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError ?
-            GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage) : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+            GetErrorNotificationMessage(generalPersonAddressViewModel.ErrorMessage) : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", updatedModel);
         }
 

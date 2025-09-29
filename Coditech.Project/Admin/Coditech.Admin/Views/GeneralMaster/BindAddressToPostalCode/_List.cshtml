@@ -16,6 +16,8 @@
     @Html.Hidden("PersonId", Model.PersonId)
     @Html.Hidden("EntityId", Model.EntityId)
     @Html.Hidden("AddressData", Model.AddressData)
+    @Html.Hidden("Postalcode")
+    @Html.Hidden("AddressTypeEnum", Model.AddressTypeEnum)
     <div class="modal-body">
         <div class="row">
             <div class="col-sm-12 table-responsive">
@@ -68,16 +70,21 @@
     </div>
 }
 <script>
-    $(document).ready(function () {
-        $('#frmSendDetails').on('submit', function (e) {
+       $(document).ready(function () {
+        const $form = $('#frmSendDetails');
+
+        $form.on('submit', function (e) {
             e.preventDefault();
-            const selected = $('input[name="SelectedAddress"]:checked').val();
+
+            const selected = $form.find('input[name="SelectedAddress"]:checked').val();
             if (!selected) {
                 alert("Please select an address before saving.");
                 return;
             }
+
             CoditechCommon.ShowLodder();
             $('#postalCodeModal').modal('hide');
+
             const parts = selected.split('|');
             const userAddress = {
                 Name: parts[0] || '',
@@ -87,32 +94,34 @@
                 Country: parts[4] || '',
                 Pincode: parts[5] || ''
             };
-           const backendData = {
-                Postalcode: $('input[name="Postalcode"]').val(),
-                PersonId: $('input[name="PersonId"]').val(),
-                EntityId: $('input[name="EntityId"]').val(),
-                EntityType: $('input[name="EntityType"]').val(),
-                ControllerName: $('input[name="ControllerName"]').val(),
-                GeneralCountryMasterId: $('select[name="GeneralCountryMasterId"]').val(),
-                AddressTypeEnum: $('input[name="AddressTypeEnum"]').val(),
-                AddressLine1: $('textarea[name="AddressLine1"]').val(),
-                AddressLine2: $('textarea[name="AddressLine2"]').val(),
-                FirstName: $('input[name="FirstName"]').val(),
-                MiddleName: $('input[name="MiddleName"]').val(),
-                LastName: $('input[name="LastName"]').val(),
-                EmailAddress: $('input[name="EmailAddress"]').val(),
-                PhoneNumber: $('input[name="PhoneNumber"]').val(),
-                MobileNumber: $('input[name="MobileNumber"]').val(),
+
+            const backendData = {
+                Postalcode: $form.find('input[name="Postalcode"]').val(),
+                PersonId: $form.find('input[name="PersonId"]').val(),
+                EntityId: $form.find('input[name="EntityId"]').val(),
+                EntityType: $form.find('input[name="EntityType"]').val(),
+                ControllerName: $form.find('input[name="ControllerName"]').val(),
+                GeneralCountryMasterId: $form.find('select[name="GeneralCountryMasterId"]').val(),
+                AddressTypeEnum: $form.find('input[name="AddressTypeEnum"]').val(),
+                AddressLine1: $form.find('textarea[name="AddressLine1"]').val(),
+                AddressLine2: $form.find('textarea[name="AddressLine2"]').val(),
+                FirstName: $form.find('input[name="FirstName"]').val(),
+                MiddleName: $form.find('input[name="MiddleName"]').val(),
+                LastName: $form.find('input[name="LastName"]').val(),
+                EmailAddress: $form.find('input[name="EmailAddress"]').val(),
+                PhoneNumber: $form.find('input[name="PhoneNumber"]').val(),
+                MobileNumber: $form.find('input[name="MobileNumber"]').val()
             };
 
             const merged = { ...userAddress, ...backendData };
+
             $.ajax({
                 url: '/GeneralCommon/ValidateAddress',
                 type: 'POST',
                 data: { addressData: JSON.stringify(merged) },
                 success: function (response) {
-                     CoditechCommon.HideLodder();
-                     location.reload();
+                    CoditechCommon.HideLodder();
+                    $('#addressContainer').html(response);
                 },
                 error: function (xhr) {
                     if (xhr.status == "401" || xhr.status == "403") {
@@ -124,5 +133,6 @@
             });
         });
     });
+
 </script>
 
