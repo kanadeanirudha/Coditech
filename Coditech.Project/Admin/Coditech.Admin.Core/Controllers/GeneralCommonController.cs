@@ -193,7 +193,7 @@ namespace Coditech.Admin.Controllers
                 generalPersonAddressViewModel.FirstName = bindAddressToPostalCodeViewModel.FirstName;
                 generalPersonAddressViewModel.LastName = bindAddressToPostalCodeViewModel.LastName;
                 generalPersonAddressViewModel.MiddleName = bindAddressToPostalCodeViewModel.MiddleName;
-                generalPersonAddressViewModel.AddressLine1 = bindAddressToPostalCodeViewModel.Name;
+                generalPersonAddressViewModel.AddressLine1 = bindAddressToPostalCodeViewModel.AddressLine1;
                 generalPersonAddressViewModel.AddressLine2 = bindAddressToPostalCodeViewModel.Name;
                 generalPersonAddressViewModel.MobileNumber = bindAddressToPostalCodeViewModel.MobileNumber;
                 generalPersonAddressViewModel.PhoneNumber = bindAddressToPostalCodeViewModel.PhoneNumber;
@@ -207,7 +207,7 @@ namespace Coditech.Admin.Controllers
                 updatedModel.PersonId = validatedAddress.PersonId ?? 0;
                 updatedModel.EntityId = validatedAddress.EntityId ?? 0;
             }
-           
+
             SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError ?
             GetErrorNotificationMessage(generalPersonAddressViewModel.ErrorMessage) : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
             return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", updatedModel);
