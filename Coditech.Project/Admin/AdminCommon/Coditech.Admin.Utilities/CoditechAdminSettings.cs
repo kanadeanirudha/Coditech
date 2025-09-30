@@ -221,11 +221,11 @@ namespace Coditech.Admin.Utilities
 
             }
         }
-        public static bool IsEncryption
+        public static bool IsURLEncrypted
         {
             get
             {
-                return Convert.ToBoolean(settings["IsEncryption"]);
+                return Convert.ToBoolean(settings["IsURLEncrypted"]);
 
             }
         }
