@@ -62,23 +62,60 @@ namespace Coditech.API.Service
             _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeDesignationMasterRepository = new CoditechRepository<EmployeeDesignationMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
-
         #region Public
+
         public virtual UserModel Login(UserLoginModel userLoginModel)
         {
             if (IsNull(userLoginModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             userLoginModel.Password = MD5Hash(userLoginModel.Password);
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.ToLower() == userLoginModel.UserName.ToLower() && x.Password == userLoginModel.Password
-                                                                             && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
-            if (IsNull(userMasterData))
-                throw new CoditechException(ErrorCodes.NotFound, null);
-            else if (!userMasterData.IsActive)
-                throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
-            UserModel userModel = BindUserDetail(userMasterData);
-            return userModel;
+            int maxAttempts = ApiSettings.UserLoginAttempts;
+            int lockMinutes = ApiSettings.UserAccountLockTimeInMinutes;
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.ToLower() == userLoginModel.UserName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
+
+            if (IsNull(userMasterData))
+                throw new CoditechException(ErrorCodes.NotFound, "User not found");
+
+            // Check if account still locked
+            if (userMasterData.AccountLockTime != null && userMasterData.AccountLockTime.Value.AddMinutes(lockMinutes) > DateTime.Now)
+            {
+                throw new CoditechException(ErrorCodes.InvalidData,
+                $"Account locked until {userMasterData.AccountLockTime.Value.AddMinutes(lockMinutes)}. Try again later or reset your password.");
+            }
+
+            string errorMessage = null;
+
+            if (userMasterData.Password == userLoginModel.Password)
+            {
+                if (!userMasterData.IsActive)
+                    throw new CoditechException(ErrorCodes.ContactAdministrator, null);
+
+                userMasterData.FailedLoginAttempts = 0;
+                userMasterData.AccountLockTime = null;
+
+                _userMasterRepository.Update(userMasterData);
+                return BindUserDetail(userMasterData);
+            }
+
+            userMasterData.FailedLoginAttempts++;
+
+            if (userMasterData.FailedLoginAttempts >= maxAttempts)
+            {
+                userMasterData.AccountLockTime = DateTime.Now;
+
+                errorMessage = $"Your account has been locked due to too many failed attempts. Try again after {lockMinutes} minutes.";
+            }
+            else
+            {
+                int remaining = maxAttempts - userMasterData.FailedLoginAttempts;
+                errorMessage = $"Invalid credentials. You have {remaining} attempt(s) left.";
+            }
+
+            _userMasterRepository.Update(userMasterData);
+            throw new CoditechException(ErrorCodes.InvalidData, errorMessage);
         }
 
         public virtual UserModel GetUserDetailByUserName(string userName)

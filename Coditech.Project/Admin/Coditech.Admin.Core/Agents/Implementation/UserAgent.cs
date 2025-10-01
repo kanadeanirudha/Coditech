@@ -59,6 +59,8 @@ namespace Coditech.Admin.Agents
                         return (UserLoginViewModel)GetViewModelWithErrorMessage(userLoginViewModel, AdminResources.ErrorMessage_ThisaccountdoesnotexistEnteravalidemailaddressorpassword);
                     case ErrorCodes.ContactAdministrator:
                         return (UserLoginViewModel)GetViewModelWithErrorMessage(userLoginViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
+                    case ErrorCodes.InvalidData:
+                        return (UserLoginViewModel)GetViewModelWithErrorMessage(userLoginViewModel, ex.ErrorMessage);
                     default:
                         return (UserLoginViewModel)GetViewModelWithErrorMessage(userLoginViewModel, GeneralResources.ErrorMessage_PleaseContactYourAdministrator);
                 }

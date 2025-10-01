@@ -47,7 +47,7 @@ namespace Coditech.API.Controllers
             catch (CoditechException ex)
             {
                 _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.UserLogin.ToString(), TraceLevel.Warning);
-                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorCode = ex.ErrorCode });
+                return CreateUnauthorizedResponse(new UserModel { HasError = true, ErrorCode = ex.ErrorCode , ErrorMessage=ex.ErrorMessage});
             }
             catch (Exception ex)
             {

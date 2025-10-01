@@ -126,5 +126,19 @@ namespace Coditech.Common.API
                 return Convert.ToByte(settings["LogMessageRetentionPeriodTimeInDays"]);
             }
         }
+        public static int UserLoginAttempts
+        {
+            get
+            {
+                return Convert.ToInt32(settings["UserLoginAttempts"]);
+            }
+        }
+        public static int UserAccountLockTimeInMinutes
+        {
+            get
+            {
+                return Convert.ToInt32(settings["UserAccountLockTimeInMinutes"]);
+            }
+        }
     }
 }
