@@ -41,13 +41,13 @@ namespace Coditech.Admin.Controllers
                 if (!generalCountryViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    if (string.Equals(generalCountryViewModel.ActionMode, "save", StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(generalCountryViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction("Edit", new { generalCountryId = generalCountryViewModel.GeneralCountryMasterId });
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalCountryId = generalCountryViewModel.GeneralCountryMasterId });
                     }
-                    else if (string.Equals(generalCountryViewModel.ActionMode, "saveandclose", StringComparison.OrdinalIgnoreCase))
+                    else if (string.Equals(generalCountryViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction("List");
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
                     }
                 }
             }
