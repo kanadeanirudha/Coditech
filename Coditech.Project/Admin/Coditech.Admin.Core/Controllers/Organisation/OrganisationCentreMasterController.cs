@@ -54,7 +54,14 @@ namespace Coditech.Admin.Controllers
                 if (!organisationCentreViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<OrganisationCentreMasterController>(x => x.List(null));
+                    if (string.Equals(organisationCentreViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { organisationCentreId = organisationCentreViewModel.OrganisationCentreMasterId });
+                    }
+                    else if (string.Equals(organisationCentreViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentreViewModel.ErrorMessage));
@@ -76,7 +83,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateOrganisationCentre(organisationCentreViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { organisationCentreId = organisationCentreViewModel.OrganisationCentreMasterId });
+                if (string.Equals(organisationCentreViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { organisationCentreId = organisationCentreViewModel.OrganisationCentreMasterId });
+                }
+                else if (string.Equals(organisationCentreViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, organisationCentreViewModel);
         }
@@ -138,7 +152,10 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseGSTSetup(organisationCentrewiseGSTCredentialViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseGSTSetup", new { organisationCentreId = organisationCentrewiseGSTCredentialViewModel.OrganisationCentreMasterId });
+                if (string.Equals(organisationCentrewiseGSTCredentialViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { organisationCentreId = organisationCentrewiseGSTCredentialViewModel.OrganisationCentreMasterId });
+                }
             }
             return View(OrganisationCentrewiseGSTCredential, organisationCentrewiseGSTCredentialViewModel);
         }
