@@ -120,6 +120,9 @@
   <data name="CancelButton" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CancelButtonText" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="ChangePasswordSuccessMessage" xml:space="preserve">
     <value>Password change successfully. Please re-login again with new Password.</value>
   </data>
@@ -168,7 +171,10 @@
   <data name="RecordAddedSuccessMessage" xml:space="preserve">
     <value>Record added successfully.</value>
   </data>
-  <data name="SaveButton" xml:space="preserve">
+  <data name="SaveAndCloseButtonText" xml:space="preserve">
+    <value>Save &amp; Close</value>
+  </data>
+  <data name="SaveButtonText" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="SelectLabel" xml:space="preserve">

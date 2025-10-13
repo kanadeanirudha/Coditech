@@ -17,9 +17,9 @@ namespace Coditech.Common.Helper
         public string Custom3 { get; set; }
         public string Custom4 { get; set; }
         public string Custom5 { get; set; }
-
         public bool HasError { get; set; }
         public string ErrorMessage { get; set; }
+        public string ActionMode { get; set; }
         public PageListViewModel PageListViewModel { get; set; }
         public List<string> CustomDropdownSelectedValue1 { get; set; }
         public List<SelectListItem> CustomDropdownList1 { get; set; }

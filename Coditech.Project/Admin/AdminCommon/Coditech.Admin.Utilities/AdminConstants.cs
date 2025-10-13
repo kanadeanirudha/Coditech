@@ -32,5 +32,13 @@
         public const string PlanDurationType = "duration";
         public const string PlanSessionType = "session";
         #endregion
+        #region Save & Close Button
+
+        public const string FormId = "frmCreateEdit";
+        public const string ActionModeSave = "save";
+        public const string ActionRedirectToList = "list";
+        public const string ActionRedirectToEdit = "edit";
+        public const string ActionModeSaveAndClose = "saveandclose";
+        #endregion
     }
 }

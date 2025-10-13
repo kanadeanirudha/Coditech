@@ -2,7 +2,6 @@
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coditech.Admin.Controllers
@@ -42,7 +41,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalCountryViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(generalCountryViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalCountryId = generalCountryViewModel.GeneralCountryMasterId });
+                    }
+                    else if (string.Equals(generalCountryViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalCountryViewModel.ErrorMessage));
@@ -65,7 +71,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(generalCountryViewModel.HasError
                 ? GetErrorNotificationMessage(generalCountryViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalCountryId = generalCountryViewModel.GeneralCountryMasterId });
+                if (string.Equals(generalCountryViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalCountryId = generalCountryViewModel.GeneralCountryMasterId });
+                }
+                else if (string.Equals(generalCountryViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalCountryViewModel);
         }
