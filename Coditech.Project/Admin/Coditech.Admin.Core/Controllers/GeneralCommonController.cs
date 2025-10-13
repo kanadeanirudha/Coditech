@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using Coditech.Admin.Agents;
-using Coditech.Admin.Utilities;
+﻿using Coditech.Admin.Agents;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -15,9 +12,11 @@ namespace Coditech.Admin.Controllers
     public class GeneralCommonController : BaseController
     {
         private readonly IGeneralCommonAgent _generalCommonAgent;
-        public GeneralCommonController(IGeneralCommonAgent generalCommonAgent)
+        private readonly IUserAgent _userAgent;
+        public GeneralCommonController(IGeneralCommonAgent generalCommonAgent, IUserAgent userAgent)
         {
             _generalCommonAgent = generalCommonAgent;
+            _userAgent = userAgent;
         }
         //Get Departments By CentreCode
         public ActionResult GetDepartmentsByCentreCode(string centreCode)
@@ -162,23 +161,58 @@ namespace Coditech.Admin.Controllers
             else
                 return Json(new { success = false, message = "Invalid OTP." });
         }
+        [HttpPost]
         [HttpGet]
-        public virtual ActionResult FetchPostalCode(string postalCode, long? personId, long? entityId)
+        public virtual ActionResult FetchPostalCode(string postalCode, long? personId, long? entityId, string addressTypeEnum)
         {
             BindAddressToPostalCodeListViewModel listModel = _generalCommonAgent.FetchPostalCode(postalCode);
             BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel = new BindAddressToPostalCodeViewModel
             {
-                BindAddressToPostalCodeList = listModel.BindAddressToPostalCodeList
-
+                BindAddressToPostalCodeList = listModel.BindAddressToPostalCodeList,
+                EntityId = entityId,
+                PersonId = personId,
+                AddressTypeEnum = addressTypeEnum
             };
-            bindAddressToPostalCodeViewModel.EntityId = entityId;
-            bindAddressToPostalCodeViewModel.PersonId = personId;
-
-            if (AjaxHelper.IsAjaxRequest)
-            {
-                return PartialView("~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", bindAddressToPostalCodeViewModel);
-            }
-            return PartialView($"~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", bindAddressToPostalCodeViewModel);
+            return PartialView("~/Views/GeneralMaster/BindAddressToPostalCode/_List.cshtml", bindAddressToPostalCodeViewModel);
         }
+        [HttpPost]
+        public virtual ActionResult ValidateAddress(string addressData)
+        {
+            BindAddressToPostalCodeViewModel bindAddressToPostalCodeViewModel = JsonConvert.DeserializeObject<BindAddressToPostalCodeViewModel>(addressData);
+            BindAddressToPostalCodeViewModel validatedAddress = _generalCommonAgent.ValidateAddress(bindAddressToPostalCodeViewModel);
+            GeneralPersonAddressListViewModel generalPersonAddressListViewModel = _userAgent.GetGeneralPersonAddresses(bindAddressToPostalCodeViewModel.PersonId ?? 0);
+            generalPersonAddressListViewModel.GeneralPersonAddressList ??= new List<GeneralPersonAddressViewModel>();
+            GeneralPersonAddressViewModel generalPersonAddressViewModel = generalPersonAddressListViewModel.GeneralPersonAddressList.FirstOrDefault(x => x.AddressTypeEnum == bindAddressToPostalCodeViewModel.AddressTypeEnum);
+            if (IsNotNull(generalPersonAddressViewModel))
+            {
+                generalPersonAddressViewModel.GeneralCityMasterId = validatedAddress.SelectedCityId;
+                generalPersonAddressViewModel.GeneralRegionMasterId = validatedAddress.SelectedRegionId;
+                generalPersonAddressViewModel.GeneralCountryMasterId = validatedAddress.GeneralCountryMasterId;
+                generalPersonAddressViewModel.Postalcode = validatedAddress.Pincode;
+                generalPersonAddressViewModel.PersonId = bindAddressToPostalCodeViewModel.PersonId ?? 0;
+                generalPersonAddressViewModel.FirstName = bindAddressToPostalCodeViewModel.FirstName;
+                generalPersonAddressViewModel.LastName = bindAddressToPostalCodeViewModel.LastName;
+                generalPersonAddressViewModel.MiddleName = bindAddressToPostalCodeViewModel.MiddleName;
+                generalPersonAddressViewModel.AddressLine1 = bindAddressToPostalCodeViewModel.AddressLine1;
+                generalPersonAddressViewModel.AddressLine2 = bindAddressToPostalCodeViewModel.Name;
+                generalPersonAddressViewModel.MobileNumber = bindAddressToPostalCodeViewModel.MobileNumber;
+                generalPersonAddressViewModel.PhoneNumber = bindAddressToPostalCodeViewModel.PhoneNumber;
+                generalPersonAddressViewModel.EmailAddress = bindAddressToPostalCodeViewModel.EmailAddress;
+                generalPersonAddressViewModel.AddressTypeEnum = bindAddressToPostalCodeViewModel.AddressTypeEnum;
+            }
+            GeneralPersonAddressListViewModel updatedModel = _userAgent.GetGeneralPersonAddresses(bindAddressToPostalCodeViewModel.PersonId ?? 0);
+            if (string.IsNullOrEmpty(generalPersonAddressViewModel.ControllerName))
+            {
+                updatedModel.ControllerName = bindAddressToPostalCodeViewModel.ControllerName;
+                updatedModel.PersonId = validatedAddress.PersonId ?? 0;
+                updatedModel.EntityId = validatedAddress.EntityId ?? 0;
+            }
+
+            SetNotificationMessage(_userAgent.InsertUpdateGeneralPersonAddress(generalPersonAddressViewModel).HasError ?
+            GetErrorNotificationMessage(generalPersonAddressViewModel.ErrorMessage) : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+            return PartialView("~/Views/Shared/GeneralPerson/_GeneralPersonAddress.cshtml", updatedModel);
+        }
+
+
     }
 }

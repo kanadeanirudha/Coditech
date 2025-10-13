@@ -13,8 +13,13 @@ namespace Coditech.Admin.Utilities
                 )
             );
 
+            // If encryption Is disable , then return plain text
+            if (!CoditechAdminSettings.IsURLEncrypted)
+                return $"{basePath}?{query}";
+
             var encrypted = EncryptionHelper.Encrypt(query);
             return $"{basePath}?data={Uri.EscapeDataString(encrypted)}";
         }
     }
+
 }

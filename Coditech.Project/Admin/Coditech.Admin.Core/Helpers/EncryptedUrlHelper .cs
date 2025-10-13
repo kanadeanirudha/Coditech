@@ -10,19 +10,24 @@ namespace Coditech.Admin.Utilities
         {
             var url = base.Action(actionContext);
 
-            if (!string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
+                return url;
+
+            // If encryption Is disable , then return plain text
+            if (!CoditechAdminSettings.IsURLEncrypted)
+                return url;
+
+            var parts = url.Split('?');
+            if (parts.Length > 1)
             {
-                var parts = url.Split('?');
-                if (parts.Length > 1)
-                {
-                    var query = parts[1];
-                    var encrypted = EncryptionHelper.Encrypt(query);
-                    url = parts[0] + "?data=" + Uri.EscapeDataString(encrypted);
-                }
+                var query = parts[1];
+                var encrypted = EncryptionHelper.Encrypt(query);
+                url = parts[0] + "?data=" + Uri.EscapeDataString(encrypted);
             }
 
             return url;
         }
+
     }
 
     public class EncryptedUrlHelperFactory : IUrlHelperFactory

@@ -51,7 +51,7 @@ namespace Coditech.Admin.ViewModel
         public int GeneralCityMasterId { get; set; }
 
         [Required]
-        [MaxLength(10)]
+        [MaxLength(6)]
         [Display(Name = "Postal Code")]
         public string Postalcode { get; set; }
 

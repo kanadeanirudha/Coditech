@@ -110,22 +110,7 @@ namespace Coditech.Common.API
 
             }
         }
-        public static string EncryptionIV
-        {
-            get
-            {
-                return Convert.ToString(settings["EncryptionIV"]);
-
-            }
-        }
-        public static string EncryptionKey
-        {
-            get
-            {
-                return Convert.ToString(settings["EncryptionKey"]);
-
-            }
-        }
+       
         public static long ApiRequestTimeout
         {
             get
@@ -139,6 +124,20 @@ namespace Coditech.Common.API
             get
             {
                 return Convert.ToByte(settings["LogMessageRetentionPeriodTimeInDays"]);
+            }
+        }
+        public static int UserLoginAttempts
+        {
+            get
+            {
+                return Convert.ToInt32(settings["UserLoginAttempts"]);
+            }
+        }
+        public static int UserAccountLockTimeInMinutes
+        {
+            get
+            {
+                return Convert.ToInt32(settings["UserAccountLockTimeInMinutes"]);
             }
         }
     }

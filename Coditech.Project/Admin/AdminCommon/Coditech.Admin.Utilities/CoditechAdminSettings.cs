@@ -205,5 +205,29 @@ namespace Coditech.Admin.Utilities
                 return Convert.ToString(settings["DashboardUrl"]);
             }
         }
+        public static string EncryptionIV
+        {
+            get
+            {
+                return Convert.ToString(settings["EncryptionIV"]);
+
+            }
+        }
+        public static string EncryptionKey
+        {
+            get
+            {
+                return Convert.ToString(settings["EncryptionKey"]);
+
+            }
+        }
+        public static bool IsURLEncrypted
+        {
+            get
+            {
+                return Convert.ToBoolean(settings["IsURLEncrypted"]);
+
+            }
+        }
     }
 }

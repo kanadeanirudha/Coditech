@@ -14,15 +14,15 @@ namespace Coditech.Admin.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Query.ContainsKey("data"))
+            // If encryption Is disable , then return plain text
+            if (CoditechAdminSettings.IsURLEncrypted && context.Request.Query.ContainsKey("data"))
             {
                 try
                 {
-                    var encrypted = context.Request.Query["data"];
-                    var decrypted = EncryptionHelper.Decrypt(encrypted!);
+                    string encryptedQueryString = context.Request.Query["data"];
+                    string decryptedQueryString = EncryptionHelper.Decrypt(encryptedQueryString!);
 
-                    var dict = QueryHelpers.ParseQuery(decrypted);
-
+                    var dict = QueryHelpers.ParseQuery(decryptedQueryString);
                     var queryCollection = new QueryCollection(dict.ToDictionary(
                         kvp => kvp.Key,
                         kvp => new Microsoft.Extensions.Primitives.StringValues(kvp.Value.ToArray())
@@ -35,15 +35,17 @@ namespace Coditech.Admin.Middleware
 
             context.Response.OnStarting(() =>
             {
-                if (context.Response.StatusCode == 302 && context.Response.Headers.ContainsKey("Location"))
+                if (CoditechAdminSettings.IsURLEncrypted &&
+                    context.Response.StatusCode == 302 &&
+                    context.Response.Headers.ContainsKey("Location"))
                 {
-                    var location = context.Response.Headers["Location"].ToString();
+                    string location = context.Response.Headers["Location"].ToString();
                     var uri = new Uri(location, UriKind.RelativeOrAbsolute);
                     if (uri.IsAbsoluteUri && !string.IsNullOrEmpty(uri.Query))
                     {
-                        var query = uri.Query.TrimStart('?');
-                        var encrypted = EncryptionHelper.Encrypt(query);
-                        var newUrl = uri.GetLeftPart(UriPartial.Path) + "?data=" + Uri.EscapeDataString(encrypted);
+                        string query = uri.Query.TrimStart('?');
+                        string encrypted = EncryptionHelper.Encrypt(query);
+                        string newUrl = uri.GetLeftPart(UriPartial.Path) + "?data=" + Uri.EscapeDataString(encrypted);
                         context.Response.Headers["Location"] = newUrl;
                     }
                 }
@@ -52,5 +54,6 @@ namespace Coditech.Admin.Middleware
 
             await _next(context);
         }
+
     }
 }
