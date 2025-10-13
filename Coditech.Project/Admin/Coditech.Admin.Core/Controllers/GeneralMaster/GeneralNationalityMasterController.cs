@@ -9,7 +9,7 @@ namespace Coditech.Admin.Controllers
     public class GeneralNationalityMasterController : BaseController
     {
         private readonly IGeneralNationalityAgent _generalNationalityAgent;
-         private const string createEdit = "~/Views/GeneralMaster/GeneralNationalityMaster/CreateEdit.cshtml";
+        private const string createEdit = "~/Views/GeneralMaster/GeneralNationalityMaster/CreateEdit.cshtml";
 
         public GeneralNationalityMasterController(IGeneralNationalityAgent generalNationalityAgent)
         {
@@ -41,7 +41,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalNationalityViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralNationalityMasterController>(x => x.List(null));
+                    if (string.Equals(generalNationalityViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { nationalityId = generalNationalityViewModel.GeneralNationalityMasterId });
+                    }
+                    else if (string.Equals(generalNationalityViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalNationalityViewModel.ErrorMessage));
@@ -63,7 +70,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalNationalityAgent.UpdateNationality(generalNationalityViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { nationalityId = generalNationalityViewModel.GeneralNationalityMasterId });
+                if (string.Equals(generalNationalityViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { nationalityId = generalNationalityViewModel.GeneralNationalityMasterId });
+                }
+                else if (string.Equals(generalNationalityViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalNationalityViewModel);
         }
