@@ -83,7 +83,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_employeeMasterAgent.UpdateEmployeePersonalDetails(employeeCreateEditViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("UpdateEmployeePersonalDetails", new { employeeId = employeeCreateEditViewModel.EmployeeId, personId = employeeCreateEditViewModel.PersonId });
+                if (string.Equals(employeeCreateEditViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("UpdateEmployeePersonalDetails", new { employeeId = employeeCreateEditViewModel.EmployeeId, personId = employeeCreateEditViewModel.PersonId });
+                }
+                else if (string.Equals(employeeCreateEditViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new { selectedCentreCode = employeeCreateEditViewModel.SelectedCentreCode, selectedDepartmentId = employeeCreateEditViewModel.SelectedDepartmentId });
+                }
             }
             return View(createEditEmployee, employeeCreateEditViewModel);
         }
@@ -241,7 +248,14 @@ namespace Coditech.Admin.Controllers
                 if (!employeeServiceViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("EmployeeServiceList", CreateActionDataTable());
+                    if (string.Equals(employeeServiceViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("EmployeeServiceList", CreateActionDataTable());
+                    }
+                    else if (string.Equals(employeeServiceViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(employeeServiceViewModel.ErrorMessage));

@@ -6,8 +6,9 @@
         <h4 style="margin:0;">@Model.Title</h4>
         <!-- Save / Cancel Buttons -->
         <div style="display:flex; gap:8px;">
+            @if(!string.IsNullOrEmpty(@Model.CancelUrl)){
             <a href="@Model.CancelUrl" class="btn btn-secondary">@Model.CancelButtonText</a>
-
+            }
             <div class="btn-group">
                 <button type="submit"
                         form="@Model.FormId"

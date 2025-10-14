@@ -51,7 +51,14 @@ namespace Coditech.Admin.Controllers
                 if (!adminSanctionPostViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.CentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.DepartmentId) });
+                    if (string.Equals(adminSanctionPostViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.CentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.DepartmentId) });
+                    }
+                    else if (string.Equals(adminSanctionPostViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, new { selectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, selectedDepartmentId = adminSanctionPostViewModel.SelectedDepartmentId });
+                    }
                 }
             }
             BindDropdown(adminSanctionPostViewModel);
@@ -82,7 +89,14 @@ namespace Coditech.Admin.Controllers
 
                 if (!status)
                 {
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.SelectedDepartmentId) });
+                    if (string.Equals(adminSanctionPostViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.SelectedDepartmentId) });
+                    }
+                    else if (string.Equals(adminSanctionPostViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, new { selectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, selectedDepartmentId = adminSanctionPostViewModel.SelectedDepartmentId });
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminSanctionPostViewModel.ErrorMessage));
