@@ -6,6 +6,16 @@
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("EmployeeId", Model.EmployeeId.ToString());
     keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+    PageHeaderViewModel headerModel = new PageHeaderViewModel
+            {
+                Title = ViewBag.Title,
+                SaveButtonText = GeneralResources.SaveButtonText,
+                CancelUrl = @Url.Action("List", controllerName),
+                CancelButtonText = GeneralResources.CancelButtonText,
+                ControllerName = controllerName,
+                ActionName = actionName,
+                FormId = AdminConstants.FormId + controllerName,
+            };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -31,8 +41,9 @@
                         </div>  <!--end row-->
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm("UpdateEmployeeOtherDetail", controllerName, FormMethod.Post))
+                        @using (Html.BeginForm("UpdateEmployeeOtherDetail", controllerName, FormMethod.Post, new { id = headerModel.FormId }))
                         {
+                            @Html.Partial("~/Views/Shared/_SaveAndCloseButtonLayout.cshtml", headerModel)
                             @Html.HiddenFor(m => m.EmployeeId)
                             @Html.HiddenFor(m => m.PersonId)
                             @Html.HiddenFor(m => m.EmployeeDesignationMasterId)
@@ -102,12 +113,12 @@
                                     </div>
                                 </div>                                
                             </div>
-                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                           @*  <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="@Url.Action("List", controllerName,
                                         new { SelectedCentreCode = Model.CentreCode, SelectedDepartmentId = Model.GeneralDepartmentMasterId })"
                            class="btn btn-secondary">
                             <i class="ft-x"></i>@AdminResources.LabelCancel
-                        </a>
+                        </a> *@
                                                 }
                     </div>
                 </div>

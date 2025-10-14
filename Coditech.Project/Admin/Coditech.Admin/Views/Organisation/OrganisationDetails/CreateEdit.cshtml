@@ -7,13 +7,11 @@
             {
                 Title = ViewBag.Title,
                 SaveButtonText = GeneralResources.SaveButtonText,
-                CancelUrl = Url.Action(AdminConstants.ActionRedirectToList, controllerName),
                 CancelButtonText = GeneralResources.CancelButtonText,
                 ControllerName = controllerName,
                 ActionName = actionName,
                 FormId = AdminConstants.FormId + controllerName,
             };
-    // back button is disabled for create/edit page
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
