@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
@@ -55,7 +56,10 @@ namespace Coditech.Admin.Controllers
                 if (!status)
                 {
                     // Redirect back to the Edit action with the same adminRoleMasterId
-                    return RedirectToAction("Edit", new { adminRoleMasterId = adminRoleViewModel.AdminRoleMasterId });
+                    
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { adminRoleMasterId = adminRoleViewModel.AdminRoleMasterId});
+                    
+                    
                 }
             }
 
@@ -161,7 +165,15 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_adminRoleMasterAgent.InsertUpdateAdminRoleWiseMediaFolderAction(adminRoleMediaFolderActionViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("RoleWiseFolderAction", new { adminRoleMasterId = adminRoleMediaFolderActionViewModel.AdminRoleMasterId });
+                if (string.Equals(adminRoleMediaFolderActionViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("RoleWiseFolderAction", new { adminRoleMasterId = adminRoleMediaFolderActionViewModel.AdminRoleMasterId });
+                }
+                else if (string.Equals(adminRoleMediaFolderActionViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedParameter1 = Convert.ToString(adminRoleMediaFolderActionViewModel.AdminRoleMasterId) };
+                    return RedirectToAction("RoleAllocatedToUserList", dataTableViewModel);
+                }
             }
             return View("~/Views/Admin/AdminRoleMaster/RoleWiseFolderAction.cshtml", adminRoleMediaFolderActionViewModel);
         }
