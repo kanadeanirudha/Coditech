@@ -71,12 +71,12 @@ namespace Coditech.API.Controllers
         [Route("/GeneralNotificationMaster/GetNotification")]
         [HttpGet]
         [Produces(typeof(GeneralNotificationResponse))]
-        public virtual IActionResult GetNotification(long GeneralNotificationId)
+        public virtual IActionResult GetNotification(long generalNotificationId)
         {
 
             try
             {
-                GeneralNotificationModel generalNotificationModel = _generalNotificationService.GetNotification(GeneralNotificationId);
+                GeneralNotificationModel generalNotificationModel = _generalNotificationService.GetNotification(generalNotificationId);
                 return IsNotNull(generalNotificationModel) ? CreateOKResponse(new GeneralNotificationResponse { GeneralNotificationModel = generalNotificationModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

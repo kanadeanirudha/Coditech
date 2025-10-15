@@ -39,16 +39,23 @@ namespace Coditech.Admin.Controllers
                 if (!generalNotificationViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(generalNotificationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalNotificationId = generalNotificationViewModel.GeneralNotificationId });
+                    }
+                    else if (string.Equals(generalNotificationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalNotificationViewModel.ErrorMessage));
             return View(createEdit, generalNotificationViewModel);
 
         }
-        public virtual ActionResult Edit(long GeneralNotificationId)
+        public virtual ActionResult Edit(long generalNotificationId)
         {
-            GeneralNotificationViewModel generalNotificationViewModel = _generalNotificationAgent.GetNotification(GeneralNotificationId);
+            GeneralNotificationViewModel generalNotificationViewModel = _generalNotificationAgent.GetNotification(generalNotificationId);
             return ActionView(createEdit, generalNotificationViewModel);
         }
         [HttpPost]
@@ -59,17 +66,24 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalNotificationAgent.UpdateNotification(generalNotificationViewModel).HasError
                  ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                  : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { GeneralNotificationId = generalNotificationViewModel.GeneralNotificationId });
+                if (string.Equals(generalNotificationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalNotificationId = generalNotificationViewModel.GeneralNotificationId });
+                }
+                else if (string.Equals(generalNotificationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalNotificationViewModel);
         }
-        public virtual ActionResult Delete(string GeneralNotificationId)
+        public virtual ActionResult Delete(string generalNotificationId)
         {
             string message = string.Empty;
             bool status = false;
-            if (!string.IsNullOrEmpty(GeneralNotificationId))
+            if (!string.IsNullOrEmpty(generalNotificationId))
             {
-                status = _generalNotificationAgent.DeleteNotification(GeneralNotificationId, out message);
+                status = _generalNotificationAgent.DeleteNotification(generalNotificationId, out message);
                 SetNotificationMessage(!status
                     ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                     : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));

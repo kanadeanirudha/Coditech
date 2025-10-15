@@ -102,14 +102,14 @@ namespace Coditech.Admin.Agents
         }
 
         //Delete Notification.
-        public virtual bool DeleteNotification(string GeneralNotificationId, out string errorMessage)
+        public virtual bool DeleteNotification(string generalNotificationId, out string errorMessage)
         {
             errorMessage = GeneralResources.ErrorFailedToDelete;
 
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", CoditechLoggingEnum.Components.NotificationMaster.ToString(), TraceLevel.Info);
-                TrueFalseResponse trueFalseResponse = _generalNotificationClient.DeleteNotification(new ParameterModel { Ids = GeneralNotificationId });
+                TrueFalseResponse trueFalseResponse = _generalNotificationClient.DeleteNotification(new ParameterModel { Ids = generalNotificationId });
                 return trueFalseResponse.IsSuccess;
             }
             catch (CoditechException ex)

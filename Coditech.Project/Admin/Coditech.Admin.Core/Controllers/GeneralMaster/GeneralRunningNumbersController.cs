@@ -46,7 +46,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalRunningNumbersViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = generalRunningNumbersViewModel.CentreCode });
+                    if (string.Equals(generalRunningNumbersViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalRunningNumberId = generalRunningNumbersViewModel.GeneralRunningNumberId });
+                    }
+                    else if (string.Equals(generalRunningNumbersViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = generalRunningNumbersViewModel.CentreCode });
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalRunningNumbersViewModel.ErrorMessage));
@@ -68,7 +75,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalRunningNumbersAgent.UpdateRunningNumbers(generalRunningNumbersViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = generalRunningNumbersViewModel.CentreCode });
+                if (string.Equals(generalRunningNumbersViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalRunningNumberId = generalRunningNumbersViewModel.GeneralRunningNumberId });
+                }
+                else if (string.Equals(generalRunningNumbersViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = generalRunningNumbersViewModel.CentreCode });
+                }
             }
             return View(createEdit, generalRunningNumbersViewModel);
         }

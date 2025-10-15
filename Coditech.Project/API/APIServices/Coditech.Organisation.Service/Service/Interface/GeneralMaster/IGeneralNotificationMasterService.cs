@@ -9,7 +9,7 @@ namespace Coditech.API.Service
     {
         GeneralNotificationListModel GetNotificationList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         GeneralNotificationModel CreateNotification(GeneralNotificationModel model);
-        GeneralNotificationModel GetNotification(long NotificationId);
+        GeneralNotificationModel GetNotification(long generalNotificationId);
         bool UpdateNotification(GeneralNotificationModel model);
         bool DeleteNotification(ParameterModel parametermodel);
         GeneralNotificationListModel GetActiveNotificationList();
