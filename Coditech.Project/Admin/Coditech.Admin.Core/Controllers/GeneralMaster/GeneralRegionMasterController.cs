@@ -44,7 +44,7 @@ namespace Coditech.Admin.Controllers
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     if (string.Equals(generalRegionViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalCountryId = generalRegionViewModel.GeneralCountryMasterId });
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalRegionId = generalRegionViewModel.GeneralRegionMasterId });
                     }
                     else if (string.Equals(generalRegionViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                     {
