@@ -44,7 +44,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalEnumaratorGroupViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("Edit", new { generalEnumaratorGroupId = generalEnumaratorGroupViewModel.GeneralEnumaratorGroupId });
+                    if (string.Equals(generalEnumaratorGroupViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalEnumaratorGroupId = generalEnumaratorGroupViewModel.GeneralEnumaratorGroupId });
+                    }
+                    else if (string.Equals(generalEnumaratorGroupViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalEnumaratorGroupViewModel.ErrorMessage));
@@ -66,7 +73,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalEnumaratorGroupAgent.UpdateEnumaratorGroup(generalEnumaratorGroupViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalEnumaratorGroupId = generalEnumaratorGroupViewModel.GeneralEnumaratorGroupId });
+                if (string.Equals(generalEnumaratorGroupViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalEnumaratorGroupId = generalEnumaratorGroupViewModel.GeneralEnumaratorGroupId });
+                }
+                else if (string.Equals(generalEnumaratorGroupViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalEnumaratorGroupViewModel);
         }
@@ -115,7 +129,15 @@ namespace Coditech.Admin.Controllers
                 if (!generalEnumaratorViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("Edit", "GeneralEnumaratorGroup", new { generalEnumaratorGroupId = generalEnumaratorViewModel.GeneralEnumaratorGroupId });
+
+                    if (string.Equals(generalEnumaratorViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("Edit", "GeneralEnumaratorGroup", new { generalEnumaratorGroupId = generalEnumaratorViewModel.GeneralEnumaratorGroupId });
+                    }
+                    else if (string.Equals(generalEnumaratorViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalEnumaratorViewModel.ErrorMessage));

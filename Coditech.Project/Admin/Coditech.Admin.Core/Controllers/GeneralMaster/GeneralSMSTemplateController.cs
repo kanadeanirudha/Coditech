@@ -43,7 +43,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalEmailTemplateViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(generalEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalEmailTemplateId = generalEmailTemplateViewModel.GeneralEmailTemplateId });
+                    }
+                    else if (string.Equals(generalEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalEmailTemplateViewModel.ErrorMessage));
@@ -65,7 +72,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalEmailTemplateAgent.UpdateEmailTemplate(generalEmailTemplateViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalEmailTemplateId = generalEmailTemplateViewModel.GeneralEmailTemplateId });
+                if (string.Equals(generalEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalEmailTemplateId = generalEmailTemplateViewModel.GeneralEmailTemplateId });
+                }
+                else if (string.Equals(generalEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalEmailTemplateViewModel);
         }

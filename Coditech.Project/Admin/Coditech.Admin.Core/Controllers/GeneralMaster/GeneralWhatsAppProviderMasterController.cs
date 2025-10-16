@@ -36,10 +36,17 @@ namespace Coditech.Admin.Controllers
             if (ModelState.IsValid)
             {
                 generalWhatsAppProviderViewModel = _generalWhatsAppProviderAgent.CreateWhatsAppProvider(generalWhatsAppProviderViewModel);
-                if (!generalWhatsAppProviderViewModel.HasError) 
+                if (!generalWhatsAppProviderViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(generalWhatsAppProviderViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalWhatsAppProviderId = generalWhatsAppProviderViewModel.GeneralWhatsAppProviderId });
+                    }
+                    else if (string.Equals(generalWhatsAppProviderViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalWhatsAppProviderViewModel.ErrorMessage));
@@ -59,7 +66,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalWhatsAppProviderAgent.UpdateWhatsAppProvider(generalWhatsAppProviderViewModel).HasError
                  ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                  : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalWhatsAppProviderId = generalWhatsAppProviderViewModel.GeneralWhatsAppProviderId });
+                if (string.Equals(generalWhatsAppProviderViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalWhatsAppProviderId = generalWhatsAppProviderViewModel.GeneralWhatsAppProviderId });
+                }
+                else if (string.Equals(generalWhatsAppProviderViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalWhatsAppProviderViewModel);
         }

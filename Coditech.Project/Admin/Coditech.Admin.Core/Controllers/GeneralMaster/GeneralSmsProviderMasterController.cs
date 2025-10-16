@@ -16,7 +16,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             GeneralSmsProviderListViewModel list = _generalSmsProviderAgent.GetSmsProviderList(dataTableModel);
-  
+
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/GeneralMaster/GeneralSmsProviderMaster/_List.cshtml", list);
@@ -37,7 +37,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalSmsProviderViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(generalSmsProviderViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalSmsProviderId = generalSmsProviderViewModel.GeneralSmsProviderId });
+                    }
+                    else if (string.Equals(generalSmsProviderViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalSmsProviderViewModel.ErrorMessage));
@@ -57,7 +64,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalSmsProviderAgent.UpdateSmsProvider(generalSmsProviderViewModel).HasError
                  ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                  : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalSmsProviderId = generalSmsProviderViewModel.GeneralSmsProviderId });
+                if (string.Equals(generalSmsProviderViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalSmsProviderId = generalSmsProviderViewModel.GeneralSmsProviderId });
+                }
+                else if (string.Equals(generalSmsProviderViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalSmsProviderViewModel);
 
@@ -75,9 +89,9 @@ namespace Coditech.Admin.Controllers
                     : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
                 return RedirectToAction<GeneralSmsProviderMasterController>(x => x.List(null));
             }
-            
+
             SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<GeneralSmsProviderMasterController>(x => x.List(null)); 
+            return RedirectToAction<GeneralSmsProviderMasterController>(x => x.List(null));
         }
 
         #region Protected

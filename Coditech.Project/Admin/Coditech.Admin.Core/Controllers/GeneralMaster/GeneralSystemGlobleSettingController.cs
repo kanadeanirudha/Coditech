@@ -40,7 +40,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalSystemGlobleSettingViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralSystemGlobleSettingController>(x => x.List(null));
+                    if (string.Equals(generalSystemGlobleSettingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalSystemGlobleSettingId = generalSystemGlobleSettingViewModel.GeneralSystemGlobleSettingMasterId });
+                    }
+                    else if (string.Equals(generalSystemGlobleSettingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalSystemGlobleSettingViewModel.ErrorMessage));
@@ -62,7 +69,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalSystemGlobleSettingAgent.UpdateSystemGlobleSetting(generalSystemGlobleSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalSystemGlobleSettingId = generalSystemGlobleSettingViewModel.GeneralSystemGlobleSettingMasterId });
+                if (string.Equals(generalSystemGlobleSettingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalSystemGlobleSettingId = generalSystemGlobleSettingViewModel.GeneralSystemGlobleSettingMasterId });
+                }
+                else if (string.Equals(generalSystemGlobleSettingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalSystemGlobleSettingViewModel);
         }

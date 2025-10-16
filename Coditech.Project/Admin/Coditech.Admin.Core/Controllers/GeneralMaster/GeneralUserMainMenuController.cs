@@ -43,7 +43,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalUserMainnMenuViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(generalUserMainnMenuViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { userMainMenuMasterId = generalUserMainnMenuViewModel.UserMainMenuMasterId });
+                    }
+                    else if (string.Equals(generalUserMainnMenuViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalUserMainnMenuViewModel.ErrorMessage));
@@ -65,7 +72,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalUserMainMenuAgent.UpdateUserMainMenu(generalUserMainnMenuViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { userMainMenuMasterId = generalUserMainnMenuViewModel.UserMainMenuMasterId });
+                if (string.Equals(generalUserMainnMenuViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { userMainMenuMasterId = generalUserMainnMenuViewModel.UserMainMenuMasterId });
+                }
+                else if (string.Equals(generalUserMainnMenuViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalUserMainnMenuViewModel);
         }
