@@ -54,7 +54,14 @@ namespace Coditech.Admin.Controllers
                 if (!accGLSetupNarrationViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = accGLSetupNarrationViewModel.CentreCode  });
+                    if (string.Equals(accGLSetupNarrationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { accGLSetupNarrationId = accGLSetupNarrationViewModel.AccGLSetupNarrationId });
+                    }
+                    else if (string.Equals(accGLSetupNarrationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = accGLSetupNarrationViewModel.CentreCode });
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(accGLSetupNarrationViewModel.ErrorMessage));
@@ -75,7 +82,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_accGLSetupNarrationAgent.UpdateNarration(accGLSetupNarrationViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { accGLSetupNarrationId = accGLSetupNarrationViewModel.AccGLSetupNarrationId });
+                if (string.Equals(accGLSetupNarrationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { accGLSetupNarrationId = accGLSetupNarrationViewModel.AccGLSetupNarrationId });
+                }
+                else if (string.Equals(accGLSetupNarrationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = accGLSetupNarrationViewModel.CentreCode });
+                }
             }
             return View(createEdit, accGLSetupNarrationViewModel);
         }

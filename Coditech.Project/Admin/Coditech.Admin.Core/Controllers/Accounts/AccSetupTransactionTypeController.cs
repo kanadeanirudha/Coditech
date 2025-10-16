@@ -40,7 +40,14 @@ namespace Coditech.Admin.Controllers
                 if (!accSetupTransactionTypeViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(accSetupTransactionTypeViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { accSetupTransactionTypeId = accSetupTransactionTypeViewModel.AccSetupTransactionTypeId });
+                    }
+                    else if (string.Equals(accSetupTransactionTypeViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(accSetupTransactionTypeViewModel.ErrorMessage));
@@ -62,7 +69,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_accSetupTransactionTypeAgent.UpdateTransactionType(accSetupTransactionTypeViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { accSetupTransactionTypeId = accSetupTransactionTypeViewModel.AccSetupTransactionTypeId });
+                if (string.Equals(accSetupTransactionTypeViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { accSetupTransactionTypeId = accSetupTransactionTypeViewModel.AccSetupTransactionTypeId });
+                }
+                else if (string.Equals(accSetupTransactionTypeViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, accSetupTransactionTypeViewModel);
         }
