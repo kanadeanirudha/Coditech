@@ -41,7 +41,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalDesignationViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralDesignationMasterController>(x => x.List(null));
+                    if (string.Equals(generalDesignationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { designationId = generalDesignationViewModel.EmployeeDesignationMasterId });
+                    }
+                    else if (string.Equals(generalDesignationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalDesignationViewModel.ErrorMessage));
@@ -63,7 +70,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalDesignationAgent.UpdateDesignation(generalDesignationViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { designationId = generalDesignationViewModel.EmployeeDesignationMasterId });
+                if (string.Equals(generalDesignationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { designationId = generalDesignationViewModel.EmployeeDesignationMasterId });
+                }
+                else if (string.Equals(generalDesignationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalDesignationViewModel);
         }

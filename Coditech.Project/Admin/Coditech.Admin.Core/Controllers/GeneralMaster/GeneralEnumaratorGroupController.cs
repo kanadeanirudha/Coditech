@@ -44,8 +44,8 @@ namespace Coditech.Admin.Controllers
                 if (!generalEnumaratorGroupViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-					return RedirectToAction("Edit", new { generalEnumaratorGroupId = generalEnumaratorGroupViewModel.GeneralEnumaratorGroupId });
-				}
+                    return RedirectToAction("Edit", new { generalEnumaratorGroupId = generalEnumaratorGroupViewModel.GeneralEnumaratorGroupId });
+                }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalEnumaratorGroupViewModel.ErrorMessage));
             return View(createEdit, generalEnumaratorGroupViewModel);
@@ -115,7 +115,7 @@ namespace Coditech.Admin.Controllers
                 if (!generalEnumaratorViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("Edit", "GeneralEnumaratorGroup", new { generalEnumaratorViewModel.GeneralEnumaratorGroupId });
+                    return RedirectToAction("Edit", "GeneralEnumaratorGroup", new { generalEnumaratorGroupId = generalEnumaratorViewModel.GeneralEnumaratorGroupId });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalEnumaratorViewModel.ErrorMessage));
@@ -139,6 +139,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             }
             return RedirectToAction("Edit", "GeneralEnumaratorGroup", new { generalEnumaratorGroupId });
+
         }
         #endregion
         #region Protected

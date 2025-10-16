@@ -48,7 +48,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalTaxGroupMasterViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralTaxGroupMasterController>(x => x.List(null));
+                    if (string.Equals(generalTaxGroupMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { taxGroupMasterId = generalTaxGroupMasterViewModel.GeneralTaxGroupMasterId });
+                    }
+                    else if (string.Equals(generalTaxGroupMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
              BindDropDown(generalTaxGroupMasterViewModel);
@@ -72,7 +79,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalTaxGroupAgent.UpdateTaxGroupMaster(generalTaxGroupMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { taxGroupMasterId = generalTaxGroupMasterViewModel.GeneralTaxGroupMasterId });
+                if (string.Equals(generalTaxGroupMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { taxGroupMasterId = generalTaxGroupMasterViewModel.GeneralTaxGroupMasterId });
+                }
+                else if (string.Equals(generalTaxGroupMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             BindDropDown(generalTaxGroupMasterViewModel);
             return View(createEdit, generalTaxGroupMasterViewModel);

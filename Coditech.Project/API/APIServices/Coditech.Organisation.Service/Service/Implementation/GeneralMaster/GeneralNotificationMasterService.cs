@@ -68,13 +68,13 @@ namespace Coditech.API.Service
             return generalNotificationModel;
         }
         //Get Notification by Notification id.
-        public virtual GeneralNotificationModel GetNotification(long NotificationId)
+        public virtual GeneralNotificationModel GetNotification(long generalNotificationId)
         {
-            if (NotificationId <= 0)
+            if (generalNotificationId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "NotificationId"));
 
             //Get the Notification Details based on id.
-            GeneralNotification generalNotification = _generalNotificationMasterRepository.Table.FirstOrDefault(x => x.GeneralNotificationId == NotificationId);
+            GeneralNotification generalNotification = _generalNotificationMasterRepository.Table.FirstOrDefault(x => x.GeneralNotificationId == generalNotificationId);
             GeneralNotificationModel generalNotificationModel = generalNotification?.FromEntityToModel<GeneralNotificationModel>();
             return generalNotificationModel;
         }

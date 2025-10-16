@@ -42,7 +42,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalMeasurementUnitViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralMeasurementUnitMasterController>(x => x.List(null));
+                    if (string.Equals(generalMeasurementUnitViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalMeasurementUnitId = generalMeasurementUnitViewModel.GeneralMeasurementUnitMasterId });
+                    }
+                    else if (string.Equals(generalMeasurementUnitViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalMeasurementUnitViewModel.ErrorMessage));
@@ -64,7 +71,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalMeasurementUnitAgent.UpdateMeasurementUnit(generalMeasurementUnitViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalMeasurementUnitId = generalMeasurementUnitViewModel.GeneralMeasurementUnitMasterId });
+                if (string.Equals(generalMeasurementUnitViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalMeasurementUnitId = generalMeasurementUnitViewModel.GeneralMeasurementUnitMasterId });
+                }
+                else if (string.Equals(generalMeasurementUnitViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalMeasurementUnitViewModel);
         }

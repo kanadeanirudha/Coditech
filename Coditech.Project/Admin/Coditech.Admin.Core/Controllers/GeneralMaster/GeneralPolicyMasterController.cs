@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.API.Data;
 using Coditech.Resources;
 
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalPolicyViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("Edit", new { policyCode = generalPolicyViewModel.PolicyCode });
+                    if (string.Equals(generalPolicyViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { policyCode = generalPolicyViewModel.PolicyCode });
+                    }
+                    else if (string.Equals(generalPolicyViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             BindDropdown(generalPolicyViewModel);
@@ -70,7 +78,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(generalPolicyViewModel.HasError
                 ? GetErrorNotificationMessage(generalPolicyViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { policyCode = generalPolicyViewModel.PolicyCode });
+                if (string.Equals(generalPolicyViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { policyCode = generalPolicyViewModel.PolicyCode });
+                }
+                else if (string.Equals(generalPolicyViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             BindDropdown(generalPolicyViewModel);
             return View(createEdit, generalPolicyViewModel);
@@ -125,7 +140,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalPolicyViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("GetGeneralPolicyRulesList", new { policyCode = generalPolicyViewModel.PolicyCode });
+                    if (string.Equals(generalPolicyViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { policyCode = generalPolicyViewModel.PolicyCode });
+                    }
+                    else if (string.Equals(generalPolicyViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalPolicyViewModel.ErrorMessage));
@@ -149,7 +171,15 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(generalPolicyRulesViewModel.HasError
                 ? GetErrorNotificationMessage(generalPolicyRulesViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("EditRules", new { generalPolicyRulesId = generalPolicyRulesViewModel.GeneralPolicyRulesId, policyApplicableStatus = generalPolicyRulesViewModel.PolicyApplicableStatus });
+                //return RedirectToAction("EditRules", new { generalPolicyRulesId = generalPolicyRulesViewModel.GeneralPolicyRulesId, policyApplicableStatus = generalPolicyRulesViewModel.PolicyApplicableStatus });
+                if (string.Equals(generalPolicyRulesViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("EditRules", new { generalPolicyRulesId = generalPolicyRulesViewModel.GeneralPolicyRulesId, policyApplicableStatus = generalPolicyRulesViewModel.PolicyApplicableStatus });
+                }
+                else if (string.Equals(generalPolicyRulesViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyRulesViewModel);
         }
@@ -187,7 +217,16 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(generalPolicyDetailsViewModel.HasError
                 ? GetErrorNotificationMessage(generalPolicyDetailsViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("EditDetails", new { generalPolicyDetailId = generalPolicyDetailsViewModel.GeneralPolicyDetailId });
+                //return RedirectToAction("EditDetails", new { generalPolicyDetailId = generalPolicyDetailsViewModel.GeneralPolicyDetailId });
+                if (string.Equals(generalPolicyDetailsViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalPolicyDetailId = generalPolicyDetailsViewModel.GeneralPolicyDetailId });
+                }
+                else if (string.Equals(generalPolicyDetailsViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
+
             }
             return View("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyDetailsViewModel);
         }
