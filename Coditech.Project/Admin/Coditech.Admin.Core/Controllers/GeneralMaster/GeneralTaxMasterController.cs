@@ -40,7 +40,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalTaxMasterViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<GeneralTaxMasterController>(x => x.List(null));
+                    if (string.Equals(generalTaxMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { taxMasterId = generalTaxMasterViewModel.GeneralTaxMasterId });
+                    }
+                    else if (string.Equals(generalTaxMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalTaxMasterViewModel.ErrorMessage));
@@ -62,7 +69,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalTaxMasterAgent.UpdateTaxMaster(generalTaxMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { taxMasterId = generalTaxMasterViewModel.GeneralTaxMasterId });
+                if (string.Equals(generalTaxMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { taxMasterId = generalTaxMasterViewModel.GeneralTaxMasterId });
+                }
+                else if (string.Equals(generalTaxMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalTaxMasterViewModel);
         }

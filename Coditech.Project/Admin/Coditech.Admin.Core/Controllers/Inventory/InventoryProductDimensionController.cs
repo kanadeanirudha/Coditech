@@ -41,7 +41,14 @@ namespace Coditech.Admin.Controllers
                 if (!inventoryProductDimensionViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(inventoryProductDimensionViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryProductDimensionId = inventoryProductDimensionViewModel.InventoryProductDimensionId });
+                    }
+                    else if (string.Equals(inventoryProductDimensionViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(inventoryProductDimensionViewModel.ErrorMessage));
@@ -63,7 +70,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_inventoryProductDimensionAgent.UpdateInventoryProductDimension(inventoryProductDimensionViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { InventoryProductDimensionId = inventoryProductDimensionViewModel.InventoryProductDimensionId });
+                if (string.Equals(inventoryProductDimensionViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryProductDimensionId = inventoryProductDimensionViewModel.InventoryProductDimensionId });
+                }
+                else if (string.Equals(inventoryProductDimensionViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, inventoryProductDimensionViewModel);
         }

@@ -70,6 +70,15 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string CancelButtonText {
+            get {
+                return ResourceManager.GetString("CancelButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password change successfully. Please re-login again with new Password..
         /// </summary>
         public static string ChangePasswordSuccessMessage {
@@ -214,11 +223,20 @@ namespace Coditech.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save &amp; Close.
+        /// </summary>
+        public static string SaveAndCloseButtonText {
+            get {
+                return ResourceManager.GetString("SaveAndCloseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        public static string SaveButton {
+        public static string SaveButtonText {
             get {
-                return ResourceManager.GetString("SaveButton", resourceCulture);
+                return ResourceManager.GetString("SaveButtonText", resourceCulture);
             }
         }
         

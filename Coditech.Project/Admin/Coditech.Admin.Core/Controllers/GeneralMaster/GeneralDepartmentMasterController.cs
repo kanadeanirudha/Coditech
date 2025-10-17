@@ -43,7 +43,14 @@ namespace Coditech.Admin.Controllers
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     // Redirect to the list action method instead of directly to the view
-                    return RedirectToAction("List");
+                    if (string.Equals(generalDepartmentViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalDepartmentId = generalDepartmentViewModel.GeneralDepartmentMasterId });
+                    }
+                    else if (string.Equals(generalDepartmentViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalDepartmentViewModel.ErrorMessage));
@@ -67,7 +74,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalDepartmentAgent.UpdateDepartment(generalDepartmentViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalDepartmentId = generalDepartmentViewModel.GeneralDepartmentMasterId });
+                if (string.Equals(generalDepartmentViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalDepartmentId = generalDepartmentViewModel.GeneralDepartmentMasterId });
+                }
+                else if (string.Equals(generalDepartmentViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, generalDepartmentViewModel);
         }

@@ -74,7 +74,14 @@ namespace Coditech.Admin.Controllers
                 if (!paymentGatewayDetailsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = paymentGatewayDetailsViewModel.CentreCode, SelectedParameter1 = Convert.ToString(paymentGatewayDetailsViewModel.PaymentGatewayId) });
+                    if (string.Equals(paymentGatewayDetailsViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { paymentGatewayDetailId = paymentGatewayDetailsViewModel.PaymentGatewayDetailId });
+                    }
+                    else if (string.Equals(paymentGatewayDetailsViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = paymentGatewayDetailsViewModel.CentreCode, SelectedParameter1 = Convert.ToString(paymentGatewayDetailsViewModel.PaymentGatewayId) });
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(paymentGatewayDetailsViewModel.ErrorMessage));
@@ -124,7 +131,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_paymentGatewayDetailsAgent.UpdatePaymentGatewayDetails(paymentGatewayDetailsViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { paymentGatewayDetailId = paymentGatewayDetailsViewModel.PaymentGatewayDetailId });
+                if (string.Equals(paymentGatewayDetailsViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { paymentGatewayDetailId = paymentGatewayDetailsViewModel.PaymentGatewayDetailId });
+                }
+                else if (string.Equals(paymentGatewayDetailsViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = paymentGatewayDetailsViewModel.CentreCode, SelectedParameter1 = Convert.ToString(paymentGatewayDetailsViewModel.PaymentGatewayId) });
+                }
             }
             if (paymentGatewayDetailsViewModel.PaymentCode == PaymentCodeEnum.razorpay.ToString())
             {

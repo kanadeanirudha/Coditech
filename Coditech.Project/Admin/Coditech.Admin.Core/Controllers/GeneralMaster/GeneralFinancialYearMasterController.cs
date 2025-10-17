@@ -42,7 +42,15 @@ namespace Coditech.Admin.Controllers
                 if (!generalFinancialYearViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new { selectedCentreCode = generalFinancialYearViewModel.CentreCode });
+                    if (string.Equals(generalFinancialYearViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalFinancialYearId = generalFinancialYearViewModel.GeneralFinancialYearId });
+                    }
+                    else if (string.Equals(generalFinancialYearViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = generalFinancialYearViewModel.CentreCode });
+
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalFinancialYearViewModel.ErrorMessage));
@@ -65,7 +73,15 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(generalFinancialYearViewModel.HasError
                 ? GetErrorNotificationMessage(generalFinancialYearViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalFinancialYearId = generalFinancialYearViewModel.GeneralFinancialYearId });
+                if (string.Equals(generalFinancialYearViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalFinancialYearId = generalFinancialYearViewModel.GeneralFinancialYearId });
+                }
+                else if (string.Equals(generalFinancialYearViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = generalFinancialYearViewModel.CentreCode });
+
+                }
             }
             return View(createEdit, generalFinancialYearViewModel);
         }

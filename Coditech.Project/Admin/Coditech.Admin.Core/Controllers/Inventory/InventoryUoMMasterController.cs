@@ -41,7 +41,14 @@ namespace Coditech.Admin.Controllers
                 if (!inventoryUoMMasterViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(inventoryUoMMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryUoMMasterId = inventoryUoMMasterViewModel.InventoryUoMMasterId });
+                    }
+                    else if (string.Equals(inventoryUoMMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(inventoryUoMMasterViewModel.ErrorMessage));
@@ -63,7 +70,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_inventoryUoMMasterAgent.UpdateInventoryUoMMaster(inventoryUoMMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { InventoryUoMMasterId = inventoryUoMMasterViewModel.InventoryUoMMasterId });
+                if (string.Equals(inventoryUoMMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryUoMMasterId = inventoryUoMMasterViewModel.InventoryUoMMasterId });
+                }
+                else if (string.Equals(inventoryUoMMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, inventoryUoMMasterViewModel);
         }
