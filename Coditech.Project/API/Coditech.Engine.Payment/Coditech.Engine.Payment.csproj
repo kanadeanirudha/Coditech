@@ -22,4 +22,9 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\APIServices\Coditech.Payment.Service\Coditech.Payment.Service.csproj" />
 	</ItemGroup>
+	
+	<Target Name="CopySharedLibrariesDll" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(OutputPath)Coditech.Payment.Service.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(ProjectDir)appsettings.json" DestinationFolder="$(SolutionDir)..\SDKMerge\Appsetting\Payment\" />
+	</Target>
 </Project>
