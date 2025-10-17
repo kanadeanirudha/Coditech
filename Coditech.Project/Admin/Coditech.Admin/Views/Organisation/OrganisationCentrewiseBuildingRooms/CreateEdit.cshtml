@@ -5,15 +5,15 @@
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "OrganisationCentrewiseBuildingRooms.GetOrganisationCentrewiseBuildingByCentreCode()", IsDisabled = Model.OrganisationCentrewiseBuildingRoomId > 0 };
     PageHeaderViewModel headerModel = new PageHeaderViewModel
-            {
-                Title = ViewBag.Title,
-                SaveButtonText = GeneralResources.SaveButtonText,
-                CancelUrl = Url.Action(AdminConstants.ActionRedirectToList, controllerName),
-                CancelButtonText = GeneralResources.CancelButtonText,
-                ControllerName = controllerName,
-                ActionName = actionName,
-                FormId = AdminConstants.FormId + controllerName,
-            };
+    {
+        Title = ViewBag.Title,
+        SaveButtonText = GeneralResources.SaveButtonText,
+        CancelUrl = @Url.Action("Cancel", controllerName, new { SelectedCentreCode = @Model.SelectedCentreCode, OrganisationCentrewiseBuildingMasterId = @Model.OrganisationCentrewiseBuildingMasterId }),
+        CancelButtonText = GeneralResources.CancelButtonText,
+        ControllerName = controllerName,
+        ActionName = actionName,
+        FormId = AdminConstants.FormId + controllerName,
+    };
 }
 <!-- Page Content-->
 <div class="page-content">
@@ -80,7 +80,7 @@
                         </div>
                         @* <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button> *@
                         @* <a href="@Url.Action("Cancel", controllerName, new { SelectedCentreCode = @Model.SelectedCentreCode, OrganisationCentrewiseBuildingMasterId = @Model.OrganisationCentrewiseBuildingMasterId })" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a> *@
-                       }
+                                                }
                     </div>
                 </div>
             </div>

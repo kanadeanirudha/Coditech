@@ -43,7 +43,14 @@ namespace Coditech.Admin.Controllers
                 if (!inventoryItemTrackingDimensionGroupViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(inventoryItemTrackingDimensionGroupViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryItemTrackingDimensionGroupId = inventoryItemTrackingDimensionGroupViewModel.InventoryItemTrackingDimensionGroupId });
+                    }
+                    else if (string.Equals(inventoryItemTrackingDimensionGroupViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(inventoryItemTrackingDimensionGroupViewModel.ErrorMessage));
@@ -65,7 +72,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_inventoryItemTrackingDimensionGroupAgent.UpdateInventoryItemTrackingDimensionGroup(inventoryItemTrackingDimensionGroupViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { inventoryItemTrackingDimensionGroupId = inventoryItemTrackingDimensionGroupViewModel.InventoryItemTrackingDimensionGroupId });
+                if (string.Equals(inventoryItemTrackingDimensionGroupViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryItemTrackingDimensionGroupId = inventoryItemTrackingDimensionGroupViewModel.InventoryItemTrackingDimensionGroupId });
+                }
+                else if (string.Equals(inventoryItemTrackingDimensionGroupViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, inventoryItemTrackingDimensionGroupViewModel);
         }

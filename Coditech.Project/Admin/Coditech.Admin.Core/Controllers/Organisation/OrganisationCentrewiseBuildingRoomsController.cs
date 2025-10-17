@@ -48,7 +48,14 @@ namespace Coditech.Admin.Controllers
                 if (!organisationCentrewiseBuildingRoomsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingRoomsViewModel.SelectedCentreCode, SelectedParameter1 = Convert.ToString(organisationCentrewiseBuildingRoomsViewModel.OrganisationCentrewiseBuildingMasterId) });
+                    if (string.Equals(organisationCentrewiseBuildingRoomsViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { organisationCentrewiseBuildingRoomId = organisationCentrewiseBuildingRoomsViewModel.OrganisationCentrewiseBuildingRoomId });
+                    }
+                    else if (string.Equals(organisationCentrewiseBuildingRoomsViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList , new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingRoomsViewModel.SelectedCentreCode, SelectedParameter1 = Convert.ToString(organisationCentrewiseBuildingRoomsViewModel.OrganisationCentrewiseBuildingMasterId) });
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseBuildingRoomsViewModel.ErrorMessage));
@@ -70,8 +77,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentrewiseBuildingRoomsAgent.UpdateOrganisationCentrewiseBuildingRooms(organisationCentrewiseBuildingRoomsViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-
-                return RedirectToAction("Edit", new { organisationCentrewiseBuildingRoomId = organisationCentrewiseBuildingRoomsViewModel.OrganisationCentrewiseBuildingRoomId });
+                if (string.Equals(organisationCentrewiseBuildingRoomsViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { organisationCentrewiseBuildingRoomId = organisationCentrewiseBuildingRoomsViewModel.OrganisationCentrewiseBuildingRoomId });
+                }
+                else if (string.Equals(organisationCentrewiseBuildingRoomsViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingRoomsViewModel.SelectedCentreCode, SelectedParameter1 = Convert.ToString(organisationCentrewiseBuildingRoomsViewModel.OrganisationCentrewiseBuildingMasterId) });
+                }
             }
             return View(createEdit, organisationCentrewiseBuildingRoomsViewModel);
         }

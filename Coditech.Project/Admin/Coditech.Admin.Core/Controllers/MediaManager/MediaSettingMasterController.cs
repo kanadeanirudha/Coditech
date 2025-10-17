@@ -42,7 +42,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_mediaSettingMasterAgent.UpdateMediaSettingMaster(mediaSettingMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { mediaTypeMasterId = mediaSettingMasterViewModel.MediaTypeMasterId });
+                if (string.Equals(mediaSettingMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { mediaTypeMasterId = mediaSettingMasterViewModel.MediaTypeMasterId });
+                }
+                else if (string.Equals(mediaSettingMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, mediaSettingMasterViewModel);
         }

@@ -40,7 +40,14 @@ namespace Coditech.Admin.Controllers
                 if (!userTypeViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<UserTypeController>(x => x.List(null));
+                    if (string.Equals(userTypeViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { userTypeId = userTypeViewModel.UserTypeId });
+                    }
+                    else if (string.Equals(userTypeViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(userTypeViewModel.ErrorMessage));
@@ -62,7 +69,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_userTypeAgent.UpdateUserType(userTypeViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { userTypeId = userTypeViewModel.UserTypeId });
+                if (string.Equals(userTypeViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { userTypeId = userTypeViewModel.UserTypeId });
+                }
+                else if (string.Equals(userTypeViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, userTypeViewModel);
         }

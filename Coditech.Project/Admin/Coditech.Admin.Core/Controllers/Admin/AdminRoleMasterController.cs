@@ -56,10 +56,15 @@ namespace Coditech.Admin.Controllers
                 if (!status)
                 {
                     // Redirect back to the Edit action with the same adminRoleMasterId
-                    
-                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { adminRoleMasterId = adminRoleViewModel.AdminRoleMasterId});
-                    
-                    
+                    if (string.Equals(adminRoleViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { adminRoleMasterId = adminRoleViewModel.AdminRoleMasterId });
+                    }
+                    else if (string.Equals(adminRoleViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = adminRoleViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminRoleViewModel.SelectedDepartmentId) };
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, dataTableViewModel);
+                    }
                 }
             }
 
@@ -137,8 +142,15 @@ namespace Coditech.Admin.Controllers
 
                 if (!status)
                 {
-                    DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedParameter1 = Convert.ToString(adminRoleApplicableDetailsViewModel.AdminRoleMasterId) };
-                    return RedirectToAction("RoleAllocatedToUserList", dataTableViewModel);
+                    if (string.Equals(adminRoleApplicableDetailsViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("RoleWiseFolderAction", new { adminRoleMasterId = adminRoleApplicableDetailsViewModel.AdminRoleMasterId });
+                    }
+                    else if (string.Equals(adminRoleApplicableDetailsViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedParameter1 = Convert.ToString(adminRoleApplicableDetailsViewModel.AdminRoleMasterId) };
+                        return RedirectToAction("RoleAllocatedToUserList", dataTableViewModel);
+                    }                   
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleApplicableDetailsViewModel.ErrorMessage));
@@ -171,8 +183,8 @@ namespace Coditech.Admin.Controllers
                 }
                 else if (string.Equals(adminRoleMediaFolderActionViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                 {
-                    DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedParameter1 = Convert.ToString(adminRoleMediaFolderActionViewModel.AdminRoleMasterId) };
-                    return RedirectToAction("RoleAllocatedToUserList", dataTableViewModel);
+                    DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = adminRoleMediaFolderActionViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminRoleMediaFolderActionViewModel.SelectedDepartmentId) };
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, dataTableViewModel);
                 }
             }
             return View("~/Views/Admin/AdminRoleMaster/RoleWiseFolderAction.cshtml", adminRoleMediaFolderActionViewModel);
@@ -197,7 +209,15 @@ namespace Coditech.Admin.Controllers
 
                 if (!status)
                 {
-                    return RedirectToAction("RoleWiseFolderAccess", new { adminRoleMasterId = adminRoleMediaFoldersViewModel.AdminRoleMasterId });
+                    if (string.Equals(adminRoleMediaFoldersViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("RoleWiseFolderAccess", new { adminRoleMasterId = adminRoleMediaFoldersViewModel.AdminRoleMasterId });
+                    }
+                    else if (string.Equals(adminRoleMediaFoldersViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = adminRoleMediaFoldersViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminRoleMediaFoldersViewModel.SelectedDepartmentId) };
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, dataTableViewModel);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleMediaFoldersViewModel.ErrorMessage));

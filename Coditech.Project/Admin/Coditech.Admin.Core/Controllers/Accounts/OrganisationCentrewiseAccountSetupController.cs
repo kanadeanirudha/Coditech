@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.Agents;
+using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,15 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentrewiseAccountSetupAgent.UpdateOrganisationCentrewiseAccountSetup(organisationCentrewiseAccountSetupViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetAccountSetup", new { centreCode = organisationCentrewiseAccountSetupViewModel.CentreCode });
+                if (string.Equals(organisationCentrewiseAccountSetupViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("GetAccountSetup", new DataTableViewModel() { SelectedCentreCode = organisationCentrewiseAccountSetupViewModel.CentreCode });
+
+                }
+                else if (string.Equals(organisationCentrewiseAccountSetupViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("GetAccountSetup", new DataTableViewModel() { SelectedCentreCode = organisationCentrewiseAccountSetupViewModel.CentreCode });
+                }
             }
             return View(createEdit, organisationCentrewiseAccountSetupViewModel);
         }

@@ -130,7 +130,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdatePrintingFormat(organisationCentrePrintingFormatViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("PrintingFormat", new { organisationCentreId = organisationCentrePrintingFormatViewModel.OrganisationCentreMasterId });
+                if (string.Equals(organisationCentrePrintingFormatViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("PrintingFormat", new { organisationCentreId = organisationCentrePrintingFormatViewModel.OrganisationCentreMasterId });
+                }
+                else if (string.Equals(organisationCentrePrintingFormatViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(OrganisationCentrePrintingFormat, organisationCentrePrintingFormatViewModel);
         }
@@ -154,7 +161,11 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 if (string.Equals(organisationCentrewiseGSTCredentialViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                 {
-                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { organisationCentreId = organisationCentrewiseGSTCredentialViewModel.OrganisationCentreMasterId });
+                    return RedirectToAction("CentrewiseGSTSetup", new { organisationCentreId = organisationCentrewiseGSTCredentialViewModel.OrganisationCentreMasterId });
+                }
+                else if (string.Equals(organisationCentrewiseGSTCredentialViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
                 }
             }
             return View(OrganisationCentrewiseGSTCredential, organisationCentrewiseGSTCredentialViewModel);
@@ -178,7 +189,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmtpSetup(organisationCentrewiseSmtpSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSmtpSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentreMasterId });
+                if (string.Equals(organisationCentrewiseSmtpSettingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("CentrewiseSmtpSetup", new { organisationCentreId = organisationCentrewiseSmtpSettingViewModel.OrganisationCentreMasterId });
+                }
+                else if (string.Equals(organisationCentrewiseSmtpSettingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(OrganisationCentrewiseSmtpSetting, organisationCentrewiseSmtpSettingViewModel);
         }
@@ -234,7 +252,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSmsSetup(organisationCentrewiseSmsSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentreMasterId, generalSmsProviderId = organisationCentrewiseSmsSettingViewModel.GeneralSmsProviderId });
+                if (string.Equals(organisationCentrewiseSmsSettingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("CentrewiseSMSSetup", new { organisationCentreId = organisationCentrewiseSmsSettingViewModel.OrganisationCentreMasterId, generalSmsProviderId = organisationCentrewiseSmsSettingViewModel.GeneralSmsProviderId });
+                }
+                else if (string.Equals(organisationCentrewiseSmsSettingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(OrganisationCentrewiseSmsSetting, organisationCentrewiseSmsSettingViewModel);
         }
@@ -294,7 +319,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseWhatsAppSetup(organisationCentrewiseWhatsAppSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseWhatsAppSetup", new { organisationCentreId = organisationCentrewiseWhatsAppSettingViewModel.OrganisationCentreMasterId, generalWhatsAppProviderId = organisationCentrewiseWhatsAppSettingViewModel.GeneralWhatsAppProviderId });
+                if (string.Equals(organisationCentrewiseWhatsAppSettingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("CentrewiseWhatsAppSetup", new { organisationCentreId = organisationCentrewiseWhatsAppSettingViewModel.OrganisationCentreMasterId, generalWhatsAppProviderId = organisationCentrewiseWhatsAppSettingViewModel.GeneralWhatsAppProviderId });
+                }
+                else if (string.Equals(organisationCentrewiseWhatsAppSettingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(OrganisationCentrewiseWhatsAppSetting, organisationCentrewiseWhatsAppSettingViewModel);
         }
@@ -358,7 +390,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseEmailTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
+                if (string.Equals(organisationCentrewiseEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("CentrewiseEmailTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
+                }
+                else if (string.Equals(organisationCentrewiseEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(OrganisationCentrewiseEmailTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
@@ -380,7 +419,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseSMSTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseSMSTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
+                if (string.Equals(organisationCentrewiseEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("CentrewiseSMSTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
+                }
+                else if (string.Equals(organisationCentrewiseEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(OrganisationCentrewiseSMSTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
@@ -402,7 +448,15 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseWhatsAppTemplateSetup(organisationCentrewiseEmailTemplateViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseWhatsAppTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
+                if (string.Equals(organisationCentrewiseEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("CentrewiseWhatsAppTemplateSetup", new { organisationCentreId = organisationCentrewiseEmailTemplateViewModel.OrganisationCentreMasterId, emailTemplateCode = organisationCentrewiseEmailTemplateViewModel.EmailTemplateCode });
+
+                }
+                else if (string.Equals(organisationCentrewiseEmailTemplateViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(OrganisationCentrewiseWhatsAppTemplate, organisationCentrewiseEmailTemplateViewModel);
         }
@@ -432,7 +486,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentreAgent.UpdateCentrewiseUserName(organisationCentrewiseUserNameRegistrationViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("CentrewiseUserNameRegistrationList", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentreMasterId });
+                if (string.Equals(organisationCentrewiseUserNameRegistrationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("CentrewiseUserNameRegistrationList", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentreMasterId });
+                }
+                else if (string.Equals(organisationCentrewiseUserNameRegistrationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("CentrewiseUserNameRegistrationList", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentreMasterId });
+                }
             }
             BindDropdown(organisationCentrewiseUserNameRegistrationViewModel);
             return View(OrganisationCentrewiseUserNameRegistration, organisationCentrewiseUserNameRegistrationViewModel);

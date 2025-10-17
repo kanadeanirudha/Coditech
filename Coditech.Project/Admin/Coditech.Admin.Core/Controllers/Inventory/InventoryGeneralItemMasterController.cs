@@ -42,7 +42,14 @@ namespace Coditech.Admin.Controllers
                 if (!inventoryGeneralItemMasterViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(inventoryGeneralItemMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryGeneralItemMasterId = inventoryGeneralItemMasterViewModel.InventoryGeneralItemMasterId });
+                    }
+                    else if (string.Equals(inventoryGeneralItemMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(inventoryGeneralItemMasterViewModel.ErrorMessage));
@@ -64,7 +71,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_inventoryGeneralItemMasterAgent.UpdateInventoryGeneralItemMaster(inventoryGeneralItemMasterViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { inventoryGeneralItemMasterId = inventoryGeneralItemMasterViewModel.InventoryGeneralItemMasterId });
+                if (string.Equals(inventoryGeneralItemMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryGeneralItemMasterId = inventoryGeneralItemMasterViewModel.InventoryGeneralItemMasterId });
+                }
+                else if (string.Equals(inventoryGeneralItemMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, inventoryGeneralItemMasterViewModel);
         }

@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.Agents;
+using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
@@ -49,7 +50,14 @@ namespace Coditech.Admin.Controllers
                 if (!accGLTransactionViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<AccGLTransactionController>(x => x.Create(null));
+                    if (string.Equals(accGLTransactionViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("Create");
+                    }
+                    else if (string.Equals(accGLTransactionViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("Create");
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(accGLTransactionViewModel.ErrorMessage));

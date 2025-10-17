@@ -37,7 +37,14 @@ namespace Coditech.Admin.Controllers
                 if (!paymentGatewaysViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(paymentGatewaysViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { paymentGatewayId = paymentGatewaysViewModel.PaymentGatewayId });
+                    }
+                    else if (string.Equals(paymentGatewaysViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, CreateActionDataTable());
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(paymentGatewaysViewModel.ErrorMessage));
@@ -59,7 +66,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(paymentGatewaysViewModel.HasError
                 ? GetErrorNotificationMessage(paymentGatewaysViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { paymentGatewayId = paymentGatewaysViewModel.PaymentGatewayId });
+                if (string.Equals(paymentGatewaysViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { paymentGatewayId = paymentGatewaysViewModel.PaymentGatewayId });
+                }
+                else if (string.Equals(paymentGatewaysViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, CreateActionDataTable());
+                }
             }
             return View(createEdit, paymentGatewaysViewModel);
         }

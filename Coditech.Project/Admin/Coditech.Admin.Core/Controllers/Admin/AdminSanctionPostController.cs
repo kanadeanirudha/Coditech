@@ -50,14 +50,15 @@ namespace Coditech.Admin.Controllers
                 adminSanctionPostViewModel = _adminSanctionPostAgent.CreateAdminSanctionPost(adminSanctionPostViewModel);
                 if (!adminSanctionPostViewModel.HasError)
                 {
-                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));                  
                     if (string.Equals(adminSanctionPostViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.CentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.DepartmentId) });
+                        return RedirectToAction("List", new { SelectedCentreCode = adminSanctionPostViewModel.CentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.DepartmentId) });
                     }
                     else if (string.Equals(adminSanctionPostViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction(AdminConstants.ActionRedirectToList, new { selectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, selectedDepartmentId = adminSanctionPostViewModel.SelectedDepartmentId });
+                        DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = adminSanctionPostViewModel.CentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.DepartmentId) };
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, dataTableViewModel);
                     }
                 }
             }
@@ -91,11 +92,12 @@ namespace Coditech.Admin.Controllers
                 {
                     if (string.Equals(adminSanctionPostViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.SelectedDepartmentId) });
+                        return RedirectToAction("List", new { selectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.SelectedDepartmentId) });
                     }
                     else if (string.Equals(adminSanctionPostViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction(AdminConstants.ActionRedirectToList, new { selectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, selectedDepartmentId = adminSanctionPostViewModel.SelectedDepartmentId });
+                        DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = adminSanctionPostViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminSanctionPostViewModel.SelectedDepartmentId) };
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, dataTableViewModel);
                     }
                 }
             }

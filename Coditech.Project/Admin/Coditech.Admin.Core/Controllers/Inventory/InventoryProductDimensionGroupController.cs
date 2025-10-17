@@ -43,7 +43,14 @@ namespace Coditech.Admin.Controllers
                 if (!inventoryProductDimensionGroupViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(inventoryProductDimensionGroupViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryProductDimensionGroupId = inventoryProductDimensionGroupViewModel.InventoryProductDimensionGroupId });
+                    }
+                    else if (string.Equals(inventoryProductDimensionGroupViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(inventoryProductDimensionGroupViewModel.ErrorMessage));
@@ -65,7 +72,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_inventoryProductDimensionGroupAgent.UpdateInventoryProductDimensionGroup(inventoryProductDimensionGroupViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { inventoryProductDimensionGroupId = inventoryProductDimensionGroupViewModel.InventoryProductDimensionGroupId });
+                if (string.Equals(inventoryProductDimensionGroupViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryProductDimensionGroupId = inventoryProductDimensionGroupViewModel.InventoryProductDimensionGroupId });
+                }
+                else if (string.Equals(inventoryProductDimensionGroupViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, inventoryProductDimensionGroupViewModel);
         }

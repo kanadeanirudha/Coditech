@@ -24,7 +24,7 @@ namespace Coditech.Admin.Controllers
             GetListOnlyIfSingleCentre(dataTableModel);
             if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableModel.SelectedParameter1))
             {
-                list = _accSetupBalanceSheetAgent.GetBalanceSheetList(dataTableModel , Convert.ToByte(dataTableModel.SelectedParameter1));
+                list = _accSetupBalanceSheetAgent.GetBalanceSheetList(dataTableModel, Convert.ToByte(dataTableModel.SelectedParameter1));
             }
             list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
             list.SelectedParameter1 = dataTableModel.SelectedParameter1;
@@ -50,7 +50,14 @@ namespace Coditech.Admin.Controllers
                 if (!accSetupBalanceSheetViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("Edit", new { balanceSheetId = accSetupBalanceSheetViewModel.AccSetupBalanceSheetId });
+                    if (string.Equals(accSetupBalanceSheetViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { balanceSheetId = accSetupBalanceSheetViewModel.AccSetupBalanceSheetId });
+                    }
+                    else if (string.Equals(accSetupBalanceSheetViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel() { SelectedCentreCode = accSetupBalanceSheetViewModel.CentreCode, SelectedParameter1 = Convert.ToString(accSetupBalanceSheetViewModel.AccSetupBalanceSheetTypeId)});
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(accSetupBalanceSheetViewModel.ErrorMessage));
@@ -72,7 +79,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_accSetupBalanceSheetAgent.UpdateBalanceSheet(accSetupBalanceSheetViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { balanceSheetId = accSetupBalanceSheetViewModel.AccSetupBalanceSheetId });
+                if (string.Equals(accSetupBalanceSheetViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { balanceSheetId = accSetupBalanceSheetViewModel.AccSetupBalanceSheetId });
+                }
+                else if (string.Equals(accSetupBalanceSheetViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel() { SelectedCentreCode = accSetupBalanceSheetViewModel.CentreCode, SelectedParameter1 = Convert.ToString(accSetupBalanceSheetViewModel.AccSetupBalanceSheetTypeId) });
+                }
             }
             return View(createEdit, accSetupBalanceSheetViewModel);
         }

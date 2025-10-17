@@ -49,7 +49,14 @@ namespace Coditech.Admin.Controllers
                 if (!organisationCentrewiseBuildingViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingViewModel.CentreCode });
+                    if (string.Equals(organisationCentrewiseBuildingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit , new { organisationCentrewiseBuildingId = organisationCentrewiseBuildingViewModel.OrganisationCentrewiseBuildingMasterId });
+                    }
+                    else if (string.Equals(organisationCentrewiseBuildingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingViewModel.CentreCode });
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseBuildingViewModel.ErrorMessage));
@@ -71,7 +78,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_organisationCentrewiseBuildingAgent.UpdateOrganisationCentrewiseBuilding(organisationCentrewiseBuildingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { organisationCentrewiseBuildingId = organisationCentrewiseBuildingViewModel.OrganisationCentrewiseBuildingMasterId });
+                if (string.Equals(organisationCentrewiseBuildingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { organisationCentrewiseBuildingId = organisationCentrewiseBuildingViewModel.OrganisationCentrewiseBuildingMasterId });
+                }
+                else if (string.Equals(organisationCentrewiseBuildingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel { SelectedCentreCode = organisationCentrewiseBuildingViewModel.CentreCode });
+                }
             }
             return View(createEdit, organisationCentrewiseBuildingViewModel);
         }

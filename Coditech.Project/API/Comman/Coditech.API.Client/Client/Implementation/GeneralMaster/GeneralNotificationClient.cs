@@ -118,16 +118,16 @@ namespace Coditech.API.Client
             }
 
         }
-        public virtual GeneralNotificationResponse GetNotification(long GeneralNotificationId)
+        public virtual GeneralNotificationResponse GetNotification(long generalNotificationId)
         {
-            return Task.Run(async () => await GetNotificationAsync(GeneralNotificationId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetNotificationAsync(generalNotificationId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<GeneralNotificationResponse> GetNotificationAsync(long GeneralNotificationId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<GeneralNotificationResponse> GetNotificationAsync(long generalNotificationId, System.Threading.CancellationToken cancellationToken)
         {
-            if (GeneralNotificationId <= 0)
+            if (generalNotificationId <= 0)
                 throw new System.ArgumentOutOfRangeException("GeneralNotificationId");
 
-            String endpoint = generalNotificationEndPoint.GetNotificationAsync(GeneralNotificationId);
+            String endpoint = generalNotificationEndPoint.GetNotificationAsync(generalNotificationId);
             HttpResponseMessage response = null;
             var disposeresponse = true;
             try

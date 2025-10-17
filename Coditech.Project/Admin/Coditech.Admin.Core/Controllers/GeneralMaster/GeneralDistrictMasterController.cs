@@ -44,7 +44,7 @@ namespace Coditech.Admin.Controllers
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     if (string.Equals(generalDistrictViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalDistrictId = generalDistrictViewModel.GeneralRegionMasterId });
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalDistrictId = generalDistrictViewModel.GeneralDistrictMasterId });
                     }
                     else if (string.Equals(generalDistrictViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                     {
@@ -73,7 +73,7 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 if (string.Equals(generalDistrictViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                 {
-                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalDistrictId = generalDistrictViewModel.GeneralRegionMasterId });
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalDistrictId = generalDistrictViewModel.GeneralDistrictMasterId });
                 }
                 else if (string.Equals(generalDistrictViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                 {

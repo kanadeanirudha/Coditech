@@ -47,7 +47,15 @@ namespace Coditech.Admin.Controllers
                 if (!generalLeadGenerationViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable(generalLeadGenerationViewModel.CentreCode));
+                    if (string.Equals(generalLeadGenerationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalLeadGenerationId = generalLeadGenerationViewModel.GeneralLeadGenerationMasterId });
+                    }
+                    else if (string.Equals(generalLeadGenerationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = generalLeadGenerationViewModel.CentreCode };
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, dataTableViewModel);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalLeadGenerationViewModel.ErrorMessage));
@@ -69,7 +77,15 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalLeadGenerationAgent.UpdateLeadGeneration(generalLeadGenerationViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalLeadGenerationId = generalLeadGenerationViewModel.GeneralLeadGenerationMasterId });
+                if (string.Equals(generalLeadGenerationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalLeadGenerationId = generalLeadGenerationViewModel.GeneralLeadGenerationMasterId });
+                }
+                else if (string.Equals(generalLeadGenerationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = generalLeadGenerationViewModel.CentreCode };
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, dataTableViewModel);
+                }
             }
             return View(createEdit, generalLeadGenerationViewModel);
         }

@@ -10,6 +10,7 @@
             {
                 Title = ViewBag.Title,
                 SaveButtonText = GeneralResources.SaveButtonText,
+                CancelUrl = @Url.Action("Cancel", controllerName, new { SelectedCentreCode = @Model.CentreCode, SelectedDepartmentId = @Model.DepartmentId }),
                 CancelButtonText = GeneralResources.CancelButtonText,
                 ControllerName = controllerName,
                 ActionName = actionName,

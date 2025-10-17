@@ -40,7 +40,14 @@ namespace Coditech.Admin.Controllers
                 if (!coditechApplicationSettingViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction<CoditechApplicationSettingController>(x => x.List(null));
+                    if (string.Equals(coditechApplicationSettingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { coditechApplicationSettingId = coditechApplicationSettingViewModel.CoditechApplicationSettingId });
+                    }
+                    else if (string.Equals(coditechApplicationSettingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(coditechApplicationSettingViewModel.ErrorMessage));
@@ -62,7 +69,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_coditechApplicationSettingAgent.UpdateCoditechApplicationSetting(coditechApplicationSettingViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { coditechApplicationSettingId = coditechApplicationSettingViewModel.CoditechApplicationSettingId });
+                if (string.Equals(coditechApplicationSettingViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { coditechApplicationSettingId = coditechApplicationSettingViewModel.CoditechApplicationSettingId });
+                }
+                else if (string.Equals(coditechApplicationSettingViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, coditechApplicationSettingViewModel);
         }

@@ -38,7 +38,14 @@ namespace Coditech.Admin.Controllers
                 if (!taskMasterViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(taskMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { taskMasterId = taskMasterViewModel.TaskMasterId });
+                    }
+                    else if (string.Equals(taskMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(taskMasterViewModel.ErrorMessage));
@@ -61,7 +68,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(taskMasterViewModel.HasError
                 ? GetErrorNotificationMessage(taskMasterViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { taskMasterId = taskMasterViewModel.TaskMasterId });
+                if (string.Equals(taskMasterViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { taskMasterId = taskMasterViewModel.TaskMasterId });
+                }
+                else if (string.Equals(taskMasterViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, taskMasterViewModel);
         }

@@ -42,7 +42,14 @@ namespace Coditech.Admin.Controllers
                 if (!inventoryCategoryTypeViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    if (string.Equals(inventoryCategoryTypeViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryCategoryTypeMasterId = inventoryCategoryTypeViewModel.InventoryCategoryTypeMasterId });
+                    }
+                    else if (string.Equals(inventoryCategoryTypeViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(inventoryCategoryTypeViewModel.ErrorMessage));
@@ -64,7 +71,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_inventoryCategoryTypeAgent.UpdateInventoryCategoryType(inventoryCategoryTypeViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { inventoryCategoryTypeMasterId = inventoryCategoryTypeViewModel.InventoryCategoryTypeMasterId });
+                if (string.Equals(inventoryCategoryTypeViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { inventoryCategoryTypeMasterId = inventoryCategoryTypeViewModel.InventoryCategoryTypeMasterId });
+                }
+                else if (string.Equals(inventoryCategoryTypeViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                }
             }
             return View(createEdit, inventoryCategoryTypeViewModel);
         }
