@@ -488,7 +488,7 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
                 if (string.Equals(organisationCentrewiseUserNameRegistrationViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                 {
-                    return RedirectToAction("CentrewiseUserNameRegistrationList", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentreMasterId });
+                    return RedirectToAction("CentrewiseUserNameRegistration", new { organisationCentreId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentreMasterId, organisationCentrewiseUserNameRegistrationId = organisationCentrewiseUserNameRegistrationViewModel.OrganisationCentrewiseUserNameRegistrationId });
                 }
                 else if (string.Equals(organisationCentrewiseUserNameRegistrationViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                 {
