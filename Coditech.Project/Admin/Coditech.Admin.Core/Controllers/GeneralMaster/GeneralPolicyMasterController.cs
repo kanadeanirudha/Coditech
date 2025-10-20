@@ -142,11 +142,11 @@ namespace Coditech.Admin.Controllers
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
                     if (string.Equals(generalPolicyViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { policyCode = generalPolicyViewModel.PolicyCode });
+                        return RedirectToAction("EditRules", new { generalPolicyRulesId = generalPolicyViewModel.GeneralPolicyRulesId, policyApplicableStatus = generalPolicyViewModel.PolicyApplicableStatus });
                     }
                     else if (string.Equals(generalPolicyViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction(AdminConstants.ActionRedirectToList);
+                        return RedirectToAction("GetGeneralPolicyRulesList", new { policyCode = generalPolicyViewModel.PolicyCode });
                     }
                 }
             }
@@ -178,7 +178,7 @@ namespace Coditech.Admin.Controllers
                 }
                 else if (string.Equals(generalPolicyRulesViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                 {
-                    return RedirectToAction(AdminConstants.ActionRedirectToList);
+                    return RedirectToAction("GetGeneralPolicyRulesList", new { policyCode = generalPolicyRulesViewModel .PolicyCode});
                 }
             }
             return View("~/Views/GeneralMaster/GeneralPolicyMaster/GeneralPolicyRules/CreateEditPolicyRules.cshtml", generalPolicyRulesViewModel);
