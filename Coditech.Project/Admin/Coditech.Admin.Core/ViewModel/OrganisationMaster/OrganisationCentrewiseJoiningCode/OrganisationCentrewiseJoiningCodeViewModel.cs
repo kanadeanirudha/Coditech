@@ -5,6 +5,7 @@ namespace Coditech.Admin.ViewModel
     public partial class OrganisationCentrewiseJoiningCodeViewModel : BaseViewModel
     {
         [Display(Name = "Centre Code")]
+        [Required]
         public string CentreCode { get; set; }
         public string JoiningCode { get; set; }
         [Required]
