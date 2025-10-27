@@ -3,9 +3,7 @@ using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
-
 using Microsoft.AspNetCore.Mvc;
-
 namespace Coditech.Admin.Controllers
 {
     public class GeneralTrainerMasterController : BaseController
@@ -50,7 +48,14 @@ namespace Coditech.Admin.Controllers
                 if (!generalTrainerViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = generalTrainerViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(generalTrainerViewModel.SelectedDepartmentId) });
+                    if (string.Equals(generalTrainerViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalTrainerId = generalTrainerViewModel.GeneralTrainerMasterId });
+                    }
+                    else if (string.Equals(generalTrainerViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel() { SelectedCentreCode = generalTrainerViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(generalTrainerViewModel.SelectedDepartmentId) });
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(generalTrainerViewModel.ErrorMessage));
@@ -72,7 +77,14 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalTrainerAgent.UpdateTrainer(generalTrainerViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { generalTrainerId = generalTrainerViewModel.GeneralTrainerMasterId });
+                if (string.Equals(generalTrainerViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToEdit, new { generalTrainerId = generalTrainerViewModel.GeneralTrainerMasterId });
+                }
+                else if (string.Equals(generalTrainerViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction(AdminConstants.ActionRedirectToList, new DataTableViewModel() { SelectedCentreCode = generalTrainerViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(generalTrainerViewModel.SelectedDepartmentId) });
+                }
             }
             return View(createEdit, generalTrainerViewModel);
         }
