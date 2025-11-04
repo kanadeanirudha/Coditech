@@ -607,7 +607,7 @@ namespace Coditech.API.Service
 
             if (organisationCentrewiseUserNameRegistrationId > 0)
             {
-                OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistrationData = _organisationCentrewiseUserNameRegistrationRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode);
+                OrganisationCentrewiseUserNameRegistration organisationCentrewiseUserNameRegistrationData = _organisationCentrewiseUserNameRegistrationRepository.Table.FirstOrDefault(x => x.CentreCode == organisationCentreModel.CentreCode && x.OrganisationCentrewiseUserNameRegistrationId == organisationCentrewiseUserNameRegistrationId);
                 organisationCentrewiseUserNameRegistrationModel = IsNull(organisationCentrewiseUserNameRegistrationData) ? new OrganisationCentrewiseUserNameRegistrationModel() : organisationCentrewiseUserNameRegistrationData.FromEntityToModel<OrganisationCentrewiseUserNameRegistrationModel>();
             }
             organisationCentrewiseUserNameRegistrationModel.CentreCode = organisationCentreModel.CentreCode;
