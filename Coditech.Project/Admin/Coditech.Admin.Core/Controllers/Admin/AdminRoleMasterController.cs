@@ -144,7 +144,7 @@ namespace Coditech.Admin.Controllers
                 {
                     if (string.Equals(adminRoleApplicableDetailsViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
                     {
-                        return RedirectToAction("RoleWiseFolderAction", new { adminRoleMasterId = adminRoleApplicableDetailsViewModel.AdminRoleMasterId });
+                        return RedirectToAction("GetAssociateUnAssociateAdminRoleToUser", new { adminRoleMasterId = adminRoleApplicableDetailsViewModel.AdminRoleMasterId ,adminRoleApplicableDetailId = adminRoleApplicableDetailsViewModel.AdminRoleApplicableDetailId});
                     }
                     else if (string.Equals(adminRoleApplicableDetailsViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
                     {
