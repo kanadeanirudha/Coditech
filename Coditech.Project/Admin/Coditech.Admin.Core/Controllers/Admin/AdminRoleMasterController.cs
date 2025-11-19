@@ -86,16 +86,24 @@ namespace Coditech.Admin.Controllers
             {
                 bool status = _adminRoleMasterAgent.InsertUpdateAdminRoleMenuDetails(adminRoleMenuDetailsViewModel).HasError;
                 SetNotificationMessage(status
-                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
-                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                    ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                    : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
 
                 if (!status)
                 {
-                    return RedirectToAction("AllocateAccessRights", new { adminRoleMasterId = adminRoleMenuDetailsViewModel.AdminRoleMasterId, moduleCode = adminRoleMenuDetailsViewModel.ModuleCode });
+                    if (string.Equals(adminRoleMenuDetailsViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("AllocateAccessRights", new { adminRoleMasterId = adminRoleMenuDetailsViewModel.AdminRoleMasterId, moduleCode = adminRoleMenuDetailsViewModel.ModuleCode });
+                    }
+                    else if (string.Equals(adminRoleMenuDetailsViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = adminRoleMenuDetailsViewModel.SelectedCentreCode, SelectedDepartmentId = Convert.ToInt16(adminRoleMenuDetailsViewModel.SelectedDepartmentId) };
+                        return RedirectToAction(AdminConstants.ActionRedirectToList, dataTableViewModel);
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(adminRoleMenuDetailsViewModel.ErrorMessage));
-            return RedirectToAction("AllocateAccessRights", new { adminRoleMasterId = adminRoleMenuDetailsViewModel.AdminRoleMasterId, moduleCode = adminRoleMenuDetailsViewModel.ModuleCode });
+            return View("~/Views/Admin/AdminRoleMaster/AllocateAccessRights.cshtml", adminRoleMenuDetailsViewModel);
         }
 
         public virtual ActionResult Cancel(string SelectedCentreCode, short SelectedDepartmentId)
