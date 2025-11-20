@@ -9,7 +9,7 @@ var app = builder.Build();
 // Middleware
 app.UseMiddleware<EncryptedQueryMiddleware>();
 app.UseMiddleware<RequestMiddleware>();
-
+app.UseStatusCodePagesWithReExecute("/User/PageNotFoundRequest");
 app.UseRouting();
 app.UseAuthorization();
 

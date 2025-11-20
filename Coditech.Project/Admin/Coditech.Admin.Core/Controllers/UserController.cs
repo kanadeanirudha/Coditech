@@ -221,6 +221,13 @@ namespace Coditech.Admin.Controllers
         {
             return View("~/Views/User/UnauthorizedRequest.cshtml");
         }
+
+        [HttpGet]
+        public virtual ActionResult PageNotFoundRequest()
+        {
+            return View("~/Views/User/PageNotFoundRequest.cshtml");
+        }
+
         [HttpGet]
         public virtual ActionResult UserProfile()
 
