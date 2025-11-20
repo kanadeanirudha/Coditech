@@ -20,6 +20,7 @@ namespace Coditech.Admin.Helpers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private string defaultControllerName = "User";
         private string defaultActionName = "UnauthorizedRequest";
+        private string defaultActionNames = "PageNotFoundRequest";
         private string textReturnUrl = "returnUrl";
 
         public AuthenticationHelper(IHttpContextAccessor httpContextAccessor)
