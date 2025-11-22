@@ -195,6 +195,27 @@ namespace Coditech.API.Data
             }
         }
 
+        // Insert entities       
+        public virtual IEnumerable<T> Insert(IEnumerable<T> entities, long loginUserId)
+        {
+            try
+            {
+                if (Equals(entities, null))
+                    throw new ArgumentNullException(nameof(entities));
+
+                _context.Set<T>().AddRange(entities);
+                SaveChangesToDB(_context, loginUserId);
+                return entities;
+            }
+            catch (Exception ex)
+            {
+                //Remove added entities from objects for all the entities tracked by context.
+                Entities.RemoveRange(entities);
+                EntityLogging.LogObject(typeof(IEnumerable<T>), entities, ex);
+                throw;
+            }
+        }
+
         /// <summary>
         /// Insert entities Asynchronously
         /// </summary>
