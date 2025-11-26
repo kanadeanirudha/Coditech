@@ -30,7 +30,12 @@ namespace Coditech.Admin.Middleware
 
                     context.Request.Query = queryCollection;
                 }
-                catch { }
+                catch
+                {
+                    // Redirect on bad encrypted URL
+                    context.Response.Redirect("/User/PageNotFoundRequest");
+                    return;
+                }
             }
 
             context.Response.OnStarting(() =>
@@ -41,11 +46,23 @@ namespace Coditech.Admin.Middleware
                 {
                     string location = context.Response.Headers["Location"].ToString();
                     var uri = new Uri(location, UriKind.RelativeOrAbsolute);
-                    if (uri.IsAbsoluteUri && !string.IsNullOrEmpty(uri.Query))
+
+                    // Use the current decrypted request query
+                    var queryDict = context.Request.Query.ToDictionary(
+                         kv => kv.Key,
+                         kv => string.Join(",", kv.Value)
+                    );
+
+                    if (queryDict.Any())
                     {
-                        string query = uri.Query.TrimStart('?');
-                        string encrypted = EncryptionHelper.Encrypt(query);
-                        string newUrl = uri.GetLeftPart(UriPartial.Path) + "?data=" + Uri.EscapeDataString(encrypted);
+                        string plainQueryString = string.Join("&", queryDict.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+                        string encrypted = EncryptionHelper.Encrypt(plainQueryString);
+
+                        string redirectBase = uri.IsAbsoluteUri
+                            ? uri.GetLeftPart(UriPartial.Path)
+                            : location.Split('?')[0];
+
+                        string newUrl = redirectBase + "?data=" + Uri.EscapeDataString(encrypted);
                         context.Response.Headers["Location"] = newUrl;
                     }
                 }
