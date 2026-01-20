@@ -60,6 +60,13 @@
         IEnumerable<T> Insert(IEnumerable<T> entities);
 
         /// <summary>
+        /// Insert entities
+        /// </summary>
+        /// <param name="entities">Entities</param>
+        /// <param name="loginUserId"></param>
+        IEnumerable<T> Insert(IEnumerable<T> entities, long loginUserId);
+
+        /// <summary>
         /// Insert entities Asynchronously.
         /// </summary>
         /// <param name="entities">Entities</param>

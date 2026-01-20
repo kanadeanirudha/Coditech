@@ -74,7 +74,7 @@ namespace Coditech.API.Service
             int maxAttempts = ApiSettings.UserLoginAttempts;
             int lockMinutes = ApiSettings.UserAccountLockTimeInMinutes;
 
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.ToLower() == userLoginModel.UserName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
+            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserName.ToLower() == userLoginModel.UserName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString())).FirstOrDefault();
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, "User not found");
@@ -123,7 +123,7 @@ namespace Coditech.API.Service
             if (IsNull(userName))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName.ToLower() == userName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()));
+            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserName.ToLower() == userName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()))?.FirstOrDefault();
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
@@ -243,8 +243,8 @@ namespace Coditech.API.Service
             if (changePasswordModel.EntityId <= 0 || string.IsNullOrEmpty(changePasswordModel.UserType))
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EntityId"));
 
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == changePasswordModel.EntityId
-                                                                                        && x.UserType == changePasswordModel.UserType);
+            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.EntityId == changePasswordModel.EntityId
+                                                                            && x.UserType == changePasswordModel.UserType)?.FirstOrDefault();
             if (IsNotNull(userMasterData) && userMasterData.Password == MD5Hash(changePasswordModel.CurrentPassword))
             {
                 userMasterData.Password = MD5Hash(changePasswordModel.NewPassword);
@@ -348,7 +348,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
 
             //Get the General Person Details based on id.
-            GeneralPerson personData = _generalPersonRepository.Table.FirstOrDefault(x => x.PersonId == personId);
+            GeneralPerson personData = _generalPersonRepository.Table.Where(x => x.PersonId == personId)?.FirstOrDefault();
             GeneralPersonModel generalPersonModel = personData.FromEntityToModel<GeneralPersonModel>();
 
             if (IsNotNull(generalPersonModel?.DateOfBirth))
@@ -544,13 +544,12 @@ namespace Coditech.API.Service
         {
             if (userMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "UserMasterID"));
-            UserMaster userMaster = _userMasterRepository.Table
-                .FirstOrDefault(x => x.UserMasterId == userMasterId && x.UserType == userType);
+            UserMaster userMaster = _userMasterRepository.Table.Where(x => x.UserMasterId == userMasterId && x.UserType == userType)?.FirstOrDefault();
 
-            EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == userMaster.EntityId);
+            EmployeeMaster employeeMaster = _employeeMasterRepository.Table.Where(x => x.EmployeeId == userMaster.EntityId)?.FirstOrDefault();
 
 
-            EmployeeDesignationMaster employeeDesignationMaster = _employeeDesignationMasterRepository.Table.FirstOrDefault(x => x.EmployeeDesignationMasterId == employeeMaster.EmployeeDesignationMasterId);
+            EmployeeDesignationMaster employeeDesignationMaster = _employeeDesignationMasterRepository.Table.Where(x => x.EmployeeDesignationMasterId == employeeMaster.EmployeeDesignationMasterId)?.FirstOrDefault();
 
 
 
@@ -633,11 +632,10 @@ namespace Coditech.API.Service
 
             List<UserModuleMaster> userAllModuleList = GetAllActiveModuleList();
             List<UserMainMenuMaster> userAllMenuList = GetAllActiveMenuList();
-            List<AdminRoleMenuDetails> userRoleMenuList = new List<AdminRoleMenuDetails>();
             List<AdminRoleMediaFolderAction> userRoleMediaFolderActionList = new CoditechRepository<AdminRoleMediaFolderAction>(_serviceProvider.GetService<Coditech_Entities>()).Table?.ToList();
             if (!userModel.IsAdminUser)
             {
-                userRoleMenuList = _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId)?.ToList();
+                List<string> userRoleMenuList = BindAssociatedMenuToUser(userModel);
                 if (userRoleMenuList?.Count == 0)
                 {
                     throw new CoditechException(ErrorCodes.ContactAdministrator, null);
@@ -701,6 +699,11 @@ namespace Coditech.API.Service
             userModel.GeneralEnumaratorList = BindEnumarator();
             userModel.GeneralSystemGlobleSettingList = GetSystemGlobleSettingList();
             return userModel;
+        }
+
+        protected virtual List<string> BindAssociatedMenuToUser(UserModel userModel)
+        {
+            return _adminRoleMenuDetailsRepository.Table.Where(x => x.IsActive && x.AdminRoleMasterId == userModel.SelectedAdminRoleMasterId).Select(y => y.MenuCode)?.ToList();
         }
 
         //Bind Role Types
@@ -796,12 +799,12 @@ namespace Coditech.API.Service
         }
 
         //Bind Menu And Modules For Non Admin User
-        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<AdminRoleMenuDetails> userRoleMenuList)
+        protected virtual void BindMenuAndModulesForNonAdminUser(UserModel userModel, List<UserModuleMaster> userAllModuleList, List<UserMainMenuMaster> userAllMenuList, List<string> userRoleMenuList)
         {
             //Bind Menu & Module for non admin user
-            foreach (AdminRoleMenuDetails item in userRoleMenuList)
+            foreach (string menuCode in userRoleMenuList)
             {
-                UserMainMenuMaster userMenuModel = userAllMenuList.FirstOrDefault(x => x.MenuCode == item.MenuCode);
+                UserMainMenuMaster userMenuModel = userAllMenuList.FirstOrDefault(x => x.MenuCode == menuCode);
                 if (IsNotNull(userMenuModel))
                 {
                     userModel.MenuList.Add(new UserMainMenuModel()
