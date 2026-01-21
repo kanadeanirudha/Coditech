@@ -128,6 +128,8 @@ namespace Coditech.Admin
             CreateMap<GeneralPolicyDetailsListModel, GeneralPolicyDetailsListViewModel>().ReverseMap();
             CreateMap<BindAddressToPostalCodeModel, BindAddressToPostalCodeViewModel>().ReverseMap();
             CreateMap<BindAddressToPostalCodeListModel, BindAddressToPostalCodeListViewModel>().ReverseMap();
+            CreateMap<GeneralTemplateModel, GeneralTemplateViewModel>().ReverseMap();
+            CreateMap<GeneralTemplateListModel, GeneralTemplateListViewModel>().ReverseMap();
             #endregion
             #region
             CreateMap<UserTypeModel, UserTypeViewModel>().ReverseMap();
