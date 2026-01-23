@@ -51,6 +51,8 @@ namespace Coditech.API.Data
         public DbSet<GeneralPolicyMaster> GeneralPolicyMaster { get; set; }
         public DbSet<GeneralPolicyRules> GeneralPolicyRules { get; set; }
         public DbSet<GeneralPolicyDetails> GeneralPolicyDetails { get; set; }
+        public DbSet<GeneralTemplateMaster> GeneralTemplateMaster { get; set; }
+        public DbSet<GeneralTemplateHeaderConfiguration> GeneralTemplateHeaderConfiguration { get; set; }
 
         #endregion
 
