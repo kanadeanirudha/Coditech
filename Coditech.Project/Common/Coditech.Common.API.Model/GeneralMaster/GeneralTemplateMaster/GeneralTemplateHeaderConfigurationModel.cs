@@ -10,5 +10,6 @@ namespace Coditech.Common.API.Model
         public string HeaderType { get; set; }
         public string CentreCode { get; set; }
         public int OrderBy { get; set; }
+        public string DropdownEnumGroupCode { get; set; }
     }
 }
