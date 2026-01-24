@@ -10,6 +10,7 @@ namespace Coditech.API.Data
         public string HeaderType { get; set; }
         public string CentreCode { get; set; }
         public int OrderBy { get; set; }
+        public string DropdownEnumGroupCode { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
