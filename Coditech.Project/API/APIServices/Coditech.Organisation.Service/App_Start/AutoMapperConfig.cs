@@ -75,6 +75,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralPolicyDetails, GeneralPolicyDetailsModel>().ReverseMap();
             CreateMap<GeneralTemplateMaster, GeneralTemplateModel>().ReverseMap();
             CreateMap<GeneralTemplateHeaderConfiguration, GeneralTemplateHeaderConfigurationModel>().ReverseMap();
+            CreateMap<GeneralAgeGroupMaster, GeneralAgeGroupModel>().ReverseMap();
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();
