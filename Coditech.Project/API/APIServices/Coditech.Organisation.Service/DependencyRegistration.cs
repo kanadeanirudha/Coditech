@@ -46,6 +46,7 @@ namespace Coditech.API.Service.DependencyRegistration
             builder.Services.AddScoped<IERPJobs, ERPJobs>();
             builder.Services.AddScoped<IGeneralPolicyMasterService, GeneralPolicyMasterService>();
             builder.Services.AddScoped<IGeneralTemplateService, GeneralTemplateService>();
+            builder.Services.AddScoped<IGeneralSchoolMasterService, GeneralSchoolMasterService>();
 
             //Organisation
             builder.Services.AddScoped<IOrganisationMasterService, OrganisationMasterService>();
