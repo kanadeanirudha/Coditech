@@ -54,6 +54,7 @@ namespace Coditech.API.Data
         public DbSet<GeneralTemplateMaster> GeneralTemplateMaster { get; set; }
         public DbSet<GeneralTemplateHeaderConfiguration> GeneralTemplateHeaderConfiguration { get; set; }
         public DbSet<GeneralAgeGroupMaster> GeneralAgeGroupMaster { get; set; }
+        public DbSet<GeneralSchoolMaster> GeneralSchoolMaster { get; set; }
 
         #endregion
 

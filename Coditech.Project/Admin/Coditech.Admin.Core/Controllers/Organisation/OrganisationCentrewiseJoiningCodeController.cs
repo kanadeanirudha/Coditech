@@ -52,10 +52,18 @@ namespace Coditech.Admin.Controllers
             if (ModelState.IsValid)
             {
                 organisationCentrewiseJoiningCodeViewModel = _oganisationCentrewiseJoiningCodeAgent.CreateOrganisationCentrewiseJoiningCode(organisationCentrewiseJoiningCodeViewModel);
+
                 if (!organisationCentrewiseJoiningCodeViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", new { SelectedCentreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
+                    if (string.Equals(organisationCentrewiseJoiningCodeViewModel.ActionMode, AdminConstants.ActionModeSave, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("Create", new { CentreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
+                    }
+                    else if (string.Equals(organisationCentrewiseJoiningCodeViewModel.ActionMode, AdminConstants.ActionModeSaveAndClose, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("List", new { SelectedCentreCode = organisationCentrewiseJoiningCodeViewModel.CentreCode });
+                    }
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(organisationCentrewiseJoiningCodeViewModel.ErrorMessage));

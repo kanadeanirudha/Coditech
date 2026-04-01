@@ -76,6 +76,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IGeneralPolicyAgent, GeneralPolicyAgent>();
             builder.Services.AddScoped<IOrganisationCentrewisePolicyAgent, OrganisationCentrewisePolicyAgent>();
             builder.Services.AddScoped<IGeneralTemplateAgent, GeneralTemplateAgent>();
+            builder.Services.AddScoped<IGeneralSchoolAgent, GeneralSchoolAgent>();
 
             #region HMS
             builder.Services.AddScoped<IHospitalDoctorsAgent, HospitalDoctorsAgent>();
@@ -208,6 +209,7 @@ namespace Coditech.Admin
             builder.Services.AddScoped<IAccountReportClient, AccountReportClient>();
             builder.Services.AddScoped<IUserTypeClient, UserTypeClient>();
             builder.Services.AddScoped<IGeneralTemplateClient, GeneralTemplateClient>();
+            builder.Services.AddScoped<IGeneralSchoolClient, GeneralSchoolClient>();
 
 
             #region HMS

@@ -300,6 +300,17 @@ namespace Coditech.Resources {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete school due to associate record..
+        /// </summary>
+        public static string ErrorDeleteGeneralSchoolMaster
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorDeleteGeneralSchoolMaster", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Failed to delete country due to associate record..
         /// </summary>
         public static string ErrorDeleteUserType

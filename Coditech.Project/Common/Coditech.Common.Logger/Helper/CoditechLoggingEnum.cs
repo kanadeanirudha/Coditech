@@ -139,7 +139,8 @@
             AccSetupCategory,
             AccGLIndividualOpeningBalance,
             SendTestEmail,
-            UserProfile
+            UserProfile,
+            SchoolMaster
         }
     }
 }

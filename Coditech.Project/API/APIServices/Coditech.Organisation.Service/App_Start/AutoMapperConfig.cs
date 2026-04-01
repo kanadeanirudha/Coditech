@@ -76,6 +76,7 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralTemplateMaster, GeneralTemplateModel>().ReverseMap();
             CreateMap<GeneralTemplateHeaderConfiguration, GeneralTemplateHeaderConfigurationModel>().ReverseMap();
             CreateMap<GeneralAgeGroupMaster, GeneralAgeGroupModel>().ReverseMap();
+            CreateMap<GeneralSchoolMaster, GeneralSchoolModel>().ReverseMap();
 
             #region User
             CreateMap<UserMaster, UserModel>().ReverseMap();
