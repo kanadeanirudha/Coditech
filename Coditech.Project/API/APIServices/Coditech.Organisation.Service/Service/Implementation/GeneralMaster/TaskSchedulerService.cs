@@ -37,7 +37,8 @@ namespace Coditech.API.Service
 			listModel.TaskSchedulerList = taskSchedulerEntities?.Select(entity => new TaskSchedulerModel
 			{
 				TaskSchedulerMasterId = entity.TaskSchedulerMasterId,
-				SchedulerCallFor = entity.SchedulerCallFor,
+                ConfiguratorId = entity.ConfiguratorId,
+                SchedulerCallFor = entity.SchedulerCallFor,
 				SchedulerName = entity.SchedulerName,
 				SchedulerFrequency = entity.SchedulerFrequency,
 				StartDate = entity.StartDate,
@@ -127,12 +128,11 @@ namespace Coditech.API.Service
 
 			if (taskSchedulerModel.TaskSchedulerMasterId < 1)
 				throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "TaskSchedulerMasterId"));
-			BindSchedulerOtherDetails(taskSchedulerModel);
-			TaskSchedulerMaster taskScheduler = taskSchedulerModel.FromModelToEntity<TaskSchedulerMaster>();
+            TaskSchedulerMaster taskScheduler = taskSchedulerModel.FromModelToEntity<TaskSchedulerMaster>();
 			TaskSchedulerMaster taskSchedulerMaster = _taskSchedulerRepository.Table.Where(x => x.TaskSchedulerMasterId == taskSchedulerModel.TaskSchedulerMasterId)?.FirstOrDefault();
 
 			taskScheduler.ConfiguratorId = taskSchedulerMaster.ConfiguratorId;
-			taskScheduler.SchedulerName = taskSchedulerMaster.SchedulerName;
+			taskScheduler.SchedulerName = taskSchedulerModel.SchedulerName;
 			taskScheduler.WeekDays = taskSchedulerModel.SchedulerFrequency == "Weekly" && taskSchedulerModel.SelectedWeekDays != null && taskSchedulerModel.SelectedWeekDays.Any() ? string.Join(",", taskSchedulerModel.SelectedWeekDays) : "";
 
 			//Update TaskScheduler
@@ -209,11 +209,18 @@ namespace Coditech.API.Service
 				taskSchedulerModel.StartDate = taskSchedulerModel.StartDate + model.BatchStartTime;
 				taskSchedulerModel.ExpireDate = taskSchedulerModel.ExpireDate + taskSchedulerModel.ExpireTime;
 			}
-			else
-			{
-				taskSchedulerModel.StartDate = taskSchedulerModel.StartDate + taskSchedulerModel.StartTime;
-			}
-		}
+            else if (taskSchedulerModel.SchedulerFrequency == "OneTime")
+            {
+                if (taskSchedulerModel.StartDate.HasValue && taskSchedulerModel.StartTime.HasValue)
+                {
+                    taskSchedulerModel.StartDate = taskSchedulerModel.StartDate.Value.Date + taskSchedulerModel.StartTime.Value;
+                }
+            }
+            else if (taskSchedulerModel.SchedulerFrequency == "Recurring")
+            {
+     
+            }
+        }
 
 		//Set Scheduler Parameters
 		protected virtual void SetSchedulerParameters(TaskSchedulerModel erpTaskSchedulerModel, char separator = ' ')
