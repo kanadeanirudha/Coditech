@@ -27,8 +27,8 @@ namespace Coditech.Common.API.Model
         public string HangfireJobId { get; set; }
         public bool IsMonthlyDays { get; set; }
         public List<string> SelectedWeekDays { get; set; } = new List<string>();
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan ExpireTime { get; set; }
+        public TimeSpan? StartTime { get; set; }
+        public TimeSpan? ExpireTime { get; set; }
         public bool IsInstantJob { get; set; }
         public bool IsCronJob { get; set; }
         public string ExeParameters { get; set; }

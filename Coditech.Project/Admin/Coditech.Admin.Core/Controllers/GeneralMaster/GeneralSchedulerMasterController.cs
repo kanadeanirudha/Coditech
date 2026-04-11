@@ -93,7 +93,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_generalTaskSchedulerMasterAgent.UpdateTaskSchedulerDetails(taskSchedulerViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("UpdateTaskSchedulerDetails", new { configuratorId = taskSchedulerViewModel.TaskSchedulerMasterId, schedulerCallFor = taskSchedulerViewModel.SchedulerCallFor });
+                return RedirectToAction("UpdateTaskSchedulerDetails", new { configuratorId = taskSchedulerViewModel.ConfiguratorId, schedulerCallFor = taskSchedulerViewModel.SchedulerCallFor });
             }
             return View(createEditTaskScheduler, taskSchedulerViewModel);
         }
