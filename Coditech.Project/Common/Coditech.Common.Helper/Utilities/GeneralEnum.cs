@@ -97,6 +97,7 @@
         InventoryCategoryType,
         AccSetupCategory,
         OrganisationJoiningCodeType,
+        JoiningCodeStatus
     }
 
     public enum GeneralSystemGlobleSettingEnum

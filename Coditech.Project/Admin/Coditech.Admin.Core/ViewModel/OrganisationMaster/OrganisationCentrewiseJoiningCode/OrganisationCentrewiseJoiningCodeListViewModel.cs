@@ -15,6 +15,7 @@ namespace Coditech.Admin.ViewModel
         public string SelectedCentreCode { get; set; }
         public int JoiningCodeTypeEnumId { get; set; }
         public string SelectedParameter1 { get; set; }
+        public string SelectedParameter2 { get; set; }
 
     }
 }

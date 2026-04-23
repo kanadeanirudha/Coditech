@@ -271,6 +271,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetAccSetupCategoryList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownTypeEnum.JoiningCodeStatus.ToString()))
+            {
+                GetJoiningCodeTypeList(dropdownViewModel, dropdownList);
+            }
 
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -1551,6 +1555,46 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             }
+        }
+        private static void GetTestOutputTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = "----Select Output Type----" });
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "Lower Output",
+                Value = "LO",
+                Selected = dropdownViewModel.DropdownSelectedValue == "LO"
+            });
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "Higher Output",
+                Value = "HO",
+                Selected = dropdownViewModel.DropdownSelectedValue == "HO"
+            });
+        }
+        private static void GetJoiningCodeTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "Available",
+                Value = "0",
+                Selected = dropdownViewModel.DropdownSelectedValue == "0"
+            });
+
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "Active",
+                Value = "1",
+                Selected = dropdownViewModel.DropdownSelectedValue == "1"
+            });
+
+            dropdownList.Add(new SelectListItem()
+            {
+                Text = "Used",
+                Value = "2",
+                Selected = dropdownViewModel.DropdownSelectedValue == "2"
+            });
         }
     }
 }
