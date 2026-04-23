@@ -33,6 +33,7 @@ namespace Coditech.Admin.Controllers
 
             list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
             list.SelectedParameter1 = dataTableModel.SelectedParameter1;
+            list.SelectedParameter2 = dataTableModel.SelectedParameter2;
 
             if (AjaxHelper.IsAjaxRequest)
             {
