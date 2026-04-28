@@ -1577,14 +1577,14 @@ namespace Coditech.Admin.Helpers
         {
             dropdownList.Add(new SelectListItem()
             {
-                Text = "Available",
+                Text = "Both",
                 Value = "0",
                 Selected = dropdownViewModel.DropdownSelectedValue == "0"
             });
 
             dropdownList.Add(new SelectListItem()
             {
-                Text = "Active",
+                Text = "Available",
                 Value = "1",
                 Selected = dropdownViewModel.DropdownSelectedValue == "1"
             });
