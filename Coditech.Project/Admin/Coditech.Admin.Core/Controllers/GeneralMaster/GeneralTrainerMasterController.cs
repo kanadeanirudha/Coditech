@@ -18,10 +18,14 @@ namespace Coditech.Admin.Controllers
 
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
-            GeneralTrainerListViewModel list = new GeneralTrainerListViewModel();
-            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode) && dataTableModel.SelectedDepartmentId > 0)
+            if (dataTableModel.SelectedDepartmentId <= 0)
             {
-                list = _generalTrainerAgent.GetTrainerList(dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId, true, dataTableModel);
+                dataTableModel.SelectedDepartmentId = 0;
+            }
+            GeneralTrainerListViewModel list = new GeneralTrainerListViewModel();
+            if (!string.IsNullOrEmpty(dataTableModel.SelectedCentreCode))
+            {
+                list = _generalTrainerAgent.GetTrainerList( dataTableModel.SelectedCentreCode, dataTableModel.SelectedDepartmentId,true,dataTableModel);
             }
             list.SelectedCentreCode = dataTableModel.SelectedCentreCode;
             list.SelectedDepartmentId = dataTableModel.SelectedDepartmentId;

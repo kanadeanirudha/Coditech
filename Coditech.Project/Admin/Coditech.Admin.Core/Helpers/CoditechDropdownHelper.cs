@@ -711,14 +711,31 @@ namespace Coditech.Admin.Helpers
                 GeneralDepartmentListResponse response = new GeneralDepartmentClient().GetDepartmentsByCentreCode(centreCode);
                 list = new GeneralDepartmentListModel { GeneralDepartmentList = response?.GeneralDepartmentList };
             }
-            dropdownList.Add(new SelectListItem() { Text = "-------Select Department-------", Value = "" });
+            if (dropdownViewModel.IsCustomDropdown)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = dropdownViewModel.SelectedText,
+                    Value = dropdownViewModel.SelectedValue,
+                    Selected = dropdownViewModel.DropdownSelectedValue == dropdownViewModel.SelectedValue
+                });
+            }
+            else
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = "-------Select Department-------",
+                    Value = ""
+                });
+            }
             foreach (var item in list?.GeneralDepartmentList.OrderBy(x => x.DepartmentName))
             {
                 dropdownList.Add(new SelectListItem()
                 {
                     Text = item.DepartmentName,
                     Value = item.GeneralDepartmentMasterId.ToString(),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.GeneralDepartmentMasterId)
+                    Selected = dropdownViewModel.DropdownSelectedValue ==
+                               Convert.ToString(item.GeneralDepartmentMasterId)
                 });
             }
         }
