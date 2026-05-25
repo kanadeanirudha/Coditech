@@ -350,7 +350,15 @@ namespace Coditech.API.Service
             //Get the General Person Details based on id.
             GeneralPerson personData = _generalPersonRepository.Table.Where(x => x.PersonId == personId)?.FirstOrDefault();
             GeneralPersonModel generalPersonModel = personData.FromEntityToModel<GeneralPersonModel>();
-
+            EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.PersonId == personId);
+            if (employeeMaster != null)
+            {
+                UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.EntityId == employeeMaster.EmployeeId && x.UserType == UserTypeEnum.Employee.ToString());
+                if (userMaster != null)
+                {
+                    generalPersonModel.IsTestUser = userMaster.IsTestUser;
+                }
+            }
             if (IsNotNull(generalPersonModel?.DateOfBirth))
             {
                 generalPersonModel.Age = CalculateAge(Convert.ToDateTime(generalPersonModel.DateOfBirth));
