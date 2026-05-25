@@ -20,6 +20,7 @@
         public DateTime? ResetPasswordTokenExpiredDate { get; set; }
         public DateTime? AccountLockTime { get; set; }
         public short FailedLoginAttempts { get; set; }
+        public bool IsTestUser { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
