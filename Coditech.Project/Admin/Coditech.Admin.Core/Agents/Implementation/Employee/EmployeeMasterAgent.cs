@@ -113,7 +113,6 @@ namespace Coditech.Admin.Agents
                 }
                 employeeCreateEditViewModel.EmployeeId = employeeId;
                 employeeCreateEditViewModel.PersonId = personId;
-                employeeCreateEditViewModel.IsTestUser = response.GeneralPersonModel.IsTestUser;
             }
             return employeeCreateEditViewModel;
         }
