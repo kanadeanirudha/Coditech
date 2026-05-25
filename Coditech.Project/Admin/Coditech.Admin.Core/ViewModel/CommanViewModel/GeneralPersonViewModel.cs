@@ -108,5 +108,8 @@ namespace Coditech.Admin.ViewModel
         public string CallingCode { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+        [Display(Name = "Is App Test User")]
+        public bool IsTestUser { get; set; }
+
     }
 }

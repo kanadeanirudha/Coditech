@@ -870,6 +870,7 @@ namespace Coditech.API.Service
                 userMaster.LastName = model.LastName ?? userMaster.LastName;
                 userMaster.EmailId = model.EmailId ?? userMaster.EmailId ?? userMaster.EmailId;
                 userMaster.IsActive = model.IsActive;
+                userMaster.IsTestUser = model.IsTestUser;
                 _userMasterRepository.Update(userMaster);
             }
         }
