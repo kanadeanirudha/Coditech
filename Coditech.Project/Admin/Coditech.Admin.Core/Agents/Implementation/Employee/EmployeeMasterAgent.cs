@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.API.Data;
 using Coditech.Common.API.Model;
@@ -112,6 +113,7 @@ namespace Coditech.Admin.Agents
                 }
                 employeeCreateEditViewModel.EmployeeId = employeeId;
                 employeeCreateEditViewModel.PersonId = personId;
+                employeeCreateEditViewModel.IsTestUser = response.GeneralPersonModel.IsTestUser;
             }
             return employeeCreateEditViewModel;
         }
@@ -213,7 +215,7 @@ namespace Coditech.Admin.Agents
                 ColumnName = "Employee Code",
                 ColumnCode = "PersonCode",
                 IsSortable = true,
-            });           
+            });
             datatableColumnList.Add(new DatatableColumns()
             {
                 ColumnName = "First Name",
