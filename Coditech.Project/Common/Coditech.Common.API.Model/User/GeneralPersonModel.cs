@@ -40,5 +40,6 @@
         public bool IsPasswordChange { get; set; } = false;
         public bool IsEntityActive { get; set; } = false;
         public bool IsActive { get; set; }
+        public bool IsTestUser { get; set; }
     }
 }
