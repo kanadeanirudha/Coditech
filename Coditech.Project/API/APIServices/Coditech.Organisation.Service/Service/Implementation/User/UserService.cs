@@ -394,6 +394,7 @@ namespace Coditech.API.Service
                     LastName = generalPersonModel.LastName,
                     EmailId = generalPersonModel.EmailId,
                     IsActive = generalPersonModel.IsActive,
+                    IsTestUser = generalPersonModel.IsTestUser,
                 };
                 UpdateUserMasterDetails(userMaster);
                 UpdateIsActiveFlagForUserType(generalPersonModel);
