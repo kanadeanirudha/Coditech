@@ -30,5 +30,6 @@ namespace Coditech.Admin.ViewModel
         public int JoiningCodeTypeEnumId { get; set; }
         public bool IsInQueue { get; set; }
         public DateTime? QueueValidTill { get; set; }
+        public long OrganisationCentrewiseJoiningCodeId { get; set; }
     }
 }

@@ -18,5 +18,6 @@ namespace Coditech.Common.API.Model
         public string JoiningCodeType { get; set; }
         public bool IsInQueue { get; set; }
         public DateTime? QueueValidTill { get; set; }
+        public long OrganisationCentrewiseJoiningCodeId { get; set; }
     }
 }
