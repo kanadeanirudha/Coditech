@@ -4,6 +4,7 @@ namespace Coditech.Common.API.Model
 {
     public partial class OrganisationCentrewiseJoiningCodeModel : BaseModel
     {
+        public long OrganisationCentrewiseJoiningCodeId { get; set; }
         public string CentreCode { get; set; }
         public string JoiningCode { get; set; }
         public int Quantity { get; set; }
@@ -18,6 +19,5 @@ namespace Coditech.Common.API.Model
         public string JoiningCodeType { get; set; }
         public bool IsInQueue { get; set; }
         public DateTime? QueueValidTill { get; set; }
-        public long OrganisationCentrewiseJoiningCodeId { get; set; }
     }
 }
