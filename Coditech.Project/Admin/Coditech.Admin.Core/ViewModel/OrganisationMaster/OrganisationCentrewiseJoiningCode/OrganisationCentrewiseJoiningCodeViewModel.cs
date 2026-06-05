@@ -4,6 +4,7 @@ namespace Coditech.Admin.ViewModel
 {
     public partial class OrganisationCentrewiseJoiningCodeViewModel : BaseViewModel
     {
+        public long OrganisationCentrewiseJoiningCodeId { get; set; }
         [Display(Name = "Centre Code")]
         [Required]
         public string CentreCode { get; set; }
@@ -30,9 +31,8 @@ namespace Coditech.Admin.ViewModel
         public int JoiningCodeTypeEnumId { get; set; }
         public bool IsInQueue { get; set; }
         public DateTime? QueueValidTill { get; set; }
-        public long OrganisationCentrewiseJoiningCodeId { get; set; }
         public string ValidTillHours { get; set; }
         public string ValidTillMinutes { get; set; }
-        public bool IsLock { get; set; }
+        public bool IsReserved { get; set; }
     }
 }
