@@ -19,5 +19,8 @@ namespace Coditech.Common.API.Model
         public bool IsInQueue { get; set; }
         public DateTime? QueueValidTill { get; set; }
         public long OrganisationCentrewiseJoiningCodeId { get; set; }
+        public string ValidTillHours { get; set; }
+        public string ValidTillMinutes { get; set; }
+        public bool IsLock { get; set; }
     }
 }
