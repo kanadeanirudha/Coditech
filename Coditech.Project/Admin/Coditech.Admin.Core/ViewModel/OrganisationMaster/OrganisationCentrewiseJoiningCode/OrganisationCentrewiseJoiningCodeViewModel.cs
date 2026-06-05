@@ -29,7 +29,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Joining Code Type")]
         public string JoiningCodeType { get; set; }
         public int JoiningCodeTypeEnumId { get; set; }
-        public bool IsInQueue { get; set; }
         public DateTime? QueueValidTill { get; set; }
         public string ValidTillHours { get; set; }
         public string ValidTillMinutes { get; set; }
