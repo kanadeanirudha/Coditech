@@ -16,6 +16,7 @@ namespace Coditech.API.Data
         public string Custom2 { get; set; }
         public string Custom3 { get; set; }
         public DateTime? QueueValidTill { get; set; }
+        public bool IsReserved { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
