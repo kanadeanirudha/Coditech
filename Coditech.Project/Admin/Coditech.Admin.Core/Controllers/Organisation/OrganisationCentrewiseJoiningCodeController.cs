@@ -50,6 +50,10 @@ namespace Coditech.Admin.Controllers
         [HttpPost]
         public virtual ActionResult Create(OrganisationCentrewiseJoiningCodeViewModel organisationCentrewiseJoiningCodeViewModel)
         {
+            if (organisationCentrewiseJoiningCodeViewModel.IsReserved && string.IsNullOrEmpty(organisationCentrewiseJoiningCodeViewModel.ValidTillHours))
+            {
+                ModelState.AddModelError(nameof(organisationCentrewiseJoiningCodeViewModel.ValidTillHours),"Please select Expiry Time.");
+            }
             if (ModelState.IsValid)
             {
                 organisationCentrewiseJoiningCodeViewModel = _oganisationCentrewiseJoiningCodeAgent.CreateOrganisationCentrewiseJoiningCode(organisationCentrewiseJoiningCodeViewModel);
