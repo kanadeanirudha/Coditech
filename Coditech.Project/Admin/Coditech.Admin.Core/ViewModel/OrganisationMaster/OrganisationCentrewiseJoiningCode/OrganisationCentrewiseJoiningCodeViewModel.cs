@@ -30,8 +30,8 @@ namespace Coditech.Admin.ViewModel
         public string JoiningCodeType { get; set; }
         public int JoiningCodeTypeEnumId { get; set; }
         public DateTime? QueueValidTill { get; set; }
+        [Required(ErrorMessage = "Please select Expiry Time.")]
         public string ValidTillHours { get; set; }
-        public string ValidTillMinutes { get; set; }
         public bool IsReserved { get; set; }
     }
 }

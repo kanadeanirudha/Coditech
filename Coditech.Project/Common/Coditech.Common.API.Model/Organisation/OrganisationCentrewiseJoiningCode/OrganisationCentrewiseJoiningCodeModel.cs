@@ -19,7 +19,6 @@ namespace Coditech.Common.API.Model
         public string JoiningCodeType { get; set; }
         public DateTime? QueueValidTill { get; set; }
         public string ValidTillHours { get; set; }
-        public string ValidTillMinutes { get; set; }
         public bool IsReserved { get; set; }
     }
 }
