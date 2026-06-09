@@ -169,13 +169,13 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Year End",
+                ColumnName = "Year End",
                 ColumnCode = "IsYearEnd",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Current Financial Year",
+                ColumnName = "Current Financial Year",
                 ColumnCode = "IsCurrentFinancialYear",
                 IsSortable = true,
             });
