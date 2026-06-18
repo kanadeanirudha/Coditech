@@ -8,6 +8,7 @@ namespace Coditech.Admin.ViewModel
         public DateTime? DateOfBirth { get; set; }
         [Display(Name = "Age")]
         public Nullable<int> Age { get; set; }
+        [Display(Name = "Gender")]
         public int GenderEnumId { get; set; }
 
         [MaxLength(200)]
@@ -63,6 +64,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
         public string Description { get; set; }
-
+        [Display(Name = "Occupation")]
+        public short EmployeeDesignationMasterId { get; set; }
     }
 }
