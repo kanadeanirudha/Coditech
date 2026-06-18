@@ -554,19 +554,11 @@ namespace Coditech.API.Service
             if (userMasterId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "UserMasterID"));
             UserMaster userMaster = _userMasterRepository.Table.Where(x => x.UserMasterId == userMasterId && x.UserType == userType)?.FirstOrDefault();
-
             EmployeeMaster employeeMaster = _employeeMasterRepository.Table.Where(x => x.EmployeeId == userMaster.EntityId)?.FirstOrDefault();
-
-
             EmployeeDesignationMaster employeeDesignationMaster = _employeeDesignationMasterRepository.Table.Where(x => x.EmployeeDesignationMasterId == employeeMaster.EmployeeDesignationMasterId)?.FirstOrDefault();
-
-
-
             if (userMaster == null)
                 throw new CoditechException(ErrorCodes.NotFound, "User not found with the specified ID and type.");
             UserProfileModel userProfileModel = userMaster.FromEntityToModel<UserProfileModel>();
-
-
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(userMaster.EntityId, userMaster.UserType);
             if (generalPersonModel != null)
             {
@@ -577,7 +569,7 @@ namespace Coditech.API.Service
                 userProfileModel.Age = generalPersonModel.Age;
                 userProfileModel.EmergencyContact = generalPersonModel.EmergencyContact;
                 userProfileModel.PhotoMediaPath = GetImagePath(generalPersonModel.PhotoMediaId);
-
+                userProfileModel.GenderEnumId = generalPersonModel.GenderEnumId;
             }
             userProfileModel.EmployeeDesignationMasterId = employeeMaster.EmployeeDesignationMasterId;
             userProfileModel.Description = employeeDesignationMaster.Description;
