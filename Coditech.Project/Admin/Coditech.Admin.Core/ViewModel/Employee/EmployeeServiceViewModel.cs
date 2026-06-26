@@ -49,7 +49,7 @@ namespace Coditech.Admin.ViewModel
         public DateTime? DateOfLeaving { get; set; }
 
         [Required]
-        [Display(Name = "Is Current Position")]
+        [Display(Name = "Current Position")]
         public bool IsCurrentPosition { get; set; }
 
         [MaxLength(100)]

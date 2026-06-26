@@ -16,9 +16,9 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Centre")]
         public string CentreCode { get; set; }
-        [Display(Name = "Is Year End")]
+        [Display(Name = "Year End")]
         public bool IsYearEnd { get; set; }
-        [Display(Name = "Is Current Financial Year")]
+        [Display(Name = "Current Financial Year")]
         public bool IsCurrentFinancialYear { get; set; }
 
     }

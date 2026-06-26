@@ -20,7 +20,7 @@ namespace Coditech.Admin.ViewModel
         public int? PurchasingGLAccount { get; set; }
         public bool IsCompoundTax { get; set; }
 
-        [Display(Name = "Is Other State ")]
+        [Display(Name = "Other State ")]
         public bool IsOtherState { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Coditech.Admin.ViewModel
         [Required(ErrorMessage = "Designation Type Required")]
         [Display(Name = "Designation Type")]
         public string DesignationType { get; set; }
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
         [Display(Name = "LabelDepartments", ResourceType = typeof(AdminResources))]

@@ -31,7 +31,7 @@ namespace Coditech.Admin.ViewModel
         public string EmailTemplate { get; set; }
 
         [Required]
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
         [Display(Name = "Centre Name")]
         public string CentreName { get; set; }

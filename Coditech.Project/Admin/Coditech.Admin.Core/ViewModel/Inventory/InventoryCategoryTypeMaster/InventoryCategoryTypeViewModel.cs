@@ -10,7 +10,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Category Type Name")]
         public string CategoryTypeName { get; set; }
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Coditech.Admin.ViewModel
         public string FromMobileNumber { get; set; }
 
         [Required]
-        [Display(Name = "Is WhatsApp Setting Enabled")]
+        [Display(Name = "WhatsApp Setting Enabled")]
         public bool IsWhatsAppSettingEnabled { get; set; }
 
 

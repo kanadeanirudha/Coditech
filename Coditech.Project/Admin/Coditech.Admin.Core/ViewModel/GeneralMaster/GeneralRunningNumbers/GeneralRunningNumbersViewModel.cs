@@ -30,7 +30,7 @@ namespace Coditech.Admin.ViewModel
         public string DisplayFormat { get; set; }
 
         [Required]
-        [Display(Name = "Is Sequence Reset")]
+        [Display(Name = "Sequence Reset")]
         public bool IsSequenceReset { get; set; }
 
         [MaxLength(10)]
@@ -42,7 +42,7 @@ namespace Coditech.Admin.ViewModel
         public string Prefix { get; set; }
 
         [Required]
-        [Display(Name = "Is Back Dated")]
+        [Display(Name = "Back Dated")]
         public bool IsBackDated { get; set; }
 
         [MaxLength(20)]
@@ -58,11 +58,11 @@ namespace Coditech.Admin.ViewModel
         public long CurrentSequnce { get; set; }
 
         [Required]
-        [Display(Name = "Is Row Lock")]
+        [Display(Name = "Row Lock")]
         public bool IsRowLock { get; set; }
 
         [Required]
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
     }
 }

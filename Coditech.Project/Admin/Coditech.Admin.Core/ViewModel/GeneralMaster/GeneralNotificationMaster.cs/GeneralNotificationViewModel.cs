@@ -18,7 +18,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Upto Date")]
         public DateTime UptoDate { get; set; }
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
     }
 }

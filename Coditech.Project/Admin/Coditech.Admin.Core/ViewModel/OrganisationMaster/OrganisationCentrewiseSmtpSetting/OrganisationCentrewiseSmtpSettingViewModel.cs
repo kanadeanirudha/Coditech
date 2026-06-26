@@ -38,7 +38,7 @@ namespace Coditech.Admin.ViewModel
         public int Port { get; set; }
 
         [Required]
-        [Display(Name = "Is Enable SSL")]
+        [Display(Name = "Enable SSL")]
         public bool IsEnableSsl { get; set; }
 
         [MaxLength(256)]

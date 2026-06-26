@@ -177,7 +177,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = " Ticket Status",
+                ColumnName = "Ticket Status",
                 ColumnCode = "TicketStatusEnumId",
                 IsSortable = true,
             });

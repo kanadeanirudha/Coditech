@@ -19,7 +19,7 @@ namespace Coditech.Admin.ViewModel
         public DateTime? WorkToDate { get; set; }
         public string RoleType { get; set; }
         public string Reason { get; set; }
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
         public string PersonCode { get; set; }
         public string FirstName { get; set; }
