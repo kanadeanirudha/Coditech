@@ -10,7 +10,7 @@ namespace Coditech.Admin.ViewModel
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         [Required]
         public string Description { get; set; }
-        [Display(Name = "Is Default")]
+        [Display(Name = "Default")]
         public bool DefaultFlag { get; set; }
     }
 }

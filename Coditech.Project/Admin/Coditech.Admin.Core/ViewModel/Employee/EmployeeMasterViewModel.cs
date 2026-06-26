@@ -40,7 +40,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Centre wise Department")]
         public int OrganisationCentrewiseDepartmentId { get; set; }
 
-        [Display(Name = "Is Employee Smoker ?")]
+        [Display(Name = "Employee Smoker ?")]
         public bool IsEmployeeSmoker { get; set; }
 
         [Display(Name = "Reporting Employee")]
@@ -93,7 +93,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Bank IFSC Code")]
         public string BankIFSCCode { get; set; }
 
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
         public string CentreCode { get; set; }
         public short GeneralDepartmentMasterId { get; set; }

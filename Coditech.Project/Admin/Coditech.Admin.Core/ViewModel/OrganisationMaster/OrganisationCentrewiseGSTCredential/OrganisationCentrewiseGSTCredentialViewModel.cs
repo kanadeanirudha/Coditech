@@ -55,7 +55,7 @@ namespace Coditech.Admin.ViewModel
         public string ClientId { get; set; }
 
         [Required]
-        [Display(Name = "Is Live Mode")]
+        [Display(Name = "Live Mode")]
         public bool IsLiveMode { get; set; }
 
         [Display(Name = "Centre Name")]

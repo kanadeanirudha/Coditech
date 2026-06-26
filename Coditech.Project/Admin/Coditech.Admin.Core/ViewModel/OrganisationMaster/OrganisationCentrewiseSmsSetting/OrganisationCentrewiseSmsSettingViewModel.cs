@@ -34,7 +34,7 @@ namespace Coditech.Admin.ViewModel
         public string FromMobileNumber { get; set; }
 
         [Required]
-        [Display(Name = "Is SMS Setting Enabled")]
+        [Display(Name = "SMS Setting Enabled")]
         public bool IsSMSSettingEnabled { get; set; }
 
         [Display(Name = "Centre Name")]

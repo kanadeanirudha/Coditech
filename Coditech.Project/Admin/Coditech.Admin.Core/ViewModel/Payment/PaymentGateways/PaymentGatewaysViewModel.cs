@@ -15,7 +15,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(50)]
         [Display(Name = "Payment Code")]
         public string PaymentCode { get; set; }
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
     }
 }

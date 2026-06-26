@@ -16,7 +16,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Table Name")]
         public string TableName { get; set; }
-        [Display(Name = "IsActive")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
     }

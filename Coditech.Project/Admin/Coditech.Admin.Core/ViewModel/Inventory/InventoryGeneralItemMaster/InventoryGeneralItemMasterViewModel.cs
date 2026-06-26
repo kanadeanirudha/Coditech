@@ -53,10 +53,10 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Inventory Base UoM")]
         public short InventoryBaseUoMMasterId { get; set; }
 
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; } = true;
 
-        [Display(Name = "Is Base Uom")]
+        [Display(Name = "Base Uom")]
         public bool IsBaseUom { get; set; } = true;
     }
 }
