@@ -15,7 +15,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "These fields must accept alphabetic characters")]
         public string CountryCode { get; set; }
-        [Display(Name = "Is Default")]
+        [Display(Name = "Default")]
         public bool DefaultFlag { get; set; }
 
         [Display(Name = "Seq Number")]

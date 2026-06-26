@@ -36,9 +36,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Cron Expression")]
         public string CronExpression { get; set; }
         public string HangfireJobId { get; set; }
-        [Display(Name = "Is Monthly Days")]
+        [Display(Name = "Monthly Days")]
         public bool IsMonthlyDays { get; set; }
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsEnabled { get; set; }
         [Display(Name = "Week Days")]
         public List<string> SelectedWeekDays { get; set; } = new List<string>();

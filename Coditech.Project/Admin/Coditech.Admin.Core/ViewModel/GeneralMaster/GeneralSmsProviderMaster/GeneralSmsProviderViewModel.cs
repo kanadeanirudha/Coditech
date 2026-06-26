@@ -14,7 +14,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = " Provider Code")]
         public string ProviderCode { get; set; }
         [Required]
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
     }
 }

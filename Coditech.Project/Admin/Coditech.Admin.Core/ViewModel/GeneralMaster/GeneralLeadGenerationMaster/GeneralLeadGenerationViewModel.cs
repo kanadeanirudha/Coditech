@@ -72,7 +72,7 @@ namespace Coditech.Admin.ViewModel
         public int LeadGenerationStatusEnumId { get; set; }  
 
         [Required]
-        [Display(Name = "Is Converted")]
+        [Display(Name = "Converted")]
         public bool IsConverted { get; set; }  
 
         [Display(Name = "Custom 1")]

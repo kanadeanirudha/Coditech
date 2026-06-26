@@ -154,7 +154,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Other State",
+                ColumnName = "Other State",
                 ColumnCode = "IsOtherState",
                 IsSortable = true,
             });

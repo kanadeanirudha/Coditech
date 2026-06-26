@@ -197,7 +197,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Converted",
+                ColumnName = "Converted",
                 ColumnCode = "IsConverted",
                 IsSortable = true,
             });

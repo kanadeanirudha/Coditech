@@ -178,13 +178,13 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Sequence Reset",
+                ColumnName = "Sequence Reset",
                 ColumnCode = "IsSequenceReset",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Active",
+                ColumnName = "Active",
                 ColumnCode = "IsActive",
             });
             return datatableColumnList;

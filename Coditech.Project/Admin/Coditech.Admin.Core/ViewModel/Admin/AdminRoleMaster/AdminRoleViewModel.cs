@@ -23,11 +23,11 @@ namespace Coditech.Admin.ViewModel
         public string SanctionPostName { get; set; }
         [Display(Name = "Monitoring Level")]
         public string MonitoringLevel { get; set; }
-        [Display(Name = "Is Login Allowed From Outside")]
+        [Display(Name = "Login Allowed From Outside")]
         public bool IsLoginAllowFromOutside { get; set; }
-        [Display(Name = "Is Attendance  Allowed From Outside")]
+        [Display(Name = "Attendance  Allowed From Outside")]
         public bool IsAttendaceAllowFromOutside { get; set; }
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
         public string SelectedCentreCodeForSelf { get; set; }
         public string SelectedCentreNameForSelf { get; set; }

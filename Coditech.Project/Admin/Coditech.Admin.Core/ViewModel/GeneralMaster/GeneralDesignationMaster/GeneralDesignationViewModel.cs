@@ -29,7 +29,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Related With")]
         [MaxLength(10)]
         public string RelatedWith { get; set; }
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
     }
 }

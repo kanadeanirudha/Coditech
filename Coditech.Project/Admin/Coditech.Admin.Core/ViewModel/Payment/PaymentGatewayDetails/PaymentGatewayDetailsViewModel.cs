@@ -20,9 +20,9 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(100)]
         [Display(Name = "Gateway Password")]
         public string GatewayPassword { get; set; }
-        [Display(Name = "Is Auto Captured")]
+        [Display(Name = "Auto Captured")]
         public bool IsAutoCaptured { get; set; }
-        [Display(Name = "Is LiveMode On")]
+        [Display(Name = "LiveMode On")]
         public bool IsLiveMode { get; set; }
         public string Mode { get; set; }
     }

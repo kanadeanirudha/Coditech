@@ -12,7 +12,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Trainer")]
         public long GeneralTrainerMasterId { get; set; }
-        [Display(Name = "Is Current Trainer")]
+        [Display(Name = "Current Trainer")]
         public bool IsCurrentTrainer { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

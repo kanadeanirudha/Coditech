@@ -45,7 +45,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(100)]
         public string HelpDescription { get; set; }
         
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
         
         public List<MediaTypeExtensionModel> MediaTypeExtensionList { get; set; }

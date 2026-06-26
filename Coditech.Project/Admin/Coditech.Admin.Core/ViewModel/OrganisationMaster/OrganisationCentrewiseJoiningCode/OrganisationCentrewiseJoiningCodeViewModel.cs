@@ -12,7 +12,7 @@ namespace Coditech.Admin.ViewModel
         [Required]
         [Display(Name = "Joining Code Quantity")]
         public int Quantity { get; set; }
-        [Display(Name = "Is Expired")]
+        [Display(Name = "Expired")]
         public bool IsExpired { get; set; }
         [Display(Name = "Calling Code")]
         public string CallingCode { get; set; }

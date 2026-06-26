@@ -146,7 +146,7 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Is Active Joining Code",
+                ColumnName = "Active Joining Code",
                 ColumnCode = "IsExpired",
                 IsSortable = false,
             });

@@ -15,14 +15,14 @@ namespace Coditech.Admin.ViewModel
         public string UserDescription { get; set; }
         [Display(Name = "Related With")]
         public string RelatedWith { get; set; }
-        [Display(Name = "Is Common")]
+        [Display(Name = "Common")]
         public bool IsCommon { get; set; }
 
-        [Display(Name = "Is Login Required")]
+        [Display(Name = "Login Required")]
         [Required]
         public bool IsLoginRequired { get; set; }
 
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         [Required]
         public bool IsActive { get; set; }
     }

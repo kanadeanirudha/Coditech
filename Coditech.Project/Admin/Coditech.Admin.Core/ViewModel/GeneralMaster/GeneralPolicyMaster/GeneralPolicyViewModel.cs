@@ -27,7 +27,7 @@ namespace Coditech.Admin.ViewModel
         [MaxLength(15)]
         [Display(Name = "Policy Applicable Status")]
         public string PolicyApplicableStatus { get; set; }
-        [Display(Name = "Is Policy Active")]
+        [Display(Name = "Policy Active")]
         public bool IsPolicyActive { get; set; }
     }
 }

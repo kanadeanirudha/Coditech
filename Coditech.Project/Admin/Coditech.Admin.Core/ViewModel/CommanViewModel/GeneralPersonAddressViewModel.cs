@@ -69,10 +69,10 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Email Id")]
         public string EmailAddress { get; set; }
 
-        [Display(Name = "Is Active")]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
-        [Display(Name = "Is Correspondance Address Same As Permanent Address?")]
+        [Display(Name = "Correspondance Address Same As Permanent Address?")]
         public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }
         public bool IsDefault { get; set; }
         public string ControllerName { get; set; }

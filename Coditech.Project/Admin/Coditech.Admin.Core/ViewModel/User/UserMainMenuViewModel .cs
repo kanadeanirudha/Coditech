@@ -43,7 +43,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Action Name")]
         public string ActionName { get; set; }
 
-        [Display(Name = " Is Enable")]
+        [Display(Name = "Enable")]
         public bool IsEnable { get; set; }
 
         public System.DateTime? DisableDate { get; set; }
