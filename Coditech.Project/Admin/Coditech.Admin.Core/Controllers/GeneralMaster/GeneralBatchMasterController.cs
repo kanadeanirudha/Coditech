@@ -137,9 +137,12 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(_generalBatchAgent.AssociateUnAssociateBatchwiseUser(generalBatchUserViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+            if (generalBatchUserViewModel.Custom4 == "Mobile View")
+            {
+                return RedirectToAction("GetGeneralBatchUserList", "DBTMGeneralBatchMaster", new { SelectedParameter1 = generalBatchUserViewModel.GeneralBatchMasterId, SelectedParameter2 = generalBatchUserViewModel.UserType, SelectedParameter4 = generalBatchUserViewModel.Custom4, isIframe = true });
+            }
             return RedirectToAction("GetGeneralBatchUserList", new DataTableViewModel { SelectedParameter1 = generalBatchUserViewModel.GeneralBatchMasterId.ToString(), SelectedParameter2 = generalBatchUserViewModel.UserType, SelectedParameter4 = generalBatchUserViewModel.Custom4 });
         }
-
         #region 
         public virtual ActionResult Cancel(string SelectedCentreCode)
         {
