@@ -12,5 +12,7 @@ namespace Coditech.Common.API.Model
         public string CentreCode { get; set; }
         public int OrderBy { get; set; }
         public string DropdownEnumGroupCode { get; set; }
+        public bool IsRequired { get; set; }
+        public bool IsSystemDefined { get; set; }
     }
 }
