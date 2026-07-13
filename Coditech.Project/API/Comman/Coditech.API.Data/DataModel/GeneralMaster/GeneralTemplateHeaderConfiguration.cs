@@ -12,6 +12,8 @@ namespace Coditech.API.Data
         public string CentreCode { get; set; }
         public int OrderBy { get; set; }
         public string DropdownEnumGroupCode { get; set; }
+        public bool IsRequired { get; set; }
+        public bool IsSystemDefined { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
