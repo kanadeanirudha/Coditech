@@ -41,5 +41,6 @@
         public bool IsEntityActive { get; set; } = false;
         public bool IsActive { get; set; }
         public bool IsTestUser { get; set; }
+        public bool IsDataEncrypted { get; set; }
     }
 }
