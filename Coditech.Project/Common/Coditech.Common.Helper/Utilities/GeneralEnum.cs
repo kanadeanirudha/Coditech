@@ -292,4 +292,9 @@
         CenterPopUp,
         ScrollablePopUp
     }
+    public enum MaskType
+    {
+        Email,
+        Mobile
+    }
 }

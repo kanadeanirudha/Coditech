@@ -27,12 +27,13 @@ namespace Coditech.API.Data
         public string AttendanceIntegrationId { get; set; }
         public short GeneralOccupationMasterId { get; set; }
         public DateTime? AnniversaryDate { get; set; }
+        public bool IsDataEncrypted { get; set; }
+        public bool IsMinor { get; set; }
         public string Custom1 { get; set; }
         public string Custom2 { get; set; }
         public string Custom3 { get; set; }
         public string Custom4 { get; set; }
         public string Custom5 { get; set; }
-        public bool IsDataEncrypted { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

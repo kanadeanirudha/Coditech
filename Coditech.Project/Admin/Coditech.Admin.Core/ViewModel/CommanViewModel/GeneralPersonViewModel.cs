@@ -106,10 +106,14 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Calling Code")]
         [Required]
         public string CallingCode { get; set; }
+
         [Display(Name = "Active")]
         public bool IsActive { get; set; }
+
         [Display(Name = "App Test User")]
         public bool IsTestUser { get; set; }
 
+        [Display(Name = "Minor")]
+        public bool IsMinor { get; set; }
     }
 }

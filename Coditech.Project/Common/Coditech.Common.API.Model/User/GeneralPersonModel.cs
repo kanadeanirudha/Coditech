@@ -42,5 +42,6 @@
         public bool IsActive { get; set; }
         public bool IsTestUser { get; set; }
         public bool IsDataEncrypted { get; set; }
+        public bool IsMinor { get; set; }
     }
 }
