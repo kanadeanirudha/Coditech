@@ -95,6 +95,7 @@ namespace Coditech.Common.Service
                 generalPerson.PhoneNumber = HelperUtility.DecodeBase64(generalPerson.PhoneNumber);
                 generalPerson.MobileNumber = HelperUtility.DecodeBase64(generalPerson.MobileNumber);
                 generalPerson.EmergencyContact = HelperUtility.DecodeBase64(generalPerson.EmergencyContact);
+                generalPerson.DateOfBirth = HelperUtility.DecodeBase64(generalPerson.DateOfBirth);
 
                 generalPerson.IndentificationNumber = HelperUtility.DecodeBase64(generalPerson.IndentificationNumber);
                 generalPerson.AttendanceIntegrationId = HelperUtility.DecodeBase64(generalPerson.AttendanceIntegrationId);
@@ -385,31 +386,36 @@ namespace Coditech.Common.Service
 
         protected virtual GeneralPerson InsertGeneralPersonData(GeneralPersonModel generalPersonModel)
         {
+            BindGeneralPersonalData(generalPersonModel);
+            BindGeneralPersonCustomData(generalPersonModel);
+            GeneralPerson personData = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalPersonModel.FromModelToEntity<GeneralPerson>());
+            return personData;
+        }
+
+        protected virtual void BindGeneralPersonalData(GeneralPersonModel generalPersonModel)
+        {
+            // Capitalize first letter of FirstName, LastName and MiddleName
             generalPersonModel.FirstName = generalPersonModel.FirstName.ToFirstLetterCapital();
             generalPersonModel.LastName = generalPersonModel.LastName.ToFirstLetterCapital();
             generalPersonModel.MiddleName = generalPersonModel.MiddleName.ToFirstLetterCapital();
-            InsertGeneralPersonCustomData(generalPersonModel);
-            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
             // Personal Details
-            generalPerson.FirstName = HelperUtility.EncodeBase64(generalPerson.FirstName);
-            generalPerson.MiddleName = HelperUtility.EncodeBase64(generalPerson.MiddleName);
-            generalPerson.LastName = HelperUtility.EncodeBase64(generalPerson.LastName);
-            generalPerson.EmailId = HelperUtility.EncodeBase64(generalPerson.EmailId);
-            generalPerson.PhoneNumber = HelperUtility.EncodeBase64(generalPerson.PhoneNumber);
-            generalPerson.MobileNumber = HelperUtility.EncodeBase64(generalPerson.MobileNumber);
-            generalPerson.EmergencyContact = HelperUtility.EncodeBase64(generalPerson.EmergencyContact);
+            generalPersonModel.FirstName = HelperUtility.EncodeBase64(generalPersonModel.FirstName);
+            generalPersonModel.MiddleName = HelperUtility.EncodeBase64(generalPersonModel.MiddleName);
+            generalPersonModel.LastName = HelperUtility.EncodeBase64(generalPersonModel.LastName);
+            generalPersonModel.EmailId = HelperUtility.EncodeBase64(generalPersonModel.EmailId);
+            generalPersonModel.PhoneNumber = HelperUtility.EncodeBase64(generalPersonModel.PhoneNumber);
+            generalPersonModel.MobileNumber = HelperUtility.EncodeBase64(generalPersonModel.MobileNumber);
+            generalPersonModel.EmergencyContact = HelperUtility.EncodeBase64(generalPersonModel.EmergencyContact);
 
-            generalPerson.IndentificationNumber = HelperUtility.EncodeBase64(generalPerson.IndentificationNumber);
-            generalPerson.AttendanceIntegrationId = HelperUtility.EncodeBase64(generalPerson.AttendanceIntegrationId);
-            generalPerson.IsMinor = HelperUtility.IsMinor(generalPerson.DateOfBirth);
-            generalPerson.IsDataEncrypted = true;
-            
-            // Create new Person and return it.
-            GeneralPerson personData = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalPerson);
-            return personData;
+            generalPersonModel.IndentificationNumber = HelperUtility.EncodeBase64(generalPersonModel.IndentificationNumber);
+            generalPersonModel.AttendanceIntegrationId = HelperUtility.EncodeBase64(generalPersonModel.AttendanceIntegrationId);
+            generalPersonModel.IsMinor = HelperUtility.IsMinor(generalPersonModel.DateOfBirth);
+            generalPersonModel.DateOfBirth = HelperUtility.EncodeBase64(generalPersonModel.DateOfBirth);
+            generalPersonModel.IsDataEncrypted = true;
         }
-        protected virtual void InsertGeneralPersonCustomData(GeneralPersonModel generalPersonModel)
+
+        protected virtual void BindGeneralPersonCustomData(GeneralPersonModel generalPersonModel)
         {
             generalPersonModel.Custom1 = generalPersonModel.Custom1;
             generalPersonModel.Custom2 = generalPersonModel.Custom2;

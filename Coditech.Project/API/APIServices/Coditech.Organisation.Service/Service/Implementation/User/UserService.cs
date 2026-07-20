@@ -309,9 +309,9 @@ namespace Coditech.API.Service
                 _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.UserRegistration.ToString(), TraceLevel.Error);
                 return generalPersonModel;
             }
-            if (IsNull(generalPersonModel.DateOfBirth) && generalPersonModel.Age > 0)
+            if (string.IsNullOrEmpty(generalPersonModel.DateOfBirth) && generalPersonModel.Age > 0)
             {
-                generalPersonModel.DateOfBirth = new DateTime(CalculateBirthYear(generalPersonModel.Age), 1, 1);
+                generalPersonModel.DateOfBirth = new DateTime(CalculateBirthYear(generalPersonModel.Age), 1, 1).ToString("yyyy-MM-dd");
             }
             GeneralPerson personData = InsertGeneralPersonData(generalPersonModel);           
             if (personData?.PersonId > 0)
@@ -389,17 +389,18 @@ namespace Coditech.API.Service
             if (generalPersonModel.EntityId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EntityId"));
 
-            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
-            generalPerson.FirstName = HelperUtility.EncodeBase64(generalPerson.FirstName);
-            generalPerson.MiddleName = HelperUtility.EncodeBase64(generalPerson.MiddleName);
-            generalPerson.LastName = HelperUtility.EncodeBase64(generalPerson.LastName);
-            generalPerson.EmailId = HelperUtility.EncodeBase64(generalPerson.EmailId);
-            generalPerson.MobileNumber = HelperUtility.EncodeBase64(generalPerson.MobileNumber);
-            generalPerson.PhoneNumber = HelperUtility.EncodeBase64(generalPerson.PhoneNumber);
-            generalPerson.EmergencyContact = HelperUtility.EncodeBase64(generalPerson.EmergencyContact);
-            generalPerson.IsMinor = HelperUtility.IsMinor(generalPerson.DateOfBirth);
-            generalPerson.IsDataEncrypted = true;
+            generalPersonModel.FirstName = HelperUtility.EncodeBase64(generalPersonModel.FirstName);
+            generalPersonModel.MiddleName = HelperUtility.EncodeBase64(generalPersonModel.MiddleName);
+            generalPersonModel.LastName = HelperUtility.EncodeBase64(generalPersonModel.LastName);
+            generalPersonModel.EmailId = HelperUtility.EncodeBase64(generalPersonModel.EmailId);
+            generalPersonModel.MobileNumber = HelperUtility.EncodeBase64(generalPersonModel.MobileNumber);
+            generalPersonModel.PhoneNumber = HelperUtility.EncodeBase64(generalPersonModel.PhoneNumber);
+            generalPersonModel.EmergencyContact = HelperUtility.EncodeBase64(generalPersonModel.EmergencyContact);
+            generalPersonModel.IsMinor = HelperUtility.IsMinor(generalPersonModel.DateOfBirth);
+            generalPersonModel.DateOfBirth = HelperUtility.EncodeBase64(generalPersonModel.DateOfBirth);
+            generalPersonModel.IsDataEncrypted = true;
 
+            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
             //Update General Person
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
             if (isPersonUpdated)
@@ -618,11 +619,11 @@ namespace Coditech.API.Service
             if (generalPerson == null)
                 throw new CoditechException(ErrorCodes.NotFound, "General person not found for the specified user.");
 
-            generalPerson.MobileNumber = userProfileModel.MobileNumber;
+            generalPerson.MobileNumber = HelperUtility.EncodeBase64(userProfileModel.MobileNumber);
             generalPerson.MaritalStatus = userProfileModel.MaritalStatus;
-            generalPerson.DateOfBirth = userProfileModel.DateOfBirth;
+            generalPerson.DateOfBirth = HelperUtility.EncodeBase64(userProfileModel.DateOfBirth);
             generalPerson.PhotoMediaId = userProfileModel.PhotoMediaId;
-            generalPerson.EmergencyContact = userProfileModel.EmergencyContact;
+            generalPerson.EmergencyContact = HelperUtility.EncodeBase64(userProfileModel.EmergencyContact);
             generalPerson.PhotoMediaId = userProfileModel.PhotoMediaId;
 
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);

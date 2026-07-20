@@ -197,15 +197,18 @@ namespace Coditech.Common.Helper
                     return value;
             }
         }
-        public static bool IsMinor(DateTime? dateOfBirth)
+        public static bool IsMinor(string dateOfBirth)
         {
-            if (!dateOfBirth.HasValue)
+            if (string.IsNullOrWhiteSpace(dateOfBirth))
+                return false;
+
+            if (!DateTime.TryParse(dateOfBirth, out DateTime dob))
                 return false;
 
             DateTime today = DateTime.Today;
-            int age = today.Year - dateOfBirth.Value.Year;
+            int age = today.Year - dob.Year;
 
-            if (dateOfBirth.Value.Date > today.AddYears(-age))
+            if (dob.Date > today.AddYears(-age))
                 age--;
 
             return age < 18;
