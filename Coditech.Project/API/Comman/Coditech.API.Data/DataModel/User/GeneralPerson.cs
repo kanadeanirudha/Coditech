@@ -10,7 +10,7 @@ namespace Coditech.API.Data
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
         public int GenderEnumId { get; set; }
         public string EmailId { get; set; }
         public string PhoneNumber { get; set; }
@@ -27,6 +27,8 @@ namespace Coditech.API.Data
         public string AttendanceIntegrationId { get; set; }
         public short GeneralOccupationMasterId { get; set; }
         public DateTime? AnniversaryDate { get; set; }
+        public bool IsDataEncrypted { get; set; }
+        public bool IsMinor { get; set; }
         public string Custom1 { get; set; }
         public string Custom2 { get; set; }
         public string Custom3 { get; set; }

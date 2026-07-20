@@ -36,7 +36,7 @@ namespace Coditech.Admin.ViewModel
         public string LastName { get; set; }
 
         [Display(Name = "Date Of Birth")]
-        public DateTime? DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
 
         [Display(Name = "Age")]
         public Nullable<int> Age { get; set; }
@@ -106,10 +106,14 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Calling Code")]
         [Required]
         public string CallingCode { get; set; }
+
         [Display(Name = "Active")]
         public bool IsActive { get; set; }
+
         [Display(Name = "App Test User")]
         public bool IsTestUser { get; set; }
 
+        [Display(Name = "Minor")]
+        public bool IsMinor { get; set; }
     }
 }

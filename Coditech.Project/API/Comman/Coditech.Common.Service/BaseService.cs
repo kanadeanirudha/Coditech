@@ -2,12 +2,11 @@
 using Coditech.Common.API.Model;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-
 using static Coditech.Common.Helper.HelperUtility;
+using Coditech.Common.Helper;
 namespace Coditech.Common.Service
 {
     public abstract class BaseService
@@ -87,6 +86,20 @@ namespace Coditech.Common.Service
         protected virtual GeneralPersonModel GetGeneralPersonDetails(long personId)
         {
             GeneralPerson generalPerson = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).GetById(personId);
+            if (generalPerson != null && generalPerson.IsDataEncrypted)
+            {
+                generalPerson.FirstName = HelperUtility.DecodeBase64(generalPerson.FirstName);
+                generalPerson.MiddleName = HelperUtility.DecodeBase64(generalPerson.MiddleName);
+                generalPerson.LastName = HelperUtility.DecodeBase64(generalPerson.LastName);
+                generalPerson.EmailId = HelperUtility.DecodeBase64(generalPerson.EmailId);
+                generalPerson.PhoneNumber = HelperUtility.DecodeBase64(generalPerson.PhoneNumber);
+                generalPerson.MobileNumber = HelperUtility.DecodeBase64(generalPerson.MobileNumber);
+                generalPerson.EmergencyContact = HelperUtility.DecodeBase64(generalPerson.EmergencyContact);
+                generalPerson.DateOfBirth = HelperUtility.DecodeBase64(generalPerson.DateOfBirth);
+
+                generalPerson.IndentificationNumber = HelperUtility.DecodeBase64(generalPerson.IndentificationNumber);
+                generalPerson.AttendanceIntegrationId = HelperUtility.DecodeBase64(generalPerson.AttendanceIntegrationId);
+            }
             return generalPerson.FromEntityToModel<GeneralPersonModel>();
         }
 
@@ -373,14 +386,42 @@ namespace Coditech.Common.Service
 
         protected virtual GeneralPerson InsertGeneralPersonData(GeneralPersonModel generalPersonModel)
         {
+            BindGeneralPersonalData(generalPersonModel);
+            BindGeneralPersonCustomData(generalPersonModel);
+            GeneralPerson personData = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalPersonModel.FromModelToEntity<GeneralPerson>());
+            return personData;
+        }
+
+        protected virtual void BindGeneralPersonalData(GeneralPersonModel generalPersonModel)
+        {
+            // Capitalize first letter of FirstName, LastName and MiddleName
             generalPersonModel.FirstName = generalPersonModel.FirstName.ToFirstLetterCapital();
             generalPersonModel.LastName = generalPersonModel.LastName.ToFirstLetterCapital();
             generalPersonModel.MiddleName = generalPersonModel.MiddleName.ToFirstLetterCapital();
-            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
 
-            // Create new Person and return it.
-            GeneralPerson personData = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).Insert(generalPerson);
-            return personData;
+            // Personal Details
+            generalPersonModel.FirstName = HelperUtility.EncodeBase64(generalPersonModel.FirstName);
+            generalPersonModel.MiddleName = HelperUtility.EncodeBase64(generalPersonModel.MiddleName);
+            generalPersonModel.LastName = HelperUtility.EncodeBase64(generalPersonModel.LastName);
+            generalPersonModel.EmailId = HelperUtility.EncodeBase64(generalPersonModel.EmailId);
+            generalPersonModel.PhoneNumber = HelperUtility.EncodeBase64(generalPersonModel.PhoneNumber);
+            generalPersonModel.MobileNumber = HelperUtility.EncodeBase64(generalPersonModel.MobileNumber);
+            generalPersonModel.EmergencyContact = HelperUtility.EncodeBase64(generalPersonModel.EmergencyContact);
+
+            generalPersonModel.IndentificationNumber = HelperUtility.EncodeBase64(generalPersonModel.IndentificationNumber);
+            generalPersonModel.AttendanceIntegrationId = HelperUtility.EncodeBase64(generalPersonModel.AttendanceIntegrationId);
+            generalPersonModel.IsMinor = HelperUtility.IsMinor(generalPersonModel.DateOfBirth);
+            generalPersonModel.DateOfBirth = HelperUtility.EncodeBase64(generalPersonModel.DateOfBirth);
+            generalPersonModel.IsDataEncrypted = true;
+        }
+
+        protected virtual void BindGeneralPersonCustomData(GeneralPersonModel generalPersonModel)
+        {
+            generalPersonModel.Custom1 = generalPersonModel.Custom1;
+            generalPersonModel.Custom2 = generalPersonModel.Custom2;
+            generalPersonModel.Custom3 = generalPersonModel.Custom3;
+            generalPersonModel.Custom4 = generalPersonModel.Custom4;
+            generalPersonModel.Custom5 = generalPersonModel.Custom5;
         }
 
         protected virtual long InsertEmployee(GeneralPersonModel generalPersonModel, List<GeneralSystemGlobleSettingModel> settingMasterList, bool isActive)
@@ -457,8 +498,14 @@ namespace Coditech.Common.Service
             {
                 userMaster.UserName = generalPersonModel.PersonCode;
             }
-            generalPersonModel.UserName = userMaster.UserName;
+            userMaster.UserName = HelperUtility.EncodeBase64(userMaster.UserName);
+            userMaster.IsDataEncrypted = true;
+
             generalPersonModel.EntityId = entityId;
+            userMaster.FirstName = HelperUtility.EncodeBase64(userMaster.FirstName);
+            userMaster.MiddleName = HelperUtility.EncodeBase64(userMaster.MiddleName);
+            userMaster.LastName = HelperUtility.EncodeBase64(userMaster.LastName);
+            userMaster.EmailId = HelperUtility.EncodeBase64(userMaster.EmailId);
             userMaster = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(userMaster);
         }
 

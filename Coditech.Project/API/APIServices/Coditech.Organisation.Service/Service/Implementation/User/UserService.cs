@@ -73,8 +73,9 @@ namespace Coditech.API.Service
 
             int maxAttempts = ApiSettings.UserLoginAttempts;
             int lockMinutes = ApiSettings.UserAccountLockTimeInMinutes;
+            string encodedUserName = HelperUtility.EncodeBase64(userLoginModel.UserName);
 
-            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserName.ToLower() == userLoginModel.UserName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString())).FirstOrDefault();
+            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()).FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userLoginModel.UserName);
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, "User not found");
@@ -123,7 +124,8 @@ namespace Coditech.API.Service
             if (IsNull(userName))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserName.ToLower() == userName.ToLower() && (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()))?.FirstOrDefault();
+            string encodedUserName = HelperUtility.EncodeBase64(userName);
+            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()).FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
@@ -157,8 +159,8 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             string userName = DecodeBase64(resetPasswordModel.ResetPasswordToken);
-
-            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserName == userName)?.FirstOrDefault();
+            string encodedUserName = HelperUtility.EncodeBase64(userName);
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, "Please make sure that the Username you entered is correct.");
@@ -183,7 +185,8 @@ namespace Coditech.API.Service
             if (IsNull(userName))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserName == userName)?.FirstOrDefault();
+            string encodedUserName = HelperUtility.EncodeBase64(userName);
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, "Please make sure that the Username you entered is correct.");
@@ -306,11 +309,11 @@ namespace Coditech.API.Service
                 _coditechLogging.LogMessage(errorMessage, CoditechLoggingEnum.Components.UserRegistration.ToString(), TraceLevel.Error);
                 return generalPersonModel;
             }
-            if (IsNull(generalPersonModel.DateOfBirth) && generalPersonModel.Age > 0)
+            if (string.IsNullOrEmpty(generalPersonModel.DateOfBirth) && generalPersonModel.Age > 0)
             {
-                generalPersonModel.DateOfBirth = new DateTime(CalculateBirthYear(generalPersonModel.Age), 1, 1);
+                generalPersonModel.DateOfBirth = new DateTime(CalculateBirthYear(generalPersonModel.Age), 1, 1).ToString("yyyy-MM-dd");
             }
-            GeneralPerson personData = InsertGeneralPersonData(generalPersonModel);
+            GeneralPerson personData = InsertGeneralPersonData(generalPersonModel);           
             if (personData?.PersonId > 0)
             {
                 generalPersonModel.PersonId = personData.PersonId;
@@ -348,8 +351,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
 
             //Get the General Person Details based on id.
-            GeneralPerson personData = _generalPersonRepository.Table.Where(x => x.PersonId == personId)?.FirstOrDefault();
-            GeneralPersonModel generalPersonModel = personData.FromEntityToModel<GeneralPersonModel>();
+            GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
             EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.PersonId == personId);
             if (employeeMaster != null)
             {
@@ -387,8 +389,18 @@ namespace Coditech.API.Service
             if (generalPersonModel.EntityId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EntityId"));
 
-            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
+            generalPersonModel.FirstName = HelperUtility.EncodeBase64(generalPersonModel.FirstName);
+            generalPersonModel.MiddleName = HelperUtility.EncodeBase64(generalPersonModel.MiddleName);
+            generalPersonModel.LastName = HelperUtility.EncodeBase64(generalPersonModel.LastName);
+            generalPersonModel.EmailId = HelperUtility.EncodeBase64(generalPersonModel.EmailId);
+            generalPersonModel.MobileNumber = HelperUtility.EncodeBase64(generalPersonModel.MobileNumber);
+            generalPersonModel.PhoneNumber = HelperUtility.EncodeBase64(generalPersonModel.PhoneNumber);
+            generalPersonModel.EmergencyContact = HelperUtility.EncodeBase64(generalPersonModel.EmergencyContact);
+            generalPersonModel.IsMinor = HelperUtility.IsMinor(generalPersonModel.DateOfBirth);
+            generalPersonModel.DateOfBirth = HelperUtility.EncodeBase64(generalPersonModel.DateOfBirth);
+            generalPersonModel.IsDataEncrypted = true;
 
+            GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
             //Update General Person
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
             if (isPersonUpdated)
@@ -558,6 +570,14 @@ namespace Coditech.API.Service
             EmployeeDesignationMaster employeeDesignationMaster = _employeeDesignationMasterRepository.Table.Where(x => x.EmployeeDesignationMasterId == employeeMaster.EmployeeDesignationMasterId)?.FirstOrDefault();
             if (userMaster == null)
                 throw new CoditechException(ErrorCodes.NotFound, "User not found with the specified ID and type.");
+
+            if (userMaster != null)
+            {
+                userMaster.FirstName = HelperUtility.DecodeBase64(userMaster.FirstName);
+                userMaster.MiddleName = HelperUtility.DecodeBase64(userMaster.MiddleName);
+                userMaster.LastName = HelperUtility.DecodeBase64(userMaster.LastName);
+                userMaster.EmailId = HelperUtility.DecodeBase64(userMaster.EmailId);
+            }
             UserProfileModel userProfileModel = userMaster.FromEntityToModel<UserProfileModel>();
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(userMaster.EntityId, userMaster.UserType);
             if (generalPersonModel != null)
@@ -599,11 +619,11 @@ namespace Coditech.API.Service
             if (generalPerson == null)
                 throw new CoditechException(ErrorCodes.NotFound, "General person not found for the specified user.");
 
-            generalPerson.MobileNumber = userProfileModel.MobileNumber;
+            generalPerson.MobileNumber = HelperUtility.EncodeBase64(userProfileModel.MobileNumber);
             generalPerson.MaritalStatus = userProfileModel.MaritalStatus;
-            generalPerson.DateOfBirth = userProfileModel.DateOfBirth;
+            generalPerson.DateOfBirth = HelperUtility.EncodeBase64(userProfileModel.DateOfBirth);
             generalPerson.PhotoMediaId = userProfileModel.PhotoMediaId;
-            generalPerson.EmergencyContact = userProfileModel.EmergencyContact;
+            generalPerson.EmergencyContact = HelperUtility.EncodeBase64(userProfileModel.EmergencyContact);
             generalPerson.PhotoMediaId = userProfileModel.PhotoMediaId;
 
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
@@ -624,9 +644,15 @@ namespace Coditech.API.Service
 
         protected virtual UserModel BindUserDetail(UserMaster userMasterData)
         {
+            if (userMasterData != null && userMasterData.IsDataEncrypted)
+            {
+                userMasterData.FirstName = HelperUtility.DecodeBase64(userMasterData.FirstName);
+                userMasterData.MiddleName = HelperUtility.DecodeBase64(userMasterData.MiddleName);
+                userMasterData.LastName = HelperUtility.DecodeBase64(userMasterData.LastName);
+                userMasterData.EmailId = HelperUtility.DecodeBase64(userMasterData.EmailId);
+            }
+
             UserModel userModel = userMasterData?.FromEntityToModel<UserModel>();
-
-
             userModel.IsAdminUser = IsAdminUser(userModel.UserType);
             //Bind Role
             BindRoleTypes(userModel);
@@ -866,10 +892,11 @@ namespace Coditech.API.Service
             UserMaster userMaster = _userMasterRepository.Table.Where(x => x.EntityId == model.EntityId && x.UserType == model.UserType)?.FirstOrDefault();
             if (userMaster != null)
             {
-                userMaster.FirstName = model.FirstName ?? userMaster.FirstName;
-                userMaster.MiddleName = model.MiddleName ?? userMaster.MiddleName;
-                userMaster.LastName = model.LastName ?? userMaster.LastName;
-                userMaster.EmailId = model.EmailId ?? userMaster.EmailId ?? userMaster.EmailId;
+                userMaster.FirstName = string.IsNullOrEmpty(model.FirstName) ? userMaster.FirstName : HelperUtility.EncodeBase64(model.FirstName);
+                userMaster.MiddleName = string.IsNullOrEmpty(model.MiddleName) ? userMaster.MiddleName : HelperUtility.EncodeBase64(model.MiddleName);
+                userMaster.LastName = string.IsNullOrEmpty(model.LastName) ? userMaster.LastName : HelperUtility.EncodeBase64(model.LastName);
+                userMaster.EmailId = string.IsNullOrEmpty(model.EmailId) ? userMaster.EmailId : HelperUtility.EncodeBase64(model.EmailId);
+
                 userMaster.IsActive = model.IsActive;
                 userMaster.IsTestUser = model.IsTestUser;
                 _userMasterRepository.Update(userMaster);

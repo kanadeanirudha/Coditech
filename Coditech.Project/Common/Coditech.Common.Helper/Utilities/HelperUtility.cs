@@ -92,17 +92,34 @@ namespace Coditech.Common.Helper
             }
 
         }
-        public static string EncodeBase64(string value) => Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
+        public static string EncodeBase64(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value;
 
-        public static string DecodeBase64(string value) => Encoding.UTF8.GetString(Convert.FromBase64String(value));
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
+        }
 
+        public static string DecodeBase64(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value;
+
+            try
+            {
+                return Encoding.UTF8.GetString(Convert.FromBase64String(value));
+            }
+            catch
+            {
+                return value;
+            }
+        }
         public static string GenerateNumericCode(byte length = 6)
         {
             Random generator = new Random();
             String r = generator.Next(0, 1000000).ToString($"D{length}");
             return r;
         }
-
 		public static string ToFirstLetterCapital(this string data)
 		{
 			if (string.IsNullOrEmpty(data))
@@ -141,7 +158,61 @@ namespace Coditech.Common.Helper
 
             return lowerCase ? builder.ToString().ToLower() : builder.ToString();
         }
+        public static string MaskData(string value, MaskType maskType)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return value;
 
+            switch (maskType)
+            {
+                case MaskType.Email:
+
+                    int atIndex = value.IndexOf('@');
+
+                    if (atIndex <= 0)
+                        return value;
+
+                    string localPart = value.Substring(0, atIndex);
+                    string domain = value.Substring(atIndex);
+
+                    if (localPart.Length <= 2)
+                    {
+                        return new string('*', localPart.Length) + domain;
+                    }
+
+                    char firstChar = localPart[0];
+                    char lastChar = localPart[localPart.Length - 1];
+                    string middleMask = new string('*', localPart.Length - 2);
+
+                    return $"{firstChar}{middleMask}{lastChar}{domain}";
+
+                case MaskType.Mobile:
+
+                    if (value.Length <= 4)
+                        return value;
+
+                    return new string('*', value.Length - 4) + value.Substring(value.Length - 4);
+
+                default:
+                    return value;
+            }
+        }
+        public static bool IsMinor(string dateOfBirth)
+        {
+            if (string.IsNullOrWhiteSpace(dateOfBirth))
+                return false;
+
+            if (!DateTime.TryParse(dateOfBirth, out DateTime dob))
+                return false;
+
+            DateTime today = DateTime.Today;
+            int age = today.Year - dob.Year;
+
+            if (dob.Date > today.AddYears(-age))
+                age--;
+
+            return age < 18;
+        }
     }
 }
 

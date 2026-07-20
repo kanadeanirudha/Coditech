@@ -58,8 +58,16 @@ namespace Coditech.Admin.Agents
             EmployeeMasterListModel employeeMasterList = new EmployeeMasterListModel { EmployeeMasterList = response?.EmployeeMasterList };
             EmployeeMasterListViewModel listViewModel = new EmployeeMasterListViewModel();
             listViewModel.EmployeeMasterList = employeeMasterList?.EmployeeMasterList?.ToViewModel<EmployeeMasterViewModel>().ToList();
+            if (listViewModel.EmployeeMasterList != null)
+            {
+                foreach (var item in listViewModel.EmployeeMasterList)
+                {
+                    item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
+                    item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
+                }
+            }
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.EmployeeMasterList.Count, BindColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel,listViewModel.EmployeeMasterList.Count, BindColumns());
             return listViewModel;
         }
 

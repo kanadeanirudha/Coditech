@@ -3,7 +3,7 @@
     public class UserProfileModel : BaseModel
     {
         public long UserMasterId { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
         public Nullable<int> Age { get; set; }
         public int GenderEnumId { get; set; }
         public string EmailId { get; set; }

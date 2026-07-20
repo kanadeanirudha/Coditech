@@ -48,6 +48,16 @@ namespace Coditech.API.Service
             EmployeeMasterListModel listModel = new EmployeeMasterListModel();
 
             listModel.EmployeeMasterList = EmployeeList?.Count > 0 ? EmployeeList : new List<EmployeeMasterModel>();
+            foreach (var item in EmployeeList)
+            {
+                item.FirstName = HelperUtility.DecodeBase64(item.FirstName);
+                item.LastName = HelperUtility.DecodeBase64(item.LastName);
+                item.EmailId = HelperUtility.DecodeBase64(item.EmailId);
+                item.MobileNumber = HelperUtility.DecodeBase64(item.MobileNumber);
+
+                item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
+                item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
+            }
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }

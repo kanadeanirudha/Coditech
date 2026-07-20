@@ -12,7 +12,7 @@
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
         public int Age { get; set; }
         public int GenderEnumId { get; set; }
         public string EmailId { get; set; }
@@ -41,5 +41,7 @@
         public bool IsEntityActive { get; set; } = false;
         public bool IsActive { get; set; }
         public bool IsTestUser { get; set; }
+        public bool IsDataEncrypted { get; set; }
+        public bool IsMinor { get; set; }
     }
 }
