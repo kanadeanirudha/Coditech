@@ -52,6 +52,14 @@ namespace Coditech.Admin.Agents
             GeneralTrainerListViewModel listViewModel = new GeneralTrainerListViewModel();
             listViewModel.GeneralTrainerList = trainerList?.GeneralTrainerList?.ToViewModel<GeneralTrainerViewModel>().ToList();
 
+            if (listViewModel.GeneralTrainerList != null)
+            {
+                foreach (var item in listViewModel.GeneralTrainerList)
+                {
+                    item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
+                    item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
+                }
+            }
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.GeneralTrainerList.Count, BindColumns());
             return listViewModel;
         }
