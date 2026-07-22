@@ -40,6 +40,21 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<GeneralBatchModel> generalBatchList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralBatchList @CentreCode,@UserMasterId, @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            foreach (var item in generalBatchList)
+            {
+                if (!string.IsNullOrWhiteSpace(item.AssignedBy))
+                {
+                    var parts = item.AssignedBy.Split(new[] { ' ' }, 2);
+                    if (parts.Length == 2)
+                    {
+                        item.AssignedBy = $"{HelperUtility.DecodeBase64(parts[0])} {HelperUtility.DecodeBase64(parts[1])}";
+                    }
+                    else
+                    {
+                        item.AssignedBy = HelperUtility.DecodeBase64(item.Custom2);
+                    }
+                }
+            }
             GeneralBatchListModel listModel = new GeneralBatchListModel();
 
             listModel.GeneralBatchList = generalBatchList?.Count > 0 ? generalBatchList : new List<GeneralBatchModel>();
@@ -144,6 +159,15 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<GeneralBatchUserModel> batchList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralBatchUserAssociatedList @GeneralBatchMasterId,@UserType,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
+            foreach (var item in batchList)
+            {
+                item.FirstName = HelperUtility.DecodeBase64(item.FirstName);
+                item.LastName = HelperUtility.DecodeBase64(item.LastName);
+                item.MobileNumber = HelperUtility.DecodeBase64(item.MobileNumber);
+
+                item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
+            }
+
             GeneralBatchUserListModel listModel = new GeneralBatchUserListModel();
 
             listModel.GeneralBatchUserList = batchList?.Count > 0 ? batchList : new List<GeneralBatchUserModel>();
