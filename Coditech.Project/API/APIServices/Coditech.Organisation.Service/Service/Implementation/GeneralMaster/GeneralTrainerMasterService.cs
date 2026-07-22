@@ -44,6 +44,16 @@ namespace Coditech.API.Service
             GeneralTrainerListModel listModel = new GeneralTrainerListModel();
 
             listModel.GeneralTrainerList = trainerList?.Count > 0 ? trainerList : new List<GeneralTrainerModel>();
+            foreach (var item in trainerList)
+            {
+                item.FirstName = HelperUtility.DecodeBase64(item.FirstName);
+                item.LastName = HelperUtility.DecodeBase64(item.LastName);
+                item.EmailId = HelperUtility.DecodeBase64(item.EmailId);
+                item.MobileNumber = HelperUtility.DecodeBase64(item.MobileNumber);
+
+                item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
+                item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
+            }
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
