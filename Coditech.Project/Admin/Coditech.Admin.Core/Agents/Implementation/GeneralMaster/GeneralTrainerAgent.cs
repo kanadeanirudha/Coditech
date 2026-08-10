@@ -192,6 +192,7 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "Number Of Trainee Associated",
                 ColumnCode = "NumberOfTraineeAssociated",
+                IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
