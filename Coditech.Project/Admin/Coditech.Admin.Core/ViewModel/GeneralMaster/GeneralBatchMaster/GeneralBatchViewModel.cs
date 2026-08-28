@@ -37,5 +37,7 @@ namespace Coditech.Admin.ViewModel
         [Required(ErrorMessage = "Duration Minutes is required.")]
         public string DurationMinutes { get; set; }
         public string AssignedBy { get; set; }
+        [Display(Name = "Batch Location")]
+        public string BatchLocation { get; set; }
     }
 }
