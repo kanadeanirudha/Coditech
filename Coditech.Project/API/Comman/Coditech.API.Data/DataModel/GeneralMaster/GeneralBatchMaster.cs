@@ -8,6 +8,7 @@ namespace Coditech.API.Data
         public int GeneralBatchMasterId { get; set; }
         public string CentreCode { get; set; }
         public string BatchName { get; set; }
+        public string BatchLocation { get; set; }
         public DateTime BatchStartDate { get; set; }
         public DateTime BatchExpireDate { get; set; }
         public TimeSpan BatchStartTime { get; set; }
