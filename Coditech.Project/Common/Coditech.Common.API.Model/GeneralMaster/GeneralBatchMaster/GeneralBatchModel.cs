@@ -9,7 +9,6 @@ namespace Coditech.Common.API.Model
         public string CentreCode { get; set; }
         [Required]
         public string BatchName { get; set; }
-        public string BatchLocation { get; set; }
         [Required]
         public DateTime BatchStartDate { get; set; }
         public DateTime? BatchExpireDate { get; set; }
