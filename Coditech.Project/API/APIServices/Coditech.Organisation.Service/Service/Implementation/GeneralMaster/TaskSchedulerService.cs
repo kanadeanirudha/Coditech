@@ -228,7 +228,8 @@ namespace Coditech.API.Service
 			switch (erpTaskSchedulerModel.SchedulerCallFor)
 			{
 				case APIConstant.DeleteLogMessage:
-					erpTaskSchedulerModel.ExeParameters = $"{BaseParameter(separator)}{erpTaskSchedulerModel.SchedulerCallFor}";
+                    // ExeParameters format: baseUrl,authValue,userId,schedulerCallFor,timeout
+					erpTaskSchedulerModel.ExeParameters = $"{BaseParameter(separator)}{separator}{erpTaskSchedulerModel.SchedulerCallFor}{separator}{ApiSettings.ApiRequestTimeout}";
 					break;
 			}
 			_coditechLogging.LogMessage("ExeParameters value: ", CoditechLoggingEnum.Components.ERP.ToString(), TraceLevel.Verbose, erpTaskSchedulerModel?.ExeParameters);
@@ -236,10 +237,11 @@ namespace Coditech.API.Service
 
 		private string BaseParameter(char separator = ' ')
 		{
-			string apiDomainUrl = $"{HttpContextHelper.Current.Request.Scheme + "://"}{HttpContextHelper.Request.Headers[HeaderNames.Host]}";
-			string authValue = HttpContextHelper.Request.Headers[APIConstant.Authorization].ToString()?.Replace("Basic ", "");
+           string apiDomainUrl = $"{HttpContextHelper.Current.Request.Scheme}://{HttpContextHelper.Current.Request.Headers[HeaderNames.Host]}";
+			string authValue = HttpContextHelper.Current.Request.Headers[APIConstant.Authorization].ToString()?.Replace("Basic ", "");
 			long loginUserId = HelperMethods.GetLoginUserId();
-			return $"{apiDomainUrl}{separator}{authValue}{separator}{ApiSettings.ApiRequestTimeout}{separator}{loginUserId}";
+           // Return base parameters: apiDomainUrl, authValue, loginUserId
+			return $"{apiDomainUrl}{separator}{authValue}{separator}{loginUserId}";
 		}
 		#endregion
 	}

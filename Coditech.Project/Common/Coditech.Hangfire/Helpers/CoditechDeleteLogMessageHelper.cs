@@ -18,17 +18,24 @@ namespace Coditech.Hangfire
             _serviceProvider = serviceProvider;
             coditechLogging = _serviceProvider.GetService<ICoditechLogging>();
         }
-        private string TokenValue = string.Empty;
         public void InvokeMethod(TaskSchedulerModel model)
         {
             if (!string.IsNullOrEmpty(model?.ExeParameters))
             {
                 string[] args = model.ExeParameters.Split(',');
+
+                // Expected args: [0]=baseUrl, [1]=authToken, [2]=userHeader, [3]=logLabel, [4]=optionalTimeout
+                if (args.Length < 4)
+                {
+                    coditechLogging.LogMessage("Insufficient parameters passed to CoditechDeleteLogMessageHelper.", LoggingComponent, TraceLevel.Warning);
+                    return;
+                }
+
                 try
                 {
-                    // Request timeout is contained in args[`   ].
-                    if (args.Length > 3 && !string.IsNullOrEmpty(args[2]))
-                        base.RequestTimeout = int.Parse(args[2]);
+                    // Request timeout is optionally contained in args[4]
+                    if (args.Length > 4 && !string.IsNullOrEmpty(args[4]) && int.TryParse(args[4], out int timeout))
+                        base.RequestTimeout = timeout;
                 }
                 catch (Exception ex)
                 {
@@ -45,28 +52,35 @@ namespace Coditech.Hangfire
             byte[] dataBytes = Encoding.UTF8.GetBytes(data);
             string jsonString = string.Empty;
             string message = string.Empty;
-            string requestPath = $"{args[0]}/LogMessage/DeleteLogMessage";
+            string requestPath = $"{args[0].TrimEnd('/')}/LogMessage/DeleteLogMessage";
             try
             {
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(requestPath);
+                var request = (HttpWebRequest)WebRequest.Create(requestPath);
                 request.Method = "POST";
                 request.ContentType = "application/json";
                 request.Timeout = base.RequestTimeout;
                 request.ContentLength = dataBytes.Length;
-                request.Headers.Add($"{AuthorizationHeader}: {"Basic " + args[1]}");
-                request.Headers.Add($"{UserHeader}: {args[2]}");
+
+                // Set headers (use indexed args validated by caller)
+                try
+                {
+                    if (!string.IsNullOrEmpty(args[1]))
+                        request.Headers[AuthorizationHeader] = "Basic " + args[1];
+                    if (!string.IsNullOrEmpty(args[2]))
+                        request.Headers[UserHeader] = args[2];
+                }
+                catch { /* ignore header set failures */ }
+
                 using (var reqStream = request.GetRequestStream())
                 {
                     reqStream.Write(dataBytes, 0, dataBytes.Length);
                 }
-                using (HttpWebResponse responce = (HttpWebResponse)request.GetResponse())
+                using (var response = (HttpWebResponse)request.GetResponse())
+                using (var dataStream = response.GetResponseStream())
+                using (var reader = new StreamReader(dataStream ?? Stream.Null))
                 {
-                    Stream datastream = responce.GetResponseStream();
-                    StreamReader reader = new StreamReader(datastream);
                     jsonString = reader.ReadToEnd();
-                    reader.Close();
-                    datastream.Close();
-                    coditechLogging.LogMessage($"{args[3]} API Call Successfully.", LoggingComponent, TraceLevel.Info);
+                    coditechLogging.LogMessage($"{args[3]} API Call Successfully.", LoggingComponent, TraceLevel.Warning);
                 }
             }
             catch (WebException webException)
