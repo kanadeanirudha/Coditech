@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Coditech.Hangfire
 {
@@ -147,18 +148,40 @@ namespace Coditech.Hangfire
 
         protected virtual ISchedulerProviders GetSchedulerProviderObject(string schedulerType)
         {
-            if (!string.IsNullOrEmpty(schedulerType))
-            {
-                StructureMap.Container container = new StructureMap.Container(content =>
-                content.Scan(scan =>
+            if (string.IsNullOrEmpty(schedulerType))
+                return null;
+
+            // Find concrete types implementing ISchedulerProviders in loaded assemblies
+            var providerType = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a =>
                 {
-                    scan.AssemblyContainingType<ISchedulerProviders>();
-                    scan.AddAllTypesOf<ISchedulerProviders>();
-                }));
-                string schedulerClassName = container.Model.AllInstances.FirstOrDefault(x => x.Description.Contains(schedulerType)).Name;
-                return !string.IsNullOrEmpty(schedulerType) ? container.With<IServiceProvider>(_serviceProvider).GetInstance<ISchedulerProviders>(schedulerClassName) : null;
-            }
-            return null;
+                    try { return a.GetTypes(); }
+                    catch { return Array.Empty<Type>(); }
+                })
+                .Where(t => typeof(ISchedulerProviders).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                .FirstOrDefault(t =>
+                {
+                    try
+                    {
+                        // Try to get an instance either from the IServiceProvider or by creating one
+                        object instance = _serviceProvider.GetService(t) ?? Activator.CreateInstance(t);
+                        var descProp = t.GetProperty("Description");
+                        if (descProp != null)
+                        {
+                            var val = descProp.GetValue(instance)?.ToString();
+                            return !string.IsNullOrEmpty(val) && val.Contains(schedulerType);
+                        }
+                    }
+                    catch { }
+                    return false;
+                });
+
+            if (providerType == null)
+                return null;
+
+            // Resolve from DI if possible, otherwise create via ActivatorUtilities to allow constructor injection
+            var providerInstance = _serviceProvider.GetService(providerType) ?? ActivatorUtilities.CreateInstance(_serviceProvider, providerType);
+            return providerInstance as ISchedulerProviders;
         }
 
         protected virtual bool RemoveJob(string schedulerName)
