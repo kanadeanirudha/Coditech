@@ -29,6 +29,7 @@
 	<Target Name="CopySharedLibrariesDll" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(OutputPath)Coditech.Organisation.Service.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
 		<Copy SourceFiles="$(OutputPath)Coditech.Common.Service.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
+		<Copy SourceFiles="$(OutputPath)Coditech.Hangfire.dll" DestinationFolder="$(SolutionDir)..\SDKMerge\DLL\" />
 		<Copy SourceFiles="$(ProjectDir)appsettings.json" DestinationFolder="$(SolutionDir)..\SDKMerge\Appsetting\Organisation\" />
 	</Target>
 </Project>
