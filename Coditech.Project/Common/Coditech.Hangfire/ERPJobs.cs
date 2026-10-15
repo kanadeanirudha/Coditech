@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Coditech.Hangfire
 {
@@ -125,18 +126,47 @@ namespace Coditech.Hangfire
         [DisplayName("{0}")]
         public virtual void Invoke(string SchedulerName, string SchedulerClassName, string param)
         {
-            TaskSchedulerModel obj = JsonConvert.DeserializeObject<TaskSchedulerModel>(param);
-            string type = Convert.ToString(obj.SchedulerClassName);
+            TaskSchedulerModel obj = null;
+            try
+            {
+                obj = JsonConvert.DeserializeObject<TaskSchedulerModel>(param);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage($"Failed to deserialize scheduler parameter. Param: {param}. Error: {ex.Message}", CoditechLoggingEnum.Components.ERP.ToString(), TraceLevel.Error, ex);
+            }
+
+            // Try to resolve provider using the provided SchedulerClassName first.
             ISchedulerProviders _provider = GetSchedulerProviderObject(SchedulerClassName);
 
+            // Fallback: if provider not found and deserialized object contains a class name, try that too.
+            if (_provider == null && obj != null && !string.IsNullOrEmpty(obj.SchedulerClassName))
+            {
+                _provider = GetSchedulerProviderObject(obj.SchedulerClassName);
+            }
+
+            // Allow self-signed certificates for outgoing calls initiated by jobs.
             ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) => true;
 
             try
             {
                 _coditechLogging.LogMessage("param for execution :" + param, CoditechLoggingEnum.Components.ERP.ToString(), TraceLevel.Info);
                 _coditechLogging.LogMessage("Start invoking Hangfire job for " + SchedulerName, CoditechLoggingEnum.Components.ERP.ToString(), TraceLevel.Info);
-                if (!Equals(_provider, null))
-                    _provider.InvokeMethod(obj);
+
+                if (_provider == null)
+                {
+                    _coditechLogging.LogMessage($"No scheduler provider found for '{SchedulerClassName}' or payload value. Job will not be invoked.", CoditechLoggingEnum.Components.ERP.ToString(), TraceLevel.Warning);
+                    return;
+                }
+
+                if (obj == null)
+                {
+                    _coditechLogging.LogMessage("Scheduler payload is null or invalid. Invocation aborted.", CoditechLoggingEnum.Components.ERP.ToString(), TraceLevel.Warning);
+                    return;
+                }
+
+                _provider.InvokeMethod(obj);
+
                 _coditechLogging.LogMessage("Hangfire job invoked for " + SchedulerName, CoditechLoggingEnum.Components.ERP.ToString(), TraceLevel.Info);
             }
             catch (Exception ex)
@@ -147,18 +177,53 @@ namespace Coditech.Hangfire
 
         protected virtual ISchedulerProviders GetSchedulerProviderObject(string schedulerType)
         {
-            if (!string.IsNullOrEmpty(schedulerType))
+            if (string.IsNullOrEmpty(schedulerType))
+                return null;
+
+            // Normalize schedulerType for matching
+            var normalized = schedulerType.Trim();
+            // If caller passed a helper class name like "CoditechXyzHelper", try to extract "Xyz" as well
+            if (normalized.StartsWith("Coditech") && normalized.EndsWith("Helper"))
             {
-                StructureMap.Container container = new StructureMap.Container(content =>
-                content.Scan(scan =>
-                {
-                    scan.AssemblyContainingType<ISchedulerProviders>();
-                    scan.AddAllTypesOf<ISchedulerProviders>();
-                }));
-                string schedulerClassName = container.Model.AllInstances.FirstOrDefault(x => x.Description.Contains(schedulerType)).Name;
-                return !string.IsNullOrEmpty(schedulerType) ? container.With<IServiceProvider>(_serviceProvider).GetInstance<ISchedulerProviders>(schedulerClassName) : null;
+                normalized = normalized.Substring("Coditech".Length, normalized.Length - "Coditech".Length - "Helper".Length);
             }
-            return null;
+
+            // Find concrete types implementing ISchedulerProviders in loaded assemblies
+            var providerType = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a =>
+                {
+                    try { return a.GetTypes(); }
+                    catch { return Array.Empty<Type>(); }
+                })
+                .Where(t => typeof(ISchedulerProviders).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                .FirstOrDefault(t =>
+                {
+                    try
+                    {
+                        // Try to get an instance from DI or create one with ActivatorUtilities to allow constructor injection
+                        object instance = _serviceProvider.GetService(t) ?? ActivatorUtilities.CreateInstance(_serviceProvider, t);
+                        var descProp = t.GetProperty("Description");
+                        if (descProp != null)
+                        {
+                            var val = descProp.GetValue(instance)?.ToString();
+                            if (!string.IsNullOrEmpty(val) && val.Contains(normalized, StringComparison.OrdinalIgnoreCase))
+                                return true;
+                        }
+
+                        // Fall back to matching against the type name
+                        if (t.Name.Contains(normalized, StringComparison.OrdinalIgnoreCase) || t.FullName?.Contains(normalized, StringComparison.OrdinalIgnoreCase) == true)
+                            return true;
+                    }
+                    catch { }
+                    return false;
+                });
+
+            if (providerType == null)
+                return null;
+
+            // Resolve from DI if possible, otherwise create via ActivatorUtilities to allow constructor injection
+            var providerInstance = _serviceProvider.GetService(providerType) ?? ActivatorUtilities.CreateInstance(_serviceProvider, providerType);
+            return providerInstance as ISchedulerProviders;
         }
 
         protected virtual bool RemoveJob(string schedulerName)

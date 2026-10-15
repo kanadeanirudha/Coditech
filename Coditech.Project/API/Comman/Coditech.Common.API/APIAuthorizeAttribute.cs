@@ -53,12 +53,17 @@ namespace Coditech.Common.API
                     return validFlag;
 
                 validFlag = false;
-                string authValue = actionContext.HttpContext.Request.Headers["Authorization"].First();
+                // Safely get Authorization header value
+                string authValue = actionContext.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
                 string[] authHeader = GetAuthHeader(authValue);
 
                 if (!Equals(authHeader, null))
                 {
-                    if (ApiSettings.CoditechApiDomainName == authHeader[0] && ApiSettings.CoditechApiDomainKey == authHeader[1])
+                    // Normalize domain values so requests work regardless of http/https or trailing slashes
+                    string expectedDomain = NormalizeDomain(ApiSettings.CoditechApiDomainName);
+                    string providedDomain = NormalizeDomain(authHeader[0]);
+
+                    if (expectedDomain == providedDomain && ApiSettings.CoditechApiDomainKey == authHeader[1])
                     {
                         validFlag = true;
                     }
@@ -69,6 +74,29 @@ namespace Coditech.Common.API
             {
                 return false;
             }
+        }
+
+        private static string NormalizeDomain(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return string.Empty;
+
+            value = value.Trim();
+
+            // Try parse as absolute URI to extract host (and port if present)
+            if (Uri.TryCreate(value, UriKind.Absolute, out var uri))
+            {
+                return uri.IsDefaultPort ? uri.Host.ToLowerInvariant() : ($"{uri.Host.ToLowerInvariant()}:{uri.Port}");
+            }
+
+            // If missing scheme, try adding http to parse
+            if (Uri.TryCreate("http://" + value, UriKind.Absolute, out var uri2))
+            {
+                return uri2.IsDefaultPort ? uri2.Host.ToLowerInvariant() : ($"{uri2.Host.ToLowerInvariant()}:{uri2.Port}");
+            }
+
+            // Fallback: remove any trailing slashes and lower-case
+            return value.TrimEnd('/').ToLowerInvariant();
         }
         public static string[] GetAuthHeader(string authValue)
         {
