@@ -43,7 +43,7 @@ jobs:
     environment: Stage
     env:
       ConnectionStrings__CoditechDatabase: ${{ secrets.CODITECHDATABASE }}
-      
+       echo ${{ secrets.CODITECHDATABASE }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
