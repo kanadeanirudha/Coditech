@@ -158,6 +158,24 @@ namespace Coditech.API.Common
         public static void RegisterEntity(this WebApplicationBuilder builder)
         {
             string connectionString = builder.Configuration.GetConnectionString("CoditechDatabase");
+
+            // If connection string is not present in configuration, try environment variables commonly used
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                // ASP.NET Core flattens environment variables with __ for sections, e.g. ConnectionStrings__CoditechDatabase
+                connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__CoditechDatabase")
+                                   ?? Environment.GetEnvironmentVariable("CoditechDatabase");
+            }
+
+            // If still not found, throw a clear error explaining how to provide the secret
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException(
+                    "Connection string 'CoditechDatabase' is not configured. " +
+                    "Set it in appsettings.json, user secrets, or an environment variable (ConnectionStrings:CoditechDatabase or ConnectionStrings__CoditechDatabase)."
+                );
+            }
+
             // Coditech entity registration
             builder.Services.AddDbContext<Coditech_Entities>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
 
