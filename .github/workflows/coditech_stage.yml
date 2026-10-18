@@ -40,7 +40,10 @@ jobs:
   coditech_build:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
     if: github.event.inputs.coditech_build == 'true'
-
+    environment: Stage
+    env:
+      ConnectionStrings__CoditechDatabase: ${{ secrets.CODITECHDATABASE }}
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -59,7 +62,10 @@ jobs:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
     needs: coditech_build
     if: github.event.inputs.admin_deploy == 'true'
-    
+    environment: Stage
+    env:
+      ConnectionStrings__CoditechDatabase: ${{ secrets.CODITECHDATABASE }}
+      
     steps:
       - name: Stop ADMIN IIS Site and App Pool
         run: |
@@ -93,7 +99,10 @@ jobs:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
     needs: coditech_build
     if: github.event.inputs.mediamanager_api_deploy == 'true'
-
+    environment: Stage
+    env:
+      ConnectionStrings__CoditechDatabase: ${{ secrets.CODITECHDATABASE }}
+      
     steps:
 
       - name: Stop MediaManager IIS Site and App Pool
@@ -120,7 +129,10 @@ jobs:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
     needs: coditech_build
     if: github.event.inputs.organisation_api_deploy == 'true'
-
+    environment: Stage
+    env:
+      ConnectionStrings__CoditechDatabase: ${{ secrets.CODITECHDATABASE }}
+      
     steps:
       - name: Stop Organisation IIS Site and App Pool
         run: |
@@ -146,7 +158,10 @@ jobs:
     runs-on: [self-hosted, Windows, x64, coditech_Stage]
     needs: coditech_build
     if: github.event.inputs.hospitalmanagementsystem_api_deploy == 'true'
-
+    environment: Stage
+    env:
+      ConnectionStrings__CoditechDatabase: ${{ secrets.CODITECHDATABASE }}
+      
     steps:
       - name: Stop hospitalmanagementsystem IIS Site and App Pool
         run: |
