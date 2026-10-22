@@ -24,6 +24,7 @@ namespace Coditech.API.Data
         public bool IsActive { get; set; }
         public bool IsDefault { get; set; }
         public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }
+        public bool IsDataEncrypted { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

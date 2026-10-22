@@ -21,5 +21,6 @@
         public bool IsActive { get; set; }
         public bool IsDefault { get; set; }        
         public bool IsCorrespondanceAddressSameAsPermanentAddress { get; set; }        
+        public bool IsDataEncrypted { get; set; }        
     }
 }

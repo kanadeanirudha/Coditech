@@ -46,10 +46,10 @@ namespace Coditech.API.Service
             listModel.GeneralTrainerList = trainerList?.Count > 0 ? trainerList : new List<GeneralTrainerModel>();
             foreach (var item in trainerList)
             {
-                item.FirstName = HelperUtility.DecodeBase64(item.FirstName);
-                item.LastName = HelperUtility.DecodeBase64(item.LastName);
-                item.EmailId = HelperUtility.DecodeBase64(item.EmailId);
-                item.MobileNumber = HelperUtility.DecodeBase64(item.MobileNumber);
+                item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
+                item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);
+                item.EmailId = DataEncryptionHelper.DataDecrypt(item.EmailId);
+                item.MobileNumber = DataEncryptionHelper.DataDecrypt(item.MobileNumber);
 
                 item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
                 item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
@@ -165,10 +165,10 @@ namespace Coditech.API.Service
             List<GeneralTraineeAssociatedToTrainerModel> trainerList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralTraineeAssociatedToTrainerList @CentreCode,@DepartmentId,@IsAssociated,@UserType,@EntityId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 9, out pageListModel.TotalRowCount)?.ToList();
             foreach (var item in trainerList)
             {
-                item.FirstName = HelperUtility.DecodeBase64(item.FirstName);
-                item.LastName = HelperUtility.DecodeBase64(item.LastName);
-                item.EmailId = HelperUtility.DecodeBase64(item.EmailId);
-                item.MobileNumber = HelperUtility.DecodeBase64(item.MobileNumber);
+                item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
+                item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);
+                item.EmailId = DataEncryptionHelper.DataDecrypt(item.EmailId);
+                item.MobileNumber = DataEncryptionHelper.DataDecrypt(item.MobileNumber);
 
                 item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
                 item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
