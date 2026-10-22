@@ -22,6 +22,7 @@ namespace Coditech.API.Data
         public string BankAccountNumber { get; set; }
         public string BankIFSCCode { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDataEncrypted { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

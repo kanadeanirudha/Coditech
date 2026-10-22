@@ -1,13 +1,9 @@
 ﻿using Coditech.Admin.Utilities;
-using Coditech.API.Data;
 using Coditech.Common.Helper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Web;
 
 namespace Coditech.Admin.ViewModel

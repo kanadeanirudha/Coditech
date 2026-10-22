@@ -33,7 +33,7 @@ namespace Coditech.API.Service
             string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
 
             filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedDepartmentId || x.FilterName == FilterKeys.SelectedCentreCode);
-
+            BindSearchFilters(filters);
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<EmployeeMasterModel> objStoredProc = new CoditechViewRepository<EmployeeMasterModel>(_serviceProvider.GetService<Coditech_Entities>());
@@ -48,12 +48,12 @@ namespace Coditech.API.Service
             EmployeeMasterListModel listModel = new EmployeeMasterListModel();
 
             listModel.EmployeeMasterList = EmployeeList?.Count > 0 ? EmployeeList : new List<EmployeeMasterModel>();
-            foreach (var item in EmployeeList)
+            foreach (var item in listModel.EmployeeMasterList?.Where(x => x.IsDataEncrypted))
             {
-                item.FirstName = HelperUtility.DecodeBase64(item.FirstName);
-                item.LastName = HelperUtility.DecodeBase64(item.LastName);
-                item.EmailId = HelperUtility.DecodeBase64(item.EmailId);
-                item.MobileNumber = HelperUtility.DecodeBase64(item.MobileNumber);
+                item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
+                item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);
+                item.EmailId = DataEncryptionHelper.DataDecrypt(item.EmailId);
+                item.MobileNumber = DataEncryptionHelper.DataDecrypt(item.MobileNumber);
 
                 item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
                 item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
@@ -65,6 +65,7 @@ namespace Coditech.API.Service
         public virtual EmployeeMasterListModel GetEmployeeListByCentreCode(string centreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
+            BindSearchFilters(filters);
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<EmployeeMasterModel> objStoredProc = new CoditechViewRepository<EmployeeMasterModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@CentreCode", centreCode, ParameterDirection.Input, DbType.String);
@@ -77,6 +78,16 @@ namespace Coditech.API.Service
             EmployeeMasterListModel listModel = new EmployeeMasterListModel();
 
             listModel.EmployeeMasterList = EmployeeList?.Count > 0 ? EmployeeList : new List<EmployeeMasterModel>();
+            foreach (var item in EmployeeList?.Where(x => x.IsDataEncrypted))
+            {
+                item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
+                item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);
+                item.EmailId = DataEncryptionHelper.DataDecrypt(item.EmailId);
+                item.MobileNumber = DataEncryptionHelper.DataDecrypt(item.MobileNumber);
+
+                item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
+                item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
+            }
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
@@ -99,6 +110,16 @@ namespace Coditech.API.Service
                     employeeMasterModel.LastName = generalPersonModel.LastName;
                     employeeMasterModel.IsActive = employeeMaster.IsActive;
                 }
+                if (employeeMasterModel.IsDataEncrypted)
+                {
+                    employeeMasterModel.PANCardNumber = employeeMasterModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(employeeMasterModel.PANCardNumber) : employeeMasterModel.PANCardNumber;
+                    employeeMasterModel.UANNumber = employeeMasterModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(employeeMasterModel.UANNumber) : employeeMasterModel.UANNumber;
+                    employeeMasterModel.PassportNumber = employeeMasterModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(employeeMasterModel.PassportNumber) : employeeMasterModel.PassportNumber;
+                    employeeMasterModel.AdharCardNumber = employeeMasterModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(employeeMasterModel.AdharCardNumber) : employeeMasterModel.AdharCardNumber;
+                    employeeMasterModel.BankAccountNumber = employeeMasterModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(employeeMasterModel.BankAccountNumber) : employeeMasterModel.BankAccountNumber;
+                    employeeMasterModel.BankName = employeeMasterModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(employeeMasterModel.BankName) : employeeMasterModel.BankName;
+                    employeeMasterModel.BankIFSCCode = employeeMasterModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(employeeMasterModel.BankIFSCCode) : employeeMasterModel.BankIFSCCode;
+                }
             }
             return employeeMasterModel;
         }
@@ -111,7 +132,6 @@ namespace Coditech.API.Service
 
             if (employeeMasterModel.EmployeeId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EmployeeID"));
-
             EmployeeMaster employeeMaster = _employeeMasterRepository.Table.FirstOrDefault(x => x.EmployeeId == employeeMasterModel.EmployeeId);
             BindEmployeeOtherDetail(employeeMasterModel, employeeMaster);
 
@@ -151,15 +171,14 @@ namespace Coditech.API.Service
             employeeMaster.EmployeeDesignationMasterId = employeeMasterModel.EmployeeDesignationMasterId;
             employeeMaster.IsEmployeeSmoker = employeeMasterModel.IsEmployeeSmoker;
             employeeMaster.ReportingEmployeeId = employeeMasterModel.ReportingEmployeeId;
-            employeeMaster.PANCardNumber = employeeMasterModel.PANCardNumber;
-            employeeMaster.UANNumber = employeeMasterModel.UANNumber;
-            employeeMaster.PassportNumber = employeeMasterModel.PassportNumber;
-            employeeMaster.AdharCardNumber = employeeMasterModel.AdharCardNumber;
-            employeeMaster.BankAccountNumber = employeeMasterModel.BankAccountNumber;
-            employeeMaster.BankName = employeeMasterModel.BankName;
-            employeeMaster.BankIFSCCode = employeeMasterModel.BankIFSCCode;
+            employeeMaster.PANCardNumber = employeeMaster.IsDataEncrypted ? DataEncryptionHelper.DataEncrypt(employeeMasterModel.PANCardNumber) : employeeMasterModel.PANCardNumber;
+            employeeMaster.UANNumber = employeeMaster.IsDataEncrypted ? DataEncryptionHelper.DataEncrypt(employeeMasterModel.UANNumber) : employeeMasterModel.UANNumber;
+            employeeMaster.PassportNumber = employeeMaster.IsDataEncrypted ? DataEncryptionHelper.DataEncrypt(employeeMasterModel.PassportNumber) : employeeMasterModel.PassportNumber;
+            employeeMaster.AdharCardNumber = employeeMaster.IsDataEncrypted ? DataEncryptionHelper.DataEncrypt(employeeMasterModel.AdharCardNumber) : employeeMasterModel.AdharCardNumber;
+            employeeMaster.BankAccountNumber = employeeMaster.IsDataEncrypted ? DataEncryptionHelper.DataEncrypt(employeeMasterModel.BankAccountNumber) : employeeMasterModel.BankAccountNumber;
+            employeeMaster.BankName = employeeMaster.IsDataEncrypted ? DataEncryptionHelper.DataEncrypt(employeeMasterModel.BankName) : employeeMasterModel.BankName;
+            employeeMaster.BankIFSCCode = employeeMaster.IsDataEncrypted ? DataEncryptionHelper.DataEncrypt(employeeMasterModel.BankIFSCCode) : employeeMasterModel.BankIFSCCode;
         }
-
         #endregion
     }
 }

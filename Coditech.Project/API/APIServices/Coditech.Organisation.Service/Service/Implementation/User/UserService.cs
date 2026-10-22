@@ -32,9 +32,6 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<AccSetupBalanceSheet> _accSetupBalanceSheetRepository;
         private readonly ICoditechRepository<UserType> _userTypeRepository;
         private readonly ICoditechRepository<OrganisationCentreMaster> _organisationCentreMasterRepository;
-        private readonly ICoditechRepository<OrganisationCentrewiseAccountSetup> _organisationCentrewiseAccountSetupRepository;
-        private readonly ICoditechRepository<GeneralCurrencyMaster> _generalCurrencyMasterRepository;
-        private readonly ICoditechRepository<GeneralFinancialYear> _generalFinancialYearMasterRepository;
         private readonly ICoditechRepository<EmployeeMaster> _employeeMasterRepository;
         private readonly ICoditechRepository<EmployeeDesignationMaster> _employeeDesignationMasterRepository;
         public UserService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS, ICoditechWhatsApp coditechWhatsApp) : base(serviceProvider)
@@ -56,9 +53,6 @@ namespace Coditech.API.Service
             _accSetupBalanceSheetRepository = new CoditechRepository<AccSetupBalanceSheet>(_serviceProvider.GetService<Coditech_Entities>());
             _userTypeRepository = new CoditechRepository<UserType>(_serviceProvider.GetService<Coditech_Entities>());
             _organisationCentreMasterRepository = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _organisationCentrewiseAccountSetupRepository = new CoditechRepository<OrganisationCentrewiseAccountSetup>(_serviceProvider.GetService<Coditech_Entities>());
-            _generalCurrencyMasterRepository = new CoditechRepository<GeneralCurrencyMaster>(_serviceProvider.GetService<Coditech_Entities>());
-            _generalFinancialYearMasterRepository = new CoditechRepository<GeneralFinancialYear>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeMasterRepository = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _employeeDesignationMasterRepository = new CoditechRepository<EmployeeDesignationMaster>(_serviceProvider.GetService<Coditech_Entities>());
         }
@@ -73,9 +67,11 @@ namespace Coditech.API.Service
 
             int maxAttempts = ApiSettings.UserLoginAttempts;
             int lockMinutes = ApiSettings.UserAccountLockTimeInMinutes;
-            string encodedUserName = HelperUtility.EncodeBase64(userLoginModel.UserName);
+            string encodedUserName = userLoginModel.UserName;
 
-            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()).FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userLoginModel.UserName);
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x =>
+                (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()) &&
+                (x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userLoginModel.UserName));
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, "User not found");
@@ -94,10 +90,12 @@ namespace Coditech.API.Service
                 if (!userMasterData.IsActive)
                     throw new CoditechException(ErrorCodes.ContactAdministrator, null);
 
-                userMasterData.FailedLoginAttempts = 0;
-                userMasterData.AccountLockTime = null;
-
-                _userMasterRepository.Update(userMasterData);
+                if (userMasterData.FailedLoginAttempts != 0 || userMasterData.AccountLockTime != null)
+                {
+                    userMasterData.FailedLoginAttempts = 0;
+                    userMasterData.AccountLockTime = null;
+                    _userMasterRepository.Update(userMasterData);
+                }
                 return BindUserDetail(userMasterData);
             }
 
@@ -124,7 +122,7 @@ namespace Coditech.API.Service
             if (IsNull(userName))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            string encodedUserName = HelperUtility.EncodeBase64(userName);
+            string encodedUserName = DataEncryptionHelper.DataEncrypt(userName);
             UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()).FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
 
             if (IsNull(userMasterData))
@@ -157,9 +155,9 @@ namespace Coditech.API.Service
         {
             if (IsNull(resetPasswordModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
-            string userName = DecodeBase64(resetPasswordModel.ResetPasswordToken);
-            string encodedUserName = HelperUtility.EncodeBase64(userName);
+            bool isDataEncrypted = IsDataEncrypted();
+            string userName = isDataEncrypted ? DataEncryptionHelper.DataDecrypt(resetPasswordModel.ResetPasswordToken) : resetPasswordModel.ResetPasswordToken;
+            string encodedUserName = isDataEncrypted ? DataEncryptionHelper.DataEncrypt(userName) : userName;
             UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
 
             if (IsNull(userMasterData))
@@ -185,7 +183,9 @@ namespace Coditech.API.Service
             if (IsNull(userName))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            string encodedUserName = HelperUtility.EncodeBase64(userName);
+            List<CoditechApplicationSetting> coditechApplicationSettingList = CoditechApplicationSetting();
+            bool isDataEncrypted = CoditechApplicationSetting().FirstOrDefault(x => x.ApplicationCode == "IsDataEncrypted")?.ApplicationValue1 == "true";
+            string encodedUserName = isDataEncrypted ? DataEncryptionHelper.DataEncrypt(userName) : userName;
             UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
 
             if (IsNull(userMasterData))
@@ -199,13 +199,12 @@ namespace Coditech.API.Service
                 if (!(userMasterData.UserType == UserTypeEnum.Employee.ToString() || userMasterData.UserType == UserTypeEnum.Admin.ToString()))
                     throw new CoditechException(ErrorCodes.ContactAdministrator, "Access Denied. Please contact a Site Administrator.");
             }
-            string resetPassToken = HelperUtility.GenerateNumericCode();
+            string resetPassToken = GenerateNumericCode();
             userMasterData.ResetPasswordToken = resetPassToken;
             userMasterData.ResetPasswordTokenExpiredDate = DateTime.Now.AddMinutes(Convert.ToDouble(ApiSettings.ResetPasswordExpriedTimeInMinute));
             _userMasterRepository.Update(userMasterData);
 
-            List<CoditechApplicationSetting> coditechApplicationSettingList = CoditechApplicationSetting();
-            string url = $"{coditechApplicationSettingList.First(x => x.ApplicationCode == "CoditechAdminRootUri")?.ApplicationValue1}/User/ResetPassword?token={EncodeBase64(userMasterData.UserName)}";
+            string url = $"{coditechApplicationSettingList.First(x => x.ApplicationCode == "CoditechAdminRootUri")?.ApplicationValue1}/User/ResetPassword?token={DataEncryptionHelper.DataEncrypt(userMasterData.UserName)}";
             try
             {
                 string emailTemplateCodeEnum = $"{(isMobileRequest ? APIConstant.Mobile : "")}{EmailTemplateCodeEnum.ResetPasswordLink.ToString()}";
@@ -214,19 +213,19 @@ namespace Coditech.API.Service
                 if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, emailTemplateModel.EmailTemplate, url, resetPassToken);
-                    _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
+                    _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(generalPersonModel.EmailId) : generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
                 }
                 GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
                 if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, smsTemplateModel.EmailTemplate, url, resetPassToken);
-                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
+                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{(generalPersonModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(generalPersonModel.MobileNumber) : generalPersonModel.MobileNumber)}");
                 }
                 GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
                 if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, whatsAppTemplateModel.EmailTemplate, url, resetPassToken);
-                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{generalPersonModel?.MobileNumber}");
+                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{(generalPersonModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(generalPersonModel.MobileNumber) : generalPersonModel.MobileNumber)}");
                 }
             }
             catch (Exception ex)
@@ -302,6 +301,7 @@ namespace Coditech.API.Service
         public virtual GeneralPersonModel InsertPersonInformation(GeneralPersonModel generalPersonModel, string customData = null)
         {
             string errorMessage = string.Empty;
+            generalPersonModel.IsDataEncrypted = IsDataEncrypted();
             if (!ValidatedGeneralPersonData(generalPersonModel, out errorMessage))
             {
                 generalPersonModel.HasError = true;
@@ -313,7 +313,7 @@ namespace Coditech.API.Service
             {
                 generalPersonModel.DateOfBirth = new DateTime(CalculateBirthYear(generalPersonModel.Age), 1, 1).ToString("yyyy-MM-dd");
             }
-            GeneralPerson personData = InsertGeneralPersonData(generalPersonModel);           
+            GeneralPerson personData = InsertGeneralPersonData(generalPersonModel);
             if (personData?.PersonId > 0)
             {
                 generalPersonModel.PersonId = personData.PersonId;
@@ -389,17 +389,19 @@ namespace Coditech.API.Service
             if (generalPersonModel.EntityId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "EntityId"));
 
-            generalPersonModel.FirstName = HelperUtility.EncodeBase64(generalPersonModel.FirstName);
-            generalPersonModel.MiddleName = HelperUtility.EncodeBase64(generalPersonModel.MiddleName);
-            generalPersonModel.LastName = HelperUtility.EncodeBase64(generalPersonModel.LastName);
-            generalPersonModel.EmailId = HelperUtility.EncodeBase64(generalPersonModel.EmailId);
-            generalPersonModel.MobileNumber = HelperUtility.EncodeBase64(generalPersonModel.MobileNumber);
-            generalPersonModel.PhoneNumber = HelperUtility.EncodeBase64(generalPersonModel.PhoneNumber);
-            generalPersonModel.EmergencyContact = HelperUtility.EncodeBase64(generalPersonModel.EmergencyContact);
-            generalPersonModel.IsMinor = HelperUtility.IsMinor(generalPersonModel.DateOfBirth);
-            generalPersonModel.DateOfBirth = HelperUtility.EncodeBase64(generalPersonModel.DateOfBirth);
-            generalPersonModel.IsDataEncrypted = true;
-
+            if (IsDataEncrypted())
+            {
+                generalPersonModel.FirstName = DataEncryptionHelper.DataEncrypt(generalPersonModel.FirstName);
+                generalPersonModel.MiddleName = DataEncryptionHelper.DataEncrypt(generalPersonModel.MiddleName);
+                generalPersonModel.LastName = DataEncryptionHelper.DataEncrypt(generalPersonModel.LastName);
+                generalPersonModel.EmailId = DataEncryptionHelper.DataEncrypt(generalPersonModel.EmailId);
+                generalPersonModel.MobileNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.MobileNumber);
+                generalPersonModel.PhoneNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.PhoneNumber);
+                generalPersonModel.EmergencyContact = DataEncryptionHelper.DataEncrypt(generalPersonModel.EmergencyContact);
+                generalPersonModel.IsMinor = IsMinor(generalPersonModel.DateOfBirth);
+                generalPersonModel.DateOfBirth = DataEncryptionHelper.DataEncrypt(generalPersonModel.DateOfBirth);
+                generalPersonModel.IsDataEncrypted = true;
+            }
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
             //Update General Person
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
@@ -476,6 +478,19 @@ namespace Coditech.API.Service
                 personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString() });
                 personAddressDetailList.Add(new GeneralPersonAddressModel() { AddressTypeEnum = AddressTypeEnum.BusinessAddress.ToString() });
             }
+            foreach (var item in personAddressDetailList?.Where(x => x.IsDataEncrypted))
+            {
+                item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
+                item.MiddleName = DataEncryptionHelper.DataDecrypt(item.MiddleName);
+                item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);
+                item.AddressLine1 = DataEncryptionHelper.DataDecrypt(item.AddressLine1);
+                item.AddressLine2 = DataEncryptionHelper.DataDecrypt(item.AddressLine2);
+                item.CompanyName = DataEncryptionHelper.DataDecrypt(item.CompanyName);
+                item.Postalcode = DataEncryptionHelper.DataDecrypt(item.Postalcode);
+                item.PhoneNumber = DataEncryptionHelper.DataDecrypt(item.PhoneNumber);
+                item.MobileNumber = DataEncryptionHelper.DataDecrypt(item.MobileNumber);
+                item.EmailAddress = DataEncryptionHelper.DataDecrypt(item.EmailAddress);
+            }
             generalPersonAddressListModel.PersonAddressList = personAddressDetailList;
 
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(personId);
@@ -484,6 +499,7 @@ namespace Coditech.API.Service
                 generalPersonAddressListModel.FirstName = generalPersonModel.FirstName;
                 generalPersonAddressListModel.LastName = generalPersonModel.LastName;
             }
+
             return generalPersonAddressListModel;
         }
 
@@ -495,7 +511,20 @@ namespace Coditech.API.Service
 
             if (generalPersonAddressModel.PersonId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "PersonId"));
-
+            generalPersonAddressModel.IsDataEncrypted = IsDataEncrypted();
+            if (generalPersonAddressModel.IsDataEncrypted)
+            {
+                generalPersonAddressModel.FirstName = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.FirstName);
+                generalPersonAddressModel.MiddleName = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.MiddleName);
+                generalPersonAddressModel.LastName = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.LastName);
+                generalPersonAddressModel.AddressLine1 = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.AddressLine1);
+                generalPersonAddressModel.AddressLine2 = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.AddressLine2);
+                generalPersonAddressModel.CompanyName = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.CompanyName);
+                generalPersonAddressModel.Postalcode = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.Postalcode);
+                generalPersonAddressModel.PhoneNumber = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.PhoneNumber);
+                generalPersonAddressModel.MobileNumber = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.MobileNumber);
+                generalPersonAddressModel.EmailAddress = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.EmailAddress);
+            }
             GeneralPersonAddress generalPersonAddress = generalPersonAddressModel.FromModelToEntity<GeneralPersonAddress>();
             if (_generalPersonAddressRepository.Table.Any(x => x.PersonId == generalPersonAddressModel.PersonId && x.AddressTypeEnum == generalPersonAddressModel.AddressTypeEnum))
             {
@@ -573,10 +602,10 @@ namespace Coditech.API.Service
 
             if (userMaster != null)
             {
-                userMaster.FirstName = HelperUtility.DecodeBase64(userMaster.FirstName);
-                userMaster.MiddleName = HelperUtility.DecodeBase64(userMaster.MiddleName);
-                userMaster.LastName = HelperUtility.DecodeBase64(userMaster.LastName);
-                userMaster.EmailId = HelperUtility.DecodeBase64(userMaster.EmailId);
+                userMaster.FirstName = DataEncryptionHelper.DataDecrypt(userMaster.FirstName);
+                userMaster.MiddleName = DataEncryptionHelper.DataDecrypt(userMaster.MiddleName);
+                userMaster.LastName = DataEncryptionHelper.DataDecrypt(userMaster.LastName);
+                userMaster.EmailId = DataEncryptionHelper.DataDecrypt(userMaster.EmailId);
             }
             UserProfileModel userProfileModel = userMaster.FromEntityToModel<UserProfileModel>();
             GeneralPersonModel generalPersonModel = GetGeneralPersonDetailsByEntityType(userMaster.EntityId, userMaster.UserType);
@@ -619,11 +648,11 @@ namespace Coditech.API.Service
             if (generalPerson == null)
                 throw new CoditechException(ErrorCodes.NotFound, "General person not found for the specified user.");
 
-            generalPerson.MobileNumber = HelperUtility.EncodeBase64(userProfileModel.MobileNumber);
+            generalPerson.MobileNumber = DataEncryptionHelper.DataEncrypt(userProfileModel.MobileNumber);
             generalPerson.MaritalStatus = userProfileModel.MaritalStatus;
-            generalPerson.DateOfBirth = HelperUtility.EncodeBase64(userProfileModel.DateOfBirth);
+            generalPerson.DateOfBirth = DataEncryptionHelper.DataEncrypt(userProfileModel.DateOfBirth);
             generalPerson.PhotoMediaId = userProfileModel.PhotoMediaId;
-            generalPerson.EmergencyContact = HelperUtility.EncodeBase64(userProfileModel.EmergencyContact);
+            generalPerson.EmergencyContact = DataEncryptionHelper.DataEncrypt(userProfileModel.EmergencyContact);
             generalPerson.PhotoMediaId = userProfileModel.PhotoMediaId;
 
             bool isPersonUpdated = _generalPersonRepository.Update(generalPerson);
@@ -646,10 +675,10 @@ namespace Coditech.API.Service
         {
             if (userMasterData != null && userMasterData.IsDataEncrypted)
             {
-                userMasterData.FirstName = HelperUtility.DecodeBase64(userMasterData.FirstName);
-                userMasterData.MiddleName = HelperUtility.DecodeBase64(userMasterData.MiddleName);
-                userMasterData.LastName = HelperUtility.DecodeBase64(userMasterData.LastName);
-                userMasterData.EmailId = HelperUtility.DecodeBase64(userMasterData.EmailId);
+                userMasterData.FirstName = DataEncryptionHelper.DataDecrypt(userMasterData.FirstName);
+                userMasterData.MiddleName = DataEncryptionHelper.DataDecrypt(userMasterData.MiddleName);
+                userMasterData.LastName = DataEncryptionHelper.DataDecrypt(userMasterData.LastName);
+                userMasterData.EmailId = DataEncryptionHelper.DataDecrypt(userMasterData.EmailId);
             }
 
             UserModel userModel = userMasterData?.FromEntityToModel<UserModel>();
@@ -892,10 +921,10 @@ namespace Coditech.API.Service
             UserMaster userMaster = _userMasterRepository.Table.Where(x => x.EntityId == model.EntityId && x.UserType == model.UserType)?.FirstOrDefault();
             if (userMaster != null)
             {
-                userMaster.FirstName = string.IsNullOrEmpty(model.FirstName) ? userMaster.FirstName : HelperUtility.EncodeBase64(model.FirstName);
-                userMaster.MiddleName = string.IsNullOrEmpty(model.MiddleName) ? userMaster.MiddleName : HelperUtility.EncodeBase64(model.MiddleName);
-                userMaster.LastName = string.IsNullOrEmpty(model.LastName) ? userMaster.LastName : HelperUtility.EncodeBase64(model.LastName);
-                userMaster.EmailId = string.IsNullOrEmpty(model.EmailId) ? userMaster.EmailId : HelperUtility.EncodeBase64(model.EmailId);
+                userMaster.FirstName = userMaster.FirstName;
+                userMaster.MiddleName = model.MiddleName ?? userMaster.MiddleName;
+                userMaster.LastName = userMaster.LastName;
+                userMaster.EmailId = model.EmailId ?? userMaster.EmailId ?? userMaster.EmailId;
 
                 userMaster.IsActive = model.IsActive;
                 userMaster.IsTestUser = model.IsTestUser;
@@ -930,7 +959,12 @@ namespace Coditech.API.Service
                 }
                 else if (userNameBasedOn == UserNameRegistrationTypeEnum.MobileNumber.ToString())
                 {
-                    if (_userMasterRepository.Table.Any(x => x.UserName == generalPersonModel.MobileNumber && x.UserType.ToLower() == generalPersonModel.UserType.ToLower()))
+                    string mobileNumber = generalPersonModel.MobileNumber;
+                    if (generalPersonModel.IsDataEncrypted)
+                    {
+                        mobileNumber = DataEncryptionHelper.DataEncrypt(mobileNumber);
+                    }
+                    if (_userMasterRepository.Table.Any(x => x.UserName == mobileNumber && x.UserType.ToLower() == generalPersonModel.UserType.ToLower()))
                     {
                         errorMessage = "Mobile Number is already exist.";
                         return false;
@@ -938,7 +972,12 @@ namespace Coditech.API.Service
                 }
                 else if (userNameBasedOn == UserNameRegistrationTypeEnum.EmailId.ToString())
                 {
-                    if (_userMasterRepository.Table.Any(x => x.UserName == generalPersonModel.EmailId && x.UserType.ToLower() == generalPersonModel.UserType.ToLower()))
+                    string emailId = generalPersonModel.EmailId;
+                    if (generalPersonModel.IsDataEncrypted)
+                    {
+                        emailId = DataEncryptionHelper.DataEncrypt(generalPersonModel.EmailId);
+                    }
+                    if (_userMasterRepository.Table.Any(x => x.UserName == emailId && x.UserType.ToLower() == generalPersonModel.UserType.ToLower()))
                     {
                         errorMessage = "EmailId is already exist.";
                         return false;

@@ -1,12 +1,12 @@
 ﻿using Coditech.API.Data;
 using Coditech.Common.API.Model;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using static Coditech.Common.Helper.HelperUtility;
-using Coditech.Common.Helper;
 namespace Coditech.Common.Service
 {
     public abstract class BaseService
@@ -88,17 +88,17 @@ namespace Coditech.Common.Service
             GeneralPerson generalPerson = new CoditechRepository<GeneralPerson>(_serviceProvider.GetService<Coditech_Entities>()).GetById(personId);
             if (generalPerson != null && generalPerson.IsDataEncrypted)
             {
-                generalPerson.FirstName = HelperUtility.DecodeBase64(generalPerson.FirstName);
-                generalPerson.MiddleName = HelperUtility.DecodeBase64(generalPerson.MiddleName);
-                generalPerson.LastName = HelperUtility.DecodeBase64(generalPerson.LastName);
-                generalPerson.EmailId = HelperUtility.DecodeBase64(generalPerson.EmailId);
-                generalPerson.PhoneNumber = HelperUtility.DecodeBase64(generalPerson.PhoneNumber);
-                generalPerson.MobileNumber = HelperUtility.DecodeBase64(generalPerson.MobileNumber);
-                generalPerson.EmergencyContact = HelperUtility.DecodeBase64(generalPerson.EmergencyContact);
-                generalPerson.DateOfBirth = HelperUtility.DecodeBase64(generalPerson.DateOfBirth);
+                generalPerson.FirstName = DataEncryptionHelper.DataDecrypt(generalPerson.FirstName);
+                generalPerson.MiddleName = DataEncryptionHelper.DataDecrypt(generalPerson.MiddleName);
+                generalPerson.LastName = DataEncryptionHelper.DataDecrypt(generalPerson.LastName);
+                generalPerson.EmailId = DataEncryptionHelper.DataDecrypt(generalPerson.EmailId);
+                generalPerson.PhoneNumber = DataEncryptionHelper.DataDecrypt(generalPerson.PhoneNumber);
+                generalPerson.MobileNumber = DataEncryptionHelper.DataDecrypt(generalPerson.MobileNumber);
+                generalPerson.EmergencyContact = DataEncryptionHelper.DataDecrypt(generalPerson.EmergencyContact);
+                generalPerson.DateOfBirth = DataEncryptionHelper.DataDecrypt(generalPerson.DateOfBirth);
 
-                generalPerson.IndentificationNumber = HelperUtility.DecodeBase64(generalPerson.IndentificationNumber);
-                generalPerson.AttendanceIntegrationId = HelperUtility.DecodeBase64(generalPerson.AttendanceIntegrationId);
+                generalPerson.IndentificationNumber = DataEncryptionHelper.DataDecrypt(generalPerson.IndentificationNumber);
+                generalPerson.AttendanceIntegrationId = DataEncryptionHelper.DataDecrypt(generalPerson.AttendanceIntegrationId);
             }
             return generalPerson.FromEntityToModel<GeneralPersonModel>();
         }
@@ -398,21 +398,39 @@ namespace Coditech.Common.Service
             generalPersonModel.FirstName = generalPersonModel.FirstName.ToFirstLetterCapital();
             generalPersonModel.LastName = generalPersonModel.LastName.ToFirstLetterCapital();
             generalPersonModel.MiddleName = generalPersonModel.MiddleName.ToFirstLetterCapital();
+            BindDataEncrypted(generalPersonModel);
+        }
 
-            // Personal Details
-            generalPersonModel.FirstName = HelperUtility.EncodeBase64(generalPersonModel.FirstName);
-            generalPersonModel.MiddleName = HelperUtility.EncodeBase64(generalPersonModel.MiddleName);
-            generalPersonModel.LastName = HelperUtility.EncodeBase64(generalPersonModel.LastName);
-            generalPersonModel.EmailId = HelperUtility.EncodeBase64(generalPersonModel.EmailId);
-            generalPersonModel.PhoneNumber = HelperUtility.EncodeBase64(generalPersonModel.PhoneNumber);
-            generalPersonModel.MobileNumber = HelperUtility.EncodeBase64(generalPersonModel.MobileNumber);
-            generalPersonModel.EmergencyContact = HelperUtility.EncodeBase64(generalPersonModel.EmergencyContact);
+        protected virtual void BindDataEncrypted(GeneralPersonModel generalPersonModel)
+        {
+            if (generalPersonModel.IsDataEncrypted)
+            {
+                generalPersonModel.FirstNameSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.FirstName);
+                generalPersonModel.MiddleNameSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.MiddleName);
+                generalPersonModel.LastNameSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.LastName);
+                generalPersonModel.DateOfBirthSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.DateOfBirth);
+                generalPersonModel.EmailIdSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.EmailId);
+                generalPersonModel.PhoneNumberSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.PhoneNumber);
+                generalPersonModel.MobileNumberSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.MobileNumber);
+                generalPersonModel.EmergencyContactSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.EmergencyContact);
+                generalPersonModel.IndentificationNumberSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.IndentificationNumber);
+                generalPersonModel.AttendanceIntegrationIdSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.AttendanceIntegrationId);
 
-            generalPersonModel.IndentificationNumber = HelperUtility.EncodeBase64(generalPersonModel.IndentificationNumber);
-            generalPersonModel.AttendanceIntegrationId = HelperUtility.EncodeBase64(generalPersonModel.AttendanceIntegrationId);
-            generalPersonModel.IsMinor = HelperUtility.IsMinor(generalPersonModel.DateOfBirth);
-            generalPersonModel.DateOfBirth = HelperUtility.EncodeBase64(generalPersonModel.DateOfBirth);
-            generalPersonModel.IsDataEncrypted = true;
+                // Personal Details
+                generalPersonModel.FirstName = DataEncryptionHelper.DataEncrypt(generalPersonModel.FirstName);
+                generalPersonModel.MiddleName = DataEncryptionHelper.DataEncrypt(generalPersonModel.MiddleName);
+                generalPersonModel.LastName = DataEncryptionHelper.DataEncrypt(generalPersonModel.LastName);
+                generalPersonModel.EmailId = DataEncryptionHelper.DataEncrypt(generalPersonModel.EmailId);
+                generalPersonModel.PhoneNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.PhoneNumber);
+                generalPersonModel.MobileNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.MobileNumber);
+                generalPersonModel.EmergencyContact = DataEncryptionHelper.DataEncrypt(generalPersonModel.EmergencyContact);
+
+                generalPersonModel.IndentificationNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.IndentificationNumber);
+                generalPersonModel.AttendanceIntegrationId = DataEncryptionHelper.DataEncrypt(generalPersonModel.AttendanceIntegrationId);
+                generalPersonModel.IsMinor = HelperUtility.IsMinor(generalPersonModel.DateOfBirth);
+                generalPersonModel.DateOfBirth = DataEncryptionHelper.DataEncrypt(generalPersonModel.DateOfBirth);
+                generalPersonModel.IsDataEncrypted = true;
+            }
         }
 
         protected virtual void BindGeneralPersonCustomData(GeneralPersonModel generalPersonModel)
@@ -435,7 +453,8 @@ namespace Coditech.Common.Service
                 CentreCode = generalPersonModel.SelectedCentreCode,
                 GeneralDepartmentMasterId = Convert.ToInt16(generalPersonModel.SelectedDepartmentId),
                 EmployeeDesignationMasterId = Convert.ToInt16(generalPersonModel.EmployeeDesignationMasterId),
-                IsActive = isActive
+                IsActive = isActive,
+                IsDataEncrypted = generalPersonModel.IsDataEncrypted
             };
             employeeMaster = new CoditechRepository<EmployeeMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(employeeMaster);
             //Check Is Employee need to Login
@@ -462,7 +481,7 @@ namespace Coditech.Common.Service
                         {
                             string subject = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.CentreName, generalPersonModel.CentreName, emailTemplateModel.Subject);
                             string messageText = ReplaceEmployeeEmailTemplate(generalPersonModel, emailTemplateModel.EmailTemplate);
-                            _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.EmailId, "", subject, messageText, true);
+                            _coditechEmail.SendEmail(employeeMaster.CentreCode, generalPersonModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(generalPersonModel.EmailId) : generalPersonModel.EmailId, "", subject, messageText, true);
                         }
                     }
                     catch (Exception ex)
@@ -498,14 +517,7 @@ namespace Coditech.Common.Service
             {
                 userMaster.UserName = generalPersonModel.PersonCode;
             }
-            userMaster.UserName = HelperUtility.EncodeBase64(userMaster.UserName);
-            userMaster.IsDataEncrypted = true;
-
             generalPersonModel.EntityId = entityId;
-            userMaster.FirstName = HelperUtility.EncodeBase64(userMaster.FirstName);
-            userMaster.MiddleName = HelperUtility.EncodeBase64(userMaster.MiddleName);
-            userMaster.LastName = HelperUtility.EncodeBase64(userMaster.LastName);
-            userMaster.EmailId = HelperUtility.EncodeBase64(userMaster.EmailId);
             userMaster = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(userMaster);
         }
 
@@ -523,6 +535,46 @@ namespace Coditech.Common.Service
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.EmployeeUsername, generalPersonModel.UserName, messageText);
             messageText = ReplaceTokenWithMessageText(EmailTemplateTokenConstant.TemporaryPassword, generalPersonModel.Password, messageText);
             return ReplaceEmailTemplateFooter(generalPersonModel.SelectedCentreCode, messageText);
+        }
+
+        protected virtual bool IsDataEncrypted() { return Convert.ToBoolean(CoditechApplicationSetting().FirstOrDefault(x => x.ApplicationCode == "IsDataEncrypted")?.ApplicationValue1 == "true"); }
+        protected virtual void BindSearchFilters(FilterCollection filters)
+        {
+            if (filters == null)
+                return;
+
+            for (int index = 0; index < filters.Count; index++)
+            {
+                FilterTuple item = filters[index];
+                string searchField = GetSearchField(item);
+
+                if (searchField != null)
+                {
+                    filters[index] = new FilterTuple(
+                        searchField,
+                        item.FilterOperator,
+                        $"|{SearchHashHelper.CreateSearchHash(item.FilterValue)}|");
+                }
+            }
+        }
+
+        protected virtual string GetSearchField(FilterTuple item)
+        {
+            return item.FilterName?.ToLowerInvariant() switch
+            {
+
+                "firstname" => "FirstNameSearchTokens",
+                "middlename" => "MiddleNameSearchTokens",
+                "lastname" => "LastNameSearchTokens",
+                "dateofbirth" => "DateOfBirthSearchTokens",
+                "emailid" => "EmailIdSearchTokens",
+                "phonenumber" => "PhoneNumberSearchTokens",
+                "mobilenumber" => "MobileNumberSearchTokens",
+                "emergencycontact" => "EmergencyContactSearchTokens",
+                "indentificationnumber" => "IndentificationNumberSearchTokens",
+                "attendanceintegrationid" => "AttendanceIntegrationIdSearchTokens",
+                _ => null
+            };
         }
     }
 }

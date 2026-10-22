@@ -47,11 +47,11 @@ namespace Coditech.API.Service
                     var parts = item.AssignedBy.Split(new[] { ' ' }, 2);
                     if (parts.Length == 2)
                     {
-                        item.AssignedBy = $"{HelperUtility.DecodeBase64(parts[0])} {HelperUtility.DecodeBase64(parts[1])}";
+                        item.AssignedBy = $"{DataEncryptionHelper.DataDecrypt(parts[0])} {DataEncryptionHelper.DataDecrypt(parts[1])}";
                     }
                     else
                     {
-                        item.AssignedBy = HelperUtility.DecodeBase64(item.Custom2);
+                        item.AssignedBy = DataEncryptionHelper.DataDecrypt(item.Custom2);
                     }
                 }
             }
@@ -161,9 +161,9 @@ namespace Coditech.API.Service
             List<GeneralBatchUserModel> batchList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralBatchUserAssociatedList @GeneralBatchMasterId,@UserType,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             foreach (var item in batchList)
             {
-                item.FirstName = HelperUtility.DecodeBase64(item.FirstName);
-                item.LastName = HelperUtility.DecodeBase64(item.LastName);
-                item.MobileNumber = HelperUtility.DecodeBase64(item.MobileNumber);
+                item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
+                item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);
+                item.MobileNumber = DataEncryptionHelper.DataDecrypt(item.MobileNumber);
 
                 item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
             }
