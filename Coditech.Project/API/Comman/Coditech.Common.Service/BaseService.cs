@@ -424,7 +424,6 @@ namespace Coditech.Common.Service
                 generalPersonModel.PhoneNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.PhoneNumber);
                 generalPersonModel.MobileNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.MobileNumber);
                 generalPersonModel.EmergencyContact = DataEncryptionHelper.DataEncrypt(generalPersonModel.EmergencyContact);
-
                 generalPersonModel.IndentificationNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.IndentificationNumber);
                 generalPersonModel.AttendanceIntegrationId = DataEncryptionHelper.DataEncrypt(generalPersonModel.AttendanceIntegrationId);
                 generalPersonModel.IsMinor = HelperUtility.IsMinor(generalPersonModel.DateOfBirth);
@@ -517,6 +516,8 @@ namespace Coditech.Common.Service
             {
                 userMaster.UserName = generalPersonModel.PersonCode;
             }
+            userMaster.UserNameHash = SearchHashHelper.CreateSearchHash(DataEncryptionHelper.DataDecrypt(userMaster.UserName));
+
             generalPersonModel.EntityId = entityId;
             userMaster = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>()).Insert(userMaster);
         }

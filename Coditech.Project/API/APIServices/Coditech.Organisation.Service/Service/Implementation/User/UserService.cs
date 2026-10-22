@@ -67,11 +67,11 @@ namespace Coditech.API.Service
 
             int maxAttempts = ApiSettings.UserLoginAttempts;
             int lockMinutes = ApiSettings.UserAccountLockTimeInMinutes;
-            string encodedUserName = userLoginModel.UserName;
+            string encodedUserName = SearchHashHelper.CreateSearchHash(userLoginModel.UserName);
 
             UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x =>
                 (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()) &&
-                (x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userLoginModel.UserName));
+                (x.IsDataEncrypted ? x.UserNameHash == encodedUserName : x.UserName == userLoginModel.UserName));
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, "User not found");
@@ -391,6 +391,17 @@ namespace Coditech.API.Service
 
             if (IsDataEncrypted())
             {
+                generalPersonModel.FirstNameSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.FirstName);
+                generalPersonModel.MiddleNameSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.MiddleName);
+                generalPersonModel.LastNameSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.LastName);
+                generalPersonModel.DateOfBirthSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.DateOfBirth);
+                generalPersonModel.EmailIdSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.EmailId);
+                generalPersonModel.PhoneNumberSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.PhoneNumber);
+                generalPersonModel.MobileNumberSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.MobileNumber);
+                generalPersonModel.EmergencyContactSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.EmergencyContact);
+                generalPersonModel.IndentificationNumberSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.IndentificationNumber);
+                generalPersonModel.AttendanceIntegrationIdSearchTokens = SearchHashHelper.CreateSearchTokens(generalPersonModel.AttendanceIntegrationId);
+
                 generalPersonModel.FirstName = DataEncryptionHelper.DataEncrypt(generalPersonModel.FirstName);
                 generalPersonModel.MiddleName = DataEncryptionHelper.DataEncrypt(generalPersonModel.MiddleName);
                 generalPersonModel.LastName = DataEncryptionHelper.DataEncrypt(generalPersonModel.LastName);

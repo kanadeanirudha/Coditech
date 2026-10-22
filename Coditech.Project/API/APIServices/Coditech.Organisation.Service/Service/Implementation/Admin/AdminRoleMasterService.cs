@@ -601,6 +601,15 @@ namespace Coditech.API.Service
             List<AdminRoleApplicableDetailsModel> adminRoleApplicableDetailsList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetAdminRoleApplicableDetailsList @AdminRoleMasterId,@IsAssociated,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             AdminRoleApplicableDetailsListModel listModel = new AdminRoleApplicableDetailsListModel();
             listModel.AdminRoleApplicableDetailsList = adminRoleApplicableDetailsList?.Count > 0 ? adminRoleApplicableDetailsList : new List<AdminRoleApplicableDetailsModel>();
+            foreach (var item in listModel.AdminRoleApplicableDetailsList?.Where(x => x.IsDataEncrypted))
+            {
+                item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
+                item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);
+                item.EmailId = DataEncryptionHelper.DataDecrypt(item.EmailId);
+                item.MobileNumber = DataEncryptionHelper.DataDecrypt(item.MobileNumber);
+                item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
+                item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
+            }
             return listModel;
         }
         #endregion
