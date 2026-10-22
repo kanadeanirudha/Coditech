@@ -1,7 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
     public class EmployeeMasterModel : BaseModel
     {
@@ -37,5 +34,6 @@ namespace Coditech.Common.API.Model
         public string DepartmentName { get; set; }
         public bool IsFinalApproval { get; set; }
         public byte ApprovalSequenceNumber { get; set; }
+        public bool IsDataEncrypted { get; set; }
     }
 }
