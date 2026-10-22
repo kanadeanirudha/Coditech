@@ -43,6 +43,7 @@ jobs:
     environment: Stage
     env:
       ConnectionStrings__CoditechDatabase: ${{ secrets.CODITECHDATABASE }}
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -142,16 +143,6 @@ jobs:
 
            # Wait for a few seconds (optional, if needed)
            Start-Sleep -Seconds 5
-
-      - name: Create appsettings.Production.json for Organisation
-        run: |
-          $conn = $env:ConnectionStrings__CoditechDatabase
-          $obj = @{ ConnectionStrings = @{ CoditechDatabase = $conn } }
-          $json = $obj | ConvertTo-Json -Depth 5
-          $path = 'C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.Organisation\bin\Release\net8.0\appsettings.Production.json'
-          $dir = Split-Path $path
-          if (!(Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force }
-          $json | Out-File -FilePath $path -Encoding utf8
 
       - name: Copy Build file
         run: Copy-Item -Path C:\GitAction\CoditechStage\_work\Coditech\Coditech\Coditech.Project\API\Coditech.Engine.Organisation\bin\Release\net8.0\* -Destination C:\HostingSites\CoditechStage\Organisation\ -Recurse -Force 
