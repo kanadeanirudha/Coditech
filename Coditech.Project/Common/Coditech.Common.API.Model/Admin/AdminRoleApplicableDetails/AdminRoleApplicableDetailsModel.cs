@@ -20,6 +20,6 @@
         public string AdminRoleCode { get; set; }
         public string SanctionPostName { get; set; }
         public List<EmployeeMasterModel> EmployeeList { get; set; }
-
+        public bool IsDataEncrypted { get; set; }
     }
 }
