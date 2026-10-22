@@ -42,18 +42,10 @@ namespace Coditech.API.Service
             List<GeneralBatchModel> generalBatchList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralBatchList @CentreCode,@UserMasterId, @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 6, out pageListModel.TotalRowCount)?.ToList();
             foreach (var item in generalBatchList)
             {
-                if (!string.IsNullOrWhiteSpace(item.AssignedBy))
-                {
-                    var parts = item.AssignedBy.Split(new[] { ' ' }, 2);
-                    if (parts.Length == 2)
-                    {
-                        item.AssignedBy = $"{DataEncryptionHelper.DataDecrypt(parts[0])} {DataEncryptionHelper.DataDecrypt(parts[1])}";
-                    }
-                    else
-                    {
-                        item.AssignedBy = DataEncryptionHelper.DataDecrypt(item.Custom2);
-                    }
-                }
+
+                item.FirstName = item.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(item.FirstName) : item.FirstName;
+                item.LastName = item.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(item.LastName) : item.LastName;
+                item.AssignedBy = $"{item.FirstName} {item.LastName}";
             }
             GeneralBatchListModel listModel = new GeneralBatchListModel();
 
