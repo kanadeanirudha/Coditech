@@ -44,7 +44,7 @@ namespace Coditech.API.Service
             GeneralTrainerListModel listModel = new GeneralTrainerListModel();
 
             listModel.GeneralTrainerList = trainerList?.Count > 0 ? trainerList : new List<GeneralTrainerModel>();
-            foreach (var item in trainerList)
+            foreach (var item in trainerList?.Where(x=>x.IsDataEncrypted))
             {
                 item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
                 item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);

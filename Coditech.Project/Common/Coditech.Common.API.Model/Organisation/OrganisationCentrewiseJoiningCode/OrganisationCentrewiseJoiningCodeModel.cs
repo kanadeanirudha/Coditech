@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
     public partial class OrganisationCentrewiseJoiningCodeModel : BaseModel
     {
@@ -20,5 +18,8 @@ namespace Coditech.Common.API.Model
         public DateTime? QueueValidTill { get; set; }
         public string ValidTillHours { get; set; }
         public bool IsReserved { get; set; }
+        public bool IsDataEncrypted { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

@@ -47,5 +47,7 @@ namespace Coditech.API.Data
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public bool IsDeleted { get; set; }
+        public Nullable<System.DateTime> DeletedDate { get; set; }
     }
 }
