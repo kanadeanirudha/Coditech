@@ -23,5 +23,6 @@ namespace Coditech.Common.API.Model
         public string PersonCode { get; set; }
         public bool IsActive { get; set; }
         public int NumberOfTraineeAssociated { get; set; }
+        public bool IsDataEncrypted { get; set; }
     }
 }
