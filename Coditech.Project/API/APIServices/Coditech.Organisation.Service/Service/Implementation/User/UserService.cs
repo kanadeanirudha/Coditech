@@ -536,6 +536,7 @@ namespace Coditech.API.Service
                 generalPersonAddressModel.MobileNumber = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.MobileNumber);
                 generalPersonAddressModel.EmailAddress = DataEncryptionHelper.DataEncrypt(generalPersonAddressModel.EmailAddress);
             }
+            generalPersonAddressModel.IsActive = true;
             GeneralPersonAddress generalPersonAddress = generalPersonAddressModel.FromModelToEntity<GeneralPersonAddress>();
             if (_generalPersonAddressRepository.Table.Any(x => x.PersonId == generalPersonAddressModel.PersonId && x.AddressTypeEnum == generalPersonAddressModel.AddressTypeEnum))
             {
