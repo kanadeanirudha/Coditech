@@ -29,6 +29,7 @@ namespace Coditech.API.Service
 
         public virtual GeneralTrainerListModel GetTrainerList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
+            BindSearchFilters(filters);
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralTrainerModel> objStoredProc = new CoditechViewRepository<GeneralTrainerModel>(_serviceProvider.GetService<Coditech_Entities>());
