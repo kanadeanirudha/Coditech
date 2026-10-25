@@ -19,6 +19,7 @@ namespace Coditech.API.Data
         public string EmailId { get; set; }
         public string EmailIdSearchTokens { get; set; }
         public string PhoneNumber { get; set; }
+        public string PhoneNumberSearchTokens { get; set; }
         public string CallingCode { get; set; }
         public string MobileNumber { get; set; }
         public string MobileNumberSearchTokens { get; set; }
@@ -43,6 +44,11 @@ namespace Coditech.API.Data
         public string Custom3 { get; set; }
         public string Custom4 { get; set; }
         public string Custom5 { get; set; }
+        public string CustomSearchTokens1 { get; set; }
+        public string CustomSearchTokens2 { get; set; }
+        public string CustomSearchTokens3 { get; set; }
+        public string CustomSearchTokens4 { get; set; }
+        public string CustomSearchTokens5 { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

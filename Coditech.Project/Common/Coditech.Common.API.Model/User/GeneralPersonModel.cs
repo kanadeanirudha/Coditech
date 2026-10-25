@@ -53,5 +53,10 @@
         public bool IsTestUser { get; set; }
         public bool IsDataEncrypted { get; set; }
         public bool IsMinor { get; set; }
+        public string CustomSearchTokens1 { get; set; }
+        public string CustomSearchTokens2 { get; set; }
+        public string CustomSearchTokens3 { get; set; }
+        public string CustomSearchTokens4 { get; set; }
+        public string CustomSearchTokens5 { get; set; }
     }
 }
