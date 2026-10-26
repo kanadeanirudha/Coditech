@@ -76,6 +76,10 @@ namespace Coditech.API.Service
 
             OrganisationCentreMaster organisationCentreMaster = organisationCentreModel.FromModelToEntity<OrganisationCentreMaster>();
 
+            if (IsDataEncrypted())
+            {
+                BindDataEncrypted(organisationCentreMaster);
+            }
             //Create new Organisation Centre and return it.
             OrganisationCentreMaster organisationData = _organisationCentreMasterRepository.Insert(organisationCentreMaster);
             if (organisationData?.OrganisationCentreMasterId > 0)
@@ -118,6 +122,18 @@ namespace Coditech.API.Service
                     organisationCentreModel.LogoSmallMediaFileName = mediaDetail.FileName;
                 }
             }
+
+            organisationCentreModel.CentreAddress = DataEncryptionHelper.DataDecrypt(organisationCentreModel.CentreAddress);
+            organisationCentreModel.Pincode = DataEncryptionHelper.DataDecrypt(organisationCentreModel.Pincode);
+            organisationCentreModel.EmailId = DataEncryptionHelper.DataDecrypt(organisationCentreModel.EmailId);
+            organisationCentreModel.CellPhone = DataEncryptionHelper.DataDecrypt(organisationCentreModel.CellPhone);
+            organisationCentreModel.FaxNumber = DataEncryptionHelper.DataDecrypt(organisationCentreModel.FaxNumber);
+            organisationCentreModel.PhoneNumberOffice = DataEncryptionHelper.DataDecrypt(organisationCentreModel.PhoneNumberOffice);
+            organisationCentreModel.CINNumber = DataEncryptionHelper.DataDecrypt(organisationCentreModel.CINNumber);
+            organisationCentreModel.GSTINNumber = DataEncryptionHelper.DataDecrypt(organisationCentreModel.GSTINNumber);
+            organisationCentreModel.PanNumber = DataEncryptionHelper.DataDecrypt(organisationCentreModel.PanNumber);
+            organisationCentreModel.PFNumber = DataEncryptionHelper.DataDecrypt(organisationCentreModel.PFNumber);
+            organisationCentreModel.ESICNumber = DataEncryptionHelper.DataDecrypt(organisationCentreModel.ESICNumber);
             return organisationCentreModel;
         }
 
@@ -134,7 +150,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Centre Code"));
 
             OrganisationCentreMaster organisationCentreMaster = organisationCentreModel.FromModelToEntity<OrganisationCentreMaster>();
-
+            BindDataEncrypted(organisationCentreMaster);
             //Update Organisation Centre
             bool isOrganisationCentreUpdated = _organisationCentreMasterRepository.Update(organisationCentreMaster);
             if (!isOrganisationCentreUpdated)
@@ -683,6 +699,22 @@ namespace Coditech.API.Service
 
         protected virtual bool IsCentrewiseUserNameAlreadyExist(string centreCode, string userType, int organisationCentrewiseUserNameRegistrationId = 0)
         => _organisationCentrewiseUserNameRegistrationRepository.Table.Any(x => x.CentreCode == centreCode && x.UserType == userType && (x.OrganisationCentrewiseUserNameRegistrationId != organisationCentrewiseUserNameRegistrationId || organisationCentrewiseUserNameRegistrationId == 0));
+
+        protected virtual void BindDataEncrypted(OrganisationCentreMaster organisationCentreMaster)
+        {
+            organisationCentreMaster.CentreAddress = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.CentreAddress);
+            organisationCentreMaster.Pincode = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.Pincode);
+            organisationCentreMaster.EmailId = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.EmailId);
+            organisationCentreMaster.CellPhone = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.CellPhone);
+            organisationCentreMaster.FaxNumber = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.FaxNumber);
+            organisationCentreMaster.PhoneNumberOffice = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.PhoneNumberOffice);
+            organisationCentreMaster.CINNumber = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.CINNumber);
+            organisationCentreMaster.GSTINNumber = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.GSTINNumber);
+            organisationCentreMaster.PanNumber = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.PanNumber);
+            organisationCentreMaster.PFNumber = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.PFNumber);
+            organisationCentreMaster.ESICNumber = DataEncryptionHelper.DataEncrypt(organisationCentreMaster.ESICNumber);
+            organisationCentreMaster.IsDataEncrypted = true;
+        }
         #endregion
 
     }
