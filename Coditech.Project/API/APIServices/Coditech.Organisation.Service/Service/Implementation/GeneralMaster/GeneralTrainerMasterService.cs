@@ -150,6 +150,7 @@ namespace Coditech.API.Service
         #region AssociatedTrainer
         public virtual GeneralTraineeAssociatedToTrainerListModel GetAssociatedTrainerList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, long entityId, string userType, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
+            BindSearchFilters(filters);
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<GeneralTraineeAssociatedToTrainerModel> objStoredProc = new CoditechViewRepository<GeneralTraineeAssociatedToTrainerModel>(_serviceProvider.GetService<Coditech_Entities>());

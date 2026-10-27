@@ -93,8 +93,8 @@ namespace Coditech.API.Service
                                                    {
                                                        Details = a.Details,
                                                        CreatedDate = Convert.ToDateTime(a.CreatedDate),
-                                                       FirstName = b.FirstName,
-                                                       LastName = b.LastName
+                                                       FirstName = b.IsDataEncrypted? DataEncryptionHelper.DataDecrypt( b.FirstName) : b.FirstName,
+                                                       LastName = b.IsDataEncrypted? DataEncryptionHelper.DataDecrypt( b.LastName) : b.LastName
                                                    })?.ToList();
 
             return ticketMasterModel;
