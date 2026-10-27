@@ -411,6 +411,8 @@ namespace Coditech.API.Service
                 generalPersonModel.EmergencyContact = DataEncryptionHelper.DataEncrypt(generalPersonModel.EmergencyContact);
                 generalPersonModel.IsMinor = IsMinor(generalPersonModel.DateOfBirth);
                 generalPersonModel.DateOfBirth = DataEncryptionHelper.DataEncrypt(generalPersonModel.DateOfBirth);
+                generalPersonModel.IndentificationNumber = DataEncryptionHelper.DataEncrypt(generalPersonModel.IndentificationNumber);
+                generalPersonModel.AttendanceIntegrationId = DataEncryptionHelper.DataEncrypt(generalPersonModel.AttendanceIntegrationId);
                 generalPersonModel.IsDataEncrypted = true;
             }
             GeneralPerson generalPerson = generalPersonModel.FromModelToEntity<GeneralPerson>();
