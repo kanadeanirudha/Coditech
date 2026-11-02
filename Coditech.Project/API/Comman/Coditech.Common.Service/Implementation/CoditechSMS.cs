@@ -5,6 +5,7 @@ using Coditech.Common.Logger;
 using Microsoft.Extensions.DependencyInjection;
 
 using System.Diagnostics;
+using System.Text;
 
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -50,6 +51,22 @@ namespace Coditech.Common.Service
                             body: smsText,
                             to: new Twilio.Types.PhoneNumber(phoneNumber)
                         );
+                    }
+                    else if (generalSmsProvider?.ProviderCode == "ZOHO_SMS")
+                    {
+                        var baseAddress = "https://cpaas.zoho.com/v1.1/sms";
+
+                        using var httpClient = new HttpClient();
+                        using var request = new HttpRequestMessage(HttpMethod.Post, baseAddress);
+                        request.Headers.TryAddWithoutValidation("Authorization", "<token>");
+                        request.Content = new StringContent(
+                            "{\"sender_key\":\"<sender_key>\",\"template_key\":\"<template_key>\",\"to\":[{\"mobile_no\":\"<mobile_no>\"}],\"merge_info\":{\"<merge_key>\":\"<merge_value>\"}}",
+                            Encoding.UTF8,
+                            "application/json");
+
+                        using var response = httpClient.Send(request);
+                        var content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                        Console.WriteLine(content);
                     }
                     else
                     {

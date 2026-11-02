@@ -32,20 +32,25 @@ namespace Coditech.API.Service
             BindSearchFilters(filters);
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+            if (GetSortableField(DynamicClauseHelper.GenerateDynamicOrderByClause(sorts)))
+            {
+                pagingStart = 1;
+                pagingLength = int.MaxValue;
+            }
             CoditechViewRepository<GeneralTrainerModel> objStoredProc = new CoditechViewRepository<GeneralTrainerModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@DepartmentId", selectedDepartmentId, ParameterDirection.Input, DbType.Int16);
             objStoredProc.SetParameter("@IsAssociated", isAssociated, ParameterDirection.Input, DbType.Boolean);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@PageNo", pagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<GeneralTrainerModel> trainerList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralTrainerList @CentreCode,@DepartmentId,@IsAssociated,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 7, out pageListModel.TotalRowCount)?.ToList();
             GeneralTrainerListModel listModel = new GeneralTrainerListModel();
 
             listModel.GeneralTrainerList = trainerList?.Count > 0 ? trainerList : new List<GeneralTrainerModel>();
-            foreach (var item in trainerList?.Where(x=>x.IsDataEncrypted))
+            foreach (var item in trainerList?.Where(x => x.IsDataEncrypted))
             {
                 item.FirstName = DataEncryptionHelper.DataDecrypt(item.FirstName);
                 item.LastName = DataEncryptionHelper.DataDecrypt(item.LastName);
@@ -55,6 +60,7 @@ namespace Coditech.API.Service
                 item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
                 item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
             }
+            listModel.GeneralTrainerList = SortingAndPaginationForEncryptionField(listModel.GeneralTrainerList, pageListModel);
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
@@ -68,8 +74,8 @@ namespace Coditech.API.Service
             if (IsEmployeeAlreadyExist(generalTrainerModel.EmployeeId))
                 throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "EmployeeId"));
 
-                generalTrainerModel.UniqueCode = GenerateNumericCode(6); // Generate unique code
-            
+            generalTrainerModel.UniqueCode = GenerateNumericCode(6); // Generate unique code
+
             GeneralTrainerMaster generalTrainerMaster = generalTrainerModel.FromModelToEntity<GeneralTrainerMaster>();
 
             //Create new Trainer Master and return it.
@@ -150,8 +156,14 @@ namespace Coditech.API.Service
         #region AssociatedTrainer
         public virtual GeneralTraineeAssociatedToTrainerListModel GetAssociatedTrainerList(string selectedCentreCode, short selectedDepartmentId, bool isAssociated, long entityId, string userType, long personId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
+            BindSearchFilters(filters);
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+            if (GetSortableField(DynamicClauseHelper.GenerateDynamicOrderByClause(sorts)))
+            {
+                pagingStart = 1;
+                pagingLength = int.MaxValue;
+            }
             CoditechViewRepository<GeneralTraineeAssociatedToTrainerModel> objStoredProc = new CoditechViewRepository<GeneralTraineeAssociatedToTrainerModel>(_serviceProvider.GetService<Coditech_Entities>());
             objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@DepartmentId", selectedDepartmentId, ParameterDirection.Input, DbType.Int16);
@@ -159,8 +171,8 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@UserType", userType, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@EntityId", entityId, ParameterDirection.Input, DbType.Int64);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
-            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
-            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@PageNo", pagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<GeneralTraineeAssociatedToTrainerModel> trainerList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetGeneralTraineeAssociatedToTrainerList @CentreCode,@DepartmentId,@IsAssociated,@UserType,@EntityId,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 9, out pageListModel.TotalRowCount)?.ToList();
@@ -174,7 +186,7 @@ namespace Coditech.API.Service
                 item.EmailId = HelperUtility.MaskData(item.EmailId, MaskType.Email);
                 item.MobileNumber = HelperUtility.MaskData(item.MobileNumber, MaskType.Mobile);
             }
-
+            trainerList = SortingAndPaginationForEncryptionField(trainerList, pageListModel);
             GeneralTraineeAssociatedToTrainerListModel listModel = new GeneralTraineeAssociatedToTrainerListModel();
 
             listModel.AssociatedTrainerList = trainerList?.Count > 0 ? trainerList : new List<GeneralTraineeAssociatedToTrainerModel>();
@@ -233,7 +245,7 @@ namespace Coditech.API.Service
                 {
                     generalTrainerModel.FirstName = GeneralTraineeDetails.FirstName;
                     generalTrainerModel.LastName = GeneralTraineeDetails.LastName;
-                    long employeeId = _generalTrainerRepository.Table.Where(x=>x.GeneralTrainerMasterId == generalTrainerModel.GeneralTrainerMasterId).Select(y=>y.EmployeeId).FirstOrDefault();
+                    long employeeId = _generalTrainerRepository.Table.Where(x => x.GeneralTrainerMasterId == generalTrainerModel.GeneralTrainerMasterId).Select(y => y.EmployeeId).FirstOrDefault();
                     GeneralPersonModel generalTrainerDetails = GetGeneralPersonDetailsByEntityType(employeeId, UserTypeEnum.Employee.ToString());
                     if (IsNotNull(generalTrainerDetails))
                     {

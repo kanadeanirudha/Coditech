@@ -577,5 +577,100 @@ namespace Coditech.Common.Service
                 _ => null
             };
         }
+        protected virtual List<T> SortingAndPaginationForEncryptionField<T>(List<T> items, PageListModel pageListModel)
+        {
+            if (!GetSortableField(pageListModel.OrderBy))
+                return items;
+
+            if (items?.Count > 0 && !string.IsNullOrEmpty(pageListModel.OrderBy))
+            {
+                string[] orderByParts = pageListModel.OrderBy.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string propertyName = orderByParts[0].Trim('[', ']');
+                bool isAscending = orderByParts.Length < 2 || !string.Equals(orderByParts[1], "desc", StringComparison.OrdinalIgnoreCase);
+                System.Reflection.PropertyInfo sortProperty = typeof(T).GetProperty(propertyName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.IgnoreCase);
+
+                if (sortProperty != null)
+                {
+                    if (sortProperty.PropertyType == typeof(string))
+                    {
+                        IComparer<string> naturalComparer = Comparer<string>.Create(CompareNaturalStrings);
+                        items = isAscending
+                            ? items.OrderBy(x => sortProperty.GetValue(x)?.ToString(), naturalComparer).ToList()
+                            : items.OrderByDescending(x => sortProperty.GetValue(x)?.ToString(), naturalComparer).ToList();
+                    }
+                    else
+                    {
+                        items = isAscending
+                            ? items.OrderBy(x => sortProperty.GetValue(x)).ToList()
+                            : items.OrderByDescending(x => sortProperty.GetValue(x)).ToList();
+                    }
+                }
+            }
+            return items.Skip((pageListModel.PagingStart - 1) * pageListModel.PagingLength).Take(pageListModel.PagingLength).ToList();
+        }
+
+        private int CompareNaturalStrings(string first, string second)
+        {
+            if (ReferenceEquals(first, second))
+                return 0;
+            if (first is null)
+                return -1;
+            if (second is null)
+                return 1;
+
+            int firstIndex = 0;
+            int secondIndex = 0;
+
+            while (firstIndex < first.Length && secondIndex < second.Length)
+            {
+                if (char.IsDigit(first[firstIndex]) && char.IsDigit(second[secondIndex]))
+                {
+                    int firstNumberStart = firstIndex;
+                    int secondNumberStart = secondIndex;
+
+                    while (firstIndex < first.Length && char.IsDigit(first[firstIndex]))
+                        firstIndex++;
+                    while (secondIndex < second.Length && char.IsDigit(second[secondIndex]))
+                        secondIndex++;
+
+                    string firstNumber = first[firstNumberStart..firstIndex].TrimStart('0');
+                    string secondNumber = second[secondNumberStart..secondIndex].TrimStart('0');
+
+                    if (firstNumber.Length != secondNumber.Length)
+                        return firstNumber.Length.CompareTo(secondNumber.Length);
+
+                    int numberComparison = string.Compare(firstNumber, secondNumber, StringComparison.Ordinal);
+                    if (numberComparison != 0)
+                        return numberComparison;
+                }
+                else
+                {
+                    int characterComparison = char.ToUpperInvariant(first[firstIndex]).CompareTo(char.ToUpperInvariant(second[secondIndex]));
+                    if (characterComparison != 0)
+                        return characterComparison;
+
+                    firstIndex++;
+                    secondIndex++;
+                }
+            }
+
+            return (first.Length - firstIndex).CompareTo(second.Length - secondIndex);
+        }
+        protected virtual bool GetSortableField(string sortBy)
+        {
+            sortBy = sortBy?.Replace(" asc", "")?.Replace(" desc", "").ToLowerInvariant();
+            return sortBy switch
+            {
+                "firstname" or "middlename" or "lastname" or "emailid" or "mobilenumber" or
+                "emergencycontact" or "indentificationnumber" or "dateofbirth" or
+                "pancardnumber" or "uannumber" or "passportnumber" or "adharcardnumber" or
+                "bankaccountnumber" or "bankname" or "bankifsccode" or "addressline1" or
+                "addressline2" or "companyname" or "postalcode" or "phonenumber" or
+                "emailaddress" or "centreaddress" or "pincode" or "cellphone" or
+                "faxnumber" or "phonenumberoffice" or "cinnumber" or "gstinnumber" or
+                "pannumber" or "pfnumber" or "esicnumber" => true,
+                _ => false
+            };
+        }
     }
 }

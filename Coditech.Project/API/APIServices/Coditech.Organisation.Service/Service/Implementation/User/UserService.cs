@@ -122,8 +122,11 @@ namespace Coditech.API.Service
             if (IsNull(userName))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-            string encodedUserName = DataEncryptionHelper.DataEncrypt(userName);
-            UserMaster userMasterData = _userMasterRepository.Table.Where(x => x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()).FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
+            string encodedUserName = SearchHashHelper.CreateSearchHash(userName);
+
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x =>
+                (x.UserType == UserTypeEnum.Admin.ToString() || x.UserType == UserTypeEnum.Employee.ToString()) &&
+                (x.IsDataEncrypted ? x.UserNameHash == encodedUserName : x.UserName == userName));
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, null);
@@ -689,6 +692,7 @@ namespace Coditech.API.Service
         {
             if (userMasterData != null && userMasterData.IsDataEncrypted)
             {
+                userMasterData.UserName = DataEncryptionHelper.DataDecrypt(userMasterData.UserName);
                 userMasterData.FirstName = DataEncryptionHelper.DataDecrypt(userMasterData.FirstName);
                 userMasterData.MiddleName = DataEncryptionHelper.DataDecrypt(userMasterData.MiddleName);
                 userMasterData.LastName = DataEncryptionHelper.DataDecrypt(userMasterData.LastName);
