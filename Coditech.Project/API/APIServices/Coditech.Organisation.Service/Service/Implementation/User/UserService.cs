@@ -158,25 +158,30 @@ namespace Coditech.API.Service
         {
             if (IsNull(resetPasswordModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-            bool isDataEncrypted = IsDataEncrypted();
-            string userName = isDataEncrypted ? DataEncryptionHelper.DataDecrypt(resetPasswordModel.ResetPasswordToken) : resetPasswordModel.ResetPasswordToken;
-            string encodedUserName = isDataEncrypted ? DataEncryptionHelper.DataEncrypt(userName) : userName;
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
+            try
+            {
+                bool isDataEncrypted = IsDataEncrypted();
+                string userName = resetPasswordModel.ResetPasswordToken?.Replace(" ", "+");
+                UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.UserName == userName);
 
-            if (IsNull(userMasterData))
-                throw new CoditechException(ErrorCodes.NotFound, "Please make sure that the Username you entered is correct.");
+                if (IsNull(userMasterData))
+                    throw new CoditechException(ErrorCodes.NotFound, "Please make sure that the Username you entered is correct.");
 
+                if (userMasterData.ResetPasswordToken != resetPasswordModel.OTP)
+                    throw new CoditechException(ErrorCodes.InValidOTP, "Invalid OTP");
 
-            if (userMasterData.ResetPasswordToken != resetPasswordModel.OTP)
-                throw new CoditechException(ErrorCodes.InValidOTP, "Invalid OTP");
+                if (userMasterData.ResetPasswordTokenExpiredDate <= DateTime.Now)
+                    throw new CoditechException(ErrorCodes.ExpiredOTP, "OTP Expried");
 
-            if (userMasterData.ResetPasswordTokenExpiredDate <= DateTime.Now)
-                throw new CoditechException(ErrorCodes.ExpiredOTP, "OTP Expried");
-
-            userMasterData.Password = MD5Hash(resetPasswordModel.NewPassword);
-            userMasterData.ResetPasswordToken = null;
-            userMasterData.ResetPasswordTokenExpiredDate = null;
-            _userMasterRepository.Update(userMasterData);
+                userMasterData.Password = MD5Hash(resetPasswordModel.NewPassword);
+                userMasterData.ResetPasswordToken = null;
+                userMasterData.ResetPasswordTokenExpiredDate = null;
+                _userMasterRepository.Update(userMasterData);
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, CoditechLoggingEnum.Components.EmployeeMaster.ToString(), TraceLevel.Error);
+            }
             return new ResetPasswordModel();
         }
 
@@ -188,8 +193,8 @@ namespace Coditech.API.Service
 
             List<CoditechApplicationSetting> coditechApplicationSettingList = CoditechApplicationSetting();
             bool isDataEncrypted = CoditechApplicationSetting().FirstOrDefault(x => x.ApplicationCode == "IsDataEncrypted")?.ApplicationValue1 == "true";
-            string encodedUserName = isDataEncrypted ? DataEncryptionHelper.DataEncrypt(userName) : userName;
-            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.IsDataEncrypted ? x.UserName == encodedUserName : x.UserName == userName);
+            string encodedUserName = isDataEncrypted ? SearchHashHelper.CreateSearchHash(userName) : userName;
+            UserMaster userMasterData = _userMasterRepository.Table.FirstOrDefault(x => x.IsDataEncrypted ? x.UserNameHash == encodedUserName : x.UserName == userName);
 
             if (IsNull(userMasterData))
                 throw new CoditechException(ErrorCodes.NotFound, "Please make sure that the Username you entered is correct.");
@@ -202,12 +207,12 @@ namespace Coditech.API.Service
                 if (!(userMasterData.UserType == UserTypeEnum.Employee.ToString() || userMasterData.UserType == UserTypeEnum.Admin.ToString()))
                     throw new CoditechException(ErrorCodes.ContactAdministrator, "Access Denied. Please contact a Site Administrator.");
             }
-            string resetPassToken = GenerateNumericCode();
+            string resetPassToken = DataEncryptionHelper.DataEncrypt(GenerateNumericCode());
             userMasterData.ResetPasswordToken = resetPassToken;
             userMasterData.ResetPasswordTokenExpiredDate = DateTime.Now.AddMinutes(Convert.ToDouble(ApiSettings.ResetPasswordExpriedTimeInMinute));
             _userMasterRepository.Update(userMasterData);
 
-            string url = $"{coditechApplicationSettingList.First(x => x.ApplicationCode == "CoditechAdminRootUri")?.ApplicationValue1}/User/ResetPassword?token={DataEncryptionHelper.DataEncrypt(userMasterData.UserName)}";
+            string url = $"{coditechApplicationSettingList.First(x => x.ApplicationCode == "CoditechAdminRootUri")?.ApplicationValue1}/User/ResetPassword?token={(userMasterData.IsDataEncrypted ? userMasterData.UserName : DataEncryptionHelper.DataEncrypt(userMasterData.UserName))}";
             try
             {
                 string emailTemplateCodeEnum = $"{(isMobileRequest ? APIConstant.Mobile : "")}{EmailTemplateCodeEnum.ResetPasswordLink.ToString()}";
@@ -216,19 +221,19 @@ namespace Coditech.API.Service
                 if (IsNotNull(emailTemplateModel) && !string.IsNullOrEmpty(emailTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.EmailId))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, emailTemplateModel.EmailTemplate, url, resetPassToken);
-                    _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(generalPersonModel.EmailId) : generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
+                    _coditechEmail.SendEmail(generalPersonModel.SelectedCentreCode, generalPersonModel.EmailId, "", emailTemplateModel.Subject, messageText, true);
                 }
                 GeneralEmailTemplateModel smsTemplateModel = GetSMSTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
                 if (IsNotNull(smsTemplateModel) && !string.IsNullOrEmpty(smsTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, smsTemplateModel.EmailTemplate, url, resetPassToken);
-                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{(generalPersonModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(generalPersonModel.MobileNumber) : generalPersonModel.MobileNumber)}");
+                    _coditechSMS.SendSMS(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{generalPersonModel.MobileNumber}");
                 }
                 GeneralEmailTemplateModel whatsAppTemplateModel = GetWhatsAppTemplateByCode(generalPersonModel?.SelectedCentreCode, emailTemplateCodeEnum);
                 if (IsNotNull(whatsAppTemplateModel) && !string.IsNullOrEmpty(whatsAppTemplateModel?.EmailTemplateCode) && !string.IsNullOrEmpty(generalPersonModel?.MobileNumber))
                 {
                     string messageText = ReplaceResetPassworkLink(generalPersonModel, whatsAppTemplateModel.EmailTemplate, url, resetPassToken);
-                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{(generalPersonModel.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(generalPersonModel.MobileNumber) : generalPersonModel.MobileNumber)}");
+                    _coditechWhatsApp.SendWhatsAppMessage(generalPersonModel.SelectedCentreCode, messageText, $"{generalPersonModel.CallingCode}{generalPersonModel.MobileNumber}");
                 }
             }
             catch (Exception ex)
