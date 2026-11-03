@@ -173,6 +173,9 @@ namespace Coditech.API.Service
                 if (userMasterData.ResetPasswordTokenExpiredDate <= DateTime.Now)
                     throw new CoditechException(ErrorCodes.ExpiredOTP, "OTP Expried");
 
+                if (userMasterData.Password == MD5Hash(resetPasswordModel.NewPassword))
+                    throw new CoditechException(ErrorCodes.AlreadyExist, "New password cannot be the same as old password.");
+
                 userMasterData.Password = MD5Hash(resetPasswordModel.NewPassword);
                 userMasterData.ResetPasswordToken = null;
                 userMasterData.ResetPasswordTokenExpiredDate = null;
