@@ -35,6 +35,21 @@ namespace Coditech.Common.Service
         protected virtual OrganisationCentreMaster GetOrganisationCentreDetails(string centreCode)
         {
             OrganisationCentreMaster organisationCentreMaster = new CoditechRepository<OrganisationCentreMaster>(_serviceProvider.GetService<Coditech_Entities>()).Table.FirstOrDefault(x => x.CentreCode == centreCode);
+            if (organisationCentreMaster.IsDataEncrypted)
+            {
+                organisationCentreMaster.CentreAddress = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.CentreAddress);
+                organisationCentreMaster.Pincode = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.Pincode);
+                organisationCentreMaster.EmailId = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.EmailId);
+                organisationCentreMaster.FaxNumber = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.FaxNumber);
+                organisationCentreMaster.CellPhone = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.CellPhone);
+                organisationCentreMaster.FaxNumber = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.FaxNumber);
+                organisationCentreMaster.PhoneNumberOffice = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.PhoneNumberOffice);
+                organisationCentreMaster.CINNumber = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.CINNumber);
+                organisationCentreMaster.GSTINNumber = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.GSTINNumber);
+                organisationCentreMaster.PanNumber = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.PanNumber);
+                organisationCentreMaster.PFNumber = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.PFNumber);
+                organisationCentreMaster.ESICNumber = DataEncryptionHelper.DataDecrypt(organisationCentreMaster.ESICNumber);
+            }
             return organisationCentreMaster;
         }
 
