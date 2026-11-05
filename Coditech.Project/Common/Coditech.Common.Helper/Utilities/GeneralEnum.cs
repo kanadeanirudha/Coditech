@@ -97,7 +97,8 @@
         InventoryCategoryType,
         AccSetupCategory,
         OrganisationJoiningCodeType,
-        JoiningCodeStatus
+        JoiningCodeStatus,
+        TicketProblemType
     }
 
     public enum GeneralSystemGlobleSettingEnum

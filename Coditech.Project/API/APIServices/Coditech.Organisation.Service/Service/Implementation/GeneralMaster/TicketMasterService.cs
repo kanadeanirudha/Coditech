@@ -118,6 +118,7 @@ namespace Coditech.API.Service
                 ticketMaster.TicketStatusEnumId = ticketMasterModel.TicketStatusEnumId;
             }
             ticketMaster.TicketPriorityEnumId = ticketMasterModel.TicketPriorityEnumId;
+            ticketMaster.TicketProblemTypeEnumId = ticketMasterModel.TicketProblemTypeEnumId;
             //Update TicketMaster
             bool isTicketUpdated = _ticketMasterRepository.Update(ticketMaster);
             if (!isTicketUpdated)
