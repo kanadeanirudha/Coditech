@@ -169,6 +169,8 @@
         CustomerRegistration,
         ResetPasswordLink,
         SendOTP,
+        TicketRaised,
+        TicketUpdated,
     }
     public enum UserNameRegistrationTypeEnum
     {
