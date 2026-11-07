@@ -15,6 +15,7 @@ namespace Coditech.API.Data
         public string Subject { get; set; }
         public int TicketPriorityEnumId { get; set; }
         public string AddCc { get; set; }
+        public int? TicketProblemTypeEnumId { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }

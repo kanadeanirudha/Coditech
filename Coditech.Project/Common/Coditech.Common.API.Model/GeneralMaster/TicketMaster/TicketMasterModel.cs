@@ -16,6 +16,6 @@
         public string TicketStatus { get; set; }
         public bool IsTicketReplied { get; set; }
         public List<TicketDetailsModel> TicketDetailsList { get; set; }
-
+        public int TicketProblemTypeEnumId { get; set; }
     }
 }

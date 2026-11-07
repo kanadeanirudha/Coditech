@@ -97,7 +97,8 @@
         InventoryCategoryType,
         AccSetupCategory,
         OrganisationJoiningCodeType,
-        JoiningCodeStatus
+        JoiningCodeStatus,
+        TicketProblemType
     }
 
     public enum GeneralSystemGlobleSettingEnum
@@ -168,6 +169,8 @@
         CustomerRegistration,
         ResetPasswordLink,
         SendOTP,
+        TicketRaised,
+        TicketUpdated,
     }
     public enum UserNameRegistrationTypeEnum
     {

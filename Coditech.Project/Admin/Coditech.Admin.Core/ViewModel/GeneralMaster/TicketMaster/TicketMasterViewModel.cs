@@ -43,5 +43,9 @@ namespace Coditech.Admin.ViewModel
         public string TicketStatus { get; set; }
         public bool IsTicketReplied { get; set; }
         public List<TicketDetailsModel> TicketDetailsList { get; set; }
+        [Required(ErrorMessage = "Please select Problem Type.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select Problem Type.")]
+        [Display(Name = "Ticket Problem Type")]
+        public int TicketProblemTypeEnumId { get; set; }
     }
 }

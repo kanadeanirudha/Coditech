@@ -19,10 +19,14 @@ namespace Coditech.API.Service
         private readonly ICoditechRepository<TicketMaster> _ticketMasterRepository;
         private readonly ICoditechRepository<TicketDetails> _ticketDetailsRepository;
         private readonly ICoditechRepository<UserMaster> _userMasterRepository;
-        public TicketMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
+        protected readonly ICoditechEmail _coditechEmail;
+        protected readonly ICoditechSMS _coditechSMS;
+        public TicketMasterService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider, ICoditechEmail coditechEmail, ICoditechSMS coditechSMS) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
+            _coditechEmail = coditechEmail;
+            _coditechSMS = coditechSMS;
             _ticketMasterRepository = new CoditechRepository<TicketMaster>(_serviceProvider.GetService<Coditech_Entities>());
             _ticketDetailsRepository = new CoditechRepository<TicketDetails>(_serviceProvider.GetService<Coditech_Entities>());
             _userMasterRepository = new CoditechRepository<UserMaster>(_serviceProvider.GetService<Coditech_Entities>());
@@ -66,6 +70,10 @@ namespace Coditech.API.Service
                     Details = ticketMasterModel.Details
                 };
                 ticketDetailsData = _ticketDetailsRepository.Insert(ticketDetailsData);
+                if (ticketDetailsData != null)
+                {
+                    SendTicketRaisedNotification(ticketMasterModel);
+                }
             }
             else
             {
@@ -93,8 +101,8 @@ namespace Coditech.API.Service
                                                    {
                                                        Details = a.Details,
                                                        CreatedDate = Convert.ToDateTime(a.CreatedDate),
-                                                       FirstName = b.IsDataEncrypted? DataEncryptionHelper.DataDecrypt( b.FirstName) : b.FirstName,
-                                                       LastName = b.IsDataEncrypted? DataEncryptionHelper.DataDecrypt( b.LastName) : b.LastName
+                                                       FirstName = b.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(b.FirstName) : b.FirstName,
+                                                       LastName = b.IsDataEncrypted ? DataEncryptionHelper.DataDecrypt(b.LastName) : b.LastName
                                                    })?.ToList();
 
             return ticketMasterModel;
@@ -112,12 +120,13 @@ namespace Coditech.API.Service
             TicketMaster ticketMaster = _ticketMasterRepository.Table.Where(x => x.TicketMasterId == ticketMasterModel.TicketMasterId)?.FirstOrDefault();
             if (IsNull(ticketMaster))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
-            
+            ticketMasterModel.TicketNumber = ticketMaster.TicketNumber;
             if (ticketMasterModel.IsTicketReplied)
             {
                 ticketMaster.TicketStatusEnumId = ticketMasterModel.TicketStatusEnumId;
             }
             ticketMaster.TicketPriorityEnumId = ticketMasterModel.TicketPriorityEnumId;
+            ticketMaster.TicketProblemTypeEnumId = ticketMasterModel.TicketProblemTypeEnumId;
             //Update TicketMaster
             bool isTicketUpdated = _ticketMasterRepository.Update(ticketMaster);
             if (!isTicketUpdated)
@@ -125,7 +134,11 @@ namespace Coditech.API.Service
                 ticketMasterModel.HasError = true;
                 ticketMasterModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
-            InsertTicketDetails(ticketMasterModel);
+            if (isTicketUpdated)
+            {
+                InsertTicketDetails(ticketMasterModel);
+                SendTicketUpdatedNotification(ticketMasterModel);
+            }
             return isTicketUpdated;
         }
 
@@ -155,9 +168,69 @@ namespace Coditech.API.Service
                     Details = ticketMasterModel.Details,
                     CreatedBy = ticketMasterModel.UserId
                 };
-
                 _ticketDetailsRepository.Insert(ticketDetails);
             }
+        }
+        protected virtual void SendTicketRaisedNotification(TicketMasterModel ticketMasterModel)
+        {
+            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.UserMasterId == ticketMasterModel.UserId);
+            if (userMaster == null)
+                return;
+            GeneralPersonModel personModel = GetGeneralPersonDetailsByEntityType(userMaster.EntityId, userMaster.UserType);
+            if (personModel == null)
+                return;
+            string templateCode = EmailTemplateCodeEnum.TicketRaised.ToString();
+            GeneralEmailTemplateModel emailTemplate = GetEmailTemplateByCode(personModel.SelectedCentreCode, templateCode);
+
+            if (emailTemplate != null &&
+                !string.IsNullOrEmpty(personModel.EmailId))
+            {
+                string messageText = ReplaceTicketNotificationTokens(emailTemplate.EmailTemplate, ticketMasterModel, personModel);
+                string subject = ReplaceTokenWithMessageText("#TicketNumber#", ticketMasterModel.TicketNumber, emailTemplate.Subject);
+                _coditechEmail.SendEmail(personModel.SelectedCentreCode, personModel.EmailId, "", subject, messageText, true);
+            }
+
+            GeneralEmailTemplateModel smsTemplate = GetSMSTemplateByCode(personModel.SelectedCentreCode, templateCode);
+            if (smsTemplate != null &&
+                !string.IsNullOrEmpty(personModel.MobileNumber))
+            {
+                string messageText = ReplaceTicketNotificationTokens(smsTemplate.EmailTemplate, ticketMasterModel, personModel);
+                _coditechSMS.SendSMS(personModel.SelectedCentreCode, messageText, $"{personModel.CallingCode}{personModel.MobileNumber}");
+            }
+        }
+        protected virtual void SendTicketUpdatedNotification(TicketMasterModel ticketMasterModel)
+        {
+            UserMaster userMaster = _userMasterRepository.Table.FirstOrDefault(x => x.UserMasterId == ticketMasterModel.UserId);
+            if (userMaster == null)
+                return;
+            GeneralPersonModel personModel = GetGeneralPersonDetailsByEntityType(userMaster.EntityId, userMaster.UserType);
+            if (personModel == null)
+                return;
+            string templateCode = EmailTemplateCodeEnum.TicketUpdated.ToString();
+            GeneralEmailTemplateModel emailTemplate = GetEmailTemplateByCode(personModel.SelectedCentreCode, templateCode);
+            if (emailTemplate != null && !string.IsNullOrEmpty(personModel.EmailId))
+            {
+                string messageText = ReplaceTicketNotificationTokens(emailTemplate.EmailTemplate, ticketMasterModel, personModel);
+                string subject = ReplaceTokenWithMessageText("#TicketNumber#", ticketMasterModel.TicketNumber, emailTemplate.Subject);
+                _coditechEmail.SendEmail(personModel.SelectedCentreCode, personModel.EmailId, "", subject, messageText, true);
+            }
+
+            GeneralEmailTemplateModel smsTemplate = GetSMSTemplateByCode(personModel.SelectedCentreCode, templateCode);
+            if (smsTemplate != null && !string.IsNullOrEmpty(personModel.MobileNumber))
+            {
+                string messageText = ReplaceTicketNotificationTokens(smsTemplate.EmailTemplate, ticketMasterModel, personModel);
+                _coditechSMS.SendSMS(personModel.SelectedCentreCode, messageText, $"{personModel.CallingCode}{personModel.MobileNumber}");
+            }
+        }
+        protected virtual string ReplaceTicketNotificationTokens(string template, TicketMasterModel ticketMasterModel, GeneralPersonModel personModel)
+        {
+            string messageText = template;
+            messageText = ReplaceTokenWithMessageText("#FirstName#", personModel.FirstName, messageText);
+            messageText = ReplaceTokenWithMessageText("#LastName#", personModel.LastName, messageText);
+            messageText = ReplaceTokenWithMessageText("#TicketNumber#", ticketMasterModel.TicketNumber, messageText);
+            messageText = ReplaceTokenWithMessageText("#ProblemType#", GetEnumDisplayTextByEnumId(ticketMasterModel.TicketProblemTypeEnumId), messageText);
+            messageText = ReplaceTokenWithMessageText("#Details#", ticketMasterModel.Details, messageText);
+            return ReplaceEmailTemplateFooter(personModel.SelectedCentreCode, messageText);
         }
         #endregion
     }
